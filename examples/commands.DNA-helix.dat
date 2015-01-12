@@ -1,0 +1,9 @@
+firstStage 1
+lastStage 1
+DNA A 1 AAAA
+DNA B 1 TTTT
+initialSeparation   2.0
+baseInteraction A 1 WatsonCrick B 4 WatsonCrick Cis
+baseInteraction A 2 WatsonCrick B 3 WatsonCrick Cis
+baseInteraction A 3 WatsonCrick B 2 WatsonCrick Cis
+baseInteraction A 4 WatsonCrick B 1 WatsonCrick Cis

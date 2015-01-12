@@ -1,0 +1,511 @@
+
+REMARK contents of user input file commands.dat : 
+
+REMARK 
+REMARK #sequence
+REMARK RNA A 2656     UACGUAAGUA
+REMARK 
+REMARK # stages
+REMARK firstStage 1
+REMARK lastStage 1
+REMARK 
+REMARK #general simulation parameters
+REMARK baseInteractionScaleFactor     200
+REMARK reportingInterval .004
+REMARK temperature 10 
+REMARK 
+REMARK nucleicAcidDuplex A 2656 2658 A 2665 2663
+REMARK 
+REMARK # Or, equivalently:
+REMARK #base pairing forces to generate the hairpin 
+REMARK #baseInteraction A 2658 WatsonCrick A 2663 WatsonCrick Cis 
+REMARK #baseInteraction A 2657 WatsonCrick  A 2664 WatsonCrick Cis 
+REMARK #baseInteraction A 2656 WatsonCrick  A 2665 WatsonCrick Cis
+REMARK 
+REMARK # Want to fold a GNRA tetraloop motif? Try the following:
+REMARK # up above, change these parameters:
+REMARK # baseInteractionScaleFactor     2000
+REMARK # lastStage 2
+REMARK # Then add these forces:
+REMARK #readAtStage 2
+REMARK #baseInteraction A 2662 Hoogsteen  A 2659 SugarEdge Trans
+REMARK #baseInteraction A 2660 Stacking3 A 2661 Stacking5 Cis
+REMARK #baseInteraction A 2661 Stacking3 A 2662 Stacking5 Cis
+REMARK #baseInteraction A 2658 Stacking3 A 2659 Stacking5 Cis
+REMARK #readBlockEnd
+REMARK 
+REMARK 
+REMARK numReportingIntervals 1
+REMARK setDefaultMDParameters
+REMARK 
+REMARK 
+REMARK 
+REMARK 
+REMARK 
+
+REMARK end of user input file 
+
+
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/RNABuilder.cpp:224 about to call myParameterReader.printAllSettings 
+
+REMARK addAllAtomSterics                      bool    0
+REMARK addAllHeavyAtomSterics                 bool    0
+REMARK addProteinBackboneSterics              bool    0
+REMARK addRNABackboneSterics                  bool    0
+REMARK addSelectedAtoms                       bool    0 : Add steric spheres to certain RNA atoms as specified in the RNABuilder parameter file. 
+REMARK applyC1pSprings                        bool    1
+REMARK calcEnergy                             bool    1
+REMARK constrainRigidSegments                 bool    0
+REMARK constraintTolerance                    double   5e-05
+REMARK cutoffRadius                           double   0.1 (nm)
+REMARK densityAtomFraction                    String  1
+REMARK densityFileName                        String  densityFileName-NOT-SET
+REMARK densityForceConstant                   double   1
+REMARK dutyCycle                              double   1 : Must lie in (0,1) 
+REMARK electroDensityFileName                        String  densityFileName-NOT-SET
+REMARK electroDensityForceConstant                   double   1
+REMARK excludedVolumeRadius                   double   0.06 : Radius (in nm) of contact spheres to be applied in AllHeavyAtomSterics and AllAtomSterics.  
+REMARK excludedVolumeStiffness                double   1e+07
+REMARK firstStage                             int     1
+REMARK fitDefaultTolerance                    double   0.3
+REMARK baseInteractionScaleFactor             double   200
+REMARK globalAmberImproperTorsionScaleFactor  double   1
+REMARK globalBondBendScaleFactor              double   1
+REMARK globalBondStretchScaleFactor           double   1
+REMARK globalBondTorsionScaleFactor           double   1
+REMARK globalCoulombScaleFactor               double   1
+REMARK globalGbsaScaleFactor                  double   0
+REMARK globalVdwScaleFactor                   double   1
+REMARK guessCoordinates                       bool     0 : If true, invents coordinates for any atoms missing from the input PDB file.
+REMARK inQVectorFileName                      String  ./last.qVector.0.dat
+REMARK initialSeparation                      double   1
+REMARK integratorAccuracy                     double   0.0001
+REMARK integratorStepSize                     int     0.001
+REMARK integratorType                         String  RungeKuttaMerson
+REMARK lastStage                              int     1
+REMARK leontisWesthofInFileName               String  ./parameters.csv
+REMARK loadTinkerParameterFile                bool    0
+REMARK outQVectorFileName                     String  ./last.qVector.1.dat
+REMARK magnesiumIonChainId                    String  X
+REMARK magnesiumIonRadius                     String  25
+REMARK matchHydrogenAtomLocations             bool  0 : If false, do not read the hydrogen atom positions from the input pdb file.  Just guess new atom locations.  This is useful if the hydrogens are in bad (e.g. colinear) locations.
+REMARK matchExact                             bool  1 If True, this matches all bond lengths, angles, and dihedrals to the 2-, 3-, and 4- neighbor atom sets. Locally the match will be nearly perfect, but over a long biopolymer error can accumulate.
+REMARK matchIdealized                         bool  0 If True, the bond lengths and angles will be set to default (idealized) values and the torsion angles will be iteratively adjusted to match the input structure.  Thus the global structure is likely to be good, but small-scale details will differ from those of the input structure.  This is much more expensive than matchExact.
+REMARK matchOptimize                          bool  0 If True, this matches all bond lengths, angles, and dihedrals to the 2-, 3-, and 4- neighbor atom sets. Locally the match will be nearly perfect, but over a long biopolymer error can accumulate.
+REMARK minimize                               bool  0
+REMARK monteCarloTemperature                  int   400
+REMARK monteCarloTemperatureIncrement         int   0.1
+REMARK nastGlobalBondTorsionScaleFactor       int   10
+REMARK noseHooverTime                         double 10
+REMARK numReportingIntervals                  int     1
+REMARK outMonteCarloFileName                  String  ./trajectory.MonteCarlo.1.pdb
+REMARK outTrajectoryFileName                  String  ./trajectory.1.pdb
+REMARK physicsRadius                          double  0 : All residues within physicsRadius of "flexible" atoms are included in the physics zone. "flexible" is defined as belonging to a body of mass < 40.
+REMARK planarityThreshold                     double  0.07
+REMARK potentialType                          int     HarmonicInverse
+REMARK prioritize                             int     0
+REMARK proteinCapping                         bool    0 : When true, adds terminal capping groups to protein chains. 
+REMARK randomizeInitialVelocities             bool    0 : When true, adds a stochastic velocity to each body at the beginning of the stage. 
+REMARK readPreviousFrameFile                  bool    0
+REMARK readMagnesiumPositionsFromFile         bool    1
+REMARK removeMomentumPeriod                   double   0
+REMARK removeRigidBodyMomentum                bool    0
+REMARK reportingInterval                      double   0.004
+REMARK restrainingForceConstant               double   1e+06
+REMARK restrainingTorqueConstant              double   10000
+REMARK rigidifyFormedHelices                  int     0
+REMARK scrubberPeriod                         double   40
+REMARK safeParameters                         int     1
+REMARK setChiBondMobility                     int     0
+REMARK setForceAndStericScrubber              bool    0
+REMARK setForceScrubber                       bool    0
+REMARK setHelicalStacking                     bool    1
+REMARK setRemoveBasePairsInRigidStretch       bool    1
+REMARK setTemperature                         bool    1
+REMARK smallGroupInertiaMultiplier            double   1
+REMARK stackAllHelicalResidues                bool    1
+REMARK temperature                            bool    10
+REMARK thermostatType                         String  NoseHoover
+REMARK tinkerParameterFileName                String  NOT-SET
+REMARK useFixedStepSize                       bool    0
+REMARK useMultithreadedComputation            bool    0
+REMARK useOpenMMAcceleration                  bool    0
+REMARK vanderWallSphereRadius                 double   300
+REMARK velocityRescalingInterval              int     1
+REMARK verbose                                int     0
+REMARK vmdOutput                              int     0
+REMARK waterDropletMake                       bool    0
+REMARK waterInertiaMultiplier                 double   1
+REMARK writeCoordinates                       bool    1
+REMARK writeDoublePrecisionTrajectories       bool    0
+REMARK writeLastFrameFile                     bool    1
+REMARK helixBondMobility                      BondMobility::Mobility3
+REMARK loopBondMobility                       BondMobility::Mobility2
+REMARK overallBondMobility                    BondMobility::Mobility1
+REMARK chiBondMobility                        BondMobility::Mobility1
+
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/RNABuilder.cpp:226 done with call to myParameterReader.printAllSettings 
+
+MODEL        1
+ATOM      1  O5' U   A2656       0.000   0.000   0.000  1.00  0.00           O
+ATOM      2  C5' U   A2656      -0.731   1.221   0.000  1.00  0.00           C
+ATOM      3  H5' U   A2656      -0.380   1.863  -0.837  1.00  0.00           H
+ATOM      4 H5'' U   A2656      -0.570   1.749   0.965  1.00  0.00           H
+ATOM      5  C4' U   A2656      -2.202   0.927  -0.173  1.00  0.00           C
+ATOM      6  H4' U   A2656      -2.775   1.880  -0.152  1.00  0.00           H
+ATOM      7  O4' U   A2656      -2.416   0.262  -1.447  1.00  0.00           O
+ATOM      8  C3' U   A2656      -2.649  -0.071   0.888  1.00  0.00           C
+ATOM      9  H3' U   A2656      -1.861  -0.843   1.026  1.00  0.00           H
+ATOM     10  O3' U   A2656      -2.867   0.610   2.118  1.00  0.00           O
+ATOM     11  C2' U   A2656      -3.982  -0.569   0.339  1.00  0.00           C
+ATOM     12  C1' U   A2656      -3.707  -0.583  -1.164  1.00  0.00           C
+ATOM     13  H1' U   A2656      -4.620  -0.263  -1.711  1.00  0.00           H
+ATOM     14  H2' U   A2656      -4.164  -1.607   0.693  1.00  0.00           H
+ATOM     15  O2' U   A2656      -4.991   0.378   0.624  1.00  0.00           O
+ATOM     16 HO2' U   A2656      -5.049   0.485   1.576  1.00  0.00           H
+ATOM     17  N1  U   A2656      -3.253  -1.923  -1.566  1.00  0.00           N
+ATOM     18  C2  U   A2656      -4.069  -3.005  -1.844  1.00  0.00           C
+ATOM     19  O2  U   A2656      -5.292  -2.908  -1.767  1.00  0.00           O
+ATOM     20  N3  U   A2656      -3.492  -4.180  -2.204  1.00  0.00           N
+ATOM     21  H3  U   A2656      -4.114  -4.951  -2.400  1.00  0.00           H
+ATOM     22  C4  U   A2656      -2.132  -4.425  -2.329  1.00  0.00           C
+ATOM     23  O4  U   A2656      -1.724  -5.535  -2.663  1.00  0.00           O
+ATOM     24  C5  U   A2656      -1.299  -3.282  -2.034  1.00  0.00           C
+ATOM     25  H5  U   A2656      -0.225  -3.371  -2.103  1.00  0.00           H
+ATOM     26  C6  U   A2656      -1.850  -2.103  -1.674  1.00  0.00           C
+ATOM     27  H6  U   A2656      -1.212  -1.259  -1.458  1.00  0.00           H
+ATOM     28  H5T U   A2656       0.960   0.000   0.000  1.00  0.00           H
+ATOM     29  P   A   A2657      -2.633  -0.164   3.510  1.00  0.00           P
+ATOM     30  OP1 A   A2657      -2.749   0.826   4.605  1.00  0.00           O
+ATOM     31  OP2 A   A2657      -1.400  -0.972   3.380  1.00  0.00           O
+ATOM     32  O5* A   A2657      -3.885  -1.171   3.611  1.00  0.00           O
+ATOM     33  C5* A   A2657      -5.213  -0.676   3.734  1.00  0.00           C
+ATOM     34 H5*1 A   A2657      -5.414   0.053   2.919  1.00  0.00           H
+ATOM     35 H5*2 A   A2657      -5.332  -0.174   4.719  1.00  0.00           H
+ATOM     36  C4* A   A2657      -6.189  -1.824   3.634  1.00  0.00           C
+ATOM     37  H4* A   A2657      -7.226  -1.440   3.752  1.00  0.00           H
+ATOM     38  O4* A   A2657      -6.054  -2.464   2.337  1.00  0.00           O
+ATOM     39  C3* A   A2657      -5.821  -2.894   4.656  1.00  0.00           C
+ATOM     40  H3* A   A2657      -4.716  -3.004   4.695  1.00  0.00           H
+ATOM     41  O3* A   A2657      -6.306  -2.512   5.938  1.00  0.00           O
+ATOM     42  C2* A   A2657      -6.596  -4.111   4.161  1.00  0.00           C
+ATOM     43  C1* A   A2657      -6.506  -3.934   2.646  1.00  0.00           C
+ATOM     44  H1* A   A2657      -7.464  -4.250   2.178  1.00  0.00           H
+ATOM     45  H2* A   A2657      -6.060  -5.038   4.458  1.00  0.00           H
+ATOM     46  O2* A   A2657      -7.946  -4.007   4.568  1.00  0.00           O
+ATOM     47 HO2' A   A2657      -7.973  -3.969   5.527  1.00  0.00           H
+ATOM     48  N9  A   A2657      -5.352  -4.692   2.130  1.00  0.00           N
+ATOM     49  C8  A   A2657      -4.089  -4.244   1.840  1.00  0.00           C
+ATOM     50  H8  A   A2657      -3.786  -3.215   1.968  1.00  0.00           H
+ATOM     51  N7  A   A2657      -3.287  -5.172   1.396  1.00  0.00           N
+ATOM     52  C5  A   A2657      -4.076  -6.317   1.392  1.00  0.00           C
+ATOM     53  C4  A   A2657      -5.338  -6.035   1.838  1.00  0.00           C
+ATOM     54  C6  A   A2657      -3.813  -7.647   1.026  1.00  0.00           C
+ATOM     55  N3  A   A2657      -6.376  -6.893   1.971  1.00  0.00           N
+ATOM     56  C2  A   A2657      -6.195  -8.163   1.644  1.00  0.00           C
+ATOM     57  N1  A   A2657      -4.856  -8.474   1.167  1.00  0.00           N
+ATOM     58  H2  A   A2657      -7.009  -8.867   1.741  1.00  0.00           H
+ATOM     59  N6  A   A2657      -2.619  -8.053   0.574  1.00  0.00           N
+ATOM     60  H61 A   A2657      -1.861  -7.392   0.484  1.00  0.00           H
+ATOM     61  H62 A   A2657      -2.476  -9.021   0.323  1.00  0.00           H
+ATOM     62  P   C   A2658      -5.520  -2.984   7.261  1.00  0.00           P
+ATOM     63  OP1 C   A2658      -6.128  -2.297   8.422  1.00  0.00           O
+ATOM     64  OP2 C   A2658      -4.069  -2.841   7.003  1.00  0.00           O
+ATOM     65  O5* C   A2658      -5.856  -4.554   7.375  1.00  0.00           O
+ATOM     66  C5* C   A2658      -7.186  -5.001   7.612  1.00  0.00           C
+ATOM     67 H5*1 C   A2658      -7.869  -4.550   6.860  1.00  0.00           H
+ATOM     68 H5*2 C   A2658      -7.504  -4.694   8.633  1.00  0.00           H
+ATOM     69  C4* C   A2658      -7.239  -6.506   7.501  1.00  0.00           C
+ATOM     70  H4* C   A2658      -8.274  -6.857   7.707  1.00  0.00           H
+ATOM     71  O4* C   A2658      -6.851  -6.906   6.159  1.00  0.00           O
+ATOM     72  C3* C   A2658      -6.196  -7.121   8.427  1.00  0.00           C
+ATOM     73  H3* C   A2658      -5.265  -6.515   8.390  1.00  0.00           H
+ATOM     74  O3* C   A2658      -6.698  -7.140   9.759  1.00  0.00           O
+ATOM     75  C2* C   A2658      -6.085  -8.550   7.905  1.00  0.00           C
+ATOM     76  C1* C   A2658      -6.259  -8.339   6.402  1.00  0.00           C
+ATOM     77  H1* C   A2658      -6.848  -9.181   5.975  1.00  0.00           H
+ATOM     78  H2* C   A2658      -5.064  -8.940   8.109  1.00  0.00           H
+ATOM     79  O2* C   A2658      -7.162  -9.318   8.401  1.00  0.00           O
+ATOM     80 HO2' C   A2658      -7.122  -9.315   9.360  1.00  0.00           H
+ATOM     81  N1  C   A2658      -4.938  -8.203   5.769  1.00  0.00           N
+ATOM     82  C2  C   A2658      -4.112  -9.245   5.390  1.00  0.00           C
+ATOM     83  O2  C   A2658      -4.448 -10.414   5.566  1.00  0.00           O
+ATOM     84  N3  C   A2658      -2.917  -8.951   4.815  1.00  0.00           N
+ATOM     85  C4  C   A2658      -2.551  -7.678   4.622  1.00  0.00           C
+ATOM     86  N4  C   A2658      -1.366  -7.415   4.053  1.00  0.00           N
+ATOM     87  H41 C   A2658      -0.761  -8.174   3.775  1.00  0.00           H
+ATOM     88  H42 C   A2658      -1.079  -6.458   3.903  1.00  0.00           H
+ATOM     89  C5  C   A2658      -3.397  -6.588   5.011  1.00  0.00           C
+ATOM     90  H5  C   A2658      -3.072  -5.572   4.842  1.00  0.00           H
+ATOM     91  C6  C   A2658      -4.580  -6.903   5.580  1.00  0.00           C
+ATOM     92  H6  C   A2658      -5.251  -6.116   5.889  1.00  0.00           H
+ATOM     93  P   G   A2659      -5.675  -7.030  10.997  1.00  0.00           P
+ATOM     94  OP1 G   A2659      -6.474  -6.887  12.235  1.00  0.00           O
+ATOM     95  OP2 G   A2659      -4.659  -6.008  10.659  1.00  0.00           O
+ATOM     96  O5* G   A2659      -4.949  -8.467  11.032  1.00  0.00           O
+ATOM     97  C5* G   A2659      -5.684  -9.650  11.323  1.00  0.00           C
+ATOM     98 H5*1 G   A2659      -6.562  -9.717  10.645  1.00  0.00           H
+ATOM     99 H5*2 G   A2659      -6.032  -9.620  12.379  1.00  0.00           H
+ATOM    100  C4* G   A2659      -4.797 -10.855  11.119  1.00  0.00           C
+ATOM    101  H4* G   A2659      -5.365 -11.779  11.367  1.00  0.00           H
+ATOM    102  O4* G   A2659      -4.365 -10.910   9.733  1.00  0.00           O
+ATOM    103  C3* G   A2659      -3.522 -10.692  11.938  1.00  0.00           C
+ATOM    104  H3* G   A2659      -3.178  -9.636  11.882  1.00  0.00           H
+ATOM    105  O3* G   A2659      -3.782 -11.035  13.294  1.00  0.00           O
+ATOM    106  C2* G   A2659      -2.592 -11.731  11.320  1.00  0.00           C
+ATOM    107  C1* G   A2659      -2.992 -11.660   9.847  1.00  0.00           C
+ATOM    108  H1* G   A2659      -2.963 -12.680   9.406  1.00  0.00           H
+ATOM    109  H2* G   A2659      -1.537 -11.399  11.434  1.00  0.00           H
+ATOM    110  O2* G   A2659      -2.907 -13.010  11.832  1.00  0.00           O
+ATOM    111 HO2' G   A2659      -2.793 -12.993  12.785  1.00  0.00           H
+ATOM    112  N9  G   A2659      -2.105 -10.720   9.143  1.00  0.00           N
+ATOM    113  C8  G   A2659      -2.321  -9.402   8.836  1.00  0.00           C
+ATOM    114  H8  G   A2659      -3.229  -8.877   9.097  1.00  0.00           H
+ATOM    115  N7  G   A2659      -1.332  -8.838   8.201  1.00  0.00           N
+ATOM    116  C5  G   A2659      -0.393  -9.858   8.078  1.00  0.00           C
+ATOM    117  C4  G   A2659      -0.856 -11.010   8.650  1.00  0.00           C
+ATOM    118  C6  G   A2659       0.884  -9.903   7.497  1.00  0.00           C
+ATOM    119  N3  G   A2659      -0.224 -12.205   8.725  1.00  0.00           N
+ATOM    120  C2  G   A2659       0.985 -12.317   8.196  1.00  0.00           C
+ATOM    121  N1  G   A2659       1.509 -11.139   7.588  1.00  0.00           N
+ATOM    122  H1  G   A2659       2.431 -11.215   7.181  1.00  0.00           H
+ATOM    123  N2  G   A2659       1.636 -13.487   8.255  1.00  0.00           N
+ATOM    124  H21 G   A2659       1.205 -14.283   8.702  1.00  0.00           H
+ATOM    125  H22 G   A2659       2.558 -13.572   7.851  1.00  0.00           H
+ATOM    126  O6  G   A2659       1.405  -8.931   6.954  1.00  0.00           O
+ATOM    127  P   U   A2660      -2.946 -10.322  14.471  1.00  0.00           P
+ATOM    128  OP1 U   A2660      -3.546 -10.724  15.763  1.00  0.00           O
+ATOM    129  OP2 U   A2660      -2.822  -8.886  14.136  1.00  0.00           O
+ATOM    130  O5* U   A2660      -1.483 -10.988  14.369  1.00  0.00           O
+ATOM    131  C5* U   A2660      -1.292 -12.374  14.629  1.00  0.00           C
+ATOM    132 H5*1 U   A2660      -1.993 -12.969  14.004  1.00  0.00           H
+ATOM    133 H5*2 U   A2660      -1.488 -12.580  15.704  1.00  0.00           H
+ATOM    134  C4* U   A2660       0.130 -12.757  14.294  1.00  0.00           C
+ATOM    135  H4* U   A2660       0.285 -13.835  14.518  1.00  0.00           H
+ATOM    136  O4* U   A2660       0.377 -12.515  12.883  1.00  0.00           O
+ATOM    137  C3* U   A2660       1.092 -11.841  15.040  1.00  0.00           C
+ATOM    138  H3* U   A2660       0.697 -10.801  15.030  1.00  0.00           H
+ATOM    139  O3* U   A2660       1.224 -12.285  16.386  1.00  0.00           O
+ATOM    140  C2* U   A2660       2.407 -12.062  14.301  1.00  0.00           C
+ATOM    141  C1* U   A2660       1.922 -12.241  12.863  1.00  0.00           C
+ATOM    142  H1* U   A2660       2.540 -13.014  12.357  1.00  0.00           H
+ATOM    143  H2* U   A2660       3.030 -11.144  14.370  1.00  0.00           H
+ATOM    144  O2* U   A2660       3.003 -13.262  14.749  1.00  0.00           O
+ATOM    145 HO2' U   A2660       3.166 -13.187  15.693  1.00  0.00           H
+ATOM    146  N1  U   A2660       1.963 -10.946  12.167  1.00  0.00           N
+ATOM    147  C2  U   A2660       3.079 -10.381  11.575  1.00  0.00           C
+ATOM    148  O2  U   A2660       4.164 -10.957  11.596  1.00  0.00           O
+ATOM    149  N3  U   A2660       2.951  -9.173  10.969  1.00  0.00           N
+ATOM    150  H3  U   A2660       3.783  -8.785  10.546  1.00  0.00           H
+ATOM    151  C4  U   A2660       1.790  -8.418  10.873  1.00  0.00           C
+ATOM    152  O4  U   A2660       1.796  -7.332  10.297  1.00  0.00           O
+ATOM    153  C5  U   A2660       0.640  -9.028  11.497  1.00  0.00           C
+ATOM    154  H5  U   A2660      -0.312  -8.519  11.477  1.00  0.00           H
+ATOM    155  C6  U   A2660       0.742 -10.228  12.106  1.00  0.00           C
+ATOM    156  H6  U   A2660      -0.129 -10.669  12.568  1.00  0.00           H
+ATOM    157  P   A   A2661       1.534 -11.218  17.551  1.00  0.00           P
+ATOM    158  OP1 A   A2661       1.431 -11.921  18.850  1.00  0.00           O
+ATOM    159  OP2 A   A2661       0.706 -10.017  17.301  1.00  0.00           O
+ATOM    160  O5* A   A2661       3.076 -10.822  17.316  1.00  0.00           O
+ATOM    161  C5* A   A2661       4.111 -11.785  17.475  1.00  0.00           C
+ATOM    162 H5*1 A   A2661       3.881 -12.681  16.858  1.00  0.00           H
+ATOM    163 H5*2 A   A2661       4.182 -12.080  18.545  1.00  0.00           H
+ATOM    164  C4* A   A2661       5.425 -11.191  17.028  1.00  0.00           C
+ATOM    165  H4* A   A2661       6.238 -11.936  17.173  1.00  0.00           H
+ATOM    166  O4* A   A2661       5.342 -10.832  15.623  1.00  0.00           O
+ATOM    167  C3* A   A2661       5.669  -9.881  17.769  1.00  0.00           C
+ATOM    168  H3* A   A2661       4.713  -9.318  17.850  1.00  0.00           H
+ATOM    169  O3* A   A2661       6.167 -10.160  19.073  1.00  0.00           O
+ATOM    170  C2* A   A2661       6.764  -9.223  16.937  1.00  0.00           C
+ATOM    171  C1* A   A2661       6.371  -9.651  15.523  1.00  0.00           C
+ATOM    172  H1* A   A2661       7.288  -9.862  14.931  1.00  0.00           H
+ATOM    173  H2* A   A2661       6.682  -8.118  17.025  1.00  0.00           H
+ATOM    174  O2* A   A2661       8.014  -9.791  17.270  1.00  0.00           O
+ATOM    175 HO2' A   A2661       8.177  -9.640  18.204  1.00  0.00           H
+ATOM    176  N9  A   A2661       5.533  -8.605  14.908  1.00  0.00           N
+ATOM    177  C8  A   A2661       4.166  -8.540  14.821  1.00  0.00           C
+ATOM    178  H8  A   A2661       3.513  -9.301  15.222  1.00  0.00           H
+ATOM    179  N7  A   A2661       3.726  -7.475  14.210  1.00  0.00           N
+ATOM    180  C5  A   A2661       4.885  -6.786  13.868  1.00  0.00           C
+ATOM    181  C4  A   A2661       5.992  -7.468  14.289  1.00  0.00           C
+ATOM    182  C6  A   A2661       5.101  -5.572  13.197  1.00  0.00           C
+ATOM    183  N3  A   A2661       7.289  -7.109  14.137  1.00  0.00           N
+ATOM    184  C2  A   A2661       7.563  -5.974  13.513  1.00  0.00           C
+ATOM    185  N1  A   A2661       6.391  -5.240  13.060  1.00  0.00           N
+ATOM    186  H2  A   A2661       8.590  -5.665  13.379  1.00  0.00           H
+ATOM    187  N6  A   A2661       4.101  -4.809  12.734  1.00  0.00           N
+ATOM    188  H61 A   A2661       3.142  -5.101  12.862  1.00  0.00           H
+ATOM    189  H62 A   A2661       4.306  -3.942  12.258  1.00  0.00           H
+ATOM    190  P   A   A2662       5.847  -9.146  20.282  1.00  0.00           P
+ATOM    191  OP1 A   A2662       6.320  -9.772  21.537  1.00  0.00           O
+ATOM    192  OP2 A   A2662       4.433  -8.726  20.161  1.00  0.00           O
+ATOM    193  O5* A   A2662       6.778  -7.869  19.977  1.00  0.00           O
+ATOM    194  C5* A   A2662       8.197  -7.974  20.009  1.00  0.00           C
+ATOM    195 H5*1 A   A2662       8.521  -8.811  19.352  1.00  0.00           H
+ATOM    196 H5*2 A   A2662       8.530  -8.171  21.052  1.00  0.00           H
+ATOM    197  C4* A   A2662       8.809  -6.684  19.520  1.00  0.00           C
+ATOM    198  H4* A   A2662       9.917  -6.758  19.566  1.00  0.00           H
+ATOM    199  O4* A   A2662       8.396  -6.441  18.148  1.00  0.00           O
+ATOM    200  C3* A   A2662       8.248  -5.518  20.327  1.00  0.00           C
+ATOM    201  H3* A   A2662       7.162  -5.678  20.502  1.00  0.00           H
+ATOM    202  O3* A   A2662       8.924  -5.437  21.576  1.00  0.00           O
+ATOM    203  C2* A   A2662       8.616  -4.311  19.471  1.00  0.00           C
+ATOM    204  C1* A   A2662       8.452  -4.876  18.060  1.00  0.00           C
+ATOM    205  H1* A   A2662       9.244  -4.459  17.400  1.00  0.00           H
+ATOM    206  H2* A   A2662       7.872  -3.500  19.634  1.00  0.00           H
+ATOM    207  O2* A   A2662       9.971  -3.974  19.689  1.00  0.00           O
+ATOM    208 HO2' A   A2662      10.087  -3.764  20.618  1.00  0.00           H
+ATOM    209  N9  A   A2662       7.094  -4.578  17.566  1.00  0.00           N
+ATOM    210  C8  A   A2662       5.984  -5.381  17.569  1.00  0.00           C
+ATOM    211  H8  A   A2662       5.986  -6.388  17.961  1.00  0.00           H
+ATOM    212  N7  A   A2662       4.924  -4.820  17.056  1.00  0.00           N
+ATOM    213  C5  A   A2662       5.366  -3.554  16.686  1.00  0.00           C
+ATOM    214  C4  A   A2662       6.689  -3.396  16.994  1.00  0.00           C
+ATOM    215  C6  A   A2662       4.718  -2.464  16.082  1.00  0.00           C
+ATOM    216  N3  A   A2662       7.460  -2.303  16.784  1.00  0.00           N
+ATOM    217  C2  A   A2662       6.911  -1.240  16.218  1.00  0.00           C
+ATOM    218  N1  A   A2662       5.502  -1.397  15.886  1.00  0.00           N
+ATOM    219  H2  A   A2662       7.505  -0.355  16.040  1.00  0.00           H
+ATOM    220  N6  A   A2662       3.425  -2.490  15.732  1.00  0.00           N
+ATOM    221  H61 A   A2662       2.873  -3.319  15.900  1.00  0.00           H
+ATOM    222  H62 A   A2662       3.002  -1.681  15.300  1.00  0.00           H
+ATOM    223  P   G   A2663       8.151  -4.860  22.865  1.00  0.00           P
+ATOM    224  OP1 G   A2663       9.020  -5.065  24.046  1.00  0.00           O
+ATOM    225  OP2 G   A2663       6.779  -5.415  22.860  1.00  0.00           O
+ATOM    226  O5* G   A2663       8.053  -3.278  22.584  1.00  0.00           O
+ATOM    227  C5* G   A2663       9.224  -2.472  22.521  1.00  0.00           C
+ATOM    228 H5*1 G   A2663       9.939  -2.915  21.793  1.00  0.00           H
+ATOM    229 H5*2 G   A2663       9.698  -2.428  23.526  1.00  0.00           H
+ATOM    230  C4* G   A2663       8.853  -1.078  22.078  1.00  0.00           C
+ATOM    231  H4* G   A2663       9.765  -0.442  22.050  1.00  0.00           H
+ATOM    232  O4* G   A2663       8.259  -1.132  20.753  1.00  0.00           O
+ATOM    233  C3* G   A2663       7.763  -0.528  22.990  1.00  0.00           C
+ATOM    234  H3* G   A2663       7.033  -1.334  23.223  1.00  0.00           H
+ATOM    235  O3* G   A2663       8.348  -0.055  24.198  1.00  0.00           O
+ATOM    236  C2* G   A2663       7.221   0.653  22.192  1.00  0.00           C
+ATOM    237  C1* G   A2663       7.320   0.124  20.761  1.00  0.00           C
+ATOM    238  H1* G   A2663       7.618   0.952  20.081  1.00  0.00           H
+ATOM    239  H2* G   A2663       6.153   0.818  22.453  1.00  0.00           H
+ATOM    240  O2* G   A2663       8.084   1.761  22.346  1.00  0.00           O
+ATOM    241 HO2' G   A2663       8.126   1.987  23.278  1.00  0.00           H
+ATOM    242  N9  G   A2663       6.039  -0.486  20.374  1.00  0.00           N
+ATOM    243  C8  G   A2663       5.676  -1.808  20.395  1.00  0.00           C
+ATOM    244  H8  G   A2663       6.339  -2.595  20.721  1.00  0.00           H
+ATOM    245  N7  G   A2663       4.458  -2.028  19.985  1.00  0.00           N
+ATOM    246  C5  G   A2663       3.980  -0.760  19.671  1.00  0.00           C
+ATOM    247  C4  G   A2663       4.938   0.188  19.905  1.00  0.00           C
+ATOM    248  C6  G   A2663       2.744  -0.309  19.179  1.00  0.00           C
+ATOM    249  N3  G   A2663       4.838   1.525  19.717  1.00  0.00           N
+ATOM    250  C2  G   A2663       3.699   2.017  19.255  1.00  0.00           C
+ATOM    251  N1  G   A2663       2.669   1.065  18.996  1.00  0.00           N
+ATOM    252  H1  G   A2663       1.796   1.430  18.643  1.00  0.00           H
+ATOM    253  N2  G   A2663       3.569   3.336  19.059  1.00  0.00           N
+ATOM    254  H21 G   A2663       4.340   3.955  19.263  1.00  0.00           H
+ATOM    255  H22 G   A2663       2.700   3.711  18.706  1.00  0.00           H
+ATOM    256  O6  G   A2663       1.809  -1.066  18.931  1.00  0.00           O
+ATOM    257  P   U   A2664       7.502  -0.102  25.567  1.00  0.00           P
+ATOM    258  OP1 U   A2664       8.410   0.268  26.676  1.00  0.00           O
+ATOM    259  OP2 U   A2664       6.781  -1.394  25.612  1.00  0.00           O
+ATOM    260  O5* U   A2664       6.416   1.073  25.394  1.00  0.00           O
+ATOM    261  C5* U   A2664       6.819   2.435  25.309  1.00  0.00           C
+ATOM    262 H5*1 U   A2664       7.586   2.545  24.511  1.00  0.00           H
+ATOM    263 H5*2 U   A2664       7.249   2.755  26.283  1.00  0.00           H
+ATOM    264  C4* U   A2664       5.623   3.295  24.980  1.00  0.00           C
+ATOM    265  H4* U   A2664       5.934   4.361  24.935  1.00  0.00           H
+ATOM    266  O4* U   A2664       5.078   2.895  23.694  1.00  0.00           O
+ATOM    267  C3* U   A2664       4.514   3.031  25.991  1.00  0.00           C
+ATOM    268  H3* U   A2664       4.469   1.943  26.218  1.00  0.00           H
+ATOM    269  O3* U   A2664       4.782   3.754  27.188  1.00  0.00           O
+ATOM    270  C2* U   A2664       3.287   3.622  25.305  1.00  0.00           C
+ATOM    271  C1* U   A2664       3.566   3.287  23.841  1.00  0.00           C
+ATOM    272  H1* U   A2664       3.222   4.126  23.197  1.00  0.00           H
+ATOM    273  H2* U   A2664       2.376   3.079  25.642  1.00  0.00           H
+ATOM    274  O2* U   A2664       3.281   5.024  25.475  1.00  0.00           O
+ATOM    275 HO2' U   A2664       3.255   5.217  26.415  1.00  0.00           H
+ATOM    276  N1  U   A2664       2.916   2.013  23.496  1.00  0.00           N
+ATOM    277  C2  U   A2664       1.590   1.853  23.138  1.00  0.00           C
+ATOM    278  O2  U   A2664       0.830   2.818  23.082  1.00  0.00           O
+ATOM    279  N3  U   A2664       1.141   0.605  22.847  1.00  0.00           N
+ATOM    280  H3  U   A2664       0.169   0.519  22.589  1.00  0.00           H
+ATOM    281  C4  U   A2664       1.888  -0.565  22.871  1.00  0.00           C
+ATOM    282  O4  U   A2664       1.371  -1.643  22.587  1.00  0.00           O
+ATOM    283  C5  U   A2664       3.269  -0.373  23.247  1.00  0.00           C
+ATOM    284  H5  U   A2664       3.934  -1.223  23.295  1.00  0.00           H
+ATOM    285  C6  U   A2664       3.738   0.858  23.540  1.00  0.00           C
+ATOM    286  H6  U   A2664       4.774   0.984  23.820  1.00  0.00           H
+ATOM    287  P   A   A2665       4.274   3.173  28.601  1.00  0.00           P
+ATOM    288  OP1 A   A2665       4.847   4.018  29.672  1.00  0.00           O
+ATOM    289  OP2 A   A2665       4.522   1.714  28.608  1.00  0.00           O
+ATOM    290  O5* A   A2665       2.682   3.411  28.571  1.00  0.00           O
+ATOM    291  C5* A   A2665       2.141   4.727  28.548  1.00  0.00           C
+ATOM    292 H5*1 A   A2665       2.597   5.301  27.713  1.00  0.00           H
+ATOM    293 H5*2 A   A2665       2.362   5.235  29.512  1.00  0.00           H
+ATOM    294  C4* A   A2665       0.646   4.652  28.350  1.00  0.00           C
+ATOM    295  H4* A   A2665       0.219   5.679  28.354  1.00  0.00           H
+ATOM    296  O4* A   A2665       0.357   4.013  27.077  1.00  0.00           O
+ATOM    297  C3* A   A2665       0.037   3.742  29.410  1.00  0.00           C
+ATOM    298  H3* A   A2665       0.700   2.863  29.569  1.00  0.00           H
+ATOM    299  O3* A   A2665      -0.099   4.460  30.631  1.00  0.00           O
+ATOM    300  C2* A   A2665      -1.345   3.441  28.840  1.00  0.00           C
+ATOM    301  C1* A   A2665      -1.049   3.371  27.343  1.00  0.00           C
+ATOM    302  H1* A   A2665      -1.896   3.817  26.777  1.00  0.00           H
+ATOM    303  H2* A   A2665      -1.685   2.445  29.198  1.00  0.00           H
+ATOM    304  O2* A   A2665      -2.208   4.530  29.099  1.00  0.00           O
+ATOM    305 HO2' A   A2665      -2.265   4.654  30.050  1.00  0.00           H
+ATOM    306  N9  A   A2665      -0.791   1.971  26.958  1.00  0.00           N
+ATOM    307  C8  A   A2665       0.411   1.330  26.804  1.00  0.00           C
+ATOM    308  H8  A   A2665       1.362   1.817  26.958  1.00  0.00           H
+ATOM    309  N7  A   A2665       0.301   0.078  26.453  1.00  0.00           N
+ATOM    310  C5  A   A2665      -1.073  -0.123  26.369  1.00  0.00           C
+ATOM    311  C4  A   A2665      -1.748   1.026  26.676  1.00  0.00           C
+ATOM    312  C6  A   A2665      -1.846  -1.248  26.040  1.00  0.00           C
+ATOM    313  N3  A   A2665      -3.089   1.213  26.701  1.00  0.00           N
+ATOM    314  C2  A   A2665      -3.877   0.192  26.401  1.00  0.00           C
+ATOM    315  N1  A   A2665      -3.168  -1.036  26.073  1.00  0.00           N
+ATOM    316  H2  A   A2665      -4.950   0.316  26.414  1.00  0.00           H
+ATOM    317  N6  A   A2665      -1.308  -2.433  25.721  1.00  0.00           N
+ATOM    318  H61 A   A2665      -0.304  -2.544  25.710  1.00  0.00           H
+ATOM    319  H62 A   A2665      -1.905  -3.214  25.491  1.00  0.00           H
+ATOM    320  H3T A   A2665      -0.044   3.992  31.467  1.00  0.00           H
+TER
+ENDMDL
+REMARK seconds since January 1st 1970: 1418160646
+REMARK Current time is: Tue Dec  9 15:30:46 2014
+REMARK elapsed time: 0
+REMARK Base pair : U   2656 WatsonCrick, A   2665 WatsonCrick Cis.    Base pair 0 attachment-body frame distance = 3.32
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 0 is NOT satisfied
+REMARK Base pair : A   2657 WatsonCrick, U   2664 WatsonCrick Cis.    Base pair 1 attachment-body frame distance = 2.89
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 1 is NOT satisfied
+REMARK Base pair : C   2658 WatsonCrick, G   2663 WatsonCrick Cis.    Base pair 2 attachment-body frame distance = 2.34
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 2 is NOT satisfied
+REMARK Base pair : U   2656 HelicalStackingA3, A   2657 HelicalStackingA5 Cis.    Base pair 3 attachment-body frame distance = 0.12
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 3 is NOT satisfied
+REMARK Base pair : A   2657 HelicalStackingA3, C   2658 HelicalStackingA5 Cis.    Base pair 4 attachment-body frame distance = 0.11
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 4 is NOT satisfied
+REMARK Base pair : G   2663 HelicalStackingA3, U   2664 HelicalStackingA5 Cis.    Base pair 5 attachment-body frame distance = 0.12
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 5 is NOT satisfied
+REMARK Base pair : U   2664 HelicalStackingA3, A   2665 HelicalStackingA5 Cis.    Base pair 6 attachment-body frame distance = 0.12
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 6 is NOT satisfied
+REMARK [TwoTransformForces.cpp] Satisfied base interactions   : 0 out of : 7
+REMARK RMSD for interacting frames = 1.88
+REMARK Potential Energy = 2322.57 kJ/mol, 555.11 kcal/mol
+REMARK Kinetic Energy = 0.00 kJ/mol, 0.00 kcal/mol
+REMARK Base pair : U   2656 WatsonCrick, A   2665 WatsonCrick Cis.    Base pair 0 attachment-body frame distance = 3.32
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 0 is NOT satisfied
+REMARK Base pair : A   2657 WatsonCrick, U   2664 WatsonCrick Cis.    Base pair 1 attachment-body frame distance = 2.89
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 1 is NOT satisfied
+REMARK Base pair : C   2658 WatsonCrick, G   2663 WatsonCrick Cis.    Base pair 2 attachment-body frame distance = 2.34
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 2 is NOT satisfied
+REMARK Base pair : U   2656 HelicalStackingA3, A   2657 HelicalStackingA5 Cis.    Base pair 3 attachment-body frame distance = 0.12
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 3 is NOT satisfied
+REMARK Base pair : A   2657 HelicalStackingA3, C   2658 HelicalStackingA5 Cis.    Base pair 4 attachment-body frame distance = 0.11
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 4 is NOT satisfied
+REMARK Base pair : G   2663 HelicalStackingA3, U   2664 HelicalStackingA5 Cis.    Base pair 5 attachment-body frame distance = 0.12
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 5 is NOT satisfied
+REMARK Base pair : U   2664 HelicalStackingA3, A   2665 HelicalStackingA5 Cis.    Base pair 6 attachment-body frame distance = 0.12
+REMARK /Users/Sam/svn/RNAToolbox/trunk/src/BiopolymerClassTwoTransformForces.cpp :  Base pair 6 is NOT satisfied
+REMARK [TwoTransformForces.cpp] Satisfied base interactions   : 0 out of : 7
+REMARK RMSD for interacting frames = 1.88
+REMARK Energy = 2322.57 kJ/mol 
+REMARK Angular, Linear Momentum = ~[~[0.00,0.00,0.00],~[0.00,0.00,0.00]]
+REMARK [/Users/Sam/svn/RNAToolbox/trunk/include/PeriodicPdbAndEnergyWriter.h] state.getNU()    = 104

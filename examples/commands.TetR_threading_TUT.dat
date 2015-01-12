@@ -1,0 +1,52 @@
+# use provided TetR.pdb
+firstStage  2
+lastStage   2
+
+reportingInterval 1.0
+numReportingIntervals  50
+
+temperature 1.0  
+removeRigidBodyMomentum false
+
+# TetR class D, bound to DNA
+protein A 4             LNRESVIDAALELLNETGIDGLTTRKLAQKLGIEQPTLYWHVKNKRALLDALAVEILARHHDYSLPAAGESWQSFLRNNAMSFRRALLRYRDGAKVHLGTRPDEKQYDTVETQLRFMTENGFSLRDGLYAISAVSHFTLGAVLEQQEHTAALENLPPLLREALQIMDSDDGEQAFLHGLESLIRGFEVQLTALLQ
+protein B 4             LDKSKVINSALELLNEVGIEGLTTRKLAQKLGVEQPTLYWHVKNKRALLDALAVEILARHKDYSLPAAGESWQSFLRNNAMSFRRALLRYRDGAKVHLGTRPDEKQYDTVETQLRFMTENGFSLRDGLYAILAVIHFTLGAVLEQQEHTAALTDRPAAPDTDAPDENLPPLLREALQIMDSDDGEQAFLHGLESLIRGFEVQLTALLQ
+#                                                                                                                                                                               ^insertion---^
+
+DNA M 1 CCTATCAATGATAGA
+DNA N 1 TCTATCATTGATAGG
+
+threading A	4	155	B	4	155 300.0
+threading A	156	198	B	169	211 300.0
+
+mobilizer Rigid A 4	 198
+#mobilizer Rigid B 4	 203
+mobilizer Rigid B 4	 22
+mobilizer Rigid B 30	 34
+mobilizer Rigid B 50   155
+mobilizer Rigid B 169  211
+mobilizer Rigid M 1	 15
+mobilizer Rigid N 1	 15
+
+constrainToGround A 4
+constrainToGround M 1
+constrainToGround N 1
+
+#constraint B 22 Weld B 30
+#constraint B 30 Weld B 50
+#constraint B 155 Weld B 169
+
+#contBct M 1 AllHeBvyAtomSterics M 15
+#contact N 1 AllHeavyAtomSterics N 15
+#contact a 25 AllHeavyAtomSterics B 27
+#contact B 35 AllHeBvyAtomSterics B 40
+
+# DNA-interacting:
+#
+# 35 - 40
+# 23 - 29
+# 42
+# 46 - 49
+# I'm simplifying a bit. See mobilizers above. Hence:
+# 23 - 29
+# 35 - 49

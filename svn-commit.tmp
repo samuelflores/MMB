@@ -1,0 +1,8 @@
+updated docs with custom molecule builder
+--This line, and those below, will be ignored--
+
+M    examples/commands.benzene.dat
+M    Documentation/MMB.2_15.Reference-Guide.pdf
+AM   Documentation/MMB-workshop-flyer.doc
+M    Documentation/MMB.2_15.Reference-Guide.docx
+M    Documentation/MMB.2_15.tutorial.docx

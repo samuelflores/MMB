@@ -1,0 +1,39 @@
+#sequence
+RNA A 2656 UACGUAAGGA
+
+# stages
+firstStage 1
+lastStage 2
+
+#general simulation parameters
+baseInteractionScaleFactor     20
+reportingInterval 4.0
+temperature 10 
+randomizeInitialVelocities TRUE
+
+#base pairing forces to generate the hairpin 
+baseInteraction A 2658 WatsonCrick A 2663 WatsonCrick Cis 
+baseInteraction A 2657 WatsonCrick  A 2664 WatsonCrick Cis 
+baseInteraction A 2656 WatsonCrick  A 2665 WatsonCrick Cis
+
+# During stage 1, quickly form helix by ignoring steric clashes.  Clashes and tangles may occur here, but we’ll deal with them next..
+readAtStage 1
+numReportingIntervals 10
+readBlockEnd
+
+
+# During stage 2, do a de-tangling and de-clashing run.
+# Remember, there is a stochastic element .. you may need to run this more than once to get convergence.
+readAtStage 2
+# All forces (including base pairing and collision-detecting sphere forces) are inactive for scrubberPeriod*(dutyCycle-1) picoseconds, and active for scrubberPeriod*dutyCycle picoseconds.  Note that dutyCycle defaults to 1.0:
+dutyCycle .9 
+scrubberPeriod 40
+# add collision-detecting steric spheres to all atoms except hydrogen.  Note that the radius and stiffness of these spheres is set with the excludedVolumeRadius and excludedVolumeStiffness parameters:
+contact AllHeavyAtomSterics A
+readBlockEnd
+
+
+
+#some hints for the GNRA tetraloop:
+#baseInteraction A xxxx Hoogsteen  A xxxx SugarEdge Trans  
+#baseInteraction A xxxx Stacking A xxxx Stacking Cis

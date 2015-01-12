@@ -1,0 +1,33 @@
+
+firstStage   2  
+lastStage    2  
+
+reportingInterval 1.0
+numReportingIntervals  15
+
+temperature 1.0  
+removeRigidBodyMomentum false
+
+# beetle TERT template:
+protein E 94                                                                                 CYDYDAIPWLQNVEPNLRPKLLLKHNLFLLDNIVKPIIAFYYKPIKTLNGHEIKFIRKEEYIS 
+
+#  threaded human TERT fragment sequence
+protein H 522                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            RSPGVGCVPAAEHRLREEILAKFLHWLMSVYVVELLRSFFYVTETTFQKNRLFFYRKSV 
+
+
+# providing no residue numbers rigidifies the entire chain E:
+mobilizer Rigid E   
+
+# It should be obvious what "FirstResidue" means
+constrainToGround E FirstResidue
+
+threading H 	524	543	E	96	115 300 
+threading H 	544	580	E	117	153 300 
+
+
+#excludedVolumeRadius   .9 
+
+# we apply contacts to chain H only.  applying them to chain E would lead to no threading! 
+contact  AllAtomSterics H  FirstResidue LastResidue
+
+

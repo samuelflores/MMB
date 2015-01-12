@@ -1,0 +1,34 @@
+forceMultiplier 10
+globalBondStretchScaleFactor .01
+globalBondBendScaleFactor .01
+coarseNucleicAcidSequence A AAAAAAAAAA
+coarseNucleicAcidSequence B UUUUUUUUUU
+firstResidueNumber A 1
+firstResidueNumber B 1
+firstStage 1          
+lastStage 6
+addHardSphereSmall TRUE           
+globalCoulombScaleFactor 0.0 1
+globalVdwScaleFactor 0.0 1
+dutyCycle .5 1
+dutyCycle 1 6 
+temperature 10 1
+temperature 60 3
+temperature 30 4
+temperature 10 5
+leontisWesthofInFileName /Users/Sam/svn/RNAToolbox/include/resources/parameters.csv
+loadTinkerParameterFile TRUE
+tinkerParameterFileName      /Users/Sam/svn/RNAToolbox/include/resources/tinker_amber99_sam.prm
+maxReportingIntervals 100 
+reportingInterval  2
+#contact A 1 HardSphere  A 10 HardSphere  Cis 1
+baseInteraction A 1 WatsonCrick B 10 WatsonCrick Cis 1
+baseInteraction A 2 WatsonCrick B 9 WatsonCrick Cis 1
+baseInteraction A 3 WatsonCrick B 8 WatsonCrick Cis 1
+baseInteraction A 4 WatsonCrick B 7 WatsonCrick Cis 1
+baseInteraction A 5 WatsonCrick B 6 WatsonCrick Cis 1
+baseInteraction A 6 WatsonCrick B 5 WatsonCrick Cis 1
+baseInteraction A 7 WatsonCrick B 4 WatsonCrick Cis 1
+baseInteraction A 8 WatsonCrick B 3 WatsonCrick Cis 1
+baseInteraction A 9 WatsonCrick B 2 WatsonCrick Cis 1
+baseInteraction A 10 WatsonCrick B 1 WatsonCrick Cis 1

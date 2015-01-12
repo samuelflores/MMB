@@ -1,0 +1,174 @@
+#ifndef Repel_H_
+#define Repel_H_
+
+/* -------------------------------------------------------------------------- *
+ *                      SimTK Core: SimTK Molmodel                            *
+ * -------------------------------------------------------------------------- *
+ * This is part of the SimTK Core biosimulation toolkit originating from      *
+ * Simbios, the NIH National Center for Physics-Based Simulation of           *
+ * Biological Structures at Stanford, funded under the NIH Roadmap for        *
+ * Medical Research, grant U54 GM072970. See https://simtk.org.               *
+ *                                                                            *
+ * Portions copyright (c) 2006-7 Stanford University and the Authors.         *
+ * Authors: Samuel Flores                                                     *
+ * Contributors:                                                              *
+ *                                                                            *
+ * Permission is hereby granted, free of charge, to any person obtaining a    *
+ * copy of this software and associated documentation files (the "Software"), *
+ * to deal in the Software without restriction, including without limitation  *
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,   *
+ * and/or sell copies of the Software, and to permit persons to whom the      *
+ * Software is furnished to do so, subject to the following conditions:       *
+ *                                                                            *
+ * The above copyright notice and this permission notice shall be included in *
+ * all copies or substantial portions of the Software.                        *
+ *                                                                            *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR *
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,   *
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL    *
+ * THE AUTHORS, CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,    *
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR      *
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE  *
+ * USE OR OTHER DEALINGS IN THE SOFTWARE.                                     *
+ * -------------------------------------------------------------------------- */
+
+const int maxChiWelds = 1000;
+const int maxResidues = 3000;    // was maxChars
+#include <stdlib.h>// for MAX_PATH
+#include "SimTKmolmodel.h"
+#include "SimTKsimbody_aux.h"
+//#include "ReducedAtomsNucleicAcid.withOPsAndBackboneHydrogens.h"
+//#include "nastRNA.h"
+#include "PeriodicScrubber.h"  
+//#include "RemoveRigidBodyMomentum.h"  
+
+#include <iostream>
+#include <vector>
+
+//#include "PeriodicPdbSingleFrameWriter.h"
+#include "ParameterReader.h"
+#include "PeriodicPdbAndEnergyWriter.h"
+//#include "WaterDroplet.h"    
+#include "TwoTransformForces.h"
+#include "PeriodicParameterReaderUpdater.h"
+#include "SetChiMobility.h"              
+#include "RigidifyFormedHelices.h"
+
+#include "Sterics.h" 
+//"AddHuntCrossleySpheres.h"
+#include "AddNASTForces.h"
+#include "AddBackboneOxygenForces.h"
+//#include "RandomizeRNACoordinates.h"
+#include "KBBackboneTorsionForce.h"
+#include "WadleyKeatingDuartePyleTorsionForce.h"
+#include "SetSingleBondMobility.h" 
+#include "CalcTransformCorrection.h"   
+
+
+using namespace SimTK;
+using namespace std;
+
+
+/**
+ * /brief This method sets the BondMobility for all bonds within each residue in a certain stretch of residues of any biopolymer   chain
+ *
+ * added by scf
+ */
+    void setBiopolymerResidueBondMobility (Biopolymer & myChain , BondMobility::Mobility  mobility, ResidueInfo::Index startResidue, ResidueInfo::Index endResidue);
+
+
+/**
+ * /brief This method sets the BondMobility for all bonds in a certain stretch of residues of a Protein        chain
+ *
+ * added by scf
+ */
+    void setProteinBondMobility (Biopolymer & myProteinChain , BondMobility::Mobility  mobility, ResidueInfo::Index startResidue, ResidueInfo::Index endResidue);
+
+
+
+float PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) ;
+
+
+/**
+ * /brief This utility is used to get the name of an atom involved in hydrogen bonding. It was written to help with the problem of pulling together two halves of an A-form double helix. 
+ *
+ * By convention the first atom of the first residue is a bond donor "H", the second atom of the first residue is an accepter "O".
+ * the opposite convention holds for the second residue.
+ *
+ * /param PdbResidueName is the type of base (AUCG).  Based on this parameter we will determine the name of the appropriate hydrogen-bonding atom.
+ * 
+ */
+
+// this polymorphism soon to be obsolete
+
+string ReturnHBondingAtomName(String myPdbResidueName, int firstOrSecondResidue, int firstOrSecondBond );
+
+/**
+ * 
+ * 
+ * /param 
+ * myPdbResidueName1,2 must be one of "A","C","G","U".
+ * bondingEdge1,2 must be one of "WatsonCrick","Hoogsteen","Sugar","Bifurcated".
+ * glycosidicBondOrientation must be either "Cis" or "Trans".
+ *
+ */
+
+/**
+ * /brief This utility is used for the Concentricity constraint.  In this constraint, a certain atom on residue 1 is connected by a LinearSpring to a certain point OUTSIDE of an atom on residue 2.  location2 is that point, in the body frame of the atom on residue 2.
+ * 
+ */
+
+class  SetPolynucleotideChiBondMobility  { public:
+
+    SetPolynucleotideChiBondMobility (
+        Biopolymer & myChain,
+	int startResidueNumber,
+	int endResidueNumber,
+	LeontisWesthofClass  & myLeontisWesthofClass ,    
+        SimbodyMatterSubsystem & matter,
+        State& state,
+        Constraint myWeld1[maxChiWelds],
+        Constraint myWeld2[maxChiWelds],
+        Constraint myWeld3[maxChiWelds]
+
+	) ;  
+    SetPolynucleotideChiBondMobility (
+        Biopolymer & myChain,
+	int startResidueNumber,
+	int endResidueNumber,
+	LeontisWesthofClass  & myLeontisWesthofClass ,    
+	BondMobility::Mobility mobility = BondMobility::Free   
+	)   ;
+};       
+/*
+class CentrifugalForce : public Force::Custom::Implementation { 
+public: 
+    CentrifugalForce(SimbodyMatterSubsystem& matter) : matter(matter);    
+      
+    void calcForce(const State& state, Vector_<SpatialVec>& bodyForces,  
+            Vector_<Vec3>& particleForces, Vector& mobilityForces) const ; 
+    Real calcPotentialEnergy(const State& state) const; 
+    bool dependsOnlyOnPositions() const;  
+private: 
+    SimbodyMatterSubsystem& matter; 
+}; 
+    
+ */
+
+    static bool compareUpper( const string& param, const char* symbol );
+
+
+    void setLeontisWesthofBondRowIndex (ParameterReader & myParameterReader,LeontisWesthofClass myLeontisWesthofClass, vector <Biopolymer> myMolecule);
+
+
+class    ConstrainedDynamics : public Compound {
+public:
+    LeontisWesthofClass myLeontisWesthofClass;
+    int setDefaults();  
+    void constraintsAndRestraints  (ParameterReader & myParameterReader,vector<Biopolymer> & myMolecule,GeneralForceSubsystem & forces ,SimbodyMatterSubsystem & matter, State & state, CompoundSystem & system );
+    void setBondMobilities(ParameterReader & myParameterReader,vector<Biopolymer> & myMolecule );
+    void addContacts(ParameterReader & myParameterReader,vector<Biopolymer> & myMolecule, GeneralContactSubsystem & contacts, GeneralForceSubsystem & forces, SimbodyMatterSubsystem & matter,CompoundSystem & system );
+    void initializeMolecules ( ParameterReader & myParameterReader,vector<Biopolymer> & myMolecule ,vector<MagnesiumIon> & myMagnesiumIonVec, CompoundSystem & system); 
+    Compound runDynamics(ParameterReader & myParameterReader);
+};   
+#endif

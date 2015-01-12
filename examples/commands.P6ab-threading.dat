@@ -1,0 +1,38 @@
+# Put 1GID.shifted.pdb in last.1.pdb
+firstStage 2    
+lastStage 2   
+reportingInterval .5    
+numReportingIntervals   80  
+
+# TETRAHYMENA P6ab -- "target" fragment  
+RNA Q 220 GUCCUAAGUCAACAGAUCUUCUGUUGAUAUGGAU
+
+# AZOARCUS -- "threaded" fragment   
+RNA      C 146 CCUAAGGCAAACGCUAUGG                                              
+
+
+mobilizer Rigid       Q 220 253        
+
+# Old way to prevent steric clashes, as described in Flores & Altman, RNA 2010:
+#contact AllHeavyAtomSterics C 146 164          
+
+# More modern way, using "Physics where you want it" applied to target only:
+setDefaultMDParameters
+includeResidues C FirstResidue LastResidue
+# Note that for large molecules, the force field can get expensive.  In such cases, try threading it in parts.
+
+#Threading forces. More modern way, which pulls together like-named atoms in corresponding residues:
+threading C 146 151 Q 222 227 300
+threading C 160 164 Q 247 251 300
+
+# old way, which used 6-D forces on bases plus springs on C1' atoms, as described in Flores & Altman, RNA 2010:
+#baseInteraction C 146 Superimpose Q 222 Superimpose Cis  
+#baseInteraction C 147 Superimpose Q 223 Superimpose Cis  
+#baseInteraction C 148 Superimpose Q 224 Superimpose Cis  
+#baseInteraction C 149 Superimpose Q 225 Superimpose Cis  
+#baseInteraction C 150 Superimpose Q 226 Superimpose Cis  
+#baseInteraction C 160 Superimpose Q 247 Superimpose Cis   
+#baseInteraction C 161 Superimpose Q 248 Superimpose Cis  
+#baseInteraction C 162 Superimpose Q 249 Superimpose Cis  
+#baseInteraction C 163 Superimpose Q 250 Superimpose Cis  
+#baseInteraction C 164 Superimpose Q 251 Superimpose Cis  

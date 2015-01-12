@@ -1,0 +1,3 @@
+
+/usr/bin/c++ -c -o protein-test.o protein-test.cpp -m32 -Wno-deprecated  -I/usr/local/SimTK/include -I/usr/local/SimTK/include/molmodel/internal -I/usr/local/SimTK/include/simbody/internal -I/Users/Sam/svn/RNAToolbox/trunk/include -c
+/usr/bin/c++ -o ./protein-test.exec protein-test.o Repel.o   MonoAtoms.o  ParameterReader.o BaseInteractionParameterReader.o Utils.o TetherForce.o BiopolymerClass.o BiopolymerClassTwoTransformForces.o WaterDroplet.o DensityMap.o DensityForce.o   -m32 -Wno-deprecated -g -fPIC -L/usr/local/lib -L/usr/local/SimTK/lib -lSimTKsimbody_static -lpthread -lm -lSimTKmolmodel_static -lSimTKsimbody_static -lSimTKmath_static -lSimTKcommon_static -lSimTKlapack -lpthread

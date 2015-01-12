@@ -1,0 +1,6 @@
+generate-base-pair-transform.o : ../src/generate-base-pair-transform.cpp
+	gcc -o generate-base-pair-transform.o -c ../src/generate-base-pair-transform.cpp
+
+generate-base-pair-transform : generate-base-pair-transform.o
+	gcc -o generate-base-pair-transform  generate-base-pair-transform.o -02 -liostream -lfstream -lstdlib -lstring
+

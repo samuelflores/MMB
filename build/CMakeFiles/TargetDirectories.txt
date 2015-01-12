@@ -1,0 +1,2 @@
+/Users/Sam/svn/RNAToolbox/trunk/build/CMakeFiles/MMB.dir
+/Users/Sam/svn/RNAToolbox/trunk/build/CMakeFiles/MMBlib.dir

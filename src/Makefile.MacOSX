@@ -1,0 +1,28 @@
+
+# set this to blank and get dynamic libs
+STATIC=_static
+# set this to blank and get a Release build
+DEBUG=_d
+
+#choose your distribution here
+#SIMTK=/usr/local/SimTK-2.2-binary-dist
+SIMTK=/usr/local/SimTK_debug
+
+#LAPACK= -llapack -lblas
+LAPACK= -lSimTKlapack   
+
+OBJECTS = Repel.o  RNABuilder.o MonoAtoms.o  ParameterReader.o BaseInteractionParameterReader.o Utils.o TetherForce.o BiopolymerClass.o BiopolymerClassTwoTransformForces.o WaterDroplet.o DensityMap.o DensityForce.o
+CC = /Developer/usr/bin/c++
+BUILDFLAGS = -m32  -I$(SIMTK)/include/ -I$(SIMTK)/include/molmodel/internal/ -I/Users/Sam/svn/RNAToolbox/trunk/include/ -c 
+
+
+LINKFLAGS = -m32 -L/usr/local/lib  -L$(SIMTK)/lib -lSimTKsimbody$(STATIC)$(DEBUG) -lSimTKmolmodel$(STATIC)$(DEBUG) -lSimTKmath$(STATIC)$(DEBUG) -lSimTKcommon$(STATIC)$(DEBUG) $(LAPACK)   
+DEBUGFLAGS = -g
+ERRORFLAGS = -Wall
+
+%.o: %.cpp 
+	$(CC) -c -o $@ $^ $(BUILDFLAGS) $(DEBUGFLAGS) $(ERRORFLAGS)
+RNABuilder.exec: $(OBJECTS)
+	$(CC) -o $@ $^     $(LINKFLAGS) $(DEBUGFLAGS) $(ERRORFLAGS)
+clean:
+	rm -f $(OBJECTS)

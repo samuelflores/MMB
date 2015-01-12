@@ -1,0 +1,10 @@
+# How to make disulphide-bridged cysteines
+
+#sequence
+protein A 1 XAAAAX
+setDefaultMDParameters
+addRingClosingBond A 1 SG bond2 6 SG bond2
+numReportingIntervals 10
+# stages
+firstStage 1
+lastStage 1

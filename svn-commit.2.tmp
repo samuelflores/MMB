@@ -1,0 +1,12 @@
+
+now using 
+ 71                 std::getline(inFile,s,',');
+
+rather than  
+72                 //inFile.getline( s, 100,',' );
+
+This was pointed out by Lars as being related to the corrupted double-linked list issue
+
+--This line, and those below, will be ignored--
+
+M    src/BaseInteractionParameterReader.cpp

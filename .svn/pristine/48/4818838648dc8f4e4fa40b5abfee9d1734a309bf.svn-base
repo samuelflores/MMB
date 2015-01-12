@@ -1,0 +1,41 @@
+firstStage 2
+lastStage 2
+verbose true
+tinkerParameterFileName /home/samuelf/svn/RNAToolbox/trunk/build/tinker_amber99_clean.prm 
+randomizeInitialVelocities true
+setDefaultMDParameters
+removeRigidBodyMomentum false
+molecule initialize B RNG
+molecule B setBaseAtom   TrivalentAtom C1 Carbon 
+molecule B bondAtom TrivalentAtom C2 Carbon C1/bond2 .14
+molecule B bondAtom TrivalentAtom C3 Carbon C2/bond2 .14
+molecule B bondAtom TrivalentAtom C4 Carbon C3/bond2 .14
+molecule B bondAtom TrivalentAtom C5 Carbon C4/bond2 .14
+molecule B bondAtom TrivalentAtom C6 Carbon C5/bond2 .14
+molecule B bondAtom AliphaticHydrogen H1 Hydrogen C1/bond3 .1
+molecule B bondAtom AliphaticHydrogen H2 Hydrogen C2/bond3 .1
+molecule B bondAtom AliphaticHydrogen H3 Hydrogen C3/bond3 .1
+molecule B bondAtom AliphaticHydrogen H4 Hydrogen C4/bond3 .1
+molecule B bondAtom AliphaticHydrogen H5 Hydrogen C5/bond3 .1
+molecule B bondAtom AliphaticHydrogen H6 Hydrogen C6/bond3 .1
+readFromStage 1000
+readBlockEnd
+molecule B setBiotypeIndex C1 Phenylalanine CZ Any 
+molecule B setBiotypeIndex C2 Phenylalanine CZ Any 
+molecule B setBiotypeIndex C3 Phenylalanine CZ Any 
+molecule B setBiotypeIndex C4 Phenylalanine CZ Any 
+molecule B setBiotypeIndex C5 Phenylalanine CZ Any 
+molecule B setBiotypeIndex C6 Phenylalanine CZ Any 
+
+molecule B setBiotypeIndex H1 Phenylalanine HZ Any 
+molecule B setBiotypeIndex H2 Phenylalanine HZ Any 
+molecule B setBiotypeIndex H3 Phenylalanine HZ Any 
+molecule B setBiotypeIndex H4 Phenylalanine HZ Any 
+molecule B setBiotypeIndex H5 Phenylalanine HZ Any 
+molecule B setBiotypeIndex H6 Phenylalanine HZ Any 
+readFromStage 1000
+readBlockEnd
+
+addRingClosingBond B C1 bond1 C6 bond2
+#constraint B C1 Weld Ground
+

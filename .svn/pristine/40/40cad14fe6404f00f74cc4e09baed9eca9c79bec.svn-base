@@ -1,0 +1,40 @@
+
+#sequence
+RNA A 2656     UACGUAAGUA
+
+# stages
+firstStage 1
+lastStage 1
+
+#general simulation parameters
+baseInteractionScaleFactor     200
+reportingInterval 4.0
+temperature 10 
+
+nucleicAcidDuplex A 2656 2658 A 2665 2663
+
+# Or, equivalently:
+#base pairing forces to generate the hairpin 
+#baseInteraction A 2658 WatsonCrick A 2663 WatsonCrick Cis 
+#baseInteraction A 2657 WatsonCrick  A 2664 WatsonCrick Cis 
+#baseInteraction A 2656 WatsonCrick  A 2665 WatsonCrick Cis
+
+# Want to fold a GNRA tetraloop motif? Try the following:
+# up above, change these parameters:
+# baseInteractionScaleFactor     2000
+# lastStage 2
+# Then add these forces:
+#readAtStage 2
+#baseInteraction A 2662 Hoogsteen  A 2659 SugarEdge Trans
+#baseInteraction A 2660 Stacking3 A 2661 Stacking5 Cis
+#baseInteraction A 2661 Stacking3 A 2662 Stacking5 Cis
+#baseInteraction A 2658 Stacking3 A 2659 Stacking5 Cis
+#readBlockEnd
+
+
+numReportingIntervals 10
+setDefaultMDParameters
+
+
+
+

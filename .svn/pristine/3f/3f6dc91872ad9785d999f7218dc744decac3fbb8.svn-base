@@ -1,0 +1,38 @@
+#RNA  N 17       GGCAGAUCUGAGCCUGGGAGCUCUCUGCC
+
+removeRigidBodyMomentum False
+constrainToGround N 17
+mobilizer Rigid       N 17 21
+mobilizer Rigid       N 27 38
+mobilizer Rigid       N 41 45
+constraint      N 17 Weld  N 45
+constraintTolerance .001
+contact SelectedAtoms N FirstResidue LastResidue
+
+numReportingIntervals  5
+reportingInterval 2.0 
+firstStage 1
+lastStage 1
+leontisWesthofInFileName parameters.csv
+
+temperature   30.0  
+
+baseInteraction N 26 WatsonCrick N 39 WatsonCrick Cis
+baseInteraction N 22 WatsonCrick N 40 WatsonCrick Cis
+baseInteraction N 27 WatsonCrick N 38 WatsonCrick Cis
+baseInteraction N 28 WatsonCrick N 37 WatsonCrick Cis
+baseInteraction N 29 WatsonCrick N 36 WatsonCrick Cis
+baseInteraction N 17 WatsonCrick N 45 WatsonCrick Cis
+baseInteraction N 18 WatsonCrick N 44 WatsonCrick Cis
+baseInteraction N 19 WatsonCrick N 43 WatsonCrick Cis
+baseInteraction N 20 WatsonCrick N 42 WatsonCrick Cis
+baseInteraction N 21 WatsonCrick N 41 WatsonCrick Cis
+
+globalCoulombScaleFactor 1
+globalVdwScaleFactor 1
+smallGroupInertiaMultiplier 11
+setInitialVelocities TRUE
+#includeAllResiduesWithin 1.0 N 33
+includeAllNonBondAtomsInResidues N 27 30
+
+

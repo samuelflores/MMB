@@ -1,0 +1,196 @@
+# make sure you have the right last.1.pdb for this
+fitDefaultTolerance 1.0
+integratorAccuracy .5
+-PRIOR 0
+
+globalCoulombScaleFactor 0 1
+globalVdwScaleFactor 0 1
+globalBondTorsionScaleFactor 0
+globalBondStretchScaleFactor 1
+globalBondBendScaleFactor 1
+rigidifyFormedHelices 0
+setChiBondMobility 1
+firstStage 2
+lastStage 17
+reportingInterval .2 
+maxReportingIntervals 90
+addSmallHuntCrossleySpheres 0
+addHuntCrossleySpheres 0
+weldToGround 1
+
+# tetrahymena P5abc and P4
+sequence A AAUUGCGGGAAAGGGGUCAACAGCCGUUCAGUACCAAGUCUCAGGGGAAACUUUGAGAUGGCCUUGCAAAGGGUAUGGUAAUAAGCUGACGGACAUGGUCCUAACCACGCA
+-FRN A 104 
+basePair A 104 Rigid A 214 Rigid Cis 1
+#bangia P5abc
+sequence B AAUUGUCGGGAACGGCCUCACAAAAGACUUUUGUCUUUGAGAAACUCUGUCUACCGCGGUCCGCCGAGAGGUUAAAGCGAGCAAUCGCUUAGGACGCAGCAGUGCAUGUAACGAUGCACGGAUGGUAAAAACGACAGAAUUGGGCUAAUCCGCA
+#get rid of this later
+#basePair B 138 WatsonCrick B 149 WatsonCrick Cis 1
+-FRN B 137
+
+#resetBases B 1
+
+ 
+basePair B 137 HardSphere B 140 HardSphere Cis 2 1
+basePair B 137 HardSphere B 150 HardSphere Cis 3 1
+basePair B 137 HardSphere B 160 HardSphere Cis 4 1
+#basepair B 137 HardSphere B 170 HardSphere Cis 5 1
+basePair B 137 HardSphere B 184 HardSphere Cis 6 1
+basePair B 137 HardSphere B 196 HardSphere Cis 7 1
+basePair B 137 HardSphere B 206 HardSphere Cis 8 1
+basePair B 137 HardSphere B 235 HardSphere Cis 9 1
+basePair B 137 HardSphere B 264 HardSphere Cis 10 1
+basePair B 137 HardSphere B 274 HardSphere Cis 11 1
+basePair B 137 HardSphere B 284 HardSphere Cis 12 1
+basePair B 137 HardSphere B 290 HardSphere Cis 13 1
+
+#mixing section
+#basePair A 104 Custom B 137 Custom Cis 1
+#basePair A 105 Custom B 138 Custom Cis 1
+#basePair A 106 Custom B 139 Custom Cis 1
+basePair A 107 Custom B 140 Custom Cis  2 0
+basePair A 108 Custom B 141 Custom Cis  3 0
+basePair A 109 Custom B 143 Custom Cis  3 0
+basePair A 110 Custom B 144 Custom Cis  3 0
+basePair A 111 Custom B 145 Custom Cis  3 0
+basePair A 112 Custom B 146 Custom Cis  3 0
+basePair A 113 Custom B 147 Custom Cis  3 0
+basePair A 114 Custom B 148 Custom Cis  3 0
+basePair A 115 Custom B 149 Custom Cis  3 0
+basePair A 116 Custom B 150 Custom Cis  3 0
+basePair A 117 Custom B 151 Custom Cis  4 0
+basePair A 118 Custom B 152 Custom Cis  4 0
+basePair A 119 Custom B 153 Custom Cis  4 0
+basePair A 120 Custom B 154 Custom Cis  4 0
+basePair A 127 Custom B 182 Custom Cis 6 0
+basePair A 128 Custom B 183 Custom Cis 6 0
+basePair A 131 Custom B 184 Custom Cis 6 0
+basePair A 132 Custom B 185 Custom Cis 7 0
+basePair A 133 Custom B 186 Custom Cis 7 0
+basePair A 134 Custom B 187 Custom Cis 7 0
+basePair A 135 Custom B 188 Custom Cis 7 0
+basePair A 136 Custom B 189 Custom Cis 7 0
+basePair A 137 Custom B 190 Custom Cis 7 0
+basePair A 138 Custom B 191 Custom Cis 7 0
+basePair A 141 Custom B 192 Custom Cis 7 0
+basePair A 142 Custom B 193 Custom Cis 7 0
+basePair A 143 Custom B 194 Custom Cis 7 0
+basePair A 144 Custom B 196 Custom Cis 7 0
+basePair A 145 Custom B 197 Custom Cis 8 0
+basePair A 146 Custom B 198 Custom Cis 8 0
+basePair A 147 Custom B 199 Custom Cis 8 0
+basePair A 148 Custom B 200 Custom Cis 8 0
+basePair A 149 Custom B 201 Custom Cis 8 0
+basePair A 150 Custom B 202 Custom Cis 8 0
+basePair A 151 Custom B 203 Custom Cis 8 0
+basePair A 152 Custom B 204 Custom Cis 8 0
+basePair A 153 Custom B 205 Custom Cis 8 0
+basePair A 154 Custom B 206 Custom Cis 8 0
+basePair A 155 Custom B 207 Custom Cis 9 0
+basePair A 156 Custom B 208 Custom Cis 9 0
+basePair A 157 Custom B 228 Custom Cis 9 0
+basePair A 158 Custom B 229 Custom Cis 9 0
+basePair A 159 Custom B 230 Custom Cis 9 0
+basePair A 160 Custom B 231 Custom Cis 9 0
+basePair A 161 Custom B 232 Custom Cis 9 0
+basePair A 162 Custom B 233 Custom Cis 9 0
+basePair A 163 Custom B 234 Custom Cis 9 0
+basePair A 164 Custom B 235 Custom Cis 9 0
+basePair A 167 Custom B 238 Custom Cis 10 0
+basePair A 173 Custom B 255 Custom Cis 10 0
+basePair A 176 Custom B 257 Custom Cis 10 0
+basePair A 177 Custom B 258 Custom Cis 10 0
+basePair A 178 Custom B 259 Custom Cis 10 0
+basePair A 180 Custom B 260 Custom Cis 10 0
+basePair A 181 Custom B 261 Custom Cis 10 0
+basePair A 182 Custom B 262 Custom Cis 10 0
+basePair A 183 Custom B 263 Custom Cis 10 0
+basePair A 184 Custom B 264 Custom Cis 10 0
+basePair A 185 Custom B 265 Custom Cis 11 0
+basePair A 186 Custom B 266 Custom Cis 11 0
+basePair A 187 Custom B 267 Custom Cis 11 0
+basePair A 188 Custom B 268 Custom Cis 11 0
+basePair A 189 Custom B 269 Custom Cis 11 0
+basePair A 190 Custom B 270 Custom Cis 11 0
+basePair A 191 Custom B 271 Custom Cis 11 0
+basePair A 192 Custom B 272 Custom Cis 11 0
+basePair A 194 Custom B 273 Custom Cis 11 0
+basePair A 195 Custom B 274 Custom Cis 11 0
+basePair A 201 Custom B 278 Custom Cis 12 0
+basePair A 202 Custom B 279 Custom Cis 12 0
+basePair A 203 Custom B 280 Custom Cis 12 0
+basePair A 204 Custom B 281 Custom Cis 12 0
+basePair A 205 Custom B 282 Custom Cis 12 0
+basePair A 206 Custom B 283 Custom Cis 12 0
+basePair A 207 Custom B 284 Custom Cis 12 0
+basePair A 208 Custom B 285 Custom Cis 13 0
+basePair A 209 Custom B 286 Custom Cis 13 0
+basePair A 211 Custom B 287 Custom Cis 13 0
+basePair A 212 Custom B 288 Custom Cis 13 0
+basePair A 213 Custom B 289 Custom Cis 13 0
+basePair A 214 Custom B 290 Custom Cis 13 0
+
+# sequence B
+rigidifyFormedHelices 0
+basePair B 140 WatsonCrick B 290 WatsonCrick Cis 16 
+basePair B 141 WatsonCrick B 289 WatsonCrick Cis 16 
+basePair B 143 WatsonCrick B 288 WatsonCrick Cis 16 
+basePair B 144 WatsonCrick B 287 WatsonCrick Cis 15 
+basePair B 145 WatsonCrick B 286 WatsonCrick Cis 15 
+basePair B 146 WatsonCrick B 285 WatsonCrick Cis 15 
+basePair B 151 WatsonCrick B 281 WatsonCrick Cis 14 
+basePair B 152 WatsonCrick B 280 WatsonCrick Cis 14 
+basePair B 153 WatsonCrick B 279 WatsonCrick Cis 14 
+basePair B 154 WatsonCrick B 278 WatsonCrick Cis 14 
+basePair B 161 WatsonCrick B 172 WatsonCrick Cis 3 
+basePair B 162 WatsonCrick B 171 WatsonCrick Cis 3 
+basePair B 163 WatsonCrick B 170 WatsonCrick Cis 3 
+basePair B 164 WatsonCrick B 169 WatsonCrick Cis 3 
+basePair B 182 WatsonCrick B 274 WatsonCrick Cis 13
+basePair B 183 WatsonCrick B 273 WatsonCrick Cis 13
+basePair B 184 WatsonCrick B 272 WatsonCrick Cis 13
+basePair B 185 WatsonCrick B 271 WatsonCrick Cis 13
+basePair B 186 WatsonCrick B 270 WatsonCrick Cis 12
+basePair B 187 WatsonCrick B 269 WatsonCrick Cis 12
+basePair B 188 WatsonCrick B 267 WatsonCrick Cis 12
+basePair B 189 WatsonCrick B 262 WatsonCrick Cis 11
+basePair B 190 WatsonCrick B 261 WatsonCrick Cis 11
+basePair B 191 WatsonCrick B 260 WatsonCrick Cis 11
+basePair B 192 WatsonCrick B 233 WatsonCrick Cis 8
+basePair B 193 WatsonCrick B 232 WatsonCrick Cis 8
+basePair B 194 WatsonCrick B 231 WatsonCrick Cis 8
+basePair B 196 WatsonCrick B 230 WatsonCrick Cis 7
+basePair B 197 WatsonCrick B 229 WatsonCrick Cis 7
+basePair B 198 WatsonCrick B 228 WatsonCrick Cis 7
+basePair B 199 WatsonCrick B 208 WatsonCrick Cis 4
+basePair B 200 WatsonCrick B 207 WatsonCrick Cis 4
+basePair B 201 WatsonCrick B 206 WatsonCrick Cis 4
+basePair B 211 WatsonCrick B 226 WatsonCrick Cis 6
+basePair B 212 WatsonCrick B 225 WatsonCrick Cis 6
+basePair B 213 WatsonCrick B 224 WatsonCrick Cis 6
+basePair B 214 WatsonCrick B 223 WatsonCrick Cis 5
+basePair B 215 WatsonCrick B 222 WatsonCrick Cis 5
+basePair B 216 WatsonCrick B 221 WatsonCrick Cis 5
+basePair B 238 WatsonCrick B 255 WatsonCrick Cis 10
+basePair B 239 WatsonCrick B 254 WatsonCrick Cis 10
+basePair B 240 WatsonCrick B 253 WatsonCrick Cis 10
+basePair B 241 WatsonCrick B 252 WatsonCrick Cis 9
+basePair B 242 WatsonCrick B 251 WatsonCrick Cis 9
+basePair B 243 WatsonCrick B 250 WatsonCrick Cis 9
+
+#basePair B 140 WatsonCrick B 290 WatsonCrick Cis 3
+#basePair B 141 WatsonCrick B 289 WatsonCrick Cis 3
+#basePair B 143 WatsonCrick B 288 WatsonCrick Cis 3
+#basePair B 144 WatsonCrick B 287 WatsonCrick Cis 3
+#basePair B 145 WatsonCrick B 286 WatsonCrick Cis 3
+#basePair B 146 WatsonCrick B 285 WatsonCrick Cis 3
+#basePair B 151 WatsonCrick B 281 WatsonCrick Cis 3
+#basePair B 152 WatsonCrick B 280 WatsonCrick Cis 3
+#basePair B 153 WatsonCrick B 279 WatsonCrick Cis 3
+#basePair B 154 WatsonCrick B 278 WatsonCrick Cis 3
+#basePair B 161 WatsonCrick B 172 WatsonCrick Cis 3
+#basePair B 162 WatsonCrick B 171 WatsonCrick Cis 3
+#basePair B 163 WatsonCrick B 170 WatsonCrick Cis 3
+#basePair B 164 WatsonCrick B 169 WatsonCrick Cis 3
+
+

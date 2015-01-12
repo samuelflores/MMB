@@ -1,0 +1,89 @@
+verbose 0
+twoTransformForceMultiplier 100
+loadTinkerParameterFile 0
+sequence A          AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA                
+sequence B          UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU                
+sequence C      A                
+sequence D      U                
+sequence E      A                
+sequence F      U                
+-PRIOR 0
+#-SQ B     AAAAAAAAACCCCUUUUUUUUU   
+addNASTForces 0
+periodicallyUpdateParameters 0
+backboneOxygenGlobalCoulombScaleFactor 0  
+backboneOxygenGlobalVdwScaleFactor 0  
+#addBackboneOxygenForces 0
+numMagnesiumIons  0
+#addBackboneOxygenForces 0
+maxReportingIntervals  100
+reportingInterval  .2
+scrubberPeriod  4 
+prioritize 0
+setForceScrubber 0
+firstStage 1 
+lastStage 1 
+# torsion = 2 rigid =3
+
+leontisWesthofInFileName /Users/Sam/svn/RNAToolbox/include/resources/parameters.csv  
+
+addHuntCrossleySpheres 0
+piecewiseRigidify 0
+loopBondMobility 1
+helixBondMobility 3 
+overallBondMobility 1
+setOverallBondMobility 0
+setLoopBondMobility 0
+setForceAndStericScrubber 0
+rigidifyFormedHelices 0
+rigidifyTermini 0
+weldToGround 0
+
+
+-FRN A 7 
+-FRN B 7 
+-FRN C 7 
+-FRN D 7 
+-FRN E 7 
+-FRN F 7 
+
+
+#-FRN B 1 
+cutoffRadius .1 
+readPreviousFrameFile 1
+readInQVector 0
+# -FS 1 
+-T 1000 1
+-T  500 2
+-T  250 3
+-T  100 4
+-T   50 5
+-T   10 6
+-T   10 7
+-DC .5 20
+-DC 1. 1
+-DC 1. 5
+
+#twoTransformForce A 7 HelicalStackingA3 A 8 HelicalStackingA5 Cis 1
+#twoTransformForce B 7 HelicalStackingA3  B 8 HelicalStackingA5 Cis 1
+# twoTransformForce A 8 WatsonCrick A 15 WatsonCrick Cis 1
+# twoTransformForce A 9 WatsonCrick A 14 WatsonCrick Cis 1
+
+# twoTransformForce B 7 WatsonCrick B 16 WatsonCrick Cis 1
+# twoTransformForce B 8 WatsonCrick B 15 WatsonCrick Cis 1
+# twoTransformForce B 9 WatsonCrick B 14 WatsonCrick Cis 1
+
+# twoTransformForce A 10 Custom  B 10 Custom Cis 1
+#twoTransformForce A 7 WatsonCrick B 8 WatsonCrick Cis 1
+#twoTransformForce A 8 WatsonCrick B 7 WatsonCrick Cis 1
+
+#aromatic          A 7 Stacking3 B 7 Stacking5 Rotatable 1
+#aromatic          C 7 Stacking3 D 7 Stacking3 Rotatable 1
+#aromatic          E 7 Stacking5	F 7 Stacking5 Rotatable 1
+
+baseInteraction   A 7 WatsonCrick B 7 WatsonCrick Cis     1
+baseInteraction   C 7 WatsonCrick D 7 WatsonCrick Cis     1
+baseInteraction   E 7 WatsonCrick F 7 WatsonCrick Cis     1
+
+globalCoulombScaleFactor 0.0 1 
+globalVdwScaleFactor 0.0 1 

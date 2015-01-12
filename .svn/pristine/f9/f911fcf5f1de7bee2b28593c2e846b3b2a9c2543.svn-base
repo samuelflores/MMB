@@ -1,0 +1,31 @@
+# To run this example, issue:
+# cp tRNA.pdb last.1.pdb
+# also make sure you have tRNA.xplor in the current directory.
+# And follow the tutorial guide!
+matchFast
+RNA V 5       CGCGGGAUGGAGCAGCCUGGUAGCUCGUCGGGCUCAUAACCCGAAGGUCGUCGGUCAAAUCCGGCCCCCGCAA
+mobilizer Rigid V 5 77
+
+removeRigidBodyMomentum false
+densityForceConstant 1.00
+densityFileName ./tRNA.xplor
+fitToDensity V
+
+initialSeparation 20 
+
+temperature 1
+numReportingIntervals 100
+
+reportingInterval 1    
+#reportingInterval  10.00
+
+
+
+firstStage 2    
+lastStage 2         
+
+
+
+
+
+

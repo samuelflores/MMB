@@ -34,6 +34,22 @@
 #include "DensityContainer.h"
 #include "ErrorManager.h"
 #include "MoleculeContainer.h"
+//#ifdef BuildNtC
+#include "NtC_Class_Container.h"
+#include "NTC_FORCE_CLASS.h"
+#include "NTC_PARAMETER_READER.h"
+//#endif
+
+
+// Here is where we define GetCurrentDir , an OS dependent function to retrieve the current working directory.
+#ifdef WINDOWS
+    #include <direct.h>
+    #define GetCurrentDir _getcwd
+#else
+    #include <unistd.h>
+    #define GetCurrentDir getcwd
+#endif
+
 //using std::cout;
 //using std::endl;
 
@@ -55,30 +71,42 @@ public:
     BasePairContainer basePairContainer;    
     map<const ChainResidueIndex, BasePairPartner,twoIndexCmp> basePairPartners;  
 
+       
     // variables previously declared and initialized in Repel.h:
-    bool addAllAtomSterics;
-    bool addAllHeavyAtomSterics;
-    bool addBackboneOxygenForces;
-    bool addProteinBackboneSterics;
-    bool addRNABackboneSterics;
-    bool addSelectedAtoms;          
-    bool addTestSpring;
-    bool applyC1pSprings;
-    int   calcBaseBodyFramesAtEveryTimeStep;
-    bool  calcEnergy      ;
+    bool   addAllAtomSterics;
+    bool   addAllHeavyAtomSterics;
+    bool   addBackboneOxygenForces;
+    bool   addProteinBackboneSterics;
+    bool   addRNABackboneSterics;
+    bool   addSelectedAtoms;          
+    bool   addTestSpring;
+    bool   alignmentForcesIsGapped;
+    double alignmentForcesGapPenalty;
+    double alignmentForcesDeadLengthFraction;
+    double alignmentForcesDeadLengthIsFractionOfInitialLength;
+    double alignmentForcesForceConstant;
+    bool   applyC1pSprings;
+    vector <BiopolymerModification> biopolymerModificationVector;
+    int    calcBaseBodyFramesAtEveryTimeStep;
+    bool   calcEnergy      ;
     double totalEnergy;
     double potentialEnergy;
     double kineticEnergy;
-    bool  checkSatisfied  ;
+    bool   checkSatisfied  ;
     //bool constrainRigidSegments;
     double constraintTolerance;
-    bool guessCoordinates;
+    InterfaceContainer contactInterfaceContainer;
+    bool   guessCoordinates;
     double cutoffRadius    ;
     double cutoffAngle     ;
     double densityAtomFraction;
+    double densityNoiseTemperature;
+    double densityNoiseScale  ;
     String densityFileName;
     String electroDensityFileName;
     double densityForceConstant;
+    bool   densityFitPhosphates; 
+    bool   densityNoiseComputeAutocorrelation; 
     double electroDensityForceConstant;
     //bool densityMapActivate;
     double excludedVolumeStiffness;
@@ -185,6 +213,7 @@ public:
     bool writeDoublePrecisionTrajectories;
     bool writeFrameFile  ;
     bool writeLastFrameFile  ;
+    String workingDirectory    ;
 
     bool detectConvergence;
     bool converged;
@@ -233,8 +262,15 @@ public:
     vector<double> globalVdwScaleFactorArray;
     vector<int> globalVdwScaleFactorPriority;*/
 
-    LeontisWesthofClass     _leontisWesthofClass;     	
-     
+    LeontisWesthofClass     _leontisWesthofClass;  
+    //#ifdef BuildNtC 
+    NTC_Classes             ntc_classes;
+    NTC_PAR_Class           ntc_par_class;
+    NTC_FORCE_Class         ntc_force_class;
+    NTC_Class_Container ntc_class_container;
+    //#endif
+    BiopolymerClass         mybiopolymerclass;
+    
     mutable map<const String,double> userVariables;
     DensityMap myDensityMap;
     DensityMap myElectroDensityMap;
@@ -247,13 +283,14 @@ public:
     MoleculeClassContainer   moleculeClassContainer;
     WaterDropletContainer waterDropletContainer;
 
+
     map<const String,String> proteinSequences;
     map<const String,String> coarseNucleicAcidSequences;
-        map<const String, int> numRigidSegments   ; // scf remove, phased out
+    map<const String, int> numRigidSegments   ; // scf remove, phased out
     map<const String,int>::iterator firstResidueNumbersIterator;
     //void addRingClosingBond(const String chainID, ResidueID residueID1, String atomName1,String bondCenterName1,  ResidueID residueID2, String atomName2,String bondCenterName2);
     void addC1pSprings (LeontisWesthofClass myLeontisWesthofClass);
-    void applyAtomSprings (SimbodyMatterSubsystem & matter, GeneralForceSubsystem & forces);
+    void applyAtomSprings (SimbodyMatterSubsystem & matter, GeneralForceSubsystem & forces, State & state);
     void configureDumm( DuMMForceFieldSubsystem & dumm);
     static double myAtoF(map<const String,double> myUserVariables,const char* value ); 
     static bool aToBool( const String& name, const char* value ); 
@@ -263,7 +300,6 @@ public:
     ContactContainer contactContainer;
     DensityContainer densityContainer;
     DensityContainer electroDensityContainer;
-
 
     vector<SingleBondMobility> singleBondMobilityVector;
     vector<BasePairPartner> basePairPartnerVector;
@@ -323,7 +359,7 @@ public:
     void initializeFromFileOnly(const char * parameterFileName = "./commands.dat" ) ;
     void setFirstAndLastStage(const char * parameterFileName = "./commands.dat" ) ;
 
-    void loadSequencesFromPdb(const char * pdbFileName);
+    void loadSequencesFromPdb(const char * pdbFileName, const string & chainsPrefix = "", const bool tempRenumberPdbResidues = 0 );
 
     //void printRigidSegments();
     // void printBasePairs();
@@ -335,13 +371,9 @@ public:
     void clearBiopolymers();
     void clearForces();
     void clearConstraints();
-    // void initializeDefaults ();
-    void initializeDefaults(const char * leontisWesthofInFileName = "./parameters.csv");
+    void initializeDefaults(const char * leontisWesthofInFileName = "./parameters.csv" );
 
     void initialize(const char * parameterFileName = "./commands.dat" ); 
-    //bool chainIsBiopolymer(String myChainId );
-    //bool chainIsMonoAtoms(String myChainId);
-    //int getChainIndex(String myChainId , vector<Biopolymer> & tempChain);
     MonoAtomsContainer myMonoAtomsContainer;
 
 private: 

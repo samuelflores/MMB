@@ -23,6 +23,9 @@
 #include "ParameterReader.h"
 #include "PeriodicPdbAndEnergyWriter.h"
 #include "BiopolymerClassTwoTransformForces.h"
+//#ifdef BuildNtC
+#include "NtCForces.h"
+//#endif
 #include "TetherForce.h"
 #include "Sterics.h" 
 #include "AddNASTForces.h"
@@ -164,8 +167,8 @@ public:
     /**
     * Initialize Biopolymers starting position
     */
-    void initializeBiopolymers();
-    void initializeBiopolymers(CompoundSystem & system);
+    int  initializeBiopolymersAndCustomMolecules();
+    int  initializeBiopolymersAndCustomMolecules(CompoundSystem & system);
 
     /**
     * Initialize one Biopolymer identified by its chain
@@ -179,9 +182,10 @@ public:
     */
     void initializeMoleculesAndBonds();
     void initializeMoleculesAndBonds(CompoundSystem & system, DuMMForceFieldSubsystem & dumm, SimbodyMatterSubsystem & matter);
-
+    #ifdef USE_OPENMM
     void setInterfaceMobilizers();
     void setInterfaceMobilizers(CompoundSystem & system, SimbodyMatterSubsystem & matter, State & state);
+    #endif
     void setMobilizers();
 
     /**

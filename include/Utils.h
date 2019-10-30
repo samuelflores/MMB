@@ -11,20 +11,48 @@
 #ifndef Utils_H_
 #define Utils_H_                 
 
-#include <string>
+//#include <string>
 #include <cstring>
 #include <fstream>
 #include <sstream>
 #include <ctype.h>
 
 #include "ExportMacros.h"
+#include <cstddef>
 #include "SimTKsimbody.h"
 #include "SimTKmolmodel.h"
 #include "ErrorManager.h"
 #include "RealVec.h"
+#include "ReferenceNeighborList.h"
+#include <seqan/align.h>
+
+#ifdef USE_OPENMM_REALVEC
+#pragma message ("using OpenMM::RealVec: USE_OPENMM_REALVEC defined")
+typedef OpenMM::RealVec openmmVecType ;
+#else 
+#pragma message ("using OpenMM::Vec3: USE_OPENMM_REALVEC NOT defined")
+typedef OpenMM::Vec3    openmmVecType ;
+#endif
 
 using namespace SimTK;
 using namespace std;  
+
+
+class CheckFile {
+private: 
+    String fileName;
+    struct stat st;
+public:
+    CheckFile(const String myFileName);
+    void validateNonZeroSize();
+    void validateExists();
+    //void validateReadable();
+};
+int myMkdir(std::string directoryPath);
+
+int myChdir(std::string directoryPath);
+
+void closingMessage() ;
 
 
           String intToString(int i) ;
@@ -32,18 +60,56 @@ using namespace std;
     // a recursive algorithm for reading an integer from a String.  This String may contain ints, user variables (begin with @), +, and -.  No whitespaces or additional characters should be in the String.
     int   myAtoI(  map<const String,double> myUserVariables,  const char* value);
 
-namespace {
+namespace { // unnamed namespace means it is translation unit local.
     const char* spaces = " \t";
     const char* digits = "0123456789";
 }
+
+
+
+std::string   trim(const std::string& str,
+                 const std::string& whitespace = " \t\n\r"
+                 );
+/*
+{ 
+    const auto strBegin = str.find_first_not_of(whitespace);
+    if (strBegin == std::string::npos)
+        return ""; // no content
+
+    const auto strEnd = str.find_last_not_of(whitespace);
+    const auto strRange = strEnd - strBegin + 1;
+
+    return str.substr(strBegin, strRange);
+    //return std::string ("hello");
+}
+*/
+
+bool vectorCompare(String myString, vector<String> & comparisonStringVector) ;
+
 
 // some functions to determine whether string is a number (http://www.tek-tips.com/viewthread.cfm?qid=1024751)
 int IntLen(const char* cstr);
 inline bool isInt(const char* cstr);
 inline bool isInt(const string& s);
-bool isNumber(const char* cstr);
+//bool isNumber(const char* cstr);
+bool isNumber(std::string     );
 
 bool isFixed (const String putativeFixedFloat) ; // This checks that the string represents a floating point number in fixed format .. no scientific notation or other stray characters.
+
+BondMobility::Mobility stringToBondMobility(const String bondMobilityString);
+
+/*BondMobility::Mobility stringToBondMobility(String bondMobilityString) {
+       String myBondMobilityString =   bondMobilityString.toUpper();
+       BondMobility::Mobility myBondMobility;
+       if ((myBondMobilityString).compare("RIGID") == 0)       	      {myBondMobility = SimTK::BondMobility::Rigid;}
+       else if ((myBondMobilityString).compare("TORSION") == 0)       {myBondMobility = SimTK::BondMobility::Torsion;}
+       else if ((myBondMobilityString).compare("DEFAULT") == 0)       {myBondMobility = SimTK::BondMobility::Default;}
+       else if ((myBondMobilityString).compare("FREE")  == 0)         {myBondMobility = SimTK::BondMobility::Free ;}
+       else {
+	   ErrorManager::instance <<__FILE__<<":"<<__LINE__                           <<" At this time only Default, Free,Torsion, and Rigid bondMobilities are supported. You are attempting to apply \""                           << myBondMobilityString <<"\". "<<std::endl;
+	   ErrorManager::instance.treatError();}
+       return myBondMobility;
+}*/
 
 class ConstraintFunction : public Function {
      Real calcValue(const Vector& x) const {
@@ -62,8 +128,9 @@ class ConstraintFunction : public Function {
      }   
 };
 
+
 class ResidueID {
-private:
+public:
     int ResidueNumber;
     char InsertionCode;
 public:
@@ -71,6 +138,7 @@ public:
     ResidueID() { ResidueNumber = 0;  InsertionCode = ' ' ;};
     ResidueID(int residueNumber, char insertionCode) { ResidueNumber = residueNumber; InsertionCode = insertionCode;};
     ResidueID( map<const String,double> myUserVariables,  const char* value) { // Allow the user to provide a user-configured variable, starting with '@'
+        std::cout<<__FILE__<<":"<<__LINE__<<""<<std::endl; 
         ResidueNumber = myAtoI( myUserVariables, value );
         InsertionCode = ' ';    
     }
@@ -179,7 +247,8 @@ public:
         {return true  ;}
         else {return false;}
     };
-
+    // Inequalities don't work , because we no longer require residue ID's to be monotonically increasing, especially wrt insertion codes.
+    
     bool operator > (const ResidueID &other) const {
     //...  // Compare the values, and return a bool result.
     if ((ResidueNumber > other.ResidueNumber) )
@@ -210,6 +279,28 @@ public:
 
 };
 
+class BiopolymerModification {
+private:
+    String    chainToModify;           // Biopolymer chain to be modified.
+    ResidueID residueToModify;         // Residue number of residue to be modified.
+    String    atomToModifyOnBiopolymer;// Side chain atom to which compound will be attached. Should have one free bond for this. 
+    String    freeBondOnBiopolymer;    // Free bond on biopolymer to which the compound will be attached
+    String    chainToAdd;           // Compound to add to the biopolymer. Should have one free bond.
+    String    atomOnAddedCompound;     // This is the atom on the added compound, which will receive a covalent bond from the biopolymer. expects a distinctive atom name, with no residue number, e.g. SG or 1HB.
+    String    freeBondOnAddedCompound; // This is the bond name (e.g. bond1, bond2, ..) on the atom on the added compound which will receive the covalent bond from the biopolymer. 
+public:
+    void setChainToModify (String myChainToModify) {chainToModify = myChainToModify; }   
+    void setResidueToModify (ResidueID myResidueToModify) {residueToModify = myResidueToModify; }   
+    void setAtomToModifyOnBiopolymer (String myAtomToModifyOnBiopolymer) {atomToModifyOnBiopolymer = myAtomToModifyOnBiopolymer; }   
+    void setFreeBondOnBiopolymer (String myFreeBondOnBiopolymer) {freeBondOnBiopolymer = myFreeBondOnBiopolymer; }   
+    void setChainToAdd (String   myChainToAdd) {chainToAdd = myChainToAdd; }   
+    void setAtomOnAddedCompound (String myAtomOnAddedCompound) {atomOnAddedCompound = myAtomOnAddedCompound; }   
+    void setFreeBondOnAddedCompound (String myFreeBondOnAddedCompound) {freeBondOnAddedCompound = myFreeBondOnAddedCompound; }   
+    String    getChainToModify ()      const {return chainToModify; }   
+    ResidueID getResidueToModify ()    const {return residueToModify; }   
+    String    getChainToAdd ()         const {return chainToAdd; }   
+    String    getAtomOnAddedCompound() const {return atomOnAddedCompound; }   
+};
 
 struct ChainResidueToGround {
     String chainID;
@@ -228,29 +319,39 @@ private:
     vector <String> stringVector;
     vector <String> getStringVector(){return stringVector;};
 public:
+    ParameterStringClass( const String & paramsLine ){
+        //std::cout<<__FILE__<<":"<<__LINE__<<" paramsLine prior to trimming : >"<<paramsLine<<"<"<<std::endl; 
+        //const String myNewParamsLine = myTrim( paramsLine);
+        //trim ( paramsLine);
+        //std::cout<<__FILE__<<":"<<__LINE__<<" paramsLine after trimming : >"<<paramsLine<<"<"<<std::endl; 
+        char * params = strdup( paramsLine.c_str() );
+        char * token = strtok( params, " \t\n\r" ); 
+
+        clear();
+        while( token ){
+            add( token );
+            token = strtok( NULL, " \t\n\r" ); 
+            //std::cout<<__FILE__<<":"<<__LINE__<<" Added token : >"<<token<<"< "<<std::endl;
+        }
+        free( params );
+    }
+
     void clear(){stringVector.clear();};
     int size() const {return stringVector.size();}
-    void ParameterString(){clear();};
 
    // ParameterStringClass(const ParameterStringClass&){}; // copy 
     //ParameterStringClass& operator=(const ParameterStringClass&){}; //  copy.
-    void print(){
-        //std::cout<<__FILE__<<":"<<__LINE__<<" ";
-        for (int i = 0 ; i < size(); i++){
-            std::cout<<" "<<stringVector[i];
-        };
-        //std::cout<<std::endl;
-    };
-    String getString() const {
-        std::stringstream ss;
-        for (int i = 0 ; i < size(); i++){
-            ss <<" "<<stringVector[i];
-        };
-
-        return ss.str();
+    void print() const;
+    String getString() const;
+    String getString(int stringIndex) const {
+        if ( stringIndex >= size() ) {
+            return "";
+        }
+        return stringVector[stringIndex];
     }
-    String getString(int stringIndex) const {return stringVector[stringIndex];};
-    void add(String tempString){stringVector.push_back(tempString); };
+    void add(String tempString){
+        stringVector.push_back(tempString); 
+    }
     void padStringVector(int numFields) {
         clear();
         for (int w = 0;w<numFields;w++) stringVector.push_back("");
@@ -317,6 +418,7 @@ struct BasePair   {
                Vec3   translationCorrection2;
                bool   basePairSatisfied     ;
                int    leontisWesthofBondRowIndex;
+               
     };
 
 struct BaseInteraction   {
@@ -336,51 +438,82 @@ struct BaseInteraction   {
                Vec3   translationCorrection2;
                bool   basePairSatisfied     ;
                int    leontisWesthofBondRowIndex;
+               
     };
 
+class     NTC_Classes {
+    public:
+    // NTC
+               String NtC_FirstBPChain;
+               ResidueID FirstBPResidue;
+               ResidueID SecondBPResidue;
+               String NtC_step_ID;
+               String NtC_Class_String; 
+               int    NtC_INDEX;
+               String NtC_atom_type1;
+               String NtC_atom_type2;
+               String NtC_atom_type3;
+               String NtC_atom_type4;
+               String Residue_shift_atom1;
+               String Residue_shift_atom2;
+               String Residue_shift_atom3;
+               String Residue_shift_atom4;
+               String NtC_dihedraltype;
+               double Confalparam;
+               Rotation rotationCorrection1 ;
+               Rotation rotationCorrection2 ;
+               Vec3   translationCorrection1;
+               Vec3   translationCorrection2;               
+               double Harmonic_pot_constant;
+               double Rotation_angle;
+               int    NTC_PAR_BondRowIndex;
+               double weight,weight2;
+               int    meta = 0;
+               int    count = 0;
+    void print(){
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Printing parameters for NtC:"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" NtC_FirstBPChain = >"<<NtC_FirstBPChain<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" FirstBPResidue = >"<<FirstBPResidue.outString()<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" SecondBPResidue = >"<<SecondBPResidue.outString()<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" NtC_step_ID = >"<<NtC_step_ID<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" NtC_Class_String = >"<<NtC_Class_String<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" NtC_INDEX = >"<<NtC_INDEX<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" rotationCorrection1 = >"<<rotationCorrection1<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" rotationCorrection2 = >"<<rotationCorrection2<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" translationCorrection1 = >"<<translationCorrection1<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" translationCorrection2 = >"<<translationCorrection2<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" NTC_PAR_BondRowIndex = >"<<NTC_PAR_BondRowIndex<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" meta = >"<<meta<<"<"<<std::endl;
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" count = >"<<count<<"<"<<std::endl;
+    }
+               
+};
+               
 struct IncludeIntraChainInterface {
                String Chain;
                double Depth;
 };
 
-struct MobilizerWithin {
-               String BondMobilityString           ;
-               String Chain          ;
-               ResidueID    Residue        ;
-               double Radius;
-};
 
-struct Interface {
+class Interface {
+    public:
                vector<String> Chains ;
                vector<String> PartnerChains ;
                double    Depth       ;
                String MobilizerString;
+               vector<String> getChains() {return Chains;};
+               vector<String> getPartnerChains() {return PartnerChains;};
+               double         getDepth() {return Depth;};
+               void print (){
+                   std::cout<<__FILE__<<":"<<__LINE__<<"For interface, printing reference chains : "<<std::endl;
+                   for (int i = 0; i < Chains.size(); i ++) {std::cout<<">"<<Chains[i]<<"<, "<<std::endl; };
+                   std::cout<<__FILE__<<":"<<__LINE__<<"Partner chains : "<<std::endl;
+                   for (int i = 0; i < Chains.size(); i ++) {std::cout<<">"<<PartnerChains[i]<<"<, "<<std::endl; };
+                   std::cout<<__FILE__<<":"<<__LINE__<<"Depth : "<<Depth<<std::endl;
+               }; 
                
 };
 
-class InterfaceContainer    { 
-    private:
-        vector <Interface> interfaceVector;
-     public:
-	void clear() {interfaceVector.clear() ;};
-	InterfaceContainer() {clear() ;};
-        //Interface getInterface(int interfaceIndex) {return interfaceVector[interfaceIndex];};
-        vector<String> getChains(int interfaceIndex) {return getInterface(interfaceIndex).Chains;};
-        double getDepth(int interfaceIndex) {return interfaceVector[interfaceIndex].Depth;};
-        String getMobilizerString(int interfaceIndex) {return interfaceVector[interfaceIndex].MobilizerString;};
-        void addInterface(String myChain, double myDepth ,  String myMobilizerString = "NONE")
-            {Interface myInterface; myInterface.Chains.push_back( myChain);  myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
-        void addInterface(vector<String> myChains, double myDepth ,  String myMobilizerString = "NONE"){Interface myInterface; 
-                        myInterface.Chains.clear(); myInterface.PartnerChains.clear();
-            for (int i = 0; i < myChains.size(); i++) {myInterface.Chains.push_back( myChains[i]);}  myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
-        void addInterface(vector<String> myChains,vector<String> partnerChains,  double myDepth ,  String myMobilizerString = "NONE"){Interface myInterface; 
-                        myInterface.Chains.clear(); myInterface.PartnerChains.clear();
-            for (int i = 0; i < myChains.size(); i++) {myInterface.Chains.push_back( myChains[i]);}  
-            for (int i = 0; i < partnerChains.size(); i++) {myInterface.PartnerChains.push_back( partnerChains[i]);}  
-                        myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
-        Interface getInterface(int interfaceIndex) {return  interfaceVector[interfaceIndex];};
-        int numInterfaces() {return interfaceVector.size();};
-};
 /*
 
 struct MobilizerInterface {
@@ -425,6 +558,8 @@ class ResidueStretch   {
                 ResidueID getEndResidue()const {return endResidue;};
                 void setChain(SimTK::String myChain) {chain = myChain;};
                 void setStartResidue(ResidueID myStartResidue) {startResidue = myStartResidue;};
+                void setStartResidueNumber(int myStartResidueNumber){startResidue.setResidueNumber(myStartResidueNumber); }
+                void setEndResidueNumber  (int myEndResidueNumber)  {  endResidue.setResidueNumber(  myEndResidueNumber); }
                 void setEndResidue(ResidueID myEndResidue){endResidue = myEndResidue;};
                 bool sameParameters(ResidueStretch myResidueStretch) { // compares all parameters except startResidue and startResidue, returns False if any differ.  This should be overridden by daughter classes, particularly if they have additional parameters which may differ.
                     if (getChain().compare(myResidueStretch.getChain() ) == 0 ) return true;
@@ -453,6 +588,8 @@ class ResidueStretch   {
             {return true;}
             else return false;
         }
+        // Will need to replace these obsolete operators (ResidueID does not take inequalities any more) with new error traps
+        
         bool operator > (ResidueStretch & a){
             if (this->startResidue > this->endResidue) {
 	       ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The current residue stretch has a start residue : "<<this->startResidue.outString()<< " which is greater than its end residue: "<<this->endResidue.outString()<<std::endl;
@@ -495,13 +632,14 @@ class ResidueStretch   {
         }
     };
 
-class  SingleResidue : public ResidueStretch  {
+class SingleResidue : public ResidueStretch  {
         public:
                 ResidueID getEndResidue(){  ErrorManager::instance <<__FILE__<<":"<<__LINE__<< " getEndResidue() is not compatible with SingleResidue! "<<std::endl; ErrorManager::instance.treatError(); return ResidueID(-1111,' ');}
-                const ResidueID  getResidue() const // The second const promises that the method will not change 'this' object
+                ResidueID  getResidue() const // The second const promises that the method will not change 'this' object
                     { return getStartResidue();} 
                 //void setStartResidue(ResidueID myResidue) {startResidue = myResidue; endResidue = myResidue;};
                 void setResidue(ResidueID myResidue) {setStartResidue ( myResidue);setEndResidue ( myResidue); }; // This sets both startResidue and endResidue to myResidue, even though endResidue will never be retrieved.
+                void setResidueNumber(int       myResidueNumber) {   setStartResidueNumber ( myResidueNumber);   setEndResidueNumber ( myResidueNumber); }; // This sets both startResidue and endResidue to myResidue, even though endResidue will never be retrieved.
                 void printStretch() {std::cout<<__FILE__<<":"<<__LINE__<<"Stretch chain ="<<getChain()<<", first (and only) residue ="<<getStartResidue().outString()<<std::endl;  };
 		bool operator == (SingleResidue & a){ // operators appear not to be inherited, perhaps related to inability to access private members of ResidueStretch
 		    if ((this->getResidue() == a.getResidue() ) &&
@@ -515,7 +653,16 @@ class  SingleResidue : public ResidueStretch  {
 		    {return true;}
 		    else return false;
 		}
+                
+		bool operator != (const SingleResidue & a) const { // operators appear not to be inherited, perhaps related to inability to access private members of ResidueStretch
+		    if ((this->getResidue() == a.getResidue() ) &&
+			(this->getChain().compare(a.getChain()) == 0 ) )
+		    {return false;}
+		    else return true;
+		}
     };
+
+
 
 class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
         private:
@@ -525,7 +672,7 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                SimTK::BondMobility::Mobility getBondMobility() const {
                    return BondMobility;
                };
-               SimTK::BondMobility::Mobility setBondMobility(SimTK::String myBondMobilityString) {
+               SimTK::BondMobility::Mobility setBondMobility(SimTK::String myBondMobilityString) { /*
                    BondMobilityString = myBondMobilityString;
                    if ((myBondMobilityString).compare("Rigid") == 0)       {BondMobility = SimTK::BondMobility::Rigid;}
                    else if ((myBondMobilityString).compare("Torsion") == 0)       {BondMobility = SimTK::BondMobility::Torsion;}
@@ -533,7 +680,17 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                    else if ((myBondMobilityString).compare("Free")  == 0)  {BondMobility = SimTK::BondMobility::Free ;}
                    else {
                        ErrorManager::instance <<__FILE__<<":"<<__LINE__                           <<" At this time only Default, Free,Torsion, and Rigid bondMobilities are supported. You are attempting to apply \""                           << myBondMobilityString <<"\". "<<std::endl;
-                       ErrorManager::instance.treatError();}
+                       ErrorManager::instance.treatError();} */
+                   std::cout<<__FILE__<<":"<<__LINE__<<" About to set BondMobility to >"<<myBondMobilityString<<"< "<<std::endl;
+                   BondMobilityString = myBondMobilityString;
+                   BondMobility = stringToBondMobility(myBondMobilityString);
+         
+                   /*std::cout<<__FILE__<<":"<<__LINE__<<" stringToBondMobility(myBondMobilityString) : >"<<stringToBondMobility(myBondMobilityString)<<"< "<< std::endl;
+                   std::cout<<__FILE__<<":"<<__LINE__<<" BondMobility: >"<<BondMobility <<"< "<< std::endl;
+                   std::cout<<__FILE__<<":"<<__LINE__<<" Done. getBondMobilityString() : >"<<getBondMobilityString()<< "< "<<std::endl;
+                   std::cout<<__FILE__<<":"<<__LINE__<<" getBondMobility() >"<<getBondMobility()<<"<"<<std::endl;
+                   std::cout<<__FILE__<<":"<<__LINE__<<" Done. getBondMobilityString() : >"<<getBondMobilityString()<< "< getBondMobility() >"<<getBondMobilityString()<<"<"<<std::endl;
+                   */
                    return BondMobility;
                };
                MobilizerStretch(){setStartResidue ( ResidueID()); setEndResidue ( ResidueID()); setChain ( ""); setBondMobility ("Default");};
@@ -568,7 +725,10 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                     return BondMobilityString;
                 };
 
-
+        void print(){
+            std::cout<<__FILE__<<":"<<__LINE__<<" Printing MobilizerStretch. getBondMobilityString() : >"<<getBondMobilityString()<< "< getBondMobility() >"<<getBondMobilityString()<<"<"<<std::endl;
+            printStretch();
+        } 
 
     };
 
@@ -601,24 +761,16 @@ class MMB_EXPORT AllResiduesWithin: public  SingleResidue {
        };
        void setRadius(double myRadius) {radius = myRadius;}
        double getRadius() const {return radius;}
-           void print () { std::cout<<__FILE__<<":"<<__LINE__<<" chain, residue, radius = "<<getChain()<<", "<<getResidue().outString()<<", "<<radius<<std::endl;};
+        void print () const { std::cout<<__FILE__<<":"<<__LINE__<<" I am an AllResiduesWithin object. chain, residue, radius = "<<getChain()<<", "<<getResidue().outString()<<", "<<getRadius()<<std::endl;};
 
-    /*bool operator==(const IncludeAllNonBondAtomsInResidue &other) const {
-        // Compare the values, and return a bool result.
-        return chain == other.getChain() && residue == other.getStartResidue();
-    };*/
-	/*bool operator == (const SingleResidue & a){ // operators appear not to be inherited, perhaps related to inability to access private members of ResidueStretch
-	    if ((this->getResidue() == a.getResidue() ) &&
-		(this->getChain().compare(a.getChain()) == 0 ) )
-	    {return true;}
-	    else return false;
-	}
-	bool operator == (const AllResiduesWithin & a){ // operators appear not to be inherited, perhaps related to inability to access private members of ResidueStretch
-	    if ((this->getResidue() == a.getResidue() ) &&
-		(this->getChain().compare(a.getChain()) == 0 ) )
-	    {return true;}
-	    else return false;
-	}*/
+};
+
+class MobilizerWithin: public AllResiduesWithin {
+    private:   
+               String BondMobilityString           ;
+    public:
+        void   setBondMobilityString(String myBondMobilityString){BondMobilityString = myBondMobilityString;}
+        String getBondMobilityString(){return BondMobilityString;}
 };
 
 struct MobilizerDomainsInterface {
@@ -639,10 +791,11 @@ class TwoAtomClass       {
                ResidueID    residueID2        ;
                String chain2;
                String atomName2;
+               double distance;
     public:
     TwoAtomClass(){
         chain1 = ""; residueID1 = ResidueID(); atomName1 = ""; 
-        chain2 = ""; residueID2 = ResidueID(); atomName2 = ""; };
+        chain2 = ""; residueID2 = ResidueID(); atomName2 = ""; distance = -1111;};
     TwoAtomClass(String myChain, ResidueID inputResidueID,String myAtomName) {
         residueID1 = (inputResidueID);
         atomName1 = myAtomName;
@@ -650,8 +803,9 @@ class TwoAtomClass       {
         residueID2 = ResidueID();
         atomName2 = "" ;        
         chain2 = "";
+        distance = -1111;
     };
-    TwoAtomClass(String myChain, ResidueID inputResidueID,String myAtomName,String myChain2, ResidueID inputResidueID2,String myAtomName2) {
+    TwoAtomClass(String myChain, ResidueID inputResidueID,String myAtomName,String myChain2, ResidueID inputResidueID2,String myAtomName2, double myDistance = -1111) {
         residueID1 = (inputResidueID);
         //residueID1.setInsertionCode ( residueID1.getInsertionCode());
         atomName1 = myAtomName;
@@ -659,6 +813,7 @@ class TwoAtomClass       {
         residueID2 = (inputResidueID2);
         atomName2 = myAtomName2;
         chain2 = myChain2;
+        distance = myDistance;
     };
     void  setChain1(String myChain) {chain1     = myChain;}
     void  setResidueID1(ResidueID myResidueID) {residueID1 = myResidueID;}
@@ -673,14 +828,16 @@ class TwoAtomClass       {
     const ResidueID getResidueID2() const {return residueID2;};
     const String getAtomName2() const {return atomName2;};
     const String getChain2() const {return chain2;};
+    const double getDistance() const {return distance;}
     void  print() const {
         std::cout<<__FILE__<<":"<<__LINE__   // to here is fine
-          <<" : Chain ID : "      <<getChain1()
-          <<" Residue    ID: "    <<getResidueID1().outString()
-          <<" atom name : "       <<getAtomName1()
-          <<" : Chain ID2 : "     <<getChain2()
-          <<" Residue    ID2: "   <<getResidueID2().outString()
-          <<" atom name2 : "      <<getAtomName2()
+          <<" : Chain ID 1 : "      <<getChain1()
+          <<" Residue    ID 1 : "    <<getResidueID1().outString()
+          <<" atom name 1 : "       <<getAtomName1()
+          <<" : Chain ID 2 : "     <<getChain2()
+          <<" Residue ID 2: "   <<getResidueID2().outString()
+          <<" atom name 2 : "      <<getAtomName2()
+          <<" distance : " <<getDistance()
           <<endl;
     };
     };
@@ -808,18 +965,25 @@ struct ContactWithin {
     }; 
 };
 
+//struct AtomSpecification {
+//  String chainID;
+//  ResidueID residueID;
+
 struct AtomSpring {
-       String atom1Name             ;
-       String atom2Name             ;
+       String  atom1Name             ;
+       String  atom2Name             ;
        ResidueID    atom1Residue          ;
        ResidueID    atom2Residue          ;
-       String atom1Chain;
-       String atom2Chain;
-       bool toGround;
-       bool tether;
-       Vec3   groundLocation;
+       String  atom1Chain;
+       String  atom2Chain;
+       bool    toGround;
+       bool    tether;
+       Vec3    groundLocation;
+       //AtomSpecification AtomLocationInGround; // This is the chain ID, residue number, and name of an atom. Once the system has been realized to the position stage, we will be able to query that atom and put its location in groundLocation.
        double  forceConstant ;
        double  deadLength    ;
+       bool    deadLengthIsFractionOfInitialLength; 
+       double  deadLengthFraction;
 
        AtomSpring(String chain1, ResidueID res1, String name1,
                   String chain2, ResidueID res2, String name2,
@@ -873,8 +1037,178 @@ struct WaterDropletAboutResidueStruct {
     double radius;
     double tetherStrength;
 };
+/*
+class BiopolymerClass;
+String BiopolymerClass::getChainID();
+String BiopolymerClass::getSubSequence(ResidueID, ResidueID );
+ResidueID BiopolymerClass::sum (ResidueID, int);
+vector<ResidueID> BiopolymerClass::sort(vector<ResidueID>);
+String BiopolymerClass::getSequence(vector<ResidueID>);
+const   ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID);
+class MMB_EXPORT  BiopolymerClass {
+public:
+    String getChainID();
+    String getSubSequence(ResidueID, ResidueID );
+    ResidueID sum (ResidueID, int);
+    vector<ResidueID> sort(vector<ResidueID>);
+    String getSequence(vector<ResidueID>);
+    const   ResidueInfo::Index getResidueIndex(ResidueID);
+};
+*/
+/*
+typedef char TChar;                             // character type
+typedef seqan::String<TChar> TSequence;                // sequence type
+typedef seqan::Align<TSequence, seqan::ArrayGaps> TAlign;  
 
-struct ThreadingStruct {
+struct ThreadingPartner {
+    BiopolymerClass * biopolymerClass;
+    vector <ResidueID> includedResidues;
+    ResidueID startResidue;
+    ResidueID endResidue;
+    TSequence sequence;
+};
+class ThreadingStruct {
+   private:
+       ThreadingPartner threadingPartners[2];
+       seqan::AlignmentStats alignmentStats;
+       TAlign align;
+       bool alignHasBeenComputed;
+    public:
+        // This method is not needed. just use updThreadingPartner.
+        //void setThreadingPartner (ThreadingPartner myThreadingPartner, int index){threadingPartners[index] =  myThreadingPartner;}
+        ThreadingPartner & updThreadingPartner (int index){return threadingPartners[index];}
+        std::string getChain(int index){return threadingPartners[index].biopolymerClass->getChainID();};
+        double forceConstant;
+        bool backboneOnly;
+        bool isGapped; //if False, then alignment is being provided explicitly. if True, precise alignment will be determined by MMB/SeqAn
+        bool deadLengthIsFractionOfInitialLength; //If True, then dead length of each spring will be set to deadLengthFraction * <initial spring extension>. It makes sense that 1 > deadLengthFraction > 0.
+        double deadLengthFraction;
+        seqan::AlignmentStats getAlignmentStats(){return alignmentStats;}
+        void   setAlignmentStats(seqan::AlignmentStats myAlignmentStats){ alignmentStats = myAlignmentStats;}
+
+        // align, alignmentStats should be empty, undefined, or garbage unless and until this method is called:
+        void setLongSequences(){
+            threadingPartners[0].sequence = threadingPartners[0].biopolymerClass->getSubSequence(threadingPartners[0].startResidue , threadingPartners[0].endResidue );
+            threadingPartners[1].sequence = threadingPartners[1].biopolymerClass->getSubSequence(threadingPartners[1].startResidue , threadingPartners[1].endResidue );
+            computeAlign(); // Just to make sure align is in sync with the new sequences
+        }
+
+        void sortIncludedResidues(){
+            threadingPartners[0].includedResidues = threadingPartners[0].biopolymerClass->sort(threadingPartners[0].includedResidues);
+            threadingPartners[1].includedResidues = threadingPartners[1].biopolymerClass->sort(threadingPartners[1].includedResidues);
+        }
+    bool hasResidue( ResidueID residue , int biopolymerIndex ){
+        for (int i = 0; i < threadingPartners[biopolymerIndex].includedResidues.size() ;  i++){
+            if  (  threadingPartners[biopolymerIndex].includedResidues[i] == residue) return 1;
+        }
+        return 0;
+    }
+
+    void supplementIncludedResidues(int fromBiopolymer, int toBiopolymer){
+	for (int i = 0; i < threadingPartners[fromBiopolymer].includedResidues.size() ;  i++){
+	    ResidueID correspondingResidue;
+	    if (!( getCorrespondingResidue(threadingPartners[fromBiopolymer].includedResidues[i], correspondingResidue, fromBiopolymer, toBiopolymer) )) // returns 0 if successful
+	    {
+		if (!(hasResidue(  correspondingResidue , toBiopolymer ) )){
+		    threadingPartners[toBiopolymer].includedResidues.push_back(correspondingResidue);
+		}  // of if
+	    } // of if
+	}  // of for
+    } // of method
+
+    void supplementIncludedResidues(){
+	supplementIncludedResidues(0,1);
+	supplementIncludedResidues(1,0);
+    } // of method
+
+    void setShortSequences(){
+	sortIncludedResidues();
+	threadingPartners[0].sequence = threadingPartners[0].biopolymerClass->getSequence(threadingPartners[0].includedResidues);
+	threadingPartners[1].sequence = threadingPartners[1].biopolymerClass->getSequence(threadingPartners[1].includedResidues);
+	computeAlign(); // Just to make sure align is in sync with the new sequences
+    }
+
+     void computeAlign(){
+	seqan::resize(rows(align), 2);
+	assignSource(row(align,0),threadingPartners[0].sequence);
+	assignSource(row(align,1),threadingPartners[1].sequence);
+	seqan::Blosum62 scoringScheme(-1, -12);
+	int score = globalAlignment(align,scoringScheme ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
+	//"62" means matrix was constructed with max 62% seq. identity alignment.
+	std::cout <<__FILE__<<":"<<__LINE__<< "Score: " << score << ::std::endl;
+	std::cout <<__FILE__<<":"<<__LINE__<< align << ::std::endl;
+	computeAlignmentStats(alignmentStats, align, scoringScheme);
+	printAlignmentStats();
+	alignHasBeenComputed = 1;
+    }
+
+    // return 0 for success, 1 for failure
+    bool getCorrespondingResidue(const ResidueID queryResidue, ResidueID & correspondingResidue, const int queryBiopolymerIndex, const int correspondingBiopolymerIndex){
+	if (!( queryBiopolymerIndex ^ correspondingBiopolymerIndex )){std::cout <<__FILE__<<":"<<__LINE__<< " queryBiopolymerIndex and  correspondingBiopolymerIndex must be set to 0,1 or 1,0. You have   "<< queryBiopolymerIndex <<" , " << correspondingBiopolymerIndex <<std::endl; exit(1);}
+	if (( queryBiopolymerIndex > 1) ||  ( queryBiopolymerIndex < 0) ){std::cout <<__FILE__<<":"<<__LINE__<< " queryBiopolymerIndex =  "<< queryBiopolymerIndex <<" is out of range. Expected 0 or 1. "  <<std::endl; exit(1);}
+	if (( correspondingBiopolymerIndex > 1) ||  ( correspondingBiopolymerIndex < 0) ){std::cout <<__FILE__<<":"<<__LINE__<< " correspondingBiopolymerIndex =  "<< correspondingBiopolymerIndex <<" is out of range. Expected 0 or 1. "  <<std::endl; exit(1);}
+	if (!(alignHasBeenComputed)) {std::cout <<__FILE__<<":"<<__LINE__<< " alignHasBeenComputed = "<< alignHasBeenComputed <<std::endl; exit(1);}
+	int querySourceIndex = threadingPartners[queryBiopolymerIndex].biopolymerClass->getResidueIndex(queryResidue) -  threadingPartners[queryBiopolymerIndex].biopolymerClass->getResidueIndex(threadingPartners[queryBiopolymerIndex].startResidue);
+	 int viewIndex = toViewPosition(row(align, queryBiopolymerIndex),querySourceIndex);
+	 int correspondingSourceIndex =  toSourcePosition(row(align,correspondingBiopolymerIndex ) ,viewIndex);
+	 if (String(seqan::row (align,correspondingBiopolymerIndex )[viewIndex]) == ("-")   ){
+	     std::cout <<__FILE__<<":"<<__LINE__<< " queryResidue = "<<queryResidue.outString()<< " of queryBiopolymerIndex "<<queryBiopolymerIndex<< " with chain ID "<<   threadingPartners[queryBiopolymerIndex].biopolymerClass->getChainID() << " is an insertion with respect to correspondingBiopolymerIndex. Unable to set correspondingResidue "  <<std::endl;
+	     return 1;
+	 }
+	 correspondingResidue =  threadingPartners[correspondingBiopolymerIndex].biopolymerClass->sum( threadingPartners[correspondingBiopolymerIndex].startResidue, correspondingSourceIndex);
+	 return 0;
+     }; // of method
+
+     const void printAlignmentStats(){
+         std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
+         std::cout << align
+               << "score:               " << alignmentStats.alignmentScore << "\n"
+               << "gap opens:           " << alignmentStats.numGapOpens << "\n"
+               << "gap extensions:      " << alignmentStats.numGapExtensions << "\n"
+               << "num insertions:      " << alignmentStats.numInsertions << "\n"
+               << "num deletions:       " << alignmentStats.numDeletions << "\n"
+               << "num matches:         " << alignmentStats.numMatches << "\n"
+               << "num mismatches:      " << alignmentStats.numMismatches << "\n"
+               << "num positive scores: " << alignmentStats.numPositiveScores << "\n"
+               << "num negative scores: " << alignmentStats.numNegativeScores << "\n"
+               << "percent similarity:  " << alignmentStats.alignmentSimilarity << "\n"
+               << "percent identity:    " << alignmentStats.alignmentIdentity << "\n\n\n";
+         std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
+     }
+
+
+    ThreadingStruct(BiopolymerClass * biopolymerClass0, ResidueID resStart0, ResidueID resEnd0,
+                 BiopolymerClass * biopolymerClass1, ResidueID resStart1, ResidueID resEnd1,
+                 double forceConstant, bool backboneOnly
+                 ) //:
+
+        //residueStart0(resStart0), residueEnd0(resEnd0),
+                     //residueStart1(resStart1), residueEnd1(resEnd1),
+                     //forceConstant(forceConstant), backboneOnly(backboneOnly)
+        {   
+            updThreadingPartner(0).biopolymerClass = biopolymerClass0; 
+            updThreadingPartner(1).biopolymerClass = biopolymerClass1; 
+            updThreadingPartner(0).includedResidues.clear();
+            //chain1ResiduesIncluded.clear(); 
+            alignHasBeenComputed = 0; 
+            threadingPartners[0].sequence = ""; threadingPartners[1].sequence = "";}
+
+            // This constructor has to change because we are getting rido of chainID's. Also, usage in MMB has to change.
+     ThreadingStruct() 
+                         {
+                         alignHasBeenComputed = 0;
+                         threadingPartners[0].includedResidues.clear(); threadingPartners[1].includedResidues.clear();
+                         threadingPartners[0].sequence = ""; threadingPartners[1].sequence = "";}
+}; // of class
+*/
+
+
+/*
+class ThreadingStructOld {
+  private:
+    seqan::AlignmentStats alignmentStats;
+    vector <ResidueID> chain1ResiduesIncluded;
+  public:
     String chainID1;
     ResidueID residueStart1;
     ResidueID residueEnd1;
@@ -883,22 +1217,44 @@ struct ThreadingStruct {
     ResidueID residueEnd2;
     double forceConstant;
     bool backboneOnly;
+    bool isGapped; //if False, then alignment is being provided explicitly. if True, precise alignment will be determined by MMB/SeqAn
+    bool deadLengthIsFractionOfInitialLength; //If True, then dead length of each spring will be set to deadLengthFraction * <initial spring extension>. It makes sense that 1 > deadLengthFraction > 0.
+    double deadLengthFraction;
+    double gapPenalty;
+    seqan::AlignmentStats getAlignmentStats(){return alignmentStats;}
+    void   setAlignmentStats(seqan::AlignmentStats myAlignmentStats){ alignmentStats = myAlignmentStats;}
+    const void printAlignmentStats(){
+        std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
+        std::cout << align
+              << "score:               " << alignmentStats.alignmentScore << "\n"
+              << "gap opens:           " << alignmentStats.numGapOpens << "\n"
+              << "gap extensions:      " << alignmentStats.numGapExtensions << "\n"
+              << "num insertions:      " << alignmentStats.numInsertions << "\n"
+              << "num deletions:       " << alignmentStats.numDeletions << "\n"
+              << "num matches:         " << alignmentStats.numMatches << "\n"
+              << "num mismatches:      " << alignmentStats.numMismatches << "\n"
+              << "num positive scores: " << alignmentStats.numPositiveScores << "\n"
+              << "num negative scores: " << alignmentStats.numNegativeScores << "\n"
+              << "percent similarity:  " << alignmentStats.alignmentSimilarity << "\n"
+              << "percent identity:    " << alignmentStats.alignmentIdentity << "\n\n\n";    
+        std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
+    }
 
-    ThreadingStruct(String chain1, ResidueID resStart1, ResidueID resEnd1,
+    ThreadingStructOld(String chain1, ResidueID resStart1, ResidueID resEnd1,
                     String chain2, ResidueID resStart2, ResidueID resEnd2,
                     double forceConstant, bool backboneOnly
                     ) :
                     chainID1(chain1), residueStart1(resStart1), residueEnd1(resEnd1),
                     chainID2(chain2), residueStart2(resStart2), residueEnd2(resEnd2),
                     forceConstant(forceConstant), backboneOnly(backboneOnly)
-    { 
+    {   chain1ResiduesIncluded.clear();            
     }
 
-    ThreadingStruct() : chainID1(" "), residueStart1(ResidueID()), residueEnd1(ResidueID()),
+    ThreadingStructOld() : chainID1(" "), residueStart1(ResidueID()), residueEnd1(ResidueID()),
                         chainID2(" "), residueStart2(ResidueID()), residueEnd2(ResidueID()),
                         forceConstant(0.0), backboneOnly(false)
-                        {}
-};
+                        {chain1ResiduesIncluded.clear(); }
+};*/
 
 class  MMBAtomInfo {
     public:
@@ -908,13 +1264,33 @@ class  MMBAtomInfo {
         String atomName;
         double  mass;
         int  atomicNumber;
-        OpenMM::RealVec position;
+        openmmVecType position;
         ResidueID residueID;
+        ResidueInfo::Index  residueIndex;
         String chain;
         double partialCharge;
         std::vector<MMBAtomInfo*> neighbors;
         //ChargedAtomType chargedAtomType;
+        void setAtomName(const String myAtomName ){ atomName = myAtomName;}
+        String getAtomName( ){ return atomName ;}
+        void setResidueID(const ResidueID myResidueID ){ residueID = myResidueID;}
+        void setChain(const String myChain ){ chain = myChain;}
+        String getChain( ){ return chain ;}
+        ResidueInfo::Index getResidueIndex( ){ return  residueIndex;}
+        void setResidueIndex(ResidueInfo::Index  myResidueIndex ){ residueIndex = myResidueIndex;}
         MMBAtomInfo(){};
+        MMBAtomInfo(String myChain,  ResidueID myResidueID, String myAtomName ){
+            setChain(myChain); 
+            setResidueID ( myResidueID); 
+            setAtomName ( myAtomName);
+        };
+        MMBAtomInfo(String myChain,  ResidueID myResidueID, ResidueInfo::Index  myResidueIndex, String myAtomName ){
+            setChain(myChain); 
+            setResidueID ( myResidueID); 
+            setResidueIndex (myResidueIndex);
+            setAtomName ( myAtomName);
+            
+        };
         bool operator == (MMBAtomInfo & a){
         if (this->compoundAtomIndex == a.compoundAtomIndex ) {return true;}
         else return false;
@@ -949,6 +1325,44 @@ class  MMBAtomInfo {
         }
 };
 
+
+
+
+/*class MMB_EXPORT BiopolymerClassContainer{
+    public:
+	vector<MMBAtomInfo> getConcatenatedAtomInfoVector(const State & state,bool activeChainsOnly=false);
+	vector<MMBAtomInfo> getConcatenatedAtomInfoVector(bool activeChainsOnly=false);
+};*/
+
+class InterfaceContainer    { 
+    private:
+        vector <Interface> interfaceVector;
+     public:
+	void clear() {interfaceVector.clear() ;};
+	InterfaceContainer() {clear() ;};
+        //Interface getInterface(int interfaceIndex) {return interfaceVector[interfaceIndex];};
+        vector<String> getChains(int interfaceIndex) {return getInterface(interfaceIndex).Chains;};
+        vector<String> getPartnerChains(int interfaceIndex) {return getInterface(interfaceIndex).PartnerChains;};
+        double getDepth(int interfaceIndex) {return interfaceVector[interfaceIndex].Depth;};
+        String getMobilizerString(int interfaceIndex) {return interfaceVector[interfaceIndex].MobilizerString;};
+        void addInterface(String myChain, double myDepth ,  String myMobilizerString = "NONE")
+            {Interface myInterface; myInterface.Chains.push_back( myChain);  myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
+        void addInterface(vector<String> myChains, double myDepth = 0.0 ,  String myMobilizerString = "NONE"){Interface myInterface; 
+                        myInterface.Chains.clear(); myInterface.PartnerChains.clear();
+            for (int i = 0; i < myChains.size(); i++) {myInterface.Chains.push_back( myChains[i]);}  myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
+        void addInterface(vector<String> myChains,vector<String> partnerChains,  double myDepth ,  String myMobilizerString = "NONE");
+        #ifdef USE_OPENMM
+        vector<TwoAtomClass> retrieveCloseContactPairs(vector<MMBAtomInfo> & concatenatedAtomInfoVector );
+        #endif
+        Interface getInterface(int interfaceIndex) {return  interfaceVector[interfaceIndex];};
+        int numInterfaces() {return interfaceVector.size();};
+        void print(){
+            for (int i = 0 ; i < numInterfaces(); i++){
+                 getInterface(i).print();
+            } 
+        };
+};
+
 namespace BiopolymerType {
     enum BiopolymerTypeEnum {
         RNA,
@@ -963,9 +1377,9 @@ namespace BiopolymerType {
 Vec3 ValidateVec3(const Vec3 myVec3);
 int ValidateNonNegativeInt (const int myInt);
 int ValidateInt (const int myInt);
-Real ValidateNonNegativeReal(const Real myReal) ;
+double ValidateNonNegativeDouble(const double myDouble) ;
 double DoubleFromStringNoSymbols(const String inString);
-Real ValidateReal(const Real myReal) ;
+double ValidateDouble(const double myDouble) ;
 Real DotProduct(const Vec3 vecA, const Vec3 vecB);
 vector<String> readAndParseLine   (ifstream & inFile );
 String removeAllWhite (String &str);

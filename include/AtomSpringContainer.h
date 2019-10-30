@@ -12,8 +12,15 @@
 #define AtomSpringContainer_H_
 
 #include "Utils.h"
+#include "Threading.h"
+#include <seqan/align.h>
+//#include <Superpose.h>
+
+
 
 class BiopolymerClassContainer;
+typedef seqan::String<char> TSequence;                 // sequence type
+typedef seqan::Align<TSequence,seqan::ArrayGaps> TAlign;
 
 class MMB_EXPORT AtomSpringContainer {
 private:
@@ -23,9 +30,11 @@ private:
 public:
         void clear();
         AtomSpringContainer() {clear(); };
-        void printAtomSpring(const AtomSpring   atomSpring);
-        void printAtomSpring(int atomSpringIndex);   
-        void printAtomSprings();   
+        double calcRmsd      (State & state, BiopolymerClassContainer & biopolymerClassContainer);
+        float  calcKabschRmsd(State & state, BiopolymerClassContainer & biopolymerClassContainer);
+        void printAtomSpring  (const AtomSpring   atomSpring);
+        void printAtomSpring  (int atomSpringIndex);   
+        void printAtomSprings ();   
         void validateAtomSpring(const AtomSpring & atomSpring );// ,   BiopolymerClassContainer & myBiopolymerContainer);
         void validateAtomSpring(const AtomSpring & atomSpring,   BiopolymerClassContainer & myBiopolymerContainer);
         AtomSpring & initializeAtomSpring(AtomSpring & atomSpring);
@@ -39,7 +48,7 @@ public:
         void updateAtomSpring(const int atomSpringIndex, const AtomSpring & newSpring, BiopolymerClassContainer & myBiopolymerClassContainer);
 
         void clearThreading();
-        const std::vector<ThreadingStruct> & getThreadingVector() { return threadingStructVector; }
+        std::vector<ThreadingStruct> & getThreadingVector() { return threadingStructVector; }
         void validateThreading(const ThreadingStruct & threadingStruct, BiopolymerClassContainer & myBiopolymerClassContainer);
         void addThreading(const ThreadingStruct & threadingStruct, BiopolymerClassContainer & myBiopolymerClassContainer);
         void addThreading(String chain1, ResidueID resStart1, ResidueID resEnd1, String chain2, ResidueID resStart2, ResidueID resEnd2, double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer);
@@ -49,7 +58,7 @@ public:
         void createSpringsFromThreading(BiopolymerClassContainer & myBiopolymerClassContainer);
 
         void clearGappedThreading();
-        const std::vector<ThreadingStruct> & getGappedThreadingVector() { return gappedThreadingStructVector; }
+        std::vector<ThreadingStruct> & getGappedThreadingVector() { return gappedThreadingStructVector; }
         void createSpringsFromGappedThreading(BiopolymerClassContainer & myBiopolymerClassContainer);
         void addGappedThreading(const ThreadingStruct & threadingStruct, BiopolymerClassContainer & myBiopolymerClassContainer);
         void addGappedThreading(String chain1, String chain2, double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer);
@@ -61,7 +70,7 @@ public:
 
         static ThreadingStruct createGappedThreading(String chain1, String chain2, double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer);
         static ThreadingStruct createGappedThreading(String chain1, ResidueID startResidue1,  ResidueID endResidue1, String chain2,  ResidueID startResidue2,  ResidueID endResidue2,  double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer);
-
+        void printAllAlignmentStats(){for (int i = 0; i < threadingStructVector.size(); i++){threadingStructVector[i].printAlignmentStats();}}
 
 };
 

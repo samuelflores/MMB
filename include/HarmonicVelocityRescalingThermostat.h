@@ -74,7 +74,8 @@ VelocityRescalingThermostat::VelocityRescalingThermostat(const MultibodySystem& 
 }
 
 VelocityRescalingThermostat::~VelocityRescalingThermostat() {
-    delete impl;
+    if( impl )
+        delete impl;
 }
 
 Real VelocityRescalingThermostat::getTemperature() {

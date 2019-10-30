@@ -4,40 +4,36 @@
 #include "Utils.h"
 #include <string>
 #include <iostream>
-
-class Mutation {
+#define FOLDXSEPARATOR ","
+using namespace SimTK;
+class Mutation : public SingleResidue {
 private:
-        std::string chainID;
-        ResidueID residueID;
+        //std::string chain;
+        // class SingleResidue uses the startResidue variable to hold its one and only ResidueID   
+        //ResidueID startResidue;//residueID;
         std::string substitutedResidueType;
+        std::string wildTypeResidueType;
 public:
-        Mutation() {chainID = " "; residueID.setResidueNumber ( -1111); residueID.setInsertionCode(' '); substitutedResidueType = "RESIDUE-TYPE-NOT-SET";}
-        void setResidueNumber(int myResidueNumber) {residueID.setResidueNumber  (myResidueNumber);}
-        void setResidueID    (ResidueID myResidueID) {residueID = myResidueID;}
-        void setInsertionCode(std::string myInsertionCode) {
-                if (myInsertionCode.length() > 1) {
-                        std::cout<<__FILE__<<":"<<__LINE__<<" The insertion code you provided is too long! Max is 1 char."<<std::endl; exit(1);
-                }
-                std::cout<<__FILE__<<":"<<__LINE__<<" About to set InsertionCode to first char of = >"<<myInsertionCode<<"< "<<std::endl;
-                residueID.setInsertionCode(myInsertionCode[0]);
-	}
+        Mutation() {setChain ( " "); setResidue (ResidueID( -1111, ' ')); 
+            //startResidue.setInsertionCode(' '); 
+            setWildTypeResidueType ( "RESIDUE-TYPE-NOT-SET" );
+            substitutedResidueType = "RESIDUE-TYPE-NOT-SET"; 
+        }
+        // Converts the current Mutation to an AllResiduesWithin, adding a value for the radius member
+        AllResiduesWithin allResiduesWithin(double radius){AllResiduesWithin myAllResiduesWithin((*this).getChain(), (*this).getResidue(), radius); return myAllResiduesWithin; };
+        void print(){
+            std::cout<<__FILE__<<":"<<__LINE__<<" Mutation chain = >"<<getChain()<<"<, residue = >"<<  getResidue().outString()<<"<, substitution = >"<<substitutedResidueType<<"<"<<std::endl; }
         void setSubstitutedResidueType(std::string myResidueType) {substitutedResidueType = myResidueType;};
-        void setChainID(std::string myChainID ){
-                if (myChainID.length() >1) {
-                        std::cout<<__FILE__<<":"<<__LINE__<<" Invalid chain ID: "<<myChainID<<std::endl; exit(1);
-                }
-                chainID = myChainID;};
-        std::string getChainID(){return chainID;};
         std::string getSubstitutedResidueType() {
                 std::cout<<__FILE__<<":"<<__LINE__<<" About to return substitutedResidueType = "<<std::endl;
                 std::cout<<__FILE__<<":"<<__LINE__<<"  >"<<substitutedResidueType<<"<"<<std::endl;
                 return substitutedResidueType;
         };
-        ResidueID getResidueID() {return residueID ;}
-        int getResidueNumber() {return residueID.getResidueNumber() ;}
-        std::string getInsertionCode() { std::string myInsertionCode; myInsertionCode = (residueID.getInsertionCode()) ; return myInsertionCode;}
-        std::string getResidueIDAsString() {return residueID.outString();}
-        std::string getMutationAsString() {return (getChainID() +  getResidueIDAsString() + getSubstitutedResidueType());}
+        int getResidueNumber() {return   getResidue().getResidueNumber() ;}
+        const std::string getInsertionCode() const { std::string myInsertionCode; myInsertionCode = (  getResidue().getInsertionCode()) ; return myInsertionCode;}
+        std::string getResidueIDAsString() {return   getResidue().outString();}
+        std::string getMutationAsString() {return (getChain() +  getResidueIDAsString() + getSubstitutedResidueType());}
+        std::string getMutationAsFoldxString() {return  getWildTypeResidueType() + getChain() +  getResidueIDAsString() + getSubstitutedResidueType();}
         void validate() {
                 if (getResidueNumber() < 0) {
                         std::cout<<__FILE__<<":"<<__LINE__<<" The residueNumber is < 0!"<<std::endl;
@@ -55,9 +51,57 @@ public:
         }
 
         Mutation(String myChainID, ResidueID myResidueID, String mySubstitutedResidueType ) {
-		setChainID (myChainID);  
-		setResidueID(myResidueID); 
+		setChain (myChainID);  
+		setResidue(myResidueID); 
 		setSubstitutedResidueType(mySubstitutedResidueType);
 		validate();}
+
+       // This function expects either a breeder formatted (C-NNNI-S) or SKEMPI formatted (WCNNIS) single mutation string. Based on the presence or absence of MUTATIONMINORSEPARATOR (currently '-'), it determines which is being used.
+        std::string getWildTypeResidueType( ){ 
+            std::cout<<__FILE__<<":"<<__LINE__<<" Returning wildTypeResidueType = >"<<wildTypeResidueType<<"< "<<std::endl;
+            return wildTypeResidueType;}
+        void setWildTypeResidueType(std::string myWildTypeResidueType ){
+            wildTypeResidueType = myWildTypeResidueType;
+        }
+        void setChainSubstitutionFromSingleMutationString(std::string mySingleMutationString){
+            std::cout<<__FILE__<<":"<<__LINE__<<" processing : >"<<mySingleMutationString<<"< "<<std::endl; 
+            size_t minorSeparatorPosition1 = mySingleMutationString.find(MUTATIONMINORSEPARATOR);
+            std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+            if (minorSeparatorPosition1 == std::string::npos){ // This is the case the mutation string is in SKEMPI format.
+                std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+                std::string myChain = mySingleMutationString.substr(1,1); // The second character must be the chain ID
+                std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+                setChain (myChain);
+                std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+                std::string myResidueIDString = mySingleMutationString.substr(2,mySingleMutationString.length()-3); // From the third to the penultimate character, must be the residue number and insertion string.
+                std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+                setResidue(ResidueID(myResidueIDString));
+                std::cout<<__FILE__<<":"<<__LINE__<<" mySingleMutationString.length() = "<<mySingleMutationString.length()<< std::endl; 
+                std::string mySubstitution = mySingleMutationString.substr(mySingleMutationString.length()-1,1); // The last character, must be the substituted residue type.
+                std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+                setSubstitutedResidueType(mySubstitution);
+                std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+            } else { // This is the case the mutation string is in breeder format.
+                std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+                if ((minorSeparatorPosition1 == 0) || (minorSeparatorPosition1 == (mySingleMutationString.length()-1))){
+                    std::cout<<__FILE__<<":"<<__LINE__<<" Invalid minor separator position : "<<minorSeparatorPosition1<<std::endl; exit(1);
+                }
+                size_t minorSeparatorPosition2 = mySingleMutationString.find(MUTATIONMINORSEPARATOR, (minorSeparatorPosition1 + 1));
+                std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+                setChain(mySingleMutationString.substr(0,minorSeparatorPosition1));
+                std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+                std::string residueIDString = mySingleMutationString.substr(minorSeparatorPosition1+1,( minorSeparatorPosition2 - minorSeparatorPosition1 - 1));
+                std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+                setResidue(ResidueID(residueIDString));
+                std::cout<<__FILE__<<":"<<__LINE__<<"..."<<std::endl; 
+                
+                std::string mySubstitution = mySingleMutationString.substr(minorSeparatorPosition2+1,mySingleMutationString.length()-1 ); // The last character, must be the substituted residue type.
+                if (mySubstitution.length() != 1){
+                    std::cout<<__FILE__<<":"<<__LINE__<<" Invalid substituted residue type : >"<< mySubstitution <<"< " <<std::endl; exit(1);
+                }
+                std::cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+                setSubstitutedResidueType(mySubstitution);
+            }
+        } // of setChainSubstitutionFromSingleMutationString 
 };
 #endif

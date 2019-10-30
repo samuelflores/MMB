@@ -44,7 +44,9 @@ public:
     void setBiopolymerBondMobility (BiopolymerClassContainer & myBiopolymerClassContainer);
 
     vector<MobilizerWithin> & getMobilizerWithinVector() { return mobilizerWithinVector; }
-    void createMobilizersWithin ( BiopolymerClassContainer & myBiopolymerClassContainer);//, State & state );
+    #ifdef USE_OPENMM
+    void createMobilizersWithin ( BiopolymerClassContainer & myBiopolymerClassContainer, State & state );
+    #endif
     void pushMobilizerWithin ( MobilizerWithin mobilizerWithin, BiopolymerClassContainer & myBiopolymerClassContainer);
     void validateMobilizerWithin(MobilizerWithin mobilizerWithin ,  BiopolymerClassContainer & myBiopolymerClassContainer);
     int numMobilizerWithin();
@@ -60,7 +62,22 @@ public:
     //void addMobilizerStretchesToVector(BiopolymerClassContainer&, CompoundSystem&, State&);
     void addMobilizerStretchesToVector(vector<MobilizerStretch>, BiopolymerClassContainer&);
     void addSingleBondMobilityToAllChains(String bondMobilityString , BiopolymerClassContainer& biopolymerClassContainer );
+    #ifdef USE_OPENMM
     void addMobilizerDomainsInterfacesToVector(const vector<MobilizerDomainsInterface> & mDIVector, BiopolymerClassContainer & myBiopolymerClassContainer);
+    #endif
+    void setMobilizerTypeForAllChains(const String myMobilizerString, BiopolymerClassContainer & myBiopolymerClassContainer);/*{
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" myMobilizerString = >"<<myMobilizerString<<"< "<<endl;
+        for (int i = 0 ; i < myBiopolymerClassContainer.getNumBiopolymers(); i++) {
+            String myChainID = myBiopolymerClassContainer.updBiopolymerClass(i).getChainID();
+            //String myMobilizerString = parameterStringClass.getString(1);
+                          cout<<__FILE__<<":"<<__LINE__<<" Adding mobilizer stretch to biopolymer index "<<i<<" , chain "<< myChainID<<endl;
+            addMobilizerStretchToVector(
+                myChainID,
+                myMobilizerString,
+                myBiopolymerClassContainer
+                );
+        } // of for
+    }*/
 
 };
 

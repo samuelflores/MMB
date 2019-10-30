@@ -1,24 +1,16 @@
-#ifndef _ParameterReader_wrapper_H_
-#define _ParameterReader_wrapper_H_
-
-#include <cstring>
-#include "ParameterReader.h"
-
-extern "C" {
 typedef struct ParameterReader_wrapper{
-	// int mmbID;
-	// private:
+	int mmbID;
 	// ParameterReader(const ParameterReader &);
-	//// ParameterReader & operator = (const ParameterReader &);
 	// ParameterReader & operator = (const ParameterReader &);
+	//// ParameterReader & operator = (const ParameterReader &);
 	//ErrorManager & _errorManager;
-	// public:
 	// ParameterReader();
 	//// ParameterReader();
 	//vector<CovalentBondClass> additionalCovalentBondVector;
+	//vector<IncludeIntraChainInterface> includeIntraChainInterfaceVector;
 	//BasePairContainer basePairContainer;
 	//map<const ChainResidueIndex, BasePairPartner,twoIndexCmp> basePairPartners;
-	// // variables previously declared and initialized in Repel.h:
+	//// variables previously declared and initialized in Repel.h:;
 	bool addAllAtomSterics;
 	bool addAllHeavyAtomSterics;
 	bool addBackboneOxygenForces;
@@ -29,18 +21,20 @@ typedef struct ParameterReader_wrapper{
 	bool applyC1pSprings;
 	int calcBaseBodyFramesAtEveryTimeStep;
 	bool calcEnergy;
-    double totalEnergy;
-    double potentialEnergy;
-    double kineticEnergy;
+	double totalEnergy;
+	double potentialEnergy;
+	double kineticEnergy;
 	bool checkSatisfied;
-	bool constrainRigidSegments;
+	////bool constrainRigidSegments;
 	double constraintTolerance;
 	bool guessCoordinates;
 	double cutoffRadius;
 	double cutoffAngle;
 	double densityAtomFraction;
 	const char * densityFileName;
+	const char * electroDensityFileName;
 	double densityForceConstant;
+	double electroDensityForceConstant;
 	////bool densityMapActivate;
 	double excludedVolumeStiffness;
 	////String firstResidueMobilizerType;
@@ -85,11 +79,11 @@ typedef struct ParameterReader_wrapper{
 	const char * outMonteCarloFileName;
 	const char * outTrajectoryFileName;
 	////bool physicsWhereYouWantIt;
-    double physicsRadius;
+	float physicsRadius;
 	bool piecewiseRigidify;
-	// double planarityThreshold; // threshold for considering a bond center to be planar, in rads.
+	double planarityThreshold;
 	const char * potentialType;
-	////int prioritize;
+	bool prioritize;
 	bool proteinCapping;
 	double excludedVolumeRadius;
 	int readInQVector;
@@ -133,10 +127,10 @@ typedef struct ParameterReader_wrapper{
 	bool verbose;
 	int vmdOutput;
 	bool waterDropletMake;
-	// double waterDropletRadius;//Angstroms
-	// double waterDropletX; //Angstroms
-	// double waterDropletY; //Angstroms
-	// double waterDropletZ; //Angstroms
+	double waterDropletRadius;
+	double waterDropletX;
+	double waterDropletY;
+	double waterDropletZ;
 	double waterInertiaMultiplier;
 	bool weldToGround;
 	double wkdpGlobalBondTorsionScaleFactor;
@@ -144,10 +138,11 @@ typedef struct ParameterReader_wrapper{
 	bool writeDoublePrecisionTrajectories;
 	bool writeFrameFile;
 	bool writeLastFrameFile;
-    bool detectConvergence;
-    bool converged;
-    int convergenceTimeout;
-    double convergenceEpsilon;
+	const char * workingDirectory;
+	bool detectConvergence;
+	bool converged;
+	int convergenceTimeout;
+	double convergenceEpsilon;
 	//BondMobility::Mobility helixBondMobility;
 	//BondMobility::Mobility loopBondMobility;
 	//BondMobility::Mobility overallBondMobility;
@@ -157,7 +152,7 @@ typedef struct ParameterReader_wrapper{
 	const char * previousFrameFileName;
 	//LeontisWesthofClass myLeontisWesthofClass;
 	int enforceParallelness;
-	// // end of variables improted from Repel.h
+	//// end of variables improted from Repel.h;
 	const char * sequence;
 	const char * proteinSequence;
 	const char * coarseNucleicAcidSequence;
@@ -165,12 +160,12 @@ typedef struct ParameterReader_wrapper{
 	int numFirstResidues;
 	int numResetBases;
 	int numProteinFirstResidues;
-	////int numProteinChains;
+	int numProteinChains;
 	int numTemperatures;
 	int numGlobalCoulombScaleFactors;
 	int numGlobalVdwScaleFactors;
 	////int numDutyCycles;
-	double temperature ; //ok to here scf
+	double temperature;
 	double dutyCycle;
 	int periodicallyUpdateParameters;
 	int currentStage;
@@ -186,19 +181,22 @@ typedef struct ParameterReader_wrapper{
 	///*vector<double> globalCoulombScaleFactorArray;
 	//vector<int> globalCoulombScaleFactorPriority;
 	//vector<double> globalVdwScaleFactorArray;
-	// vector<int> globalVdwScaleFactorPriority;*/
+	//vector<int> globalVdwScaleFactorPriority;
 	//LeontisWesthofClass _leontisWesthofClass;
 	//mutable map<const String,double> userVariables;
 	//DensityMap myDensityMap;
+	//DensityMap myElectroDensityMap;
 	//MobilizerContainer mobilizerContainer;
+	//PhysicsContainer physicsContainer;
 	//ConstraintToGroundContainer constraintToGroundContainer;
 	//DisplacementContainer displacementContainer;
 	//AtomSpringContainer atomSpringContainer;
 	//BiopolymerClassContainer myBiopolymerClassContainer;
+	//MoleculeClassContainer moleculeClassContainer;
 	//WaterDropletContainer waterDropletContainer;
 	//map<const String,String> proteinSequences;
 	//map<const String,String> coarseNucleicAcidSequences;
-	// map<const String, int> numRigidSegments   ; // scf remove, phased out
+	//map<const String, int> numRigidSegments;
 	//map<const String,int>::iterator firstResidueNumbersIterator;
 	// //void addRingClosingBond(const String chainID, ResidueID residueID1, String atomName1,String bondCenterName1,  ResidueID residueID2, String atomName2,String bondCenterName2);
 	//// //void addRingClosingBond(const String chainID, ResidueID residueID1, String atomName1,String bondCenterName1, ResidueID residueID2, String atomName2,String bondCenterName2);
@@ -215,13 +213,14 @@ typedef struct ParameterReader_wrapper{
 	//vector<BasePair> baseOperationVector;
 	//ContactContainer contactContainer;
 	//DensityContainer densityContainer;
+	//DensityContainer electroDensityContainer;
 	//vector<SingleBondMobility> singleBondMobilityVector;
-	////vector<AtomSpring> atomSpringVector;
 	//vector<BasePairPartner> basePairPartnerVector;
-	//vector<IncludeAllNonBondAtomsInResidue> includeAllNonBondAtomsInResidueVector;
+	////vector<IncludeAllNonBondAtomsInResidue> includeAllNonBondAtomsInResidueVector;
 	//vector<AllResiduesWithin> includeAllResiduesWithinVector;
 	//vector<IncludeNonBondAtomInBiopolymerStruct> includeNonBondAtomInBiopolymerVector;
 	//vector <WaterDropletAboutResidueStruct> waterDropletAboutResidueVector;
+	//vector<MobilizerDomainsInterface> mobilizerDomainsInterfaceVector;
 	// void removeBasePairsInRigidStretch ();
 	//// // void initializeDefaults ();
 	// void printAllSettings (   ostream  & myOstream = std::cout, String remarkString = "") ;
@@ -229,10 +228,10 @@ typedef struct ParameterReader_wrapper{
 	// void removeNonPriorityBasePairs (int priorityLevel);
 	//// void removeNonPriorityBasePairs (int priorityLevel);
 	// //int getFirstResidueNumbers(const String myChainId) const ;
-	//// int getNumBasePairs() const;
-	// int getProteinFirstResidueNumbers(const String myProteinChainId) const ;
+	//// // int getNumBasePairs() const;
+	// // int getProteinFirstResidueNumbers(const String myProteinChainId) const ;
 	// //int getBasePriority(int baseResidueNumber,String baseChain, String basePairingEdge) const ;
-	// int getNumBasePairs() const;
+	// // int getNumBasePairs() const;
 	// void updateBasePair(int index,
 	// String ch1, int res1, String edge1,
 	// String ch2, int res2, String edge2,
@@ -270,10 +269,10 @@ typedef struct ParameterReader_wrapper{
 	//// void loadSequencesFromPdb(const char * pdbFileName);
 	// //void printRigidSegments();
 	//// //void printRigidSegments();
-	// void printBasePairs();
-	//// void printBasePairs();
-	// void printBaseAssignments();
-	//// void printBaseAssignments();
+	// // void printBasePairs();
+	//// // void printBasePairs();
+	// // void printBaseAssignments();
+	//// // void printBaseAssignments();
 	// void postInitialize();
 	//// void postInitialize();
 	// void clearContainers();
@@ -300,27 +299,29 @@ typedef struct ParameterReader_wrapper{
 	// int gvsfi;
 	// int d;
 	// char * s;
-	////temperature = 300;
-	//outQVectorFileName
-	////dutyCycle = 1;
+	// //int numChains ;
+	// //int numProteinChains ;
+	// //int prioritize ;
+	// //temperature = 300;
+	// //outQVectorFileName;
+	// //firstStage = 1;
 	// //lastStage = 0;// calcHighestPriority();
-	//// //lastStage = 0;
-	// //priority = 0;  //  this will be set in removeNonPriorityBasePairs
+	////dutyCycle = 1;
+	////priority = 0;
 }ParameterReader_wrapper;
 
-void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wrapper * _wrap_){
-	// private:
+void updateParameterReader_wrapper(ParameterReader & _struct_, ParameterReader_wrapper * _wrap_){
 	// ParameterReader(const ParameterReader &);
-//	_wrap_->&) = _struct_.&); ////// ParameterReader & operator = (const ParameterReader
 	// ParameterReader & operator = (const ParameterReader &);
+//	_wrap_->&) = _struct_.&); ////// ParameterReader & operator = (const ParameterReader
 //	_wrap_->_errorManager = _struct_._errorManager; ////ErrorManager &
-	// public:
 	// ParameterReader();
 //	_wrap_->ParameterReader() = _struct_.ParameterReader(); //////
 //	_wrap_->additionalCovalentBondVector = _struct_.additionalCovalentBondVector; ////vector<CovalentBondClass>
+//	_wrap_->includeIntraChainInterfaceVector = _struct_.includeIntraChainInterfaceVector; ////vector<IncludeIntraChainInterface>
 //	_wrap_->basePairContainer = _struct_.basePairContainer; ////BasePairContainer
 //	_wrap_->basePairPartners = _struct_.basePairPartners; ////map<const ChainResidueIndex, BasePairPartner,twoIndexCmp>
-	// // variables previously declared and initialized in Repel.h:
+//	_wrap_->Repel.h: = _struct_.Repel.h:; ////// variables previously declared and initialized in
 	_wrap_->addAllAtomSterics = _struct_.addAllAtomSterics; //bool
 	_wrap_->addAllHeavyAtomSterics = _struct_.addAllHeavyAtomSterics; //bool
 	_wrap_->addBackboneOxygenForces = _struct_.addBackboneOxygenForces; //bool
@@ -331,18 +332,20 @@ void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wr
 	_wrap_->applyC1pSprings = _struct_.applyC1pSprings; //bool
 	_wrap_->calcBaseBodyFramesAtEveryTimeStep = _struct_.calcBaseBodyFramesAtEveryTimeStep; //int
 	_wrap_->calcEnergy = _struct_.calcEnergy; //bool
-    _wrap_->totalEnergy     = _struct_.totalEnergy;
-    _wrap_->potentialEnergy = _struct_.potentialEnergy;
-    _wrap_->kineticEnergy   = _struct_.kineticEnergy;
+	_wrap_->totalEnergy = _struct_.totalEnergy; //double
+	_wrap_->potentialEnergy = _struct_.potentialEnergy; //double
+	_wrap_->kineticEnergy = _struct_.kineticEnergy; //double
 	_wrap_->checkSatisfied = _struct_.checkSatisfied; //bool
-	_wrap_->constrainRigidSegments = _struct_.constrainRigidSegments; //bool
+//	_wrap_->constrainRigidSegments = _struct_.constrainRigidSegments; //////bool
 	_wrap_->constraintTolerance = _struct_.constraintTolerance; //double
 	_wrap_->guessCoordinates = _struct_.guessCoordinates; //bool
 	_wrap_->cutoffRadius = _struct_.cutoffRadius; //double
 	_wrap_->cutoffAngle = _struct_.cutoffAngle; //double
 	_wrap_->densityAtomFraction = _struct_.densityAtomFraction; //double
 	_wrap_->densityFileName = strdup(_struct_.densityFileName.c_str()); //String
+	_wrap_->electroDensityFileName = strdup(_struct_.electroDensityFileName.c_str()); //String
 	_wrap_->densityForceConstant = _struct_.densityForceConstant; //double
+	_wrap_->electroDensityForceConstant = _struct_.electroDensityForceConstant; //double
 //	_wrap_->densityMapActivate = _struct_.densityMapActivate; //////bool
 	_wrap_->excludedVolumeStiffness = _struct_.excludedVolumeStiffness; //double
 //	_wrap_->firstResidueMobilizerType = _struct_.firstResidueMobilizerType; //////String
@@ -387,11 +390,11 @@ void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wr
 	_wrap_->outMonteCarloFileName = strdup(_struct_.outMonteCarloFileName.c_str()); //String
 	_wrap_->outTrajectoryFileName = strdup(_struct_.outTrajectoryFileName.c_str()); //String
 //	_wrap_->physicsWhereYouWantIt = _struct_.physicsWhereYouWantIt; //////bool
-    _wrap_->physicsRadius = _struct_.physicsRadius; //double
+	_wrap_->physicsRadius = _struct_.physicsRadius; //float
 	_wrap_->piecewiseRigidify = _struct_.piecewiseRigidify; //bool
-	// double planarityThreshold; // threshold for considering a bond center to be planar, in rads.
+	_wrap_->planarityThreshold = _struct_.planarityThreshold; //double
 	_wrap_->potentialType = strdup(_struct_.potentialType.c_str()); //String
-//	_wrap_->prioritize = _struct_.prioritize; //////int
+	_wrap_->prioritize = _struct_.prioritize; //bool
 	_wrap_->proteinCapping = _struct_.proteinCapping; //bool
 	_wrap_->excludedVolumeRadius = _struct_.excludedVolumeRadius; //double
 	_wrap_->readInQVector = _struct_.readInQVector; //int
@@ -435,10 +438,10 @@ void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wr
 	_wrap_->verbose = _struct_.verbose; //bool
 	_wrap_->vmdOutput = _struct_.vmdOutput; //int
 	_wrap_->waterDropletMake = _struct_.waterDropletMake; //bool
-	// double waterDropletRadius;//Angstroms
-	// double waterDropletX; //Angstroms
-	// double waterDropletY; //Angstroms
-	// double waterDropletZ; //Angstroms
+	_wrap_->waterDropletRadius = _struct_.waterDropletRadius; //double
+	_wrap_->waterDropletX = _struct_.waterDropletX; //double
+	_wrap_->waterDropletY = _struct_.waterDropletY; //double
+	_wrap_->waterDropletZ = _struct_.waterDropletZ; //double
 	_wrap_->waterInertiaMultiplier = _struct_.waterInertiaMultiplier; //double
 	_wrap_->weldToGround = _struct_.weldToGround; //bool
 	_wrap_->wkdpGlobalBondTorsionScaleFactor = _struct_.wkdpGlobalBondTorsionScaleFactor; //double
@@ -446,10 +449,11 @@ void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wr
 	_wrap_->writeDoublePrecisionTrajectories = _struct_.writeDoublePrecisionTrajectories; //bool
 	_wrap_->writeFrameFile = _struct_.writeFrameFile; //bool
 	_wrap_->writeLastFrameFile = _struct_.writeLastFrameFile; //bool
-    _wrap_->detectConvergence = _struct_.detectConvergence; //bool
-    _wrap_->converged = _struct_.converged; //bool
-    _wrap_->convergenceTimeout = _struct_.convergenceTimeout; //int
-    _wrap_->convergenceEpsilon = _struct_.convergenceEpsilon; //double
+	_wrap_->workingDirectory = strdup(_struct_.workingDirectory.c_str()); //String
+	_wrap_->detectConvergence = _struct_.detectConvergence; //bool
+	_wrap_->converged = _struct_.converged; //bool
+	_wrap_->convergenceTimeout = _struct_.convergenceTimeout; //int
+	_wrap_->convergenceEpsilon = _struct_.convergenceEpsilon; //double
 //	_wrap_->helixBondMobility = _struct_.helixBondMobility; ////BondMobility::Mobility
 //	_wrap_->loopBondMobility = _struct_.loopBondMobility; ////BondMobility::Mobility
 //	_wrap_->overallBondMobility = _struct_.overallBondMobility; ////BondMobility::Mobility
@@ -459,7 +463,7 @@ void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wr
 	_wrap_->previousFrameFileName = strdup(_struct_.previousFrameFileName.c_str()); //String
 //	_wrap_->myLeontisWesthofClass = _struct_.myLeontisWesthofClass; ////LeontisWesthofClass
 	_wrap_->enforceParallelness = _struct_.enforceParallelness; //int
-	// // end of variables improted from Repel.h
+//	_wrap_->Repel.h = _struct_.Repel.h; ////// end of variables improted from
 	_wrap_->sequence = strdup(_struct_.sequence.c_str()); //String
 	_wrap_->proteinSequence = strdup(_struct_.proteinSequence.c_str()); //String
 	_wrap_->coarseNucleicAcidSequence = strdup(_struct_.coarseNucleicAcidSequence.c_str()); //String
@@ -467,12 +471,12 @@ void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wr
 	_wrap_->numFirstResidues = _struct_.numFirstResidues; //int
 	_wrap_->numResetBases = _struct_.numResetBases; //int
 	_wrap_->numProteinFirstResidues = _struct_.numProteinFirstResidues; //int
-//	_wrap_->numProteinChains = _struct_.numProteinChains; //////int
+	_wrap_->numProteinChains = _struct_.numProteinChains; //int
 	_wrap_->numTemperatures = _struct_.numTemperatures; //int
 	_wrap_->numGlobalCoulombScaleFactors = _struct_.numGlobalCoulombScaleFactors; //int
 	_wrap_->numGlobalVdwScaleFactors = _struct_.numGlobalVdwScaleFactors; //int
 //	_wrap_->numDutyCycles = _struct_.numDutyCycles; //////int
-	_wrap_->temperature = _struct_.temperature; //ok to here scf
+	_wrap_->temperature = _struct_.temperature; //double
 	_wrap_->dutyCycle = _struct_.dutyCycle; //double
 	_wrap_->periodicallyUpdateParameters = _struct_.periodicallyUpdateParameters; //int
 	_wrap_->currentStage = _struct_.currentStage; //int
@@ -488,19 +492,22 @@ void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wr
 //	_wrap_->globalCoulombScaleFactorArray = _struct_.globalCoulombScaleFactorArray; /////*vector<double>
 //	_wrap_->globalCoulombScaleFactorPriority = _struct_.globalCoulombScaleFactorPriority; ////vector<int>
 //	_wrap_->globalVdwScaleFactorArray = _struct_.globalVdwScaleFactorArray; ////vector<double>
-	// vector<int> globalVdwScaleFactorPriority;*/
+//	_wrap_->globalVdwScaleFactorPriority = _struct_.globalVdwScaleFactorPriority; ////vector<int>
 //	_wrap_->_leontisWesthofClass = _struct_._leontisWesthofClass; ////LeontisWesthofClass
 //	_wrap_->userVariables = _struct_.userVariables; ////mutable map<const String,double>
 //	_wrap_->myDensityMap = _struct_.myDensityMap; ////DensityMap
+//	_wrap_->myElectroDensityMap = _struct_.myElectroDensityMap; ////DensityMap
 //	_wrap_->mobilizerContainer = _struct_.mobilizerContainer; ////MobilizerContainer
+//	_wrap_->physicsContainer = _struct_.physicsContainer; ////PhysicsContainer
 //	_wrap_->constraintToGroundContainer = _struct_.constraintToGroundContainer; ////ConstraintToGroundContainer
 //	_wrap_->displacementContainer = _struct_.displacementContainer; ////DisplacementContainer
 //	_wrap_->atomSpringContainer = _struct_.atomSpringContainer; ////AtomSpringContainer
 //	_wrap_->myBiopolymerClassContainer = _struct_.myBiopolymerClassContainer; ////BiopolymerClassContainer
+//	_wrap_->moleculeClassContainer = _struct_.moleculeClassContainer; ////MoleculeClassContainer
 //	_wrap_->waterDropletContainer = _struct_.waterDropletContainer; ////WaterDropletContainer
 //	_wrap_->proteinSequences = _struct_.proteinSequences; ////map<const String,String>
 //	_wrap_->coarseNucleicAcidSequences = _struct_.coarseNucleicAcidSequences; ////map<const String,String>
-	// map<const String, int> numRigidSegments   ; // scf remove, phased out
+//	_wrap_->numRigidSegments = _struct_.numRigidSegments; ////map<const String, int>
 //	_wrap_->firstResidueNumbersIterator = _struct_.firstResidueNumbersIterator; ////map<const String,int>::iterator
 	// //void addRingClosingBond(const String chainID, ResidueID residueID1, String atomName1,String bondCenterName1,  ResidueID residueID2, String atomName2,String bondCenterName2);
 //	_wrap_->bondCenterName2) = _struct_.bondCenterName2); ////// //void addRingClosingBond(const String chainID, ResidueID residueID1, String atomName1,String bondCenterName1, ResidueID residueID2, String atomName2,String
@@ -517,13 +524,14 @@ void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wr
 //	_wrap_->baseOperationVector = _struct_.baseOperationVector; ////vector<BasePair>
 //	_wrap_->contactContainer = _struct_.contactContainer; ////ContactContainer
 //	_wrap_->densityContainer = _struct_.densityContainer; ////DensityContainer
+//	_wrap_->electroDensityContainer = _struct_.electroDensityContainer; ////DensityContainer
 //	_wrap_->singleBondMobilityVector = _struct_.singleBondMobilityVector; ////vector<SingleBondMobility>
-//	_wrap_->atomSpringVector = _struct_.atomSpringVector; //////vector<AtomSpring>
 //	_wrap_->basePairPartnerVector = _struct_.basePairPartnerVector; ////vector<BasePairPartner>
-//	_wrap_->includeAllNonBondAtomsInResidueVector = _struct_.includeAllNonBondAtomsInResidueVector; ////vector<IncludeAllNonBondAtomsInResidue>
+//	_wrap_->includeAllNonBondAtomsInResidueVector = _struct_.includeAllNonBondAtomsInResidueVector; //////vector<IncludeAllNonBondAtomsInResidue>
 //	_wrap_->includeAllResiduesWithinVector = _struct_.includeAllResiduesWithinVector; ////vector<AllResiduesWithin>
 //	_wrap_->includeNonBondAtomInBiopolymerVector = _struct_.includeNonBondAtomInBiopolymerVector; ////vector<IncludeNonBondAtomInBiopolymerStruct>
 //	_wrap_->waterDropletAboutResidueVector = _struct_.waterDropletAboutResidueVector; ////vector <WaterDropletAboutResidueStruct>
+//	_wrap_->mobilizerDomainsInterfaceVector = _struct_.mobilizerDomainsInterfaceVector; ////vector<MobilizerDomainsInterface>
 	// void removeBasePairsInRigidStretch ();
 //	_wrap_->() = _struct_.(); ////// // void initializeDefaults
 	// void printAllSettings (   ostream  & myOstream = std::cout, String remarkString = "") ;
@@ -531,10 +539,10 @@ void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wr
 	// void removeNonPriorityBasePairs (int priorityLevel);
 //	_wrap_->priorityLevel) = _struct_.priorityLevel); ////// void removeNonPriorityBasePairs (int
 	// //int getFirstResidueNumbers(const String myChainId) const ;
-//	_wrap_->const = _struct_.const; ////// int getNumBasePairs()
-	// int getProteinFirstResidueNumbers(const String myProteinChainId) const ;
+//	_wrap_->const = _struct_.const; ////// // int getNumBasePairs()
+	// // int getProteinFirstResidueNumbers(const String myProteinChainId) const ;
 	// //int getBasePriority(int baseResidueNumber,String baseChain, String basePairingEdge) const ;
-	// int getNumBasePairs() const;
+	// // int getNumBasePairs() const;
 	// void updateBasePair(int index,
 	// String ch1, int res1, String edge1,
 	// String ch2, int res2, String edge2,
@@ -572,10 +580,10 @@ void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wr
 //	_wrap_->pdbFileName) = _struct_.pdbFileName); ////// void loadSequencesFromPdb(const char *
 	// //void printRigidSegments();
 //	_wrap_->printRigidSegments() = _struct_.printRigidSegments(); ////// //void
-	// void printBasePairs();
-//	_wrap_->printBasePairs() = _struct_.printBasePairs(); ////// void
-	// void printBaseAssignments();
-//	_wrap_->printBaseAssignments() = _struct_.printBaseAssignments(); ////// void
+	// // void printBasePairs();
+//	_wrap_->printBasePairs() = _struct_.printBasePairs(); ////// // void
+	// // void printBaseAssignments();
+//	_wrap_->printBaseAssignments() = _struct_.printBaseAssignments(); ////// // void
 	// void postInitialize();
 //	_wrap_->postInitialize() = _struct_.postInitialize(); ////// void
 	// void clearContainers();
@@ -596,33 +604,35 @@ void getParameterReaderAttributes(ParameterReader & _struct_, ParameterReader_wr
 //	_wrap_->tempChain) = _struct_.tempChain); ////// //int getChainIndex(String myChainId , vector<Biopolymer> &
 //	_wrap_->myMonoAtomsContainer = _struct_.myMonoAtomsContainer; ////MonoAtomsContainer
 	// //variables for internal use only:
-	// _wrap_->r = _struct_.r; //int
-	// _wrap_->ti = _struct_.ti; //int
-	// _wrap_->gcsfi = _struct_.gcsfi; //int
-	// _wrap_->gvsfi = _struct_.gvsfi; //int
-	// _wrap_->d = _struct_.d; //int
-	// _wrap_->s = strdup(_struct_.s); //char *
-//	_wrap_->300 = _struct_.300; //////temperature =
-	//outQVectorFileName
-//	_wrap_->1 = _struct_.1; //////dutyCycle =
+	// int r;
+	// int ti;
+	// int gcsfi;
+	// int gvsfi;
+	// int d;
+	// char * s;
+	// //int numChains ;
+	// //int numProteinChains ;
+	// //int prioritize ;
+	// //temperature = 300;
+	// //outQVectorFileName;
+	// //firstStage = 1;
 	// //lastStage = 0;// calcHighestPriority();
-//	_wrap_->0 = _struct_.0; ////// //lastStage =
-	// //priority = 0;  //  this will be set in removeNonPriorityBasePairs
-}
+//	_wrap_->1 = _struct_.1; //////dutyCycle =
+//	_wrap_->0 = _struct_.0; //////priority =
 
-void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterReader & _struct_){
-	// private:
+}
+void updateParameterReader(ParameterReader_wrapper * _wrap_, ParameterReader & _struct_){
 	// ParameterReader(const ParameterReader &);
-//	_struct_.&) = _wrap_->&); ////// ParameterReader & operator = (const ParameterReader
 	// ParameterReader & operator = (const ParameterReader &);
+//	_struct_.&) = _wrap_->&); ////// ParameterReader & operator = (const ParameterReader
 //	_struct_._errorManager = _wrap_->_errorManager; ////ErrorManager &
-	// public:
 	// ParameterReader();
 //	_struct_.ParameterReader() = _wrap_->ParameterReader(); //////
 //	_struct_.additionalCovalentBondVector = _wrap_->additionalCovalentBondVector; ////vector<CovalentBondClass>
+//	_struct_.includeIntraChainInterfaceVector = _wrap_->includeIntraChainInterfaceVector; ////vector<IncludeIntraChainInterface>
 //	_struct_.basePairContainer = _wrap_->basePairContainer; ////BasePairContainer
 //	_struct_.basePairPartners = _wrap_->basePairPartners; ////map<const ChainResidueIndex, BasePairPartner,twoIndexCmp>
-	// // variables previously declared and initialized in Repel.h:
+//	_struct_.Repel.h: = _wrap_->Repel.h:; ////// variables previously declared and initialized in
 	_struct_.addAllAtomSterics = _wrap_->addAllAtomSterics; //bool
 	_struct_.addAllHeavyAtomSterics = _wrap_->addAllHeavyAtomSterics; //bool
 	_struct_.addBackboneOxygenForces = _wrap_->addBackboneOxygenForces; //bool
@@ -633,18 +643,20 @@ void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterRea
 	_struct_.applyC1pSprings = _wrap_->applyC1pSprings; //bool
 	_struct_.calcBaseBodyFramesAtEveryTimeStep = _wrap_->calcBaseBodyFramesAtEveryTimeStep; //int
 	_struct_.calcEnergy = _wrap_->calcEnergy; //bool
-    _struct_.totalEnergy     = _wrap_->totalEnergy;
-    _struct_.potentialEnergy = _wrap_->potentialEnergy;
-    _struct_.kineticEnergy   = _wrap_->kineticEnergy;
+	_struct_.totalEnergy = _wrap_->totalEnergy; //double
+	_struct_.potentialEnergy = _wrap_->potentialEnergy; //double
+	_struct_.kineticEnergy = _wrap_->kineticEnergy; //double
 	_struct_.checkSatisfied = _wrap_->checkSatisfied; //bool
-	_struct_.constrainRigidSegments = _wrap_->constrainRigidSegments; //bool
+//	_struct_.constrainRigidSegments = _wrap_->constrainRigidSegments; //////bool
 	_struct_.constraintTolerance = _wrap_->constraintTolerance; //double
 	_struct_.guessCoordinates = _wrap_->guessCoordinates; //bool
 	_struct_.cutoffRadius = _wrap_->cutoffRadius; //double
 	_struct_.cutoffAngle = _wrap_->cutoffAngle; //double
 	_struct_.densityAtomFraction = _wrap_->densityAtomFraction; //double
 	_struct_.densityFileName = String(_wrap_->densityFileName); //String
+	_struct_.electroDensityFileName = String(_wrap_->electroDensityFileName); //String
 	_struct_.densityForceConstant = _wrap_->densityForceConstant; //double
+	_struct_.electroDensityForceConstant = _wrap_->electroDensityForceConstant; //double
 //	_struct_.densityMapActivate = _wrap_->densityMapActivate; //////bool
 	_struct_.excludedVolumeStiffness = _wrap_->excludedVolumeStiffness; //double
 //	_struct_.firstResidueMobilizerType = _wrap_->firstResidueMobilizerType; //////String
@@ -689,11 +701,11 @@ void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterRea
 	_struct_.outMonteCarloFileName = String(_wrap_->outMonteCarloFileName); //String
 	_struct_.outTrajectoryFileName = String(_wrap_->outTrajectoryFileName); //String
 //	_struct_.physicsWhereYouWantIt = _wrap_->physicsWhereYouWantIt; //////bool
-    _struct_.physicsRadius = _wrap_->physicsRadius; //double
+	_struct_.physicsRadius = _wrap_->physicsRadius; //float
 	_struct_.piecewiseRigidify = _wrap_->piecewiseRigidify; //bool
-	// double planarityThreshold; // threshold for considering a bond center to be planar, in rads.
+	_struct_.planarityThreshold = _wrap_->planarityThreshold; //double
 	_struct_.potentialType = String(_wrap_->potentialType); //String
-//	_struct_.prioritize = _wrap_->prioritize; //////int
+	_struct_.prioritize = _wrap_->prioritize; //bool
 	_struct_.proteinCapping = _wrap_->proteinCapping; //bool
 	_struct_.excludedVolumeRadius = _wrap_->excludedVolumeRadius; //double
 	_struct_.readInQVector = _wrap_->readInQVector; //int
@@ -737,10 +749,10 @@ void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterRea
 	_struct_.verbose = _wrap_->verbose; //bool
 	_struct_.vmdOutput = _wrap_->vmdOutput; //int
 	_struct_.waterDropletMake = _wrap_->waterDropletMake; //bool
-	// double waterDropletRadius;//Angstroms
-	// double waterDropletX; //Angstroms
-	// double waterDropletY; //Angstroms
-	// double waterDropletZ; //Angstroms
+	_struct_.waterDropletRadius = _wrap_->waterDropletRadius; //double
+	_struct_.waterDropletX = _wrap_->waterDropletX; //double
+	_struct_.waterDropletY = _wrap_->waterDropletY; //double
+	_struct_.waterDropletZ = _wrap_->waterDropletZ; //double
 	_struct_.waterInertiaMultiplier = _wrap_->waterInertiaMultiplier; //double
 	_struct_.weldToGround = _wrap_->weldToGround; //bool
 	_struct_.wkdpGlobalBondTorsionScaleFactor = _wrap_->wkdpGlobalBondTorsionScaleFactor; //double
@@ -748,11 +760,11 @@ void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterRea
 	_struct_.writeDoublePrecisionTrajectories = _wrap_->writeDoublePrecisionTrajectories; //bool
 	_struct_.writeFrameFile = _wrap_->writeFrameFile; //bool
 	_struct_.writeLastFrameFile = _wrap_->writeLastFrameFile; //bool
-    _struct_.detectConvergence = _wrap_->detectConvergence; //bool
-    _struct_.converged = _wrap_->converged; //bool
-    _struct_.convergenceTimeout = _wrap_->convergenceTimeout; //int
-    _struct_.convergenceEpsilon = _wrap_->convergenceEpsilon; //double
-
+	_struct_.workingDirectory = String(_wrap_->workingDirectory); //String
+	_struct_.detectConvergence = _wrap_->detectConvergence; //bool
+	_struct_.converged = _wrap_->converged; //bool
+	_struct_.convergenceTimeout = _wrap_->convergenceTimeout; //int
+	_struct_.convergenceEpsilon = _wrap_->convergenceEpsilon; //double
 //	_struct_.helixBondMobility = _wrap_->helixBondMobility; ////BondMobility::Mobility
 //	_struct_.loopBondMobility = _wrap_->loopBondMobility; ////BondMobility::Mobility
 //	_struct_.overallBondMobility = _wrap_->overallBondMobility; ////BondMobility::Mobility
@@ -762,7 +774,7 @@ void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterRea
 	_struct_.previousFrameFileName = String(_wrap_->previousFrameFileName); //String
 //	_struct_.myLeontisWesthofClass = _wrap_->myLeontisWesthofClass; ////LeontisWesthofClass
 	_struct_.enforceParallelness = _wrap_->enforceParallelness; //int
-	// // end of variables improted from Repel.h
+//	_struct_.Repel.h = _wrap_->Repel.h; ////// end of variables improted from
 	_struct_.sequence = String(_wrap_->sequence); //String
 	_struct_.proteinSequence = String(_wrap_->proteinSequence); //String
 	_struct_.coarseNucleicAcidSequence = String(_wrap_->coarseNucleicAcidSequence); //String
@@ -770,12 +782,12 @@ void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterRea
 	_struct_.numFirstResidues = _wrap_->numFirstResidues; //int
 	_struct_.numResetBases = _wrap_->numResetBases; //int
 	_struct_.numProteinFirstResidues = _wrap_->numProteinFirstResidues; //int
-//	_struct_.numProteinChains = _wrap_->numProteinChains; //////int
+	_struct_.numProteinChains = _wrap_->numProteinChains; //int
 	_struct_.numTemperatures = _wrap_->numTemperatures; //int
 	_struct_.numGlobalCoulombScaleFactors = _wrap_->numGlobalCoulombScaleFactors; //int
 	_struct_.numGlobalVdwScaleFactors = _wrap_->numGlobalVdwScaleFactors; //int
 //	_struct_.numDutyCycles = _wrap_->numDutyCycles; //////int
-	_struct_.temperature = _wrap_->temperature; //ok to here scf
+	_struct_.temperature = _wrap_->temperature; //double
 	_struct_.dutyCycle = _wrap_->dutyCycle; //double
 	_struct_.periodicallyUpdateParameters = _wrap_->periodicallyUpdateParameters; //int
 	_struct_.currentStage = _wrap_->currentStage; //int
@@ -791,19 +803,22 @@ void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterRea
 //	_struct_.globalCoulombScaleFactorArray = _wrap_->globalCoulombScaleFactorArray; /////*vector<double>
 //	_struct_.globalCoulombScaleFactorPriority = _wrap_->globalCoulombScaleFactorPriority; ////vector<int>
 //	_struct_.globalVdwScaleFactorArray = _wrap_->globalVdwScaleFactorArray; ////vector<double>
-	// vector<int> globalVdwScaleFactorPriority;*/
+//	_struct_.globalVdwScaleFactorPriority = _wrap_->globalVdwScaleFactorPriority; ////vector<int>
 //	_struct_._leontisWesthofClass = _wrap_->_leontisWesthofClass; ////LeontisWesthofClass
 //	_struct_.userVariables = _wrap_->userVariables; ////mutable map<const String,double>
 //	_struct_.myDensityMap = _wrap_->myDensityMap; ////DensityMap
+//	_struct_.myElectroDensityMap = _wrap_->myElectroDensityMap; ////DensityMap
 //	_struct_.mobilizerContainer = _wrap_->mobilizerContainer; ////MobilizerContainer
+//	_struct_.physicsContainer = _wrap_->physicsContainer; ////PhysicsContainer
 //	_struct_.constraintToGroundContainer = _wrap_->constraintToGroundContainer; ////ConstraintToGroundContainer
 //	_struct_.displacementContainer = _wrap_->displacementContainer; ////DisplacementContainer
 //	_struct_.atomSpringContainer = _wrap_->atomSpringContainer; ////AtomSpringContainer
 //	_struct_.myBiopolymerClassContainer = _wrap_->myBiopolymerClassContainer; ////BiopolymerClassContainer
+//	_struct_.moleculeClassContainer = _wrap_->moleculeClassContainer; ////MoleculeClassContainer
 //	_struct_.waterDropletContainer = _wrap_->waterDropletContainer; ////WaterDropletContainer
 //	_struct_.proteinSequences = _wrap_->proteinSequences; ////map<const String,String>
 //	_struct_.coarseNucleicAcidSequences = _wrap_->coarseNucleicAcidSequences; ////map<const String,String>
-	// map<const String, int> numRigidSegments   ; // scf remove, phased out
+//	_struct_.numRigidSegments = _wrap_->numRigidSegments; ////map<const String, int>
 //	_struct_.firstResidueNumbersIterator = _wrap_->firstResidueNumbersIterator; ////map<const String,int>::iterator
 	// //void addRingClosingBond(const String chainID, ResidueID residueID1, String atomName1,String bondCenterName1,  ResidueID residueID2, String atomName2,String bondCenterName2);
 //	_struct_.bondCenterName2) = _wrap_->bondCenterName2); ////// //void addRingClosingBond(const String chainID, ResidueID residueID1, String atomName1,String bondCenterName1, ResidueID residueID2, String atomName2,String
@@ -820,13 +835,14 @@ void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterRea
 //	_struct_.baseOperationVector = _wrap_->baseOperationVector; ////vector<BasePair>
 //	_struct_.contactContainer = _wrap_->contactContainer; ////ContactContainer
 //	_struct_.densityContainer = _wrap_->densityContainer; ////DensityContainer
+//	_struct_.electroDensityContainer = _wrap_->electroDensityContainer; ////DensityContainer
 //	_struct_.singleBondMobilityVector = _wrap_->singleBondMobilityVector; ////vector<SingleBondMobility>
-//	_struct_.atomSpringVector = _wrap_->atomSpringVector; //////vector<AtomSpring>
 //	_struct_.basePairPartnerVector = _wrap_->basePairPartnerVector; ////vector<BasePairPartner>
-//	_struct_.includeAllNonBondAtomsInResidueVector = _wrap_->includeAllNonBondAtomsInResidueVector; ////vector<IncludeAllNonBondAtomsInResidue>
+//	_struct_.includeAllNonBondAtomsInResidueVector = _wrap_->includeAllNonBondAtomsInResidueVector; //////vector<IncludeAllNonBondAtomsInResidue>
 //	_struct_.includeAllResiduesWithinVector = _wrap_->includeAllResiduesWithinVector; ////vector<AllResiduesWithin>
 //	_struct_.includeNonBondAtomInBiopolymerVector = _wrap_->includeNonBondAtomInBiopolymerVector; ////vector<IncludeNonBondAtomInBiopolymerStruct>
 //	_struct_.waterDropletAboutResidueVector = _wrap_->waterDropletAboutResidueVector; ////vector <WaterDropletAboutResidueStruct>
+//	_struct_.mobilizerDomainsInterfaceVector = _wrap_->mobilizerDomainsInterfaceVector; ////vector<MobilizerDomainsInterface>
 	// void removeBasePairsInRigidStretch ();
 //	_struct_.() = _wrap_->(); ////// // void initializeDefaults
 	// void printAllSettings (   ostream  & myOstream = std::cout, String remarkString = "") ;
@@ -834,10 +850,10 @@ void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterRea
 	// void removeNonPriorityBasePairs (int priorityLevel);
 //	_struct_.priorityLevel) = _wrap_->priorityLevel); ////// void removeNonPriorityBasePairs (int
 	// //int getFirstResidueNumbers(const String myChainId) const ;
-//	_struct_.const = _wrap_->const; ////// int getNumBasePairs()
-	// int getProteinFirstResidueNumbers(const String myProteinChainId) const ;
+//	_struct_.const = _wrap_->const; ////// // int getNumBasePairs()
+	// // int getProteinFirstResidueNumbers(const String myProteinChainId) const ;
 	// //int getBasePriority(int baseResidueNumber,String baseChain, String basePairingEdge) const ;
-	// int getNumBasePairs() const;
+	// // int getNumBasePairs() const;
 	// void updateBasePair(int index,
 	// String ch1, int res1, String edge1,
 	// String ch2, int res2, String edge2,
@@ -875,10 +891,10 @@ void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterRea
 //	_struct_.pdbFileName) = _wrap_->pdbFileName); ////// void loadSequencesFromPdb(const char *
 	// //void printRigidSegments();
 //	_struct_.printRigidSegments() = _wrap_->printRigidSegments(); ////// //void
-	// void printBasePairs();
-//	_struct_.printBasePairs() = _wrap_->printBasePairs(); ////// void
-	// void printBaseAssignments();
-//	_struct_.printBaseAssignments() = _wrap_->printBaseAssignments(); ////// void
+	// // void printBasePairs();
+//	_struct_.printBasePairs() = _wrap_->printBasePairs(); ////// // void
+	// // void printBaseAssignments();
+//	_struct_.printBaseAssignments() = _wrap_->printBaseAssignments(); ////// // void
 	// void postInitialize();
 //	_struct_.postInitialize() = _wrap_->postInitialize(); ////// void
 	// void clearContainers();
@@ -899,20 +915,20 @@ void setParameterReaderAttributes(ParameterReader_wrapper * _wrap_, ParameterRea
 //	_struct_.tempChain) = _wrap_->tempChain); ////// //int getChainIndex(String myChainId , vector<Biopolymer> &
 //	_struct_.myMonoAtomsContainer = _wrap_->myMonoAtomsContainer; ////MonoAtomsContainer
 	// //variables for internal use only:
-	// _struct_.r = _wrap_->r; //int
-	// _struct_.ti = _wrap_->ti; //int
-	// _struct_.gcsfi = _wrap_->gcsfi; //int
-	// _struct_.gvsfi = _wrap_->gvsfi; //int
-	// _struct_.d = _wrap_->d; //int
-	// _struct_.s = strdup(_wrap_->s); //char *
-//	_struct_.300 = _wrap_->300; //////temperature =
-	//outQVectorFileName
-//	_struct_.1 = _wrap_->1; //////dutyCycle =
+	// int r;
+	// int ti;
+	// int gcsfi;
+	// int gvsfi;
+	// int d;
+	// char * s;
+	// //int numChains ;
+	// //int numProteinChains ;
+	// //int prioritize ;
+	// //temperature = 300;
+	// //outQVectorFileName;
+	// //firstStage = 1;
 	// //lastStage = 0;// calcHighestPriority();
-//	_struct_.0 = _wrap_->0; ////// //lastStage =
-	// //priority = 0;  //  this will be set in removeNonPriorityBasePairs
+//	_struct_.1 = _wrap_->1; //////dutyCycle =
+//	_struct_.0 = _wrap_->0; //////priority =
+
 }
-
-} //extern "C"
-#endif
-

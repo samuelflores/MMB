@@ -12,6 +12,8 @@
 #define DensityMap_H_
 
 #include "SimTKmolmodel.h"
+#include "UnitCellParameters.h"
+#include <math.h>       /* exp */
 
 #define LINESIZE 1024
 
@@ -22,52 +24,31 @@ class Quadrant {
 public:
 	bool positiveX, positiveY, positiveZ;
 };
+struct AmplitudeFrequencyAndRandomPhases {
+    double amplitude;
+    double frequencyX;
+    double frequencyY;
+    double frequencyZ;
+    double phaseX;
+    double phaseY;
+    double phaseZ;
+};
 
 struct GridPoint   {
-//private:
-//public:
-	float density; 
+	double noiseFreeDensity; 
+	double density; 
+        double noise;
+	float ddxPositiveXGradient;
 	float ddyPositiveXGradient;
 	float ddzPositiveXGradient;
         float ddxPositiveYGradient;
+        float ddyPositiveYGradient;
         float ddzPositiveYGradient;
 	float ddxPositiveZGradient;
 	float ddyPositiveZGradient;
-	fVec3 position;
-        fVec3 firstQuadrantGradient; 
-        //float dummy1;
-        //float dummy1;
-//public:  // obsolete, moved to DensityMap to save memory
-        /*
-        GridPoint();
-	void initializeGradient();
-	void initialize();
-	void validatePosition(fVec3 myPosition)const ;
-	void validateDensity (double          ) const;
-	void validate() const;
-	void setDensity(Real myDensity);
-	void setPosition(fVec3 myPosition);
-	Quadrant calcQuadrant(fVec3 queryPosition) const;
-	fVec3  fetchGradient(fVec3 queryPosition) const;
-        fVec3 fetchFirstQuadrantGradient() const ;
-	double getDensity() const;
-	double getDensity(fVec3 myPosition) const;   
-	void setPositiveXGradient(Real);
-	void setddyPositiveXGradient(Real);
-	void setddzPositiveXGradient(Real);
-	void setPositiveYGradient(Real);
-	void setddxPositiveYGradient(Real);
-	void setddzPositiveYGradient(Real);
-	void setPositiveZGradient(Real);
-	void setddxPositiveZGradient(Real);
-	void setddyPositiveZGradient(Real);
-	void setNegativeXGradient(Real);
-	void setNegativeYGradient(Real);
-	void setNegativeZGradient(Real);
-        fVec3 firstQuadrantGradient; // might be obsolete
-	fVec3 calcInterpolatedFirstQuadrantGradient(fVec3 queryPosition) const;
-	fVec3 getFirstQuadrantGradient();
-        */	
+	float ddzPositiveZGradient;
+	Vec3 position;
+        Vec3 firstQuadrantGradient; 
 };
 
 class GridIndices {
@@ -84,77 +65,89 @@ public:
 
 
 class MMB_EXPORT DensityMap {
-	protected:
-	 	double minX, minY, minZ, maxX, maxY, maxZ, gridXSpacing, gridYSpacing, gridZSpacing;
-		int unitCellNumGridX;
-		int unitCellNumGridY;
-		int unitCellNumGridZ;
-		int totalNumGridX;
-		int totalNumGridY;
-		int totalNumGridZ;
-
+    protected:
+        //double minX, minY, minZ, maxX, maxY, maxZ, gridXSpacing, gridYSpacing, gridZSpacing;
+        int unitCellNumGridX;
+        int unitCellNumGridY;
+        int unitCellNumGridZ;
+        int totalNumGridX;
+        int totalNumGridY;
+        int totalNumGridZ;
+        UnitCellParameters unitCellParameters;
         char * dxGets( char *s, int n, FILE *stream);
-		
-	public:
+    private:
+        double noiseTemperature;    		
+        double noiseScale;
+    public:
         DensityMap();
         ~DensityMap();
         void initializeMap();
         void validateGridParameters();
         std::vector<std::vector<std::vector<GridPoint> > > ArrayOfGridPoints;        
-		bool hasGridPoint(GridIndices);
-		GridPoint     & updGridPoint(GridIndices);
-		const GridPoint getGridPoint(GridIndices) ;
-		void validateGridPoint(GridIndices myGridIndices);
-		const bool hasNearbyGridIndices(fVec3 position);
-		GridIndices calcNearestGridIndices(fVec3 position);
-                GridIndices calcLowerLeftGridIndices(fVec3 position);
-		const GridPoint getGridPoint(fVec3);
-		GridPoint     & updGridPoint(fVec3);
-		const double getDensity(fVec3);
-		const double getDensity(SimTK::Vec3);
-		void initializeArrayOfGridPoints();
+        std::vector<std::vector<std::vector<AmplitudeFrequencyAndRandomPhases> > > vectorOfAmplitudeFrequencyAndRandomPhases;     
+        bool hasGridPoint(GridIndices);
+        GridPoint     & updGridPoint(GridIndices);
+        const GridPoint getGridPoint(GridIndices) const ;
+        void validateGridPoint(GridIndices myGridIndices);
+        //const bool hasNearbyGridIndices(Vec3 position);
+        GridIndices calcNearestGridIndices(Vec3 position);
+        GridIndices calcLowerLeftGridIndices(Vec3 position);
+        const GridPoint getGridPoint(Vec3);
+        GridPoint     & updGridPoint(Vec3);
+        //const double getDensity(Vec3);
+        const double getDensity(SimTK::Vec3);
+        void initializeArrayOfGridPoints();
+        void setNoiseTemperature(double myTemperature){noiseTemperature=myTemperature;};
+        void setNoiseScale(double myNoiseScale){noiseScale = myNoiseScale;};
+        double getNoiseScale(){return noiseScale ;};
+        //void addNoiseToMap(double temperature, double amplitude);
+        void initializeVectorOfAmplitudeAndRandomPhases();
+        //void resizeNoiseMap();
+        void resizeVectorOfAmplitudeAndRandomPhases();
+        void normalizeNoiseMap(const double totalNoiseEverywhere);
+        void densityAutocorrelation(const bool computeNoiseAutocorrelation, const bool computeDensityAutocorrelation ) const;
+        void populateNoiseMap();
         void loadParametersAndDensity(const String densityFileName) ;
         void loadParametersAndDensity_XPLOR(const String densityFileName) ;
-        void loadParametersAndDensity_OpenDX(const String densityFileName) ;
-		void loadParametersAndDensity_Situs(const String densityFileName) ;
-		void precomputeGradient();
-		void precomputeGradientDerivatives();
-		fVec3 fetchGradient(fVec3 position);
-                fVec3 fetchFirstQuadrantGradient(fVec3 position);
-                fVec3 calcInterpolatedFirstQuadrantGradient(fVec3 position);
-                SimTK::Vec3 calcInterpolatedFirstQuadrantGradient(SimTK::Vec3 position) ;
-                // Functions which were moved from GridPoint to DensityMap for memory savings
-		void initializeGradient(GridPoint & gridPoint );
-		void initialize(GridPoint & gridPoint );
-		void validatePosition(GridPoint & gridPoint, fVec3 myPosition)const ;
-		void validateDensity (GridPoint & gridPoint, double          ) const;
-		void validate(GridPoint & gridPoint) const;
-		void setDensity(GridPoint & gridPoint, Real myDensity);
-		void setPosition(GridPoint & gridPoint, fVec3 myPosition);
-		Quadrant calcQuadrant(GridPoint & gridPoint, fVec3 queryPosition) const;
-		fVec3  fetchGradient(GridPoint & gridPoint, fVec3 queryPosition) const;
-		fVec3 fetchFirstQuadrantGradient(GridPoint & gridPoint) const ;
-		double getDensity(GridPoint & gridPoint) const;
-		double getDensity(GridPoint & gridPoint, fVec3 myPosition) const;   
-		void setPositiveXGradient(GridPoint & gridPoint, Real);
-		void setddyPositiveXGradient(GridPoint & gridPoint, Real);
-		void setddzPositiveXGradient(GridPoint & gridPoint, Real);
-		void setPositiveYGradient(GridPoint & gridPoint,Real);
-		void setddxPositiveYGradient(GridPoint & gridPoint, Real);
-		void setddzPositiveYGradient(GridPoint & gridPoint, Real);
-		void setPositiveZGradient(GridPoint & gridPoint, Real);
-		void setddxPositiveZGradient(GridPoint & gridPoint, Real);
-		void setddyPositiveZGradient(GridPoint & gridPoint, Real);
-		void setNegativeXGradient(GridPoint & gridPoint, Real);
-		void setNegativeYGradient(GridPoint & gridPoint, Real);
-		void setNegativeZGradient(GridPoint & gridPoint, Real);
-		void setFirstQuadrantGradient(GridPoint & gridPoint,fVec3 gradient); // might be obsolete
-		//fVec3 getFirstQuadrantGradient(GridPoint & gridPoint); 
-		//fVec3 firstQuadrantGradient(GridPoint & gridPoint); // might be obsolete
-		fVec3 calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint, fVec3 queryPosition) const;
-		//fVec3 getFirstQuadrantGradient(GridPoint & gridPoint);
-
-                
+        void writeDensityMapXplor(const String densityFileName,  const bool writeDensity = 1, const bool writeNoise =1);
+        //void loadParametersAndDensity_OpenDX(const String densityFileName) ;
+        //void loadParametersAndDensity_Situs(const String densityFileName) ;
+        void precomputeGradient();
+        void precomputeGradientDerivatives();
+        Vec3 fetchGradient(Vec3 position);
+        Vec3 fetchFirstQuadrantGradient(Vec3 position);
+        //Vec3 calcInterpolatedFirstQuadrantGradient(Vec3 position);
+        SimTK::Vec3 calcInterpolatedFirstQuadrantGradient(SimTK::Vec3 position) ;
+        // Functions which were moved from GridPoint to DensityMap for memory savings
+        void initializeGradient(GridPoint & gridPoint );
+        void initialize(GridPoint & gridPoint );
+        void validatePosition(GridPoint & gridPoint, Vec3 myPosition)const ;
+        void validateDensity (GridPoint & gridPoint, double          ) const;
+        void validate(GridPoint & gridPoint) const;
+        void setDensity(GridPoint & gridPoint, Real myDensity);
+        void setPosition(GridPoint & gridPoint, Vec3 myPosition);
+        //Quadrant calcQuadrant(GridPoint & gridPoint, Vec3 queryPosition) const;
+        //Vec3  fetchGradient(GridPoint & gridPoint, Vec3 queryPosition) const;
+        Vec3 fetchFirstQuadrantGradient(GridPoint & gridPoint) const ;
+        double getDensity(GridPoint & gridPoint) const;
+        double getDensity(GridPoint & gridPoint, Vec3 myPosition) const;   
+        void setPositiveXGradient(GridPoint & gridPoint, Real);
+        void setddxPositiveXGradient(GridPoint & gridPoint, Real);
+        void setddyPositiveXGradient(GridPoint & gridPoint, Real);
+        void setddzPositiveXGradient(GridPoint & gridPoint, Real);
+        void setPositiveYGradient(GridPoint & gridPoint,Real);
+        void setddxPositiveYGradient(GridPoint & gridPoint, Real);
+        void setddyPositiveYGradient(GridPoint & gridPoint, Real);
+        void setddzPositiveYGradient(GridPoint & gridPoint, Real);
+        void setPositiveZGradient(GridPoint & gridPoint, Real);
+        void setddxPositiveZGradient(GridPoint & gridPoint, Real);
+        void setddyPositiveZGradient(GridPoint & gridPoint, Real);
+        void setddzPositiveZGradient(GridPoint & gridPoint, Real);
+        void setNegativeXGradient(GridPoint & gridPoint, Real);
+        void setNegativeYGradient(GridPoint & gridPoint, Real);
+        void setNegativeZGradient(GridPoint & gridPoint, Real);
+        void printSecondDerivatives(GridPoint & gridPoint) const;
+        Vec3 calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint, Vec3 queryPosition) const;
 };
 
 // #define LINESIZE 1024

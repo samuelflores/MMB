@@ -1,0 +1,35 @@
+# To run this example, issue:
+# cp tRNA.pdb last.1.pdb
+# also make sure you have tRNA.xplor in the current directory.
+# And follow the tutorial guide!
+
+
+RNA V 5       CGCGGGAUGGAGCAGCCUGGUAGCUCGUCGGGCUCAUAACCCGAAGGUCGUCGGUCAAAUCCGGCCCCCGCAA
+
+# Set bondMobility for all residues in all chains (in this case there is only one) to Rigid:
+mobilizer Rigid 
+
+removeRigidBodyMomentum false
+
+# This is constant that multiplies the density forces. In this case we leave it at the default value of unity:
+densityForceConstant 1.00
+
+# This file contains the density map in XPLOR format:
+densityFileName ./tRNA.xplor
+
+# This fits chain V to the density map:
+fitToDensity V
+
+# These parameters should be familiar by now:
+temperature 1
+numReportingIntervals 100
+reportingInterval 1    
+
+firstStage 2    
+lastStage 2         
+
+
+
+
+
+

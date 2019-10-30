@@ -1,0 +1,38 @@
+RNA  N 17       GGCAGAUCUGAGCCUGGGAGCUCUCUGCC
+
+# We don't want to move the system center of mass to the global origin in this case, nor do we want to enforce zero overall momenta. So set:
+removeRigidBodyMomentum False
+
+constrainToGround N 17
+
+# Specify rigid segments:
+mobilizer Rigid       N 17 21
+mobilizer Rigid       N 27 38
+mobilizer Rigid       N 41 45
+
+# To prevent the discontinuous domain from splitting:
+constraint      N 17 Weld  N 45
+
+constraintTolerance .001
+contact SelectedAtoms N FirstResidue LastResidue
+
+numReportingIntervals  200
+reportingInterval 2.0 
+firstStage 2
+lastStage 2
+
+temperature   10.0  
+
+baseInteraction N 26 WatsonCrick N 39 WatsonCrick Cis
+baseInteraction N 22 WatsonCrick N 40 WatsonCrick Cis
+baseInteraction N 27 WatsonCrick N 38 WatsonCrick Cis
+baseInteraction N 28 WatsonCrick N 37 WatsonCrick Cis
+baseInteraction N 29 WatsonCrick N 36 WatsonCrick Cis
+baseInteraction N 17 WatsonCrick N 45 WatsonCrick Cis
+baseInteraction N 18 WatsonCrick N 44 WatsonCrick Cis
+baseInteraction N 19 WatsonCrick N 43 WatsonCrick Cis
+baseInteraction N 20 WatsonCrick N 42 WatsonCrick Cis
+baseInteraction N 21 WatsonCrick N 41 WatsonCrick Cis
+
+
+

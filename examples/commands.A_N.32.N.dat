@@ -1,0 +1,35 @@
+#MONOCLONAL ANTIBODY FAB D44.1 RAISED AGAINST CHICKEN EGG-WHITE LYSOZYME 
+#light chain (WT sequence):
+protein A 1         DIELTQSPATLSVTPGDSVSLSCRASQSISNNLHWYQQKSHESPRLLIKYVSQSSSGIPSRFSGSGSGTDFTLSINSVETEDFGMYFCQQSNSWPRTFGGGTKLEIKRADAAPTVSIFPPSSEQLTSGGASVVCFLNNFYPKDINVKWKIDGSERQNGVLNSWTDQDSKDSTYSMSSTLTLTKDEYERHNSYTCEATHKTSTSPIVKSFNRNEC
+#heavy chain:
+protein B 1 QVQLQESGAEVMKPGASVKISCKATGYTFSTYWIEWVKQRPGHGLEWIGEILPGSGSTYYNEKFKGKATFTADTSSNTAYMQLSSLTSEDSAVYYCARGDGNYGYWGQGTTLTVSSASTTPPSVFPLAPGSAAQTNSMVTLGCLVKGYFPEPVTVTWNSGSLSSGVHTFPAVLQSDLYTLSSSVTVPSSPRPSETVTCNVAHPASSTKVDKKIVPRDC
+#antigen
+protein E 1         KVFGRCELAAAMKRHGLDNYRGYSLGNWVCAAKFESNFNTQATNRNTDGSTDYGILQINSRWWCNDGRTPGSRNLCNIPCSALLSSDITASVNCAKKIVSDGNGMNAWVAWRNRCKGTDVQAWIRGCRL
+
+# Residue at chain A position 32 will be mutated from N to N.  In other words, nothing will be done.  But itäs good to change exactly one thing in WT vs mutant run.
+substituteResidue A 32 N
+
+removeRigidBodyMomentum FALSE
+mobilizer Rigid 
+mobilizer Default A 32-2 32+2
+setDefaultMDParameters
+
+# Physics zone includes all residues within 1.2 nm of the flexibility zone:
+physicsRadius 1.2
+# smallGroupInertiaMultiplier scales the inertia tensor by a constant, so fast spinning of tiny chemical groups don't drive down the time step size.
+smallGroupInertiaMultiplier 11  
+# take all rigid segments in all chains and constrain them to ground:
+constrainChainRigidSegments
+
+
+firstStage 2 
+
+lastStage 2
+reportingInterval .1
+numReportingIntervals 150 
+
+
+
+
+
+

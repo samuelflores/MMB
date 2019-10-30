@@ -1,0 +1,41 @@
+# This is an example of how to use constrainInterfaces to do template-based docking.
+# See our paper, Dourado and Flores, Nat. Sci. Reports 2016 (doi:10.1038/srep25406)
+
+# This example is a bit trivial, in that we are bringing chain A in to replace chain C. But chain A and chain C are actually identical.  But this should give you the idea.
+
+
+firstStage 2
+lastStage 3
+
+
+# Make sure these PDB files are in the current directory, of course:
+loadSequencesFromPdb 1FC2.pdb
+# This contains a chain C which has been renamed "A".  chain D is deleted:
+loadSequencesFromPdb 1FC2.C-to-A.pdb
+
+readAtStage 2
+# Just for illustration, we start with the new chain (A) displaced away from the Fc (D):
+initialDisplacement A 10 0 0
+# Now we pull A onto C:
+alignmentForces A C   
+# Note we do not have to provide residue numbers, a gapped threading will take care of that.
+
+# While keeping C (original SpA) on Fc (D):
+constrainInterfaces .6  
+# This command detects any clashes. Note A and C clash later in the stage!  This is expected, and is not a problem, particularly since physics is turned off.
+detectInterChainClashes .1
+readBlockEnd
+
+mobilizer Rigid
+
+
+
+
+readAtStage 3
+# Now we move the original chain (C) out of the picture:
+initialDisplacement C 10 0 0
+# And constrain the new chain A to the Fc (D):
+constrainInterfaces .6 
+readBlockEnd
+
+

@@ -1,0 +1,49 @@
+firstStage 2
+lastStage 2
+verbose true
+tinkerParameterFileName .//tinker_amber99_clean.prm 
+randomizeInitialVelocities true
+setDefaultMDParameters
+removeRigidBodyMomentum false
+# chain ID and arbitrary 3-character residue name:
+molecule initialize B RNG
+# create a trivalent atom, of element Carbon, name it C1:
+molecule B setBaseAtom   TrivalentAtom C1 Carbon 
+# The TrivalentAtom has bonds named bond1, bond2, and bond3.  Attach the next atom to one of these three (here we chose bond2) and specify the bond length (.14 nm):
+molecule B bondAtom TrivalentAtom C2 Carbon C1/bond2 .14
+# note that in the above, bond2 of C1 is now occupied.  It's also implicit that bond1 of C2 is occupied, because that's by default the bond on the child which is used for attachment.
+# now all the other four carbons in the ring:
+molecule B bondAtom TrivalentAtom C3 Carbon C2/bond2 .14
+molecule B bondAtom TrivalentAtom C4 Carbon C3/bond2 .14
+molecule B bondAtom TrivalentAtom C5 Carbon C4/bond2 .14
+molecule B bondAtom TrivalentAtom C6 Carbon C5/bond2 .14
+# Use the special atom type AliphaticHydrogen here, and use another available bond.  
+molecule B bondAtom AliphaticHydrogen H1 Hydrogen C1/bond3 .1
+molecule B bondAtom AliphaticHydrogen H2 Hydrogen C2/bond3 .1
+molecule B bondAtom AliphaticHydrogen H3 Hydrogen C3/bond3 .1
+molecule B bondAtom AliphaticHydrogen H4 Hydrogen C4/bond3 .1
+molecule B bondAtom AliphaticHydrogen H5 Hydrogen C5/bond3 .1
+molecule B bondAtom AliphaticHydrogen H6 Hydrogen C6/bond3 .1
+# Now for atoms C2,C3,C4,and C5, we have now occupied bond1 (to attach to the preceding atom), bond3 (to attach a hydrogen), and bond2 (to attach the succeeding atom). So no bonds left on those atoms.
+# C1 has bond1 still available (because it has no parent atom).  C6 has C2 available, because it has no child atom.
+
+#Find convenient biotypes in your tinker parameter file for these atoms.  In this case we used Phenylalanine CZ, with Ordinality:Any for the carbons, and Phenylalanine HZ for the aliphatic hydrogens:
+molecule B setBiotypeIndex C1 Phenylalanine CZ Any 
+molecule B setBiotypeIndex C2 Phenylalanine CZ Any 
+molecule B setBiotypeIndex C3 Phenylalanine CZ Any 
+molecule B setBiotypeIndex C4 Phenylalanine CZ Any 
+molecule B setBiotypeIndex C5 Phenylalanine CZ Any 
+molecule B setBiotypeIndex C6 Phenylalanine CZ Any 
+
+molecule B setBiotypeIndex H1 Phenylalanine HZ Any 
+molecule B setBiotypeIndex H2 Phenylalanine HZ Any 
+molecule B setBiotypeIndex H3 Phenylalanine HZ Any 
+molecule B setBiotypeIndex H4 Phenylalanine HZ Any 
+molecule B setBiotypeIndex H5 Phenylalanine HZ Any 
+molecule B setBiotypeIndex H6 Phenylalanine HZ Any 
+
+# Now we add a bond to close the ring.  Recall the bond centers that are available on C1 and C6:
+addRingClosingBond B C1 bond1 C6 bond2
+
+#constraint B C1 Weld Ground
+

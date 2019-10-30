@@ -1,0 +1,75 @@
+# By Eloy Vallina Estrada, Stockholm University
+# With a wee bit of help from Sam
+
+# BEGIN
+firstStage 2
+lastStage  2
+
+# STAGE 2 - semi-rigid alignment
+readAtStage 2
+
+# antibody
+loadSequencesFromPdb 1mlb.AB.pdb
+# lysozyme
+loadSequencesFromPdb 1dpx.C.pdb
+# bound structure
+loadSequencesFromPdb 1mlc.DEF.pdb
+
+# Let's move 1MLB -3nm in X. Just to make the initial workspace look less cluttered. 
+initialDisplacement A -3  0 0 
+initialDisplacement B -3  0 0 
+
+readBlockEnd
+
+readAtStage 3
+# At any further stages, read in sequences from last.n-1.pdb :
+loadSequencesFromPdb
+readBlockEnd
+
+
+
+reportingInterval 1.0
+numReportingIntervals 35 
+
+# set the strenght of alignment springs:
+alignmentForces forceConstant 300
+# Pull targets ABC onto template chain DEF:
+alignmentForces A   D
+alignmentForces B   E
+alignmentForces C   F
+
+# Turn on the Coulomb and VdW terms of the force field:
+setDefaultMDParameters
+# Include only a few residues in the interface, in the force field:
+includeResiduesWithin .60 A 32
+includeResiduesWithin .60 A 93
+includeResiduesWithin .60 B 33
+includeResiduesWithin .60 C 68
+
+# Always turn off physics for the template! Otherwise we wil not be able to pull the target onto it:
+deactivatePhysics D
+deactivatePhysics E
+deactivatePhysics F
+
+# Fix the template to ground. This command makes it so there is only a Rigid mobilizer between ground and the root atoms of DEF:
+rootMobilizer D Weld
+rootMobilizer E Weld
+rootMobilizer F Weld
+
+# The rigid body momentum remover sets overall momenta to zero and moves the center of mass to the origin. So we need to turn that off:
+removeRigidBodyMomentum false
+
+#Now rigidify all chains:
+mobilizer Rigid
+# We don't want the heavy and light chains of the antibody to separate or change relative conformation:
+constraint A FirstResidue Weld B FirstResidue
+# Since A and B are both rigid, the above choice of residue number is arbitrary.
+
+# Chain C residue 4 clashes with chain A resid 94:
+mobilizer Default C 45-1 45+1
+# constrain the two rigid fragments thus generated:
+constraint C 45-2 Weld C 45+2
+
+temperature 1.0
+
+

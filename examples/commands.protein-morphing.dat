@@ -1,0 +1,71 @@
+
+firstStage 2 
+lastStage  3 
+
+readAtStage 2
+# Template, 1WDN       
+loadSequencesFromPdb 1WDN.short.pdb
+# Old way, one could specify the sequence explicitly:
+#protein B 4  KLVVATDTAFVPFEFKQGDLYVGFDVDLWAAIAKELKLDYELKPMDFSGIIPALQTKNVDLALAGITITDERKKAIDFSDGYYKSGLLVMVKANNNDVKSVKDLDGKVVAVKSGTGSVDYAKANIKTKDLRQFPNIDNAYMELGTNRADAVLHDTPNILYFIKTAGNGQFKAVGDSLEAQQYGIAFPKGSDELRDKVNGALKTLRENGTYNEIYKKWFGTEPKQ
+
+# Model, 1GGG
+loadSequencesFromPdb 1GGG.short.pdb
+# Old way, one could specify the sequence explicitly:
+#protein A 5   LVVATDTAFVPFEFKQGDLYVGFDVDLWAAIAKELKLDYELKPMDFSGIIPALQTKNVDLALAGITITDERKKAIDFSDGYYKSGLLVMVKANNNDVKSVKDLDGKVVAVKSGTGSVDYAKANIKTKDLRQFPNIDNAYMELGTNRADAVLHDTPNILYFIKTAGNGQFKAVGDSLEAQQYGIAFPKGSDELRDKVNGALKTLRENGTYNEIYKKWFGTE
+
+readBlockEnd
+
+readAtStage 3
+loadSequencesFromPdb
+readBlockEnd
+
+alignmentForces noGap
+alignmentForces  A 5 224 B 5 224
+#threading A 5 224 B 5 224 
+
+# you will want to reduce this if you remove the mobilizer .. Rigid commands.
+removeRigidBodyMomentum false
+temperature 1.0 
+
+# make all chains (A and B) Rigid along their full lengths:
+mobilizer Rigid 
+
+
+
+# Rigid alignment stage
+readAtStage 2
+deactivatePhysics A
+deactivatePhysics B
+# This stage is short, will converge after 60 ps or so:    
+reportingInterval 10.0
+numReportingIntervals 6
+# Do nothing.  All chains will be left fully rigid.
+#mobilizer Rigid A 5 224
+readBlockEnd
+
+readAtStage 3
+
+reportingInterval 1.0
+numReportingIntervals 25
+# Flexibilize just the hinges on your model:
+mobilizer Default A 87+1 90-1
+mobilizer Default A 180+1 184-1
+# The N- and C-termini are in the same, discontinuous domain. Constrain them to each other, otherwise the domain would fall apart:
+constraint A FirstResidue Weld A LastResidue
+
+
+setDefaultMDParameters
+physicsRadius .7
+# Turn off physics for the template chain:
+deactivatePhysics B
+
+
+#mobilizer Rigid A 5 87
+#mobilizer Rigid A 90 180
+#mobilizer Rigid A 184 224
+#constrainToGround A 5
+#constrainToGround A 195
+
+readBlockEnd
+
+

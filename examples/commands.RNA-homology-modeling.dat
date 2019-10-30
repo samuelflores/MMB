@@ -1,0 +1,35 @@
+# Before running this, copy the provided 1GID.shifted.pdb to last.1.pdb in your working directory
+
+firstStage 2    
+lastStage 2   
+
+# The reporting interval is set empirically, it has no particular physical meaning in this case:
+reportingInterval .5    
+numReportingIntervals   80  
+
+# TETRAHYMENA P6ab -- "template" fragment  
+RNA Q 220 GUCCUAAGUCAACAGAUCUUCUGUUGAUAUGGAU
+
+# AZOARCUS -- "target" or threaded fragment   
+RNA      C 146 CCUAAGGCAAACGCUAUGG                                              
+
+# Now rigidify the template:
+mobilizer Rigid Q         
+
+# Old way to prevent steric clashes, as described in Flores & Altman, RNA 2010:
+#contact AllHeavyAtomSterics C 146 164          
+
+# More modern way, using "Physics where you want it" applied to target only:
+setDefaultMDParameters
+includeResidues C FirstResidue LastResidue
+# Note that for large molecules, the force field can get expensive.  In such cases, try threading it in parts.
+
+#Alignment forces. More modern way, which pulls together like-named atoms in corresponding residues:
+# First, specify that the alignment is explicit, rather than using a SeqAn gapped alignment. Internally, this simply applies a high penalty to gaps:  
+alignmentForces noGap
+# Next, specify the force constant for the alignment springs. There is not much physical meaning to this choice of force constant, it is just empirically sufficient to pull the chains together nicely:
+alignmentForces forceConstant 300.0
+# Finally, specify corresponding residue stretches to be pulled together on template and target:
+alignmentForces C 146 151 Q 222 227
+alignmentForces C 160 164 Q 247 251
+

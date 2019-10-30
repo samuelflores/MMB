@@ -1,0 +1,30 @@
+# In this example, we create a hairpin with a three base pair stem and a four base loop.
+# You can compare this to the tetraloop found in the large subunit of the yeast mitochondrial ribosome, PDB ID 5MRC, residues 2639 to 2648.
+
+#sequence
+RNA A 2656     UACGUAAGUA
+
+# stages
+firstStage 1 
+lastStage 1
+
+#general simulation parameters
+# This is a multiplying factor for the baseInteraction forces:
+baseInteractionScaleFactor     200
+# Simulation time = reportingInterval * numReportingIntervals :
+reportingInterval 4.0
+numReportingIntervals 10
+temperature 10 
+
+nucleicAcidDuplex A 2656 2658 A 2665 2663
+
+# Or, equivalently:
+#base pairing forces to generate the hairpin 
+#baseInteraction A 2658 WatsonCrick A 2663 WatsonCrick Cis 
+#baseInteraction A 2657 WatsonCrick  A 2664 WatsonCrick Cis 
+#baseInteraction A 2656 WatsonCrick  A 2665 WatsonCrick Cis
+
+# Turn on MD forces (incl. electrostatic and Lennard Jones forces)
+setDefaultMDParameters
+
+

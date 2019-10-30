@@ -1,0 +1,91 @@
+# In this example, we create a hairpin with a three base pair stem and a four base loop.
+# You can compare this to the tetraloop found in the large subunit of the yeast mitochondrial ribosome, PDB ID 5MRC, residues 2639 to 2648.
+
+#sequence
+RNA A 2639     UACGUAAGUA
+readAtStage 1
+# Turn on MD forces (incl. electrostatic and Lennard Jones forces)
+setDefaultMDParameters
+readBlockEnd
+
+
+
+############
+# Duplex Watson-Crick base pairing section
+############
+# You can impose WatsonCrick/WatsonCrick/Cis base pairing forces pulling residues 2656-2658 towards 2663-2665:
+nucleicAcidDuplex A 2639 2641 A 2648 2646
+# Note that in the above the first residue stretch is rising, the second is falling. This is because the strands are antiparallel. Respect this syntax!
+
+# Or, equivalently, you can apply the base pairs individually::
+#baseInteraction A 2641 WatsonCrick A 2646 WatsonCrick Cis 
+#baseInteraction A 2640 WatsonCrick  A 2647 WatsonCrick Cis 
+#baseInteraction A 2639 WatsonCrick  A 2648 WatsonCrick Cis
+
+#In prior editions of MMB we set the helical stacking using baseInteractions which could be automatically applied. Let's turn those off now:
+setHelicalStacking False
+#Why? Because now we have a better way to make nice helices. And actually many other dinucleotide steps. Thanks to Emmanuel Peter, Bohdan Schneider, and Jiri Cerny, who implemented NtCs in MMB.
+
+############
+# NtC section
+############
+#The following imposes the NtC of type AA00 -- the most typical A-form stacking dinucleotide step -- to the dinucleotide formed by residues 2639 and 2640. The last parameter is a force constant:
+NtC A 2639 2640 AA00 .5
+# There are three stacked bases on this strand. So we impose a second NtC force, overlapping the prior one:
+NtC A 2640 2641 AA00 .5
+# And now we do the same thing on the other strand:
+NtC A 2646 2647 AA00 .5
+NtC A 2647 2648 AA00 .5
+
+#Alternatively, you may use this more terse notation, basically you provide only the start and end residues and it applies a single NtC Class to the entire stretch:
+#NtC A 2639 2641 AA00 .5
+#NtC A 2646 2648 AA00 .5
+############
+
+
+
+
+############
+# In this optional second stage, you can turn the hairpin into a GNRA tetraloop.
+############
+readAtStage 2
+# You can upload the provided 5MRC.GNRA.pdb to dnatco.org and see which Nucleotide Conformers (NtC's) are needed to recapitulate the GNRA tetraloop. You should find:
+NtC A 2641 2642 AA00 1.5
+NtC A 2642 2643 OP03 1.5
+NtC A 2643 2644 AA08 1.5
+NtC A 2644 2645 AA00 1.5
+NtC A 2645 2646 AA05 1.5
+# Since we are specifying the conformation of every single residue, we no longer need the non-bonded MD terms:
+globalCoulombScaleFactor 0.0
+globalVdwScaleFactor 0.0 
+# Your structure could be trapped in a local minimum. So let's use the scrubber (potential rescaling) to get out of that:
+dutyCycle .9
+scrubberPeriod 6
+# The  above means forces are turned on 90% of the time, then turned off, with period of 6 ps.
+readBlockEnd
+############
+
+############
+# general parameters
+############
+# stages
+firstStage 1 
+lastStage 2
+# This is a multiplying factor for the baseInteraction forces:
+baseInteractionScaleFactor     200
+# Simulation time = reportingInterval * numReportingIntervals :
+reportingInterval 3.0
+numReportingIntervals  6
+temperature 10 
+############
+
+
+
+#setDefaultMDParameters
+
+
+readAtStage 3
+mobilizer Rigid
+alignmentForces A B
+readBlockEnd
+

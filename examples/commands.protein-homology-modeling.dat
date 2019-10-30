@@ -1,0 +1,43 @@
+
+firstStage   2  
+lastStage    2  
+
+reportingInterval 1.0
+numReportingIntervals  100
+
+temperature 1.0  
+removeRigidBodyMomentum false
+
+# beetle TERT template:
+protein E 94                                                                                 CYDYDAIPWLQNVEPNLRPKLLLKHNLFLLDNIVKPIIAFYYKPIKTLNGHEIKFIRKEEYIS 
+# Note all the blank spaces preceding the sequence -- these are not necessary, I just like the column number in my text file to match the residue number where possible.
+
+#  target: human TERT fragment sequence
+protein H 522                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            RSPGVGCVPAAEHRLREEILAKFLHWLMSVYVVELLRSFFYVTETTFQKNRLFFYRKSV 
+
+
+# providing no residue numbers rigidifies the entire chain E:
+mobilizer Rigid E   
+
+# It should be obvious what "FirstResidue" means
+constrainToGround E FirstResidue
+
+# First, specify the force constant for the alignment springs. There is not much physical meaning to this choice of force constant, it is just empirically sufficient to pull the chains together nicely. 
+# Note that alignmentForces parameters such as this apply to alignments done below that parameter in the file. So we set this and all such parameters first:
+alignmentForces forceConstant 300
+
+#If you want to do your alignment manually:
+#alignmentForces noGap
+#alignmentForces  H 	524	543	E	96	115  
+#alignmentForces  H 	544	580	E	117	153  
+
+#Otherwise , just let MMB do a gapped alignment for you with SeqAn:
+alignmentForces gapped
+alignmentForces H E
+# "gapped" is the default behavior, FYI.
+
+
+# Lastly, prevent steric clashes between atoms in the target (the template is a ghost):
+#contact  AllAtomSterics H  FirstResidue LastResidue
+
+

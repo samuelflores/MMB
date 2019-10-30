@@ -37,6 +37,7 @@ void ElectrostaticPotentialGridForce::calcForce(const State& state, Vector_<Spat
                     Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
                     Vec3 myAtomForce = myDensityMap.calcInterpolatedFirstQuadrantGradient(myAtomLocation) * (myParameterReader.electroDensityForceConstant * (-tempAtomInfo.partialCharge));
                     // cout << "ElectroForce "<< tempAtomInfo.atomName << " " <<tempAtomInfo.partialCharge <<" "<< myDensityMap.getDensity(myAtomLocation) << endl;
+                    std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;
                     densitySum += myDensityMap.getDensity(myAtomLocation);
 
                     bodyForces[tempAtomInfo.mobilizedBodyIndex] +=  SpatialVec(torque + (-((tempAtomInfo.mobilizedBody).getBodyTransform(state)).T()+ myAtomLocation) % myAtomForce, myAtomForce);
@@ -61,6 +62,7 @@ Real ElectrostaticPotentialGridForce::calcPotentialEnergy(const State& state) co
                                 DuMM::AtomIndex myDuMMAtomIndex = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().getDuMMAtomIndex(myAtomIndex);
                                 if (((myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().getAtomElement(myAtomIndex)).getSymbol()).compare("H") != 0) { 
                                         Vec3 myAtomLocation = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().calcAtomLocationInGroundFrame(state, myAtomIndex);
+                                        std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;
                                         totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * (-dumm.getPartialCharge(myDuMMAtomIndex));
 
                                 }

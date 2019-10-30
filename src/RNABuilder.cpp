@@ -1,5 +1,20 @@
 
 /* -------------------------------------------------------------------------- *
+                          MMB (MacroMoleculeBuilder)                       
+   -------------------------------------------------------------------------- 
+                                                                           
+Copyright (c) 2011-16 by the author                                        
+Author: Samuel Flores                                                      
+                                                                           
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to use the Software for non-profit academic research only. Any commercial, for-profit, or industrial use requires the payment of usage fees.                  
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.            
+                            
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS, CONTRIBUTORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                         
+-------------------------------------------------------------------------- */
+
+
+/* -------------------------------------------------------------------------- *
  *                           MMB (MacroMoleculeBuilder)                       *
  * -------------------------------------------------------------------------- *
  *                                                                            *
@@ -33,8 +48,11 @@
 #include "ErrorManager.h"
 #include "ParameterReader.h"
 #include "Repel.h"
+#include "Utils.h"
 //#include "RNANoHydrogens.h"
 //#include "PeriodicPdbAndEnergyWriter.h"
+#define _DEBUG_FLAGS_ON_
+
 
 void printUsage() {
     std::cout<<std::endl;
@@ -131,6 +149,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
         ParameterReader myParameterReader;
         
         cout<<__FILE__<<":"<<__LINE__<<" About to read "<<parameterFile<<" to set firstStage and lastStage"<<endl; 
+        cout<<__FILE__<<":"<<__LINE__<<endl; 
         myParameterReader.setFirstAndLastStage(parameterFile.c_str());
 
         cout<<__FILE__<<":"<<__LINE__<<"  lastStage = "<<myParameterReader.lastStage<<endl; 
@@ -225,9 +244,14 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             myParameterReader.printAllSettings(output ,String("REMARK ")   );
             output<<endl<<"REMARK "<< __FILE__<<":"<<__LINE__<<  " done with call to myParameterReader.printAllSettings "<<endl<<endl;
 
-            //printBiopolymerSequenceInfo(myParameterReader.myBiopolymerClassContainer.updBiopolymerClass("g").myBiopolymer);
-            myConstrainedDynamics.runDynamics();
+            //printBiopolymerSequenceInfo(myParameterReader.myBiopolymerClassContainer);
             cout <<__FILE__<<":"<<__LINE__<<endl;
+            myConstrainedDynamics.runDynamics();
+            myParameterReader.atomSpringContainer.calcKabschRmsd(myConstrainedDynamics.getCurrentState(),myParameterReader.myBiopolymerClassContainer);
+            cout <<__FILE__<<":"<<__LINE__<<endl;
+            closingMessage();
+            cout <<__FILE__<<":"<<__LINE__<<endl;
+            //exit(0); //hoping to avoid the corrupted double linked list issue
         }
 
     }

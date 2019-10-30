@@ -18,6 +18,216 @@ using namespace std;
 using namespace SimTK;
 
 
+int myMkdir(std::string directoryPath){
+    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<":"<<" You are asking to create the directory  "<<directoryPath<<std::endl;
+    if (!(opendir(directoryPath.c_str()))){
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<":"<<" opendir failed to open directory "<<directoryPath<<" . Will now create this directory.  " <<std::endl;
+        const int dir_err = mkdir(directoryPath.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": mkdir returned : "<<dir_err <<std::endl;
+        if (-1 == dir_err)
+        {    
+            printf("Error creating directory!n");
+            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<":"<<" Failed to  create directory "<<directoryPath<<"  " <<std::endl;
+            exit(1);
+        } else if (0 == dir_err) {
+            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<":"<<" Successfully created directory "<<directoryPath<<" " <<std::endl;
+        } else {
+            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<":"<<" An unexpected error occurred when creating the directory "<<directoryPath<<" " <<std::endl;
+        }    
+    }    
+    if (access((directoryPath ).c_str(), R_OK) == 0) { 
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Found that we have read access to a directory called "<< directoryPath   <<" . So far so good."<<std::endl;
+        return 0;
+    } else {
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Heads up! Found that we do NOT have read access to a directory called "<<  directoryPath  <<"  "<<std::endl; exit(1);
+        return 1;
+    }    
+}
+
+int myChdir(std::string directoryPath){
+    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to attempt changing directory to "<<directoryPath<<" . "<<std::endl;
+    if (chdir(directoryPath.c_str())){
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unable to change directory to "<<directoryPath<<" . Exiting now."<<std::endl;
+        exit(1);
+        return 1;
+    } else {
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Was able to successfully change directory to "<<directoryPath<<" . "<<std::endl;
+        return 0;
+    }    
+}
+
+void closingMessage() {
+    std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
+    std::cout<<__FILE__<<":"<<__LINE__<<" Questions or problems? Please use the public forum at https://simtk.org/forums/viewforum.php?f=359&amp;sid=770b2f0d333ecb740d8c2f9e7e80e51c  "<<std::endl;
+    std::cout<<__FILE__<<":"<<__LINE__<<" If privacy is necessary you can email samuelfloresc@gmail.com   "<<std::endl;
+    std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
+    std::cout<<__FILE__<<":"<<__LINE__<<" Please support continued development. "<<std::endl;
+    //std::cout<<__FILE__<<":"<<__LINE__<<" Suggested donation: "<<std::endl;
+    //std::cout<<__FILE__<<":"<<__LINE__<<" Academic: 75 EUR"<<std::endl;
+    std::cout<<__FILE__<<":"<<__LINE__<<" Industry: required to contact for a quote: sam@xray.bmc.uu.se "<<std::endl;
+    //std::cout<<__FILE__<<":"<<__LINE__<<" Industry (per user): 1000 EUR "<<std::endl;
+    std::cout<<__FILE__<<":"<<__LINE__<<" By bank transfer to IBAN: SE0750000000053680279418 , SWIFT: ESSESESS "<<std::endl;
+    std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
+};
+
+CheckFile::CheckFile(const String myFileName){
+    fileName = myFileName;
+    //struct stat st;
+    stat(  fileName.c_str(), &st);
+}
+
+void CheckFile::validateNonZeroSize(){
+    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" About to check that "<<fileName<<" has nonzero size.."<<std::endl;
+    if ( st.st_size == 0){
+        ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" ERROR: Apparently "<<fileName<<" has size "<<st.st_size <<" . Dying now."<<std::endl;
+        ErrorManager::instance.treatError();
+    } else {
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Apparently "<<fileName<<" has size "<<st.st_size <<" . This seems OK."<<std::endl;
+    }
+}
+
+void CheckFile::validateExists(){
+    if(stat(fileName.c_str(), &st) != 0){
+        ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" ERROR: stat says no file exists. Dying now."<<std::endl;
+        ErrorManager::instance.treatError();}
+    else {
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" stat says file exists. All is good. "<<std::endl;
+    }
+}
+
+
+
+std::string   trim(const std::string& str, 
+                 const std::string& whitespace// = " \t"
+                 )   
+{ 
+    const auto strBegin = str.find_first_not_of(whitespace);
+    if (strBegin == std::string::npos)
+        return ""; // no content
+
+    const auto strEnd = str.find_last_not_of(whitespace);
+    const auto strRange = strEnd - strBegin + 1; 
+
+    return str.substr(strBegin, strRange);
+    //return std::string ("hello");
+}
+
+bool vectorCompare(String myString, vector<String> & comparisonStringVector) {
+    if (comparisonStringVector.size() == 0) { //cout<<", returning TRUE "<<endl ;
+        return true;} // If we are comparing to an empty vector, return true.  This is in case no partner chains have been specified, in which case any chain will pass.
+    for (int i = 0; i < comparisonStringVector.size(); i++) {
+        //cout<<__FILE__<<":"<<__LINE__<<" comparing "<<myString<< " to comparisonStringVector["<<i<<"] : "<<comparisonStringVector[i];
+        if (comparisonStringVector[i].compare(myString ) == 0) { //cout<<", returning TRUE "<<endl ;  
+            return true; } else {//cout<<", returning FALSE";
+            }
+        //cout<<endl;
+    }
+    return false; // If no String in comparisonStringVector is the same as myString
+};
+
+BondMobility::Mobility stringToBondMobility(String bondMobilityString) {
+       String myBondMobilityString =   bondMobilityString;
+       myBondMobilityString.toUpper();
+       BondMobility::Mobility myBondMobility;
+       // Remember  Free = 1, Torsion = 2, Rigid = 3
+       if ((myBondMobilityString).compare("RIGID") == 0)              {
+           std::cout<<__FILE__<<":"<<__LINE__<<" Detected Rigid : >"<<bondMobilityString<<"< or >"<<myBondMobilityString<<"< "<<std::endl;
+           myBondMobility = SimTK::BondMobility::Rigid;
+           //std::cout<<__FILE__<<":"<<__LINE__<<" returning myBondMobility = >"<<myBondMobility<<"< "<<std::endl;
+       }
+       else if ((myBondMobilityString).compare("TORSION") == 0)       {
+           std::cout<<__FILE__<<":"<<__LINE__<<" Detected Torsion :"<<myBondMobilityString<<std::endl;
+           myBondMobility = SimTK::BondMobility::Torsion;}
+       else if ((myBondMobilityString).compare("DEFAULT") == 0)       {
+           std::cout<<__FILE__<<":"<<__LINE__<<" Detected Default :"<<myBondMobilityString<<std::endl;
+           myBondMobility = SimTK::BondMobility::Default;}
+       else if ((myBondMobilityString).compare("FREE")  == 0)         {
+           std::cout<<__FILE__<<":"<<__LINE__<<" Detected Free :"<<myBondMobilityString<<std::endl;
+           myBondMobility = SimTK::BondMobility::Free ;}
+       else {
+           ErrorManager::instance <<__FILE__<<":"<<__LINE__                           <<" At this time only Default, Free,Torsion, and Rigid bondMobilities are supported. You are attempting to apply \""                           << myBondMobilityString <<"\". "<<std::endl;
+           ErrorManager::instance.treatError();}
+       return myBondMobility;
+}
+
+
+void InterfaceContainer::addInterface(vector<String> myChains,vector<String> partnerChains,  double myDepth ,  String myMobilizerString ){
+    Interface myInterface; 
+    myInterface.Chains.clear(); myInterface.PartnerChains.clear();
+    for (int i = 0; i < myChains.size(); i++) {myInterface.Chains.push_back( myChains[i]);}
+    for (int i = 0; i < partnerChains.size(); i++) {myInterface.PartnerChains.push_back( partnerChains[i]);}
+    myInterface.Depth = myDepth; 
+    if (! (myMobilizerString.compare("NONE")==0) ||
+	  (myMobilizerString.compare("Rigid")==0) ||
+	  (myMobilizerString.compare("Default")==0) || 
+	  (myMobilizerString.compare("Torsion")==0) ||
+	  (myMobilizerString.compare("Free")==0) 
+	) {    
+       ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Expected a mobilizer type (Default, Rigid, Torsion, Free), but got : >"<< myMobilizerString<<"< "<<std::endl;
+       ErrorManager::instance.treatError();
+	    
+    }
+    myInterface.MobilizerString = myMobilizerString; 
+    interfaceVector.push_back(myInterface); 
+};
+
+
+#ifdef USE_OPENMM
+vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAtomInfo> & concatenatedAtomInfoVector ){
+//vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(  BiopolymerClassContainer & myBiopolymerClassContainer){
+        OpenMM::NeighborList neighborList;
+        openmmVecType boxSize = openmmVecType(10000,10000,10000);
+        //vector<MMBAtomInfo> concatenatedAtomInfoVector = myBiopolymerClassContainer.getConcatenatedAtomInfoVector();
+        vector<TwoAtomClass> contactingAtomInfoPairVector;
+        contactingAtomInfoPairVector.clear();
+        vector<openmmVecType> particleList(concatenatedAtomInfoVector.size());
+        vector<set<int> > exclusions( particleList.size() );
+        for (int i = 0; i < concatenatedAtomInfoVector.size() ; i++) {
+            particleList[i] = concatenatedAtomInfoVector[i].position;
+        }
+
+        cout<<__FILE__<<":"<<__LINE__<<" neighborList size is : "<<neighborList.size()<<endl;
+        for (int h = 0 ; h < numInterfaces(); h++ ){ // loop through interfaceContainer interfaces ..
+            vector<String> referenceChains = getInterface(h).getChains();  
+            vector<String> partnerChains = getInterface(h).getPartnerChains();  
+            double         radius        = getInterface(h).getDepth();  
+            cout<<__FILE__<<":"<<__LINE__<<"Now turning interface "<< h << " to individual constraints between pairs of atoms."<<endl;
+            getInterface(h).print(); 
+            cout<<__FILE__<<":"<<__LINE__<<endl;
+            computeNeighborListVoxelHash(neighborList, particleList.size() , particleList, exclusions, &boxSize, false, radius  , 0.0);
+            for ( int j = 0 ; j < neighborList.size(); j++) {
+                if ((((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].chain , (referenceChains))) == 1) &&
+                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].chain ,(  partnerChains))) == 1))  || 
+//Use an XOR here. This means if the 'partnerChains' evaluation is later set to return 1 when partnerChains is empty, this will still work.
+                    ((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].chain ,(referenceChains))) == 1) &&
+                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].chain  ,(  partnerChains))) == 1))     //Make sure that exactly one residue is in the 'referenceChains', and the other residue is in the 'partnerChains' .. thus only the desired interface is included
+                                                                                                                         ) 
+                     && (concatenatedAtomInfoVector[neighborList[j].first].chain.compare(concatenatedAtomInfoVector[neighborList[j].second].chain) != 0 )
+                   ) // lastly,make sure the two atoms are not in the same chain.
+
+                {   
+                    TwoAtomClass myTwoAtomClass(
+			(concatenatedAtomInfoVector[neighborList[j].first].chain),
+			(concatenatedAtomInfoVector[neighborList[j].first].residueID),
+			(concatenatedAtomInfoVector[neighborList[j].first].atomName),
+			(concatenatedAtomInfoVector[neighborList[j].second].chain),
+			(concatenatedAtomInfoVector[neighborList[j].second].residueID),
+			(concatenatedAtomInfoVector[neighborList[j].second].atomName)//,
+                        //(concatenatedAtomInfoVector[neighborList[j].first ].position - concatenatedAtomInfoVector[neighborList[j].second].position) // later, compute distance
+                    );
+                    contactingAtomInfoPairVector.push_back(myTwoAtomClass );
+                    cout<<__FILE__<<":"<<__LINE__<<" Detected contact : ";
+                    myTwoAtomClass.print();
+                }
+                else {
+                    // Do nothing.
+                }
+            }
+        }
+        return contactingAtomInfoPairVector;  
+};
+#endif
+
 ConstraintClass::ConstraintClass(){
         chain1 = ""; residueID1 = ResidueID(); atomName1 = ""; 
         chain2 = ""; residueID2 = ResidueID(); atomName2 = ""; 
@@ -111,18 +321,23 @@ int IntLen(const char* cstr)
   return n;
 }
 /// <int>::[spaces][+|-]<digits>[garbage]
-
-bool isNumber(const char* cstr)
+bool isNumber(string      line)
 {
-  int    n = IntLen(cstr);
-  if (n)
+  //std::string test("1234.56");
+  std::istringstream inpStream((line));
+  double inpValue = 0.0;
+  if (inpStream >> inpValue)
   {
-    cstr += n;
-    if (*cstr == 'e' || *cstr == 'E')
-       n = strspn(++cstr,digits);
+    std::cout<<__FILE__<<":"<<__LINE__<<" Decided that "<<line<<" IS a number."<<std::endl; return 1;
+    // ... Success!!  test is a number.
   }
-  return n > 0;
+  else
+  {
+    std::cout<<__FILE__<<":"<<__LINE__<<" Decided that "<<line<<" is not a number."<<std::endl; return 0;
+    // ... Failure!!  test is not a number.
+  }
 }
+
 
 bool isFixed (const String putativeFixedFloat) { // This checks that the string represents a floating point number in fixed format .. no scientific notation or other stray characters.
 	int dotCount = 0;
@@ -166,6 +381,7 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
 
     // a recursive algorithm for reading an integer from a String.  This String may contain ints, user variables (begin with @), +, and -.  No whitespaces or additional characters should be in the String.
     int   myAtoI(  map<const String,double> myUserVariables,  const char* value){
+        cout<<__FILE__<<":"<<__LINE__<<""<<endl;
         size_t plusPosition  = String(value).find_last_of('+');
         size_t minusPosition = String(value).find_last_of('-');
         if ((plusPosition > minusPosition) && (plusPosition  != String::npos) )  minusPosition = String::npos;
@@ -195,27 +411,33 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
             }
         }
         else { // no + or - found.
+            cout<<__FILE__<<":"<<__LINE__<<""<<endl;
             if (!((increment == -1111 ))){// && (decrement == -1111 )  )) {
                 ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unexplained error!"<<endl;
                 ErrorManager::instance.treatError();
             }   
+            cout<<__FILE__<<":"<<__LINE__<<""<<endl;
             baseIntegerString = String(value);
             increment = 0;
             //decrement = 0;
             int baseInteger;
-            {   
                 if ((baseIntegerString.substr(0,1)).compare("@") ==0) {
+                    cout<<__FILE__<<":"<<__LINE__<<""<<endl;
                     if (myUserVariables.find(baseIntegerString.c_str()) == myUserVariables.end())
                         {   
                         ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": Undefined user variable "<<value<<endl;
                         ErrorManager::instance.treatError();
                         }   
-
+                    cout<<__FILE__<<":"<<__LINE__<<""<<endl;
                     double  intCast   = double(int(myUserVariables[baseIntegerString.c_str()]));
+                    cout<<__FILE__<<":"<<__LINE__<<""<<endl;
                     double  doubleCast = double(myUserVariables[baseIntegerString.c_str()]);
+                    cout<<__FILE__<<":"<<__LINE__<<""<<endl;
                     cout<<__FILE__<<":"<<__LINE__<<" Read user variable "<<baseIntegerString.c_str()<<"  which is set to : "<<myUserVariables[baseIntegerString.c_str()]<<endl;
                     SimTK_ERRCHK_ALWAYS(( (intCast) == doubleCast  ) ,"[ParameterReader.cpp]","Expected an int and got a non-integer");
+                    cout<<__FILE__<<":"<<__LINE__<<""<<endl;
                     baseInteger = int(myUserVariables[baseIntegerString.c_str()]);
+                    cout<<__FILE__<<":"<<__LINE__<<""<<endl;
                 }   
                 else if (isNumber(baseIntegerString.c_str()))
                 {
@@ -227,7 +449,6 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
                     ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : What you have entered: >"<<baseIntegerString<<"< is neither a variable (starting with @) nor an explicit number."<<endl;
                     ErrorManager::instance.treatError();
                 }  
-            }   
             //cout<<__FILE__<<":"<<__LINE__<<" : Result of "<<value<<" is : " <<  baseInteger <<endl;
             return baseInteger;
         }   
@@ -309,34 +530,34 @@ int ValidateNonNegativeInt (const int myInt) {
 
 
 
-Real ValidateNonNegativeReal(const Real myReal) {
+double ValidateNonNegativeDouble(const double myDouble) {
 	
-    if (isnan(myReal)) {
+    if (std::isnan(myDouble)) {
         ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Not a number! "<<endl; 
         ErrorManager::instance.treatError();
     }
-    if (isinf(myReal)) {
+    if (std::isinf(myDouble)) {
         ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Not a number! "<<endl; 
         ErrorManager::instance.treatError();
     }
-    if (!(myReal>= 0)) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Expected a nonnegative Real   . "<<endl; 
+    if (!(myDouble>= 0)) {
+        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Expected a nonnegative Double   . "<<endl; 
         ErrorManager::instance.treatError();
     }
-    return myReal;
+    return myDouble;
 }
 
-Real ValidateReal(const Real myReal) {
+double ValidateDouble(const double myDouble) {
 	
-    if (isnan(myReal)) {
+    if (std::isnan(myDouble)) {
         ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Not a number! "<<endl; 
         ErrorManager::instance.treatError();
     }
-    if (isinf(myReal)) {
+    if (std::isinf(myDouble)) {
         ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Not a number! "<<endl; 
         ErrorManager::instance.treatError();
     }
-    return myReal;
+    return myDouble;
 }
 
 
@@ -352,7 +573,7 @@ vector<String> readAndParseLine   (ifstream & inFile) {
 	String inString;
  	getline (inFile,inString);
 	//u.str(inString);
-	//cout<<__FILE__<<":"<<__LINE__<<" read: "<<inString<<endl;
+	cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" read: "<<inString<<endl;
 	vector<String> mystring;
 	
         istringstream iss(inString);
@@ -401,14 +622,44 @@ vector<String> readAndParseOnColWidth   (ifstream & inFile, int columnWidth) {
 	return mystring;
 }
 
+
+    /*ParameterStringClass::ParameterStringClass( const String & paramsLine ){
+        char * params = strdup( paramsLine.c_str() );
+        char * token = strtok( params, " " );
+
+        clear();
+        while( token ){
+            add( token );
+            token = strtok( NULL, " " );
+            std::cout<<__FILE__<<":"<<__LINE__<<" Added token : >"<<token<<"< "<<std::endl;
+        }
+        free( params );
+    }*/
+
     void ParameterStringClass::validateNumFields(int correctNumFields) const{ // make sure we have the right number of parameters
-        //exit(1);
-        if (stringVector[correctNumFields-1].length()==0){
+        std::cout<<__FILE__<<":"<<__LINE__<<" This line contains "<<size()<< " elements. comparing to "<<correctNumFields<<"."<<endl;
+        if ( size() < correctNumFields ){
             ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": You have not specified enough parameters for this command."<<endl;
             ErrorManager::instance.treatError();
-        } else if (stringVector[correctNumFields].length() >0) {
+        } else if ( size() > correctNumFields ) {
             ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": You have specified too many parameters for this command."<<endl;
             ErrorManager::instance.treatError();
         };  
     };  
+    void ParameterStringClass::print() const {
+        //std::cout<<__FILE__<<":"<<__LINE__<<" ";
+        for (int i = 0 ; i < size(); i++){
+            std::cout<<__FILE__<<":"<<__LINE__<<" "<<i<<" >"<<stringVector[i]<<"< "<<std::endl;
+        };
+        //std::cout<<std::endl;
+    };
+
+    String ParameterStringClass::getString() const {
+        std::stringstream ss;
+        for (int i = 0 ; i < size(); i++){
+            ss <<" "<<stringVector[i];
+        };
+
+        return ss.str();
+    }
 

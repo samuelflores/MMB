@@ -219,6 +219,9 @@ const Element CompoundObjectMapContainer::fetchElement (String elementName) {
     //return Element::Hydrogen();
 }
 
+
+
+
 Compound::SingleAtom  CompoundObjectMapContainer::fetchSingleAtom(const String className, Compound::AtomName& atomName , String elementName, Angle angle1 = 180*Deg2Rad )  {
     cout<<__FILE__<<":"<<__LINE__<<" Fetching single atom of class >"<<className<<"< "<<endl;
     const Element myElement = fetchElement(elementName);
@@ -314,16 +317,11 @@ CustomMolecule::CustomMolecule(vector <vector <String> > moleculeBuildCommandVec
             
         }
 	else if ((moleculeBuildCommandVector[i])[0].compare("bondAtom") == 0 ) {
-            cout<<__FILE__<<":"<<__LINE__<<" Syntax : bondAtom <molmodel class of added atom (AliphaticHydrogen, UnivalentAtom, DivalentAtom, etc> <name of atom to be added, e.g. H1> <name of element to be added e.g. Hydrogen > <name of bond at which to attach atom e.g. methyl/bond > <bond length> [<bond angle, rads>]"<<endl;
-            /*cout<<__FILE__<<":"<<__LINE__<<" Contents of moleculeBuildCommandVector[i] : "<<endl;;
-            for (int j = 0; j < moleculeBuildCommandVector[i].size(); j++) {
-                cout<<">"<<moleculeBuildCommandVector[i][j]<<"< ";
-            }
-            cout<<endl;*/
+            cout<<__FILE__<<":"<<__LINE__<<" Syntax : bondAtom <molmodel class of added atom (AliphaticHydrogen, UnivalentAtom, DivalentAtom, etc> <name of atom to be added, e.g. H1> <name of element to be added e.g. Hydrogen > <name of bond at which to attach atom e.g. methyl/bond > <bond length> [<dihedral angle, degrees>] [bond mobility: Default, Free, Torsion, or Rigid]"<<endl;
             if (moleculeBuildCommandVector[i].size  () <6){
 	        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Too few parameters!"<<endl; ErrorManager::instance.treatError();
             }
-            if (moleculeBuildCommandVector[i].size  () >7){
+            if (moleculeBuildCommandVector[i].size  () >8){
 	        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Too many parameters!"<<endl; ErrorManager::instance.treatError();
             }
             String singleAtomSubclass = moleculeBuildCommandVector[i][1];
@@ -331,27 +329,45 @@ CustomMolecule::CustomMolecule(vector <vector <String> > moleculeBuildCommandVec
             String addedElementName = moleculeBuildCommandVector[i][3]; 
             String bondName = moleculeBuildCommandVector[i][4];
             double bondLength = atof(moleculeBuildCommandVector[i][5].c_str()) ;
-            Angle myAngle1 = 180*Deg2Rad;
+	    
+            Angle myAngle1 = 180*Deg2Rad; // this is a bond angle 
+            //if (moleculeBuildCommandVector[i].size() > 6)
+            //    myAngle1 = atof(moleculeBuildCommandVector[i][6].c_str());
+            Compound::SingleAtom addedAtom = compoundObjectMapContainer.fetchSingleAtom(singleAtomSubclass,addedAtomName,addedElementName );
+
+            Angle myDihedral = 180*Deg2Rad;
             if (moleculeBuildCommandVector[i].size() > 6)
-                myAngle1 = atof(moleculeBuildCommandVector[i][6].c_str());
-            Compound::SingleAtom addedAtom = compoundObjectMapContainer.fetchSingleAtom(singleAtomSubclass,addedAtomName,addedElementName, myAngle1 );
+                myDihedral = atof(moleculeBuildCommandVector[i][6].c_str())*Deg2Rad ;
+
+            String myBondMobilityString = "Torsion";
+            if (moleculeBuildCommandVector[i].size() > 7) {
+                myBondMobilityString = moleculeBuildCommandVector[i][7];}
+            BondMobility::Mobility myBondMobility = stringToBondMobility(myBondMobilityString);
             
 	    bondAtom(
                 addedAtom ,
 		bondName,  // name of bond at which to attach the atom    
-		bondLength); // Default bond length
+		bondLength,
+                myDihedral,          // This is the default dihedral angle parameter, defaults to 180 * Deg2Rad (i.e. pi)
+                myBondMobility
+                ); // Default bond length
 	    // For example:
 	    // bondAtom(AliphaticHydrogen("H4"), "methyl/bond", 0.1112);
 	}
 
 	else if ((moleculeBuildCommandVector[i])[0].compare("setBiotypeIndex") == 0 ) {
             cout<<__FILE__<<":"<<__LINE__<<" Syntax: setBiotypeIndex <specific atom name e.g. H4> <Biotype e.g. MethaneH>"<<endl;
-            cout<<__FILE__<<":"<<__LINE__<<"     or: setBiotypeIndex <specific atom name e.g. OP4> <Residue e.g. Phosphate,?RNA> <generic atom name e.g. OP> <ordinality : Initialy, Any, or Final> "<<endl;
+            cout<<__FILE__<<":"<<__LINE__<<"     or: setBiotypeIndex <specific atom name e.g. OP4> <Residue e.g. Phosphate,?RNA> <generic atom name e.g. OP> <ordinality : Initial, Any, or Final> "<<endl;
             String specificAtomName = moleculeBuildCommandVector[i][1];
             if ((moleculeBuildCommandVector[i]).size() == 3) {
-                
+                String biotypeName = moleculeBuildCommandVector[i][2];
+                for (int k = 0; k < biotypeName.length(); k++) {
+                    if (String(biotypeName[k]).compare("?") ==0) {
+                        biotypeName[k] = (String(" "))[0];
+                    }
+                }
 		setBiotypeIndex(specificAtomName,               //name
-		    compoundObjectMapContainer.fetchBiotype(moleculeBuildCommandVector[i][2]).getIndex() // BiotypeIndex
+		    compoundObjectMapContainer.fetchBiotype(biotypeName).getIndex() //moleculeBuildCommandVector[i][2]).getIndex() // BiotypeIndex
 		    );
 		// For example:
 		// setBiotypeIndex( "H4", Biotype::MethaneH().getIndex() );
@@ -363,8 +379,10 @@ CustomMolecule::CustomMolecule(vector <vector <String> > moleculeBuildCommandVec
                         residueName[k] = (String(" "))[0];
                     }
                 }
-                cout<<__FILE__<<":"<<__LINE__<<" Residue name is now : >"<<residueName<<"< "<<endl;
 		String genericAtomName  = moleculeBuildCommandVector[i][3];
+                cout<<__FILE__<<":"<<__LINE__<<" specificAtomName is now : >"<<specificAtomName<<"< "<<endl;
+                cout<<__FILE__<<":"<<__LINE__<<" Residue name is now : >"<<residueName<<"< "<<endl;
+                cout<<__FILE__<<":"<<__LINE__<<" genericAtomName is now : >"<<genericAtomName<<"< "<<endl;
                 String ordinalityString = moleculeBuildCommandVector[i][4];
                 enum  	ordinalityEnum { Any = 1, Initial = 2, Final = 3 };
                 Ordinality::Residue myOrdinality;
@@ -375,37 +393,103 @@ CustomMolecule::CustomMolecule(vector <vector <String> > moleculeBuildCommandVec
 		    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Invalid ordinality : >"<<ordinalityString<<"< "<<endl; 
 		    ErrorManager::instance.treatError();
                 }
-                setBiotypeIndex(specificAtomName,
-		    Biotype::get(residueName, genericAtomName, 
-                        //SimTK::Ordinality::Initial
+		BiotypeIndex myBiotypeIndex =  Biotype::get(residueName, genericAtomName, 
                         myOrdinality
-                        ).getIndex());                
+                        ).getIndex();                
+                cout<<__FILE__<<":"<<__LINE__<<" BiotypeIndex = "<<myBiotypeIndex<<endl;
+                setBiotypeIndex(specificAtomName,myBiotypeIndex);
             } else {
 	        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Wrong number of parameters ("<<(moleculeBuildCommandVector[i]).size()<<")!"<<endl; 
                 ErrorManager::instance.treatError();
             }
 	}
+	else if ((moleculeBuildCommandVector[i])[0].compare("defineBiotype") == 0 ) {
+            cout<<__FILE__<<":"<<__LINE__<<" Syntax: defineBiotype <element symbol (e.g. O, H, C)> <valence (integer)> <residue name> <generic atom name, e.g. Oxygen>"<<endl;
+            if ((moleculeBuildCommandVector[i]).size() != 5) {
+		    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Wrong number of parameters! "<<endl; 
+		    ErrorManager::instance.treatError();
+                }
+            Biotype::defineBiotype (
+                Element::getBySymbol(moleculeBuildCommandVector[i][1]),
+		atoi(moleculeBuildCommandVector[i][2].c_str()),
+                moleculeBuildCommandVector[i][3] ,
+                moleculeBuildCommandVector[i][4]              
+            );
+
+        }
 
 	else if ((moleculeBuildCommandVector[i])[0].compare("setCompoundName") == 0 ) {
             //cout<<__FILE__<<":"<<__LINE__<<" Contents of moleculeBuildCommandVector[i] : >"<<moleculeBuildCommandVector[i][0]<<"<, >"<<moleculeBuildCommandVector[i][1]<<"<, >"<<moleculeBuildCommandVector[i][2]<<"< ."<<endl;
 	    if (moleculeBuildCommandVector[i][1].length() == 0 ) {ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Length of Compound name must be > 0"<<endl; ErrorManager::instance.treatError();}
         setCompoundName(moleculeBuildCommandVector[i][1]);}
 	else if ((moleculeBuildCommandVector[i])[0].compare("defineAndSetChargedAtomType") == 0 ) {
-            cout<<__FILE__<<":"<<__LINE__<<" Syntax : defineAndSetChargedAtomType <biotype name> <FF atom class index> <charge> "<<endl;
-            //cout<<__FILE__<<":"<<__LINE__<<" Contents of moleculeBuildCommandVector[i] : >"<<moleculeBuildCommandVector[i][0]<<"<, >"<<moleculeBuildCommandVector[i][1]<<"<, >"<<moleculeBuildCommandVector[i][2]<<"< ."<<endl;
-            DuMM::ChargedAtomTypeIndex 	myChargedAtomTypeIndex = dumm.getNextUnusedChargedAtomTypeIndex (); 
-            String myBiotypeName = moleculeBuildCommandVector[i][1];
-            dumm.defineChargedAtomType(myChargedAtomTypeIndex, 
-	        myBiotypeName,           // biotype name. This is actually not used.
-		DuMM::AtomClassIndex(atoi(moleculeBuildCommandVector[i][2].c_str())), // force field atom class index
-                atof(moleculeBuildCommandVector[i][3].c_str()));	              // charge
-            //if (
-            dumm.setBiotypeChargedAtomType(myChargedAtomTypeIndex, compoundObjectMapContainer.fetchBiotype(myBiotypeName).getIndex());
-	    // For example:
-            //                      index just needs to be unused.    doesn't matter.Class in force field.     charge
-            //defineChargedAtomType(DuMM::ChargedAtomTypeIndex(5000), "Methane C",   DuMM::AtomClassIndex(1),  0.04);
-            //setBiotypeChargedAtomType(DuMM::ChargedAtomTypeIndex(5000), Biotype::MethaneC().getIndex());
 
+            cout<<__FILE__<<":"<<__LINE__<<" Syntax : defineAndSetChargedAtomType <biotype name> <FF atom class index> <charge> "<<endl;
+            cout<<__FILE__<<":"<<__LINE__<<"     or : defineAndSetChargedAtomType <residue e.g. Phosphate,?RNA> <generic atom name e.g. OP> <ordinality : Initialy, Any, or Final> <FF atom class index> <charge> "<<endl;
+
+            //cout<<__FILE__<<":"<<__LINE__<<" Contents of moleculeBuildCommandVector[i] : >"<<moleculeBuildCommandVector[i][0]<<"<, >"<<moleculeBuildCommandVector[i][1]<<"<, >"<<moleculeBuildCommandVector[i][2]<<"< ."<<endl;
+
+            if ((moleculeBuildCommandVector[i]).size() == 4) {
+                cout<<__FILE__<<":"<<__LINE__<<endl;
+		DuMM::ChargedAtomTypeIndex 	myChargedAtomTypeIndex = dumm.getNextUnusedChargedAtomTypeIndex (); 
+		String myBiotypeName = moleculeBuildCommandVector[i][1];
+		dumm.defineChargedAtomType(myChargedAtomTypeIndex, 
+		    myBiotypeName,           // biotype name. This is actually not used.
+		    DuMM::AtomClassIndex(atoi(moleculeBuildCommandVector[i][2].c_str())), // force field atom class index
+		    atof(moleculeBuildCommandVector[i][3].c_str()));	              // charge
+		//if (
+		dumm.setBiotypeChargedAtomType(myChargedAtomTypeIndex, compoundObjectMapContainer.fetchBiotype(myBiotypeName).getIndex());
+		// For example:
+		//                      index just needs to be unused.    doesn't matter.Class in force field.     charge
+		//defineChargedAtomType(DuMM::ChargedAtomTypeIndex(5000), "Methane C",   DuMM::AtomClassIndex(1),  0.04);
+		//setBiotypeChargedAtomType(DuMM::ChargedAtomTypeIndex(5000), Biotype::MethaneC().getIndex());
+
+            } else if ((moleculeBuildCommandVector[i]).size() == 6) {
+                cout<<__FILE__<<":"<<__LINE__<<endl;
+		DuMM::ChargedAtomTypeIndex 	myChargedAtomTypeIndex = dumm.getNextUnusedChargedAtomTypeIndex (); 
+		//#String myBiotypeName = moleculeBuildCommandVector[i][1];
+		dumm.defineChargedAtomType(myChargedAtomTypeIndex, 
+		    String("myBiotypeName"),           // biotype name. This is actually not used.
+		    DuMM::AtomClassIndex(atoi(moleculeBuildCommandVector[i][4].c_str())), // force field atom class index
+		    atof(moleculeBuildCommandVector[i][5].c_str()));	              // charge
+		String residueName      = moleculeBuildCommandVector[i][1];
+                for (int k = 0; k < residueName.length(); k++) {
+                    if (String(residueName[k]).compare("?") ==0) {
+                        residueName[k] = (String(" "))[0];
+                    }
+                }
+                cout<<__FILE__<<":"<<__LINE__<<" Residue name is now : >"<<residueName<<"< "<<endl;
+		String genericAtomName  = moleculeBuildCommandVector[i][2];
+                String ordinalityString = moleculeBuildCommandVector[i][3];
+                enum  	ordinalityEnum { Any = 1, Initial = 2, Final = 3 };
+                Ordinality::Residue myOrdinality;
+                if (ordinalityString.compare("Initial") == 0) myOrdinality =  SimTK::Ordinality::Initial;
+                else if (ordinalityString.compare("Final") == 0) myOrdinality =  SimTK::Ordinality::Final;
+                else if (ordinalityString.compare("Any") == 0) myOrdinality =  SimTK::Ordinality::Any;
+                else {
+		    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Invalid ordinality : >"<<ordinalityString<<"< "<<endl; 
+		    ErrorManager::instance.treatError();
+                }
+                dumm.setBiotypeChargedAtomType (myChargedAtomTypeIndex, 
+		    Biotype::get(residueName, genericAtomName, 
+                        myOrdinality
+                        ).getIndex()                
+                    );
+
+            } else {
+	        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Wrong number of parameters ("<<(moleculeBuildCommandVector[i]).size()<<")!"<<endl; 
+                ErrorManager::instance.treatError();
+            }
+
+        }
+	else if ((moleculeBuildCommandVector[i])[0].compare("setDefaultBondAngle") == 0 ) {
+            cout<<__FILE__<<":"<<__LINE__<<" Syntax : setDefaultBondAngle <Angle (in degrees)> <atom name 1> <atom name 2 (central atom)> <atom name 3>"<<endl;
+            cout<<__FILE__<<":"<<__LINE__<<" example: setDefaultBondAngle 104.52 HW1 OW HW2 "<<endl; 
+            double myAngle = atof(moleculeBuildCommandVector[i][1].c_str());
+            String atomName1 = moleculeBuildCommandVector[i][2]; 
+            String atomName2 = moleculeBuildCommandVector[i][3]; 
+            String atomName3 = moleculeBuildCommandVector[i][4]; 
+            setDefaultBondAngle(myAngle*Deg2Rad,atomName1,atomName2,atomName3);
         }
 	else if ((moleculeBuildCommandVector[i])[0].compare("setBiotypeChargedAtomType") == 0 ) {
                 cout<<__FILE__<<":"<<__LINE__<<" Syntax: setBiotypeChargedAtomType <residue name> <generic atom name> <ordinality> <FF atom class index> <charge>"<<endl;
@@ -574,6 +658,7 @@ void  MoleculeClassContainer::validateChainID(String myChainID){
 
 void MoleculeClassContainer::matchDefaultConfiguration(bool readPreviousFrameFile, String pdbFileName,bool matchExact, bool matchIdealized)
 {
+    cout<<__FILE__<<":"<<__LINE__<<" readPreviousFrameFile = "<<readPreviousFrameFile<<", pdbFileName = >"<<pdbFileName<<"< "<<endl;
     if (readPreviousFrameFile) {
         std::ifstream inputFile(pdbFileName.c_str(), ifstream::in);
         PdbStructure pdbStructure(inputFile);
@@ -643,3 +728,6 @@ void MoleculeClassContainer::addConstraintToGround(map<const String,double> myUs
         atomName
         );
 }
+
+
+

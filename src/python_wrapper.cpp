@@ -198,9 +198,9 @@ extern "C" {
     */
     AllResiduesWithin_wrapper createAllResiduesWithin_wrapper(AllResiduesWithin & _struct_){
         AllResiduesWithin_wrapper _wrap_;
-        _wrap_.chain    = strdup(_struct_.chain.c_str());
-        _wrap_.residue  = _struct_.residue.getResidueNumber();
-        _wrap_.radius   = _struct_.radius;
+        _wrap_.chain    = strdup(_struct_.getChain().c_str());
+        _wrap_.residue  = _struct_.getResidue().getResidueNumber();
+        _wrap_.radius   = _struct_.getRadius();
         return _wrap_; 
     }
 
@@ -216,8 +216,8 @@ extern "C" {
     */
     IncludeAllNonBondAtomsInResidue_wrapper createIncludeAllNonBondAtomsInResidue_wrapper(IncludeAllNonBondAtomsInResidue & _struct_){
         IncludeAllNonBondAtomsInResidue_wrapper _wrap_;
-        _wrap_.chain    = strdup(_struct_.chain.c_str());
-        _wrap_.residue  = _struct_.residue.getResidueNumber();
+        _wrap_.chain    = strdup(_struct_.getChain().c_str());
+        _wrap_.residue  = _struct_.getResidue().getResidueNumber();
         return _wrap_; 
     }
 
@@ -624,7 +624,7 @@ extern "C" {
     MMB_EXPORT void initializeMolecules(char * errorString){
         try{
             //myParameterReader.readPreviousFrameFile = 0;
-            myDynamics->initializeBiopolymers();
+            myDynamics->initializeBiopolymersAndCustomMolecules();
             myDynamics->initializeBodies();
         }
         catch(const MMBException& e){
@@ -1089,10 +1089,10 @@ extern "C" {
             mobilizersWithin = new MobilizerWithin_wrapper[mmbMobilizers.size()];
             for(size_t i=0; i < mmbMobilizers.size(); ++i){
                 mobilizersWithin[i].mmbID       = i;
-                mobilizersWithin[i].chainID     = strdup(mmbMobilizers[i].Chain.c_str());
-                mobilizersWithin[i].mobility    = strdup(mmbMobilizers[i].BondMobilityString.c_str());
-                mobilizersWithin[i].resID       = mmbMobilizers[i].Residue.getResidueNumber();
-                mobilizersWithin[i].radius      = mmbMobilizers[i].Radius;
+                mobilizersWithin[i].chainID     = strdup(mmbMobilizers[i].getChain().c_str());
+                mobilizersWithin[i].mobility    = strdup(mmbMobilizers[i].getBondMobilityString().c_str());
+                mobilizersWithin[i].resID       = mmbMobilizers[i].getResidue().getResidueNumber();
+                mobilizersWithin[i].radius      = mmbMobilizers[i].getRadius();
             }
 
             *mobilArray = mobilizersWithin;
@@ -1464,12 +1464,13 @@ extern "C" {
     */
     MMB_EXPORT int getIncludeAllNonBondAtomsInResidues(IncludeAllNonBondAtomsInResidue_wrapper ** arrayOut, char * errorString){
         try{
-            vector<IncludeAllNonBondAtomsInResidue> mmbVec = myParameterReader.includeAllNonBondAtomsInResidueVector;
+            // TEMP commenting while figuring out how to use myParameterReader.physicsContainer
+            vector< IncludeAllNonBondAtomsInResidue > & mmbVec = myParameterReader.physicsContainer.residueStretchVector;
 
             clearIncludeAllNonBondAtomsInResidues();
             includeAllNonBondAtomsInResidues = new IncludeAllNonBondAtomsInResidue_wrapper[mmbVec.size()];
             for(size_t i=0; i < mmbVec.size(); ++i){
-                includeAllNonBondAtomsInResidues[i] = createIncludeAllNonBondAtomsInResidue_wrapper(mmbVec[i]);
+                includeAllNonBondAtomsInResidues[i] = createIncludeAllNonBondAtomsInResidue_wrapper( mmbVec[i] );
                 includeAllNonBondAtomsInResidues[i].mmbID = i;
             }
 
@@ -1840,7 +1841,7 @@ extern "C" {
 
     MMB_EXPORT void updateParameterReader_wrapper(ParameterReader_wrapper * _wrap_, char * errorString){
         try{
-            getParameterReaderAttributes(myParameterReader, _wrap_);    
+            updateParameterReader_wrapper(myParameterReader, _wrap_);    
         }catch(const MMBException& e){
             strcpy(errorString, e.what());
         }
@@ -1848,7 +1849,7 @@ extern "C" {
 
     MMB_EXPORT void updateParameterReader(ParameterReader_wrapper * _wrap_, char * errorString){
         try{
-            setParameterReaderAttributes(_wrap_, myParameterReader);    
+            updateParameterReader(_wrap_, myParameterReader);    
         }catch(const MMBException& e){
             strcpy(errorString, e.what());
         }

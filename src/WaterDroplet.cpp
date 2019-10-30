@@ -53,10 +53,10 @@ int WaterDroplet::validate(){
         ErrorManager::instance.treatError();
     }
 
-    if (chainID.length() > 1){
+    /*if (chainID.length() > 1){
         ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The droplet chain ID must be a single character in length. You have specified: "<<chainID<<endl;
         ErrorManager::instance.treatError();
-    }
+    }*/
     validateWaterVector();
     return 0;
 };
@@ -300,7 +300,7 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
                         cout<<__FILE__<<":"<<__LINE__<<" loading myAtomInfoVector with : "<<endl;
                         myAtomInfo.print();
                         Vec3 tempVec3 = myCompound.calcDefaultAtomLocationInGroundFrame(myAtomInfo.atomName);
-			myAtomInfo.position = OpenMM::RealVec(tempVec3[0], tempVec3[1], tempVec3[2]);
+			myAtomInfo.position = openmmVecType(tempVec3[0], tempVec3[1], tempVec3[2]);
                         myAtomInfoVector.push_back(myAtomInfo);
                 }
         }

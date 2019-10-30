@@ -45,71 +45,87 @@ MonoAtoms::MonoAtoms (String myChainID,ResidueID myFirstResidueNumber, int myNum
 	numAtoms = myNumAtoms;	
 	atomName = myAtomName;
 	validate();
-
+        Molecule myMolecule;
 	for (int i = 0; i < myNumAtoms; i++) {
   	    if (atomName.compare("Mg+2") == 0) {
-	        MagnesiumIon myMagnesiumIon;
-                myMagnesiumIon.setPdbChainId(chainID);
-		myMagnesiumIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-		compoundVector.push_back(myMagnesiumIon);
+	        MagnesiumIon myIon;
+                //myIon.setPdbChainId(chainID);
+		//myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
+                myMolecule = myIon;
+		//compoundVector.push_back(myMolecule);
 
   	    } else if (atomName.compare("Zn+2") == 0) {
 	        ZincIon myIon;
-                myIon.setPdbChainId(chainID);
-		myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-		compoundVector.push_back(myIon);
+                //myIon.setPdbChainId(chainID);
+		//myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
+                myMolecule = myIon;
+		//compoundVector.push_back(myIon);
   	    } else if (atomName.compare("Cl-") == 0) {
 	        ChlorideIon myIon;
-                myIon.setPdbChainId(chainID);
-		myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-		compoundVector.push_back(myIon);
+                //myIon.setPdbChainId(chainID);
+		//myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
+                myMolecule = myIon;
+		//compoundVector.push_back(myIon);
 
   	    } else if (atomName.compare("Na+") == 0) {
 	        SodiumIon myIon;
-                myIon.setPdbChainId(chainID);
-		myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-		compoundVector.push_back(myIon);
+                //myIon.setPdbChainId(chainID);
+		//myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
+                myMolecule = myIon;
+		//compoundVector.push_back(myIon);
 
   	    } else if (atomName.compare("K+") == 0) {
 	        PotassiumIon myIon;
-                myIon.setPdbChainId(chainID);
-		myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-		compoundVector.push_back(myIon);
+                myMolecule = myIon;
+
+                //myIon.setPdbChainId(chainID);
+		//myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
+                myMolecule = myIon;
+		//compoundVector.push_back(myMolecule);
 
   	    } else if (atomName.compare("ZN+2") == 0) {
 	        ZincIon myIon;
-                myIon.setPdbChainId(chainID);
-		myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-		compoundVector.push_back(myIon);
+                //myIon.setPdbChainId(chainID);
+		//myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
+                myMolecule = myIon;
+		//compoundVector.push_back(myIon);
 
   	    } else if (atomName.compare("Li+") == 0) {
 	        LithiumIon myIon;
-                myIon.setPdbChainId(chainID);
-		myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-		compoundVector.push_back(myIon);
+                //myIon.setPdbChainId(chainID);
+		//myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
+		//compoundVector.push_back(myIon);
 
   	    } else if (atomName.compare("Ca+2") == 0) {
 	        CalciumIon myIon;
-                myIon.setPdbChainId(chainID);
-		myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-		compoundVector.push_back(myIon);
+                //myIon.setPdbChainId(chainID);
+		//myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
+                myMolecule = myIon;
+		//compoundVector.push_back(myIon);
 
   	    } else if (atomName.compare("Cs+" ) == 0) {
 	        CesiumIon myIon;
-                myIon.setPdbChainId(chainID);
-		myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-		compoundVector.push_back(myIon);
+                //myIon.setPdbChainId(chainID);
+		//myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
+                myMolecule = myIon;
+		//compoundVector.push_back(myIon);
 
   	    } else if (atomName.compare("Rb+") == 0) {
 	        RubidiumIon myIon;
-                myIon.setPdbChainId(chainID);
-		myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-		compoundVector.push_back(myIon);
+                //myIon.setPdbChainId(chainID);
+		//myIon.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
+                myMolecule = myIon;
+		//compoundVector.push_back(myIon);
 
 	    } else {
  	        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": You have requested a monoAtoms of an unsupported type: "<<myAtomName<<". Currently only the following are supported:  Mg+2, Zn+2, Cl-, Na+, K+, Li+, Ca+2, Cs+, Rb+."<<endl << "Corresponding residue types should be MG, ZN, CL, NA, K, LI, CA, CS, RB."<<endl;;
 		ErrorManager::instance.treatError();
 	    }
+            myMolecule.setPdbChainId(chainID);
+            myMolecule.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
+            // This did not have the desired effect for some reason:
+            //myMolecule.setTopLevelTransform(Transform(Vec3(0,0,i/5)));                 
+            compoundVector.push_back(myMolecule);
         }
         renumberPdbResidues(myFirstResidueNumber);
 }

@@ -27,8 +27,7 @@ void DensityForce::calcForce(const State& state, Vector_<SpatialVec>& bodyForces
                 String myChainID = myParameterReader.densityContainer.getDensityStretch(i).getChain();
                 BiopolymerClass & tempBiopolymerClass = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID );
                 Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
-		//vector<AtomInfo> tempAtomInfoVector = tempBiopolymerClass.getAtomInfoVector();   
-                vector<MMBAtomInfo> tempAtomInfoVector = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm );   
+                vector<MMBAtomInfo> tempAtomInfoVector = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm, myParameterReader.densityFitPhosphates );   
                 for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) {
                     MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
                     Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
@@ -56,6 +55,7 @@ Real DensityForce::calcPotentialEnergy(const State& state) const {
                                 DuMM::AtomIndex myDuMMAtomIndex = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().getDuMMAtomIndex(myAtomIndex);
                                 if (((myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().getAtomElement(myAtomIndex)).getSymbol()).compare("H") != 0) { 
                                         Vec3 myAtomLocation = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().calcAtomLocationInGroundFrame(state, myAtomIndex);
+                                        //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl; 
                                         totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * dumm.getAtomMass(myDuMMAtomIndex);
 
                                 }

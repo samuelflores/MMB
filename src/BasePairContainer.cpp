@@ -337,8 +337,8 @@ void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolym
         //myResidueNumber counts down chain i from the first to last residue number, looking for stretches of chain i to which it can apply helical stacking runs.  at the end of each stacking run, it increments to one residue after the last residue of the run.
         //for (ResidueID myResidue = myBiopolymerClass.getFirstResidueID(); myResidue <=  myBiopolymerClass.getLastResidueID(); myBiopolymerClass.incrementResidueID(myResidue)){
         ResidueID myResidue = myBiopolymerClass.getFirstResidueID(); 
-        while  ( myResidue <=  myBiopolymerClass.getLastResidueID()){
-             
+        while  ( myResidue !=  myBiopolymerClass.getLastResidueID()){
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Checking myResidue "<<myResidue.outString()<<" vs. myBiopolymerClass.getLastResidueID() = "<<myBiopolymerClass.getLastResidueID().outString()<<std::endl;
             if ( hasWatsonCrickCisPair(myChainID,myResidue) ){ 
                 ResidueID lastPairingResidue = getLastWatsonCrickCisPairingResidueOfRun(myChainID,myResidue,myBiopolymerClassContainer);
                 cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Generating stacking interactions from "<<myResidue.outString()<<" to "<<lastPairingResidue.outString()<<endl;
@@ -354,24 +354,28 @@ void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolym
                     ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unexplained error!"<<endl;
                     ErrorManager::instance.treatError();
                 }
-            } else if (myResidue < myBiopolymerClass.getLastResidueID() ){
-                myResidue = myBiopolymerClass.incrementResidueID(myResidue); // increment myResidue
-                if (myResidue ==  myBiopolymerClass.getLastResidueID()) break ; // If we've just incremented to the end of the chain, we're done here.
             } else if (myResidue ==  myBiopolymerClass.getLastResidueID()) {
                 break; // we're at the last residue of the chain
-            } else { // shouldn't happen!  myResidue >  myBiopolymerClass.getLastResidueID()
+            // Catchall :
+            } else {//if (myResidue < myBiopolymerClass.getLastResidueID() ){
+                myResidue = myBiopolymerClass.incrementResidueID(myResidue); // increment myResidue
+                if (myResidue ==  myBiopolymerClass.getLastResidueID()) break ; // If we've just incremented to the end of the chain, we're done here.
+            } 
+            // inequalities no longer supported for ResidueID
+            /*else { // shouldn't happen!  myResidue >  myBiopolymerClass.getLastResidueID()
                 ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unexplained error!"<<endl;
                 ErrorManager::instance.treatError();
-            }
+            }*/
 
             if ( myResidue ==  myBiopolymerClass.getLastResidueID()) { // this should have been caught above.
                 ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unexplained error!"<<endl;
                 ErrorManager::instance.treatError();
             }
-            if ( myResidue >   myBiopolymerClass.getLastResidueID()) { // this should have been caught above.
+            // Inequalities no longer supported for ResidueID
+            /*if ( myResidue >   myBiopolymerClass.getLastResidueID()) { // this should have been caught above.
                 ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unexplained error!"<<endl;
                 ErrorManager::instance.treatError();
-            }
+            }*/
             
         } // of for myResidue
     } // of for i

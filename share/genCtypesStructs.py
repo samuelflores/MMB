@@ -65,6 +65,12 @@ for line in open(cFileName, "r"):
         continue
     # print line
     l = line.split()
+    if line.startswith("private:"):
+        comment = True
+        continue
+    if line.startswith("public:"):
+        comment = False
+        continue
     if name and comment and (line[-1] == "}" or ")" in line):
         line = "// "+line
         structures[name][line] = ""
@@ -84,10 +90,6 @@ for line in open(cFileName, "r"):
             name = l[2].split("{")[0]
         structures[name] = OrderedDict()
         # print "class %s(Structure):" % name
-        continue
-    if name and line[-1] != ";":
-        line = "// "+line
-        structures[name][line] = ""
         continue
     if name:
         if comment:
@@ -130,7 +132,6 @@ for s in structures.keys():
     # void updateX_wrapper(X & _struct_, X_wrapper * _wrap_) // copy _struct_ to _wrap_
     buff = ""
     buff += "void update%s_wrapper(%s & _struct_, %s_wrapper * _wrap_){\n" % (s,s,s)
-    # buff += "\t%s_wrapper _wrap_;\n" % s
     for field in struct.keys():
         if field.startswith("//"):
             buff += "\t%s\n" % field
@@ -144,7 +145,6 @@ for s in structures.keys():
                 wrapPrefix = wrapPrefixes.get(t,"")
                 wrapSuffix = wrapSuffixes.get(t,"")
             buff += "\t_wrap_->%s = %s_struct_.%s; //%s\n" %(field, wrapPrefix, field+wrapSuffix, t)
-    # buff += "\treturn _wrap_; \n}"
     fileOut.write(buff + "\n}\n")
 
     # void updateX(X_wrapper * _wrap_, X & _struct_) // copy _wrap_ to _struct_
@@ -167,7 +167,8 @@ fileOut.close()
 
 
 # Python wrapper
-fileOut = open(sys.argv[3], "w")      
+fileOut = open(sys.argv[3], "w")
+fileOut.write("from ctypes import *\nfrom pyMMB import *\n\n")      
 for s in structures.keys():
     fileOut.write("class %s_wrapper(Structure):\n" % s)
     fileOut.write("\t_fields_ = [ \n")
@@ -182,21 +183,36 @@ for s in structures.keys():
             buff += "\t\t\t#('%s', %s),\n" %(field, struct[field]+ ": unknown ctype")
     buff = buff[:-2] + "\n"
     fileOut.write(buff + "\t\t\t]\n")
-    buff = "\tdef __setattr__(self, name, value):\n"
-    buff += "\t\tcmd(name + ' ' + value)\n"
-    buff += "\t\tcall('updateParameterReader', self)\n"
-    fileOut.write(buff+"\n")
+    
+    functionsCode = """
+    def __init__(self):
+        Structure.__init__(self)
+        # print "Init"
+        call('updateParameterReader_wrapper', byref(self))
+        Structure.__setattr__(self,"nonDefaultParameters",set())
+
+    def __setattr__(self, name, value):
+        # print __file__, "Set", name
+        #cmd(name + " " + str(value))
+        # We synchronize the wrapper with MMB to avoid changing other attributes
+        call('updateParameterReader_wrapper', byref(self))
+        Structure.__setattr__(self,name, value)
+        Structure.__getattribute__(self, "nonDefaultParameters").update(set([name]))
+        call('updateParameterReader', byref(self))
+
+    def __getattribute__(self, name):
+        # print __file__,  "Get", name
+        call('updateParameterReader_wrapper', byref(self))
+        return Structure.__getattribute__(self, name)
+    """
+    functionsCode = functionsCode.replace("    ", "\t")
+    fileOut.write("%s\n" % functionsCode )
 
     fileOut.write("%s_ptr = POINTER(%s_wrapper)\n" % (s, s))
 
     buff = "MMB.update%s_wrapper.argtypes = [c_void_p, c_char_p]\n" % s
-    # buff += "MMB.update%s_wrapper.restype = c_int\n" % s
     buff += "MMB.update%s.argtypes = [c_void_p, c_char_p]\n" % s
-    # buff += "MMB.update%s.restype = c_int\n" % s
-    # buff += "def get%ss():\n" % s
-    # buff += "\tobjs = %s_ptr()\n" % s
-    # buff += "\tnbObjs = call('get%ss', byref(objs))\n" % s
-    # buff += "\treturn objs[0:nbObjs]\n\n"
+
 
     fileOut.write(buff)
 

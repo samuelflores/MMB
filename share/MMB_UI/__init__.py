@@ -19,17 +19,18 @@ from collections import OrderedDict
 
 ##################################################################################################
 # pyMMB initialization
-cwd = os.path.dirname(__file__)
+mmbUIPath = os.path.dirname(__file__)
+workDir = mmbUIPath
 print "MMB INIT ****************** "
-print cwd
+print mmbUIPath
 
 if platform.system() == "Darwin":
-    os.environ['DYLD_FALLBACK_LIBRARY_PATH'] += ":"+cwd
+    os.environ['DYLD_FALLBACK_LIBRARY_PATH'] += ":"+mmbUIPath
 elif platform.system() == "Windows":
-    os.environ['PATH'] += ";"+cwd
+    os.environ['PATH'] += ";"+mmbUIPath
 
 import pyMMB
-leontisWesthofFileName = os.path.join(cwd,"parameters.csv")
+leontisWesthofFileName = os.path.join(mmbUIPath,"parameters.csv")
 MMBparameters = pyMMB.MMBparameters
 
 ## MMB sessions number
@@ -65,6 +66,11 @@ runFlag = False
 
 ## Current BioPolymers in MMB. Key is the chainID
 polymers = {}
+
+def setWorkDir( newWD ):
+    global workDir
+    workDir = newWD
+    os.chdir(workDir)
 
 ## Synchronise polymers sequences with the ones in MMB
 def refreshSequences():
@@ -542,7 +548,7 @@ def checkSequences():
             return False
     return True
 
-## Valide all polymers that need it
+## Validate all polymers that needs it
 def validateSequences():
     for p in polymers.values():
         if not p.valid:
@@ -565,9 +571,10 @@ def initPolymers(polymers, pdbFileName):
 
 def loadPolymers():
     global currentModel
-    ficName = '/tmp/mmb.pdb'
-    if platform.system() == "Windows":
-        ficName = os.path.join(os.environ["TEMP"],"mmb.pdb")
+    if os.getcwd() == "/"    :
+        os.chdir (os.environ['HOME']);
+    ficName = str(MMBparameters.workingDirectory) + '/mmb.pdb'
+    #ficName = 'mmb.pdb'
     pyMMB.writeDefaultPdb(ficName)
     currentModel = chimera.openModels.open(ficName)[0]
     # print "CurrentModel coordSets: "
@@ -986,6 +993,8 @@ class MobilizerWithin(pyMMB.MobilizerWithin_wrapper, MMB_UI_Object):
 
     ## Update the color according to the mobility
     def updateRepresentationColor(self, resSel):
+        if resSel == None:
+            return
         color = colorTable.getColorByName(mobiColors[self.mobility])
         for r in resSel:
             r.ribbonColor = color
@@ -1447,7 +1456,7 @@ class ContactWithin(pyMMB.ContactWithin_wrapper, MMB_UI_Object):
         if self.resID != 0 and self.radius > 0:
             # resWithin = pyMMB.getResiduesWithin(self.chainID, self.resID, self.radius)
             # return [self.model.findResidue( MolResId(x[0], x[1])) for x in resWithin]
-            return getResiduesWithin(self.chainID, self.resID, radius*10.0)
+            return getResiduesWithin(self.chainID, self.resID, self.radius*10.0)
 
 ## Synchronize the contactsWithin list with MMB
 def refreshContactWithin():
@@ -1986,6 +1995,8 @@ def applyMMBVisualization():
 def commandsToStr():
     buff = ""
 
+    buff += "loadSequencesFromPdb mmb.pdb"
+
     if (allResiduesWithins + includeAllNonBondAtomsInResidues) or getMMBParameter("physicsRadius")>0:
         buff += ("setDefaultMDParameters\n\n")
 
@@ -2001,7 +2012,8 @@ def commandsToStr():
 
     # print MMBparameters.nonDefaultParameters
     for p in MMBparameters.nonDefaultParameters:
-        buff += p + " " + str(getMMBParameter(p)) + "\n"
+        if p != "converged":
+            buff += p + " " + str(getMMBParameter(p)) + "\n"
 
     return buff
 
@@ -2028,21 +2040,35 @@ def dumpCommands(fileName):
 ## Execute a set of MMB commands.
 #  @param a list of MMB commands lines
 def sendMMBCmds(cmdsLines):
-    ignore = ["loadSequencesFromPdb","RNA","DNA","protein"]
+    ignore = ["RNA","DNA","protein"]
     ignored = []
     notSupported = ["read"]
     for l in cmdsLines:
-        if not l.strip():
+        l = l.strip()
+        if not l:
             continue
-        tmp = [l.strip().startswith(s) for s in ignore]
+        tmp = [l.startswith(s) for s in ignore]
         if True in tmp:
             print "Ignored the following command:"
             print l
             ignored.append(l)
             continue
-        tmp = [l.strip().startswith(s) for s in notSupported]
+        tmp = [l.startswith(s) for s in notSupported]
         if True in tmp:
             return ">>> "+l.split()[0]
+        if l.startswith("loadSequencesFromPdb"):
+            if polymersInitialized:
+                print "Ignored the following command:"
+                print l
+                ignored.append(l)
+                continue 
+            cmd = l.split()
+            if ( len(cmd) == 1 ):
+                fileName = "last.0.pdb"
+            else:
+                fileName = cmd[1]
+            fileName = workDir+'/'+fileName
+            l = 'loadSequencesFromPdb '+fileName
         pyMMB.cmd(l)
     return ignored
 
@@ -2083,21 +2109,22 @@ class MMBSimulationThread(threading.Thread):
         self.currentFrame = 0
         pyMMB.MMBparameters.converged = False
         MMBSimulationThread.test += 1
+        print "Ready to run"
 
     def run(self):
         global runFlag
         runFlag = True
         t0 = time.clock()
-        # print MMBSimulationThread.test
+        print "HELLO:", MMBSimulationThread.test
         while self.currentFrame < self.maxFrame and not pyMMB.MMBparameters.converged:
-            # print pyMMB.MMBparameters.converged
+            print "Running"
             pyMMB.runOneStep()
             self.currentFrame += 1
             for cb in self.callbacks:
                 cb()          
             self.running.wait()
         runFlag = False
-        # print time.clock() - t0
+        print time.clock() - t0
         self.endCallback()
 
     def addCallback(self, callback):

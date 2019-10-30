@@ -1643,9 +1643,16 @@ def changeWidgetState(widget, boolean):
 from OpenSave import OpenModeless
 #* Open file chimera Style
 class InputPdbDialog(OpenModeless):
-    default = 'Get Pdb File'
+    default = 'Open Pdb File'
     title = 'MMB -- Polymers'
-    def GetPdbFile(self, *args):
+    def OpenPdbFile(self, *args):
+        self.command(self.getPaths()[0])
+        self.destroy()
+
+class InputMMBFileDialog(OpenModeless):
+    default = 'Open MMB File'
+    title = 'MMB -- Command file'
+    def OpenMMBFile(self, *args):
         self.command(self.getPaths()[0])
         self.destroy()
 
@@ -1661,4 +1668,7 @@ class OpenXplorMapDialog(OpenModeless):
     def OpenMap(self, *args):
         self.command(self.getPaths()[0])
         self.destroy()
+
+
+
 

@@ -122,6 +122,7 @@ class MMBDialog(ModelessDialog):
 ###################################################################################################
     ## Create the tab for PDB input and Polymers editing
     def createInputTab(self):
+        #print "howdy"
         # Frame
         inputFrame = Tk.Frame(self.tabs)
         inputFrame.pack(fill='both')
@@ -145,9 +146,12 @@ class MMBDialog(ModelessDialog):
         self.deleteButton.pack(side='left')
         self.balloon.bind_widget(self.deleteButton, msg="Delete selected sequences")
 
-        self.loadButton = Tix.Button(buttons, text="Load", command=self.loadPolymers)
-        self.loadButton.pack(side='left')
+        self.loadButton = Tix.Button(buttons, text="START", command=self.loadPolymers)
+        self.loadButton.pack(side='right')
         self.balloon.bind_widget(self.loadButton, msg="Generate structure in MMB. You can't modify the sequences after this operation.")
+
+        separator = Tk.Label(buttons, text=" | ")
+        separator.pack(side='right')
 
         self.openButton = Tix.Button(buttons, text="Open PDB", 
                                      command=lambda ipd=InputPdbDialog: ipd(command=self.extractFromPdb, 
@@ -155,6 +159,14 @@ class MMBDialog(ModelessDialog):
                                      )
         self.openButton.pack(side='right')
         self.balloon.bind_widget(self.openButton, msg="Extract sequences from a PDB file which will also be used to generate the structure (by default).")
+
+        self.openMMBButton = Tix.Button(buttons, text="Open MMB file", 
+                                     command=lambda ipd=InputMMBFileDialog: ipd(command=self.openMMBFile, 
+                                                                            multiple=False).enter()
+                                     )
+        self.openMMBButton.pack(side='right')
+        self.balloon.bind_widget(self.openMMBButton, msg="Load an MMB commands file.")
+
 
         self.importButton = Tix.Button(buttons, text="Import from Chimera", 
                                      command=self.importFromChimera)
@@ -216,13 +228,29 @@ class MMBDialog(ModelessDialog):
             try:
                 if filepath != MMB_UI.currentPdb:
                     MMB_UI.currentPdb = filepath
-                    loadSequencesFromPdb(filepath) # add polymers' sequences
+                    MMB_UI.loadSequencesFromPdb(filepath) # add polymers' sequences
                     self.drawPolymersFrame(self.polymersFrame)
             except pyMMB.MMBError as e:
                 tkMessageBox.showerror("MMB Error", e.msg)
                 return False
             return True
         return False
+
+    def openMMBFile(self, filepath):
+        """ 
+        Open an MMB command file.
+        """
+        if(os.path.isfile(filepath)):
+            try:
+                MMB_UI.setWorkDir(os.path.dirname(filepath))
+                fileContent = open(filepath,'r').readlines()
+                MMB_UI.sendMMBCmds(fileContent)
+                self.refreshSequences()
+            except pyMMB.MMBError as e:
+                tkMessageBox.showerror("MMB Error", e.msg)
+                return False
+            return True
+        return False      
 
     def importFromChimera(self):
         try:
@@ -306,6 +334,21 @@ class MMBDialog(ModelessDialog):
                 if tkMessageBox.askyesno(title="MMB - Validate Sequences ?", message=message) == 0:
                     return False
             MMB_UI.validateSequences()
+
+            # Let the user choose a working directory, where MMB results will be
+            # WIP - this breaks the simulation for now...
+            # import OpenSave
+            # self._selectWDDialog = OpenSave.OpenModal(
+            #             title="Select Working Directory",
+            #             dirsOnly=1,
+            #             multiple=False)
+            # self._selectWDDialog.run(self.polymersFrame)
+            # dirList = self._selectWDDialog.getPaths()
+            # if not dirList:
+            #     tkMessageBox.showerror("MMB Error", "Unable to open the selected directory, sorry.")
+            #     return
+            # MMB_UI.setWorkDir(dirList[0])
+            # 
             # Why load before init?
             # initPolymers load the structures in the real MMB system but they are not OK until we init the simulation
             # To counter this, loadPolymers loads structures generated from a dummy MMB system initialized entirely that we discard after that. I know, we load twice, but it is the best solution right now (oct. 2013) compare to the (re)development cost of making a proper system.
@@ -318,6 +361,7 @@ class MMBDialog(ModelessDialog):
             return False
         self.refreshAll()
         return True
+
 
 ###################################################################################################
     ## Create the tab to manage MMB commands 
@@ -368,9 +412,9 @@ class MMBDialog(ModelessDialog):
         if os.path.isfile(x.get()):
             self.cmdGlobalEditor.delete(1.0,'end')
             filename = x.get()
+            MMB_UI.setWorkDir(os.path.dirname(filename))
             fileContent = open(filename,'r').read()
             self.cmdGlobalEditor.insert(1.0, fileContent)
-
     ## Send commands in the command editor to MMB.
     def applyCmds(self):
         cmds = self.cmdGlobalEditor.get(1.0,'end')
@@ -1714,6 +1758,7 @@ class MMBDialog(ModelessDialog):
     #  @param n int
     def runIntervals(self):
         try:
+            print "runIntervals"
             MMB_UI.runIntervals(n=self.numIntervalEntry.get(), 
                                 callback=lambda f=self.simInfoFrame: self.drawSimulationInfoFrame(f),
                                 endCallback=self.stopSimulation)
@@ -1923,21 +1968,21 @@ def runMMBUI():
 
 def runtRNAExample():
     mmbDiag.ResetMMB()
-    pdbname = os.path.join(MMB_UI.cwd,"examples/tRNA_mRNA.pdb")
+    pdbname = os.path.join(MMB_UI.mmbUIPath,"examples/tRNA_mRNA.pdb")
     MMB_UI.loadSequencesFromPdb(pdbname)
     mmbDiag.refreshSequences()
     mmbDiag.loadPolymers()
-    mmbDiag.openCmdsFile(FakeWidget(os.path.join(MMB_UI.cwd,"examples/tRNA_mRNA.dat")))
+    mmbDiag.openCmdsFile(FakeWidget(os.path.join(MMB_UI.mmbUIPath,"examples/tRNA_mRNA.dat")))
     mmbDiag.applyCmds()
     MMB_UI.applyMMBVisualization()
 
 def runRNAExample():
     mmbDiag.ResetMMB()
-    pdbname = os.path.join(MMB_UI.cwd,"examples/1ARJ.short.pdb")
+    pdbname = os.path.join(MMB_UI.mmbUIPath,"examples/1ARJ.short.pdb")
     MMB_UI.loadSequencesFromPdb(pdbname)
     mmbDiag.refreshSequences()
     mmbDiag.loadPolymers()
-    mmbDiag.openCmdsFile(FakeWidget(os.path.join(MMB_UI.cwd,"examples/commands.TAR.gui.dat")))
+    mmbDiag.openCmdsFile(FakeWidget(os.path.join(MMB_UI.mmbUIPath,"examples/commands.TAR.gui.dat")))
     mmbDiag.applyCmds()
     MMB_UI.applyMMBVisualization()
 

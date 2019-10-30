@@ -1,3 +1,4 @@
+loadSequencesFromPdb 1ARJ.short.pdb
 #RNA  N 17       GGCAGAUCUGAGCCUGGGAGCUCUCUGCC
 
 removeRigidBodyMomentum False
@@ -13,7 +14,6 @@ numReportingIntervals  5
 reportingInterval 2.0 
 firstStage 1
 lastStage 1
-leontisWesthofInFileName parameters.csv
 
 temperature   30.0  
 

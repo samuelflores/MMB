@@ -467,6 +467,7 @@ class IncludeAllNonBondAtomsInResidue_wrapper(Structure):
         call("updateIncludeAllNonBondAtomsInResidue",self.mmbID, self.chain, self.residue)
 
     def mmbDelete(self):
+        print self.mmbID
         call("deleteIncludeAllNonBondAtomsInResidue", self.mmbID)
 
 

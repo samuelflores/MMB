@@ -16,6 +16,8 @@ SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "This is a Release build by default"
 #SET(CMAKE_GENERATOR "Xcode" CACHE STRING "Since you on a Mac, we assume you want to use Xcode" FORCE) 
 #SET(CMAKE_GENERATOR "Xcode" CACHE STRING "Since you on a Mac, we assume you want to use Xcode" FORCE) 
 
+#SET(Build_NtC            FALSE CACHE BOOL 
+        #"Build NtC features of MMB. This greatly increases the size of the BiopolymerClassContainer object in memory")
 SET(BUILD_MMB_SHARED_LIB TRUE CACHE BOOL 
         "Build MMB dynamic library")
 SET(BUILD_MMB_SHARED_EXEC TRUE CACHE BOOL 
@@ -45,7 +47,8 @@ SET(SimTK_SHARED_LIBS
         optimized SimTKmolmodel 
         optimized SimTKsimbody 
         optimized SimTKmath
-        optimized SimTKcommon)
+        optimized SimTKcommon
+    )
 SET(SimTK_SHARED_LIBS_D
         debug SimTKmolmodel_d 
         debug SimTKsimbody_d 
@@ -101,7 +104,7 @@ ENDIF(NOT SimTKmolmodel)
 # older system you might have to set it manually.
 SET(LIB64)
 IF( UNIX AND NOT APPLE AND ${CMAKE_SIZEOF_VOID_P} EQUAL 8 )
-    SET(LIB64) # LIB64 is just blank, in keeping with new molmodel practice
+    SET(LIB64 64) # LIB64 is just blank, in keeping with new molmodel practice
 ENDIF()
 
 # Make everything go in the same binary directory. (These are CMake-defined
@@ -111,7 +114,7 @@ SET(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 # for some reason it's not reading the ${OpenMM_INCLUDE_DIR}, so i hard coded the OpenMM directory: 
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include ${Simbody_INCLUDE_DIR} ${SimTKmolmodel}/include ${OpenMM_INCLUDE_DIR} ${OpenMM_INCLUDE_DIR}/openmm ${OpenMM_INCLUDE_DIR}/openmm/reference ${SeqAn_INCLUDE_DIR}  )
-LINK_DIRECTORIES(${Simbody_LIB_DIR}${LIB64} ${SimTKmolmodel}/lib${LIB64} ${CMAKE_BINARY_DIR} ${OpenMM_INSTALL_DIR}/lib   )
+LINK_DIRECTORIES(${Simbody_LIB_DIR}${LIB64} ${SimTKmolmodel}/lib ${CMAKE_BINARY_DIR} ${OpenMM_INSTALL_DIR}/lib   )
 
 # On Mac, build 32 bit binaries.
 IF(APPLE)
@@ -131,6 +134,15 @@ ENDIF()
 SET(MMB_LIBRARY_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/Utils.cpp  
     ${PROJECT_SOURCE_DIR}/src/BiopolymerClass.cpp  
+    ${PROJECT_SOURCE_DIR}/src/UnitCellParameters.cpp  
+    #IF (Build_NtC)
+        # SCF manually commented these 3  out. Once Peter fixes the issue with the 2D arrays in BiopolymerClassContainer, we can put them back in. Or have a build varaible to determine whether to build these:
+        ${PROJECT_SOURCE_DIR}/src/NTC_PARAMETER_READER.cpp
+        ${PROJECT_SOURCE_DIR}/src/NtCClassContainer.cpp
+        ${PROJECT_SOURCE_DIR}/src/NtCForces.cpp
+    #ENDIF(Build_NtC)
+    # This should remain commented out:
+    #${PROJECT_SOURCE_DIR}/src/NtCInteractionParameterReader.cpp 
     ${PROJECT_SOURCE_DIR}/src/AtomSpringContainer.cpp  
     ${PROJECT_SOURCE_DIR}/src/DisplacementContainer.cpp  
     ${PROJECT_SOURCE_DIR}/src/MobilizerContainer.cpp  
@@ -148,9 +160,11 @@ SET(MMB_LIBRARY_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/WaterDroplet.cpp  
     ${PROJECT_SOURCE_DIR}/src/DensityMap.cpp  
     ${PROJECT_SOURCE_DIR}/src/DensityForce.cpp
-	${PROJECT_SOURCE_DIR}/src/ElectrostaticPotentialGridForce.cpp
+    ${PROJECT_SOURCE_DIR}/src/ElectrostaticPotentialGridForce.cpp
     ${PROJECT_SOURCE_DIR}/src/MoleculeContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/ErrorManager.cpp )
+    ${PROJECT_SOURCE_DIR}/src/ErrorManager.cpp 
+    ${PROJECT_SOURCE_DIR}/src/PeriodicPdbAndEnergyWriter.cpp
+    )
 
 SET(MMB_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/RNABuilder.cpp  )
@@ -204,6 +218,59 @@ IF (BUILD_MMB_SHARED_LIB)
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
     )
+    set (CMAKE_VERBOSE_MAKEFILE on)
+
+
+#IF(WIN32)
+#    SET( ws2_32)
+#ELSEIF(APPLE)
+#    SET(LIB_SUFFIX ".dylib")
+#ELSE() #Linux
+#    SET(LIB_SUFFIX ".so")
+#ENDIF()
+    #MESSAGE(${LIB64})
+    #MESSAGE(${SimTK_INSTALL_DIR}/lib${LIB64}/${CMAKE_SHARED_LIBRARY_PREFIX}*${CMAKE_SHARED_LIBRARY_SUFFIX})
+    FILE(GLOB SimTK_INSTALL_DIR_FILES  "${SimTK_INSTALL_DIR}/lib${LIB64}/${CMAKE_SHARED_LIBRARY_PREFIX}*${CMAKE_SHARED_LIBRARY_SUFFIX}") 
+    FILE(GLOB Molmodel_INSTALL_DIR_FILES  "${SimTKmolmodel}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}*${CMAKE_SHARED_LIBRARY_SUFFIX}") 
+    FILE(GLOB CMAKE_BINARY_DIR_FILES  "${CMAKE_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}*${CMAKE_SHARED_LIBRARY_SUFFIX}") 
+    FILE(GLOB OpenMM_INSTALL_DIR_FILES  "${OpenMM_INSTALL_DIR}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}*${CMAKE_SHARED_LIBRARY_SUFFIX}") 
+    #MESSAGE(${SimTK_INSTALL_DIR_FILES})
+    INSTALL(FILES   ${SimTK_INSTALL_DIR_FILES}               
+        ${Molmodel_INSTALL_DIR_FILES}
+        ${CMAKE_BINARY_DIR_FILES}
+        ${OpenMM_INSTALL_DIR_FILES}
+	DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    )
+
+    foreach (file IN LISTS ${SimTK_SHARED_LIBS})
+            #MESSAGE("My file variable is "${file})
+	    #INSTALL(FILES   ${SimTK_INSTALL_DIR}/lib${file}.so               
+	    #	DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+	    #)
+    endforeach (file)
+    # This is recursively copying entire ${Simbody_LIB_DIR}${LIB64} ! not optimal. Try using files with e.g. $<TARGET_FILE_NAME:tgt> http://www.cmake.org/cmake/help/v3.0/manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)
+    # ideally also only get release libs
+    #INSTALL(DIRECTORY ${Simbody_LIB_DIR}${LIB64}/ 
+    #    ${SimTKmolmodel}/lib${LIB64} 
+    #    ${CMAKE_BINARY_DIR} 
+    #    ${OpenMM_INSTALL_DIR}/lib 
+    #    DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    #)
+
+
+    #FILE(GLOB MMB_HEADER_FILES "${PROJECT_SOURCE_DIR}/include/*.h")
+    #FILE (GLOB SimTK_LIB_GLOB  "${SimTKmolmodel}/lib${LIB64}/*")
+    #INSTALL (FILES ${SimTK_LIB_GLOB} 
+    #     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    #)
+#SimTK_SHARED_LIBS
+    #INSTALL(TARGETS ${SimTK_SHARED_LIBS}
+	#LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib) 
+    #foreach(file ${Simbody_LIB_DIR}${LIB64}/lib${SimTK_SHARED_LIBS})
+    #    install (FILES ${file} DESTINATION ${CMAKE_INSTALL_PREFIX})
+    #endforeach()
+    
+#LINK_DIRECTORIES(${Simbody_LIB_DIR}${LIB64} ${SimTKmolmodel}/lib${LIB64} ${CMAKE_BINARY_DIR} ${OpenMM_INSTALL_DIR}/lib   )
 
 ENDIF (BUILD_MMB_SHARED_LIB)
 
@@ -228,6 +295,13 @@ IF (BUILD_MMB_SHARED_EXEC)
 
     INSTALL(FILES ${PROJECT_SOURCE_DIR}/include/resources/parameters.csv
         DESTINATION ${CMAKE_INSTALL_PREFIX}/share/MMB
+    )
+    
+    INSTALL(DIRECTORY ${PROJECT_SOURCE_DIR}/scripts/
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/scripts
+    )
+    INSTALL(DIRECTORY ${PROJECT_SOURCE_DIR}/examples/
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/examples
     )
 
 ENDIF (BUILD_MMB_SHARED_EXEC)

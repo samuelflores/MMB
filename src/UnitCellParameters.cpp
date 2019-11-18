@@ -204,6 +204,7 @@ const int calcMaxFrequencyDoublings (const double unitCellWidth,     const doubl
 
 const int UnitCellParameters::calcMaxFrequencyDoublingsX (){
     //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" about to return "<<getNa()<<std::endl;
     return calcMaxFrequencyDoublings((getNa()));
 }
 const int UnitCellParameters::calcMaxFrequencyDoublingsY (){
@@ -212,7 +213,7 @@ const int UnitCellParameters::calcMaxFrequencyDoublingsY (){
     return calcMaxFrequencyDoublings((getNb()));
 }
 const int UnitCellParameters::calcMaxFrequencyDoublingsZ (){
-    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" about to return "<<getNc()<<std::endl;
     //return calcMaxFrequencyDoublings(((getNc()-1)*getc()), getc());
     return calcMaxFrequencyDoublings((getNc()));
 }

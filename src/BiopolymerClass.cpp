@@ -1293,7 +1293,7 @@ const vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch my
     }
     if (includePhosphates){
         // do nothing. Phosphates on nucleic acids will get treated just like all other atoms for density map fitting purposes.
-    } else if (isRNA() || isDNA() ) {
+    } else if (isRNA() || isDNA() ) {
         // Now we need to delete the phosphates from returnAtomInfoVector.
         for (int i = 0; i < returnAtomInfoVector.size(); i++){
             //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": About to check "<<returnAtomInfoVector[i].atomName<<" in returnAtomInfoVector["<<i<<"] "<<std::endl;

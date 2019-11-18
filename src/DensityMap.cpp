@@ -292,8 +292,9 @@ void DensityMap::resizeVectorOfAmplitudeAndRandomPhases(){
                     ErrorManager::instance.treatError();
                 }
         	for ( int yIndex = 0; yIndex < unitCellParameters.calcMaxFrequencyDoublingsY(); yIndex++) {
-        	    if (vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].size() != (unitCellParameters.calcMaxFrequencyDoublingsZ()+1 )) {
-        		     ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Wrong number of grid points in X direction! Found :"<< vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].size()<<" expected : " <<unitCellParameters.calcMaxFrequencyDoublingsZ()+1 <<endl;
+        	    if (vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].size() != (unitCellParameters.calcMaxFrequencyDoublingsX()+1 )) {
+                             std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
+        		     ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Check 1. Wrong number of grid points in X direction! Found :"<< vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].size()<<" expected : " <<unitCellParameters.calcMaxFrequencyDoublingsX()+1 <<endl;
                              ErrorManager::instance.treatError();
                     }
         	}

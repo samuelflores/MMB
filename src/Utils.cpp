@@ -573,7 +573,7 @@ vector<String> readAndParseLine   (ifstream & inFile) {
 	String inString;
  	getline (inFile,inString);
 	//u.str(inString);
-	cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" read: "<<inString<<endl;
+	//cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" read: "<<inString<<endl;
 	vector<String> mystring;
 	
         istringstream iss(inString);

@@ -60,7 +60,7 @@ run touch /github/MMB/build/done-cmake.txt
 run make install
 run rm MMB libMMBlib.so
 ENV LD_LIBRARY_PATH /usr/local/lib
-ENV PATH "/usr/local/bin:$PATH"
+ENV PATH "/usr/local/bin:/github/MMB/docker:$PATH"
 WORKDIR /work                  
 run cp    /github/MMB/include/resources/parameters.csv .
 

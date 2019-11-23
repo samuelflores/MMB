@@ -1191,9 +1191,37 @@ MMBAtomInfo BiopolymerClass::mmbAtomInfo(ResidueID myResidueID, ResidueInfo::Ato
         return myMMBAtomInfo;
 }*/
 
+// This function loops through a provided vector<MMBAtomInfo> and for all phosphate atoms, sets atomicNumber to zero. This is intended to mask phosphates for density map fitting.
+void setPhosphateAtomicNumbersToZero(BiopolymerClass & myBiopolymerClass, vector<MMBAtomInfo> & subjectAtomInfoVector){
+    if (myBiopolymerClass.isRNA() || myBiopolymerClass.isDNA() ) {
+        // Actually we will change atomicNumber to zero so it is inactive in density map fitting.
+        for (int i = 0; i < subjectAtomInfoVector.size(); i++){
+            //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": About to check "<<subjectAtomInfoVector[i].atomName<<" in subjectAtomInfoVector["<<i<<"] "<<std::endl;
+            if ((subjectAtomInfoVector[i].atomName == "P") ||
+               (subjectAtomInfoVector[i].atomName == "OP1") ||
+               (subjectAtomInfoVector[i].atomName == "OP2") ||
+               (subjectAtomInfoVector[i].atomName == "O5*") ||
+               (subjectAtomInfoVector[i].atomName == "O5'") ||
+               (subjectAtomInfoVector[i].atomName == "O3*") ||
+               (subjectAtomInfoVector[i].atomName == "O3'") ) {
+                cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": About to change atomicNumber  from "<<subjectAtomInfoVector[i].atomicNumber <<" in subjectAtomInfoVector["<<i<<"] "<<std::endl;
+                subjectAtomInfoVector[i].atomicNumber = 0; // Artificially set the atomic number to zero so it becomes inactive in density map fitting.
+                cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<":  atomicNumber  is now  "<<subjectAtomInfoVector[i].atomicNumber <<" in subjectAtomInfoVector["<<i<<"] "<<std::endl;
+                //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": About to delete "<<subjectAtomInfoVector[i].atomName<<" in subjectAtomInfoVector["<<i<<"] "<<std::endl;
+                //subjectAtomInfoVector.erase(subjectAtomInfoVector.begin() + i);
+                //i--; // Now we will need to revisit the current i, since the vector has been shortened at this position.
+            } // of if atomName
+        } // of for i
+    } // of if RNA/DNA
+    else { 
+        // We are a protein, so includePhosphates should not affect us. Do nothing.
+    }
+
+}
+
 #ifdef USE_OPENMM
 // Without dumm, doesn't load certain properties..
-void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter ) {
+void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, bool maskPhosphates ) {
     if (atomInfoVector.size() > 0 ) {
 	  ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": initializeAtomInfoVector has already been called!"<<endl; 
 	  ErrorManager::instance.treatError();
@@ -1221,9 +1249,17 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter ) 
         } // of for k
         if (j == getLastResidueID() ) break;
     } // of for j
+    // now if   maskPhosphates is true,  we set the corresponding atomic numbers to zero.
+    if ((maskPhosphates)){
+        setPhosphateAtomicNumbersToZero(*this, atomInfoVector);
+        //otherwise, do nothing. Phosphates on nucleic acids will get treated just like all other atoms for density map fitting purposes.
+    }
+
+
+
 } // of initializeAtomInfoVector
 
-void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) {
+void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, bool maskPhosphates) {
     // have to allow rerun actually, since the dumm version can't be called much earlier.
     /*if (atomInfoVector.size() > 0 ) {
       ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": initializeAtomInfoVector has already been called!"<<endl; 
@@ -1248,6 +1284,11 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, D
                    } // of for k
             if (j == getLastResidueID() ) break;
     } // of for j
+    // now if   maskPhosphates is true,  we set the corresponding atomic numbers to zero.
+    if ((maskPhosphates)){
+        setPhosphateAtomicNumbersToZero(*this,atomInfoVector);
+        //otherwise, do nothing. Phosphates on nucleic acids will get treated just like all other atoms for density map fitting purposes.
+    }
 } // of initializeAtomInfoVector
 #endif
 
@@ -1291,9 +1332,12 @@ const vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch my
           returnAtomInfoVector = vector<MMBAtomInfo>  (startAtomInfoIterator, endAtomInfoIterator+1);
           //return vector<MMBAtomInfo>  (startAtomInfoIterator, endAtomInfoIterator+1);
     }
+ 
+        /* 
     if (includePhosphates){
         // do nothing. Phosphates on nucleic acids will get treated just like all other atoms for density map fitting purposes.
     } else if (isRNA() || isDNA() ) {
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": This section is obsolete!"<<std::endl;
         // Now we need to delete the phosphates from returnAtomInfoVector.
         for (int i = 0; i < returnAtomInfoVector.size(); i++){
             //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": About to check "<<returnAtomInfoVector[i].atomName<<" in returnAtomInfoVector["<<i<<"] "<<std::endl;
@@ -1313,6 +1357,7 @@ const vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch my
     else { 
         // We are a protein, so includePhosphates should not affect us. Do nothing.
     }
+        */
     return returnAtomInfoVector;
     //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Unexplained error! "<<endl; exit (0);
 }
@@ -3688,18 +3733,18 @@ String BiopolymerClassContainer::extractSequenceFromBiopolymer(const Biopolymer 
 };
 
 #ifdef USE_OPENMM
-void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter ) {
+void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter, bool maskPhosphates ) {
     map<const String,BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
     for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
-        (biopolymerClassMapIterator->second).initializeAtomInfoVector(matter);
+        (biopolymerClassMapIterator->second).initializeAtomInfoVector(matter,  maskPhosphates);
     }  
 };
 
 
-void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) {
+void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, bool maskPhosphates) {
     map<const String,BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
     for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
-        (biopolymerClassMapIterator->second).initializeAtomInfoVector(matter, dumm);
+        (biopolymerClassMapIterator->second).initializeAtomInfoVector(matter, dumm,  maskPhosphates);
     }  
 };
 #endif
@@ -3712,7 +3757,7 @@ const bool isRNAtest(const Biopolymer & inputBiopolymer){
             return false;    
         }
         if (! inputBiopolymer.hasAtom("0/O2*")) {
-            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" No O2* atom found on first residue.  This is not RNA! "<<endl;
+            //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" No O2* atom found on first residue.  This is not RNA! "<<endl;
             return false;
         }
     }

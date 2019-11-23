@@ -408,7 +408,7 @@ int  ConstrainedDynamics::initializeBiopolymersAndCustomMolecules(CompoundSystem
     };
      
     #ifdef USE_OPENMM 
-    _parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter); // May not work to use the DuMM version of this, due to possible topology not being realized.
+    _parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter, (!(_parameterReader->densityFitPhosphates))); // May not work to use the DuMM version of this, due to possible topology not being realized.
     #endif
     return returnValue;
 }
@@ -565,7 +565,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     _parameterReader->waterDropletContainer.multiplySmallGroupInertia( _parameterReader->waterInertiaMultiplier, _system,_matter, _state      );
     //cout<<__FILE__<<":"<<__LINE__<<endl;
     #ifdef USE_OPENMM  
-    _parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // investigate moving this outside the conditional, so it's available for DensityForce below.
+    _parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm,(!(_parameterReader->densityFitPhosphates))); // investigate moving this outside the conditional, so it's available for DensityForce below.
     #endif
     cout<<__FILE__<<":"<<__LINE__<<" You have specified _parameterReader->physicsRadius = "<<_parameterReader->physicsRadius<<endl;
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); // Looks fine at this point ..

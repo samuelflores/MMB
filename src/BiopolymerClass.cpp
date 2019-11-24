@@ -1192,11 +1192,24 @@ MMBAtomInfo BiopolymerClass::mmbAtomInfo(ResidueID myResidueID, ResidueInfo::Ato
 }*/
 
 // This function loops through a provided vector<MMBAtomInfo> and for all phosphate atoms, sets atomicNumber to zero. This is intended to mask phosphates for density map fitting.
-void setPhosphateAtomicNumbersToZero(BiopolymerClass & myBiopolymerClass, vector<MMBAtomInfo> & subjectAtomInfoVector){
-    if (myBiopolymerClass.isRNA() || myBiopolymerClass.isDNA() ) {
+void overrideAtomInfoVectorProperties(BiopolymerClass & myBiopolymerClass, vector<MMBAtomInfo> & subjectAtomInfoVector, const vector<AtomicPropertyOverrideStruct> & myAtomicPropertyOverrideVector){
+    //if (myBiopolymerClass.isRNA() || myBiopolymerClass.isDNA() ) {
         // Actually we will change atomicNumber to zero so it is inactive in density map fitting.
         for (int i = 0; i < subjectAtomInfoVector.size(); i++){
             //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": About to check "<<subjectAtomInfoVector[i].atomName<<" in subjectAtomInfoVector["<<i<<"] "<<std::endl;
+            for (int overrideVectorIndex = 0; overrideVectorIndex < myAtomicPropertyOverrideVector.size() ; overrideVectorIndex++){
+                if (subjectAtomInfoVector[i].atomName == myAtomicPropertyOverrideVector[overrideVectorIndex].atomName){
+                    if (myAtomicPropertyOverrideVector[overrideVectorIndex].property == "atomicNumber") {
+                        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].atomName <<",  property atomicNumber is currently set to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl; 
+                        subjectAtomInfoVector[i].atomicNumber = myAtomicPropertyOverrideVector[overrideVectorIndex].value;
+                        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].atomName <<", just overrode property atomicNumber to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl; 
+                    } else {
+	                ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You have tried to change the property : >" <<myAtomicPropertyOverrideVector[overrideVectorIndex].property << "< for atoms of name : >"<<  myAtomicPropertyOverrideVector[overrideVectorIndex].atomName <<"< .  This is not supported!"<<endl; 
+                        ErrorManager::instance.treatError();
+                    } // of if atomicNumber
+                } // of if atomName match
+            } // of for overrideVectorIndex
+            /*
             if ((subjectAtomInfoVector[i].atomName == "P") ||
                (subjectAtomInfoVector[i].atomName == "OP1") ||
                (subjectAtomInfoVector[i].atomName == "OP2") ||
@@ -1211,17 +1224,18 @@ void setPhosphateAtomicNumbersToZero(BiopolymerClass & myBiopolymerClass, vector
                 //subjectAtomInfoVector.erase(subjectAtomInfoVector.begin() + i);
                 //i--; // Now we will need to revisit the current i, since the vector has been shortened at this position.
             } // of if atomName
+            */
         } // of for i
-    } // of if RNA/DNA
-    else { 
+    //} // of if RNA/DNA
+    //else { 
         // We are a protein, so includePhosphates should not affect us. Do nothing.
-    }
+    //}
 
-}
+} // of overrideAtomInfoVectorProperties
 
 #ifdef USE_OPENMM
 // Without dumm, doesn't load certain properties..
-void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, bool maskPhosphates ) {
+void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter,  const vector<AtomicPropertyOverrideStruct>  & myAtomicPropertyOverrideVector ) {
     if (atomInfoVector.size() > 0 ) {
 	  ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": initializeAtomInfoVector has already been called!"<<endl; 
 	  ErrorManager::instance.treatError();
@@ -1250,16 +1264,16 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, b
         if (j == getLastResidueID() ) break;
     } // of for j
     // now if   maskPhosphates is true,  we set the corresponding atomic numbers to zero.
-    if ((maskPhosphates)){
-        setPhosphateAtomicNumbersToZero(*this, atomInfoVector);
+    //if ((maskPhosphates)){
+    overrideAtomInfoVectorProperties(*this, atomInfoVector,myAtomicPropertyOverrideVector);
         //otherwise, do nothing. Phosphates on nucleic acids will get treated just like all other atoms for density map fitting purposes.
-    }
+    //}
 
 
 
 } // of initializeAtomInfoVector
 
-void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, bool maskPhosphates) {
+void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const vector<AtomicPropertyOverrideStruct>  & myAtomicPropertyOverrideVector) {
     // have to allow rerun actually, since the dumm version can't be called much earlier.
     /*if (atomInfoVector.size() > 0 ) {
       ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": initializeAtomInfoVector has already been called!"<<endl; 
@@ -1285,10 +1299,10 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, D
             if (j == getLastResidueID() ) break;
     } // of for j
     // now if   maskPhosphates is true,  we set the corresponding atomic numbers to zero.
-    if ((maskPhosphates)){
-        setPhosphateAtomicNumbersToZero(*this,atomInfoVector);
+    //if ((maskPhosphates)){
+    overrideAtomInfoVectorProperties(*this,atomInfoVector, myAtomicPropertyOverrideVector);
         //otherwise, do nothing. Phosphates on nucleic acids will get treated just like all other atoms for density map fitting purposes.
-    }
+    //}
 } // of initializeAtomInfoVector
 #endif
 
@@ -2621,6 +2635,7 @@ void BiopolymerClassContainer::clear(){
     mutationVector.clear();
     pdbStructureMap.clear();
     biopolymerClassMap.clear();
+    atomicPropertyOverrideVector.clear();
 }
 
 
@@ -3733,18 +3748,18 @@ String BiopolymerClassContainer::extractSequenceFromBiopolymer(const Biopolymer 
 };
 
 #ifdef USE_OPENMM
-void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter, bool maskPhosphates ) {
+void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter ) {
     map<const String,BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
     for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
-        (biopolymerClassMapIterator->second).initializeAtomInfoVector(matter,  maskPhosphates);
+        (biopolymerClassMapIterator->second).initializeAtomInfoVector(matter,  atomicPropertyOverrideVector);
     }  
 };
 
 
-void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, bool maskPhosphates) {
+void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) {
     map<const String,BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
     for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
-        (biopolymerClassMapIterator->second).initializeAtomInfoVector(matter, dumm,  maskPhosphates);
+        (biopolymerClassMapIterator->second).initializeAtomInfoVector(matter, dumm,   atomicPropertyOverrideVector);
     }  
 };
 #endif

@@ -1,6 +1,7 @@
-//#include "/usr/local/SimTK/include/SimTKcommon.h"  
-#include "/usr/local/SimTK/include/SimTKmolmodel.h"
-#include "/usr/local/SimTK/include/SimTKsimbody_aux.h"
+//#include "SimTKcommon.h"  
+#include "SimTKmolmodel.h"
+#include "SimTKsimbody_aux.h"
+#include "Pdb.h"
 #include <cstring>
 //#include <cmemory>
 //#include <memory.h>
@@ -19,8 +20,8 @@ int main(int argc, char *argv[] ) {
 
  char*  inputFileName = "/Users/samuelflores/svn/tar-dynamics/parameterization/in.pdb";	
  char*  outputFileName = "/Users/samuelflores/svn/tar-dynamics/parameterization/out.pdb";
- char firstChainID = ' ';	
- char secondChainID = ' ';
+ String firstChainID = " ";	
+ String secondChainID = " ";
  char* firstResidueType = "G";
  char* secondResidueType = "G";
  int firstResidueNumber = 0;	
@@ -37,8 +38,8 @@ int main(int argc, char *argv[] ) {
         else if (key == "-SRN")  {secondResidueNumber = atoi(argv[q+1]);}
         else if (key == "-FRT")  {firstResidueType    = (argv[q+1]);}
         else if (key == "-SRT")  {secondResidueType   = (argv[q+1]);}
-        else if (key == "-FCID") {firstChainID        = *(argv[q+1]);}
-        else if (key == "-SCID") {secondChainID       = *(argv[q+1]);}
+        else if (key == "-FCID") {firstChainID        = (argv[q+1]);}
+        else if (key == "-SCID") {secondChainID       = (argv[q+1]);}
         else if (key == "-FIN")  {inputFileName       = (argv[q+1]);}
         else if (key == "-FOUT") {outputFileName      = (argv[q+1]);}
         //else if (key == "-BM"  ) {overallBondMobility = String(argv[q+1]);}

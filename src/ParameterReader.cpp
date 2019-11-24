@@ -3241,6 +3241,21 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         densityNoiseComputeAutocorrelation = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    
         return;
     }
+    if ( ((parameterStringClass.getString(0)).compare("overrideAtomicProperty") == 0)  )    { 
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Syntax: overrideAtomicProperty <atom name>  <property> <value>  "<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Where <atom name> is the name of the atom whose property you want to override. All atoms in the system will have their <property> set to <value>." <<std::endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"  currently the only <property> supported is atomicNumber. "<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" <value> is a double. In the case that <property> is an int, the <value> will be cast to int."<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" The expected use of this is to override atomicNumber for density map fitting. If phosphate are not visible, you may wish to set atoms such as P, OP1, etc, to zero or even a negative value. This means they will feel zero or negative fitting force."<<endl;
+        parameterStringClass.validateNumFields(4);
+        AtomicPropertyOverrideStruct atomicPropertyOverrideStruct ;
+        atomicPropertyOverrideStruct.atomName = parameterStringClass.getString(1);
+        atomicPropertyOverrideStruct.property = parameterStringClass.getString(2);
+        atomicPropertyOverrideStruct.value    = myAtoF(userVariables,parameterStringClass.getString(3).c_str());
+         myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);       
+        return;
+    } // overrideAtomicProperty  
+
     if ((parameterStringClass.getString(0)).compare("densityFitPhosphates" ) ==0) {
         parameterStringClass.validateNumFields(2);
         if (parameterStringClass.getString(1).length() == 0) {
@@ -3250,6 +3265,20 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : You have provided too many parameters for this command."<<endl; ErrorManager::instance.treatError();
         }
         densityFitPhosphates = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    
+        if (!(densityFitPhosphates)){
+            AtomicPropertyOverrideStruct atomicPropertyOverrideStruct ;
+            atomicPropertyOverrideStruct.property = "atomicNumber";
+            atomicPropertyOverrideStruct.value = 0.0;   
+            atomicPropertyOverrideStruct.atomName = "P";   myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
+            atomicPropertyOverrideStruct.atomName = "OP1"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
+            atomicPropertyOverrideStruct.atomName = "OP2"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
+            atomicPropertyOverrideStruct.atomName = "O5*"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
+            atomicPropertyOverrideStruct.atomName = "O5'"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
+            atomicPropertyOverrideStruct.atomName = "O3*"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
+            atomicPropertyOverrideStruct.atomName = "O3'"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
+        } else {
+            ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : You have tried to set densityFitPhosphates to TRUE. please don't do this! Just leave out the command altogether. Actually this whole command is obsolete."<<endl; ErrorManager::instance.treatError();
+        }
         return;
     }
     if (((parameterStringClass.getString(0)).compare("densityMapActivate") ==0)  )  {

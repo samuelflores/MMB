@@ -35,6 +35,14 @@ bool         letterIsProtein(String);
 template <class ResidueStretchType>
 class ResidueStretchContainer; // Don't you just love forward declarations?
 
+
+// This data type is for use in atomicPropertyOverrideVector
+struct AtomicPropertyOverrideStruct {
+    String atomName;
+    String property;
+    double value;
+};
+
 class MMB_EXPORT BiopolymerClass {
 private:
 
@@ -46,7 +54,6 @@ private:
     bool        myRenumberPdbResidues;
     bool        proteinCapping;
     vector<MMBAtomInfo> atomInfoVector;
-
     vector<MMBAtomInfo> ignoreAtomPositionVector;
     vector<ResidueID> residueIDVector; // the element index should match the residue index for fast retrieval
     String  pdbFileName;
@@ -213,8 +220,8 @@ public:
     MMBAtomInfo mmbAtomInfo(  ResidueID myResidueID,   ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm );
     //MMBAtomInfo mmbAtomInfo(  ResidueID myResidueID,   ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm , State & state);
     #ifdef USE_OPENMM
-    void        initializeAtomInfoVector(SimbodyMatterSubsystem & matter, bool maskPhosphates);
-    void        initializeAtomInfoVector(SimbodyMatterSubsystem & matter,DuMMForceFieldSubsystem & dumm, bool maskPhosphates);
+    void        initializeAtomInfoVector(SimbodyMatterSubsystem & matter,  const vector<AtomicPropertyOverrideStruct>  & myAtomicPropertyOverrideVector);
+    void        initializeAtomInfoVector(SimbodyMatterSubsystem & matter,DuMMForceFieldSubsystem & dumm, const vector<AtomicPropertyOverrideStruct> & atomicPropertyOverrideVector);
     #endif
 
     const       vector<MMBAtomInfo> getAtomInfoVector();
@@ -401,7 +408,8 @@ public :
     
     BiopolymerClassContainer(){};
     map <const String, BiopolymerClass> getBiopolymerClassMap () const {return biopolymerClassMap;};
-    void        clear(); //: deletes all BiopolymerClass's in biopolymerClassMap
+    vector<AtomicPropertyOverrideStruct> atomicPropertyOverrideVector;
+    void        clear(); //: deletes all BiopolymerClass's in biopolymerClassMap, as well as other linked lists
     int         getNumBiopolymers(){return biopolymerClassMap.size();}
     size_t      getTotalNumAtoms();
     vector<SecondaryStructureStretch> secondaryStructureStretchVector;
@@ -499,8 +507,8 @@ public :
 
     void        physicsZone(vector<AllResiduesWithin> & myIncludeAllResiduesWithinVector , double radius, SimbodyMatterSubsystem & matter,State & state);
     void        multiplySmallGroupInertia(const double multiplier, CompoundSystem & system,SimbodyMatterSubsystem & matter,State & state);
-    void        initializeAtomInfoVectors(SimbodyMatterSubsystem & matter, bool maskPhosphates);
-    void        initializeAtomInfoVectors(SimbodyMatterSubsystem & matter,DuMMForceFieldSubsystem & dumm, bool maskPhosphates);
+    void        initializeAtomInfoVectors(SimbodyMatterSubsystem & matter);
+    void        initializeAtomInfoVectors(SimbodyMatterSubsystem & matter,DuMMForceFieldSubsystem & dumm);
     String      extractSequenceFromBiopolymer(const Biopolymer & myBiopolymer, bool endCaps);
     const bool  isRNA    (const Biopolymer & inputBiopolymer) ;
     const bool  isDNA    (const Biopolymer & inputBiopolymer) ;

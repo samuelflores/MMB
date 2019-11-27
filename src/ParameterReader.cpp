@@ -1058,82 +1058,93 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     if  (((parameterStringClass.getString(0)).compare(  "insertResidue") == 0))  {
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": This command generates a specified insertion in a specified chain."<<endl;
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Syntax: insertResidue <chain ID> <residue number> <new residue type> ."<<endl;
+        parameterStringClass.validateNumFields(4);
         if (parameterStringClass.getString(4).size() != 0) {
             ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You have specified too many parameters for this command."<<endl;
             ErrorManager::instance.treatError();
         }
     
         String myChain = parameterStringClass.getString(1);
-        ResidueID myResidue(parameterStringClass.getString(2)); // This makes a "plain" residue, not attached to an actual chain, and not validated in any way.
+        
+        ResidueID myResidue; // This makes a "plain" residue, not attached to an actual chain, and not validated in any way.
+        if (parameterStringClass.getString(2).find( "@") != std::string::npos) {  // The user is trying to invoke a user variable.           
+            //myAtoI(userVariables,(parameterStringClass.getString(2)).c_str());
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Detected you are trying to invoke a user variable (starts with '@'). This will be interpreted as a string. No insertion code can be specified in this way."<<std::endl;
+            myResidue = ResidueID(userVariables,(parameterStringClass.getString(2)).c_str()); 
+// second arguemnt is insertion code, will default to " " if left out.
+        } else {
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Detected you are NOT trying to invoke a user variable (starts with '@').  insertion code can be specified in this way."<<std::endl;
+            myResidue = ResidueID(parameterStringClass.getString(2)); // I could have just done nothing, but this seems safer.
+        }    
         String myResidueType = parameterStringClass.getString(3); 
         Mutation myMutation(myChain,myResidue,myResidueType);
         myBiopolymerClassContainer.insertResidue(myMutation,proteinCapping);        
         return;
     }
 
-        if  (((parameterStringClass.getString(0)).compare(  "deleteResidue") == 0)  ||
+    if  (((parameterStringClass.getString(0)).compare(  "deleteResidue") == 0)  ||
              ((parameterStringClass.getString(0)).compare(  "deleteResidues") == 0))  {
 
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": This command deletes the specified residue in the specified chain. The remaining residues retain the PDB residue numbers they had prior to the deletion (i.e. there may result a gap in the numbering)."<<endl;
-            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Syntax: deleteResidues <chain ID> <residue ID>  "<<endl;
-            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Syntax: deleteResidues <chain ID> <start residue ID> <end residue ID>  "<<endl;
-            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Or, you could just delete the entire chain, like this: "<<endl;
-            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Syntax: deleteResidues <chain ID>   "<<endl;
-            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Or, you could delete ALL chains, like this: "<<endl;
-            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Syntax: deleteResidues    "<<endl;
-            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": But be careful with this command! Make sure you don't try to reference any residues that this command deletes, elsewhere in your command file."<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Syntax: deleteResidues <chain ID> <residue ID>  "<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Syntax: deleteResidues <chain ID> <start residue ID> <end residue ID>  "<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Or, you could just delete the entire chain, like this: "<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Syntax: deleteResidues <chain ID>   "<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Or, you could delete ALL chains, like this: "<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Syntax: deleteResidues    "<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": But be careful with this command! Make sure you don't try to reference any residues that this command deletes, elsewhere in your command file."<<endl;
     
         String myChain = parameterStringClass.getString(1);
-            if (safeParameters) if (!mobilizerContainer.isEmpty()) {
-                ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You have previously called some sort of mobilizer command. Please move all such commands, which reference residue numbers, below the deleteResidues command. Otherwise there  too much potential to reference a deleted residue. You can override this message by setting safeParameters False"<<endl;
+        if (safeParameters) if (!mobilizerContainer.isEmpty()) {
+            ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You have previously called some sort of mobilizer command. Please move all such commands, which reference residue numbers, below the deleteResidues command. Otherwise there  too much potential to reference a deleted residue. You can override this message by setting safeParameters False"<<endl;
+            ErrorManager::instance.treatError();
+        }
+        if (parameterStringClass.getString(1).size() == 0) {
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": It appears you wish to delete ALL chains "<<endl;
+            myBiopolymerClassContainer.deleteAllBiopolymerClasses(); 
+            //ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You have not specified enough parameters for this command."<<endl;
+            //ErrorManager::instance.treatError();
+            return;
+        }
+        else if ((parameterStringClass.getString(1).size() != 0) && (parameterStringClass.getString(2).size() == 0)) { // only a chain ID was provided.  User wants to delete entire chain.
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": It would appears you wish to delete chain "<<myChain<<endl;
+            myBiopolymerClassContainer.deleteBiopolymerClass(myChain);
+            if (myBiopolymerClassContainer.hasChainID(myChain)) {
+                ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Error! For some reason chain "<<myChain<<" still exists!"<<endl;
                 ErrorManager::instance.treatError();
             }
-            if (parameterStringClass.getString(1).size() == 0) {
-                cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": It appears you wish to delete ALL chains "<<endl;
-                myBiopolymerClassContainer.deleteAllBiopolymerClasses(); 
-                //ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You have not specified enough parameters for this command."<<endl;
-                //ErrorManager::instance.treatError();
-                return;
-            }
-            else if ((parameterStringClass.getString(1).size() != 0) && (parameterStringClass.getString(2).size() == 0)) { // only a chain ID was provided.  User wants to delete entire chain.
-                cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": It would appears you wish to delete chain "<<myChain<<endl;
-                myBiopolymerClassContainer.deleteBiopolymerClass(myChain);
-                if (myBiopolymerClassContainer.hasChainID(myChain)) {
-                    ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Error! For some reason chain "<<myChain<<" still exists!"<<endl;
-                    ErrorManager::instance.treatError();
-                }
-                else cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Done! the chain "<<myChain<<" is gone!"<<endl;
-                return;
-            }
-            else if (parameterStringClass.getString(4).size() != 0) {
-                ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You have specified too many parameters for this command."<<endl;
+            else cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Done! the chain "<<myChain<<" is gone!"<<endl;
+            return;
+        }
+        else if (parameterStringClass.getString(4).size() != 0) {
+            ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You have specified too many parameters for this command."<<endl;
+            ErrorManager::instance.treatError();
+        }
+
+        ResidueID startResidue = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2),myChain);
+        ResidueID endResidue (-1111,' '); // Set to an absurd value to catch errors
+        if (parameterStringClass.getString(3).size() != 0) {
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" You have specified a range of residues.."<<endl;
+            endResidue = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3),myChain);
+
+        } else {
+            endResidue = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2),myChain); }
+        ResidueID deletedResidue = startResidue;
+        ResidueID nextResidue (-1111,' ');
+
+        if ((startResidue == myBiopolymerClassContainer.updBiopolymerClass(myChain).getFirstResidueID()) &&
+            (endResidue == myBiopolymerClassContainer.updBiopolymerClass(myChain).getLastResidueID())) {
+                ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You can't delete ALL residues in the chain this way! Just delete the entire chain. See syntax above."<<endl;
+                ErrorManager::instance.treatError();
+        }
+
+        while (deletedResidue<=endResidue) {
+            if (myBiopolymerClassContainer.updBiopolymerClass(myChain).getLastResidueID() == myBiopolymerClassContainer.updBiopolymerClass(myChain).getFirstResidueID()) {
+                ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You can't delete ALL residues in the chain!  not with this command, anyway."<<endl;
                 ErrorManager::instance.treatError();
             }
-
-            ResidueID startResidue = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2),myChain);
-            ResidueID endResidue (-1111,' '); // Set to an absurd value to catch errors
-            if (parameterStringClass.getString(3).size() != 0) {
-                cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" You have specified a range of residues.."<<endl;
-                endResidue = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3),myChain);
-
-            } else {
-                endResidue = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2),myChain); }
-            ResidueID deletedResidue = startResidue;
-            ResidueID nextResidue (-1111,' ');
-
-            if ((startResidue == myBiopolymerClassContainer.updBiopolymerClass(myChain).getFirstResidueID()) &&
-                (endResidue == myBiopolymerClassContainer.updBiopolymerClass(myChain).getLastResidueID())) {
-                    ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You can't delete ALL residues in the chain this way! Just delete the entire chain. See syntax above."<<endl;
-                    ErrorManager::instance.treatError();
-            }
-
-            while (deletedResidue<=endResidue) {
-                if (myBiopolymerClassContainer.updBiopolymerClass(myChain).getLastResidueID() == myBiopolymerClassContainer.updBiopolymerClass(myChain).getFirstResidueID()) {
-                    ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You can't delete ALL residues in the chain!  not with this command, anyway."<<endl;
-                    ErrorManager::instance.treatError();
-                }
-                cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to delete "<<deletedResidue.outString()<<endl;
-                nextResidue = myBiopolymerClassContainer.updBiopolymerClass(myChain).safeSum(deletedResidue,1); // Will only increment if it's deletedResidue is not the last in the chain.
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to delete "<<deletedResidue.outString()<<endl;
+            nextResidue = myBiopolymerClassContainer.updBiopolymerClass(myChain).safeSum(deletedResidue,1); // Will only increment if it's deletedResidue is not the last in the chain.
         String mySubstitution = "?";
         Mutation myMutation(myChain,deletedResidue,mySubstitution);
         myBiopolymerClassContainer.deleteResidue(myMutation,proteinCapping);
@@ -1883,7 +1894,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             cout  <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " Starting NtC loop. Overall residue stretch is from "<<firstNtCResidueInStretch.outString()<< " to "<< lastNtCResidueInStretch.outString()<<" . In this round, NTC.FirstBPResidue = "<< NTC.FirstBPResidue.outString() << " , NTC.SecondBPResidue = "<< NTC.SecondBPResidue.outString() <<" . "<<endl;
             cout  <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " NTC.FirstBPResidue = "<<NTC.FirstBPResidue.outString()<<endl;
             cout  <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " NTC.SecondBPResidue = "<<NTC.SecondBPResidue.outString()<<endl;
-            NTC.weight          = stod(parameterStringClass.getString(5));
+            //NTC.weight          = stod(parameterStringClass.getString(5));
+            NTC.weight = myAtoF(userVariables,parameterStringClass.getString(8).c_str());
             NTC.meta            = 0;
             int metaPosition = 6;        
             if (parameterStringClass.getString(metaPosition).length() != 0){

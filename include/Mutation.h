@@ -36,8 +36,9 @@ public:
         std::string getMutationAsFoldxString() {return  getWildTypeResidueType() + getChain() +  getResidueIDAsString() + getSubstitutedResidueType();}
         void validate() {
                 if (getResidueNumber() < 0) {
-                        std::cout<<__FILE__<<":"<<__LINE__<<" The residueNumber is < 0!"<<std::endl;
-                        exit(1);
+                        std::cout<<__FILE__<<":"<<__LINE__<<" WARNING! The residueNumber is < 0!"<<std::endl;
+                        // Downgraded from error to warning, 24 nov 2019. seems to work fine.
+                        //exit(1);
                 }
                 if ((substitutedResidueType.length() == 0) || (substitutedResidueType.length() > 1)) {
                         std::cout<<__FILE__<<":"<<__LINE__<<" The substitutedResidueType.length() is either 0 or >1."<<std::endl;

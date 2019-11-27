@@ -1201,6 +1201,7 @@ void overrideAtomInfoVectorProperties(BiopolymerClass & myBiopolymerClass, vecto
                 if (subjectAtomInfoVector[i].atomName == myAtomicPropertyOverrideVector[overrideVectorIndex].atomName){
                     if (myAtomicPropertyOverrideVector[overrideVectorIndex].property == "atomicNumber") {
                         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].atomName <<",  property atomicNumber is currently set to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl; 
+                        // NOte we are casting double as int:
                         subjectAtomInfoVector[i].atomicNumber = myAtomicPropertyOverrideVector[overrideVectorIndex].value;
                         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].atomName <<", just overrode property atomicNumber to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl; 
                     } else {

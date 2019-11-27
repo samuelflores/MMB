@@ -528,6 +528,7 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "densityFitPhosphates                   bool    "<<densityFitPhosphates<<" : When set to False, this means phophate groups in DNA and RNA will feel zero density map fitting force. Be warned that this slows down your run A LOT -- proportional to the number of nucleic acid residues that have fitting forces turned on."<<endl;
     myOstream << remarkString << "densityForceConstant                   double   "<<densityForceConstant<<endl;
     myOstream << remarkString << "densityNoiseComputeAutocorrelation                double   "<<densityNoiseComputeAutocorrelation<<" Compute the autocorrelation function for both the planck's law noise and input density. may only have effect if densityNoiseScale > 0."<<endl;
+    myOstream << remarkString << "densityReportAtEachAtomPosition        bool    "<<densityReportAtEachAtomPosition<<" Write out the local density observed at each atom position, and the corresponding atom name. Written to stdout. Only works when the density forces are active. "<<endl;
     myOstream << remarkString << "densityNoiseTemperature                double   "<<densityNoiseTemperature<<" Temperature for the Planck's Law based noise generator for the density map."<<endl;
     myOstream << remarkString << "densityNoiseScale                      double   "<<densityNoiseScale<<" Overall scale of the noise for the Planck's Law based noise generator for the density map. Note that this scales the noise amplitude, but the amplitude is squared prior to being added to the density map, and being used to compute signalToNoiseRatio. "<< endl;
     //myOstream << remarkString << "densityMapActivate                     String  "<<densityMapActivate<<endl;
@@ -3242,6 +3243,12 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }
         return;
     }
+    if ((parameterStringClass.getString(0)).compare("densityReportAtEachAtomPosition" ) ==0) {
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" densityReportAtEachAtomPosition provides the local density at each atom position. This could get  somewhat verbose so is set to 0 by default. It is intended to give us an idea of how to override the atomicNumber property for better fitting performance. Syntax: densityReportAtEachAtomPosition <bool>."<<std::endl;
+        parameterStringClass.validateNumFields(2);
+        densityReportAtEachAtomPosition = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    
+        return;
+    }
     if ((parameterStringClass.getString(0)).compare("densityNoiseComputeAutocorrelation" ) ==0) {
         parameterStringClass.validateNumFields(2);
         if (parameterStringClass.getString(1).length() == 0) {
@@ -3269,6 +3276,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     } // overrideAtomicProperty  
 
     if ((parameterStringClass.getString(0)).compare("densityFitPhosphates" ) ==0) {
+        ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : This parameter is no longer supported.  You should now just use the overrideAtomicProperty command. Just issue overrideAtomicProperty to get the syntax."<<endl;
+        ErrorManager::instance.treatError();
         parameterStringClass.validateNumFields(2);
         if (parameterStringClass.getString(1).length() == 0) {
             ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : You have not provided enough parameters for this command."<<endl; ErrorManager::instance.treatError();
@@ -4638,6 +4647,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     densityNoiseTemperature = 0.;
     densityNoiseScale    = 0.;
     densityNoiseComputeAutocorrelation = 0;
+    densityReportAtEachAtomPosition = 0;
     densityFitPhosphates  = 1;
     //densityMapActivate = false;
     electroDensityFileName = "electroDensityFileName-NOT-SET";

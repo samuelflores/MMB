@@ -107,6 +107,7 @@ public:
     double densityForceConstant;
     bool   densityFitPhosphates; 
     bool   densityNoiseComputeAutocorrelation; 
+    bool   densityReportAtEachAtomPosition;
     double electroDensityForceConstant;
     //bool densityMapActivate;
     double excludedVolumeStiffness;

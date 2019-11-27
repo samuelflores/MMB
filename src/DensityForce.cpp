@@ -50,12 +50,13 @@ Real DensityForce::calcPotentialEnergy(const State& state) const {
                         ResidueInfo myResidueInfo = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().updResidue(ResidueInfo::Index(myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).getResidueIndex(j) ));
 
                         for (ResidueInfo::AtomIndex k ( 0); k < myResidueInfo.getNumAtoms() ; k++) {
-                                Compound::AtomName myAtomName = myResidueInfo.getAtomName(k);
+                                //Compound::AtomName myAtomName = myResidueInfo.getAtomName(k);
                                 Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex( k  );
                                 DuMM::AtomIndex myDuMMAtomIndex = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().getDuMMAtomIndex(myAtomIndex);
                                 if (((myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().getAtomElement(myAtomIndex)).getSymbol()).compare("H") != 0) { 
                                         Vec3 myAtomLocation = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().calcAtomLocationInGroundFrame(state, myAtomIndex);
-                                        //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl; 
+                                        // This should be off by default. When active, it reports the density observed and the atom name. The intent is to gather statistics on density maps to judiciously choose atomicNumber overrides. 
+                                        if (myParameterReader.densityReportAtEachAtomPosition) { std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Atom_name= "<< myResidueInfo.getAtomName(k)<<" local_density= "<<myDensityMap.getDensity(myAtomLocation)<<std::endl; }
                                         totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * dumm.getAtomMass(myDuMMAtomIndex);
 
                                 }

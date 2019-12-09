@@ -674,6 +674,7 @@ void incrementer(int & myIndex, const int maxIndex) {
 }
 
 void incrementer(int & xIndex, const int maxX, int & yIndex, const int maxY, int & zIndex, const int maxZ, int & counter, const int maxCounter){
+    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex, maxX : "<<xIndex<<", "<<maxX <<" yIndex, maxY : "<<yIndex<<", "<<maxY <<" zIndex, maxZ : "<<zIndex<<", "<<maxZ<<std::endl;
     incrementer(xIndex, maxX);
     if (xIndex == 0) {incrementer(yIndex,maxY);} // if x rolls over, then increment y
     if ((yIndex == 0) && (xIndex == 0)) {
@@ -699,7 +700,7 @@ void DensityMap::writeDensityMapXplor(const String densityFileName, const bool w
         outFile << 10*unitCellParameters.geta()*(unitCellParameters.getNa() - 1) <<" " << 10*unitCellParameters.getb()*(unitCellParameters.getNb() - 1)<<" " <<10*unitCellParameters.getc()*(unitCellParameters.getNc() - 1) << " " << unitCellParameters.getAlpha() / SimTK::Pi * 180.0  << " " << unitCellParameters.getBeta() / SimTK::Pi * 180.0  << " " << unitCellParameters.getGamma() / SimTK::Pi * 180.0  <<std::endl;
         
         std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
-        outFile << "ZYX"<<std::endl;
+        outFile << "ZYX"; //<<std::endl;
 
         int xIndex = 0; 
         int yIndex = 0; 
@@ -713,7 +714,8 @@ void DensityMap::writeDensityMapXplor(const String densityFileName, const bool w
                          if (counter !=0) {outFile <<std::endl; // Carriage return. To terminate the incomplete density line.     .
                              counter = 0;
                          }
-                         //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
+                         std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
+                         outFile <<std::endl; // Carriage return.
                          outFile <<zIndex<<std::endl;
                      } else if (counter == 0 ){
                          //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
@@ -734,57 +736,12 @@ void DensityMap::writeDensityMapXplor(const String densityFileName, const bool w
                          //zIndex =  unitCellParameters.getNc(); // exit while
                      }
                  } // of while(keepGoing)
+                 outFile <<std::endl; // Carriage return.
+                 outFile <<-9999<<std::endl;
+                 outFile <<"1 1"<<std::endl; // This is supposed to be average and std dev of density. But right now just left at a constant value.
         //  // of zIndex
         outFile.close();
 }
-                     /*
-                     std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
-                     if (zIndex <  unitCellParameters.getNc()){ 
-                         std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
-                         if ((xIndex == 0) && (yIndex == 0)){ outFile <<zIndex<<"?"<<std::endl; 	
-                             std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
-                         }
-                     } else {
-                         std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
-                         ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"xIndex, yIndex, unitCellParameters.getNa(), unitCellParameters.getNb() = "<< xIndex<<", "<< yIndex <<", "<<  unitCellParameters.getNa()<<", "<< unitCellParameters.getNb()<<  " Something went wrong ..  !  "<<endl;
-            	         ErrorManager::instance.treatError();
-                     }
-                     for (int i = 0; i<(int)densitiesPerLine ;i++) {
-                         if (xIndex == unitCellParameters.getNa()){
-                             xIndex = 0; yIndex++; 
-                             std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
-                         }
-                         if (zIndex <  unitCellParameters.getNc())
-                         {
-                             std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
-                             if (yIndex < unitCellParameters.getNb()) // Have to make sure we did not just increment past the y-range in the above yIndex++ operation
-                             {
-                                 if ((xIndex+1 + (yIndex*unitCellParameters.getNa()) ) <= (unitCellParameters.getNa()* unitCellParameters.getNb()))
-                                 {
-                                    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
-                                     GridIndices centralGridIndices((xIndex ),  yIndex, zIndex);
-                                     GridPoint & centralGridPoint = updGridPoint(centralGridIndices);
-                                     outFile <<" "<<setw(11)<< (centralGridPoint.noiseFreeDensity * writeDensity) + (centralGridPoint.noise * writeNoise);	// One density for each 12-characgter column. Depending on parameters passed, one can write the original density, the noise, or the sum of the two.
-            	                 } else { 
-                                     ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"xIndex, yIndex, unitCellParameters.getNa(), unitCellParameters.getNb() = "<< xIndex<<", "<< yIndex <<", "<<  unitCellParameters.getNa()<<", "<< unitCellParameters.getNb()<<  " Something went wrong .. too many densities !  "<<endl;
-            	                     ErrorManager::instance.treatError();
-                                 }
-          	                 xIndex++;
-                             } // of if yIndex
-                             else if (yIndex == unitCellParameters.getNb()) { // Probably don't have to do anything. Here xIndex should be 0:
-                                 std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
-                                 yIndex = 0; 
-                                 zIndex++;
-                                 std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
-            	                 if (xIndex != 0) { 
-                                     ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"xIndex = "<< xIndex<<std::endl;
-            	                     ErrorManager::instance.treatError();
-                                 }
-                             }
-                         }
-                     } // of for i < densitiesPerLine
-                     outFile <<std::endl; // Carriage return
-                      */
 
 // Expects Situs density maps
 // http://situs.biomachina.org/fmap.pdf

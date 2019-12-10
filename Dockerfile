@@ -6,6 +6,7 @@ FROM ubuntu:18.04 as OSSetup
 # docker build --build-arg GIT_COMMIT=`git rev-parse  HEAD`
 #ARG GIT_COMMIT=83c4aeadeed0a9644b24f13808c068a4d51531a0
 # this is an old commit
+ARG GIT_COMMIT=
 ARG GIT_COMMIT=b977ebfdd1928ce4f35d426215f68c09569bc1ce
 LABEL git_commit=$GIT_COMMIT
 

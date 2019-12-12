@@ -63,7 +63,7 @@ ENV LD_LIBRARY_PATH /usr/local/lib
 ENV PATH "/usr/local/bin:$PATH"
 WORKDIR /work                  
 RUN cp    /github/MMB/include/resources/parameters.csv .
-RUN mv /github/MMB/docker/Dockerfile /
+#RUN mv /github/MMB/docker/Dockerfile /
 # Trying multi-stage build. first, get a clean ubuntu image:
 #FROM ubuntu:18.04 as final
 #run mkdir /github

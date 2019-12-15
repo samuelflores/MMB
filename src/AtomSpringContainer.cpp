@@ -83,9 +83,18 @@ float AtomSpringContainer::calcKabschRmsd(State & state, BiopolymerClassContaine
     Kabsch78::VectorSet myVectorSet; myVectorSet.clear();
     double totalExtension = 0.;
     for (int i = 0; i <  atomSpringVector.size() ; i++) { // Count over all AtomSpring's
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;    
         // getLeftAtomLocationFromAtomSpring, getRightAtomLocationFromAtomSpring both return Vec3 but we need vector<float>
         Vec3 leftVec3  = getLeftAtomLocationFromAtomSpring (state , biopolymerClassContainer , atomSpringVector[i] )  ;
-        Vec3 rightVec3 = getRightAtomLocationFromAtomSpring(state , biopolymerClassContainer , atomSpringVector[i] )  ;
+        Vec3 rightVec3(-9999.9,-9999.9,-9999.9);
+        if (atomSpringVector[i].toGround){
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Detected that you have some sort of spring or tether to ground. Please remove these if you want to call calcKabschRmsd. If you are not intereted in Kabsch you can ignore this message"<<std::endl;    
+            rightVec3=atomSpringVector[i].groundLocation;
+            // This is not the sort of spring we want to do a Kabsch algorithm calc on .
+            return -9999.9;
+        } else {
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;    
+            rightVec3 = getRightAtomLocationFromAtomSpring(state , biopolymerClassContainer , atomSpringVector[i] )  ;}
         double myExtension = getExtension(state, biopolymerClassContainer, atomSpringVector[i]);
         totalExtension += (myExtension*myExtension);
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Comparing left location : "<< leftVec3<< " vs. right location : "<<rightVec3<<" . This gives extension of : "<<myExtension<<std::endl;    

@@ -186,9 +186,8 @@ using namespace std  ;
             
             @SpringConstant  90.0
             
-            firstStage 162
+            firstStage 1  
             #  User varibles are not permitted for setting firstStage or lastStage. Would have been convenient just now
-            lastStage 2
             lastStage ZZZZ              
             ##############
             # End common part

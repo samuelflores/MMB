@@ -89,9 +89,9 @@ using namespace std  ;
 
 
         std::string commonSpiralCommands = R"(
-
+            # The following command should have been issued in a prior step, to generate this file.
             # Here we specify a spherical spiral with radius 16.3 and inter-DNA-helix ditance 2.0 nm. staring theta (measured from north pole) is 1.5708 (pi/2), and starting phi is 0.0 rads (directly on the x-axis).
-            sphericalSpiral 16.3 2.0 1.5708 0      
+            # sphericalSpiral 16.3 2.0 1.5708 0      
 
             numReportingIntervals 5 
             reportingInterval 1

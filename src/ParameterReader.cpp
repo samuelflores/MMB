@@ -29,12 +29,13 @@
 #include "NtC_Class_Container.h"
 #include "NTC_FORCE_CLASS.h"
 #include "NTC_PARAMETER_READER.h"
-#include "elliptic_integral.h"
+//#include "elliptic_integral.h"
 // #define _DEBUG_FLAGS_ON_
 #include <cerrno>
 #include <cmath>
 //#include <tr1/cmath>
 //#include <boost/math/special_functions/ellint_2.hpp>
+#include <regex> // for search and replace
 
 using std::cout;
 using std::endl;
@@ -87,111 +88,112 @@ using namespace std  ;
        
 
 
-std::string commonSpiralCommands = R"(
+        std::string commonSpiralCommands = R"(
 
-sphericalSpiral 16.3 1.5708 0      
+            # Here we specify a spherical spiral with radius 16.3 and inter-DNA-helix ditance 2.0 nm. staring theta (measured from north pole) is 1.5708 (pi/2), and starting phi is 0.0 rads (directly on the x-axis).
+            sphericalSpiral 16.3 2.0 1.5708 0      
 
-numReportingIntervals 5 
-reportingInterval 1
-@expectedLength 1982
-readAtStage 1
-numReportingIntervals 200
-DNA A 1    G
-DNA B 1982 C
-readBlockEnd
-
-readFromStage 2
-loadSequencesFromPdb
-
-insertResidue A @CURRENTSTAGE G
-insertResidue B @expectedLength-@CURRENTSTAGE+1 C
-
-# NtCs to make the backbones super nice:
-@NtCStrength 50
-NtC A FirstResidue LastResidue BB00 @NtCStrength
-NtC B FirstResidue LastResidue BB00 @NtCStrength
-
-readBlockEnd
-
-readFromStage 21
-
-mobilizer Rigid A FirstResidue @CURRENTSTAGE-20
-mobilizer Rigid B @expectedLength-@CURRENTSTAGE+1+20 @expectedLength
-#mobilizer Rigid A @expectedLength-@CURRENTSTAGE+1+20 @expectedLength
-# 1982-24+1+20 =  1979
-rootMobilizer A Weld
-constraint  B @expectedLength Weld Ground
-
-readBlockEnd
-
-##############
-# Start common part
-##############
-
-# This contains the virus density map. I think this is around 30Å resolution:
-densityFileName LocalRef_02_Cl02_res85_nocaps2_box.xplor
-densityForceConstant 1
-# Fits all chains into density:
-fitToDensity
-
-# Makes the MMB Watson-Crick base pairs, and also adds stacking forces:
-baseInteractionScaleFactor  600
-nucleicAcidDuplex A FirstResidue LastResidue  B LastResidue FirstResidue
-
-##############
-# In this section, we override the natural atomic numbers with numbers that are weighted by the expected density at their nuclear position. Thus base atoms are all weighted by 1.5, while backbone atoms all have lower weights, e.g. 0.28 for P.
-# Note we skip hydrogens. These do not contribute to the fitting forces.
-##############
-
-overrideAtomicProperty C1' atomicNumber 4.9750263
-overrideAtomicProperty C1* atomicNumber 6.2733764
-overrideAtomicProperty C2' atomicNumber 4.5999638
-overrideAtomicProperty C2* atomicNumber 5.0251489
-overrideAtomicProperty C3' atomicNumber 3.7686810
-overrideAtomicProperty C3* atomicNumber 3.3192283
-overrideAtomicProperty C4' atomicNumber 3.9553631
-overrideAtomicProperty C4* atomicNumber 3.4677441
-overrideAtomicProperty C5' atomicNumber 3.5208469
-overrideAtomicProperty C5* atomicNumber 3.1520366
-overrideAtomicProperty O3' atomicNumber 4.5878700
-overrideAtomicProperty O3* atomicNumber 3.1520629
-overrideAtomicProperty O4' atomicNumber 5.5034410
-overrideAtomicProperty O4* atomicNumber 6.8406485
-overrideAtomicProperty O5' atomicNumber 3.8024094
-overrideAtomicProperty O5* atomicNumber 3.4035229
-overrideAtomicProperty OP1 atomicNumber 1.5633502
-overrideAtomicProperty OP2 atomicNumber 1.9463295
-overrideAtomicProperty P   atomicNumber 4.2507383
-overrideAtomicProperty O2  atomicNumber 12.1912986
-overrideAtomicProperty C5  atomicNumber 9.1434739
-overrideAtomicProperty C6  atomicNumber 9.1434739
-overrideAtomicProperty C8  atomicNumber 9.1434739
-overrideAtomicProperty N1  atomicNumber 10.6673863
-overrideAtomicProperty N2  atomicNumber 10.6673863
-overrideAtomicProperty N3  atomicNumber 10.6673863
-overrideAtomicProperty N4  atomicNumber 10.6673863
-overrideAtomicProperty N7  atomicNumber 10.6673863
-overrideAtomicProperty N9  atomicNumber 10.6673863
-overrideAtomicProperty C2  atomicNumber 9.1434739
-overrideAtomicProperty C4  atomicNumber 9.1434739        
-overrideAtomicProperty O6  atomicNumber 12.1912986               
-
-##############
-
-#@TetherLength .0
-# At less than 10Å, no force will be applied:
-@TetherLength .1
-
-@SpringConstant  90.0
-
-firstStage 162
-#  User varibles are not permitted for setting firstStage or lastStage. Would have been convenient just now
-lastStage 2
-lastStage 1982              
-##############
-# End common part
-##############
-)"; 
+            numReportingIntervals 5 
+            reportingInterval 1
+            @expectedLength ZZZZ
+            readAtStage 1
+            numReportingIntervals 200
+            DNA A 1    G
+            DNA B ZZZZ C
+            readBlockEnd
+            
+            readFromStage 2
+            loadSequencesFromPdb
+            
+            insertResidue A @CURRENTSTAGE G
+            insertResidue B @expectedLength-@CURRENTSTAGE+1 C
+            
+            # NtCs to make the backbones super nice:
+            @NtCStrength 50
+            NtC A FirstResidue LastResidue BB00 @NtCStrength
+            NtC B FirstResidue LastResidue BB00 @NtCStrength
+            
+            readBlockEnd
+            
+            readFromStage 21
+            
+            mobilizer Rigid A FirstResidue @CURRENTSTAGE-20
+            mobilizer Rigid B @expectedLength-@CURRENTSTAGE+1+20 @expectedLength
+            #mobilizer Rigid A @expectedLength-@CURRENTSTAGE+1+20 @expectedLength
+            # 1982-24+1+20 =  1979
+            rootMobilizer A Weld
+            constraint  B @expectedLength Weld Ground
+            
+            readBlockEnd
+            
+            ##############
+            # Start common part
+            ##############
+            
+            # This contains the virus density map. I think this is around 30Å resolution:
+            densityFileName LocalRef_02_Cl02_res85_nocaps2_box.xplor
+            densityForceConstant 1
+            # Fits all chains into density:
+            fitToDensity
+            
+            # Makes the MMB Watson-Crick base pairs, and also adds stacking forces:
+            baseInteractionScaleFactor  600
+            nucleicAcidDuplex A FirstResidue LastResidue  B LastResidue FirstResidue
+            
+            ##############
+            # In this section, we override the natural atomic numbers with numbers that are weighted by the expected density at their nuclear position. Thus base atoms are all weighted by 1.5, while backbone atoms all have lower weights, e.g. 0.28 for P.
+            # Note we skip hydrogens. These do not contribute to the fitting forces.
+            ##############
+            
+            overrideAtomicProperty C1' atomicNumber 4.9750263
+            overrideAtomicProperty C1* atomicNumber 6.2733764
+            overrideAtomicProperty C2' atomicNumber 4.5999638
+            overrideAtomicProperty C2* atomicNumber 5.0251489
+            overrideAtomicProperty C3' atomicNumber 3.7686810
+            overrideAtomicProperty C3* atomicNumber 3.3192283
+            overrideAtomicProperty C4' atomicNumber 3.9553631
+            overrideAtomicProperty C4* atomicNumber 3.4677441
+            overrideAtomicProperty C5' atomicNumber 3.5208469
+            overrideAtomicProperty C5* atomicNumber 3.1520366
+            overrideAtomicProperty O3' atomicNumber 4.5878700
+            overrideAtomicProperty O3* atomicNumber 3.1520629
+            overrideAtomicProperty O4' atomicNumber 5.5034410
+            overrideAtomicProperty O4* atomicNumber 6.8406485
+            overrideAtomicProperty O5' atomicNumber 3.8024094
+            overrideAtomicProperty O5* atomicNumber 3.4035229
+            overrideAtomicProperty OP1 atomicNumber 1.5633502
+            overrideAtomicProperty OP2 atomicNumber 1.9463295
+            overrideAtomicProperty P   atomicNumber 4.2507383
+            overrideAtomicProperty O2  atomicNumber 12.1912986
+            overrideAtomicProperty C5  atomicNumber 9.1434739
+            overrideAtomicProperty C6  atomicNumber 9.1434739
+            overrideAtomicProperty C8  atomicNumber 9.1434739
+            overrideAtomicProperty N1  atomicNumber 10.6673863
+            overrideAtomicProperty N2  atomicNumber 10.6673863
+            overrideAtomicProperty N3  atomicNumber 10.6673863
+            overrideAtomicProperty N4  atomicNumber 10.6673863
+            overrideAtomicProperty N7  atomicNumber 10.6673863
+            overrideAtomicProperty N9  atomicNumber 10.6673863
+            overrideAtomicProperty C2  atomicNumber 9.1434739
+            overrideAtomicProperty C4  atomicNumber 9.1434739        
+            overrideAtomicProperty O6  atomicNumber 12.1912986               
+            
+            ##############
+            
+            #@TetherLength .0
+            # At less than 10Å, no force will be applied:
+            @TetherLength .1
+            
+            @SpringConstant  90.0
+            
+            firstStage 162
+            #  User varibles are not permitted for setting firstStage or lastStage. Would have been convenient just now
+            lastStage 2
+            lastStage ZZZZ              
+            ##############
+            # End common part
+            ##############
+            )"; 
         
 
 String get_and_set_working_path(String newPath = "RETRIEVE-ONLY" )
@@ -3435,9 +3437,9 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         int n = 0; // counter   
         std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" priorXYZ "<<priorXYZ<<std::endl;
         FILE * spiralPdbFile;
-        FILE * spiralCommandsFile;
+        //FILE * spiralCommandsFile;
         spiralPdbFile      = fopen ("spiral.pdb","w"); 
-        spiralCommandsFile = fopen ("commands.spiral.dat","w"); 
+        //spiralCommandsFile = fopen ("commands.spiral.dat","w"); 
         fprintf (spiralPdbFile,"ATOM  %5d MG2+ MG  Z%4d    %8.3f%8.3f%8.3f \n",n,n,priorXYZ[0]*10, priorXYZ[1]*10,priorXYZ[2]*10  ); // Converting to Ångströms
         //std::string withCorrectExpectedLength = std::regex_replace( commonSpiralCommands, std::regex(1982), to );
         //fprintf (spiralCommandsFile,"%s",commonSpiralCommands.c_str());
@@ -3460,6 +3462,9 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" priorXYZ "<<priorXYZ<<std::endl;
         double priorTheta = startingTheta ; // thetaFromXYZ(priorXYZ, sphericalCenter) ;
         n = 1;
+        std::string tetherCommands("");
+        stringstream tetherCommandStream("");
+        //tetherCommands<<"#readAtStage "<<std::endl;
         while (currentTheta < 2.5){
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" priorXYZ "<<priorXYZ<<std::endl;
             double priorPhi = phiFromXYZ(priorXYZ, sphericalCenter) ;
@@ -3490,9 +3495,13 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             fprintf (spiralPdbFile,"ATOM  %5d MG2+ MG  Z%4d    %8.3f%8.3f%8.3f \n",n,n,currentXYZ[0]*10, currentXYZ[1]*10,currentXYZ[2]*10  ); // Converting to Ångströms
             std::cout<<std::endl;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" MMB-command: readAtStage "<<n<<std::endl;
-            fprintf (spiralCommandsFile, "readAtStage %d \n",n);
-            fprintf (spiralCommandsFile, "tetherToGround A  %d N1 %f %f %f .5 30.0  \n",n, currentXYZ[0], currentXYZ[1], currentXYZ[2]);
-            fprintf (spiralCommandsFile, "readBlockEnd \n");
+            tetherCommandStream<<"readAtStage "<<n<<std::endl;
+            tetherCommandStream<<"tetherToGround A  "<<n<<" "<< currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2]<<" @TetherLength @SpringConstant "<<std::endl;
+            tetherCommandStream<<"readBlockEnd"<<std::endl;
+
+            //fprintf (spiralCommandsFile, "readAtStage %d \n",n);
+            //fprintf (spiralCommandsFile, "tetherToGround A  %d N1 %f %f %f .5 30.0  \n",n, currentXYZ[0], currentXYZ[1], currentXYZ[2]);
+            //fprintf (spiralCommandsFile, "readBlockEnd \n");
 
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" MMB-command: tetherToGround A "<<n<<" N1 "<<currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2] << " .5 30.0 "<<   std::endl;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" MMB-command: readBlockEnd "<<std::endl;
@@ -3502,7 +3511,17 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             n++;
         }
         fclose(spiralPdbFile); 
-        fclose(spiralCommandsFile); 
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<std::endl; 
+        std::string commonSpiralCommandsAdjusted = std::regex_replace( commonSpiralCommands, std::regex(std::string("ZZZZ")), std::to_string(n-1 ) ); 
+        commonSpiralCommandsAdjusted = std::regex_replace( commonSpiralCommandsAdjusted, std::regex(std::string("            ")), std::string("") );  // Now get rid of extra whitespace
+        ofstream spiralCommandsFile2("commands.spiral.dat") ;
+        spiralCommandsFile2<<commonSpiralCommandsAdjusted<<std::endl;
+        spiralCommandsFile2<<tetherCommandStream.str()<<std::endl;
+        spiralCommandsFile2.close();
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<std::endl; 
+        //fprintf (spiralCommandsFile,"%s",commonSpiralCommandsAdjusted.c_str());
+        //fprintf (spiralCommandsFile,"%s",tetherCommands.c_str());
+        //fclose(spiralCommandsFile); 
         return;
     }
     if (((parameterStringClass.getString(0)).compare("densityForceConstant") ==0)  )  {

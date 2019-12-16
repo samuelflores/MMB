@@ -96,8 +96,12 @@ using namespace std  ;
             numReportingIntervals 5 
             reportingInterval 1
             @expectedLength ZZZZ
+ 
+            # Base pairing strength, for nucleicAcidDuplex
+            baseInteractionScaleFactor  600
+
             readAtStage 1
-            numReportingIntervals 200
+            numReportingIntervals 100
             DNA A 1    G
             DNA B ZZZZ C
             readBlockEnd
@@ -109,10 +113,16 @@ using namespace std  ;
             insertResidue B @expectedLength-@CURRENTSTAGE+1 C
             
             # NtCs to make the backbones super nice:
-            @NtCStrength 50
-            NtC A FirstResidue LastResidue BB00 @NtCStrength
-            NtC B FirstResidue LastResidue BB00 @NtCStrength
+            #@NtCStrength 50
+            #NtC A FirstResidue LastResidue BB00 @NtCStrength
+            #NtC B FirstResidue LastResidue BB00 @NtCStrength
             
+            readBlockEnd
+            
+            readToStage 20
+            # Makes the MMB Watson-Crick base pairs, and also adds stacking forces:
+            # At stage 21, this will become limited to the last 21 base pairs.
+            nucleicAcidDuplex A FirstResidue LastResidue       B LastResidue FirstResidue                                              
             readBlockEnd
             
             readFromStage 21
@@ -124,21 +134,28 @@ using namespace std  ;
             rootMobilizer A Weld
             constraint  B @expectedLength Weld Ground
             
+            # This contains the virus density map. I think this is around 30Å resolution:
+            densityFileName LocalRef_02_Cl02_res85_nocaps2_box.xplor
+            densityForceConstant 1
+            # Fits all chains into density:
+            fitToDensity A @CURRENTSTAGE-20 @CURRENTSTAGE
+            fitToDensity B  @expectedLength-@CURRENTSTAGE+1  @expectedLength-@CURRENTSTAGE+1+20
+
+            # NtCs to make the backbones super nice:
+            @NtCStrength 50
+            NtC A @CURRENTSTAGE-20  @CURRENTSTAGE BB00 @NtCStrength
+            NtC B  @expectedLength-@CURRENTSTAGE+1 @expectedLength-@CURRENTSTAGE+1+20 BB00 @NtCStrength
+
+            # Makes the MMB Watson-Crick base pairs, and also adds stacking forces:
+            nucleicAcidDuplex A @CURRENTSTAGE-20 @CURRENTSTAGE B @expectedLength-@CURRENTSTAGE+1+20 @expectedLength-@CURRENTSTAGE+1 
+
             readBlockEnd
             
             ##############
             # Start common part
             ##############
             
-            # This contains the virus density map. I think this is around 30Å resolution:
-            densityFileName LocalRef_02_Cl02_res85_nocaps2_box.xplor
-            densityForceConstant 1
-            # Fits all chains into density:
-            fitToDensity
             
-            # Makes the MMB Watson-Crick base pairs, and also adds stacking forces:
-            baseInteractionScaleFactor  600
-            nucleicAcidDuplex A FirstResidue LastResidue  B LastResidue FirstResidue
             
             ##############
             # In this section, we override the natural atomic numbers with numbers that are weighted by the expected density at their nuclear position. Thus base atoms are all weighted by 1.5, while backbone atoms all have lower weights, e.g. 0.28 for P.

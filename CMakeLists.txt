@@ -134,6 +134,7 @@ ENDIF()
 SET(MMB_LIBRARY_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/Utils.cpp  
     ${PROJECT_SOURCE_DIR}/src/BiopolymerClass.cpp  
+    ${PROJECT_SOURCE_DIR}/src/elliptic_integral.cpp
     ${PROJECT_SOURCE_DIR}/src/UnitCellParameters.cpp  
     #IF (Build_NtC)
         # SCF manually commented these 3  out. Once Peter fixes the issue with the 2D arrays in BiopolymerClassContainer, we can put them back in. Or have a build varaible to determine whether to build these:

@@ -3495,7 +3495,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             std::cout<<std::endl;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" MMB-command: readAtStage "<<n<<std::endl;
             tetherCommandStream<<"readAtStage "<<n<<std::endl;
-            tetherCommandStream<<"tetherToGround A  "<<n<<" "<< currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2]<<" @TetherLength @SpringConstant "<<std::endl;
+            tetherCommandStream<<"tetherToGround A  "<<n<<" N1 "<< currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2]<<" @TetherLength @SpringConstant "<<std::endl;
             tetherCommandStream<<"readBlockEnd"<<std::endl;
 
             //fprintf (spiralCommandsFile, "readAtStage %d \n",n);

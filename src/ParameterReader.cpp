@@ -89,6 +89,11 @@ using namespace std  ;
 
 
         std::string commonSpiralCommands = R"(
+            numReportingIntervals 1
+            reportingInterval .00001
+            firstStage 1
+            lastStage ZZZZ )";
+            /* R"(
             # The following command should have been issued in a prior step, to generate this file.
             # Here we specify a spherical spiral with radius 16.3 and inter-DNA-helix ditance 2.0 nm. staring theta (measured from north pole) is 1.5708 (pi/2), and starting phi is 0.0 rads (directly on the x-axis).
             # sphericalSpiral 16.3 2.0 1.5708 0      
@@ -209,7 +214,7 @@ using namespace std  ;
             ##############
             # End common part
             ##############
-            )"; 
+            )";  */
         
 
 String get_and_set_working_path(String newPath = "RETRIEVE-ONLY" )
@@ -3538,7 +3543,14 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             std::cout<<std::endl;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" MMB-command: readAtStage "<<n<<std::endl;
             tetherCommandStream<<"readAtStage "<<n<<std::endl;
-            tetherCommandStream<<"tetherToGround A  "<<n<<" N1 "<< currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2]<<" @TetherLength @SpringConstant "<<std::endl;
+            tetherCommandStream<<"DNA A "<<n << " G "<<std::endl;
+            tetherCommandStream<<"mobilizer Rigid "<<std::endl;
+            tetherCommandStream<<"initialDisplacement A "<<  currentXYZ[0] <<" "<<  currentXYZ[1]  <<" "<< currentXYZ[2] <<std::endl;
+            tetherCommandStream<<"rotation A  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
+            tetherCommandStream<<"rotation A X "<<  -atan(currentTheta / phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+            tetherCommandStream<<"rotation A Y "<<  -(SimTK::Pi / 2) +  currentTheta  <<std::endl ; // tilt up 
+            tetherCommandStream<<"rotation A Z "<<  phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset)   <<std::endl;
+            //tetherCommandStream<<"tetherToGround A  "<<n<<" N1 "<< currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2]<<" @TetherLength @SpringConstant "<<std::endl;
             tetherCommandStream<<"readBlockEnd"<<std::endl;
 
             //fprintf (spiralCommandsFile, "readAtStage %d \n",n);

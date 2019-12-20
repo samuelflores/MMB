@@ -386,8 +386,9 @@ struct twoIndexCmp {
 };
 
 struct Displacement {
-    String chain;
-    Vec3   displacement;
+    String   chain;
+    Vec3     displacement;
+    Rotation rotation;      
 };
 
 struct BasePairPartner   {

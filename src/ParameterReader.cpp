@@ -2287,7 +2287,23 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }
         return;
     } // End mobilizer
-
+    if ( ((parameterStringClass.getString(0)).compare("rotation") == 0)  )    { 
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" This command applies a rotation to the specified chain, prior to start of the time integrator.> "<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Syntax: rotation <chain> <axis about which to rotate, X|Y|Z> <angle, in radians.> "<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Where <chain> is the chain to be displaced, the axis is that about which you will rotate, and the <angle> is the rotation angle, right handed around the named axis. "<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Rotations will be applied in the order specified in the command file.        "<<endl<<endl;
+        parameterStringClass.validateNumFields(4);
+        String myChain = parameterStringClass.getString(1).c_str();
+        String myAxis =  parameterStringClass.getString(2).c_str();
+        CoordinateAxis myCoordinateAxis(0); // The only available constructors obligate me to choose an axis at contruct time. Make sure we later override this.
+        if       ((myAxis == "X") || (myAxis == "x")){myCoordinateAxis = CoordinateAxis(0);}
+        else if  ((myAxis == "Y") || (myAxis == "y")){myCoordinateAxis = CoordinateAxis(1);}
+        else if  ((myAxis == "Z") || (myAxis == "z")){myCoordinateAxis = CoordinateAxis(2);}
+        double myAngle = myAtoF(userVariables,parameterStringClass.getString(3).c_str());
+        Rotation myRotation(myAngle, (myCoordinateAxis));
+        displacementContainer.updDisplacement(myChain).rotation = myRotation*displacementContainer.updDisplacement(myChain).rotation; // updDisplacement will spit out an error if the displacement has not been created. Here, I am multiplying on the left by the user-supplied rotation. This means I can keep applying rotations and they will always be progressively multiplied from the left.
+    
+    }
     if ( ((parameterStringClass.getString(0)).compare("initialDisplacement") == 0)  )    { 
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Syntax: initialDisplacement <chain> <X> <Y> <Z> "<<endl;
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Where <chain> is the chain to be displaced, and the next 3 parameters are the displacement vector."<<endl;
@@ -2295,7 +2311,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Syntax: initialDisplacement <X> <Y> <Z> "<<endl;
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Where the next 3 parameters are the displacement vector, and each Biopolymer chain will be displaced by i *  (X,Y,Z) , where i is the chain index. This is particularly useful for spreading out the chains to make rendering easier."<<endl;
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Note that in MMB 2.10 and earlier, we took the displacement in Å.  We are going back to nm for consistency, with apologies for the confusion."<<endl;
-        //verified nm units are respected here.
+        //verified nm units are respected here
 
         if (parameterStringClass.getString(3).length() == 0) {
             ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : You have not specified enough parameters for this command. "<<endl ; 
@@ -2304,6 +2320,10 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         else if (parameterStringClass.getString(4).length() == 0) {
             for (int i = 0 ; i < myBiopolymerClassContainer.getNumBiopolymers() ; i ++) {
                 Displacement myDisplacement;
+                // Warning! We are initializing the rotation matrix to the identity matrix. This means that if it has already been set, it will be overwritten.
+                Rotation myRotation;
+                myRotation.setRotationToIdentityMatrix ();
+                myDisplacement.rotation = myRotation;
                 myDisplacement.displacement = Vec3( 
                     myAtoF(userVariables,parameterStringClass.getString(1).c_str()),
                     myAtoF(userVariables,parameterStringClass.getString(2).c_str()),
@@ -2316,13 +2336,16 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }
         else if (parameterStringClass.getString(5).length() == 0) {
 	    Displacement myDisplacement;
+            Rotation myRotation;
+            myRotation.setRotationToIdentityMatrix ();
+            myDisplacement.rotation = myRotation;
 	    myDisplacement.chain = parameterStringClass.getString(1);
 	    myDisplacement.displacement = Vec3(
 		    myAtoF(userVariables,parameterStringClass.getString(2).c_str()),
 		    myAtoF(userVariables,parameterStringClass.getString(3).c_str()),
 		    myAtoF(userVariables,parameterStringClass.getString(4).c_str())
 		    );
-	    displacementContainer.add(myDisplacement, myBiopolymerClassContainer);
+	    displacementContainer.add(myDisplacement, myBiopolymerClassContainer); // This call validateDisplacement which among other things makes sure there is not already one displacement in the container.
         }
         else {//if (parameterStringClass.getString(6).length() != 0) {
             ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : You have specified too many parameters for this command. "<<endl ; 

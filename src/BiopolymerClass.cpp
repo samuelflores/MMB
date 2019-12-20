@@ -927,9 +927,13 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
     myBiopolymer.setPdbChainId(((chainID.c_str())));
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Just issued myBiopolymer.setPdbChainId("<<chainID.c_str()<<") based on chainID = >"<<chainID<<"<"<<endl;
     Vec3 initialDisplacementVec3 = Vec3(0); // essential to initialize, since displacementVector may be empty
+    Rotation myRotation;
+    myRotation.setRotationToIdentityMatrix ();
+
     for (int i = 0; i < (int)displacementVector.size(); i++){
         if (displacementVector[i].chain.compare(getChainID()) == 0) {
             cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Displacement vector index "<<i<<" chain "<<displacementVector[i].chain<<" matches current chain "<<getChainID()<<".  Applying displacement from input structure file of : "<< displacementVector[i].displacement <<" Å "<<endl;
+            myRotation              = displacementVector[i].rotation;
             initialDisplacementVec3 = displacementVector[i].displacement;
             break;
         }
@@ -985,7 +989,9 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
     if (this->loadFromPdb) {
         cout << __FILE__ << " " << __FUNCTION__ << " :" << firstResidueID.getResidueNumber() << endl; 
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Adopting chain "<<getChainID()<<" with displacement from input structure file of : "<<initialDisplacementVec3<<" Å "<<getSequence()<<endl;
-        system.adoptCompound(myBiopolymer ,(initialDisplacementVec3/1) );} // used to convert to nm, now using nm directly
+        //Rotation myRotation;
+        //myRotation.setRotationToIdentityMatrix (); 
+        system.adoptCompound(myBiopolymer ,Transform(myRotation, (initialDisplacementVec3/1)) );} // used to convert to nm, now using nm directly. For now, the rotation is just a unit matrix. Later, enable user to control this.
     else {
         system.adoptCompound(myBiopolymer ,Vec3(biopolymerClassIndex,biopolymerClassIndex,biopolymerClassIndex  )*initialSeparation/1);  // used to convert to nm, now using nm directly
 

@@ -991,6 +991,7 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Adopting chain "<<getChainID()<<" with displacement from input structure file of : "<<initialDisplacementVec3<<" Å "<<getSequence()<<endl;
         //Rotation myRotation;
         //myRotation.setRotationToIdentityMatrix (); 
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Current rotation : "<<myRotation<<endl;  
         system.adoptCompound(myBiopolymer ,Transform(myRotation, (initialDisplacementVec3/1)) );} // used to convert to nm, now using nm directly. For now, the rotation is just a unit matrix. Later, enable user to control this.
     else {
         system.adoptCompound(myBiopolymer ,Vec3(biopolymerClassIndex,biopolymerClassIndex,biopolymerClassIndex  )*initialSeparation/1);  // used to convert to nm, now using nm directly

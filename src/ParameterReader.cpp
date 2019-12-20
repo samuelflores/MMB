@@ -2301,7 +2301,10 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         else if  ((myAxis == "Z") || (myAxis == "z")){myCoordinateAxis = CoordinateAxis(2);}
         double myAngle = myAtoF(userVariables,parameterStringClass.getString(3).c_str());
         Rotation myRotation(myAngle, (myCoordinateAxis));
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Current rotation : "<<displacementContainer.updDisplacement(myChain).rotation<<endl;
         displacementContainer.updDisplacement(myChain).rotation = myRotation*displacementContainer.updDisplacement(myChain).rotation; // updDisplacement will spit out an error if the displacement has not been created. Here, I am multiplying on the left by the user-supplied rotation. This means I can keep applying rotations and they will always be progressively multiplied from the left.
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Just set rotation to : "<<displacementContainer.updDisplacement(myChain).rotation<<endl;
+        return;
     
     }
     if ( ((parameterStringClass.getString(0)).compare("initialDisplacement") == 0)  )    { 

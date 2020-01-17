@@ -470,7 +470,7 @@ void DensityMap::populateNoiseMap(){
                 // updGridPoint(GridIndices(xIndex,yIndex,zIndex)).density += inverseNoiseTemperatureToPower4 * updGridPoint(GridIndices(xIndex,yIndex,zIndex)).noise; // Go ahead and add the noise to the density.
     }}} // of for zIndex, yIndex, xIndex
     if (averageNoise>0.) signalToNoiseRatio = averageSignal / averageNoise ; //signalToNoiseRatio / (unitCellParameters.getNa() * unitCellParameters.getNb() * unitCellParameters.getNc()); // Divide through by the total number of map points.
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " total signal = "<<averageSignal<<", total noise in dense regions = "<<averageNoise<<", total noise everywhere = "<<totalNoiseEverywhere<<",  signalToNoiseRatio (masked, dense regions only) = "<< signalToNoiseRatio << std::endl;
+    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " total signal = "<<averageSignal<<", total noise in dense regions = "<<averageNoise<<", total noise everywhere = "<<totalNoiseEverywhere<<",  signalToNoiseRatio (masked, dense regions only) = "<< signalToNoiseRatio << std::endl;
     normalizeNoiseMap(totalNoiseEverywhere);
     // moved to Repel.cpp:
     //densityAutocorrelation(1,0); // Arguments are : calculate noise correlation = 1, calculate density corrleation = 0

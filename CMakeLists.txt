@@ -18,6 +18,8 @@ SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "This is a Release build by default"
 
 #SET(Build_NtC            FALSE CACHE BOOL 
         #"Build NtC features of MMB. This greatly increases the size of the BiopolymerClassContainer object in memory")
+SET(Build_CCP4           FALSE CACHE BOOL 
+        "Build CCP4 maps support features for MMB?")
 SET(BUILD_MMB_SHARED_LIB TRUE CACHE BOOL 
         "Build MMB dynamic library")
 SET(BUILD_MMB_SHARED_EXEC TRUE CACHE BOOL 
@@ -37,6 +39,11 @@ SET(OpenMM_INCLUDE_DIR "" CACHE PATH
 SET(OpenMM_INSTALL_DIR "" CACHE PATH
         "OpenMM install directory. Used to find libs.")
 #Add the OpenMM library
+SET(LIBCCP4_INCLUDE_DIR "" CACHE PATH
+        "Where to find libccp4 includes")
+SET(LIBCCP4_LIB_DIR "" CACHE PATH
+        "Where to find libccp4 library")
+
 SET(OpenMM_SHARED_LIBS
         optimized OpenMM)
 
@@ -115,6 +122,15 @@ SET(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 # for some reason it's not reading the ${OpenMM_INCLUDE_DIR}, so i hard coded the OpenMM directory: 
 INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include ${Simbody_INCLUDE_DIR} ${SimTKmolmodel}/include ${OpenMM_INCLUDE_DIR} ${OpenMM_INCLUDE_DIR}/openmm ${OpenMM_INCLUDE_DIR}/openmm/reference ${SeqAn_INCLUDE_DIR}  )
 LINK_DIRECTORIES(${Simbody_LIB_DIR}${LIB64} ${SimTKmolmodel}/lib ${CMAKE_BINARY_DIR} ${OpenMM_INSTALL_DIR}/lib   )
+
+##################
+### Add CCP4 Paths
+##################
+IF    ( Build_CCP4 )
+	INCLUDE_DIRECTORIES ( ${LIBCCP4_INCLUDE_DIR} )
+	LINK_DIRECTORIES    ( ${LIBCCP4_LIB_DIR}     )
+	ADD_DEFINITIONS     ( -DCPP4_MAPS_USAGE )
+ENDIF ( Build_CCP4 )
 
 # On Mac, build 32 bit binaries.
 IF(APPLE)
@@ -213,6 +229,12 @@ IF (BUILD_MMB_SHARED_LIB)
               ${OpenMM_SHARED_LIBS_D}
               ${OpenMM_SHARED_LIBS}
               ${SimTK_GENERAL_LIBS})
+    #################
+	### Add CCP4 Libs
+	#################
+	IF    ( Build_CCP4 )
+		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} ccp4c )
+	ENDIF ( Build_CCP4 )
 
     # Install files
     INSTALL(TARGETS ${SHARED_MMB_TARGET}
@@ -289,6 +311,13 @@ IF (BUILD_MMB_SHARED_EXEC)
               ${OpenMM_SHARED_LIBS_D}
               ${OpenMM_SHARED_LIBS}
               ${SimTK_GENERAL_LIBS})
+              
+    #################
+	### Add CCP4 Libs
+	#################
+	IF    ( Build_CCP4 )
+		TARGET_LINK_LIBRARIES ( MMB ccp4c )
+	ENDIF ( Build_CCP4 )
 
     INSTALL(TARGETS MMB
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
@@ -322,6 +351,13 @@ IF (BUILD_MMB_STATIC)
               ${OpenMM_SHARED_LIBS_D}
               ${OpenMM_SHARED_LIBS}
               ${SimTK_GENERAL_LIBS})
+              
+    #################
+	### Add CCP4 Libs
+	#################
+	IF    ( Build_CCP4 )
+		TARGET_LINK_LIBRARIES ( ${STATIC_MMB_TARGET} ccp4c )
+	ENDIF ( Build_CCP4 )
 
     # Link with static library
     ADD_EXECUTABLE(MMB_static ${MMB_HEADER_FILES} ${MMB_SOURCE_FILES})
@@ -337,6 +373,13 @@ IF (BUILD_MMB_STATIC)
               ${OpenMM_SHARED_LIBS_D}
               ${OpenMM_SHARED_LIBS}
               ${SimTK_GENERAL_LIBS})
+              
+    #################
+	### Add CCP4 Libs
+	#################
+	IF    ( Build_CCP4 )
+		TARGET_LINK_LIBRARIES ( MMB_static ccp4c )
+	ENDIF ( Build_CCP4 )
 
     # Install files
     INSTALL(TARGETS MMB_static ${STATIC_MMB_TARGET}
@@ -366,6 +409,13 @@ IF (BUILD_MMB_GUI_TEST)
               ${OpenMM_SHARED_LIBS_D}
               ${OpenMM_SHARED_LIBS}
               ${SimTK_GENERAL_LIBS})
+              
+    #################
+	### Add CCP4 Libs
+	#################
+	IF    ( Build_CCP4 )
+		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} ccp4c )
+	ENDIF ( Build_CCP4 )
 
     # Install files
     INSTALL(TARGETS ${SHARED_MMB_PYTHON_WRAPPER_TARGET}

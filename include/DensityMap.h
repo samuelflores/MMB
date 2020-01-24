@@ -15,6 +15,22 @@
 #include "UnitCellParameters.h"
 #include <math.h>       /* exp */
 
+//============================================ CMAPLIB INCLUDE
+#ifdef CPP4_MAPS_USAGE
+
+    #ifdef __cplusplus
+    extern "C" {
+    #endif
+    
+    #include <ccp4/cmaplib.h>
+    #include <ccp4/ccp4_errno.h>
+    
+    #ifdef __cplusplus
+    }
+    #endif
+
+#endif
+
 #define LINESIZE 1024
 
 using namespace std;  
@@ -109,6 +125,9 @@ class MMB_EXPORT DensityMap {
         void populateNoiseMap();
         void loadParametersAndDensity(const String densityFileName) ;
         void loadParametersAndDensity_XPLOR(const String densityFileName) ;
+#ifdef CPP4_MAPS_USAGE
+        void loadParametersAndDensity_CCP4MAP(const String densityFileName) ;
+#endif
         void writeDensityMapXplor(const String densityFileName,  const bool writeDensity = 1, const bool writeNoise =1);
         //void loadParametersAndDensity_OpenDX(const String densityFileName) ;
         //void loadParametersAndDensity_Situs(const String densityFileName) ;

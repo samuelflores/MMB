@@ -1,0 +1,50 @@
+<map id="G" name="G">
+<area shape="rect" href="$classmmdb_1_1_atom_path.html" title="mmdb::AtomPath" alt="" coords="239,107,385,133"/>
+<area shape="rect" href="$classmmdb_1_1_biomolecule.html" title="mmdb::Biomolecule" alt="" coords="228,157,396,184"/>
+<area shape="rect" href="$classmmdb_1_1_b_m_apply.html" title="mmdb::BMApply" alt="" coords="243,208,381,235"/>
+<area shape="rect" href="$classmmdb_1_1_class_container.html" title="mmdb::ClassContainer" alt="" coords="219,259,405,285"/>
+<area shape="rect" href="$classmmdb_1_1_container_class.html" title="mmdb::ContainerClass" alt="" coords="219,461,405,488"/>
+<area shape="rect" href="$classmmdb_1_1_cryst.html" title="mmdb::Cryst" alt="" coords="256,512,368,539"/>
+<area shape="rect" href="$classmmdb_1_1_het_compound.html" title="mmdb::HetCompound" alt="" coords="220,563,404,589"/>
+<area shape="rect" href="$classmmdb_1_1_het_compounds.html" title="mmdb::HetCompounds" alt="" coords="217,613,407,640"/>
+<area shape="rect" href="$classmmdb_1_1_key_words.html" title="mmdb::KeyWords" alt="" coords="239,664,385,691"/>
+<area shape="rect" href="$classmmdb_1_1_mask.html" title="mmdb::Mask" alt="" coords="256,715,368,741"/>
+<area shape="rect" href="$classmmdb_1_1math_1_1_alignment.html" title="mmdb::math::Alignment" alt="" coords="213,765,411,792"/>
+<area shape="rect" href="$classmmdb_1_1math_1_1_alignment1.html" title="mmdb::math::Alignment1" alt="" coords="208,816,416,843"/>
+<area shape="rect" href="$classmmdb_1_1math_1_1_align_params.html" title="mmdb::math::AlignParams" alt="" coords="205,867,419,893"/>
+<area shape="rect" href="$classmmdb_1_1math_1_1_edge.html" title="mmdb::math::Edge" alt="" coords="232,917,392,944"/>
+<area shape="rect" href="$classmmdb_1_1math_1_1_g_match.html" title="mmdb::math::GMatch" alt="" coords="223,968,401,995"/>
+<area shape="rect" href="$classmmdb_1_1math_1_1_graph.html" title="mmdb::math::Graph" alt="" coords="228,1019,396,1045"/>
+<area shape="rect" href="$classmmdb_1_1math_1_1_graph_match.html" title="mmdb::math::GraphMatch" alt="" coords="207,1069,417,1096"/>
+<area shape="rect" href="$classmmdb_1_1math_1_1_vertex.html" title="mmdb::math::Vertex" alt="" coords="227,1120,397,1147"/>
+<area shape="rect" href="$classmmdb_1_1_m_contact.html" title="mmdb::MContact" alt="" coords="239,1171,385,1197"/>
+<area shape="rect" href="$classmmdb_1_1mmcif_1_1_category.html" title="mmcif::Category is a base class for mmcif::Struct and mmcif::Loop, implementations of mmCIF&#39;s &amp;qu..." alt="" coords="213,1221,411,1248"/>
+<area shape="rect" href="$classmmdb_1_1mmcif_1_1_data.html" title="mmcif::Data represents mmCIF&#39;s " alt="" coords="229,1272,395,1299"/>
+<area shape="rect" href="$classmmdb_1_1mmcif_1_1_file.html" title="mmdb::mmcif::File" alt="" coords="233,1323,391,1349"/>
+<area shape="rect" href="$classmmdb_1_1_quick_sort.html" title="mmdb::QuickSort" alt="" coords="239,1373,385,1400"/>
+<area shape="rect" href="$classmmdb_1_1_seq_res.html" title="mmdb::SeqRes" alt="" coords="247,1424,377,1451"/>
+<area shape="rect" href="$classmmdb_1_1_sheet.html" title="mmdb::Sheet" alt="" coords="252,1475,372,1501"/>
+<area shape="rect" href="$classmmdb_1_1_sheets.html" title="mmdb::Sheets" alt="" coords="249,1525,375,1552"/>
+<area shape="rect" href="$classmmdb_1_1_strand.html" title="mmdb::Strand" alt="" coords="249,1576,375,1603"/>
+<area shape="rect" href="$classmmdb_1_1_sym_op.html" title="mmdb::SymOp" alt="" coords="247,1627,377,1653"/>
+<area shape="rect" href="$classmmdb_1_1_sym_ops.html" title="mmdb::SymOps" alt="" coords="244,1677,380,1704"/>
+<area shape="rect" href="$classmmdb_1_1_title.html" title="mmdb::Title" alt="" coords="257,1728,367,1755"/>
+<area shape="rect" href="$classmmdb_1_1_u_d_register.html" title="mmdb::UDRegister" alt="" coords="233,1779,391,1805"/>
+<area shape="rect" href="$classmmdb_1_1xml_1_1_x_m_l_object.html" title="mmdb::xml::XMLObject" alt="" coords="217,1829,407,1856"/>
+<area shape="rect" href="$classmmdb_1_1_chain_container.html" title="mmdb::ChainContainer" alt="" coords="469,5,661,32"/>
+<area shape="rect" href="$classmmdb_1_1_cis_pep_container.html" title="mmdb::CisPepContainer" alt="" coords="467,56,664,83"/>
+<area shape="rect" href="$classmmdb_1_1_cryst_container.html" title="mmdb::CrystContainer" alt="" coords="473,107,657,133"/>
+<area shape="rect" href="$classmmdb_1_1_link_container.html" title="mmdb::LinkContainer" alt="" coords="476,157,655,184"/>
+<area shape="rect" href="$classmmdb_1_1_link_r_container.html" title="mmdb::LinkRContainer" alt="" coords="472,208,659,235"/>
+<area shape="rect" href="$classmmdb_1_1_s_s_container.html" title="mmdb::SSContainer" alt="" coords="481,259,649,285"/>
+<area shape="rect" href="$classmmdb_1_1_title_container.html" title="mmdb::TitleContainer" alt="" coords="475,309,656,336"/>
+<area shape="rect" href="$classmmdb_1_1_cis_pep.html" title="mmdb::CisPep" alt="" coords="503,360,628,387"/>
+<area shape="rect" href="$classmmdb_1_1_container_chain.html" title="mmdb::ContainerChain" alt="" coords="469,411,661,437"/>
+<area shape="rect" href="$classmmdb_1_1_cont_string.html" title="mmdb::ContString" alt="" coords="488,461,643,488"/>
+<area shape="rect" href="$classmmdb_1_1_helix.html" title="mmdb::Helix" alt="" coords="509,512,621,539"/>
+<area shape="rect" href="$classmmdb_1_1_link.html" title="mmdb::Link" alt="" coords="512,563,619,589"/>
+<area shape="rect" href="$classmmdb_1_1_link_r.html" title="mmdb::LinkR" alt="" coords="508,613,623,640"/>
+<area shape="rect" href="$classmmdb_1_1_n_c_s_matrix.html" title="mmdb::NCSMatrix" alt="" coords="489,664,641,691"/>
+<area shape="rect" href="$classmmdb_1_1_obs_line.html" title="mmdb::ObsLine" alt="" coords="497,715,633,741"/>
+<area shape="rect" href="$classmmdb_1_1_remark.html" title="mmdb::Remark" alt="" coords="499,765,632,792"/>
+</map>

@@ -1,0 +1,28 @@
+<map id="G" name="G">
+<area shape="rect" href="$classmmdb_1_1_cis_pep.html" title="mmdb::CisPep" alt="" coords="473,81,599,108"/>
+<area shape="rect" href="$classmmdb_1_1_container_chain.html" title="mmdb::ContainerChain" alt="" coords="440,132,632,159"/>
+<area shape="rect" href="$classmmdb_1_1_cont_string.html" title="mmdb::ContString" alt="" coords="459,335,613,361"/>
+<area shape="rect" href="$classmmdb_1_1_helix.html" title="mmdb::Helix" alt="" coords="480,385,592,412"/>
+<area shape="rect" href="$classmmdb_1_1_link.html" title="mmdb::Link" alt="" coords="483,436,589,463"/>
+<area shape="rect" href="$classmmdb_1_1_link_r.html" title="mmdb::LinkR" alt="" coords="479,487,593,513"/>
+<area shape="rect" href="$classmmdb_1_1_n_c_s_matrix.html" title="mmdb::NCSMatrix" alt="" coords="460,537,612,564"/>
+<area shape="rect" href="$classmmdb_1_1_obs_line.html" title="mmdb::ObsLine" alt="" coords="468,588,604,615"/>
+<area shape="rect" href="$classmmdb_1_1_remark.html" title="mmdb::Remark" alt="" coords="469,639,603,665"/>
+<area shape="rect" href="$classmmdb_1_1_rev_data.html" title="mmdb::RevData" alt="" coords="467,689,605,716"/>
+<area shape="rect" href="$classmmdb_1_1_supersede.html" title="mmdb::Supersede" alt="" coords="459,740,613,767"/>
+<area shape="rect" href="$classmmdb_1_1_turn.html" title="mmdb::Turn" alt="" coords="481,791,591,817"/>
+<area shape="rect" href="$classmmdb_1_1_t_vect.html" title="mmdb::TVect" alt="" coords="477,841,595,868"/>
+<area shape="rect" href="$classmmdb_1_1io_1_1_stream.html" title="mmdb::io::Stream" alt="" coords="5,537,157,564"/>
+<area shape="rect" href="$classmmdb_1_1_d_b_reference.html" title="mmdb::DBReference" alt="" coords="681,5,852,32"/>
+<area shape="rect" href="$classmmdb_1_1_het_rec.html" title="mmdb::HetRec" alt="" coords="703,56,831,83"/>
+<area shape="rect" href="$classmmdb_1_1_mod_res.html" title="mmdb::ModRes" alt="" coords="700,107,833,133"/>
+<area shape="rect" href="$classmmdb_1_1_seq_adv.html" title="mmdb::SeqAdv" alt="" coords="701,157,832,184"/>
+<area shape="rect" href="$classmmdb_1_1_author.html" title="mmdb::Author" alt="" coords="704,208,829,235"/>
+<area shape="rect" href="$classmmdb_1_1_caveat.html" title="mmdb::Caveat" alt="" coords="703,259,831,285"/>
+<area shape="rect" href="$classmmdb_1_1_compound.html" title="mmdb::Compound" alt="" coords="688,309,845,336"/>
+<area shape="rect" href="$classmmdb_1_1_exp_data.html" title="mmdb::ExpData" alt="" coords="699,360,835,387"/>
+<area shape="rect" href="$classmmdb_1_1_journal.html" title="mmdb::Journal" alt="" coords="703,411,831,437"/>
+<area shape="rect" href="$classmmdb_1_1_mdl_type.html" title="mmdb::MdlType" alt="" coords="699,461,835,488"/>
+<area shape="rect" href="$classmmdb_1_1_source.html" title="mmdb::Source" alt="" coords="703,512,831,539"/>
+<area shape="rect" href="$classmmdb_1_1_title_line.html" title="mmdb::TitleLine" alt="" coords="697,563,836,589"/>
+</map>

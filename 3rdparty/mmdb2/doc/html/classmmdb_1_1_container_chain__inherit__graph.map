@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" href="$classmmdb_1_1_d_b_reference.html" title="mmdb::DBReference" alt="" coords="5,239,176,265"/>
+<area shape="rect" href="$classmmdb_1_1_het_rec.html" title="mmdb::HetRec" alt="" coords="200,239,328,265"/>
+<area shape="rect" href="$classmmdb_1_1_mod_res.html" title="mmdb::ModRes" alt="" coords="352,239,485,265"/>
+<area shape="rect" href="$classmmdb_1_1_seq_adv.html" title="mmdb::SeqAdv" alt="" coords="509,239,640,265"/>
+<area shape="rect" href="$classmmdb_1_1_container_class.html" title="mmdb::ContainerClass" alt="" coords="248,84,435,111"/>
+<area shape="rect" href="$classmmdb_1_1io_1_1_stream.html" title="mmdb::io::Stream" alt="" coords="265,7,417,33"/>
+</map>

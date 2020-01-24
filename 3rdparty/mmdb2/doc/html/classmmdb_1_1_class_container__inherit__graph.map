@@ -1,0 +1,10 @@
+<map id="G" name="G">
+<area shape="rect" href="$classmmdb_1_1_chain_container.html" title="mmdb::ChainContainer" alt="" coords="443,5,635,32"/>
+<area shape="rect" href="$classmmdb_1_1_cis_pep_container.html" title="mmdb::CisPepContainer" alt="" coords="440,56,637,83"/>
+<area shape="rect" href="$classmmdb_1_1_cryst_container.html" title="mmdb::CrystContainer" alt="" coords="447,107,631,133"/>
+<area shape="rect" href="$classmmdb_1_1_link_container.html" title="mmdb::LinkContainer" alt="" coords="449,157,628,184"/>
+<area shape="rect" href="$classmmdb_1_1_link_r_container.html" title="mmdb::LinkRContainer" alt="" coords="445,208,632,235"/>
+<area shape="rect" href="$classmmdb_1_1_s_s_container.html" title="mmdb::SSContainer" alt="" coords="455,259,623,285"/>
+<area shape="rect" href="$classmmdb_1_1_title_container.html" title="mmdb::TitleContainer" alt="" coords="448,309,629,336"/>
+<area shape="rect" href="$classmmdb_1_1io_1_1_stream.html" title="mmdb::io::Stream" alt="" coords="5,157,157,184"/>
+</map>

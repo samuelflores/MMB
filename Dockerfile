@@ -45,6 +45,11 @@ WORKDIR /svn/molmodel/build
 RUN cmake  -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF ..
 RUN make install
 
+# MMB part
+RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
+#WORKDIR /github/MMB
+# in the case of MMB 3.0:
+
 ##################
 ### CCP4 Maps Part
 ##################
@@ -61,19 +66,12 @@ WORKDIR /github/MMB/3rdparty/libccp4
 RUN ./configure --enable-shared && make && make install
 
 
-
-
-# MMB part
-RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
-#WORKDIR /github/MMB
-# in the case of MMB 3.0:
-
 #RUN git -C /github/MMB  checkout $GIT_COMMIT        
 
 RUN mkdir /github/MMB/build
 WORKDIR /github/MMB/build
 RUN git pull --all
-RUN cmake -DBuild_CCP4=FALSE -DLIBCCP4_INCLUDE_DIR=/github/MMB/3rdparty/include -DLIBCCP4_LIB_DIR=/github/MMB/3rdparty/lib  -DOpenMM_INSTALL_DIR=//usr/local/openmm  -DOpenMM_INCLUDE_DIR="/usr/local/openmm/include/openmm/reference/;/usr/local/openmm/include/openmm/;/usr/local/openmm/include"  -DCMAKE_BUILD_TYPE=Release -DSeqAn_INCLUDE_DIR=/github/seqan/include -DCMAKE_CXX_FLAGS="-std=c++14 -D BuildNtC -D USE_OPENMM" -DSimTK_INSTALL_DIR=/usr/local -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_PREFIX_PATH=/usr/local -DCMAKE_INSTALL_PREFIX=/usr/local ..
+RUN cmake -DBuild_CCP4=TRUE -DLIBCCP4_INCLUDE_DIR=/github/MMB/3rdparty/include -DLIBCCP4_LIB_DIR=/github/MMB/3rdparty/lib  -DOpenMM_INSTALL_DIR=//usr/local/openmm  -DOpenMM_INCLUDE_DIR="/usr/local/openmm/include/openmm/reference/;/usr/local/openmm/include/openmm/;/usr/local/openmm/include"  -DCMAKE_BUILD_TYPE=Release -DSeqAn_INCLUDE_DIR=/github/seqan/include -DCMAKE_CXX_FLAGS="-std=c++14 -D BuildNtC -D USE_OPENMM" -DSimTK_INSTALL_DIR=/usr/local -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_PREFIX_PATH=/usr/local -DCMAKE_INSTALL_PREFIX=/usr/local ..
 RUN touch /github/MMB/build/done-cmake.txt
 RUN make install
 RUN rm MMB libMMBlib.so

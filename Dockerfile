@@ -1,3 +1,6 @@
+added:
+apt-get install -y mc
+tried adding this to preceding line but got an error. Would be good to fix later.
 #Download base image ubuntu 18.04.3
 
 FROM ubuntu:18.04 as OSSetup
@@ -14,6 +17,7 @@ LABEL git_commit=$GIT_COMMIT
 
 
 RUN apt-get update && apt-get install -y  subversion     cmake    cmake-curses-gui    g++    vim    doxygen    swig python  libblas-dev liblapack-dev  git-core apache2  subversion libapache2-mod mc  -svn  libsvn-dev
+RUN apt-get install -y mc
 
 WORKDIR /
 #RUN cd /

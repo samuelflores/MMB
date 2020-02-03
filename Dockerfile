@@ -1,6 +1,3 @@
-added:
-apt-get install -y mc
-tried adding this to preceding line but got an error. Would be good to fix later.
 #Download base image ubuntu 18.04.3
 
 FROM ubuntu:18.04 as OSSetup

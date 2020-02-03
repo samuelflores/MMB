@@ -13,8 +13,9 @@ LABEL git_commit=$GIT_COMMIT
 
 
 
-RUN apt-get update && apt-get install -y  subversion     cmake    cmake-curses-gui    g++    vim    doxygen    swig python  libblas-dev liblapack-dev  git-core apache2  subversion libapache2-mod mc  -svn  libsvn-dev
-RUN apt-get install -y mc
+RUN apt-get update && apt-get install -y  apt-utils     cmake    cmake-curses-gui    g++    vim    doxygen    swig python  libblas-dev liblapack-dev  git-core subversion mc
+   
+#RUN apt-get install -y mc
 
 WORKDIR /
 #RUN cd /

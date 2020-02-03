@@ -2111,7 +2111,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             cout  <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " NTC.FirstBPResidue = "<<NTC.FirstBPResidue.outString()<<endl;
             cout  <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " NTC.SecondBPResidue = "<<NTC.SecondBPResidue.outString()<<endl;
             //NTC.weight          = stod(parameterStringClass.getString(5));
-            NTC.weight = myAtoF(userVariables,parameterStringClass.getString(8).c_str());
+            NTC.weight = myAtoF(userVariables,parameterStringClass.getString(5).c_str());
             NTC.meta            = 0;
             int metaPosition = 6;        
             if (parameterStringClass.getString(metaPosition).length() != 0){

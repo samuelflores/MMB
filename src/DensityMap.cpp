@@ -800,11 +800,15 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String densityFileName) 
                 for ( iters[0] = orig[0]; iters[0] <= maxLim[0]; iters[0]++ )
                 {
                     //======================== Compute the correct XYZ positions
-                    newU                      = iters[XYZOrder[0]] - orig[XYZOrder[0]];
-                    newV                      = iters[XYZOrder[1]] - orig[XYZOrder[1]];
-                    newW                      = iters[XYZOrder[2]] - orig[XYZOrder[2]];
-                    
-                    //======================== Save the read in density into the correct MMB grid position
+                    //newU                      = iters[XYZOrder[0]] - orig[XYZOrder[0]];
+                    //newV                      = iters[XYZOrder[1]] - orig[XYZOrder[1]];
+                    //newW                      = iters[XYZOrder[2]] - orig[XYZOrder[2]];
+                    // 2 Feb 2020, SCF changed according to Michal Tykac's instructions to:
+                    newU                      = iters[0] - orig[0];
+                    newV                      = iters[1] - orig[1];
+                    newW                      = iters[2] - orig[2];
+ 
+		    //======================== Save the read in density into the correct MMB grid position
                     GridIndices centralGridIndices ( newU,  newV, newW );
                     GridPoint & centralGridPoint = updGridPoint ( centralGridIndices );
                     setDensity                ( centralGridPoint, static_cast < float > ( section[ index++ ] ) );

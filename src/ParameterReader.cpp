@@ -2071,6 +2071,10 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         String myChain = parameterStringClass.getString(1);
         ResidueID firstNtCResidueInStretch = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2).c_str(), myChain);
         ResidueID lastNtCResidueInStretch  = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3).c_str(), myChain);
+        if ( myBiopolymerClassContainer.updBiopolymerClass( myChain ).difference (firstNtCResidueInStretch, lastNtCResidueInStretch ) != -1) {
+            ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : Syntax error! NtCs can currently only be applied between consecutive residues. "<<endl ;
+            ErrorManager::instance.treatError();
+        } 
         int firstNtCResidueIndexInStretch = myBiopolymerClassContainer.updBiopolymerClass( myChain ).getResidueIndex(firstNtCResidueInStretch);
         int lastNtCResidueIndexInStretch  = myBiopolymerClassContainer.updBiopolymerClass( myChain ).getResidueIndex(lastNtCResidueInStretch);
         for (int currentFirstResidueIndex = firstNtCResidueIndexInStretch; currentFirstResidueIndex <  lastNtCResidueIndexInStretch; currentFirstResidueIndex += 1 ) 

@@ -2116,6 +2116,13 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             cout  <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " NTC.SecondBPResidue = "<<NTC.SecondBPResidue.outString()<<endl;
             //NTC.weight          = stod(parameterStringClass.getString(5));
             NTC.weight = myAtoF(userVariables,parameterStringClass.getString(5).c_str());
+            cout  <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " NTC.weight = "<<NTC.weight<<endl;
+            
+            if (( NTC.weight > 20.0 ) && ( safeParameters )){ // Empirically found that a weight greater than 20 or so leads to strange jumpy nonconvergent behavior.
+                 ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : You have specified an NtC weight of " << NTC.weight <<" . This is too high, and can cause instability. Please lower this. "<<std::endl;
+                 ErrorManager::instance.treatError();
+             }
+ 
             NTC.meta            = 0;
             int metaPosition = 6;        
             if (parameterStringClass.getString(metaPosition).length() != 0){

@@ -783,6 +783,11 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "setRemoveBasePairsInRigidStretch       bool    "<<setRemoveBasePairsInRigidStretch     <<endl;
     myOstream << remarkString << "setTemperature                         bool    "<<setTemperature     <<endl;
     myOstream << remarkString << "smallGroupInertiaMultiplier            double   "<<smallGroupInertiaMultiplier <<endl;
+    myOstream << remarkString << "sphericalHelixCenter                   double   "<<sphericalHelixCenter        <<endl;
+    myOstream << remarkString << "sphericalHelixRadius                   double   "<<sphericalHelixRadius        <<endl;
+    myOstream << remarkString << "sphericalHelixStartTheta               double   "<<sphericalHelixStartTheta        <<endl;
+    myOstream << remarkString << "sphericalHelixPhiOffset                double   "<<sphericalHelixPhiOffset         <<endl;
+    myOstream << remarkString << "sphericalHelixInterStrandDistance      double   "<<sphericalHelixInterStrandDistance<<endl;
     myOstream << remarkString << "stackAllHelicalResidues                bool    "<<stackAllHelicalResidues     <<endl;
     myOstream << remarkString << "temperature                            bool    "<<temperature                 <<endl;
     myOstream << remarkString << "thermostatType                         String  "<<thermostatType              <<endl;
@@ -3480,29 +3485,80 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         densityFileName = parameterStringClass.getString(1);    
         return;
     }
-    if (((parameterStringClass.getString(0)).compare("sphericalSpiral") ==0)  )  {
-        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalSpiral creates a spherical spiral of MG2+ ions. Eventually it will be adaptive to the density. You need to provide the spherical center (3D), in nm. Also the spherical radius."<<  std::endl;
+
+
+
+
+
+
+
+    if (((parameterStringClass.getString(0)).compare("sphericalHelix") ==0)  )  {
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelix creates a spherical spiral of MG2+ ions. Eventually it will be adaptive to the density. You need to provide the spherical center (3D), in nm. Also the spherical radius."<<  std::endl;
         std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" Syntax: "<<std::endl;
-        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalSpiral <spherical radius, in nm> <DNA inter-helix distance (suggest 2.0), in nm> <helix start (nearest to north pole) theta, rads> <helix start phi, rads> "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" To specify the center point of the sphere, in nm: "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelix center <X>  <Y> <Z> "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" To specify the radius of the sphere: "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelix radius <radius, in nm>  "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" To specify the separation between consecutive DNA duplexes : "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelix interStrandDistance  <distance, in nm>  "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" To specify the start theta (the angle from the 'north pole': "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelix startTheta <angle, in rads>  "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" To specify the offset in phi  (the angle about the polar axis): "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelix phiOffset <angle, in rads>  "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" And finally, to create the helix, issue:                        "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelix writeCommands "<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" The above should be the last sphericalHelix command you issue. "<<std::endl;
         Vec3 sphericalCenter(0., .0, .0);
         //Vec3 sphericalCenter(31.89, 31.89+2.0, 31.89);
-        double sphericalRadius = -9999.9;
-        double interHelicalDistance = -9999.9;
-        double startingTheta   = -9999.9;
-        double startingPhi     = -9999.9;
-        Vec3 priorXYZ(-9999.9, -9999.9, -9999.9);
-        if ((parameterStringClass.getString(4).length() >0) and (parameterStringClass.getString(5).length() == 0)){
+        if ((parameterStringClass.getString(1)).compare("center") ==0)    {
             parameterStringClass.validateNumFields(5);
-            sphericalRadius      = myAtoF(userVariables,(parameterStringClass.getString(1)).c_str());
-            interHelicalDistance = myAtoF(userVariables,(parameterStringClass.getString(2)).c_str());
-            startingTheta        = myAtoF(userVariables,(parameterStringClass.getString(3)).c_str());
-            startingPhi          = myAtoF(userVariables,(parameterStringClass.getString(4)).c_str());
-            priorXYZ = Vec3(sphericalRadius* sin(startingTheta)*cos(startingPhi) , sphericalRadius* sin(startingTheta)*sin(startingPhi), sphericalRadius* cos(startingTheta));
-            priorXYZ += sphericalCenter;
+            sphericalHelixCenter = Vec3(
+                myAtoF(userVariables,(parameterStringClass.getString(2)).c_str()),
+                myAtoF(userVariables,(parameterStringClass.getString(3)).c_str()),
+                myAtoF(userVariables,(parameterStringClass.getString(4)).c_str())
+                );  
+            return;
+        } else if ((parameterStringClass.getString(1)).compare("radius") ==0)    {
+            parameterStringClass.validateNumFields(3);
+            sphericalHelixRadius = myAtoF(userVariables,(parameterStringClass.getString(2)).c_str());
+            return;
+        } else if ((parameterStringClass.getString(1)).compare("interStrandDistance") ==0)    {
+            parameterStringClass.validateNumFields(3);
+            sphericalHelixInterStrandDistance = myAtoF(userVariables,(parameterStringClass.getString(2)).c_str());
+            return;
+        } else if ((parameterStringClass.getString(1)).compare("startTheta") ==0)    {
+            parameterStringClass.validateNumFields(3);
+            sphericalHelixStartTheta = myAtoF(userVariables,(parameterStringClass.getString(2)).c_str());
+            return;
+        } else if ((parameterStringClass.getString(1)).compare("phiOffset") ==0)    {
+            parameterStringClass.validateNumFields(3);
+            sphericalHelixPhiOffset = myAtoF(userVariables,(parameterStringClass.getString(2)).c_str());
+            return;
+        } else if ((parameterStringClass.getString(1)).compare("writeCommands") ==0)    {
+            parameterStringClass.validateNumFields(2);
+            // Do nothing! Do not return! The rest of the procedure follows below.
+        } else {
+            ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Error! You are misusing the sphericalHelix family of commands! Check your syntax and try again. "<<endl;
+            ErrorManager::instance.treatError();
         }
-        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalRadius "<<sphericalRadius<<std::endl;
-        //Vec3 priorXYZ(sphericalRadius,0,0);
-        //priorXYZ += sphericalCenter;
+        //Vec3 sphericalCenter(31.89, 31.89+2.0, 31.89);
+        //double sphericalHelixRadius = -9999.9;
+        //double sphericalHelixInterStrandDistance = -9999.9;
+        //double sphericalHelixStartTheta   = -9999.9;
+        //double sphericalHelixPhiOffset     = -9999.9;
+        Vec3 priorXYZ(-9999.9, -9999.9, -9999.9);
+        //if ((parameterStringClass.getString(4).length() >0) and (parameterStringClass.getString(5).length() == 0)){
+            //parameterStringClass.validateNumFields(5);
+            //sphericalHelixRadius      = myAtoF(userVariables,(parameterStringClass.getString(1)).c_str());
+            //sphericalHelixInterStrandDistance = myAtoF(userVariables,(parameterStringClass.getString(2)).c_str());
+            //sphericalHelixStartTheta        = myAtoF(userVariables,(parameterStringClass.getString(3)).c_str());
+            //sphericalHelixPhiOffset          = myAtoF(userVariables,(parameterStringClass.getString(4)).c_str());
+        priorXYZ = Vec3(sphericalHelixRadius* sin(sphericalHelixStartTheta)*cos(sphericalHelixPhiOffset) , sphericalHelixRadius* sin(sphericalHelixStartTheta)*sin(sphericalHelixPhiOffset), sphericalHelixRadius* cos(sphericalHelixStartTheta));
+        priorXYZ += sphericalHelixCenter;
+        //}
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelixRadius "<<sphericalHelixRadius<<std::endl;
+        //Vec3 priorXYZ(sphericalHelixRadius,0,0);
+        //priorXYZ += sphericalHelixCenter;
         int n = 0; // counter   
         std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" priorXYZ "<<priorXYZ<<std::endl;
         FILE * spiralPdbFile;
@@ -3512,55 +3568,55 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         fprintf (spiralPdbFile,"ATOM  %5d MG2+ MG  Z%4d    %8.3f%8.3f%8.3f \n",n,n,priorXYZ[0]*10, priorXYZ[1]*10,priorXYZ[2]*10  ); // Converting to Ångströms
         //std::string withCorrectExpectedLength = std::regex_replace( commonSpiralCommands, std::regex(1982), to );
         //fprintf (spiralCommandsFile,"%s",commonSpiralCommands.c_str());
-        //double interHelicalDistance = 2.;
+        //double sphericalHelixInterStrandDistance = 2.;
         double helixAdvancePerBasePair = 0.34 ;  // in nm
         //double deltaTheta =  SimTK::Pi  / 2000;
         std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<std::endl;
         std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" priorXYZ "<<priorXYZ<<std::endl;
         // might be good to run this just to confirm:
-        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ << " starting theta provided by user : "<<startingTheta<<" compared to that gotten by trigonometry after converting spherical to cartesian and back to spherical: "<<thetaFromXYZ(priorXYZ, sphericalCenter)<<std::endl;
-        //double startingTheta = thetaFromXYZ(priorXYZ, sphericalCenter); // 1.63; // starting angle   
-        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" startingTheta = "<< startingTheta << ""<<std::endl;
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ << " starting theta provided by user : "<<sphericalHelixStartTheta<<" compared to that gotten by trigonometry after converting spherical to cartesian and back to spherical: "<<thetaFromXYZ(priorXYZ, sphericalHelixCenter)<<std::endl;
+        //double sphericalHelixStartTheta = thetaFromXYZ(priorXYZ, sphericalHelixCenter); // 1.63; // starting angle   
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelixStartTheta = "<< sphericalHelixStartTheta << ""<<std::endl;
         double currentTheta = -11111.1;
-        //double startingPhiFromPriorXYZ = phiFromXYZ(priorXYZ, sphericalCenter) ;
-        //std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" startingPhiFromPriorXYZ "<<startingPhiFromPriorXYZ<<std::endl;
+        //double sphericalHelixPhiOffsetFromPriorXYZ = phiFromXYZ(priorXYZ, sphericalHelixCenter) ;
+        //std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelixPhiOffsetFromPriorXYZ "<<sphericalHelixPhiOffsetFromPriorXYZ<<std::endl;
         // In the default spherical spiral, phi is just theta times a constant. However we need to be able to rotate the sphere and key the spiral wherever we want. So we need a phiOffset.
-        double startingPhiFromStartingTheta = phiFromTheta(startingTheta, interHelicalDistance, sphericalRadius, 0.0); // use offset = 0 to retreive the original, non-offset phi
-        double phiOffset = startingPhi /*startingPhiFromPriorXYZ*/  - startingPhiFromStartingTheta;
+        double sphericalHelixPhiOffsetFromStartingTheta = phiFromTheta(sphericalHelixStartTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, 0.0); // use offset = 0 to retreive the original, non-offset phi
+        double phiOffset = sphericalHelixPhiOffset /*sphericalHelixPhiOffsetFromPriorXYZ*/  - sphericalHelixPhiOffsetFromStartingTheta;
         std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" phiOffset "<<phiOffset<<std::endl;
         std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" priorXYZ "<<priorXYZ<<std::endl;
-        double priorTheta = startingTheta ; // thetaFromXYZ(priorXYZ, sphericalCenter) ;
+        double priorTheta = sphericalHelixStartTheta ; // thetaFromXYZ(priorXYZ, sphericalHelixCenter) ;
         n = 1;
         std::string tetherCommands("");
         stringstream tetherCommandStream("");
         //tetherCommands<<"#readAtStage "<<std::endl;
         while (currentTheta < 2.5){
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" priorXYZ "<<priorXYZ<<std::endl;
-            double priorPhi = phiFromXYZ(priorXYZ, sphericalCenter) ;
+            double priorPhi = phiFromXYZ(priorXYZ, sphericalHelixCenter) ;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" priorXYZ "<<priorXYZ<<std::endl;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" priorPhi "<<priorPhi<<std::endl;
-            double deltaPhi = deltaPhiFromThetaInterHelicalDistanceSphericalRadiusAndHelicalArcLength(priorTheta, interHelicalDistance, sphericalRadius, helixAdvancePerBasePair);
+            double deltaPhi = deltaPhiFromThetaInterHelicalDistanceSphericalRadiusAndHelicalArcLength(priorTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, helixAdvancePerBasePair);
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" deltaPhi "<<deltaPhi<<std::endl;
-            double deltaTheta = thetaFromPhi(deltaPhi, interHelicalDistance, sphericalRadius, 0.0);
-            std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalRadius "<<sphericalRadius<<std::endl;
+            double deltaTheta = thetaFromPhi(deltaPhi, sphericalHelixInterStrandDistance, sphericalHelixRadius, 0.0);
+            std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelixRadius "<<sphericalHelixRadius<<std::endl;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" deltaTheta = "<<deltaTheta<<" .. should be positive and tiny"<<std::endl;
             currentTheta = priorTheta + deltaTheta;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" currentTheta = priorTheta + deltaTheta : "<<currentTheta<<" = "<<priorTheta<<" + "<<deltaTheta<<" "<<std::endl;
             priorTheta = currentTheta;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" priorTheta "<<priorTheta<<std::endl;
-            double currentPhi = priorPhi + deltaPhi ; // phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset);
+            double currentPhi = priorPhi + deltaPhi ; // phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset);
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" currentPhi "<<currentPhi<<std::endl;
             Vec3 currentXYZ (
-                sphericalRadius * sin(currentTheta) * cos (phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset)), 
-                sphericalRadius * sin(currentTheta) * sin (phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset)),
-                sphericalRadius * cos(currentTheta)
+                sphericalHelixRadius * sin(currentTheta) * cos (phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset)), 
+                sphericalHelixRadius * sin(currentTheta) * sin (phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset)),
+                sphericalHelixRadius * cos(currentTheta)
                 );
             
-            std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalRadius "<<sphericalRadius<<std::endl;
-            std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" interHelicalDistance "<<interHelicalDistance<<std::endl;
-            currentXYZ += sphericalCenter;
+            std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelixRadius "<<sphericalHelixRadius<<std::endl;
+            std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalHelixInterStrandDistance "<<sphericalHelixInterStrandDistance<<std::endl;
+            currentXYZ += sphericalHelixCenter;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" currentXYZ "<<currentXYZ<<std::endl;
-            std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" phi from the just-updated currentXYZ = "<< phiFromXYZ(currentXYZ, sphericalCenter)<<std::endl ;
+            std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" phi from the just-updated currentXYZ = "<< phiFromXYZ(currentXYZ, sphericalHelixCenter)<<std::endl ;
             fprintf (spiralPdbFile,"ATOM  %5d MG2+ MG  Z%4d    %8.3f%8.3f%8.3f \n",n,n,currentXYZ[0]*10, currentXYZ[1]*10,currentXYZ[2]*10  ); // Converting to Ångströms
             std::cout<<std::endl;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" MMB-command: readAtStage "<<n<<std::endl;
@@ -3581,14 +3637,14 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             tetherCommandStream<<"initialDisplacement B "<<  currentXYZ[0] <<" "<<  currentXYZ[1]  <<" "<< currentXYZ[2] <<std::endl;
             tetherCommandStream<<"rotation A  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
             tetherCommandStream<<"rotation B  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
-            tetherCommandStream<<"# phiFromTheta = " <<  phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset*0.)<<std::endl;
-            tetherCommandStream<<"#rotation A X "<<  -atan(currentTheta / phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
-            tetherCommandStream<<"rotation A X "<<  -atan(currentTheta / phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset*0.0)) - (SimTK::Pi / 2)    <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
-            tetherCommandStream<<"rotation B X "<<  -atan(currentTheta / phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset*0.0)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+            tetherCommandStream<<"# phiFromTheta = " <<  phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset*0.)<<std::endl;
+            tetherCommandStream<<"#rotation A X "<<  -atan(currentTheta / phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+            tetherCommandStream<<"rotation A X "<<  -atan(currentTheta / phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset*0.0)) - (SimTK::Pi / 2)    <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+            tetherCommandStream<<"rotation B X "<<  -atan(currentTheta / phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset*0.0)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
             tetherCommandStream<<"rotation A Y "<<  -(SimTK::Pi / 2) +  currentTheta  <<std::endl ; // tilt up 
             tetherCommandStream<<"rotation B Y "<<  -(SimTK::Pi / 2) +  currentTheta  <<std::endl ; // tilt up 
-            tetherCommandStream<<"rotation A Z "<<  phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset)   <<std::endl;
-            tetherCommandStream<<"rotation B Z "<<  phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset)   <<std::endl;
+            tetherCommandStream<<"rotation A Z "<<  phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset)   <<std::endl;
+            tetherCommandStream<<"rotation B Z "<<  phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset)   <<std::endl;
             //tetherCommandStream<<"tetherToGround A  "<<n<<" N1 "<< currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2]<<" @TetherLength @SpringConstant "<<std::endl;
             tetherCommandStream<<"readBlockEnd"<<std::endl;
 
@@ -5152,6 +5208,12 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     setTemperature=true;
     smallGroupInertiaMultiplier = 1.0;
     waterInertiaMultiplier = 1.0;
+
+    sphericalHelixCenter     = Vec3(0.,0.,0.);                                               
+    sphericalHelixRadius     = 100.0;           
+    sphericalHelixStartTheta = SimTK::Pi / 4.0; 
+    sphericalHelixPhiOffset  = 0.0;             
+
     stackAllHelicalResidues = true ;
     thermostatType ="NoseHoover";
     tinkerParameterFileName = "NOT-SET";

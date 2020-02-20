@@ -190,6 +190,13 @@ public:
     bool setRepulsiveForce ;
     bool setTemperature;
     double smallGroupInertiaMultiplier;
+
+    Vec3   sphericalHelixCenter    ; 
+    double sphericalHelixRadius    ; 
+    double sphericalHelixStartTheta; 
+    double sphericalHelixPhiOffset ;
+    double sphericalHelixInterStrandDistance;
+
     bool stackAllHelicalResidues ;
     String thermostatType;
     String tinkerParameterFileName;

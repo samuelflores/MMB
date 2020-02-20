@@ -1258,10 +1258,10 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter,  
     for (ResidueID j = getFirstResidueID(); j <= getLastResidueID() ; incrementResidueID(j)) { 
         ResidueInfo myResidueInfo = myBiopolymer.updResidue(getResidueIndex(j));
         for (ResidueInfo::AtomIndex k (0) ;k < myResidueInfo.getNumAtoms() ; k++) {
-            //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
+            //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" j,k "<<j.outString()<<", "<<k<<endl;
             MMBAtomInfo myAtomInfo = mmbAtomInfo(j,k,matter);
             //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
-            const PdbAtom& myPdbAtom = myPdbChain.getAtom(myAtomInfo.atomName, PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
+           const PdbAtom& myPdbAtom = myPdbChain.getAtom(myAtomInfo.atomName, PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
             //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
             Vec3 myPositionVec3 = myPdbAtom.getCoordinates();
             //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
@@ -1477,7 +1477,7 @@ const ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID residueID){
     int residueIDVectorPosition = residueIDVectorIterator-residueIDVector.begin();
         
         residueIndex = ResidueInfo::Index(residueIDVectorPosition);
-        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Your residue ID: "<<residueID.outString() << " has a corresponding residue index : "<<residueIndex<<std::endl;  
+        //std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Your residue ID: "<<residueID.outString() << " has a corresponding residue index : "<<residueIndex<<std::endl;  
         if ((residueIndex < 0 ) || (residueIndex >= getChainLength())) {
             ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Encountered a problem with residue ID "<<residueID.outString()<<" of chain "<<getChainID() <<" . This returned and index of "<<residueIndex<<". The residue ID should lie in the closed interval "<<getFirstResidueID().outString()<<" , "<<getLastResidueID().outString()<<". If you are performing an arithmetic (+/-) operation on a residue number, the leftmost term correspond to an existing residue number, while the rest of the terms are increments in sequence to be added or subtracted from that residue number. Or, you maybe you issued loadSequencesFromPdb and there is no residue numbered "<<residueID.outString() <<endl;
             ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" The computed index : "<<residueIndex<< " is unreasonable and would be expected to be in the range : 0 to "<<(getChainLength()-1)<<endl;    

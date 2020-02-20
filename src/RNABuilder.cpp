@@ -140,10 +140,8 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
         //int startHere = 0;
         //int firsti = 1;
         //int lasti  = 3;
-        stringstream ss2;
         stringstream ss2b;
         stringstream ss3;
-        stringstream ss4;
         map<const char*, int, strCmp> firstResidueNumbers;
 
         ParameterReader myParameterReader;
@@ -169,15 +167,20 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
                 ErrorManager::instance.treatError();
             }
 
-            ss2.clear();
-            ss2.str("");
-            ss2<<"./last."<<i<<".pdb"; 
-            myParameterReader.lastFrameFileName = ss2.str();
-
-            ss4.clear();
-            ss4.str("");
-            ss4<<"./last."<<(i-1)<<".pdb"; 
-            myParameterReader.previousFrameFileName = ss4.str();
+            if  (myParameterReader.lastFrameFileName == "NOT-SET"){
+                stringstream ss2;
+                ss2.clear();
+                ss2.str("");
+                ss2<<"./last."<<i<<".pdb"; 
+                myParameterReader.lastFrameFileName = ss2.str();
+            } 
+            if  (myParameterReader.previousFrameFileName == "NOT-SET"){
+                stringstream ss4;
+                ss4.clear();
+                ss4.str("");
+                ss4<<"./last."<<(i-1)<<".pdb"; 
+                myParameterReader.previousFrameFileName = ss4.str();
+            }
 
             cout<<__FILE__<<":"<<__LINE__<<"  about to make sure we aren't trying to read from BOTH .pdb and QVector files, but exactly one."<<endl;
             if (i == 1)  {myParameterReader.readPreviousFrameFile = 0;} //else myParameterReader.readPreviousFrameFile = 1;

@@ -511,7 +511,7 @@ BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID 
     setChainID(myChainID);
     setSequence(mySequence);  // Note that this will not have the right PDB residue numbering. Hence the next line:
     renumberPdbResidues( myFirstResidueNumber );
-    //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
+    cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
     //setChainID(myChainID);
     pdbFileName = "";
     //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
@@ -578,16 +578,22 @@ void BiopolymerClass::renumberPdbResidues(ResidueID firstResidueID ) {
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" firstResidueID = >"<<firstResidueID.outString()<<"< "<<endl; 
     this->firstResidueID = firstResidueID;
     validateProteinCapping();
+    int myNewResidueNumberWithoutInsertionCode = firstResidueID.getResidueNumber() ;
     if (proteinCapping && (biopolymerType == BiopolymerType::Protein)) {
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
-        myBiopolymer.renumberPdbResidues(decrementResidueID(firstResidueID).getResidueNumber() ); // proteins have an ACE residue added to the N-terminus.  Therefore that residue must be given the first residue number minus one!
+        myBiopolymer.renumberPdbResidues(decrementResidueID(firstResidueID).getResidueNumber() ); 
+        //myNewResidueNumberWithoutInsertionCode -= 1; // proteins have an ACE residue added to the N-terminus.  Therefore that residue must be given the first residue number minus one!
     } else if ((biopolymerType == BiopolymerType::RNA) || (biopolymerType == BiopolymerType::Protein) || (biopolymerType == BiopolymerType::DNA) ) {
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
-        myBiopolymer.renumberPdbResidues(firstResidueID.getResidueNumber());
+        // myNewResidueNumberWithoutInsertionCode = (firstResidueID.getResidueNumber() ); // proteins have an ACE residue added to the N-terminus.  Therefore that residue must be given the first residue number minus one!
+        myBiopolymer.renumberPdbResidues(firstResidueID.getResidueNumber()); // this is now done below.
     } else { 
         ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"Error! You have tried to renumber a Biopolymer of an unsupported type: "<<   biopolymerType<<endl;
         ErrorManager::instance.treatError();
     }
+    //myBiopolymer.renumberPdbResidues((myNewResidueNumberWithoutInsertionCode));
+    //residueIDVector.clear();
+    //setResidueIDsAndInsertionCodesFromBiopolymer(myBiopolymer,proteinCapping);//loadResidueIDVector();
 }
 
 ResidueID BiopolymerClass::getResidueID(const int residueIndex)  {
@@ -989,10 +995,8 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
     if (this->loadFromPdb) {
         cout << __FILE__ << " " << __FUNCTION__ << " :" << firstResidueID.getResidueNumber() << endl; 
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Adopting chain "<<getChainID()<<" with displacement from input structure file of : "<<initialDisplacementVec3<<" Å "<<getSequence()<<endl;
-        //Rotation myRotation;
-        //myRotation.setRotationToIdentityMatrix (); 
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Current rotation : "<<myRotation<<endl;  
-        system.adoptCompound(myBiopolymer ,Transform(myRotation, (initialDisplacementVec3/1)) );} // used to convert to nm, now using nm directly. For now, the rotation is just a unit matrix. Later, enable user to control this.
+        system.adoptCompound(myBiopolymer ,Transform(myRotation, (initialDisplacementVec3/1)) );} // used to convert to nm, now using nm directly. 
     else {
         system.adoptCompound(myBiopolymer ,Vec3(biopolymerClassIndex,biopolymerClassIndex,biopolymerClassIndex  )*initialSeparation/1);  // used to convert to nm, now using nm directly
 
@@ -1445,6 +1449,10 @@ void BiopolymerClass::loadResidueIDVector() {
 
 void BiopolymerClass::loadResidueIDVectorAscending(ResidueID firstResidueID ){
     if (residueIDVector.size() > 0) {
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" "<<std::endl;
+        for (int i = 0; i < residueIDVector.size() ; i++){
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": "<<residueIDVector[i].outString()<<std::endl;
+        }
         ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Why does residueIDVector have something in it already?"<<endl; 
         ErrorManager::instance.treatError();
     }
@@ -1469,6 +1477,7 @@ const ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID residueID){
     int residueIDVectorPosition = residueIDVectorIterator-residueIDVector.begin();
         
         residueIndex = ResidueInfo::Index(residueIDVectorPosition);
+        std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Your residue ID: "<<residueID.outString() << " has a corresponding residue index : "<<residueIndex<<std::endl;  
         if ((residueIndex < 0 ) || (residueIndex >= getChainLength())) {
             ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Encountered a problem with residue ID "<<residueID.outString()<<" of chain "<<getChainID() <<" . This returned and index of "<<residueIndex<<". The residue ID should lie in the closed interval "<<getFirstResidueID().outString()<<" , "<<getLastResidueID().outString()<<". If you are performing an arithmetic (+/-) operation on a residue number, the leftmost term correspond to an existing residue number, while the rest of the terms are increments in sequence to be added or subtracted from that residue number. Or, you maybe you issued loadSequencesFromPdb and there is no residue numbered "<<residueID.outString() <<endl;
             ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" The computed index : "<<residueIndex<< " is unreasonable and would be expected to be in the range : 0 to "<<(getChainLength()-1)<<endl;    

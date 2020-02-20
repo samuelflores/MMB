@@ -4,7 +4,7 @@
  *                                                                            *
  * Copyright (c) 2011-12 by the Author.                                       *
  * Author: Samuel Flores                                                      *
- *         Alex Tek                                                           *  
+ * Modifications by:  Alex Tek                                                           *  
  *                                                                            *
  * See RNABuilder.cpp for the copyright and usage agreement.                  *
  * -------------------------------------------------------------------------- */
@@ -91,7 +91,7 @@ using namespace std  ;
         std::string commonSpiralCommands = R"(
             numReportingIntervals 1
             reportingInterval .00001
-            firstStage 1
+            firstStage 2
             lastStage ZZZZ )";
             /* R"(
             # The following command should have been issued in a prior step, to generate this file.
@@ -1207,7 +1207,10 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": renumberBiopolymerResidues <first residue number> >          : This renumbers all biopolymers to start with the specified residue number."<<endl;
         //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": renumberBiopolymerResidues <chain ID> <first residue number> : This renumbers the specified biopolymers to start with the specified residue number."<<endl<<endl;
 
-        if (parameterStringClass.getString(1).length() != 0)  { ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : Too many parameters for this command."<<endl; ErrorManager::instance.treatError();}
+        if (parameterStringClass.getString(1).length() != 0)  { 
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"  "<<endl; 
+            //ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : Too many parameters for this command."<<endl; ErrorManager::instance.treatError();
+        }
         if (parameterStringClass.getString(1).length() == 0) //  
         // This is the case that no parameters have been specified. We interpret this to mean that the user wants to renumber all biopolymer chains, to start with residue number 1.
         {
@@ -1216,6 +1219,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             myBiopolymerClassContainer.setRenumberPdbResidues(1);
         } else if (parameterStringClass.getString(2).length() == 0) 
         {
+             cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"  "<<endl; 
              ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : Unexplained error! ."<<endl; ErrorManager::instance.treatError();
             cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You have called renumberBiopolymerResidues with one parameter. We interpret this to mean that you want to renumber all biopolymers to start with the residue number : "<< parameterStringClass.getString(1)  <<endl;
              myBiopolymerClassContainer.renumberPdbResidues(ResidueID((parameterStringClass.getString(1) )  )); 
@@ -1223,9 +1227,15 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }      
         else if ((parameterStringClass.getString(3).length() == 0) ) // This is the case that the user has specified only a first
         {
-             ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : Unexplained error! ."<<endl; ErrorManager::instance.treatError();
+             cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"  "<<endl; 
+             if (safeParameters) { 
+                 ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : Unexplained error! ."<<endl; ErrorManager::instance.treatError();
+             }
+             cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"  "<<endl; 
              myBiopolymerClassContainer.updBiopolymerClass(parameterStringClass.getString(1)).renumberPdbResidues(ResidueID(parameterStringClass.getString(2))); 
+             cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"  "<<endl; 
         } else {
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"  "<<endl; 
             ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : Unexplained error! ."<<endl; ErrorManager::instance.treatError();
         }
         return;
@@ -3474,7 +3484,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalSpiral creates a spherical spiral of MG2+ ions. Eventually it will be adaptive to the density. You need to provide the spherical center (3D), in nm. Also the spherical radius."<<  std::endl;
         std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" Syntax: "<<std::endl;
         std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" sphericalSpiral <spherical radius, in nm> <DNA inter-helix distance (suggest 2.0), in nm> <helix start (nearest to north pole) theta, rads> <helix start phi, rads> "<<std::endl;
-        Vec3 sphericalCenter(31.89, 31.89+2.0, 31.89);
+        Vec3 sphericalCenter(0., .0, .0);
+        //Vec3 sphericalCenter(31.89, 31.89+2.0, 31.89);
         double sphericalRadius = -9999.9;
         double interHelicalDistance = -9999.9;
         double startingTheta   = -9999.9;
@@ -3554,13 +3565,30 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             std::cout<<std::endl;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" MMB-command: readAtStage "<<n<<std::endl;
             tetherCommandStream<<"readAtStage "<<n<<std::endl;
-            tetherCommandStream<<"DNA A "<<n << " G "<<std::endl;
+            // base-pair-at-origin.pdb contains a single base pair, with axis perpendicular to Z-axis.
+            tetherCommandStream<<"previousFrameFileName    base-pair."<<n<<".pdb   "<<std::endl;
+            tetherCommandStream<<"DNA A "<<n<<" A "<<std::endl;
+            tetherCommandStream<<"DNA B "<<9999-n<<" T "<<std::endl;
+            //tetherCommandStream<<"loadSequencesFromPdb base-pair-at-origin.pdb   "<<std::endl;
+            //tetherCommandStream<<"deleteResidues A 1 "<<n-1<<std::endl;
+            //tetherCommandStream<<"deleteResidues A "<<n+1<<" 9999 "<<std::endl;
+            //tetherCommandStream<<"deleteResidues B 1 "<<9999-n-1<<std::endl;
+            //tetherCommandStream<<"deleteResidues B "<<9999-n+1<<" 9999 "<<std::endl;
+            tetherCommandStream<<"#renumberBiopolymerResidues A "<<n<<std::endl;
+            tetherCommandStream<<"#renumberBiopolymerResidues B "<<9999-n<<std::endl;
             tetherCommandStream<<"mobilizer Rigid "<<std::endl;
             tetherCommandStream<<"initialDisplacement A "<<  currentXYZ[0] <<" "<<  currentXYZ[1]  <<" "<< currentXYZ[2] <<std::endl;
+            tetherCommandStream<<"initialDisplacement B "<<  currentXYZ[0] <<" "<<  currentXYZ[1]  <<" "<< currentXYZ[2] <<std::endl;
             tetherCommandStream<<"rotation A  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
-            tetherCommandStream<<"rotation A X "<<  -atan(currentTheta / phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+            tetherCommandStream<<"rotation B  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
+            tetherCommandStream<<"# phiFromTheta = " <<  phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset*0.)<<std::endl;
+            tetherCommandStream<<"#rotation A X "<<  -atan(currentTheta / phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+            tetherCommandStream<<"rotation A X "<<  -atan(currentTheta / phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset*0.0)) - (SimTK::Pi / 2)    <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+            tetherCommandStream<<"rotation B X "<<  -atan(currentTheta / phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset*0.0)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
             tetherCommandStream<<"rotation A Y "<<  -(SimTK::Pi / 2) +  currentTheta  <<std::endl ; // tilt up 
+            tetherCommandStream<<"rotation B Y "<<  -(SimTK::Pi / 2) +  currentTheta  <<std::endl ; // tilt up 
             tetherCommandStream<<"rotation A Z "<<  phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset)   <<std::endl;
+            tetherCommandStream<<"rotation B Z "<<  phiFromTheta(currentTheta, interHelicalDistance, sphericalRadius, phiOffset)   <<std::endl;
             //tetherCommandStream<<"tetherToGround A  "<<n<<" N1 "<< currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2]<<" @TetherLength @SpringConstant "<<std::endl;
             tetherCommandStream<<"readBlockEnd"<<std::endl;
 
@@ -4044,6 +4072,23 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         return;
     }
 
+    if (((parameterStringClass.getString(0)).compare("previousFrameFileName") ==0) ) {
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" This command overrides the previous structure file name -- which defaults to last.[n-1].pdb"<<endl;
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Syntax is:  previousFrameFileName [input structure file name] "<<endl;
+        parameterStringClass.validateNumFields(2);
+        previousFrameFileName = parameterStringClass.getString(1);
+        return;       
+    }
+    if (((parameterStringClass.getString(0)).compare("lastFrameFileName") ==0) ) {
+        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Syntax is:  lastFrameFileName [input structure file name] "<<endl;
+        if (safeParameters) {
+            ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : This command is not currently allowed!"<<endl; 
+            ErrorManager::instance.treatError();
+        }
+        parameterStringClass.validateNumFields(2);
+        lastFrameFileName = parameterStringClass.getString(1);
+        return;       
+    }
     if (((parameterStringClass.getString(0)).compare("loadSequencesFromPdb") ==0) ||
         ((parameterStringClass.getString(0)).compare("loadSequencesFromPdbAndRenumber") ==0)) {
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Syntax is:  loadSequencesFromPdb [input structure file name] "<<endl;

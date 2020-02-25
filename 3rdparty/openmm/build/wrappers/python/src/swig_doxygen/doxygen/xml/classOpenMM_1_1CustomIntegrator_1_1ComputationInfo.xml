@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomIntegrator_1_1ComputationInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomIntegrator::ComputationInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomIntegrator_1_1ComputationInfo_1ac5ffc3ff48065ca17db404be751f722e" prot="public" static="no" mutable="no">
+        <type><ref refid="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94" kindref="member">ComputationType</ref></type>
+        <definition>ComputationType OpenMM::CustomIntegrator::ComputationInfo::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" line="697" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" bodystart="697" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomIntegrator_1_1ComputationInfo_1ad0736bfeff64a367e9496957394192c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomIntegrator::ComputationInfo::variable</definition>
+        <argsstring></argsstring>
+        <name>variable</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" line="698" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" bodystart="698" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomIntegrator_1_1ComputationInfo_1a28ac46e0537285c8acb737f60cace348" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomIntegrator::ComputationInfo::expression</definition>
+        <argsstring></argsstring>
+        <name>expression</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" line="698" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" bodystart="698" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomIntegrator_1_1ComputationInfo_1a8299dfad54a195346f6260472f39fb50" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomIntegrator::ComputationInfo::ComputationInfo</definition>
+        <argsstring>()</argsstring>
+        <name>ComputationInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" line="699" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" bodystart="699" bodyend="700"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomIntegrator_1_1ComputationInfo_1ad93ef51562955051747d535384e3f476" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomIntegrator::ComputationInfo::ComputationInfo</definition>
+        <argsstring>(ComputationType type, const std::string &amp;variable, const std::string &amp;expression)</argsstring>
+        <name>ComputationInfo</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1CustomIntegrator_1a8455f563a82564ce2598bb16eef7fe94" kindref="member">ComputationType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>variable</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" line="701" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" bodystart="701" bodyend="703"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a computation step. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" line="695" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomIntegrator.h" bodystart="695" bodyend="704"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomIntegrator_1_1ComputationInfo_1a8299dfad54a195346f6260472f39fb50" prot="public" virt="non-virtual"><scope>OpenMM::CustomIntegrator::ComputationInfo</scope><name>ComputationInfo</name></member>
+      <member refid="classOpenMM_1_1CustomIntegrator_1_1ComputationInfo_1ad93ef51562955051747d535384e3f476" prot="public" virt="non-virtual"><scope>OpenMM::CustomIntegrator::ComputationInfo</scope><name>ComputationInfo</name></member>
+      <member refid="classOpenMM_1_1CustomIntegrator_1_1ComputationInfo_1a28ac46e0537285c8acb737f60cace348" prot="public" virt="non-virtual"><scope>OpenMM::CustomIntegrator::ComputationInfo</scope><name>expression</name></member>
+      <member refid="classOpenMM_1_1CustomIntegrator_1_1ComputationInfo_1ac5ffc3ff48065ca17db404be751f722e" prot="public" virt="non-virtual"><scope>OpenMM::CustomIntegrator::ComputationInfo</scope><name>type</name></member>
+      <member refid="classOpenMM_1_1CustomIntegrator_1_1ComputationInfo_1ad0736bfeff64a367e9496957394192c5" prot="public" virt="non-virtual"><scope>OpenMM::CustomIntegrator::ComputationInfo</scope><name>variable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

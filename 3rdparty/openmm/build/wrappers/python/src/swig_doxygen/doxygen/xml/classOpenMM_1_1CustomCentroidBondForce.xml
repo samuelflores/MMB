@@ -1,0 +1,1167 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomCentroidBondForce" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::CustomCentroidBondForce</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="CustomCentroidBondForce_8h" local="no">CustomCentroidBondForce.h</includes>
+    <innerclass refid="classOpenMM_1_1CustomCentroidBondForce_1_1BondInfo" prot="private">OpenMM::CustomCentroidBondForce::BondInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomCentroidBondForce_1_1BondParameterInfo" prot="private">OpenMM::CustomCentroidBondForce::BondParameterInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomCentroidBondForce_1_1FunctionInfo" prot="private">OpenMM::CustomCentroidBondForce::FunctionInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomCentroidBondForce_1_1GlobalParameterInfo" prot="private">OpenMM::CustomCentroidBondForce::GlobalParameterInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomCentroidBondForce_1_1GroupInfo" prot="private">OpenMM::CustomCentroidBondForce::GroupInfo</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCentroidBondForce_1ab8d7efd548bef9b1162e4ce5f4604cd3" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::groupsPerBond</definition>
+        <argsstring></argsstring>
+        <name>groupsPerBond</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="375" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCentroidBondForce_1ae313d6cc7b2613297fd2438b77bcf3ca" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomCentroidBondForce::energyExpression</definition>
+        <argsstring></argsstring>
+        <name>energyExpression</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="376" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="376" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCentroidBondForce_1a949d4015a0063e3bf36d664067d83232" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; BondParameterInfo &gt;</type>
+        <definition>std::vector&lt;BondParameterInfo&gt; OpenMM::CustomCentroidBondForce::bondParameters</definition>
+        <argsstring></argsstring>
+        <name>bondParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="377" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCentroidBondForce_1aa27a182e7fdcdbab6c04d9cb6ab53a70" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; GlobalParameterInfo &gt;</type>
+        <definition>std::vector&lt;GlobalParameterInfo&gt; OpenMM::CustomCentroidBondForce::globalParameters</definition>
+        <argsstring></argsstring>
+        <name>globalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="378" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCentroidBondForce_1a70367d012abe87ce50f99c35dcf0a75c" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; GroupInfo &gt;</type>
+        <definition>std::vector&lt;GroupInfo&gt; OpenMM::CustomCentroidBondForce::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="379" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCentroidBondForce_1ab7807b0b72972e81e37a48a48c33ade6" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; BondInfo &gt;</type>
+        <definition>std::vector&lt;BondInfo&gt; OpenMM::CustomCentroidBondForce::bonds</definition>
+        <argsstring></argsstring>
+        <name>bonds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="380" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCentroidBondForce_1aca7cbb9da30a3052e9228180839e70bd" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; FunctionInfo &gt;</type>
+        <definition>std::vector&lt;FunctionInfo&gt; OpenMM::CustomCentroidBondForce::functions</definition>
+        <argsstring></argsstring>
+        <name>functions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="381" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCentroidBondForce_1ab1f2c058e1ea7b438d775065d2b34fec" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; OpenMM::CustomCentroidBondForce::energyParameterDerivatives</definition>
+        <argsstring></argsstring>
+        <name>energyParameterDerivatives</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="382" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCentroidBondForce_1a4dc7c8bef32933ce011b3120fd00966b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool OpenMM::CustomCentroidBondForce::usePeriodic</definition>
+        <argsstring></argsstring>
+        <name>usePeriodic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="383" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1ad733c40feb0cdf7035d2366254272239" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCentroidBondForce::CustomCentroidBondForce</definition>
+        <argsstring>(int numGroups, const std::string &amp;energy)</argsstring>
+        <name>CustomCentroidBondForce</name>
+        <param>
+          <type>int</type>
+          <declname>numGroups</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1CustomCentroidBondForce" kindref="compound">CustomCentroidBondForce</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>numGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of groups used to define each bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>an algebraic expression giving the interaction energy of each bond as a function of particle positions, inter-particle distances, angles, and dihedrals, and any global and per-bond parameters </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="125" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a219ce11ecda7c82b9e262ca38018664f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCentroidBondForce::~CustomCentroidBondForce</definition>
+        <argsstring>()</argsstring>
+        <name>~CustomCentroidBondForce</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="126" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a2b738e8dbdd78aa154a1356774f20554" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::getNumGroupsPerBond</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumGroupsPerBond</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of groups used to define each bond. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="130" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="130" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a1a7308daae8defe541b695eab69ca1a4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::getNumGroups</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumGroups</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of particle groups that have been defined. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="136" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1aaeaa528e96d105c37c89a1fc2cc79053" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::getNumBonds</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumBonds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of bonds for which force field parameters have been defined. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="142" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1aa38ee717cc9ce0a233d2d8b55b3154bf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::getNumPerBondParameters</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumPerBondParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of per-bond parameters that the interaction depends on. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="148" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="148" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a85512d347e4c5464d8a175923e45634a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::getNumGlobalParameters</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumGlobalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of global parameters that the interaction depends on. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="154" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1ae027f4fbe98176b21e461d9ad128a1c3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::getNumEnergyParameterDerivatives</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumEnergyParameterDerivatives</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of global parameters with respect to which the derivative of the energy should be computed. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="161" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="161" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a25ed53fc4d5b50212bd0b17ac0aaf83f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::getNumTabulatedFunctions</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumTabulatedFunctions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of tabulated functions that have been defined. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="167" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="167" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a841497806b53145ccb845cee0db846e1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::getNumFunctions</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumFunctions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of tabulated functions that have been defined.</para><para><xrefsect id="deprecated_1_deprecated000001"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This method exists only for backward compatibility. Use <ref refid="classOpenMM_1_1CustomCentroidBondForce_1a25ed53fc4d5b50212bd0b17ac0aaf83f" kindref="member">getNumTabulatedFunctions()</ref> instead. </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="175" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a6bf5d5bc4cb0d9af1276a810edb6168a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomCentroidBondForce::getEnergyFunction</definition>
+        <argsstring>() const</argsstring>
+        <name>getEnergyFunction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the algebraic expression that gives the interaction energy of each bond </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="181" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1aff75c39b1d217e4678f14473efb5cd2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCentroidBondForce::setEnergyFunction</definition>
+        <argsstring>(const std::string &amp;energy)</argsstring>
+        <name>setEnergyFunction</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the algebraic expression that gives the interaction energy of each bond </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="185" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1ac56c87eddf32e652aef3f154a6f375d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::addPerBondParameter</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>addPerBondParameter</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a new per-bond parameter that the interaction may depend on.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the parameter that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="192" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1afb540d0a93c564b921a02112a1f378cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomCentroidBondForce::getPerBondParameterName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getPerBondParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a per-bond parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to get the name </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="199" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a4424a174b9be21ecb3088cc93e49ec75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCentroidBondForce::setPerBondParameterName</definition>
+        <argsstring>(int index, const std::string &amp;name)</argsstring>
+        <name>setPerBondParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the name of a per-bond parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to set the name </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="206" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1aecd453a07f1ba0d762613294ac34eff5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::addGlobalParameter</definition>
+        <argsstring>(const std::string &amp;name, double defaultValue)</argsstring>
+        <name>addGlobalParameter</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a new global parameter that the interaction may depend on. The default value provided to this method is the initial value of the parameter in newly created Contexts. You can change the value at any time by calling setParameter() on the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default value of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the parameter that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="216" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1ac9ae91a4309e28f63d00ac13dcb24de1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomCentroidBondForce::getGlobalParameterName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getGlobalParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to get the name </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="223" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a3c6cd3bb3d5700d9a189d59c6e3423b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCentroidBondForce::setGlobalParameterName</definition>
+        <argsstring>(int index, const std::string &amp;name)</argsstring>
+        <name>setGlobalParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the name of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to set the name </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="230" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1abd9c5b2633aff8dc6cdcbc7a476cd134" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::CustomCentroidBondForce::getGlobalParameterDefaultValue</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getGlobalParameterDefaultValue</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the default value of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to get the default value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter default value </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="237" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a11053c6fd304f240b121542a49e24c2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCentroidBondForce::setGlobalParameterDefaultValue</definition>
+        <argsstring>(int index, double defaultValue)</argsstring>
+        <name>setGlobalParameterDefaultValue</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the default value of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to set the default value </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default value of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="244" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a3bc365bd1440b1788a8c5fa35f918436" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCentroidBondForce::addEnergyParameterDerivative</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>addEnergyParameterDerivative</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Request that this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> compute the derivative of its energy with respect to a global parameter. The parameter must have already been added with <ref refid="classOpenMM_1_1CustomCentroidBondForce_1aecd453a07f1ba0d762613294ac34eff5" kindref="member">addGlobalParameter()</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="251" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a5a2147fe87ad5ce21c7989dd00cfb08b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomCentroidBondForce::getEnergyParameterDerivativeName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getEnergyParameterDerivativeName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a global parameter with respect to which this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> should compute the derivative of the energy.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter derivative, between 0 and <ref refid="classOpenMM_1_1CustomCentroidBondForce_1ae027f4fbe98176b21e461d9ad128a1c3" kindref="member">getNumEnergyParameterDerivatives()</ref> </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="259" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a0bf77e903f61aabea92abef077722ed5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::addGroup</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;particles, const std::vector&lt; double &gt; &amp;weights=std::vector&lt; double &gt;())</argsstring>
+        <name>addGroup</name>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>particles</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>weights</declname>
+          <defval>std::vector&lt; double &gt;()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a particle group.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the indices of the particles to include in the group </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight to use for each particle when computing the center position. If this is omitted, then particle masses will be used as weights. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the group that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="268" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a717a853d8449703d8a06aaffbf70040a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCentroidBondForce::getGroupParameters</definition>
+        <argsstring>(int index, std::vector&lt; int &gt; &amp;particles, std::vector&lt; double &gt; &amp;weights) const</argsstring>
+        <name>getGroupParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>particles</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the properties of a group.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the group to get </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the indices of the particles in the group </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight used for each particle when computing the center position. If no weights were specified, this vector will be empty indicating that particle masses should be used as weights. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="278" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a8bd220a5749321d94ccd3d1e8e34c254" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCentroidBondForce::setGroupParameters</definition>
+        <argsstring>(int index, const std::vector&lt; int &gt; &amp;particles, const std::vector&lt; double &gt; &amp;weights=std::vector&lt; double &gt;())</argsstring>
+        <name>setGroupParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>particles</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>weights</declname>
+          <defval>std::vector&lt; double &gt;()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the properties of a group.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the group to set </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the indices of the particles in the group </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight to use for each particle when computing the center position. If this is omitted, then particle masses will be used as weights. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="287" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1afe8b5eb1bc86cc9a9fe52959e70e1d13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::addBond</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;groups, const std::vector&lt; double &gt; &amp;parameters=std::vector&lt; double &gt;())</argsstring>
+        <name>addBond</name>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>groups</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+          <defval>std::vector&lt; double &gt;()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a bond to the force</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>groups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the indices of the groups the bond depends on </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of per-bond parameter values for the new bond </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the bond that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="295" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a856de3cec3b23d461e4b674f21f914a5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCentroidBondForce::getBondParameters</definition>
+        <argsstring>(int index, std::vector&lt; int &gt; &amp;groups, std::vector&lt; double &gt; &amp;parameters) const</argsstring>
+        <name>getBondParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>groups</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the properties of a bond.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the bond to get </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">groups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the indices of the groups in the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of per-bond parameter values for the bond </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="303" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a8d8f774f67034ab2327f37bd9adf29d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCentroidBondForce::setBondParameters</definition>
+        <argsstring>(int index, const std::vector&lt; int &gt; &amp;groups, const std::vector&lt; double &gt; &amp;parameters=std::vector&lt; double &gt;())</argsstring>
+        <name>setBondParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>groups</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+          <defval>std::vector&lt; double &gt;()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the properties of a bond.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the bond to set </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>groups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the indices of the groups in the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of per-bond parameter values for the bond </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="311" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1aaab217d8235e6181362fd603d51f2a0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCentroidBondForce::addTabulatedFunction</definition>
+        <argsstring>(const std::string &amp;name, TabulatedFunction *function)</argsstring>
+        <name>addTabulatedFunction</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> *</type>
+          <declname>function</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a tabulated function that may appear in the energy expression.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the function as it appears in expressions </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>function</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> object defining the function. The <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> should have been created on the heap with the &quot;new&quot; operator. The <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> takes over ownership of it, and deletes it when the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> itself is deleted. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the function that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="321" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a4c6e269b4f423f781aa2dd7208d254ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> &amp;</type>
+        <definition>const TabulatedFunction&amp; OpenMM::CustomCentroidBondForce::getTabulatedFunction</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getTabulatedFunction</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a const reference to a tabulated function that may appear in the energy expression.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the function to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> object defining the function </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="328" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1aef21669670fae94fac6622bdcfeb2b39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> &amp;</type>
+        <definition>TabulatedFunction&amp; OpenMM::CustomCentroidBondForce::getTabulatedFunction</definition>
+        <argsstring>(int index)</argsstring>
+        <name>getTabulatedFunction</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a reference to a tabulated function that may appear in the energy expression.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the function to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> object defining the function </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="335" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1ab76150942817ce53b4bf8d7061e6f201" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomCentroidBondForce::getTabulatedFunctionName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getTabulatedFunctionName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a tabulated function that may appear in the energy expression.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the function to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the name of the function as it appears in expressions </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="342" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a01e593a787ed7aff2be7be200fe61e19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCentroidBondForce::updateParametersInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>updateParametersInContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the per-bond parameters in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to match those stored in this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. This method provides an efficient method to update certain parameters in an existing <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> without needing to reinitialize it. Simply call <ref refid="classOpenMM_1_1CustomCentroidBondForce_1a8d8f774f67034ab2327f37bd9adf29d7" kindref="member">setBondParameters()</ref> to modify this object&apos;s parameters, then call <ref refid="classOpenMM_1_1CustomCentroidBondForce_1a01e593a787ed7aff2be7be200fe61e19" kindref="member">updateParametersInContext()</ref> to copy them over to the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para>This method has several limitations. The only information it updates is the values of per-bond parameters. All other aspects of the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> (such as the energy function) are unaffected and can only be changed by reinitializing the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. Neither the definitions of groups nor the set of groups involved in a bond can be changed, nor can new bonds be added. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="354" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a8b8dca3283bcd933456773795df9373b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCentroidBondForce::setUsesPeriodicBoundaryConditions</definition>
+        <argsstring>(bool periodic)</argsstring>
+        <name>setUsesPeriodicBoundaryConditions</name>
+        <param>
+          <type>bool</type>
+          <declname>periodic</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set whether this force should apply periodic boundary conditions when calculating displacements. Usually this is not appropriate for bonded forces, but there are situations when it can be useful. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="359" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a98885a113adccc72662c51acba651768" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::CustomCentroidBondForce::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if force uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="366" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1a936bdd2cc163e7a0c35637e8194cc53c" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::CustomCentroidBondForce::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="368" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class is similar to <ref refid="classOpenMM_1_1CustomCompoundBondForce" kindref="compound">CustomCompoundBondForce</ref>, but instead of applying forces between individual particles, it applies them between the centers of groups of particles. This is useful for a variety of purposes, such as restraints to keep two molecules from moving too far apart.</para><para>When using this class, you define groups of particles, and the center of each group is calculated as a weighted average of the particle positions. By default, the particle masses are used as weights, so the center position is the center of mass. You can optionally specify different weights to use. You then add bonds just as with <ref refid="classOpenMM_1_1CustomCompoundBondForce" kindref="compound">CustomCompoundBondForce</ref>, but instead of specifying the particles that make up a bond, you specify the groups.</para><para>When creating a <ref refid="classOpenMM_1_1CustomCentroidBondForce" kindref="compound">CustomCentroidBondForce</ref>, you specify the number of groups involved in a bond, and an expression for the energy of each bond. It may depend on the center positions of individual groups, the distances between the centers of pairs of groups, the angles formed by sets of three groups, and the dihedral angles formed by sets of four groups.</para><para>We refer to the groups in a bond as g1, g2, g3, etc. For each bond, <ref refid="classOpenMM_1_1CustomCentroidBondForce" kindref="compound">CustomCentroidBondForce</ref> evaluates a user supplied algebraic expression to determine the interaction energy. The expression may depend on the following variables and functions:</para><para><itemizedlist>
+<listitem>
+<para>x1, y1, z1, x2, y2, z2, etc.: The x, y, and z coordinates of the centers of the groups. For example, x1 is the x coordinate of the center of group g1, and y3 is the y coordinate of the center of group g3. </para></listitem>
+<listitem>
+<para>distance(g1, g2): the distance between the centers of groups g1 and g2 (where &quot;g1&quot; and &quot;g2&quot; may be replaced by the names of whichever groups you want to calculate the distance between). </para></listitem>
+<listitem>
+<para>angle(g1, g2, g3): the angle formed by the centers of the three specified groups. </para></listitem>
+<listitem>
+<para>dihedral(g1, g2, g3, g4): the dihedral angle formed by the centers of the four specified groups. </para></listitem>
+</itemizedlist>
+</para><para>The expression also may involve tabulated functions, and may depend on arbitrary global and per-bond parameters.</para><para>To use this class, create a <ref refid="classOpenMM_1_1CustomCentroidBondForce" kindref="compound">CustomCentroidBondForce</ref> object, passing an algebraic expression to the constructor that defines the interaction energy of each bond. Then call <ref refid="classOpenMM_1_1CustomCentroidBondForce_1ac56c87eddf32e652aef3f154a6f375d5" kindref="member">addPerBondParameter()</ref> to define per-bond parameters and <ref refid="classOpenMM_1_1CustomCentroidBondForce_1aecd453a07f1ba0d762613294ac34eff5" kindref="member">addGlobalParameter()</ref> to define global parameters. The values of per-bond parameters are specified as part of the system definition, while values of global parameters may be modified during a simulation by calling <ref refid="classOpenMM_1_1Context_1a368b7f53ee35bb151ee686441b7900af" kindref="member">Context::setParameter()</ref>.</para><para>Next call <ref refid="classOpenMM_1_1CustomCentroidBondForce_1a0bf77e903f61aabea92abef077722ed5" kindref="member">addGroup()</ref> to define the particle groups. Each group is specified by the particles it contains, and the weights to use when computing the center position.</para><para>Then call <ref refid="classOpenMM_1_1CustomCentroidBondForce_1afe8b5eb1bc86cc9a9fe52959e70e1d13" kindref="member">addBond()</ref> to define bonds and specify their parameter values. After a bond has been added, you can modify its parameters by calling <ref refid="classOpenMM_1_1CustomCentroidBondForce_1a8d8f774f67034ab2327f37bd9adf29d7" kindref="member">setBondParameters()</ref>. This will have no effect on Contexts that already exist unless you call <ref refid="classOpenMM_1_1CustomCentroidBondForce_1a01e593a787ed7aff2be7be200fe61e19" kindref="member">updateParametersInContext()</ref>.</para><para>As an example, the following code creates a <ref refid="classOpenMM_1_1CustomCentroidBondForce" kindref="compound">CustomCentroidBondForce</ref> that implements a harmonic force between the centers of mass of two groups of particles.</para><para><computeroutput><preformatted>
+CustomCentroidBondForce* force = new <ref refid="classOpenMM_1_1CustomCentroidBondForce" kindref="compound">CustomCentroidBondForce</ref>(2, &quot;0.5*k*distance(g1,g2)^2&quot;);
+force-&gt;addPerBondParameter(&quot;k&quot;);
+force-&gt;addGroup(particles1);
+force-&gt;addGroup(particles2);
+vector&lt;int&gt; bondGroups;
+bondGroups.push_back(0);
+bondGroups.push_back(1);
+vector&lt;double&gt; bondParameters;
+bondParameters.push_back(k);
+force-&gt;addBond(bondGroups, bondParameters);
+</preformatted></computeroutput></para><para>This class also has the ability to compute derivatives of the potential energy with respect to global parameters. Call <ref refid="classOpenMM_1_1CustomCentroidBondForce_1a3bc365bd1440b1788a8c5fa35f918436" kindref="member">addEnergyParameterDerivative()</ref> to request that the derivative with respect to a particular parameter be computed. You can then query its value in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> by calling getState() on it.</para><para>Expressions may involve the operators + (add), - (subtract), * (multiply), / (divide), and ^ (power), and the following functions: sqrt, exp, log, sin, cos, sec, csc, tan, cot, asin, acos, atan, atan2, sinh, cosh, tanh, erf, erfc, min, max, abs, floor, ceil, step, delta, select. All trigonometric functions are defined in radians, and log is the natural logarithm. step(x) = 0 if x is less than 0, 1 otherwise. delta(x) = 1 if x is 0, 0 otherwise. select(x,y,z) = z if x = 0, y otherwise.</para><para>In addition, you can call <ref refid="classOpenMM_1_1CustomCentroidBondForce_1aaab217d8235e6181362fd603d51f2a0e" kindref="member">addTabulatedFunction()</ref> to define a new function based on tabulated values. You specify the function by creating a <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> object. That function can then appear in the expression. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="126">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="125">
+        <label>OpenMM::CustomCentroidBondForce</label>
+        <link refid="classOpenMM_1_1CustomCentroidBondForce"/>
+        <childnode refid="126" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="128">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="127">
+        <label>OpenMM::CustomCentroidBondForce</label>
+        <link refid="classOpenMM_1_1CustomCentroidBondForce"/>
+        <childnode refid="128" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="115" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="115" bodyend="384"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1afe8b5eb1bc86cc9a9fe52959e70e1d13" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>addBond</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a3bc365bd1440b1788a8c5fa35f918436" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>addEnergyParameterDerivative</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1aecd453a07f1ba0d762613294ac34eff5" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>addGlobalParameter</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a0bf77e903f61aabea92abef077722ed5" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>addGroup</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1ac56c87eddf32e652aef3f154a6f375d5" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>addPerBondParameter</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1aaab217d8235e6181362fd603d51f2a0e" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>addTabulatedFunction</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a949d4015a0063e3bf36d664067d83232" prot="private" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>bondParameters</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1ab7807b0b72972e81e37a48a48c33ade6" prot="private" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>bonds</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a936bdd2cc163e7a0c35637e8194cc53c" prot="protected" virt="virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1ad733c40feb0cdf7035d2366254272239" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>CustomCentroidBondForce</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1ae313d6cc7b2613297fd2438b77bcf3ca" prot="private" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>energyExpression</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1ab1f2c058e1ea7b438d775065d2b34fec" prot="private" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>energyParameterDerivatives</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1aca7cbb9da30a3052e9228180839e70bd" prot="private" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>functions</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a856de3cec3b23d461e4b674f21f914a5" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getBondParameters</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a6bf5d5bc4cb0d9af1276a810edb6168a" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getEnergyFunction</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a5a2147fe87ad5ce21c7989dd00cfb08b" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getEnergyParameterDerivativeName</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1abd9c5b2633aff8dc6cdcbc7a476cd134" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getGlobalParameterDefaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1ac9ae91a4309e28f63d00ac13dcb24de1" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getGlobalParameterName</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a717a853d8449703d8a06aaffbf70040a" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getGroupParameters</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1aaeaa528e96d105c37c89a1fc2cc79053" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getNumBonds</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1ae027f4fbe98176b21e461d9ad128a1c3" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getNumEnergyParameterDerivatives</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a841497806b53145ccb845cee0db846e1" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getNumFunctions</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a85512d347e4c5464d8a175923e45634a" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getNumGlobalParameters</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a1a7308daae8defe541b695eab69ca1a4" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getNumGroups</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a2b738e8dbdd78aa154a1356774f20554" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getNumGroupsPerBond</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1aa38ee717cc9ce0a233d2d8b55b3154bf" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getNumPerBondParameters</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a25ed53fc4d5b50212bd0b17ac0aaf83f" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getNumTabulatedFunctions</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1afb540d0a93c564b921a02112a1f378cf" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getPerBondParameterName</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a4c6e269b4f423f781aa2dd7208d254ad" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getTabulatedFunction</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1aef21669670fae94fac6622bdcfeb2b39" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getTabulatedFunction</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1ab76150942817ce53b4bf8d7061e6f201" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>getTabulatedFunctionName</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1aa27a182e7fdcdbab6c04d9cb6ab53a70" prot="private" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>globalParameters</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a70367d012abe87ce50f99c35dcf0a75c" prot="private" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>groups</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1ab8d7efd548bef9b1162e4ce5f4604cd3" prot="private" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>groupsPerBond</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a8d8f774f67034ab2327f37bd9adf29d7" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>setBondParameters</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1aff75c39b1d217e4678f14473efb5cd2a" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>setEnergyFunction</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a11053c6fd304f240b121542a49e24c2b" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>setGlobalParameterDefaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a3c6cd3bb3d5700d9a189d59c6e3423b5" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>setGlobalParameterName</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a8bd220a5749321d94ccd3d1e8e34c254" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>setGroupParameters</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a4424a174b9be21ecb3088cc93e49ec75" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>setPerBondParameterName</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a8b8dca3283bcd933456773795df9373b" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>setUsesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a01e593a787ed7aff2be7be200fe61e19" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>updateParametersInContext</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a4dc7c8bef32933ce011b3120fd00966b" prot="private" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>usePeriodic</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a98885a113adccc72662c51acba651768" prot="public" virt="virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1a219ce11ecda7c82b9e262ca38018664f" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>~CustomCentroidBondForce</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::CustomCentroidBondForce</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="DrudeNoseHooverIntegrator_8h" kind="file" language="C++">
+    <compoundname>DrudeNoseHooverIntegrator.h</compoundname>
+    <includes refid="NoseHooverIntegrator_8h" local="yes">openmm/NoseHooverIntegrator.h</includes>
+    <includes local="yes">openmm/Kernel.h</includes>
+    <includes local="yes">openmm/internal/windowsExportDrude.h</includes>
+    <includedby refid="OpenMMDrude_8h" local="yes">/home/sam/github/openmm/plugins/drude/openmmapi/include/OpenMMDrude.h</includedby>
+    <incdepgraph>
+      <node id="861">
+        <label>Integrator.h</label>
+        <link refid="Integrator_8h_source"/>
+        <childnode refid="862" relation="include">
+        </childnode>
+        <childnode refid="863" relation="include">
+        </childnode>
+        <childnode refid="866" relation="include">
+        </childnode>
+        <childnode refid="868" relation="include">
+        </childnode>
+        <childnode refid="869" relation="include">
+        </childnode>
+      </node>
+      <node id="869">
+        <label>internal/windowsExport.h</label>
+      </node>
+      <node id="864">
+        <label>cassert</label>
+      </node>
+      <node id="870">
+        <label>openmm/Kernel.h</label>
+      </node>
+      <node id="867">
+        <label>string</label>
+      </node>
+      <node id="866">
+        <label>map</label>
+      </node>
+      <node id="874">
+        <label>exception</label>
+      </node>
+      <node id="859">
+        <label>/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h</label>
+        <link refid="DrudeNoseHooverIntegrator_8h"/>
+        <childnode refid="860" relation="include">
+        </childnode>
+        <childnode refid="870" relation="include">
+        </childnode>
+        <childnode refid="876" relation="include">
+        </childnode>
+      </node>
+      <node id="860">
+        <label>openmm/NoseHooverIntegrator.h</label>
+        <link refid="NoseHooverIntegrator_8h_source"/>
+        <childnode refid="861" relation="include">
+        </childnode>
+        <childnode refid="862" relation="include">
+        </childnode>
+        <childnode refid="870" relation="include">
+        </childnode>
+        <childnode refid="871" relation="include">
+        </childnode>
+        <childnode refid="869" relation="include">
+        </childnode>
+        <childnode refid="875" relation="include">
+        </childnode>
+      </node>
+      <node id="875">
+        <label>tuple</label>
+      </node>
+      <node id="868">
+        <label>vector</label>
+      </node>
+      <node id="873">
+        <label>openmm/OpenMMException.h</label>
+        <link refid="OpenMMException_8h_source"/>
+        <childnode refid="874" relation="include">
+        </childnode>
+        <childnode refid="867" relation="include">
+        </childnode>
+      </node>
+      <node id="871">
+        <label>NoseHooverChain.h</label>
+        <link refid="NoseHooverChain_8h_source"/>
+        <childnode refid="872" relation="include">
+        </childnode>
+        <childnode refid="867" relation="include">
+        </childnode>
+        <childnode refid="868" relation="include">
+        </childnode>
+        <childnode refid="873" relation="include">
+        </childnode>
+        <childnode refid="869" relation="include">
+        </childnode>
+      </node>
+      <node id="865">
+        <label>iosfwd</label>
+      </node>
+      <node id="862">
+        <label>State.h</label>
+        <link refid="State_8h_source"/>
+        <childnode refid="863" relation="include">
+        </childnode>
+        <childnode refid="866" relation="include">
+        </childnode>
+        <childnode refid="867" relation="include">
+        </childnode>
+        <childnode refid="868" relation="include">
+        </childnode>
+        <childnode refid="869" relation="include">
+        </childnode>
+      </node>
+      <node id="872">
+        <label>openmm/Force.h</label>
+        <link refid="Force_8h_source"/>
+        <childnode refid="869" relation="include">
+        </childnode>
+      </node>
+      <node id="863">
+        <label>Vec3.h</label>
+        <link refid="Vec3_8h_source"/>
+        <childnode refid="864" relation="include">
+        </childnode>
+        <childnode refid="865" relation="include">
+        </childnode>
+      </node>
+      <node id="876">
+        <label>openmm/internal/windowsExportDrude.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="877">
+        <label>/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h</label>
+        <link refid="DrudeNoseHooverIntegrator_8h"/>
+        <childnode refid="878" relation="include">
+        </childnode>
+      </node>
+      <node id="878">
+        <label>/home/sam/github/openmm/plugins/drude/openmmapi/include/OpenMMDrude.h</label>
+        <link refid="OpenMMDrude_8h_source"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classOpenMM_1_1DrudeNoseHooverIntegrator" prot="public">OpenMM::DrudeNoseHooverIntegrator</innerclass>
+    <innernamespace refid="namespaceOpenMM">OpenMM</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h"/>
+  </compounddef>
+</doxygen>

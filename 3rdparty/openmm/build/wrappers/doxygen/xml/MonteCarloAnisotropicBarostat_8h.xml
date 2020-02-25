@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="MonteCarloAnisotropicBarostat_8h" kind="file" language="C++">
+    <compoundname>MonteCarloAnisotropicBarostat.h</compoundname>
+    <includes refid="Force_8h" local="yes">Force.h</includes>
+    <includes refid="Vec3_8h" local="yes">Vec3.h</includes>
+    <includes local="no">string</includes>
+    <includes local="yes">internal/windowsExport.h</includes>
+    <includedby refid="OpenMM_8h" local="yes">/home/sam/github/openmm/openmmapi/include/OpenMM.h</includedby>
+    <incdepgraph>
+      <node id="404">
+        <label>internal/windowsExport.h</label>
+      </node>
+      <node id="406">
+        <label>cassert</label>
+      </node>
+      <node id="408">
+        <label>string</label>
+      </node>
+      <node id="402">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/MonteCarloAnisotropicBarostat.h</label>
+        <link refid="MonteCarloAnisotropicBarostat_8h"/>
+        <childnode refid="403" relation="include">
+        </childnode>
+        <childnode refid="405" relation="include">
+        </childnode>
+        <childnode refid="408" relation="include">
+        </childnode>
+        <childnode refid="404" relation="include">
+        </childnode>
+      </node>
+      <node id="407">
+        <label>iosfwd</label>
+      </node>
+      <node id="403">
+        <label>Force.h</label>
+        <link refid="Force_8h"/>
+        <childnode refid="404" relation="include">
+        </childnode>
+      </node>
+      <node id="405">
+        <label>Vec3.h</label>
+        <link refid="Vec3_8h"/>
+        <childnode refid="406" relation="include">
+        </childnode>
+        <childnode refid="407" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="410">
+        <label>/home/sam/github/openmm/openmmapi/include/OpenMM.h</label>
+        <link refid="OpenMM_8h"/>
+      </node>
+      <node id="409">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/MonteCarloAnisotropicBarostat.h</label>
+        <link refid="MonteCarloAnisotropicBarostat_8h"/>
+        <childnode refid="410" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classOpenMM_1_1MonteCarloAnisotropicBarostat" prot="public">OpenMM::MonteCarloAnisotropicBarostat</innerclass>
+    <innernamespace refid="namespaceOpenMM">OpenMM</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/MonteCarloAnisotropicBarostat.h"/>
+  </compounddef>
+</doxygen>

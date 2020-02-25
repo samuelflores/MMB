@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1TwoParticleAverageSite" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::TwoParticleAverageSite</compoundname>
+    <basecompoundref refid="classOpenMM_1_1VirtualSite" prot="public" virt="non-virtual">OpenMM::VirtualSite</basecompoundref>
+    <includes refid="VirtualSite_8h" local="no">VirtualSite.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1TwoParticleAverageSite_1a333c6804f28170229d1068311c194c03" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::TwoParticleAverageSite::weight1</definition>
+        <argsstring></argsstring>
+        <name>weight1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="96" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1TwoParticleAverageSite_1aa0c26c516861b3e4d40c48ece8e68dca" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::TwoParticleAverageSite::weight2</definition>
+        <argsstring></argsstring>
+        <name>weight2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="96" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1TwoParticleAverageSite_1a91fe9d8060a89fa552fb8e9e1ba8141e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::TwoParticleAverageSite::TwoParticleAverageSite</definition>
+        <argsstring>(int particle1, int particle2, double weight1, double weight2)</argsstring>
+        <name>TwoParticleAverageSite</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new <ref refid="classOpenMM_1_1TwoParticleAverageSite" kindref="compound">TwoParticleAverageSite</ref> virtual site. Normally weight1 and weight2 should add up to 1, although this is not strictly required.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factor (between 0 and 1) for the first particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factor (between 0 and 1) for the second particle </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="87" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1TwoParticleAverageSite_1ae9613950dc3ed916d7bf08b71b0e5211" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::TwoParticleAverageSite::getWeight</definition>
+        <argsstring>(int particle) const</argsstring>
+        <name>getWeight</name>
+        <param>
+          <type>int</type>
+          <declname>particle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weight factor used for a particle this virtual site depends on.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle to get (between 0 and <ref refid="classOpenMM_1_1VirtualSite_1a4e228a080c51c677a3d79772c2615c1a" kindref="member">getNumParticles()</ref>) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the weight factor used for that particle </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="94" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is a <ref refid="classOpenMM_1_1VirtualSite" kindref="compound">VirtualSite</ref> that computes the particle location as a weighted average of two other particle&apos;s locations. Assuming the weights add up to 1, this means the virtual site is on the line passing through the two particles. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="490">
+        <label>OpenMM::TwoParticleAverageSite</label>
+        <link refid="classOpenMM_1_1TwoParticleAverageSite"/>
+        <childnode refid="491" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="491">
+        <label>OpenMM::VirtualSite</label>
+        <link refid="classOpenMM_1_1VirtualSite"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="492">
+        <label>OpenMM::TwoParticleAverageSite</label>
+        <link refid="classOpenMM_1_1TwoParticleAverageSite"/>
+        <childnode refid="493" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="493">
+        <label>OpenMM::VirtualSite</label>
+        <link refid="classOpenMM_1_1VirtualSite"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="76" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="76" bodyend="97"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1VirtualSite_1a4e228a080c51c677a3d79772c2615c1a" prot="public" virt="non-virtual"><scope>OpenMM::TwoParticleAverageSite</scope><name>getNumParticles</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1a7c6b5b8eaac689ede4cd831e26c032f9" prot="public" virt="non-virtual"><scope>OpenMM::TwoParticleAverageSite</scope><name>getParticle</name></member>
+      <member refid="classOpenMM_1_1TwoParticleAverageSite_1ae9613950dc3ed916d7bf08b71b0e5211" prot="public" virt="non-virtual"><scope>OpenMM::TwoParticleAverageSite</scope><name>getWeight</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1ace9d369cb1809df040f5025c43ef2c0d" prot="protected" virt="non-virtual"><scope>OpenMM::TwoParticleAverageSite</scope><name>setParticles</name></member>
+      <member refid="classOpenMM_1_1TwoParticleAverageSite_1a91fe9d8060a89fa552fb8e9e1ba8141e" prot="public" virt="non-virtual"><scope>OpenMM::TwoParticleAverageSite</scope><name>TwoParticleAverageSite</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1a565dfbb5e6a82a2337f2710c13825483" prot="protected" virt="non-virtual"><scope>OpenMM::TwoParticleAverageSite</scope><name>VirtualSite</name></member>
+      <member refid="classOpenMM_1_1TwoParticleAverageSite_1a333c6804f28170229d1068311c194c03" prot="private" virt="non-virtual"><scope>OpenMM::TwoParticleAverageSite</scope><name>weight1</name></member>
+      <member refid="classOpenMM_1_1TwoParticleAverageSite_1aa0c26c516861b3e4d40c48ece8e68dca" prot="private" virt="non-virtual"><scope>OpenMM::TwoParticleAverageSite</scope><name>weight2</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1aeb160de3c491a0cb742a7c72bfc3fd1d" prot="public" virt="virtual"><scope>OpenMM::TwoParticleAverageSite</scope><name>~VirtualSite</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

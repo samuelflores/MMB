@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomManyParticleForce_1_1FunctionInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomManyParticleForce::FunctionInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomManyParticleForce_1_1FunctionInfo_1a67afe650132bbcc3a1eb3a7848cce200" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomManyParticleForce::FunctionInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="559" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="559" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomManyParticleForce_1_1FunctionInfo_1a4af4bf07e839f35bfc69f1d3ffaebaa2" prot="public" static="no" mutable="no">
+        <type><ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> *</type>
+        <definition>TabulatedFunction* OpenMM::CustomManyParticleForce::FunctionInfo::function</definition>
+        <argsstring></argsstring>
+        <name>function</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="560" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="560" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomManyParticleForce_1_1FunctionInfo_1a4dd71742e1ce539b51faa0fd7c674ea9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomManyParticleForce::FunctionInfo::FunctionInfo</definition>
+        <argsstring>()</argsstring>
+        <name>FunctionInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="561" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="561" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomManyParticleForce_1_1FunctionInfo_1aae0e7f3e4366e1df0a88ae60e3676e36" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomManyParticleForce::FunctionInfo::FunctionInfo</definition>
+        <argsstring>(const std::string &amp;name, TabulatedFunction *function)</argsstring>
+        <name>FunctionInfo</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> *</type>
+          <declname>function</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="563" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="563" bodyend="564"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a tabulated function. </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="279">
+        <label>OpenMM::TabulatedFunction</label>
+        <link refid="classOpenMM_1_1TabulatedFunction"/>
+      </node>
+      <node id="278">
+        <label>OpenMM::CustomManyParticleForce::FunctionInfo</label>
+        <childnode refid="279" relation="usage">
+          <edgelabel>function</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="557" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="557" bodyend="565"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1FunctionInfo_1a4af4bf07e839f35bfc69f1d3ffaebaa2" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::FunctionInfo</scope><name>function</name></member>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1FunctionInfo_1a4dd71742e1ce539b51faa0fd7c674ea9" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::FunctionInfo</scope><name>FunctionInfo</name></member>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1FunctionInfo_1aae0e7f3e4366e1df0a88ae60e3676e36" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::FunctionInfo</scope><name>FunctionInfo</name></member>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1FunctionInfo_1a67afe650132bbcc3a1eb3a7848cce200" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::FunctionInfo</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

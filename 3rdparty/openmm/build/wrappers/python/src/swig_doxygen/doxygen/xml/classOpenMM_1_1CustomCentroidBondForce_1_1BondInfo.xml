@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomCentroidBondForce_1_1BondInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomCentroidBondForce::BondInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCentroidBondForce_1_1BondInfo_1a743b2341529be75ff0bb9b32c2fa1e63" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; OpenMM::CustomCentroidBondForce::BondInfo::groups</definition>
+        <argsstring></argsstring>
+        <name>groups</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="407" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCentroidBondForce_1_1BondInfo_1a21a9c67d8e3f729cbb756fbdf303e3ea" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::CustomCentroidBondForce::BondInfo::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="408" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1_1BondInfo_1a50a8b3a7e62c552293de9281ea532193" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCentroidBondForce::BondInfo::BondInfo</definition>
+        <argsstring>()</argsstring>
+        <name>BondInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="409" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="409" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCentroidBondForce_1_1BondInfo_1ac6471375081fe82348e5a194bfd17beb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCentroidBondForce::BondInfo::BondInfo</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;groups, const std::vector&lt; double &gt; &amp;parameters)</argsstring>
+        <name>BondInfo</name>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>groups</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="411" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="411" bodyend="413"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a bond. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" line="405" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCentroidBondForce.h" bodystart="405" bodyend="414"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1_1BondInfo_1a50a8b3a7e62c552293de9281ea532193" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce::BondInfo</scope><name>BondInfo</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1_1BondInfo_1ac6471375081fe82348e5a194bfd17beb" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce::BondInfo</scope><name>BondInfo</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1_1BondInfo_1a743b2341529be75ff0bb9b32c2fa1e63" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce::BondInfo</scope><name>groups</name></member>
+      <member refid="classOpenMM_1_1CustomCentroidBondForce_1_1BondInfo_1a21a9c67d8e3f729cbb756fbdf303e3ea" prot="public" virt="non-virtual"><scope>OpenMM::CustomCentroidBondForce::BondInfo</scope><name>parameters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

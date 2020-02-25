@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::AmoebaAngleForce::AngleInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a7d812f1017dcc4b8ab24086b20afa003" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaAngleForce::AngleInfo::particle1</definition>
+        <argsstring></argsstring>
+        <name>particle1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" line="196" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a24a661696626f16103691290ddbeddfc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaAngleForce::AngleInfo::particle2</definition>
+        <argsstring></argsstring>
+        <name>particle2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" line="196" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a17d19c700243ccc474db81cee28d3577" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaAngleForce::AngleInfo::particle3</definition>
+        <argsstring></argsstring>
+        <name>particle3</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" line="196" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a66b95ea3e67e8ea19157b36b6734af46" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaAngleForce::AngleInfo::length</definition>
+        <argsstring></argsstring>
+        <name>length</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" line="197" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a59ac3d230137455f836f9713d2ffded5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaAngleForce::AngleInfo::quadraticK</definition>
+        <argsstring></argsstring>
+        <name>quadraticK</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" line="197" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a2053f6c2f6a77c42ba3503e0bbf41fce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::AmoebaAngleForce::AngleInfo::AngleInfo</definition>
+        <argsstring>()</argsstring>
+        <name>AngleInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" line="198" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" bodystart="198" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a5a199f684bd1e004c387a79233b6fec0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::AmoebaAngleForce::AngleInfo::AngleInfo</definition>
+        <argsstring>(int particle1, int particle2, int particle3, double length, double quadraticK)</argsstring>
+        <name>AngleInfo</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>quadraticK</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" line="202" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" bodystart="202" bodyend="204"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about an angle. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" line="194" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h" bodystart="194" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a2053f6c2f6a77c42ba3503e0bbf41fce" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaAngleForce::AngleInfo</scope><name>AngleInfo</name></member>
+      <member refid="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a5a199f684bd1e004c387a79233b6fec0" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaAngleForce::AngleInfo</scope><name>AngleInfo</name></member>
+      <member refid="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a66b95ea3e67e8ea19157b36b6734af46" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaAngleForce::AngleInfo</scope><name>length</name></member>
+      <member refid="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a7d812f1017dcc4b8ab24086b20afa003" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaAngleForce::AngleInfo</scope><name>particle1</name></member>
+      <member refid="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a24a661696626f16103691290ddbeddfc" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaAngleForce::AngleInfo</scope><name>particle2</name></member>
+      <member refid="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a17d19c700243ccc474db81cee28d3577" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaAngleForce::AngleInfo</scope><name>particle3</name></member>
+      <member refid="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo_1a59ac3d230137455f836f9713d2ffded5" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaAngleForce::AngleInfo</scope><name>quadraticK</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

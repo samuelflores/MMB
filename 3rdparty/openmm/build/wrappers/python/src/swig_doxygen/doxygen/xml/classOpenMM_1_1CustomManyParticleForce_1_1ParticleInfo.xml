@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomManyParticleForce_1_1ParticleInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomManyParticleForce::ParticleInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomManyParticleForce_1_1ParticleInfo_1a129b2714996ecb200cd399a0599a7dfa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::CustomManyParticleForce::ParticleInfo::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="503" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="503" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomManyParticleForce_1_1ParticleInfo_1a595981fe02fb7cab5e2b312048c8b8a4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CustomManyParticleForce::ParticleInfo::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="504" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="504" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomManyParticleForce_1_1ParticleInfo_1ad2dcf598e031046b64518612f8b659c5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomManyParticleForce::ParticleInfo::ParticleInfo</definition>
+        <argsstring>()</argsstring>
+        <name>ParticleInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="505" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="505" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomManyParticleForce_1_1ParticleInfo_1a7913102c03a0fe7dc7f4d143de279d31" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomManyParticleForce::ParticleInfo::ParticleInfo</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;parameters, int type)</argsstring>
+        <name>ParticleInfo</name>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="507" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="507" bodyend="508"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a particle. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="501" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="501" bodyend="509"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1ParticleInfo_1a129b2714996ecb200cd399a0599a7dfa" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::ParticleInfo</scope><name>parameters</name></member>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1ParticleInfo_1ad2dcf598e031046b64518612f8b659c5" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::ParticleInfo</scope><name>ParticleInfo</name></member>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1ParticleInfo_1a7913102c03a0fe7dc7f4d143de279d31" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::ParticleInfo</scope><name>ParticleInfo</name></member>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1ParticleInfo_1a595981fe02fb7cab5e2b312048c8b8a4" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::ParticleInfo</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1ThreeParticleAverageSite" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::ThreeParticleAverageSite</compoundname>
+    <basecompoundref refid="classOpenMM_1_1VirtualSite" prot="public" virt="non-virtual">OpenMM::VirtualSite</basecompoundref>
+    <includes refid="VirtualSite_8h" local="no">VirtualSite.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1ThreeParticleAverageSite_1a372a957b4dcfa01ef9cbf1a89b3c5270" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::ThreeParticleAverageSite::weight1</definition>
+        <argsstring></argsstring>
+        <name>weight1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="126" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1ThreeParticleAverageSite_1a14000dcc5f03cf2d52754a7805be13ce" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::ThreeParticleAverageSite::weight2</definition>
+        <argsstring></argsstring>
+        <name>weight2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="126" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1ThreeParticleAverageSite_1a2e2c7cdf17cf525bc60302b44777c41b" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::ThreeParticleAverageSite::weight3</definition>
+        <argsstring></argsstring>
+        <name>weight3</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="126" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1ThreeParticleAverageSite_1ac226f4dd43459240d4b424dd95ba8026" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::ThreeParticleAverageSite::ThreeParticleAverageSite</definition>
+        <argsstring>(int particle1, int particle2, int particle3, double weight1, double weight2, double weight3)</argsstring>
+        <name>ThreeParticleAverageSite</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight3</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new <ref refid="classOpenMM_1_1ThreeParticleAverageSite" kindref="compound">ThreeParticleAverageSite</ref> virtual site. Normally the weights should add up to 1, although this is not strictly required.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factor (between 0 and 1) for the first particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factor (between 0 and 1) for the second particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factor (between 0 and 1) for the third particle </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="117" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1ThreeParticleAverageSite_1adccb4050ea0f69dea2cd4fa19038f8e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::ThreeParticleAverageSite::getWeight</definition>
+        <argsstring>(int particle) const</argsstring>
+        <name>getWeight</name>
+        <param>
+          <type>int</type>
+          <declname>particle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weight factor used for a particle this virtual site depends on.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle to get (between 0 and <ref refid="classOpenMM_1_1VirtualSite_1a4e228a080c51c677a3d79772c2615c1a" kindref="member">getNumParticles()</ref>) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the weight factor used for that particle </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="124" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is a <ref refid="classOpenMM_1_1VirtualSite" kindref="compound">VirtualSite</ref> that computes the particle location as a weighted average of three other particle&apos;s locations. Assuming the weights add up to 1, this means the virtual site is in the plane of the three particles. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="353">
+        <label>OpenMM::ThreeParticleAverageSite</label>
+        <link refid="classOpenMM_1_1ThreeParticleAverageSite"/>
+        <childnode refid="354" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="354">
+        <label>OpenMM::VirtualSite</label>
+        <link refid="classOpenMM_1_1VirtualSite"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="355">
+        <label>OpenMM::ThreeParticleAverageSite</label>
+        <link refid="classOpenMM_1_1ThreeParticleAverageSite"/>
+        <childnode refid="356" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="356">
+        <label>OpenMM::VirtualSite</label>
+        <link refid="classOpenMM_1_1VirtualSite"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="104" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="104" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1VirtualSite_1a4e228a080c51c677a3d79772c2615c1a" prot="public" virt="non-virtual"><scope>OpenMM::ThreeParticleAverageSite</scope><name>getNumParticles</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1a7c6b5b8eaac689ede4cd831e26c032f9" prot="public" virt="non-virtual"><scope>OpenMM::ThreeParticleAverageSite</scope><name>getParticle</name></member>
+      <member refid="classOpenMM_1_1ThreeParticleAverageSite_1adccb4050ea0f69dea2cd4fa19038f8e8" prot="public" virt="non-virtual"><scope>OpenMM::ThreeParticleAverageSite</scope><name>getWeight</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1ace9d369cb1809df040f5025c43ef2c0d" prot="protected" virt="non-virtual"><scope>OpenMM::ThreeParticleAverageSite</scope><name>setParticles</name></member>
+      <member refid="classOpenMM_1_1ThreeParticleAverageSite_1ac226f4dd43459240d4b424dd95ba8026" prot="public" virt="non-virtual"><scope>OpenMM::ThreeParticleAverageSite</scope><name>ThreeParticleAverageSite</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1a565dfbb5e6a82a2337f2710c13825483" prot="protected" virt="non-virtual"><scope>OpenMM::ThreeParticleAverageSite</scope><name>VirtualSite</name></member>
+      <member refid="classOpenMM_1_1ThreeParticleAverageSite_1a372a957b4dcfa01ef9cbf1a89b3c5270" prot="private" virt="non-virtual"><scope>OpenMM::ThreeParticleAverageSite</scope><name>weight1</name></member>
+      <member refid="classOpenMM_1_1ThreeParticleAverageSite_1a14000dcc5f03cf2d52754a7805be13ce" prot="private" virt="non-virtual"><scope>OpenMM::ThreeParticleAverageSite</scope><name>weight2</name></member>
+      <member refid="classOpenMM_1_1ThreeParticleAverageSite_1a2e2c7cdf17cf525bc60302b44777c41b" prot="private" virt="non-virtual"><scope>OpenMM::ThreeParticleAverageSite</scope><name>weight3</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1aeb160de3c491a0cb742a7c72bfc3fd1d" prot="public" virt="virtual"><scope>OpenMM::ThreeParticleAverageSite</scope><name>~VirtualSite</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

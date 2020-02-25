@@ -1,0 +1,304 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1DrudeNoseHooverIntegrator" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::DrudeNoseHooverIntegrator</compoundname>
+    <basecompoundref refid="classOpenMM_1_1NoseHooverIntegrator" prot="public" virt="non-virtual">OpenMM::NoseHooverIntegrator</basecompoundref>
+    <includes refid="DrudeNoseHooverIntegrator_8h" local="no">DrudeNoseHooverIntegrator.h</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1DrudeNoseHooverIntegrator_1aaa7aa11fb20530100d10428c52982582" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::DrudeNoseHooverIntegrator::DrudeNoseHooverIntegrator</definition>
+        <argsstring>(double temperature, double collisionFrequency, double drudeTemperature, double drudeCollisionFrequency, double stepSize, int chainLength=3, int numMTS=3, int numYoshidaSuzuki=3)</argsstring>
+        <name>DrudeNoseHooverIntegrator</name>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>collisionFrequency</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>drudeTemperature</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>drudeCollisionFrequency</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>stepSize</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chainLength</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numMTS</declname>
+          <defval>3</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numYoshidaSuzuki</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1DrudeNoseHooverIntegrator" kindref="compound">DrudeNoseHooverIntegrator</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the target temperature for the system (in Kelvin). </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collisionFrequency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the frequency of the system&apos;s interaction with the heat bath (in inverse picoseconds). </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>drudeTemperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the target temperature for the Drude particles, relative to their parent atom (in Kelvin). </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>drudeCollisionFrequency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the frequency of the drude particles&apos; interaction with the heat bath (in inverse picoseconds). </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stepSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the step size with which to integrator the system (in picoseconds) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chainLength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of beads in the Nose-Hoover chain. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numMTS</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of step in the multiple time step chain propagation algorithm. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numYoshidaSuzuki</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of terms in the Yoshida-Suzuki multi time step decomposition used in the chain propagation algorithm (must be 1, 3, or 5). </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h" line="67" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1DrudeNoseHooverIntegrator_1a75fb15fcdd62bac3ab2ca9850496daa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual OpenMM::DrudeNoseHooverIntegrator::~DrudeNoseHooverIntegrator</definition>
+        <argsstring>()</argsstring>
+        <name>~DrudeNoseHooverIntegrator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h" line="71" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1DrudeNoseHooverIntegrator_1af05dc0a89eaad2f49481661913e2a239" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void OpenMM::DrudeNoseHooverIntegrator::initialize</definition>
+        <argsstring>(ContextImpl &amp;context)</argsstring>
+        <name>initialize</name>
+        <reimplements refid="classOpenMM_1_1NoseHooverIntegrator_1a7bab1db09da3b78c9f0dd209ef8877be">initialize</reimplements>
+        <param>
+          <type>ContextImpl &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This will be called by the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> when it is created. It informs the <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> of what context it will be integrating, and gives it a chance to do any necessary initialization. It will also get called again if the application calls reinitialize() on the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h" line="77" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1DrudeNoseHooverIntegrator_1a6e63ece21d755a0c555e1acad2d0e592" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::DrudeNoseHooverIntegrator::getMaxDrudeDistance</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaxDrudeDistance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the maximum distance a Drude particle can ever move from its parent particle, measured in nm. This is implemented with a hard wall constraint. If this distance is set to 0 (the default), the hard wall constraint is omitted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h" line="82" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1DrudeNoseHooverIntegrator_1aa1add98b8db2fe72405bc5b54a3caabd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::DrudeNoseHooverIntegrator::setMaxDrudeDistance</definition>
+        <argsstring>(double distance)</argsstring>
+        <name>setMaxDrudeDistance</name>
+        <param>
+          <type>double</type>
+          <declname>distance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the maximum distance a Drude particle can ever move from its parent particle, measured in nm. This is implemented with a hard wall constraint. If this distance is set to 0 (the default), the hard wall constraint is omitted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h" line="87" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1DrudeNoseHooverIntegrator_1ad5e7586752f79fc93dd0d1dd238657cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::DrudeNoseHooverIntegrator::computeDrudeKineticEnergy</definition>
+        <argsstring>()</argsstring>
+        <name>computeDrudeKineticEnergy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute the kinetic energy of the drude particles at the current time. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h" line="91" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1DrudeNoseHooverIntegrator_1ab3775188a3acd9f06142d17fd6f46015" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::DrudeNoseHooverIntegrator::computeTotalKineticEnergy</definition>
+        <argsstring>()</argsstring>
+        <name>computeTotalKineticEnergy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute the kinetic energy of all (real and drude) particles at the current time. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h" line="95" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> simulates systems that include Drude particles. It applies two different Nose-Hoover chain thermostats to the different parts of the system. The first is applied to ordinary particles (ones that are not part of a Drude particle pair), as well as to the center of mass of each Drude particle pair. A second thermostat, typically with a much lower temperature, is applied to the relative internal displacement of each pair.</para><para>This <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> requires the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> to include a <ref refid="classOpenMM_1_1DrudeForce" kindref="compound">DrudeForce</ref>, which it uses to identify the Drude particles. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="189">
+        <label>OpenMM::Integrator</label>
+        <link refid="classOpenMM_1_1Integrator"/>
+      </node>
+      <node id="187">
+        <label>OpenMM::DrudeNoseHooverIntegrator</label>
+        <link refid="classOpenMM_1_1DrudeNoseHooverIntegrator"/>
+        <childnode refid="188" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="188">
+        <label>OpenMM::NoseHooverIntegrator</label>
+        <link refid="classOpenMM_1_1NoseHooverIntegrator"/>
+        <childnode refid="189" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="192">
+        <label>OpenMM::Integrator</label>
+        <link refid="classOpenMM_1_1Integrator"/>
+        <childnode refid="193" relation="usage">
+          <edgelabel>owner</edgelabel>
+        </childnode>
+      </node>
+      <node id="193">
+        <label>OpenMM::Context</label>
+        <link refid="classOpenMM_1_1Context"/>
+      </node>
+      <node id="190">
+        <label>OpenMM::DrudeNoseHooverIntegrator</label>
+        <link refid="classOpenMM_1_1DrudeNoseHooverIntegrator"/>
+        <childnode refid="191" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="191">
+        <label>OpenMM::NoseHooverIntegrator</label>
+        <link refid="classOpenMM_1_1NoseHooverIntegrator"/>
+        <childnode refid="192" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h" line="52" column="1" bodyfile="/home/sam/github/openmm/plugins/drude/openmmapi/include/openmm/DrudeNoseHooverIntegrator.h" bodystart="52" bodyend="96"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a88c5d4ae3875d20c24b1bfa734d58d8f" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>addSubsystemThermostat</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1aecd3227c80df2fa12047c85014ff7900" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>addThermostat</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a7195ce135088acae666d23876bf10003" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>allAtoms</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1ab61eebd194e982b44278eefc9ea86e34" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>allPairs</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a6c6f9d7e8cc31ed8082d59a38a025ab7" prot="protected" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>cleanup</name></member>
+      <member refid="classOpenMM_1_1DrudeNoseHooverIntegrator_1ad5e7586752f79fc93dd0d1dd238657cf" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>computeDrudeKineticEnergy</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1ac39bc7e416ab5c4ac0b4da979e0dfba0" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>computeHeatBathEnergy</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a487fb10e05f95bacf7d644f8dda0cebf" prot="protected" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>computeKineticEnergy</name></member>
+      <member refid="classOpenMM_1_1DrudeNoseHooverIntegrator_1ab3775188a3acd9f06142d17fd6f46015" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>computeTotalKineticEnergy</name></member>
+      <member refid="classOpenMM_1_1Integrator_1ac9c1c07848ae2c2e8617a949a11070c1" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>context</name></member>
+      <member refid="classOpenMM_1_1DrudeNoseHooverIntegrator_1aaa7aa11fb20530100d10428c52982582" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>DrudeNoseHooverIntegrator</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a5832a929f256c57790f14b0fbaee9fac" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>forcesAreValid</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a7c5009d764b41b40bfc850794efde430" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getAllThermostatedIndividualParticles</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a16363bae51aaf97f522cf9109f7604d2" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getAllThermostatedPairs</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a0f567542ec2ea2172f9909ca1e0e32fe" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getCollisionFrequency</name></member>
+      <member refid="classOpenMM_1_1Integrator_1af742feb7b5b9adfcb259bf2dbc9319c4" prot="public" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getConstraintTolerance</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a289edef4759ca0e370eb05b02197964c" prot="protected" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getKernelNames</name></member>
+      <member refid="classOpenMM_1_1DrudeNoseHooverIntegrator_1a6e63ece21d755a0c555e1acad2d0e592" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getMaxDrudeDistance</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1af3a3ffee3ec72d22a8953a06ab3afd1c" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getMaximumPairDistance</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a92af0fb030086dfca8a0e603e90fc5ab" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getNumThermostats</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a1e53589f9c707c39c96c2e4f767f6aa7" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getRelativeCollisionFrequency</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a0e946bf7508ba846620e07855a69fccf" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getRelativeTemperature</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a880821318aee5b25b02f0929887825c1" prot="public" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getStepSize</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a608f1d7c3220277de95da8e02432447a" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getTemperature</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a28f6c608a3069d4d2cffdd2f90d1ad38" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>getThermostat</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a94ad4fddc295c1525bedb8a679447c70" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>hasSubsystemThermostats</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a10000230cb55a056e4baf76724a74131" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>hasSubsystemThermostats_</name></member>
+      <member refid="classOpenMM_1_1DrudeNoseHooverIntegrator_1af05dc0a89eaad2f49481661913e2a239" prot="public" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>initialize</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a7a5e9c6286c4fadd6b6124612066382c" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>initializeThermostats</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a2732506bfb2afd8e2e9954d08cab1304" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>Integrator</name></member>
+      <member refid="classOpenMM_1_1Integrator_1ad61399ae80cda00231dd5d573cfd30e8" prot="protected" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>kineticEnergyRequiresForce</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1ad1b75ba3e9de93b032464c2ab9d9b45e" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>maxPairDistance_</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1ab16f5dd785ebf5176a283771a825ed9d" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>nhcKernel</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a718e52d0bb78e3bab69fb9b8da092c08" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>noseHooverChains</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1ae647d228bdf8461b9bbfe120fac5461c" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>NoseHooverIntegrator</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a9cd7e44519b1ce9cb4e302df5be5537b" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>NoseHooverIntegrator</name></member>
+      <member refid="classOpenMM_1_1Integrator_1ab3f6088553343feb8f47ab789e7a09a1" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>owner</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a9f53da6e39cb3cd62907d0c9b12867de" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>propagateChain</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1abb062d72fdca2a95d5acea2bcb271673" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>setCollisionFrequency</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a47f81ac027670bcad6050c72cc41bd67" prot="public" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>setConstraintTolerance</name></member>
+      <member refid="classOpenMM_1_1DrudeNoseHooverIntegrator_1aa1add98b8db2fe72405bc5b54a3caabd" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>setMaxDrudeDistance</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a5b922bb9c4be0a54efcb285595b8d7fd" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>setMaximumPairDistance</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a24859f9f242735d3e0cd95297071dad2" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>setRelativeCollisionFrequency</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1add53341cedc70038951a9f2405b367f2" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>setRelativeTemperature</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a86ef00f4e3abb9e3e325e3c4ebe5ead1" prot="public" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>setStepSize</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a083159fe2b0c510d6e70c358ae006982" prot="public" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>setTemperature</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1aeef7904516c08f431be8d5baa7bc4562" prot="public" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>stateChanged</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1ac33d58e470981fa34164dc4ee73c0966" prot="public" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>step</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a91c62784e4a40b0b4d2fc3f7f493e67c" prot="protected" virt="non-virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>vvKernel</name></member>
+      <member refid="classOpenMM_1_1DrudeNoseHooverIntegrator_1a75fb15fcdd62bac3ab2ca9850496daa3" prot="public" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>~DrudeNoseHooverIntegrator</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a9abbef84d9e2c4e5a3d3139f8fa84fff" prot="public" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>~Integrator</name></member>
+      <member refid="classOpenMM_1_1NoseHooverIntegrator_1a0bcda23020384a7c2cdc6b7529467a24" prot="public" virt="virtual"><scope>OpenMM::DrudeNoseHooverIntegrator</scope><name>~NoseHooverIntegrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

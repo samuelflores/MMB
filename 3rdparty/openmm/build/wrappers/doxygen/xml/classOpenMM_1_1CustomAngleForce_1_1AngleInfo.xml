@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomAngleForce_1_1AngleInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomAngleForce::AngleInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1acc504d11f9df045acacadc26bd57ab8c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CustomAngleForce::AngleInfo::particle1</definition>
+        <argsstring></argsstring>
+        <name>particle1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" line="266" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1aa6ea025284a733f5901ecdcd43bb49b6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CustomAngleForce::AngleInfo::particle2</definition>
+        <argsstring></argsstring>
+        <name>particle2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" line="266" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1aaa984a5e365e73c81f2a477024e9ebf5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CustomAngleForce::AngleInfo::particle3</definition>
+        <argsstring></argsstring>
+        <name>particle3</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" line="266" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1aa40f533bf365b79027ed4a5d6fa46e0e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::CustomAngleForce::AngleInfo::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" line="267" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1a43560cf0ea5743dc56393c913fea5b07" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomAngleForce::AngleInfo::AngleInfo</definition>
+        <argsstring>()</argsstring>
+        <name>AngleInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" line="268" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" bodystart="268" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1a656218ed4c872c8d25eff2bb2a5d769d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomAngleForce::AngleInfo::AngleInfo</definition>
+        <argsstring>(int particle1, int particle2, int particle3, const std::vector&lt; double &gt; &amp;parameters)</argsstring>
+        <name>AngleInfo</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" line="270" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" bodystart="270" bodyend="272"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about an angle. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" line="264" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomAngleForce.h" bodystart="264" bodyend="273"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1a43560cf0ea5743dc56393c913fea5b07" prot="public" virt="non-virtual"><scope>OpenMM::CustomAngleForce::AngleInfo</scope><name>AngleInfo</name></member>
+      <member refid="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1a656218ed4c872c8d25eff2bb2a5d769d" prot="public" virt="non-virtual"><scope>OpenMM::CustomAngleForce::AngleInfo</scope><name>AngleInfo</name></member>
+      <member refid="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1aa40f533bf365b79027ed4a5d6fa46e0e" prot="public" virt="non-virtual"><scope>OpenMM::CustomAngleForce::AngleInfo</scope><name>parameters</name></member>
+      <member refid="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1acc504d11f9df045acacadc26bd57ab8c" prot="public" virt="non-virtual"><scope>OpenMM::CustomAngleForce::AngleInfo</scope><name>particle1</name></member>
+      <member refid="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1aa6ea025284a733f5901ecdcd43bb49b6" prot="public" virt="non-virtual"><scope>OpenMM::CustomAngleForce::AngleInfo</scope><name>particle2</name></member>
+      <member refid="classOpenMM_1_1CustomAngleForce_1_1AngleInfo_1aaa984a5e365e73c81f2a477024e9ebf5" prot="public" virt="non-virtual"><scope>OpenMM::CustomAngleForce::AngleInfo</scope><name>particle3</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

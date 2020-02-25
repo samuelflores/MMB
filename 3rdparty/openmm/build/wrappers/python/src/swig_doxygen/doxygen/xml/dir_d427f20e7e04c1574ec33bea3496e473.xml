@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_d427f20e7e04c1574ec33bea3496e473" kind="dir">
+    <compoundname>/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm</compoundname>
+    <innerfile refid="RPMDIntegrator_8h">RPMDIntegrator.h</innerfile>
+    <innerfile refid="RPMDMonteCarloBarostat_8h">RPMDMonteCarloBarostat.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,710 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1SerializationNode" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::SerializationNode</compoundname>
+    <includes refid="SerializationNode_8h" local="no">SerializationNode.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1SerializationNode_1a1464f81416e0198d5dbdbe797a9e7b4e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::SerializationNode::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="244" column="1" bodyfile="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1SerializationNode_1a4a094ba7f372257a8919573ca83599e5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> &gt;</type>
+        <definition>std::vector&lt;SerializationNode&gt; OpenMM::SerializationNode::children</definition>
+        <argsstring></argsstring>
+        <name>children</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="245" column="1" bodyfile="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1SerializationNode_1a28651cda43285820f0bc7ba90afae20f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; OpenMM::SerializationNode::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="246" column="1" bodyfile="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a07bbe1a774d696b9de2235cc10771705" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::SerializationNode::getName</definition>
+        <argsstring>() const</argsstring>
+        <name>getName</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of this <ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="72" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a6b53c72513bb4a5e0a68d2031361d0f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::SerializationNode::setName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>setName</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the name of this <ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the new name of the <ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="78" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1adb5b9adc3d2b3c0cc9566d507b5eec0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt;SerializationNode&gt;&amp; OpenMM::SerializationNode::getChildren</definition>
+        <argsstring>() const</argsstring>
+        <name>getChildren</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a reference to this node&apos;s child nodes. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="82" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1abfce47d99c0a3db743ac762910269632" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> &gt; &amp;</type>
+        <definition>std::vector&lt;SerializationNode&gt;&amp; OpenMM::SerializationNode::getChildren</definition>
+        <argsstring>()</argsstring>
+        <name>getChildren</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a reference to this node&apos;s child nodes. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="86" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a1b4356b666680434c9551d56a33686ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> &amp;</type>
+        <definition>const SerializationNode&amp; OpenMM::SerializationNode::getChildNode</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getChildNode</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a reference to the child node with a particular name. If there is no child with the specified name, this throws an exception.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>the</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the child node to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="93" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a68794ac3f4d0aff826d7dcfb38faf289" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> &amp;</type>
+        <definition>SerializationNode&amp; OpenMM::SerializationNode::getChildNode</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getChildNode</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a reference to the child node with a particular name. If there is no child with the specified name, this throws an exception.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>the</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>name of the child node to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="100" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a3a57ed7cbe0627f74d816a642dc1be25" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+        <definition>const std::map&lt;std::string, std::string&gt;&amp; OpenMM::SerializationNode::getProperties</definition>
+        <argsstring>() const</argsstring>
+        <name>getProperties</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a map containing all of this node&apos;s properties. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="104" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1afd65bae80dc870a199fa6c420f7fb7d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::SerializationNode::hasProperty</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Determine whether this node has a property with a particular node.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to check for </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="110" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a114f8f7cbc7262aa5f0ee3f4f163c7f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::SerializationNode::getStringProperty</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getStringProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the property with a particular name, specified as a string. If there is no property with the specified name, an exception is thrown.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="117" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1ad70fb57ae4eb1e6ed08547100128cc0b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::SerializationNode::getStringProperty</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;defaultValue) const</argsstring>
+        <name>getStringProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the property with a particular name, specified as a string. If there is no property with the specified name, a default value is returned instead.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to get </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value to return if the specified property does not exist </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="125" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1ab7c1b2f63a936c5bfd6b8282387936ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> &amp;</type>
+        <definition>SerializationNode&amp; OpenMM::SerializationNode::setStringProperty</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;value)</argsstring>
+        <name>setStringProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the value of a property, specified as a string.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to set </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value to set for the property </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="132" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a998c0cf48c3eb9eafe6786c864a1375c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::SerializationNode::getIntProperty</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getIntProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the property with a particular name, specified as an int. If there is no property with the specified name, an exception is thrown.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="139" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a9401342e985f0aa087d03a643787475a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::SerializationNode::getIntProperty</definition>
+        <argsstring>(const std::string &amp;name, int defaultValue) const</argsstring>
+        <name>getIntProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the property with a particular name, specified as an int. If there is no property with the specified name, a default value is returned instead.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to get </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value to return if the specified property does not exist </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="147" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a80ae9475ab08f6b101c4ef061514d7d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> &amp;</type>
+        <definition>SerializationNode&amp; OpenMM::SerializationNode::setIntProperty</definition>
+        <argsstring>(const std::string &amp;name, int value)</argsstring>
+        <name>setIntProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the value of a property, specified as an int.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to set </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value to set for the property </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="154" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a3d2982b5ca366ec9cf4d769659c411fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::SerializationNode::getBoolProperty</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getBoolProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the property with a particular name, specified as an bool. If there is no property with the specified name, an exception is thrown.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="161" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1aae796b2774c01490d6b89e8e61de6381" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::SerializationNode::getBoolProperty</definition>
+        <argsstring>(const std::string &amp;name, bool defaultValue) const</argsstring>
+        <name>getBoolProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the property with a particular name, specified as a bool. If there is no property with the specified name, a default value is returned instead.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to get </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value to return if the specified property does not exist </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="169" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a3a79afa711b58f0adf37415a13fdee08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> &amp;</type>
+        <definition>SerializationNode&amp; OpenMM::SerializationNode::setBoolProperty</definition>
+        <argsstring>(const std::string &amp;name, bool value)</argsstring>
+        <name>setBoolProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the value of a property, specified as a bool.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to set </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value to set for the property </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="176" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1aeb8636b2905710308e51de6b5480cf6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::SerializationNode::getDoubleProperty</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getDoubleProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the property with a particular name, specified as a double. If there is no property with the specified name, an exception is thrown.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="183" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a001ef7f643f77f2fe7b9c6a417cd5963" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::SerializationNode::getDoubleProperty</definition>
+        <argsstring>(const std::string &amp;name, double defaultValue) const</argsstring>
+        <name>getDoubleProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the property with a particular name, specified as a double. If there is no property with the specified name, a default value is returned instead.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to get </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value to return if the specified property does not exist </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="191" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a434ed1c3d10d141a9af26edf70a39252" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> &amp;</type>
+        <definition>SerializationNode&amp; OpenMM::SerializationNode::setDoubleProperty</definition>
+        <argsstring>(const std::string &amp;name, double value)</argsstring>
+        <name>setDoubleProperty</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the value of a property, specified as a double.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the property to set </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value to set for the property </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="198" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a8cd28cb1637d6347438e46a6122bd1af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> &amp;</type>
+        <definition>SerializationNode&amp; OpenMM::SerializationNode::createChildNode</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>createChildNode</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new child node</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the new node to create </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a reference to the newly created node </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="205" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1a7b6840a9c320a7f44f10bd8f7bbbcd8a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class T</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> &amp;</type>
+        <definition>SerializationNode&amp; OpenMM::SerializationNode::createChildNode</definition>
+        <argsstring>(const std::string &amp;name, const T *object)</argsstring>
+        <name>createChildNode</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const T *</type>
+          <declname>object</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new child node by serializing an object. A <ref refid="classOpenMM_1_1SerializationProxy" kindref="compound">SerializationProxy</ref> is automatically selected based on the object&apos;s type, then invoked to populate the newly created node.</para><para>Note that, while this method is templatized based on the type of object being serialized, the typeid() operator is used to select the proxy. This means the template argument may be a base class, and the correct proxies will still be selected for objects of different subclasses.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the new node to create </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>object</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a pointer to the object to serialize </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a reference to the newly created node </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="220" column="1" bodyfile="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" bodystart="220" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1SerializationNode_1acbe0468b19a649648d8b1263ee1570b6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class T</type>
+          </param>
+        </templateparamlist>
+        <type>T *</type>
+        <definition>T* OpenMM::SerializationNode::decodeObject</definition>
+        <argsstring>() const</argsstring>
+        <name>decodeObject</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Reconstruct an object based on the information stored in this node. A <ref refid="classOpenMM_1_1SerializationProxy" kindref="compound">SerializationProxy</ref> is automatically selected based on the information stored in the node, then it is invoked to create the object.</para><para>The template parameter may be either the actual type of the object, or any base class to which it may be cast.</para><para><simplesect kind="return"><para>a pointer to the newly created object. The caller assumes ownership of the object. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="240" column="1" bodyfile="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" bodystart="240" bodyend="242"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A <ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> stores information about an object during serialization or deserialization.</para><para>When an object is serialized, its <ref refid="classOpenMM_1_1SerializationProxy" kindref="compound">SerializationProxy</ref> is first called to copy information about the object into a <ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref>. That information can then be written to the output stream in the desired format.</para><para>When an object is deserialized, the input stream is read and the information is stored into a <ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref>. The appropriate <ref refid="classOpenMM_1_1SerializationProxy" kindref="compound">SerializationProxy</ref> is then called to reconstruct the object.</para><para>SerializationNodes are arranged in a tree. There will often be a one-to-one correspondence between objects and SerializationNodes, but that need not always be true. A proxy is free to create whatever child nodes it wants and store information in them using whatever organization is most convenient.</para><para>Each <ref refid="classOpenMM_1_1SerializationNode" kindref="compound">SerializationNode</ref> can store an arbitrary set of &quot;properties&quot;, represented as key-value pairs. The key is always a string, while the value may be a string, an int, or a double. If a value is specified using one data type and then accessed as a different data type, the node will attempt to convert the value in an appropriate way. For example, it is always reasonable to call <ref refid="classOpenMM_1_1SerializationNode_1a114f8f7cbc7262aa5f0ee3f4f163c7f7" kindref="member">getStringProperty()</ref> to access a property as a string. Similarly, you can use <ref refid="classOpenMM_1_1SerializationNode_1ab7c1b2f63a936c5bfd6b8282387936ef" kindref="member">setStringProperty()</ref> to specify a property and then access it using <ref refid="classOpenMM_1_1SerializationNode_1a998c0cf48c3eb9eafe6786c864a1375c" kindref="member">getIntProperty()</ref>. This will produce the expected result if the original value was, in fact, the string representation of an int, but if the original string was non-numeric, the result is undefined. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" line="67" column="1" bodyfile="/home/sam/github/openmm/serialization/include/openmm/serialization/SerializationNode.h" bodystart="67" bodyend="247"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1SerializationNode_1a4a094ba7f372257a8919573ca83599e5" prot="private" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>children</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a8cd28cb1637d6347438e46a6122bd1af" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>createChildNode</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a7b6840a9c320a7f44f10bd8f7bbbcd8a" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>createChildNode</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1acbe0468b19a649648d8b1263ee1570b6" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>decodeObject</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a3d2982b5ca366ec9cf4d769659c411fe" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getBoolProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1aae796b2774c01490d6b89e8e61de6381" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getBoolProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a1b4356b666680434c9551d56a33686ea" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getChildNode</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a68794ac3f4d0aff826d7dcfb38faf289" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getChildNode</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1adb5b9adc3d2b3c0cc9566d507b5eec0e" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getChildren</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1abfce47d99c0a3db743ac762910269632" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getChildren</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1aeb8636b2905710308e51de6b5480cf6b" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getDoubleProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a001ef7f643f77f2fe7b9c6a417cd5963" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getDoubleProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a998c0cf48c3eb9eafe6786c864a1375c" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getIntProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a9401342e985f0aa087d03a643787475a" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getIntProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a07bbe1a774d696b9de2235cc10771705" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getName</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a3a57ed7cbe0627f74d816a642dc1be25" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getProperties</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a114f8f7cbc7262aa5f0ee3f4f163c7f7" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getStringProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1ad70fb57ae4eb1e6ed08547100128cc0b" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>getStringProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1afd65bae80dc870a199fa6c420f7fb7d5" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>hasProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a1464f81416e0198d5dbdbe797a9e7b4e" prot="private" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>name</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a28651cda43285820f0bc7ba90afae20f" prot="private" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>properties</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a3a79afa711b58f0adf37415a13fdee08" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>setBoolProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a434ed1c3d10d141a9af26edf70a39252" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>setDoubleProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a80ae9475ab08f6b101c4ef061514d7d4" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>setIntProperty</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1a6b53c72513bb4a5e0a68d2031361d0f4" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>setName</name></member>
+      <member refid="classOpenMM_1_1SerializationNode_1ab7c1b2f63a936c5bfd6b8282387936ef" prot="public" virt="non-virtual"><scope>OpenMM::SerializationNode</scope><name>setStringProperty</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,385 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1BrownianIntegrator" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::BrownianIntegrator</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Integrator" prot="public" virt="non-virtual">OpenMM::Integrator</basecompoundref>
+    <includes refid="BrownianIntegrator_8h" local="no">BrownianIntegrator.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1BrownianIntegrator_1abed2ed0a470c4e8677d936cd6762714f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::BrownianIntegrator::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="141" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1BrownianIntegrator_1a3a5a7a4b057393651364b6a94cd1cd4c" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::BrownianIntegrator::friction</definition>
+        <argsstring></argsstring>
+        <name>friction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="141" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1BrownianIntegrator_1ad7a95aafef515288dc7d44cfbffc4ce4" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::BrownianIntegrator::randomNumberSeed</definition>
+        <argsstring></argsstring>
+        <name>randomNumberSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="142" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1BrownianIntegrator_1ae1dab283cdc8ef2fa3d877f5ba7ef527" prot="private" static="no" mutable="no">
+        <type>Kernel</type>
+        <definition>Kernel OpenMM::BrownianIntegrator::kernel</definition>
+        <argsstring></argsstring>
+        <name>kernel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="143" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1a0dff314c581b0b0570092b0783c1f5a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::BrownianIntegrator::BrownianIntegrator</definition>
+        <argsstring>(double temperature, double frictionCoeff, double stepSize)</argsstring>
+        <name>BrownianIntegrator</name>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>frictionCoeff</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>stepSize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1BrownianIntegrator" kindref="compound">BrownianIntegrator</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the temperature of the heat bath (in Kelvin) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>frictionCoeff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the friction coefficient which couples the system to the heat bath, measured in 1/ps </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stepSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the step size with which to integrate the system (in picoseconds) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="54" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1a6229421f21a8143f5effc0e0d3577523" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::BrownianIntegrator::getTemperature</definition>
+        <argsstring>() const</argsstring>
+        <name>getTemperature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the temperature of the heat bath (in Kelvin).</para><para><simplesect kind="return"><para>the temperature of the heat bath (in Kelvin). </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="60" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1aa9c70a63e97de7e8c197f58028cb1d15" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::BrownianIntegrator::setTemperature</definition>
+        <argsstring>(double temp)</argsstring>
+        <name>setTemperature</name>
+        <param>
+          <type>double</type>
+          <declname>temp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the temperature of the heat bath (in Kelvin).</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>temp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the temperature of the heat bath, measured in Kelvin. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="68" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1a16f47cde30ef8b4711ed3282d3a9327b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::BrownianIntegrator::getFriction</definition>
+        <argsstring>() const</argsstring>
+        <name>getFriction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the friction coefficient which determines how strongly the system is coupled to the heat bath (in inverse ps).</para><para><simplesect kind="return"><para>the friction coefficient, measured in 1/ps </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="77" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1a6b5feb0de4b1e7940a6c26c87f8c5375" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::BrownianIntegrator::setFriction</definition>
+        <argsstring>(double coeff)</argsstring>
+        <name>setFriction</name>
+        <param>
+          <type>double</type>
+          <declname>coeff</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the friction coefficient which determines how strongly the system is coupled to the heat bath (in inverse ps).</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coeff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the friction coefficient, measured in 1/ps </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="86" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1a780d75bf922f510609e1362bf62208b0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::BrownianIntegrator::getRandomNumberSeed</definition>
+        <argsstring>() const</argsstring>
+        <name>getRandomNumberSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the random number seed. See <ref refid="classOpenMM_1_1BrownianIntegrator_1a62a32e977df04f495626f16b04aed229" kindref="member">setRandomNumberSeed()</ref> for details. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="92" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1a62a32e977df04f495626f16b04aed229" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::BrownianIntegrator::setRandomNumberSeed</definition>
+        <argsstring>(int seed)</argsstring>
+        <name>setRandomNumberSeed</name>
+        <param>
+          <type>int</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the random number seed. The precise meaning of this parameter is undefined, and is left up to each <ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> to interpret in an appropriate way. It is guaranteed that if two simulations are run with different random number seeds, the sequence of random forces will be different. On the other hand, no guarantees are made about the behavior of simulations that use the same seed. In particular, Platforms are permitted to use non-deterministic algorithms which produce different results on successive runs, even if those runs were initialized identically.</para><para>If seed is set to 0 (which is the default value assigned), a unique seed is chosen when a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created from this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref>. This is done to ensure that each <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> receives unique random seeds without you needing to set them explicitly. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="107" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1a9c79551af4f0715cd7a53a1aa4615446" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void OpenMM::BrownianIntegrator::step</definition>
+        <argsstring>(int steps)</argsstring>
+        <name>step</name>
+        <reimplements refid="classOpenMM_1_1Integrator_1a55151232664ae778eb2f0e2e8bbe7b67">step</reimplements>
+        <param>
+          <type>int</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Advance a simulation through time by taking a series of time steps.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of time steps to take </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="115" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1a0f205a6e23fffff7aa25b55a5b65bf5e" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void OpenMM::BrownianIntegrator::initialize</definition>
+        <argsstring>(ContextImpl &amp;context)</argsstring>
+        <name>initialize</name>
+        <reimplements refid="classOpenMM_1_1Integrator_1a6a2b5bcc61b799be0a37b4a431bdcd7d">initialize</reimplements>
+        <param>
+          <type>ContextImpl &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This will be called by the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> when it is created. It informs the <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> of what context it will be integrating, and gives it a chance to do any necessary initialization. It will also get called again if the application calls reinitialize() on the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="122" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1af36538476cf2e4a288e5e328f9c47c6f" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void OpenMM::BrownianIntegrator::cleanup</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup</name>
+        <reimplements refid="classOpenMM_1_1Integrator_1a204f42ff795b94be55d0c9ba32261af6">cleanup</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This will be called by the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> when it is destroyed to let the <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> do any necessary cleanup. It will also get called again if the application calls reinitialize() on the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="127" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1a96a4a21b0955cdb79fd416e8a678bd16" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; OpenMM::BrownianIntegrator::getKernelNames</definition>
+        <argsstring>()</argsstring>
+        <name>getKernelNames</name>
+        <reimplements refid="classOpenMM_1_1Integrator_1ab27c6938ff637bef4d7478c90f687af4">getKernelNames</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the names of all Kernels used by this <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="131" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1a9c718343c61594210dc81e0532224bdb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double OpenMM::BrownianIntegrator::computeKineticEnergy</definition>
+        <argsstring>()</argsstring>
+        <name>computeKineticEnergy</name>
+        <reimplements refid="classOpenMM_1_1Integrator_1a0fd62d5846712eca58341556d48d991c">computeKineticEnergy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute the kinetic energy of the system at the current time. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="135" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1BrownianIntegrator_1a12ab397590bfd23ecc4b858bb4e9f122" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::BrownianIntegrator::kineticEnergyRequiresForce</definition>
+        <argsstring>() const</argsstring>
+        <name>kineticEnergyRequiresForce</name>
+        <reimplements refid="classOpenMM_1_1Integrator_1ad61399ae80cda00231dd5d573cfd30e8">kineticEnergyRequiresForce</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Computing kinetic energy for this integrator does not require forces. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="139" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> which simulates a <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> using Brownian dynamics. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="80">
+        <label>OpenMM::Integrator</label>
+        <link refid="classOpenMM_1_1Integrator"/>
+      </node>
+      <node id="79">
+        <label>OpenMM::BrownianIntegrator</label>
+        <link refid="classOpenMM_1_1BrownianIntegrator"/>
+        <childnode refid="80" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="82">
+        <label>OpenMM::Integrator</label>
+        <link refid="classOpenMM_1_1Integrator"/>
+        <childnode refid="83" relation="usage">
+          <edgelabel>owner</edgelabel>
+        </childnode>
+      </node>
+      <node id="83">
+        <label>OpenMM::Context</label>
+        <link refid="classOpenMM_1_1Context"/>
+      </node>
+      <node id="81">
+        <label>OpenMM::BrownianIntegrator</label>
+        <link refid="classOpenMM_1_1BrownianIntegrator"/>
+        <childnode refid="82" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" line="45" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/BrownianIntegrator.h" bodystart="45" bodyend="144"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a0dff314c581b0b0570092b0783c1f5a4" prot="public" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>BrownianIntegrator</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1af36538476cf2e4a288e5e328f9c47c6f" prot="protected" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>cleanup</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a9c718343c61594210dc81e0532224bdb" prot="protected" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>computeKineticEnergy</name></member>
+      <member refid="classOpenMM_1_1Integrator_1ac9c1c07848ae2c2e8617a949a11070c1" prot="protected" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>context</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a3a5a7a4b057393651364b6a94cd1cd4c" prot="private" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>friction</name></member>
+      <member refid="classOpenMM_1_1Integrator_1af742feb7b5b9adfcb259bf2dbc9319c4" prot="public" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>getConstraintTolerance</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a16f47cde30ef8b4711ed3282d3a9327b" prot="public" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>getFriction</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a96a4a21b0955cdb79fd416e8a678bd16" prot="protected" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>getKernelNames</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a780d75bf922f510609e1362bf62208b0" prot="public" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>getRandomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a880821318aee5b25b02f0929887825c1" prot="public" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>getStepSize</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a6229421f21a8143f5effc0e0d3577523" prot="public" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>getTemperature</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a0f205a6e23fffff7aa25b55a5b65bf5e" prot="protected" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>initialize</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a2732506bfb2afd8e2e9954d08cab1304" prot="public" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>Integrator</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1ae1dab283cdc8ef2fa3d877f5ba7ef527" prot="private" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>kernel</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a12ab397590bfd23ecc4b858bb4e9f122" prot="protected" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>kineticEnergyRequiresForce</name></member>
+      <member refid="classOpenMM_1_1Integrator_1ab3f6088553343feb8f47ab789e7a09a1" prot="protected" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>owner</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1ad7a95aafef515288dc7d44cfbffc4ce4" prot="private" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>randomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a47f81ac027670bcad6050c72cc41bd67" prot="public" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>setConstraintTolerance</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a6b5feb0de4b1e7940a6c26c87f8c5375" prot="public" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>setFriction</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a62a32e977df04f495626f16b04aed229" prot="public" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>setRandomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a86ef00f4e3abb9e3e325e3c4ebe5ead1" prot="public" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>setStepSize</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1aa9c70a63e97de7e8c197f58028cb1d15" prot="public" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>setTemperature</name></member>
+      <member refid="classOpenMM_1_1Integrator_1aa41aa4c012de261afa5dda15af4fb721" prot="protected" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>stateChanged</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1a9c79551af4f0715cd7a53a1aa4615446" prot="public" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>step</name></member>
+      <member refid="classOpenMM_1_1BrownianIntegrator_1abed2ed0a470c4e8677d936cd6762714f" prot="private" virt="non-virtual"><scope>OpenMM::BrownianIntegrator</scope><name>temperature</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a9abbef84d9e2c4e5a3d3139f8fa84fff" prot="public" virt="virtual"><scope>OpenMM::BrownianIntegrator</scope><name>~Integrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

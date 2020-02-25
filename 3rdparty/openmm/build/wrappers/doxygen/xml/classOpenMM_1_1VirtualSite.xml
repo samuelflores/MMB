@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1VirtualSite" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::VirtualSite</compoundname>
+    <derivedcompoundref refid="classOpenMM_1_1LocalCoordinatesSite" prot="public" virt="non-virtual">OpenMM::LocalCoordinatesSite</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1OutOfPlaneSite" prot="public" virt="non-virtual">OpenMM::OutOfPlaneSite</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1ThreeParticleAverageSite" prot="public" virt="non-virtual">OpenMM::ThreeParticleAverageSite</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1TwoParticleAverageSite" prot="public" virt="non-virtual">OpenMM::TwoParticleAverageSite</derivedcompoundref>
+    <includes refid="VirtualSite_8h" local="no">VirtualSite.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1VirtualSite_1ab5055f992f6e2ac180831de7b53aed12" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; OpenMM::VirtualSite::particles</definition>
+        <argsstring></argsstring>
+        <name>particles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="68" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1VirtualSite_1aeb160de3c491a0cb742a7c72bfc3fd1d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type></type>
+        <definition>virtual OpenMM::VirtualSite::~VirtualSite</definition>
+        <argsstring>()</argsstring>
+        <name>~VirtualSite</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="50" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="50" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1VirtualSite_1a4e228a080c51c677a3d79772c2615c1a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::VirtualSite::getNumParticles</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumParticles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of particles this virtual site depends on. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="55" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1VirtualSite_1a7c6b5b8eaac689ede4cd831e26c032f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::VirtualSite::getParticle</definition>
+        <argsstring>(int particle) const</argsstring>
+        <name>getParticle</name>
+        <param>
+          <type>int</type>
+          <declname>particle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the index of a particle this virtual site depends on.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle to get (between 0 and <ref refid="classOpenMM_1_1VirtualSite_1a4e228a080c51c677a3d79772c2615c1a" kindref="member">getNumParticles()</ref>) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the particle in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="62" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1VirtualSite_1a565dfbb5e6a82a2337f2710c13825483" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::VirtualSite::VirtualSite</definition>
+        <argsstring>()</argsstring>
+        <name>VirtualSite</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="64" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="64" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1VirtualSite_1ace9d369cb1809df040f5025c43ef2c0d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::VirtualSite::setParticles</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;particleIndices)</argsstring>
+        <name>setParticles</name>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>particleIndices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="66" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A <ref refid="classOpenMM_1_1VirtualSite" kindref="compound">VirtualSite</ref> describes the rules for computing a particle&apos;s position based on other particles. This is an abstract class. Subclasses define particular rules. To define a virtual site, create an instance of a <ref refid="classOpenMM_1_1VirtualSite" kindref="compound">VirtualSite</ref> subclass and then call setVirtualSite() on the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="386">
+        <label>OpenMM::LocalCoordinatesSite</label>
+        <link refid="classOpenMM_1_1LocalCoordinatesSite"/>
+        <childnode refid="385" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="388">
+        <label>OpenMM::ThreeParticleAverageSite</label>
+        <link refid="classOpenMM_1_1ThreeParticleAverageSite"/>
+        <childnode refid="385" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="387">
+        <label>OpenMM::OutOfPlaneSite</label>
+        <link refid="classOpenMM_1_1OutOfPlaneSite"/>
+        <childnode refid="385" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="389">
+        <label>OpenMM::TwoParticleAverageSite</label>
+        <link refid="classOpenMM_1_1TwoParticleAverageSite"/>
+        <childnode refid="385" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="385">
+        <label>OpenMM::VirtualSite</label>
+        <link refid="classOpenMM_1_1VirtualSite"/>
+      </node>
+    </inheritancegraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="48" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="48" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1VirtualSite_1a4e228a080c51c677a3d79772c2615c1a" prot="public" virt="non-virtual"><scope>OpenMM::VirtualSite</scope><name>getNumParticles</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1a7c6b5b8eaac689ede4cd831e26c032f9" prot="public" virt="non-virtual"><scope>OpenMM::VirtualSite</scope><name>getParticle</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1ab5055f992f6e2ac180831de7b53aed12" prot="private" virt="non-virtual"><scope>OpenMM::VirtualSite</scope><name>particles</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1ace9d369cb1809df040f5025c43ef2c0d" prot="protected" virt="non-virtual"><scope>OpenMM::VirtualSite</scope><name>setParticles</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1a565dfbb5e6a82a2337f2710c13825483" prot="protected" virt="non-virtual"><scope>OpenMM::VirtualSite</scope><name>VirtualSite</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1aeb160de3c491a0cb742a7c72bfc3fd1d" prot="public" virt="virtual"><scope>OpenMM::VirtualSite</scope><name>~VirtualSite</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

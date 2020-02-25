@@ -1,0 +1,658 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomExternalForce" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::CustomExternalForce</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="CustomExternalForce_8h" local="no">CustomExternalForce.h</includes>
+    <innerclass refid="classOpenMM_1_1CustomExternalForce_1_1GlobalParameterInfo" prot="private">OpenMM::CustomExternalForce::GlobalParameterInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomExternalForce_1_1ParticleInfo" prot="private">OpenMM::CustomExternalForce::ParticleInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomExternalForce_1_1ParticleParameterInfo" prot="private">OpenMM::CustomExternalForce::ParticleParameterInfo</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomExternalForce_1a743d87891ad801b3ba90aac7ac7e15d4" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomExternalForce::energyExpression</definition>
+        <argsstring></argsstring>
+        <name>energyExpression</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="226" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomExternalForce_1abd7a049f0d1d02895b810498152b67e0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; ParticleParameterInfo &gt;</type>
+        <definition>std::vector&lt;ParticleParameterInfo&gt; OpenMM::CustomExternalForce::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="227" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomExternalForce_1a3706ff538c924856023bd43d5f248822" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; GlobalParameterInfo &gt;</type>
+        <definition>std::vector&lt;GlobalParameterInfo&gt; OpenMM::CustomExternalForce::globalParameters</definition>
+        <argsstring></argsstring>
+        <name>globalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="228" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomExternalForce_1ab8b9e97ffd01c69a65e434c244824907" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; ParticleInfo &gt;</type>
+        <definition>std::vector&lt;ParticleInfo&gt; OpenMM::CustomExternalForce::particles</definition>
+        <argsstring></argsstring>
+        <name>particles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="229" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a7945ade45cdbd4b08ec9cc07ab8f16b6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomExternalForce::CustomExternalForce</definition>
+        <argsstring>(const std::string &amp;energy)</argsstring>
+        <name>CustomExternalForce</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1CustomExternalForce" kindref="compound">CustomExternalForce</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>an algebraic expression giving the potential energy of each particle as a function of its x, y, and z coordinates </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="92" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1acb96a1a8f1f1795b8953573aff36dd49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomExternalForce::getNumParticles</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumParticles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of particles for which force field parameters have been defined. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="96" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a812bd2113be6cc0e6cd8c59a693842dd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomExternalForce::getNumPerParticleParameters</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumPerParticleParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of per-particle parameters that the force depends on </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="102" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="102" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a88c4f2edd76d062188b3a722cb88e7ae" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomExternalForce::getNumGlobalParameters</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumGlobalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of global parameters that the force depends on. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="108" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="108" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a5b5280cfcef722ef1d53134f4cbf423b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomExternalForce::getEnergyFunction</definition>
+        <argsstring>() const</argsstring>
+        <name>getEnergyFunction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the algebraic expression that gives the potential energy of each particle </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="114" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a01eb4fc2336478e87326d39ca22ac7f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomExternalForce::setEnergyFunction</definition>
+        <argsstring>(const std::string &amp;energy)</argsstring>
+        <name>setEnergyFunction</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the algebraic expression that gives the potential energy of each particle </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="118" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1ab9dba54b238be239d8520f50194eec6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomExternalForce::addPerParticleParameter</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>addPerParticleParameter</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a new per-particle parameter that the force may depend on.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the parameter that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="125" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1acd59643f9f4560be463e593f5fe919d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomExternalForce::getPerParticleParameterName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getPerParticleParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a per-particle parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to get the name </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="132" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a62d71ac0df1c07b3b833a49a4ca5b6ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomExternalForce::setPerParticleParameterName</definition>
+        <argsstring>(int index, const std::string &amp;name)</argsstring>
+        <name>setPerParticleParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the name of a per-particle parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to set the name </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="139" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a84fc0c9b0c8796a9aa94b100bde5cfb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomExternalForce::addGlobalParameter</definition>
+        <argsstring>(const std::string &amp;name, double defaultValue)</argsstring>
+        <name>addGlobalParameter</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a new global parameter that the interaction may depend on. The default value provided to this method is the initial value of the parameter in newly created Contexts. You can change the value at any time by calling setParameter() on the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default value of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the parameter that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="149" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1ae48e1a4be21ec55daa13457e07d5d5a0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomExternalForce::getGlobalParameterName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getGlobalParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to get the name </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="156" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a5365fdf6762a3f4c2b3fc7865d9437be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomExternalForce::setGlobalParameterName</definition>
+        <argsstring>(int index, const std::string &amp;name)</argsstring>
+        <name>setGlobalParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the name of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to set the name </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="163" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1aeff120294787bb21aa1f2a3c32074a81" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::CustomExternalForce::getGlobalParameterDefaultValue</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getGlobalParameterDefaultValue</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the default value of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to get the default value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter default value </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="170" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1abd15f1d3497e1b9e9367cce0ab34439f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomExternalForce::setGlobalParameterDefaultValue</definition>
+        <argsstring>(int index, double defaultValue)</argsstring>
+        <name>setGlobalParameterDefaultValue</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the default value of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to set the default value </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default value of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="177" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a4269869ebcde9b5683f8d5fcdd3375cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomExternalForce::addParticle</definition>
+        <argsstring>(int particle, const std::vector&lt; double &gt; &amp;parameters=std::vector&lt; double &gt;())</argsstring>
+        <name>addParticle</name>
+        <param>
+          <type>int</type>
+          <declname>particle</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+          <defval>std::vector&lt; double &gt;()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a particle term to the force field.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the particle this term is applied to </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of parameters for the new force term </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the particle term that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="185" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a4c5a9afe9faeb19dd03cddf1fe217b12" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomExternalForce::getParticleParameters</definition>
+        <argsstring>(int index, int &amp;particle, std::vector&lt; double &gt; &amp;parameters) const</argsstring>
+        <name>getParticleParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the force field parameters for a force field term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the particle term for which to get parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the particle this term is applied to </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of parameters for the force field term </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="193" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a90d43e5d424b0cdd2bf14414d483a8a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomExternalForce::setParticleParameters</definition>
+        <argsstring>(int index, int particle, const std::vector&lt; double &gt; &amp;parameters=std::vector&lt; double &gt;())</argsstring>
+        <name>setParticleParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+          <defval>std::vector&lt; double &gt;()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the force field parameters for a force field term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the particle term for which to set parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the particle this term is applied to </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of parameters for the force field term </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="201" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1ad7e2574e9dd6f0bc8ae0e80e2a0bbe4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomExternalForce::updateParametersInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>updateParametersInContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the per-particle parameters in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to match those stored in this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. This method provides an efficient method to update certain parameters in an existing <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> without needing to reinitialize it. Simply call <ref refid="classOpenMM_1_1CustomExternalForce_1a90d43e5d424b0cdd2bf14414d483a8a5" kindref="member">setParticleParameters()</ref> to modify this object&apos;s parameters, then call <ref refid="classOpenMM_1_1CustomExternalForce_1ad7e2574e9dd6f0bc8ae0e80e2a0bbe4d" kindref="member">updateParametersInContext()</ref> to copy them over to the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para>This method has several limitations. The only information it updates is the values of per-particle parameters. All other aspects of the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> (such as the energy function) are unaffected and can only be changed by reinitializing the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. Also, this method cannot be used to add new particles, only to change the parameters of existing ones. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="212" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1a76d2d5f31132eee4d7d1b821ed2382d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::CustomExternalForce::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>false </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="219" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1abf211cc35e7fe9f8c33237288992b00a" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::CustomExternalForce::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="221" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class implements an &quot;external&quot; force on particles. The force may be applied to any subset of the particles in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. The force on each particle is specified by an arbitrary algebraic expression, which may depend on the current position of the particle as well as on arbitrary global and per-particle parameters.</para><para>To use this class, create a <ref refid="classOpenMM_1_1CustomExternalForce" kindref="compound">CustomExternalForce</ref> object, passing an algebraic expression to the constructor that defines the potential energy of each affected particle. The expression may depend on the particle&apos;s x, y, and z coordinates, as well as on any parameters you choose. Then call <ref refid="classOpenMM_1_1CustomExternalForce_1ab9dba54b238be239d8520f50194eec6a" kindref="member">addPerParticleParameter()</ref> to define per-particle parameters, and <ref refid="classOpenMM_1_1CustomExternalForce_1a84fc0c9b0c8796a9aa94b100bde5cfb5" kindref="member">addGlobalParameter()</ref> to define global parameters. The values of per-particle parameters are specified as part of the system definition, while values of global parameters may be modified during a simulation by calling <ref refid="classOpenMM_1_1Context_1a368b7f53ee35bb151ee686441b7900af" kindref="member">Context::setParameter()</ref>. Finally, call <ref refid="classOpenMM_1_1CustomExternalForce_1a4269869ebcde9b5683f8d5fcdd3375cd" kindref="member">addParticle()</ref> once for each particle that should be affected by the force. After a particle has been added, you can modify its parameters by calling <ref refid="classOpenMM_1_1CustomExternalForce_1a90d43e5d424b0cdd2bf14414d483a8a5" kindref="member">setParticleParameters()</ref>. This will have no effect on Contexts that already exist unless you call <ref refid="classOpenMM_1_1CustomExternalForce_1ad7e2574e9dd6f0bc8ae0e80e2a0bbe4d" kindref="member">updateParametersInContext()</ref>.</para><para>As an example, the following code creates a <ref refid="classOpenMM_1_1CustomExternalForce" kindref="compound">CustomExternalForce</ref> that attracts each particle to a target position (x0, y0, z0) via a harmonic potential:</para><para><computeroutput>CustomExternalForce* force = new <ref refid="classOpenMM_1_1CustomExternalForce" kindref="compound">CustomExternalForce</ref>(&quot;k*((x-x0)^2+(y-y0)^2+(z-z0)^2)&quot;);</computeroutput></para><para>This force depends on four parameters: the spring constant k and equilibrium coordinates x0, y0, and z0. The following code defines these parameters:</para><para><computeroutput><preformatted>
+force-&gt;addGlobalParameter(&quot;k&quot;, 100.0);
+force-&gt;addPerParticleParameter(&quot;x0&quot;);
+force-&gt;addPerParticleParameter(&quot;y0&quot;);
+force-&gt;addPerParticleParameter(&quot;z0&quot;);
+</preformatted></computeroutput></para><para>Special care is needed in systems that use periodic boundary conditions. In that case, each particle really represents an infinite set of particles repeating through space. The variables x, y, and z contain the coordinates of one of those periodic copies, but there is no guarantee about which. It might even change from one time step to the next. You can handle this situation by using the function periodicdistance(x1, y1, z1, x2, y2, z2), which returns the minimum distance between periodic copies of the points (x1, y1, z1) and (x2, y2, z2). For example, the force given above would be rewritten as</para><para><computeroutput>CustomExternalForce* force = new <ref refid="classOpenMM_1_1CustomExternalForce" kindref="compound">CustomExternalForce</ref>(&quot;k*periodicdistance(x, y, z, x0, y0, z0)^2&quot;);</computeroutput></para><para>Expressions may involve the operators + (add), - (subtract), * (multiply), / (divide), and ^ (power), and the following functions: sqrt, exp, log, sin, cos, sec, csc, tan, cot, asin, acos, atan, atan2, sinh, cosh, tanh, erf, erfc, min, max, abs, floor, ceil, step, delta, select. All trigonometric functions are defined in radians, and log is the natural logarithm. step(x) = 0 if x is less than 0, 1 otherwise. delta(x) = 1 if x is 0, 0 otherwise. select(x,y,z) = z if x = 0, y otherwise. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="88">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="87">
+        <label>OpenMM::CustomExternalForce</label>
+        <link refid="classOpenMM_1_1CustomExternalForce"/>
+        <childnode refid="88" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="90">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="89">
+        <label>OpenMM::CustomExternalForce</label>
+        <link refid="classOpenMM_1_1CustomExternalForce"/>
+        <childnode refid="90" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="84" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="84" bodyend="230"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a84fc0c9b0c8796a9aa94b100bde5cfb5" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>addGlobalParameter</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a4269869ebcde9b5683f8d5fcdd3375cd" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>addParticle</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1ab9dba54b238be239d8520f50194eec6a" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>addPerParticleParameter</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1abf211cc35e7fe9f8c33237288992b00a" prot="protected" virt="virtual"><scope>OpenMM::CustomExternalForce</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a7945ade45cdbd4b08ec9cc07ab8f16b6" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>CustomExternalForce</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a743d87891ad801b3ba90aac7ac7e15d4" prot="private" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>energyExpression</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a5b5280cfcef722ef1d53134f4cbf423b" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getEnergyFunction</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1aeff120294787bb21aa1f2a3c32074a81" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getGlobalParameterDefaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1ae48e1a4be21ec55daa13457e07d5d5a0" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getGlobalParameterName</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a88c4f2edd76d062188b3a722cb88e7ae" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getNumGlobalParameters</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1acb96a1a8f1f1795b8953573aff36dd49" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getNumParticles</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a812bd2113be6cc0e6cd8c59a693842dd" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getNumPerParticleParameters</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a4c5a9afe9faeb19dd03cddf1fe217b12" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getParticleParameters</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1acd59643f9f4560be463e593f5fe919d1" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>getPerParticleParameterName</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a3706ff538c924856023bd43d5f248822" prot="private" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>globalParameters</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1abd7a049f0d1d02895b810498152b67e0" prot="private" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>parameters</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1ab8b9e97ffd01c69a65e434c244824907" prot="private" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>particles</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a01eb4fc2336478e87326d39ca22ac7f3" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>setEnergyFunction</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1abd15f1d3497e1b9e9367cce0ab34439f" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>setGlobalParameterDefaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a5365fdf6762a3f4c2b3fc7865d9437be" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>setGlobalParameterName</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a90d43e5d424b0cdd2bf14414d483a8a5" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>setParticleParameters</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a62d71ac0df1c07b3b833a49a4ca5b6ba" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>setPerParticleParameterName</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1ad7e2574e9dd6f0bc8ae0e80e2a0bbe4d" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce</scope><name>updateParametersInContext</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1a76d2d5f31132eee4d7d1b821ed2382d6" prot="public" virt="virtual"><scope>OpenMM::CustomExternalForce</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::CustomExternalForce</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

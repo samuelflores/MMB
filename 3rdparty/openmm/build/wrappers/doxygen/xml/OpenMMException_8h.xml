@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="OpenMMException_8h" kind="file" language="C++">
+    <compoundname>OpenMMException.h</compoundname>
+    <includes local="no">exception</includes>
+    <includes local="no">string</includes>
+    <includedby refid="NoseHooverChain_8h" local="yes">/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h</includedby>
+    <includedby refid="OpenMM_8h" local="yes">/home/sam/github/openmm/openmmapi/include/OpenMM.h</includedby>
+    <incdepgraph>
+      <node id="471">
+        <label>string</label>
+      </node>
+      <node id="470">
+        <label>exception</label>
+      </node>
+      <node id="469">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h</label>
+        <link refid="OpenMMException_8h"/>
+        <childnode refid="470" relation="include">
+        </childnode>
+        <childnode refid="471" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="475">
+        <label>/home/sam/github/openmm/openmmapi/include/OpenMM.h</label>
+        <link refid="OpenMM_8h"/>
+      </node>
+      <node id="474">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverIntegrator.h</label>
+        <link refid="NoseHooverIntegrator_8h"/>
+        <childnode refid="475" relation="include">
+        </childnode>
+      </node>
+      <node id="472">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h</label>
+        <link refid="OpenMMException_8h"/>
+        <childnode refid="473" relation="include">
+        </childnode>
+        <childnode refid="475" relation="include">
+        </childnode>
+      </node>
+      <node id="473">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h</label>
+        <link refid="NoseHooverChain_8h"/>
+        <childnode refid="474" relation="include">
+        </childnode>
+        <childnode refid="475" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classOpenMM_1_1OpenMMException" prot="public">OpenMM::OpenMMException</innerclass>
+    <innernamespace refid="namespaceOpenMM">OpenMM</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h"/>
+  </compounddef>
+</doxygen>

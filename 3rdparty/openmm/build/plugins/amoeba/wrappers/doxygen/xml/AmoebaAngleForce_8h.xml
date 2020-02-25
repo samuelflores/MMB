@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="AmoebaAngleForce_8h" kind="file" language="C++">
+    <compoundname>AmoebaAngleForce.h</compoundname>
+    <includes local="yes">openmm/Force.h</includes>
+    <includes local="yes">internal/windowsExportAmoeba.h</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="OpenMMAmoeba_8h" local="yes">/home/sam/github/openmm/plugins/amoeba/openmmapi/include/OpenMMAmoeba.h</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>internal/windowsExportAmoeba.h</label>
+      </node>
+      <node id="0">
+        <label>/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h</label>
+        <link refid="AmoebaAngleForce_8h"/>
+        <childnode refid="1" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>openmm/Force.h</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>/home/sam/github/openmm/plugins/amoeba/openmmapi/include/OpenMMAmoeba.h</label>
+        <link refid="OpenMMAmoeba_8h"/>
+      </node>
+      <node id="4">
+        <label>/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h</label>
+        <link refid="AmoebaAngleForce_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classOpenMM_1_1AmoebaAngleForce" prot="public">OpenMM::AmoebaAngleForce</innerclass>
+    <innerclass refid="classOpenMM_1_1AmoebaAngleForce_1_1AngleInfo" prot="private">OpenMM::AmoebaAngleForce::AngleInfo</innerclass>
+    <innernamespace refid="namespaceOpenMM">OpenMM</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaAngleForce.h"/>
+  </compounddef>
+</doxygen>

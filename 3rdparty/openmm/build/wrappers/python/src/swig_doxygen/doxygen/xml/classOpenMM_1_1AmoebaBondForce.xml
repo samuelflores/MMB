@@ -1,0 +1,488 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1AmoebaBondForce" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::AmoebaBondForce</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="AmoebaBondForce_8h" local="no">AmoebaBondForce.h</includes>
+    <innerclass refid="classOpenMM_1_1AmoebaBondForce_1_1BondInfo" prot="private">OpenMM::AmoebaBondForce::BondInfo</innerclass>
+      <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaBondForce_1a63f84fcb5b9f79920df4d6d0f7b95a12" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaBondForce::_globalQuarticK</definition>
+        <argsstring></argsstring>
+        <name>_globalQuarticK</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="154" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaBondForce_1a697f8c1cf0656f903730a55afc921384" prot="protected" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaBondForce::_globalCubicK</definition>
+        <argsstring></argsstring>
+        <name>_globalCubicK</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="154" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaBondForce_1a16e8bfe0e7d5d992f90031599e4ea5ea" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; BondInfo &gt;</type>
+        <definition>std::vector&lt;BondInfo&gt; OpenMM::AmoebaBondForce::bonds</definition>
+        <argsstring></argsstring>
+        <name>bonds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="158" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaBondForce_1a704c252b7b9cfe187af33c7f8c9cbac1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool OpenMM::AmoebaBondForce::usePeriodic</definition>
+        <argsstring></argsstring>
+        <name>usePeriodic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="159" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1a63e5bdb5cc99a101cf70b77063c7a832" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::AmoebaBondForce::AmoebaBondForce</definition>
+        <argsstring>()</argsstring>
+        <name>AmoebaBondForce</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create an <ref refid="classOpenMM_1_1AmoebaBondForce" kindref="compound">AmoebaBondForce</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="61" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1a5316fbbb69ab5a283398b9f2e783cb81" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaBondForce::getNumBonds</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumBonds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of bond stretch terms in the potential function </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="65" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1aa27beb6bf46989016450e0c813659923" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaBondForce::setAmoebaGlobalBondCubic</definition>
+        <argsstring>(double cubicK)</argsstring>
+        <name>setAmoebaGlobalBondCubic</name>
+        <param>
+          <type>double</type>
+          <declname>cubicK</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the global cubic term</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cubicK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the cubic force constant for the bond </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="74" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1a5d4a3c86afd8cf73c12b2fa27b6e0e40" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaBondForce::getAmoebaGlobalBondCubic</definition>
+        <argsstring>() const</argsstring>
+        <name>getAmoebaGlobalBondCubic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the global cubic term</para><para><simplesect kind="return"><para>global cubicK term </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="81" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1aec62701fd87bb6f1593ba660e23ed226" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaBondForce::setAmoebaGlobalBondQuartic</definition>
+        <argsstring>(double quarticK)</argsstring>
+        <name>setAmoebaGlobalBondQuartic</name>
+        <param>
+          <type>double</type>
+          <declname>quarticK</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the global quartic term</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>quarticK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the quartic force constant for the bond </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="88" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1aa5e62ee58ffba66b0b5f26c30ad63c93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaBondForce::getAmoebaGlobalBondQuartic</definition>
+        <argsstring>() const</argsstring>
+        <name>getAmoebaGlobalBondQuartic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the global quartic term</para><para><simplesect kind="return"><para>global quartic term </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="95" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1a9466fb367ed1928409897fecdf992541" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaBondForce::addBond</definition>
+        <argsstring>(int particle1, int particle2, double length, double quadraticK)</argsstring>
+        <name>addBond</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>quadraticK</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a bond term to the force field.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the equilibrium length of the bond, measured in nm </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>quadraticK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the quadratic force constant for the bond </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the bond that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="107" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1af37be3f2ba91de15f9a3a150c8d82e4c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaBondForce::getBondParameters</definition>
+        <argsstring>(int index, int &amp;particle1, int &amp;particle2, double &amp;length, double &amp;quadraticK) const</argsstring>
+        <name>getBondParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>quadraticK</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the force field parameters for a bond term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the bond for which to get parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the equilibrium length of the bond, measured in nm </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">quadraticK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the quadratic force constant for the bond </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="119" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1a66a68dfdb57a62b399b964bc070d9dc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaBondForce::setBondParameters</definition>
+        <argsstring>(int index, int particle1, int particle2, double length, double quadraticK)</argsstring>
+        <name>setBondParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>length</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>quadraticK</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the force field parameters for a bond term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the bond for which to set parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the equilibrium length of the bond, measured in nm </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>quadraticK</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the quadratic force constant for the bond </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="130" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1a9509baff6cfa5477880191d755dae626" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaBondForce::updateParametersInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>updateParametersInContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the per-bond parameters in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to match those stored in this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. This method provides an efficient method to update certain parameters in an existing <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> without needing to reinitialize it. Simply call <ref refid="classOpenMM_1_1AmoebaBondForce_1a66a68dfdb57a62b399b964bc070d9dc3" kindref="member">setBondParameters()</ref> to modify this object&apos;s parameters, then call <ref refid="classOpenMM_1_1AmoebaBondForce_1a9509baff6cfa5477880191d755dae626" kindref="member">updateParametersInContext()</ref> to copy them over to the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para>The only information this method updates is the values of per-bond parameters. The set of particles involved in a bond cannot be changed, nor can new bonds be added. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="140" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1a31394b32eefb2769d17986cec77aba3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaBondForce::setUsesPeriodicBoundaryConditions</definition>
+        <argsstring>(bool periodic)</argsstring>
+        <name>setUsesPeriodicBoundaryConditions</name>
+        <param>
+          <type>bool</type>
+          <declname>periodic</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set whether this force should apply periodic boundary conditions when calculating displacements. Usually this is not appropriate for bonded forces, but there are situations when it can be useful. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="145" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1ad049b013f38a66d98d9b679e9999fd35" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::AmoebaBondForce::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if force uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="152" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaBondForce_1a7b745ba98e85ffd8b2eea6046e50b5bf" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::AmoebaBondForce::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="155" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class implements an interaction between pairs of particles that varies with the distance between them. The interaction is defined by a 4th order polynomial. Only the quadratic term is set per-bond. The coefficients of the higher order terms each have a single value that is set globally.</para><para>To use it, create an <ref refid="classOpenMM_1_1AmoebaBondForce" kindref="compound">AmoebaBondForce</ref> object then call <ref refid="classOpenMM_1_1AmoebaBondForce_1a9466fb367ed1928409897fecdf992541" kindref="member">addBond()</ref> once for each bond. After a bond has been added, you can modify its force field parameters by calling <ref refid="classOpenMM_1_1AmoebaBondForce_1a66a68dfdb57a62b399b964bc070d9dc3" kindref="member">setBondParameters()</ref>. This will have no effect on Contexts that already exist unless you call <ref refid="classOpenMM_1_1AmoebaBondForce_1a9509baff6cfa5477880191d755dae626" kindref="member">updateParametersInContext()</ref>. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="4">
+        <label>OpenMM::AmoebaBondForce</label>
+        <link refid="classOpenMM_1_1AmoebaBondForce"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="6">
+        <label>OpenMM::AmoebaBondForce</label>
+        <link refid="classOpenMM_1_1AmoebaBondForce"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" line="54" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h" bodystart="54" bodyend="160"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a697f8c1cf0656f903730a55afc921384" prot="protected" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>_globalCubicK</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a63f84fcb5b9f79920df4d6d0f7b95a12" prot="protected" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>_globalQuarticK</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a9466fb367ed1928409897fecdf992541" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>addBond</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a63e5bdb5cc99a101cf70b77063c7a832" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>AmoebaBondForce</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a16e8bfe0e7d5d992f90031599e4ea5ea" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>bonds</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a7b745ba98e85ffd8b2eea6046e50b5bf" prot="protected" virt="virtual"><scope>OpenMM::AmoebaBondForce</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a5d4a3c86afd8cf73c12b2fa27b6e0e40" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>getAmoebaGlobalBondCubic</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1aa5e62ee58ffba66b0b5f26c30ad63c93" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>getAmoebaGlobalBondQuartic</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1af37be3f2ba91de15f9a3a150c8d82e4c" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>getBondParameters</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a5316fbbb69ab5a283398b9f2e783cb81" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>getNumBonds</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1aa27beb6bf46989016450e0c813659923" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>setAmoebaGlobalBondCubic</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1aec62701fd87bb6f1593ba660e23ed226" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>setAmoebaGlobalBondQuartic</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a66a68dfdb57a62b399b964bc070d9dc3" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>setBondParameters</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a31394b32eefb2769d17986cec77aba3f" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>setUsesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a9509baff6cfa5477880191d755dae626" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>updateParametersInContext</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1a704c252b7b9cfe187af33c7f8c9cbac1" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaBondForce</scope><name>usePeriodic</name></member>
+      <member refid="classOpenMM_1_1AmoebaBondForce_1ad049b013f38a66d98d9b679e9999fd35" prot="public" virt="virtual"><scope>OpenMM::AmoebaBondForce</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::AmoebaBondForce</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

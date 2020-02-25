@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1Continuous1DFunction" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::Continuous1DFunction</compoundname>
+    <basecompoundref refid="classOpenMM_1_1TabulatedFunction" prot="public" virt="non-virtual">OpenMM::TabulatedFunction</basecompoundref>
+    <includes refid="TabulatedFunction_8h" local="no">TabulatedFunction.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1Continuous1DFunction_1a7244a52fa3e0296f83002cd85f9c7bc3" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::Continuous1DFunction::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="110" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Continuous1DFunction_1ab3fdb1eb8ed2a0015d4d7c9459be9568" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::Continuous1DFunction::min</definition>
+        <argsstring></argsstring>
+        <name>min</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="111" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Continuous1DFunction_1ad8e40c377e31e616b1c876274c92dc79" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::Continuous1DFunction::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="111" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1Continuous1DFunction_1aedeede39198594ebbea4f66c9765781a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::Continuous1DFunction::Continuous1DFunction</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values, double min, double max)</argsstring>
+        <name>Continuous1DFunction</name>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1Continuous1DFunction" kindref="compound">Continuous1DFunction</ref> f(x) based on a set of tabulated values.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the tabulated values of the function f(x) at uniformly spaced values of x between min and max. A natural cubic spline is used to interpolate between the tabulated values. The function is assumed to be zero for x &lt; min or x &gt; max. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the first element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the last element of values </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="82" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Continuous1DFunction_1a4d472eb7ca5e2cef7f394f634c413340" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Continuous1DFunction::getFunctionParameters</definition>
+        <argsstring>(std::vector&lt; double &gt; &amp;values, double &amp;min, double &amp;max) const</argsstring>
+        <name>getFunctionParameters</name>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>min</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the parameters for the tabulated function.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="out">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the tabulated values of the function f(x) at uniformly spaced values of x between min and max. A natural cubic spline is used to interpolate between the tabulated values. The function is assumed to be zero for x &lt; min or x &gt; max. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">min</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the first element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the last element of values </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="92" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Continuous1DFunction_1a67c560ff5f4680287e6740b2ebbdd254" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Continuous1DFunction::setFunctionParameters</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values, double min, double max)</argsstring>
+        <name>setFunctionParameters</name>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the parameters for the tabulated function.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the tabulated values of the function f(x) at uniformly spaced values of x between min and max. A natural cubic spline is used to interpolate between the tabulated values. The function is assumed to be zero for x &lt; min or x &gt; max. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the first element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the last element of values </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="102" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Continuous1DFunction_1ab99716e74010a9a4f2bf964f39af7957" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classOpenMM_1_1Continuous1DFunction" kindref="compound">Continuous1DFunction</ref> *</type>
+        <definition>Continuous1DFunction* OpenMM::Continuous1DFunction::Copy</definition>
+        <argsstring>() const</argsstring>
+        <name>Copy</name>
+        <reimplements refid="classOpenMM_1_1TabulatedFunction_1abeff78bec7bba6f538e16b571404342c">Copy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a deep copy of the tabulated function.</para><para><xrefsect id="deprecated_1_deprecated000019"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This will be removed in a future release. </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="108" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is a <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> that computes a continuous one dimensional function. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="56">
+        <label>OpenMM::TabulatedFunction</label>
+        <link refid="classOpenMM_1_1TabulatedFunction"/>
+      </node>
+      <node id="55">
+        <label>OpenMM::Continuous1DFunction</label>
+        <link refid="classOpenMM_1_1Continuous1DFunction"/>
+        <childnode refid="56" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="58">
+        <label>OpenMM::TabulatedFunction</label>
+        <link refid="classOpenMM_1_1TabulatedFunction"/>
+      </node>
+      <node id="57">
+        <label>OpenMM::Continuous1DFunction</label>
+        <link refid="classOpenMM_1_1Continuous1DFunction"/>
+        <childnode refid="58" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="71" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="71" bodyend="112"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1Continuous1DFunction_1aedeede39198594ebbea4f66c9765781a" prot="public" virt="non-virtual"><scope>OpenMM::Continuous1DFunction</scope><name>Continuous1DFunction</name></member>
+      <member refid="classOpenMM_1_1Continuous1DFunction_1ab99716e74010a9a4f2bf964f39af7957" prot="public" virt="virtual"><scope>OpenMM::Continuous1DFunction</scope><name>Copy</name></member>
+      <member refid="classOpenMM_1_1Continuous1DFunction_1a4d472eb7ca5e2cef7f394f634c413340" prot="public" virt="non-virtual"><scope>OpenMM::Continuous1DFunction</scope><name>getFunctionParameters</name></member>
+      <member refid="classOpenMM_1_1Continuous1DFunction_1ad8e40c377e31e616b1c876274c92dc79" prot="private" virt="non-virtual"><scope>OpenMM::Continuous1DFunction</scope><name>max</name></member>
+      <member refid="classOpenMM_1_1Continuous1DFunction_1ab3fdb1eb8ed2a0015d4d7c9459be9568" prot="private" virt="non-virtual"><scope>OpenMM::Continuous1DFunction</scope><name>min</name></member>
+      <member refid="classOpenMM_1_1Continuous1DFunction_1a67c560ff5f4680287e6740b2ebbdd254" prot="public" virt="non-virtual"><scope>OpenMM::Continuous1DFunction</scope><name>setFunctionParameters</name></member>
+      <member refid="classOpenMM_1_1Continuous1DFunction_1a7244a52fa3e0296f83002cd85f9c7bc3" prot="private" virt="non-virtual"><scope>OpenMM::Continuous1DFunction</scope><name>values</name></member>
+      <member refid="classOpenMM_1_1TabulatedFunction_1a05a008921f73a6a35179ca9b1440dd0f" prot="public" virt="virtual"><scope>OpenMM::Continuous1DFunction</scope><name>~TabulatedFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

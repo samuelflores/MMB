@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomGBForce_1_1PerParticleParameterInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomGBForce::PerParticleParameterInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomGBForce_1_1PerParticleParameterInfo_1ae931b3b452fd042b7ae27c811681d2e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomGBForce::PerParticleParameterInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" line="603" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" bodystart="603" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomGBForce_1_1PerParticleParameterInfo_1abf4e463df33bd281d4d38722bd1f0c1a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomGBForce::PerParticleParameterInfo::PerParticleParameterInfo</definition>
+        <argsstring>()</argsstring>
+        <name>PerParticleParameterInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" line="604" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" bodystart="604" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomGBForce_1_1PerParticleParameterInfo_1a70c4d1a8cce36fcb82d99002d5e941c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomGBForce::PerParticleParameterInfo::PerParticleParameterInfo</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>PerParticleParameterInfo</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" line="606" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" bodystart="606" bodyend="607"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a per-particle parameter. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" line="601" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" bodystart="601" bodyend="608"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomGBForce_1_1PerParticleParameterInfo_1ae931b3b452fd042b7ae27c811681d2e0" prot="public" virt="non-virtual"><scope>OpenMM::CustomGBForce::PerParticleParameterInfo</scope><name>name</name></member>
+      <member refid="classOpenMM_1_1CustomGBForce_1_1PerParticleParameterInfo_1abf4e463df33bd281d4d38722bd1f0c1a" prot="public" virt="non-virtual"><scope>OpenMM::CustomGBForce::PerParticleParameterInfo</scope><name>PerParticleParameterInfo</name></member>
+      <member refid="classOpenMM_1_1CustomGBForce_1_1PerParticleParameterInfo_1a70c4d1a8cce36fcb82d99002d5e941c3" prot="public" virt="non-virtual"><scope>OpenMM::CustomGBForce::PerParticleParameterInfo</scope><name>PerParticleParameterInfo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_c01b4949a80b25cfd232a0a1309fe252" kind="dir">
+    <compoundname>/home/sam/github/openmm/openmmapi/include/openmm</compoundname>
+    <innerfile refid="AndersenThermostat_8h">AndersenThermostat.h</innerfile>
+    <innerfile refid="BAOABLangevinIntegrator_8h">BAOABLangevinIntegrator.h</innerfile>
+    <innerfile refid="BrownianIntegrator_8h">BrownianIntegrator.h</innerfile>
+    <innerfile refid="CMAPTorsionForce_8h">CMAPTorsionForce.h</innerfile>
+    <innerfile refid="CMMotionRemover_8h">CMMotionRemover.h</innerfile>
+    <innerfile refid="CompoundIntegrator_8h">CompoundIntegrator.h</innerfile>
+    <innerfile refid="Context_8h">Context.h</innerfile>
+    <innerfile refid="CustomAngleForce_8h">CustomAngleForce.h</innerfile>
+    <innerfile refid="CustomBondForce_8h">CustomBondForce.h</innerfile>
+    <innerfile refid="CustomCentroidBondForce_8h">CustomCentroidBondForce.h</innerfile>
+    <innerfile refid="CustomCompoundBondForce_8h">CustomCompoundBondForce.h</innerfile>
+    <innerfile refid="CustomCVForce_8h">CustomCVForce.h</innerfile>
+    <innerfile refid="CustomExternalForce_8h">CustomExternalForce.h</innerfile>
+    <innerfile refid="CustomGBForce_8h">CustomGBForce.h</innerfile>
+    <innerfile refid="CustomHbondForce_8h">CustomHbondForce.h</innerfile>
+    <innerfile refid="CustomIntegrator_8h">CustomIntegrator.h</innerfile>
+    <innerfile refid="CustomManyParticleForce_8h">CustomManyParticleForce.h</innerfile>
+    <innerfile refid="CustomNonbondedForce_8h">CustomNonbondedForce.h</innerfile>
+    <innerfile refid="CustomTorsionForce_8h">CustomTorsionForce.h</innerfile>
+    <innerfile refid="Force_8h">Force.h</innerfile>
+    <innerfile refid="GayBerneForce_8h">GayBerneForce.h</innerfile>
+    <innerfile refid="GBSAOBCForce_8h">GBSAOBCForce.h</innerfile>
+    <innerfile refid="HarmonicAngleForce_8h">HarmonicAngleForce.h</innerfile>
+    <innerfile refid="HarmonicBondForce_8h">HarmonicBondForce.h</innerfile>
+    <innerfile refid="Integrator_8h">Integrator.h</innerfile>
+    <innerfile refid="LangevinIntegrator_8h">LangevinIntegrator.h</innerfile>
+    <innerfile refid="LocalEnergyMinimizer_8h">LocalEnergyMinimizer.h</innerfile>
+    <innerfile refid="MonteCarloAnisotropicBarostat_8h">MonteCarloAnisotropicBarostat.h</innerfile>
+    <innerfile refid="MonteCarloBarostat_8h">MonteCarloBarostat.h</innerfile>
+    <innerfile refid="MonteCarloMembraneBarostat_8h">MonteCarloMembraneBarostat.h</innerfile>
+    <innerfile refid="NonbondedForce_8h">NonbondedForce.h</innerfile>
+    <innerfile refid="NoseHooverChain_8h">NoseHooverChain.h</innerfile>
+    <innerfile refid="NoseHooverIntegrator_8h">NoseHooverIntegrator.h</innerfile>
+    <innerfile refid="OpenMMException_8h">OpenMMException.h</innerfile>
+    <innerfile refid="PeriodicTorsionForce_8h">PeriodicTorsionForce.h</innerfile>
+    <innerfile refid="RBTorsionForce_8h">RBTorsionForce.h</innerfile>
+    <innerfile refid="RMSDForce_8h">RMSDForce.h</innerfile>
+    <innerfile refid="State_8h">State.h</innerfile>
+    <innerfile refid="System_8h">System.h</innerfile>
+    <innerfile refid="TabulatedFunction_8h">TabulatedFunction.h</innerfile>
+    <innerfile refid="Units_8h">Units.h</innerfile>
+    <innerfile refid="VariableLangevinIntegrator_8h">VariableLangevinIntegrator.h</innerfile>
+    <innerfile refid="VariableVerletIntegrator_8h">VariableVerletIntegrator.h</innerfile>
+    <innerfile refid="Vec3_8h">Vec3.h</innerfile>
+    <innerfile refid="VerletIntegrator_8h">VerletIntegrator.h</innerfile>
+    <innerfile refid="VirtualSite_8h">VirtualSite.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/"/>
+  </compounddef>
+</doxygen>

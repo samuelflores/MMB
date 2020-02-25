@@ -1,0 +1,544 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::AmoebaGeneralizedKirkwoodForce</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">Force</basecompoundref>
+    <includes refid="AmoebaGeneralizedKirkwoodForce_8h" local="no">AmoebaGeneralizedKirkwoodForce.h</includes>
+    <innerclass refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1_1ParticleInfo" prot="private">OpenMM::AmoebaGeneralizedKirkwoodForce::ParticleInfo</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a9834f9ebb7385ee0fd8025229625c72f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaGeneralizedKirkwoodForce::includeCavityTerm</definition>
+        <argsstring></argsstring>
+        <name>includeCavityTerm</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="179" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1afe63cf731ccabc6a8d4ef418a3250e4e" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaGeneralizedKirkwoodForce::solventDielectric</definition>
+        <argsstring></argsstring>
+        <name>solventDielectric</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="180" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a1bcdc13fb6e0db4dc2db8a13ec0eccbc" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaGeneralizedKirkwoodForce::soluteDielectric</definition>
+        <argsstring></argsstring>
+        <name>soluteDielectric</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="180" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a0b134d65f17e93326e3806e9aad5d11c" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaGeneralizedKirkwoodForce::dielectricOffset</definition>
+        <argsstring></argsstring>
+        <name>dielectricOffset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="180" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1ae318a3c09f42410e460d9b7019a23aa5" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaGeneralizedKirkwoodForce::probeRadius</definition>
+        <argsstring></argsstring>
+        <name>probeRadius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="181" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a03c16ae28fa38d758239b23e579e61bb" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaGeneralizedKirkwoodForce::surfaceAreaFactor</definition>
+        <argsstring></argsstring>
+        <name>surfaceAreaFactor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="181" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a86e0927770f71a0bb64a96db26074600" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; ParticleInfo &gt;</type>
+        <definition>std::vector&lt;ParticleInfo&gt; OpenMM::AmoebaGeneralizedKirkwoodForce::particles</definition>
+        <argsstring></argsstring>
+        <name>particles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="182" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a2e57885606b5620ede08107817c9ce8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::AmoebaGeneralizedKirkwoodForce::AmoebaGeneralizedKirkwoodForce</definition>
+        <argsstring>()</argsstring>
+        <name>AmoebaGeneralizedKirkwoodForce</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="59" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1ab5a3d2069c3fb36077d07cb68bf8af3f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaGeneralizedKirkwoodForce::getNumParticles</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumParticles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of particles in the system. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="64" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1ab06ae47f763218c42f7acaa9f757c897" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaGeneralizedKirkwoodForce::addParticle</definition>
+        <argsstring>(double charge, double radius, double scalingFactor)</argsstring>
+        <name>addParticle</name>
+        <param>
+          <type>double</type>
+          <declname>charge</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>radius</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scalingFactor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add the parameters for a particle. This should be called once for each particle in the System. When it is called for the i&apos;th time, it specifies the parameters for the i&apos;th particle.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>charge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the charge of the particle, measured in units of the proton charge </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the atomic radius of the particle, measured in nm </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scalingFactor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the scaling factor for the particle </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the particle that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="77" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1abc050ece4ae8f998aeff4c64991eec6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaGeneralizedKirkwoodForce::getParticleParameters</definition>
+        <argsstring>(int index, double &amp;charge, double &amp;radius, double &amp;scalingFactor) const</argsstring>
+        <name>getParticleParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>charge</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>radius</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>scalingFactor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the force field parameters for a particle.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the particle for which to get parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">charge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the charge of the particle, measured in units of the proton charge </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">radius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the atomic radius of the particle, measured in nm </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">scalingFactor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the scaling factor for the particle </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="87" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a86d2c92e094c328799f5c4c1549f1da8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaGeneralizedKirkwoodForce::setParticleParameters</definition>
+        <argsstring>(int index, double charge, double radius, double scalingFactor)</argsstring>
+        <name>setParticleParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>charge</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>radius</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scalingFactor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the force field parameters for a particle.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the particle for which to set parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>charge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the charge of the particle, measured in units of the proton charge </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>radius</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the atomic radius of the particle, measured in nm </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scalingFactor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the scaling factor for the particle </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="97" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1accdccd56742a6098933fc1dbe73b4408" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaGeneralizedKirkwoodForce::getSolventDielectric</definition>
+        <argsstring>() const</argsstring>
+        <name>getSolventDielectric</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the dielectric constant for the solvent. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="102" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="102" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a83987889f17fb0c78f0af631ecb8e87f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaGeneralizedKirkwoodForce::setSolventDielectric</definition>
+        <argsstring>(double dielectric)</argsstring>
+        <name>setSolventDielectric</name>
+        <param>
+          <type>double</type>
+          <declname>dielectric</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the dielectric constant for the solvent. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="109" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="109" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1aabc7bd377ca58b44f093418db818655c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaGeneralizedKirkwoodForce::getSoluteDielectric</definition>
+        <argsstring>() const</argsstring>
+        <name>getSoluteDielectric</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the dielectric constant for the solute. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="116" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="116" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1af649cb2f34ff0d9ecfd5900ad0ebafe2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaGeneralizedKirkwoodForce::setSoluteDielectric</definition>
+        <argsstring>(double dielectric)</argsstring>
+        <name>setSoluteDielectric</name>
+        <param>
+          <type>double</type>
+          <declname>dielectric</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the dielectric constant for the solute. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="123" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a893d0f4db629d04b6d2b58ea6e74698d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaGeneralizedKirkwoodForce::getIncludeCavityTerm</definition>
+        <argsstring>() const</argsstring>
+        <name>getIncludeCavityTerm</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the flag signaling whether the cavity term should be included </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="130" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a778e9e5319fc7b72f1613c89790cae74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaGeneralizedKirkwoodForce::setIncludeCavityTerm</definition>
+        <argsstring>(int includeCavityTerm)</argsstring>
+        <name>setIncludeCavityTerm</name>
+        <param>
+          <type>int</type>
+          <declname>includeCavityTerm</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the flag signaling whether the cavity term should be included </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="135" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1aeb88b4df76511929d0db8e2e6e113272" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaGeneralizedKirkwoodForce::getProbeRadius</definition>
+        <argsstring>() const</argsstring>
+        <name>getProbeRadius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the probe radius (nm) used in SASA contribution </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="140" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a27acc186e1f0de4770a2bec3ceb75f27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaGeneralizedKirkwoodForce::setProbeRadius</definition>
+        <argsstring>(double probeRadius)</argsstring>
+        <name>setProbeRadius</name>
+        <param>
+          <type>double</type>
+          <declname>probeRadius</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the probe radius (nm) used in SASA contribution </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="145" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a3fad3b7a15da6132d3b35c1dbe25a181" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaGeneralizedKirkwoodForce::getSurfaceAreaFactor</definition>
+        <argsstring>() const</argsstring>
+        <name>getSurfaceAreaFactor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the surface area factor kJ/(nm*nm) used in SASA contribution </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="150" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1adf0eaa24c11a7f9524afa1a15bf24714" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaGeneralizedKirkwoodForce::setSurfaceAreaFactor</definition>
+        <argsstring>(double surfaceAreaFactor)</argsstring>
+        <name>setSurfaceAreaFactor</name>
+        <param>
+          <type>double</type>
+          <declname>surfaceAreaFactor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the surface area factor kJ/(nm*nm) used in SASA contribution </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="155" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a38f33c2669ed3f58bd2bad385932e7df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaGeneralizedKirkwoodForce::updateParametersInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>updateParametersInContext</name>
+        <param>
+          <type>Context &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the per-particle parameters in a Context to match those stored in this Force object. This method provides an efficient method to update certain parameters in an existing Context without needing to reinitialize it. Simply call <ref refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a86d2c92e094c328799f5c4c1549f1da8" kindref="member">setParticleParameters()</ref> to modify this object&apos;s parameters, then call <ref refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a38f33c2669ed3f58bd2bad385932e7df" kindref="member">updateParametersInContext()</ref> to copy them over to the Context.</para><para>The only information this method updates is the values of per-particle parameters. All other aspects of the Force (the probe radius, the surface area factor, etc.) are unaffected and can only be changed by reinitializing the Context. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="165" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a98ecee8d2140d343467b4bec45717bda" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::AmoebaGeneralizedKirkwoodForce::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if nonbondedMethod uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="172" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="172" bodyend="174"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a2d7b020a23b38d31d227b3bd7b0d457a" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::AmoebaGeneralizedKirkwoodForce::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="176" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class implements an implicit solvation force using the generalized Kirkwood/Grycuk model. </para><para>To use this class, create an <ref refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce" kindref="compound">AmoebaGeneralizedKirkwoodForce</ref> object, then call <ref refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1ab06ae47f763218c42f7acaa9f757c897" kindref="member">addParticle()</ref> once for each particle in the System to define its parameters. The number of particles for which you define parameters must be equal to the number of particles in the System, or else an exception will be thrown when you try to create a Context. After a particle has been added, you can modify its force field parameters by calling <ref refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a86d2c92e094c328799f5c4c1549f1da8" kindref="member">setParticleParameters()</ref>. This will have no effect on Contexts that already exist unless you call <ref refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a38f33c2669ed3f58bd2bad385932e7df" kindref="member">updateParametersInContext()</ref>. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="8">
+        <label>OpenMM::AmoebaGeneralizedKirkwoodForce</label>
+        <link refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce"/>
+        <childnode refid="9" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>Force</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="10">
+        <label>OpenMM::AmoebaGeneralizedKirkwoodForce</label>
+        <link refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce"/>
+        <childnode refid="11" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>Force</label>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" line="52" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaGeneralizedKirkwoodForce.h" bodystart="52" bodyend="183"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1ab06ae47f763218c42f7acaa9f757c897" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>addParticle</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a2e57885606b5620ede08107817c9ce8d" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>AmoebaGeneralizedKirkwoodForce</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a2d7b020a23b38d31d227b3bd7b0d457a" prot="protected" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a0b134d65f17e93326e3806e9aad5d11c" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>dielectricOffset</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a893d0f4db629d04b6d2b58ea6e74698d" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>getIncludeCavityTerm</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1ab5a3d2069c3fb36077d07cb68bf8af3f" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>getNumParticles</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1abc050ece4ae8f998aeff4c64991eec6b" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>getParticleParameters</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1aeb88b4df76511929d0db8e2e6e113272" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>getProbeRadius</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1aabc7bd377ca58b44f093418db818655c" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>getSoluteDielectric</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1accdccd56742a6098933fc1dbe73b4408" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>getSolventDielectric</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a3fad3b7a15da6132d3b35c1dbe25a181" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>getSurfaceAreaFactor</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a9834f9ebb7385ee0fd8025229625c72f" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>includeCavityTerm</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a86e0927770f71a0bb64a96db26074600" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>particles</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1ae318a3c09f42410e460d9b7019a23aa5" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>probeRadius</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a778e9e5319fc7b72f1613c89790cae74" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>setIncludeCavityTerm</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a86d2c92e094c328799f5c4c1549f1da8" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>setParticleParameters</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a27acc186e1f0de4770a2bec3ceb75f27" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>setProbeRadius</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1af649cb2f34ff0d9ecfd5900ad0ebafe2" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>setSoluteDielectric</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a83987889f17fb0c78f0af631ecb8e87f" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>setSolventDielectric</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1adf0eaa24c11a7f9524afa1a15bf24714" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>setSurfaceAreaFactor</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a1bcdc13fb6e0db4dc2db8a13ec0eccbc" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>soluteDielectric</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1afe63cf731ccabc6a8d4ef418a3250e4e" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>solventDielectric</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a03c16ae28fa38d758239b23e579e61bb" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>surfaceAreaFactor</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a38f33c2669ed3f58bd2bad385932e7df" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>updateParametersInContext</name></member>
+      <member refid="classOpenMM_1_1AmoebaGeneralizedKirkwoodForce_1a98ecee8d2140d343467b4bec45717bda" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaGeneralizedKirkwoodForce</scope><name>usesPeriodicBoundaryConditions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

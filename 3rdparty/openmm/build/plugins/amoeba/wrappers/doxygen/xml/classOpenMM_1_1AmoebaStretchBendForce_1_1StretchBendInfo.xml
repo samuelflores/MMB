@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::AmoebaStretchBendForce::StretchBendInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1ae0e212244d7e209777cc304598be5ddf" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaStretchBendForce::StretchBendInfo::particle1</definition>
+        <argsstring></argsstring>
+        <name>particle1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" line="148" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1ace4823d80c46a02a80b9249d94f5a612" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaStretchBendForce::StretchBendInfo::particle2</definition>
+        <argsstring></argsstring>
+        <name>particle2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" line="148" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1ac25df5cfb88d6d42a49052ae14bbeeca" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaStretchBendForce::StretchBendInfo::particle3</definition>
+        <argsstring></argsstring>
+        <name>particle3</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" line="148" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1a2d8c2027d4f246f504a2a946c1887569" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaStretchBendForce::StretchBendInfo::lengthAB</definition>
+        <argsstring></argsstring>
+        <name>lengthAB</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" line="149" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1ac455acd7f179ab94ec38d8fa8da3857a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaStretchBendForce::StretchBendInfo::lengthCB</definition>
+        <argsstring></argsstring>
+        <name>lengthCB</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" line="149" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1aad7fc9f2f1a16f6723e4664235d6344f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaStretchBendForce::StretchBendInfo::angle</definition>
+        <argsstring></argsstring>
+        <name>angle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" line="149" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1a6cd698083e38332efeabe9324e984622" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaStretchBendForce::StretchBendInfo::k1</definition>
+        <argsstring></argsstring>
+        <name>k1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" line="149" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1a7e8abd17a69352282a4458a0a3337492" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaStretchBendForce::StretchBendInfo::k2</definition>
+        <argsstring></argsstring>
+        <name>k2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" line="149" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1a989971ec13d2e5e9afce02fd764b15e9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::AmoebaStretchBendForce::StretchBendInfo::StretchBendInfo</definition>
+        <argsstring>()</argsstring>
+        <name>StretchBendInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" line="150" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" bodystart="150" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1a737b7961f5590a7552d82e93ec14077b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::AmoebaStretchBendForce::StretchBendInfo::StretchBendInfo</definition>
+        <argsstring>(int particle1, int particle2, int particle3, double lengthAB, double lengthCB, double angle, double k1, double k2)</argsstring>
+        <name>StretchBendInfo</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lengthAB</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lengthCB</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>angle</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>k1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>k2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" line="154" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" bodystart="154" bodyend="158"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a stretch-bend. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" line="146" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaStretchBendForce.h" bodystart="146" bodyend="159"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1aad7fc9f2f1a16f6723e4664235d6344f" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaStretchBendForce::StretchBendInfo</scope><name>angle</name></member>
+      <member refid="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1a6cd698083e38332efeabe9324e984622" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaStretchBendForce::StretchBendInfo</scope><name>k1</name></member>
+      <member refid="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1a7e8abd17a69352282a4458a0a3337492" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaStretchBendForce::StretchBendInfo</scope><name>k2</name></member>
+      <member refid="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1a2d8c2027d4f246f504a2a946c1887569" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaStretchBendForce::StretchBendInfo</scope><name>lengthAB</name></member>
+      <member refid="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1ac455acd7f179ab94ec38d8fa8da3857a" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaStretchBendForce::StretchBendInfo</scope><name>lengthCB</name></member>
+      <member refid="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1ae0e212244d7e209777cc304598be5ddf" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaStretchBendForce::StretchBendInfo</scope><name>particle1</name></member>
+      <member refid="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1ace4823d80c46a02a80b9249d94f5a612" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaStretchBendForce::StretchBendInfo</scope><name>particle2</name></member>
+      <member refid="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1ac25df5cfb88d6d42a49052ae14bbeeca" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaStretchBendForce::StretchBendInfo</scope><name>particle3</name></member>
+      <member refid="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1a989971ec13d2e5e9afce02fd764b15e9" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaStretchBendForce::StretchBendInfo</scope><name>StretchBendInfo</name></member>
+      <member refid="classOpenMM_1_1AmoebaStretchBendForce_1_1StretchBendInfo_1a737b7961f5590a7552d82e93ec14077b" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaStretchBendForce::StretchBendInfo</scope><name>StretchBendInfo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

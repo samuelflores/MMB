@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespaceOpenMM" kind="namespace" language="C++">
+    <compoundname>OpenMM</compoundname>
+    <innerclass refid="classOpenMM_1_1AndersenThermostat" prot="public">OpenMM::AndersenThermostat</innerclass>
+    <innerclass refid="classOpenMM_1_1BAOABLangevinIntegrator" prot="public">OpenMM::BAOABLangevinIntegrator</innerclass>
+    <innerclass refid="classOpenMM_1_1BrownianIntegrator" prot="public">OpenMM::BrownianIntegrator</innerclass>
+    <innerclass refid="classOpenMM_1_1CMAPTorsionForce" prot="public">OpenMM::CMAPTorsionForce</innerclass>
+    <innerclass refid="classOpenMM_1_1CMMotionRemover" prot="public">OpenMM::CMMotionRemover</innerclass>
+    <innerclass refid="classOpenMM_1_1CompoundIntegrator" prot="public">OpenMM::CompoundIntegrator</innerclass>
+    <innerclass refid="classOpenMM_1_1Context" prot="public">OpenMM::Context</innerclass>
+    <innerclass refid="classOpenMM_1_1Continuous1DFunction" prot="public">OpenMM::Continuous1DFunction</innerclass>
+    <innerclass refid="classOpenMM_1_1Continuous2DFunction" prot="public">OpenMM::Continuous2DFunction</innerclass>
+    <innerclass refid="classOpenMM_1_1Continuous3DFunction" prot="public">OpenMM::Continuous3DFunction</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomAngleForce" prot="public">OpenMM::CustomAngleForce</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomBondForce" prot="public">OpenMM::CustomBondForce</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomCentroidBondForce" prot="public">OpenMM::CustomCentroidBondForce</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomCompoundBondForce" prot="public">OpenMM::CustomCompoundBondForce</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomCVForce" prot="public">OpenMM::CustomCVForce</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomExternalForce" prot="public">OpenMM::CustomExternalForce</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomGBForce" prot="public">OpenMM::CustomGBForce</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomHbondForce" prot="public">OpenMM::CustomHbondForce</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomIntegrator" prot="public">OpenMM::CustomIntegrator</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomManyParticleForce" prot="public">OpenMM::CustomManyParticleForce</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomNonbondedForce" prot="public">OpenMM::CustomNonbondedForce</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomTorsionForce" prot="public">OpenMM::CustomTorsionForce</innerclass>
+    <innerclass refid="classOpenMM_1_1Discrete1DFunction" prot="public">OpenMM::Discrete1DFunction</innerclass>
+    <innerclass refid="classOpenMM_1_1Discrete2DFunction" prot="public">OpenMM::Discrete2DFunction</innerclass>
+    <innerclass refid="classOpenMM_1_1Discrete3DFunction" prot="public">OpenMM::Discrete3DFunction</innerclass>
+    <innerclass refid="classOpenMM_1_1Force" prot="public">OpenMM::Force</innerclass>
+    <innerclass refid="classOpenMM_1_1GayBerneForce" prot="public">OpenMM::GayBerneForce</innerclass>
+    <innerclass refid="classOpenMM_1_1GBSAOBCForce" prot="public">OpenMM::GBSAOBCForce</innerclass>
+    <innerclass refid="classOpenMM_1_1HarmonicAngleForce" prot="public">OpenMM::HarmonicAngleForce</innerclass>
+    <innerclass refid="classOpenMM_1_1HarmonicBondForce" prot="public">OpenMM::HarmonicBondForce</innerclass>
+    <innerclass refid="classOpenMM_1_1Integrator" prot="public">OpenMM::Integrator</innerclass>
+    <innerclass refid="classOpenMM_1_1LangevinIntegrator" prot="public">OpenMM::LangevinIntegrator</innerclass>
+    <innerclass refid="classOpenMM_1_1LocalCoordinatesSite" prot="public">OpenMM::LocalCoordinatesSite</innerclass>
+    <innerclass refid="classOpenMM_1_1LocalEnergyMinimizer" prot="public">OpenMM::LocalEnergyMinimizer</innerclass>
+    <innerclass refid="classOpenMM_1_1MonteCarloAnisotropicBarostat" prot="public">OpenMM::MonteCarloAnisotropicBarostat</innerclass>
+    <innerclass refid="classOpenMM_1_1MonteCarloBarostat" prot="public">OpenMM::MonteCarloBarostat</innerclass>
+    <innerclass refid="classOpenMM_1_1MonteCarloMembraneBarostat" prot="public">OpenMM::MonteCarloMembraneBarostat</innerclass>
+    <innerclass refid="classOpenMM_1_1NonbondedForce" prot="public">OpenMM::NonbondedForce</innerclass>
+    <innerclass refid="classOpenMM_1_1NoseHooverChain" prot="public">OpenMM::NoseHooverChain</innerclass>
+    <innerclass refid="classOpenMM_1_1NoseHooverIntegrator" prot="public">OpenMM::NoseHooverIntegrator</innerclass>
+    <innerclass refid="classOpenMM_1_1OpenMMException" prot="public">OpenMM::OpenMMException</innerclass>
+    <innerclass refid="classOpenMM_1_1OutOfPlaneSite" prot="public">OpenMM::OutOfPlaneSite</innerclass>
+    <innerclass refid="classOpenMM_1_1PeriodicTorsionForce" prot="public">OpenMM::PeriodicTorsionForce</innerclass>
+    <innerclass refid="classOpenMM_1_1Platform" prot="public">OpenMM::Platform</innerclass>
+    <innerclass refid="classOpenMM_1_1RBTorsionForce" prot="public">OpenMM::RBTorsionForce</innerclass>
+    <innerclass refid="classOpenMM_1_1RMSDForce" prot="public">OpenMM::RMSDForce</innerclass>
+    <innerclass refid="classOpenMM_1_1State" prot="public">OpenMM::State</innerclass>
+    <innerclass refid="classOpenMM_1_1System" prot="public">OpenMM::System</innerclass>
+    <innerclass refid="classOpenMM_1_1TabulatedFunction" prot="public">OpenMM::TabulatedFunction</innerclass>
+    <innerclass refid="classOpenMM_1_1ThreeParticleAverageSite" prot="public">OpenMM::ThreeParticleAverageSite</innerclass>
+    <innerclass refid="classOpenMM_1_1TwoParticleAverageSite" prot="public">OpenMM::TwoParticleAverageSite</innerclass>
+    <innerclass refid="classOpenMM_1_1VariableLangevinIntegrator" prot="public">OpenMM::VariableLangevinIntegrator</innerclass>
+    <innerclass refid="classOpenMM_1_1VariableVerletIntegrator" prot="public">OpenMM::VariableVerletIntegrator</innerclass>
+    <innerclass refid="classOpenMM_1_1Vec3" prot="public">OpenMM::Vec3</innerclass>
+    <innerclass refid="classOpenMM_1_1VerletIntegrator" prot="public">OpenMM::VerletIntegrator</innerclass>
+    <innerclass refid="classOpenMM_1_1VirtualSite" prot="public">OpenMM::VirtualSite</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespaceOpenMM_1a5ba1bfe507f2f724ea83d813a41ab0f7" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double OpenMM::NmPerAngstrom</definition>
+        <argsstring></argsstring>
+        <name>NmPerAngstrom</name>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of nanometers in an Angstrom. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" line="57" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceOpenMM_1a02bbb4ad716b0583798821edbabc9c7b" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double OpenMM::AngstromsPerNm</definition>
+        <argsstring></argsstring>
+        <name>AngstromsPerNm</name>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of Angstroms in a nanometer. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" line="61" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceOpenMM_1a208c5c79f77c20e5bdc47b8c805848c6" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double OpenMM::PsPerFs</definition>
+        <argsstring></argsstring>
+        <name>PsPerFs</name>
+        <initializer>= 0.001</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of picoseconds in a femtosecond. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" line="65" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceOpenMM_1a30c933036f00676fd2a33211db4a2da2" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double OpenMM::FsPerPs</definition>
+        <argsstring></argsstring>
+        <name>FsPerPs</name>
+        <initializer>= 1000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of femtoseconds in a picosecond. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" line="69" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceOpenMM_1aa3247aab3f9ae2f5065986e65818672f" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double OpenMM::KJPerKcal</definition>
+        <argsstring></argsstring>
+        <name>KJPerKcal</name>
+        <initializer>= 4.184</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of kJ in a kcal. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" line="73" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceOpenMM_1a6e21bc64c08ccd1a3b207d69b6a95ccf" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double OpenMM::KcalPerKJ</definition>
+        <argsstring></argsstring>
+        <name>KcalPerKJ</name>
+        <initializer>= 1.0/4.184</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of kcal in a kJ. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" line="77" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceOpenMM_1ae4f929ff49aa551f2d337b1e8aea01e8" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double OpenMM::RadiansPerDegree</definition>
+        <argsstring></argsstring>
+        <name>RadiansPerDegree</name>
+        <initializer>= 3.1415926535897932385/180.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of radians in a degree. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" line="81" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceOpenMM_1a84346b7e73ef098536f307919ae6291f" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double OpenMM::DegreesPerRadian</definition>
+        <argsstring></argsstring>
+        <name>DegreesPerRadian</name>
+        <initializer>= 180.0/3.1415926535897932385</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The number of degrees in a radian. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" line="85" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceOpenMM_1a0531747891f557c355b7a5ae47200cfb" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double OpenMM::SigmaPerVdwRadius</definition>
+        <argsstring></argsstring>
+        <name>SigmaPerVdwRadius</name>
+        <initializer>= 1.7817974362806786095</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>L-J sigma per unit van der Waals radius: 2/(2^1/6). </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" line="89" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespaceOpenMM_1aa81411614b73dea23aea4ce48d6dc63c" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double OpenMM::VdwRadiusPerSigma</definition>
+        <argsstring></argsstring>
+        <name>VdwRadiusPerSigma</name>
+        <initializer>= .56123102415468649070</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>van der Waals radius per unit L-J sigma: (2^1/6)/2. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" line="93" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Units.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespaceOpenMM_1a507f97378ab0bebe264479d952e24843" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref></type>
+        <definition>static Vec3 OpenMM::operator*</definition>
+        <argsstring>(double lhs, Vec3 rhs)</argsstring>
+        <name>operator*</name>
+        <param>
+          <type>double</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref></type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Vec3.h" line="160" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Vec3.h" bodystart="160" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespaceOpenMM_1a9a410da4097c68e2f8dce192bcd2185e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class CHAR</type>
+          </param>
+          <param>
+            <type>class TRAITS</type>
+          </param>
+        </templateparamlist>
+        <type>std::basic_ostream&lt; CHAR, TRAITS &gt; &amp;</type>
+        <definition>std::basic_ostream&lt;CHAR,TRAITS&gt;&amp; OpenMM::operator&lt;&lt;</definition>
+        <argsstring>(std::basic_ostream&lt; CHAR, TRAITS &gt; &amp;o, const Vec3 &amp;v)</argsstring>
+        <name>operator&lt;&lt;</name>
+        <param>
+          <type>std::basic_ostream&lt; CHAR, TRAITS &gt; &amp;</type>
+          <declname>o</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Vec3.h" line="160" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Vec3.h" bodystart="165" bodyend="168"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="40" column="1"/>
+  </compounddef>
+</doxygen>

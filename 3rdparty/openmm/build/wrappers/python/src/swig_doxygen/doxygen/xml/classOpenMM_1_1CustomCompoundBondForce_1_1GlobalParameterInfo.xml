@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomCompoundBondForce_1_1GlobalParameterInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomCompoundBondForce::GlobalParameterInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCompoundBondForce_1_1GlobalParameterInfo_1abd47d2ee0bd193bfe0a837b1e4eddf91" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomCompoundBondForce::GlobalParameterInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCompoundBondForce.h" line="392" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCompoundBondForce.h" bodystart="392" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCompoundBondForce_1_1GlobalParameterInfo_1a86ccfb3d2a7c9c7340a63bf3235eaa2c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::CustomCompoundBondForce::GlobalParameterInfo::defaultValue</definition>
+        <argsstring></argsstring>
+        <name>defaultValue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCompoundBondForce.h" line="393" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCompoundBondForce.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomCompoundBondForce_1_1GlobalParameterInfo_1a221d1eec2c54dd9c2a84f7af37a9080a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCompoundBondForce::GlobalParameterInfo::GlobalParameterInfo</definition>
+        <argsstring>()</argsstring>
+        <name>GlobalParameterInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCompoundBondForce.h" line="394" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCompoundBondForce.h" bodystart="394" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCompoundBondForce_1_1GlobalParameterInfo_1ac60adfac7c4ef1c51bb3da82a84b6e39" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCompoundBondForce::GlobalParameterInfo::GlobalParameterInfo</definition>
+        <argsstring>(const std::string &amp;name, double defaultValue)</argsstring>
+        <name>GlobalParameterInfo</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCompoundBondForce.h" line="396" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCompoundBondForce.h" bodystart="396" bodyend="397"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a global parameter. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCompoundBondForce.h" line="390" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCompoundBondForce.h" bodystart="390" bodyend="398"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomCompoundBondForce_1_1GlobalParameterInfo_1a86ccfb3d2a7c9c7340a63bf3235eaa2c" prot="public" virt="non-virtual"><scope>OpenMM::CustomCompoundBondForce::GlobalParameterInfo</scope><name>defaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomCompoundBondForce_1_1GlobalParameterInfo_1a221d1eec2c54dd9c2a84f7af37a9080a" prot="public" virt="non-virtual"><scope>OpenMM::CustomCompoundBondForce::GlobalParameterInfo</scope><name>GlobalParameterInfo</name></member>
+      <member refid="classOpenMM_1_1CustomCompoundBondForce_1_1GlobalParameterInfo_1ac60adfac7c4ef1c51bb3da82a84b6e39" prot="public" virt="non-virtual"><scope>OpenMM::CustomCompoundBondForce::GlobalParameterInfo</scope><name>GlobalParameterInfo</name></member>
+      <member refid="classOpenMM_1_1CustomCompoundBondForce_1_1GlobalParameterInfo_1abd47d2ee0bd193bfe0a837b1e4eddf91" prot="public" virt="non-virtual"><scope>OpenMM::CustomCompoundBondForce::GlobalParameterInfo</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::NonbondedForce::ExceptionInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1aba90b6b58403c6761b71eda8bacb6354" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::NonbondedForce::ExceptionInfo::particle1</definition>
+        <argsstring></argsstring>
+        <name>particle1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="640" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="640" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1a2b205f2711412f2254f4dc3cb3aba839" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::NonbondedForce::ExceptionInfo::particle2</definition>
+        <argsstring></argsstring>
+        <name>particle2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="640" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="640" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1a2606c4bf54d6499cf972690ca27ab526" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NonbondedForce::ExceptionInfo::chargeProd</definition>
+        <argsstring></argsstring>
+        <name>chargeProd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="641" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="641" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1a5b6fbed32bb72e5b36469cf9881cdcb5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NonbondedForce::ExceptionInfo::sigma</definition>
+        <argsstring></argsstring>
+        <name>sigma</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="641" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="641" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1a4a8e6cea8f719c1988b050b1b93b8342" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NonbondedForce::ExceptionInfo::epsilon</definition>
+        <argsstring></argsstring>
+        <name>epsilon</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="641" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="641" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1ac12460319a72f5299c1c7c76935447db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::NonbondedForce::ExceptionInfo::ExceptionInfo</definition>
+        <argsstring>()</argsstring>
+        <name>ExceptionInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="642" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="642" bodyend="645"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1a7cfb7fa5859d1a84a250f976fb7ab34d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::NonbondedForce::ExceptionInfo::ExceptionInfo</definition>
+        <argsstring>(int particle1, int particle2, double chargeProd, double sigma, double epsilon)</argsstring>
+        <name>ExceptionInfo</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>chargeProd</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sigma</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilon</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="646" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="646" bodyend="648"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about an exception. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="638" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="638" bodyend="649"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1a2606c4bf54d6499cf972690ca27ab526" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionInfo</scope><name>chargeProd</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1a4a8e6cea8f719c1988b050b1b93b8342" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionInfo</scope><name>epsilon</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1ac12460319a72f5299c1c7c76935447db" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionInfo</scope><name>ExceptionInfo</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1a7cfb7fa5859d1a84a250f976fb7ab34d" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionInfo</scope><name>ExceptionInfo</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1aba90b6b58403c6761b71eda8bacb6354" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionInfo</scope><name>particle1</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1a2b205f2711412f2254f4dc3cb3aba839" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionInfo</scope><name>particle2</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo_1a5b6fbed32bb72e5b36469cf9881cdcb5" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionInfo</scope><name>sigma</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

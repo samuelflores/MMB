@@ -1,0 +1,1856 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1AmoebaMultipoleForce" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::AmoebaMultipoleForce</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="AmoebaMultipoleForce_8h" local="no">AmoebaMultipoleForce.h</includes>
+    <innerclass refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo" prot="private">OpenMM::AmoebaMultipoleForce::MultipoleInfo</innerclass>
+      <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classOpenMM_1_1AmoebaMultipoleForce_1a23bba08be2c99b39718d90350c1b99d2" prot="public" static="no">
+        <name>NonbondedMethod</name>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1a23bba08be2c99b39718d90350c1b99d2a1a4e89f2ee3e080c24f54285ea372690" prot="public">
+          <name>NoCutoff</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>No cutoff is applied to nonbonded interactions. The full set of N^2 interactions is computed exactly. This necessarily means that periodic boundary conditions cannot be used. This is the default. </para>          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1a23bba08be2c99b39718d90350c1b99d2a2413f247b1ffd40174298fe941269ea9" prot="public">
+          <name>PME</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Periodic boundary conditions are used, and Particle-Mesh Ewald (PME) summation is used to compute the interaction of each particle with all periodic copies of every other particle. </para>          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="57" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="57" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="enum" id="classOpenMM_1_1AmoebaMultipoleForce_1a599e695a4da267c056c5fda945ae2637" prot="public" static="no">
+        <name>PolarizationType</name>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1a599e695a4da267c056c5fda945ae2637aa46a5469c39afb22bff7c7cd38d04f0e" prot="public">
+          <name>Mutual</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Full mutually induced polarization. The dipoles are iterated until the converge to the accuracy specified by <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a9c7ea186b05e7781c87a76c339f7cc74" kindref="member">getMutualInducedTargetEpsilon()</ref>. </para>          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1a599e695a4da267c056c5fda945ae2637a0df492d13428d29b068cf5a2563312fc" prot="public">
+          <name>Direct</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Direct polarization approximation. The induced dipoles depend only on the fixed multipoles, not on other induced dipoles. </para>          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1a599e695a4da267c056c5fda945ae2637abcae570d0cdc66b0a7f675a6821b271a" prot="public">
+          <name>Extrapolated</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Extrapolated perturbation theory approximation. The dipoles are iterated a few times, and then an analytic approximation is used to extrapolate to the fully converged values. Call <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a7928ddc0223859d1aebcf6ef52dfc850" kindref="member">setExtrapolationCoefficients()</ref> to set the coefficients used for the extrapolation. The default coefficients used in this release are [-0.154, 0.017, 0.658, 0.474], but be aware that those may change in a future release. </para>          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="72" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="72" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="enum" id="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89" prot="public" static="no">
+        <name>MultipoleAxisTypes</name>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89a532fbdced093dc369a0322bad6584a6d" prot="public">
+          <name>ZThenX</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89a7f16920b22d333eb7cd0b8534fd26c30" prot="public">
+          <name>Bisector</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89a223b7b3295ec8a9c818b5c158a8a40e2" prot="public">
+          <name>ZBisect</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89af7891ab4c150ac72d7b9b94df956e588" prot="public">
+          <name>ThreeFold</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89aef50d09e2a2430246d787108cb4df72b" prot="public">
+          <name>ZOnly</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89ab39935939830b2c5f1863b6d07a6b361" prot="public">
+          <name>NoAxisType</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89a8cefa9fd0183b440a4d6eb141e384722" prot="public">
+          <name>LastAxisTypeIndex</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="96" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="enum" id="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8" prot="public" static="no">
+        <name>CovalentType</name>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a7acecb7ec3c515e72ebf81a49689b09e" prot="public">
+          <name>Covalent12</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8abb190260915ab71f8898c38707c42a3a" prot="public">
+          <name>Covalent13</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a116b77a20764cea12748f571ac733e1a" prot="public">
+          <name>Covalent14</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a1236fbb36804e870031a0b450a9bf639" prot="public">
+          <name>Covalent15</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8ab2160aa16efc50751ff92091528cc236" prot="public">
+          <name>PolarizationCovalent11</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a8ca980509c109a5416f7fe1b0d1c92c4" prot="public">
+          <name>PolarizationCovalent12</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8ae40235b7b541be2544a1756602c35a8f" prot="public">
+          <name>PolarizationCovalent13</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a9c406533564d1ea961bc1240787aec06" prot="public">
+          <name>PolarizationCovalent14</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a5694492aa2ae1d9b993330c632a1b0b4" prot="public">
+          <name>CovalentEnd</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="98" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="98" bodyend="100"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1af75c5ac5d39d6f1ea879510bdb7eaed8" prot="private" static="no" mutable="no">
+        <type><ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a23bba08be2c99b39718d90350c1b99d2" kindref="member">NonbondedMethod</ref></type>
+        <definition>NonbondedMethod OpenMM::AmoebaMultipoleForce::nonbondedMethod</definition>
+        <argsstring></argsstring>
+        <name>nonbondedMethod</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="448" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1a379225e5e8ff11e86e56cc2667f164f6" prot="private" static="no" mutable="no">
+        <type><ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a599e695a4da267c056c5fda945ae2637" kindref="member">PolarizationType</ref></type>
+        <definition>PolarizationType OpenMM::AmoebaMultipoleForce::polarizationType</definition>
+        <argsstring></argsstring>
+        <name>polarizationType</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="449" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="449" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1a2bf82c331ad8012232116b4f47f5da37" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::cutoffDistance</definition>
+        <argsstring></argsstring>
+        <name>cutoffDistance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="450" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1a08a4d2799f73970a9eec2429f323e234" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="451" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="451" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1a898819902ed531b3ccc4cfd35e5853c4" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::pmeBSplineOrder</definition>
+        <argsstring></argsstring>
+        <name>pmeBSplineOrder</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="452" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1a31cfcb59c1830f868be523cb6ca1ee2a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::nx</definition>
+        <argsstring></argsstring>
+        <name>nx</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="452" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1a62c2438787863c4c424fc5f432e5daec" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::ny</definition>
+        <argsstring></argsstring>
+        <name>ny</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="452" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1aaf3fc49fd3f990726a320ab05f80c8de" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::nz</definition>
+        <argsstring></argsstring>
+        <name>nz</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="452" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1a4a95738b86bc59bce34c362553c5c4f0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::mutualInducedMaxIterations</definition>
+        <argsstring></argsstring>
+        <name>mutualInducedMaxIterations</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="453" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="453" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1ace4dd0f5befd11d09d3e719d2b59fbb7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::AmoebaMultipoleForce::extrapolationCoefficients</definition>
+        <argsstring></argsstring>
+        <name>extrapolationCoefficients</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="454" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="454" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1a6fa5233712890d1b84eb666875f68168" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::mutualInducedTargetEpsilon</definition>
+        <argsstring></argsstring>
+        <name>mutualInducedTargetEpsilon</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="456" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="456" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1ae857ca73248a76e7302408c23d878d7e" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::scalingDistanceCutoff</definition>
+        <argsstring></argsstring>
+        <name>scalingDistanceCutoff</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="457" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="457" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1a7b667ae41c0e43ef1ccfea5d18a749b1" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::electricConstant</definition>
+        <argsstring></argsstring>
+        <name>electricConstant</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="458" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="458" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1a558b6df59f70f4dca0c8923a7a31c2b5" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::ewaldErrorTol</definition>
+        <argsstring></argsstring>
+        <name>ewaldErrorTol</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="459" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="459" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1aac6461783cfd57cc4c05d29ae5b56ea9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; MultipoleInfo &gt;</type>
+        <definition>std::vector&lt;MultipoleInfo&gt; OpenMM::AmoebaMultipoleForce::multipoles</definition>
+        <argsstring></argsstring>
+        <name>multipoles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="461" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="460" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a625c4fcf17e239a61f72f4e93ac38d41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::AmoebaMultipoleForce::AmoebaMultipoleForce</definition>
+        <argsstring>()</argsstring>
+        <name>AmoebaMultipoleForce</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create an <ref refid="classOpenMM_1_1AmoebaMultipoleForce" kindref="compound">AmoebaMultipoleForce</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="105" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a00d6c98862cf4c31b21910582cd3ab34" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::getNumMultipoles</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumMultipoles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of particles in the potential function </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="110" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="110" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a1282b58e473ddfabf4c9e423717faed8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a23bba08be2c99b39718d90350c1b99d2" kindref="member">NonbondedMethod</ref></type>
+        <definition>NonbondedMethod OpenMM::AmoebaMultipoleForce::getNonbondedMethod</definition>
+        <argsstring>() const</argsstring>
+        <name>getNonbondedMethod</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the method used for handling long-range nonbonded interactions. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="117" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a66aaae7cee8cc84ea5e2e2f33d4462a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setNonbondedMethod</definition>
+        <argsstring>(NonbondedMethod method)</argsstring>
+        <name>setNonbondedMethod</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a23bba08be2c99b39718d90350c1b99d2" kindref="member">NonbondedMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the method used for handling long-range nonbonded interactions. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="122" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a7d6f45ff3309045406ae382f0750f818" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a599e695a4da267c056c5fda945ae2637" kindref="member">PolarizationType</ref></type>
+        <definition>PolarizationType OpenMM::AmoebaMultipoleForce::getPolarizationType</definition>
+        <argsstring>() const</argsstring>
+        <name>getPolarizationType</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get polarization type </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="127" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1aa73d3e1d50ccf216338d1275138e497f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setPolarizationType</definition>
+        <argsstring>(PolarizationType type)</argsstring>
+        <name>setPolarizationType</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a599e695a4da267c056c5fda945ae2637" kindref="member">PolarizationType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the polarization type </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="132" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a692640bd4edc65058e549107983f4dd3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::getCutoffDistance</definition>
+        <argsstring>() const</argsstring>
+        <name>getCutoffDistance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the cutoff distance (in nm) being used for nonbonded interactions. If the NonbondedMethod in use is NoCutoff, this value will have no effect.</para><para><simplesect kind="return"><para>the cutoff distance, measured in nm </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="140" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1ac74cb6422fdb4c9be3f631c8fef28e1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setCutoffDistance</definition>
+        <argsstring>(double distance)</argsstring>
+        <name>setCutoffDistance</name>
+        <param>
+          <type>double</type>
+          <declname>distance</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the cutoff distance (in nm) being used for nonbonded interactions. If the NonbondedMethod in use is NoCutoff, this value will have no effect.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>distance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the cutoff distance, measured in nm </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="148" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a66a16dcdeb3f5363ddc8dcf1ba827a2e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::getPMEParameters</definition>
+        <argsstring>(double &amp;alpha, int &amp;nx, int &amp;ny, int &amp;nz) const</argsstring>
+        <name>getPMEParameters</name>
+        <param>
+          <type>double &amp;</type>
+          <declname>alpha</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>nx</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>ny</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>nz</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the parameters to use for PME calculations. If alpha is 0 (the default), these parameters are ignored and instead their values are chosen based on the Ewald error tolerance.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="out">alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the separation parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">nx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of grid points along the X axis </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">ny</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of grid points along the Y axis </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">nz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of grid points along the Z axis </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="159" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1ae6c208c9cbf6c88b3b3eb68f46ef1308" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setPMEParameters</definition>
+        <argsstring>(double alpha, int nx, int ny, int nz)</argsstring>
+        <name>setPMEParameters</name>
+        <param>
+          <type>double</type>
+          <declname>alpha</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nx</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ny</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>nz</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the parameters to use for PME calculations. If alpha is 0 (the default), these parameters are ignored and instead their values are chosen based on the Ewald error tolerance.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the separation parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of grid points along the X axis </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ny</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of grid points along the Y axis </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of grid points along the Z axis </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="170" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a84e355947848226c556c09b1c8f89133" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::getAEwald</definition>
+        <argsstring>() const</argsstring>
+        <name>getAEwald</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the Ewald alpha parameter. If this is 0 (the default), a value is chosen automatically based on the Ewald error tolerance.</para><para><simplesect kind="return"><para>the Ewald alpha parameter </para></simplesect>
+<xrefsect id="deprecated_1_deprecated000026"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This method exists only for backward compatibility. Use <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a66a16dcdeb3f5363ddc8dcf1ba827a2e" kindref="member">getPMEParameters()</ref> instead. </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="179" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a56d4e3101dcbf58bf2921af7d791e3a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setAEwald</definition>
+        <argsstring>(double aewald)</argsstring>
+        <name>setAEwald</name>
+        <param>
+          <type>double</type>
+          <declname>aewald</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the Ewald alpha parameter. If this is 0 (the default), a value is chosen automatically based on the Ewald error tolerance.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>aewald</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>alpha parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="deprecated_1_deprecated000027"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This method exists only for backward compatibility. Use <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1ae6c208c9cbf6c88b3b3eb68f46ef1308" kindref="member">setPMEParameters()</ref> instead. </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="188" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1aba0cebc0fda3b1d8e680021066a4789c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::getPmeBSplineOrder</definition>
+        <argsstring>() const</argsstring>
+        <name>getPmeBSplineOrder</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the B-spline order to use for PME charge spreading</para><para><simplesect kind="return"><para>the B-spline order </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="195" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a63a7e21edb9fac22a07a6afec85087d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::getPmeGridDimensions</definition>
+        <argsstring>(std::vector&lt; int &gt; &amp;gridDimension) const</argsstring>
+        <name>getPmeGridDimensions</name>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>gridDimension</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the PME grid dimensions. If Ewald alpha is 0 (the default), this is ignored and grid dimensions are chosen automatically based on the Ewald error tolerance.</para><para><simplesect kind="return"><para>the PME grid dimensions </para></simplesect>
+<xrefsect id="deprecated_1_deprecated000028"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This method exists only for backward compatibility. Use <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a66a16dcdeb3f5363ddc8dcf1ba827a2e" kindref="member">getPMEParameters()</ref> instead. </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="204" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a0872fbc28e9a58d2d1742474c35068a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setPmeGridDimensions</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;gridDimension)</argsstring>
+        <name>setPmeGridDimensions</name>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>gridDimension</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the PME grid dimensions. If Ewald alpha is 0 (the default), this is ignored and grid dimensions are chosen automatically based on the Ewald error tolerance.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gridDimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the PME grid dimensions </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<xrefsect id="deprecated_1_deprecated000029"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This method exists only for backward compatibility. Use <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1ae6c208c9cbf6c88b3b3eb68f46ef1308" kindref="member">setPMEParameters()</ref> instead. </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="213" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a727b323b58c165863ef501d2bb074f82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::getPMEParametersInContext</definition>
+        <argsstring>(const Context &amp;context, double &amp;alpha, int &amp;nx, int &amp;ny, int &amp;nz) const</argsstring>
+        <name>getPMEParametersInContext</name>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>alpha</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>nx</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>ny</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>nz</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the parameters being used for PME in a particular <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. Because some platforms have restrictions on the allowed grid sizes, the values that are actually used may be slightly different from those specified with <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a0872fbc28e9a58d2d1742474c35068a0" kindref="member">setPmeGridDimensions()</ref>, or the standard values calculated based on the Ewald error tolerance. See the manual for details.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> for which to get the parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the separation parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">nx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of grid points along the X axis </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">ny</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of grid points along the Y axis </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">nz</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of grid points along the Z axis </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="227" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a142f11c6e91ee0f3913b158e98b3c367" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::addMultipole</definition>
+        <argsstring>(double charge, const std::vector&lt; double &gt; &amp;molecularDipole, const std::vector&lt; double &gt; &amp;molecularQuadrupole, int axisType, int multipoleAtomZ, int multipoleAtomX, int multipoleAtomY, double thole, double dampingFactor, double polarity)</argsstring>
+        <name>addMultipole</name>
+        <param>
+          <type>double</type>
+          <declname>charge</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>molecularDipole</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>molecularQuadrupole</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>axisType</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>multipoleAtomZ</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>multipoleAtomX</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>multipoleAtomY</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>thole</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>dampingFactor</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>polarity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add multipole-related info for a particle</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>charge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s charge </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>molecularDipole</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s molecular dipole (vector of size 3) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>molecularQuadrupole</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s molecular quadrupole (vector of size 9) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>axisType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s axis type </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>multipoleAtomZ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index of first atom used in constructing lab&lt;-&gt;molecular frames </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>multipoleAtomX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index of second atom used in constructing lab&lt;-&gt;molecular frames </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>multipoleAtomY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index of second atom used in constructing lab&lt;-&gt;molecular frames </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>thole</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thole parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dampingFactor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>dampingFactor parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>polarity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>polarity parameter</para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the particle that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="245" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1af58e17804ecf0a31c07f7355968377aa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::getMultipoleParameters</definition>
+        <argsstring>(int index, double &amp;charge, std::vector&lt; double &gt; &amp;molecularDipole, std::vector&lt; double &gt; &amp;molecularQuadrupole, int &amp;axisType, int &amp;multipoleAtomZ, int &amp;multipoleAtomX, int &amp;multipoleAtomY, double &amp;thole, double &amp;dampingFactor, double &amp;polarity) const</argsstring>
+        <name>getMultipoleParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>charge</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>molecularDipole</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>molecularQuadrupole</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>axisType</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>multipoleAtomZ</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>multipoleAtomX</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>multipoleAtomY</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>thole</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>dampingFactor</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>polarity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the multipole parameters for a particle.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the atom for which to get parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">charge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s charge </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">molecularDipole</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s molecular dipole (vector of size 3) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">molecularQuadrupole</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s molecular quadrupole (vector of size 9) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">axisType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s axis type </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">multipoleAtomZ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index of first atom used in constructing lab&lt;-&gt;molecular frames </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">multipoleAtomX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index of second atom used in constructing lab&lt;-&gt;molecular frames </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">multipoleAtomY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index of second atom used in constructing lab&lt;-&gt;molecular frames </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">thole</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thole parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">dampingFactor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>dampingFactor parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">polarity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>polarity parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="263" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1ad00cecb2ec269a18070d22b6df4f82d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setMultipoleParameters</definition>
+        <argsstring>(int index, double charge, const std::vector&lt; double &gt; &amp;molecularDipole, const std::vector&lt; double &gt; &amp;molecularQuadrupole, int axisType, int multipoleAtomZ, int multipoleAtomX, int multipoleAtomY, double thole, double dampingFactor, double polarity)</argsstring>
+        <name>setMultipoleParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>charge</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>molecularDipole</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>molecularQuadrupole</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>axisType</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>multipoleAtomZ</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>multipoleAtomX</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>multipoleAtomY</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>thole</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>dampingFactor</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>polarity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the multipole parameters for a particle.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the atom for which to set parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>charge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s charge </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>molecularDipole</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s molecular dipole (vector of size 3) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>molecularQuadrupole</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s molecular quadrupole (vector of size 9) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>axisType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the particle&apos;s axis type </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>multipoleAtomZ</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index of first atom used in constructing lab&lt;-&gt;molecular frames </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>multipoleAtomX</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index of second atom used in constructing lab&lt;-&gt;molecular frames </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>multipoleAtomY</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>index of second atom used in constructing lab&lt;-&gt;molecular frames </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>thole</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>thole parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dampingFactor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>damping factor parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>polarity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>polarity parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="281" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a75c613b91333c3deb256bac761f4ab90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setCovalentMap</definition>
+        <argsstring>(int index, CovalentType typeId, const std::vector&lt; int &gt; &amp;covalentAtoms)</argsstring>
+        <name>setCovalentMap</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>CovalentType</type>
+          <declname>typeId</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>covalentAtoms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the CovalentMap for an atom</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the atom for which to set parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>typeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CovalentTypes type </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>covalentAtoms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>vector of covalent atoms associated w/ the specfied CovalentType </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="291" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a7e11c4aa8b43e80b7a832e7a980398b5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::getCovalentMap</definition>
+        <argsstring>(int index, CovalentType typeId, std::vector&lt; int &gt; &amp;covalentAtoms) const</argsstring>
+        <name>getCovalentMap</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>CovalentType</type>
+          <declname>typeId</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; int &gt; &amp;</type>
+          <declname>covalentAtoms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the CovalentMap for an atom</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the atom for which to set parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>typeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CovalentTypes type </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">covalentAtoms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>output vector of covalent atoms associated w/ the specfied CovalentType </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="300" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a4129959f70364d7a55e0e107ae656f00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::getCovalentMaps</definition>
+        <argsstring>(int index, std::vector&lt; std::vector&lt; int &gt; &gt; &amp;covalentLists) const</argsstring>
+        <name>getCovalentMaps</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::vector&lt; int &gt; &gt; &amp;</type>
+          <declname>covalentLists</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the CovalentMap for an atom</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the atom for which to set parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">covalentLists</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>output vector of covalent lists of atoms </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="308" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1ab3dd000a342a6a360a619ba6d2e0ca50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::getMutualInducedMaxIterations</definition>
+        <argsstring>(void) const</argsstring>
+        <name>getMutualInducedMaxIterations</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the max number of iterations to be used in calculating the mutual induced dipoles</para><para><simplesect kind="return"><para>max number of iterations </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="315" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a532711fb5ca9d64d62e8e7cffd47833d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setMutualInducedMaxIterations</definition>
+        <argsstring>(int inputMutualInducedMaxIterations)</argsstring>
+        <name>setMutualInducedMaxIterations</name>
+        <param>
+          <type>int</type>
+          <declname>inputMutualInducedMaxIterations</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the max number of iterations to be used in calculating the mutual induced dipoles</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inputMutualInducedMaxIterations</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>number of iterations </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="322" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a9c7ea186b05e7781c87a76c339f7cc74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::getMutualInducedTargetEpsilon</definition>
+        <argsstring>(void) const</argsstring>
+        <name>getMutualInducedTargetEpsilon</name>
+        <param>
+          <type>void</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the target epsilon to be used to test for convergence of iterative method used in calculating the mutual induced dipoles</para><para><simplesect kind="return"><para>target epsilon </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="329" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a5ccab58efc180c6da37172412ac73f81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setMutualInducedTargetEpsilon</definition>
+        <argsstring>(double inputMutualInducedTargetEpsilon)</argsstring>
+        <name>setMutualInducedTargetEpsilon</name>
+        <param>
+          <type>double</type>
+          <declname>inputMutualInducedTargetEpsilon</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the target epsilon to be used to test for convergence of iterative method used in calculating the mutual induced dipoles</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inputMutualInducedTargetEpsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>target epsilon </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="336" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a7928ddc0223859d1aebcf6ef52dfc850" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setExtrapolationCoefficients</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;coefficients)</argsstring>
+        <name>setExtrapolationCoefficients</name>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>coefficients</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the coefficients for the mu_0, mu_1, mu_2, ..., mu_n terms in the extrapolation algorithm for induced dipoles.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coefficients</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector whose mth entry specifies the coefficient for mu_m. The length of this vector determines how many iterations are performed. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="346" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1ac5a685b249b888e0f6ef5e42432efcac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; double &gt; &amp;</type>
+        <definition>const std::vector&lt;double&gt;&amp; OpenMM::AmoebaMultipoleForce::getExtrapolationCoefficients</definition>
+        <argsstring>() const</argsstring>
+        <name>getExtrapolationCoefficients</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the coefficients for the mu_0, mu_1, mu_2, ..., mu_n terms in the extrapolation algorithm for induced dipoles. In this release, the default values for the coefficients are [-0.154, 0.017, 0.658, 0.474], but be aware that those may change in a future release. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="353" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1ae8a2ae13970363afce0c4ee373c73e58" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::getEwaldErrorTolerance</definition>
+        <argsstring>() const</argsstring>
+        <name>getEwaldErrorTolerance</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the error tolerance for Ewald summation. This corresponds to the fractional error in the forces which is acceptable. This value is used to select the grid dimensions and separation (alpha) parameter so that the average error level will be less than the tolerance. There is not a rigorous guarantee that all forces on all atoms will be less than the tolerance, however.</para><para>This can be overridden by explicitly setting an alpha parameter and grid dimensions to use. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="363" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a11435c0fc41b4a3dcc5653265a03c59b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::setEwaldErrorTolerance</definition>
+        <argsstring>(double tol)</argsstring>
+        <name>setEwaldErrorTolerance</name>
+        <param>
+          <type>double</type>
+          <declname>tol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the error tolerance for Ewald summation. This corresponds to the fractional error in the forces which is acceptable. This value is used to select the grid dimensions and separation (alpha) parameter so that the average error level will be less than the tolerance. There is not a rigorous guarantee that all forces on all atoms will be less than the tolerance, however.</para><para>This can be overridden by explicitly setting an alpha parameter and grid dimensions to use. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="372" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1ae4020e95fe3e957d0175686cb1b6bd4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::getLabFramePermanentDipoles</definition>
+        <argsstring>(Context &amp;context, std::vector&lt; Vec3 &gt; &amp;dipoles)</argsstring>
+        <name>getLabFramePermanentDipoles</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &gt; &amp;</type>
+          <declname>dipoles</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the fixed dipole moments of all particles in the global reference frame.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> for which to get the fixed dipoles </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">dipoles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the fixed dipole moment of particle i is stored into the i&apos;th element </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="379" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a621f7007ca745ae89ed1fdc633ece8c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::getInducedDipoles</definition>
+        <argsstring>(Context &amp;context, std::vector&lt; Vec3 &gt; &amp;dipoles)</argsstring>
+        <name>getInducedDipoles</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &gt; &amp;</type>
+          <declname>dipoles</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the induced dipole moments of all particles.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> for which to get the induced dipoles </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">dipoles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the induced dipole moment of particle i is stored into the i&apos;th element </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="386" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a348d2453baae40a1a63ef3d01cf71123" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::getTotalDipoles</definition>
+        <argsstring>(Context &amp;context, std::vector&lt; Vec3 &gt; &amp;dipoles)</argsstring>
+        <name>getTotalDipoles</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &gt; &amp;</type>
+          <declname>dipoles</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the total dipole moments (fixed plus induced) of all particles.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> for which to get the total dipoles </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">dipoles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the total dipole moment of particle i is stored into the i&apos;th element </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="394" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a15805a73e9b6a85899897826648af9c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::getElectrostaticPotential</definition>
+        <argsstring>(const std::vector&lt; Vec3 &gt; &amp;inputGrid, Context &amp;context, std::vector&lt; double &gt; &amp;outputElectrostaticPotential)</argsstring>
+        <name>getElectrostaticPotential</name>
+        <param>
+          <type>const std::vector&lt; <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &gt; &amp;</type>
+          <declname>inputGrid</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>outputElectrostaticPotential</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the electrostatic potential.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inputGrid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>input grid points over which the potential is to be evaluated </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>context </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">outputElectrostaticPotential</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>output potential </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="404" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1aa2791affab2a8eacfa18e15607148cd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::getSystemMultipoleMoments</definition>
+        <argsstring>(Context &amp;context, std::vector&lt; double &gt; &amp;outputMultipoleMoments)</argsstring>
+        <name>getSystemMultipoleMoments</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>outputMultipoleMoments</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the system multipole moments.</para><para>This method is most useful for non-periodic systems. When called for a periodic system, only the <emphasis>lowest nonvanishing moment</emphasis> has a well defined value. This means that if the system has a net nonzero charge, the dipole and quadrupole moments are not well defined and should be ignored. If the net charge is zero, the dipole moment is well defined (and really represents a dipole density), but the quadrupole moment is still undefined and should be ignored.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>context </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">outputMultipoleMoments</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>(charge, dipole_x, dipole_y, dipole_z, quadrupole_xx, quadrupole_xy, quadrupole_xz, quadrupole_yx, quadrupole_yy, quadrupole_yz, quadrupole_zx, quadrupole_zy, quadrupole_zz) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="423" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1afd056ceca625c66c688b2d413cb6235a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AmoebaMultipoleForce::updateParametersInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>updateParametersInContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the multipole parameters in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to match those stored in this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. This method provides an efficient method to update certain parameters in an existing <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> without needing to reinitialize it. Simply call <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1ad00cecb2ec269a18070d22b6df4f82d9" kindref="member">setMultipoleParameters()</ref> to modify this object&apos;s parameters, then call <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1afd056ceca625c66c688b2d413cb6235a" kindref="member">updateParametersInContext()</ref> to copy them over to the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para>This method has several limitations. The only information it updates is the parameters of multipoles. All other aspects of the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> (the nonbonded method, the cutoff distance, etc.) are unaffected and can only be changed by reinitializing the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. Furthermore, this method cannot be used to add new multipoles, only to change the parameters of existing ones. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="435" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a846d6f42179f803ff6ba77bb8583ea71" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::AmoebaMultipoleForce::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if nonbondedMethod uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="442" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="442" bodyend="444"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1a8a080cd73bc5e0d4a0db897da35cc1a1" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::AmoebaMultipoleForce::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="446" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class implements the Amoeba multipole interaction.</para><para>To use it, create an <ref refid="classOpenMM_1_1AmoebaMultipoleForce" kindref="compound">AmoebaMultipoleForce</ref> object then call <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1a142f11c6e91ee0f3913b158e98b3c367" kindref="member">addMultipole()</ref> once for each atom. After an entry has been added, you can modify its force field parameters by calling <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1ad00cecb2ec269a18070d22b6df4f82d9" kindref="member">setMultipoleParameters()</ref>. This will have no effect on Contexts that already exist unless you call <ref refid="classOpenMM_1_1AmoebaMultipoleForce_1afd056ceca625c66c688b2d413cb6235a" kindref="member">updateParametersInContext()</ref>. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="17">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="16">
+        <label>OpenMM::AmoebaMultipoleForce</label>
+        <link refid="classOpenMM_1_1AmoebaMultipoleForce"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="19">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="18">
+        <label>OpenMM::AmoebaMultipoleForce</label>
+        <link refid="classOpenMM_1_1AmoebaMultipoleForce"/>
+        <childnode refid="19" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="53" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="53" bodyend="462"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a142f11c6e91ee0f3913b158e98b3c367" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>addMultipole</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a08a4d2799f73970a9eec2429f323e234" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>alpha</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a625c4fcf17e239a61f72f4e93ac38d41" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>AmoebaMultipoleForce</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89a7f16920b22d333eb7cd0b8534fd26c30" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>Bisector</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a7acecb7ec3c515e72ebf81a49689b09e" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>Covalent12</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8abb190260915ab71f8898c38707c42a3a" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>Covalent13</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a116b77a20764cea12748f571ac733e1a" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>Covalent14</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a1236fbb36804e870031a0b450a9bf639" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>Covalent15</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a5694492aa2ae1d9b993330c632a1b0b4" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>CovalentEnd</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>CovalentType</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a8a080cd73bc5e0d4a0db897da35cc1a1" prot="protected" virt="virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a2bf82c331ad8012232116b4f47f5da37" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>cutoffDistance</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a599e695a4da267c056c5fda945ae2637a0df492d13428d29b068cf5a2563312fc" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>Direct</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a7b667ae41c0e43ef1ccfea5d18a749b1" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>electricConstant</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a558b6df59f70f4dca0c8923a7a31c2b5" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>ewaldErrorTol</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a599e695a4da267c056c5fda945ae2637abcae570d0cdc66b0a7f675a6821b271a" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>Extrapolated</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ace4dd0f5befd11d09d3e719d2b59fbb7" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>extrapolationCoefficients</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a84e355947848226c556c09b1c8f89133" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getAEwald</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a7e11c4aa8b43e80b7a832e7a980398b5" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getCovalentMap</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a4129959f70364d7a55e0e107ae656f00" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getCovalentMaps</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a692640bd4edc65058e549107983f4dd3" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getCutoffDistance</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a15805a73e9b6a85899897826648af9c6" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getElectrostaticPotential</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ae8a2ae13970363afce0c4ee373c73e58" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getEwaldErrorTolerance</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ac5a685b249b888e0f6ef5e42432efcac" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getExtrapolationCoefficients</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a621f7007ca745ae89ed1fdc633ece8c0" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getInducedDipoles</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ae4020e95fe3e957d0175686cb1b6bd4b" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getLabFramePermanentDipoles</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1af58e17804ecf0a31c07f7355968377aa" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getMultipoleParameters</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ab3dd000a342a6a360a619ba6d2e0ca50" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getMutualInducedMaxIterations</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a9c7ea186b05e7781c87a76c339f7cc74" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getMutualInducedTargetEpsilon</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a1282b58e473ddfabf4c9e423717faed8" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getNonbondedMethod</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a00d6c98862cf4c31b21910582cd3ab34" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getNumMultipoles</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aba0cebc0fda3b1d8e680021066a4789c" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getPmeBSplineOrder</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a63a7e21edb9fac22a07a6afec85087d9" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getPmeGridDimensions</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a66a16dcdeb3f5363ddc8dcf1ba827a2e" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getPMEParameters</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a727b323b58c165863ef501d2bb074f82" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getPMEParametersInContext</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a7d6f45ff3309045406ae382f0750f818" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getPolarizationType</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aa2791affab2a8eacfa18e15607148cd5" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getSystemMultipoleMoments</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a348d2453baae40a1a63ef3d01cf71123" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>getTotalDipoles</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89a8cefa9fd0183b440a4d6eb141e384722" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>LastAxisTypeIndex</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>MultipoleAxisTypes</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aac6461783cfd57cc4c05d29ae5b56ea9" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>multipoles</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a599e695a4da267c056c5fda945ae2637aa46a5469c39afb22bff7c7cd38d04f0e" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>Mutual</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a4a95738b86bc59bce34c362553c5c4f0" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>mutualInducedMaxIterations</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a6fa5233712890d1b84eb666875f68168" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>mutualInducedTargetEpsilon</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89ab39935939830b2c5f1863b6d07a6b361" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>NoAxisType</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a23bba08be2c99b39718d90350c1b99d2a1a4e89f2ee3e080c24f54285ea372690" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>NoCutoff</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a23bba08be2c99b39718d90350c1b99d2" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>NonbondedMethod</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1af75c5ac5d39d6f1ea879510bdb7eaed8" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>nonbondedMethod</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a31cfcb59c1830f868be523cb6ca1ee2a" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>nx</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a62c2438787863c4c424fc5f432e5daec" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>ny</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aaf3fc49fd3f990726a320ab05f80c8de" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>nz</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a23bba08be2c99b39718d90350c1b99d2a2413f247b1ffd40174298fe941269ea9" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>PME</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a898819902ed531b3ccc4cfd35e5853c4" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>pmeBSplineOrder</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8ab2160aa16efc50751ff92091528cc236" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>PolarizationCovalent11</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a8ca980509c109a5416f7fe1b0d1c92c4" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>PolarizationCovalent12</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8ae40235b7b541be2544a1756602c35a8f" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>PolarizationCovalent13</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ad5a9f9b1f8cf6ee347356af099f66ad8a9c406533564d1ea961bc1240787aec06" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>PolarizationCovalent14</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a599e695a4da267c056c5fda945ae2637" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>PolarizationType</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a379225e5e8ff11e86e56cc2667f164f6" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>polarizationType</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ae857ca73248a76e7302408c23d878d7e" prot="private" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>scalingDistanceCutoff</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a56d4e3101dcbf58bf2921af7d791e3a1" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setAEwald</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a75c613b91333c3deb256bac761f4ab90" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setCovalentMap</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ac74cb6422fdb4c9be3f631c8fef28e1a" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setCutoffDistance</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a11435c0fc41b4a3dcc5653265a03c59b" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setEwaldErrorTolerance</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a7928ddc0223859d1aebcf6ef52dfc850" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setExtrapolationCoefficients</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ad00cecb2ec269a18070d22b6df4f82d9" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setMultipoleParameters</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a532711fb5ca9d64d62e8e7cffd47833d" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setMutualInducedMaxIterations</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a5ccab58efc180c6da37172412ac73f81" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setMutualInducedTargetEpsilon</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a66aaae7cee8cc84ea5e2e2f33d4462a3" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setNonbondedMethod</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a0872fbc28e9a58d2d1742474c35068a0" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setPmeGridDimensions</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1ae6c208c9cbf6c88b3b3eb68f46ef1308" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setPMEParameters</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aa73d3e1d50ccf216338d1275138e497f" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>setPolarizationType</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89af7891ab4c150ac72d7b9b94df956e588" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>ThreeFold</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1afd056ceca625c66c688b2d413cb6235a" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>updateParametersInContext</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1a846d6f42179f803ff6ba77bb8583ea71" prot="public" virt="virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89a223b7b3295ec8a9c818b5c158a8a40e2" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>ZBisect</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89aef50d09e2a2430246d787108cb4df72b" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>ZOnly</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1aca0d9ecdf1a882616587bd998e103b89a532fbdced093dc369a0322bad6584a6d" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>ZThenX</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::AmoebaMultipoleForce</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

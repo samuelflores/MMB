@@ -1,0 +1,574 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1RBTorsionForce" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::RBTorsionForce</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="RBTorsionForce_8h" local="no">RBTorsionForce.h</includes>
+    <innerclass refid="classOpenMM_1_1RBTorsionForce_1_1RBTorsionInfo" prot="private">OpenMM::RBTorsionForce::RBTorsionInfo</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1RBTorsionForce_1a6a952cab1f569e1a4f656c722baf0f7e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; RBTorsionInfo &gt;</type>
+        <definition>std::vector&lt;RBTorsionInfo&gt; OpenMM::RBTorsionForce::rbTorsions</definition>
+        <argsstring></argsstring>
+        <name>rbTorsions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="136" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1RBTorsionForce_1af19a52941d775a4a7398565d7ccf245e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool OpenMM::RBTorsionForce::usePeriodic</definition>
+        <argsstring></argsstring>
+        <name>usePeriodic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="137" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1RBTorsionForce_1afb36855f85cf7d84469e806465986877" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::RBTorsionForce::RBTorsionForce</definition>
+        <argsstring>()</argsstring>
+        <name>RBTorsionForce</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1RBTorsionForce" kindref="compound">RBTorsionForce</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="55" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RBTorsionForce_1a9a6e10cab89a99f2ccf52a9b7d56f971" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::RBTorsionForce::getNumTorsions</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumTorsions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of Ryckaert-Bellemans torsion terms in the potential function </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="59" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RBTorsionForce_1a18460534bbfc8d409dbe7c879d3477c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::RBTorsionForce::addTorsion</definition>
+        <argsstring>(int particle1, int particle2, int particle3, int particle4, double c0, double c1, double c2, double c3, double c4, double c5)</argsstring>
+        <name>addTorsion</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle4</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c3</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c4</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c5</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a Ryckaert-Bellemans torsion term to the force field.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the fourth particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the constant term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 1st order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 2nd order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 3rd order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 4th order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c5</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 5th order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the torsion that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="77" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RBTorsionForce_1aedb22fb2699169f79bbf2139b09ac806" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::RBTorsionForce::getTorsionParameters</definition>
+        <argsstring>(int index, int &amp;particle1, int &amp;particle2, int &amp;particle3, int &amp;particle4, double &amp;c0, double &amp;c1, double &amp;c2, double &amp;c3, double &amp;c4, double &amp;c5) const</argsstring>
+        <name>getTorsionParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle4</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>c0</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>c1</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>c2</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>c3</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>c4</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>c5</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the force field parameters for a Ryckaert-Bellemans torsion term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the torsion for which to get parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the fourth particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">c0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the constant term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">c1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 1st order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">c2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 2nd order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">c3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 3rd order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">c4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 4th order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">c5</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 5th order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="93" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RBTorsionForce_1af61aa6e3e6aaf2913c50b93704025db9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::RBTorsionForce::setTorsionParameters</definition>
+        <argsstring>(int index, int particle1, int particle2, int particle3, int particle4, double c0, double c1, double c2, double c3, double c4, double c5)</argsstring>
+        <name>setTorsionParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle4</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c0</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c3</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c4</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>c5</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the force field parameters for a Ryckaert-Bellemans torsion term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the torsion for which to set parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the fourth particle forming the torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c0</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the constant term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 1st order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 2nd order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 3rd order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 4th order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c5</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the coefficient of the 5th order term, measured in kJ/mol </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="109" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RBTorsionForce_1a3e28b9992e08ccf82158a64d575933a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::RBTorsionForce::updateParametersInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>updateParametersInContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the per-torsion parameters in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to match those stored in this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. This method provides an efficient method to update certain parameters in an existing <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> without needing to reinitialize it. Simply call <ref refid="classOpenMM_1_1RBTorsionForce_1af61aa6e3e6aaf2913c50b93704025db9" kindref="member">setTorsionParameters()</ref> to modify this object&apos;s parameters, then call <ref refid="classOpenMM_1_1RBTorsionForce_1a3e28b9992e08ccf82158a64d575933a1" kindref="member">updateParametersInContext()</ref> to copy them over to the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para>The only information this method updates is the values of per-torsion parameters. The set of particles involved in a torsion cannot be changed, nor can new torsions be added. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="119" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RBTorsionForce_1a30c71133a93de04839f06967d2470086" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::RBTorsionForce::setUsesPeriodicBoundaryConditions</definition>
+        <argsstring>(bool periodic)</argsstring>
+        <name>setUsesPeriodicBoundaryConditions</name>
+        <param>
+          <type>bool</type>
+          <declname>periodic</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set whether this force should apply periodic boundary conditions when calculating displacements. Usually this is not appropriate for bonded forces, but there are situations when it can be useful. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="124" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RBTorsionForce_1aee77f8fd9e62e03d9e14fb65808de621" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::RBTorsionForce::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if force uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="131" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1RBTorsionForce_1a3232dd170ddd042dfa919ef4e03e2848" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::RBTorsionForce::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="133" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class implements an interaction between groups of four particles that varies with the torsion angle between them according to the Ryckaert-Bellemans potential. To use it, create an <ref refid="classOpenMM_1_1RBTorsionForce" kindref="compound">RBTorsionForce</ref> object then call <ref refid="classOpenMM_1_1RBTorsionForce_1a18460534bbfc8d409dbe7c879d3477c6" kindref="member">addTorsion()</ref> once for each torsion. After a torsion has been added, you can modify its force field parameters by calling <ref refid="classOpenMM_1_1RBTorsionForce_1af61aa6e3e6aaf2913c50b93704025db9" kindref="member">setTorsionParameters()</ref>. This will have no effect on Contexts that already exist unless you call <ref refid="classOpenMM_1_1RBTorsionForce_1a3e28b9992e08ccf82158a64d575933a1" kindref="member">updateParametersInContext()</ref>. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="330">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="329">
+        <label>OpenMM::RBTorsionForce</label>
+        <link refid="classOpenMM_1_1RBTorsionForce"/>
+        <childnode refid="330" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="332">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="331">
+        <label>OpenMM::RBTorsionForce</label>
+        <link refid="classOpenMM_1_1RBTorsionForce"/>
+        <childnode refid="332" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" line="50" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/RBTorsionForce.h" bodystart="50" bodyend="138"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1RBTorsionForce_1a18460534bbfc8d409dbe7c879d3477c6" prot="public" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>addTorsion</name></member>
+      <member refid="classOpenMM_1_1RBTorsionForce_1a3232dd170ddd042dfa919ef4e03e2848" prot="protected" virt="virtual"><scope>OpenMM::RBTorsionForce</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1RBTorsionForce_1a9a6e10cab89a99f2ccf52a9b7d56f971" prot="public" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>getNumTorsions</name></member>
+      <member refid="classOpenMM_1_1RBTorsionForce_1aedb22fb2699169f79bbf2139b09ac806" prot="public" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>getTorsionParameters</name></member>
+      <member refid="classOpenMM_1_1RBTorsionForce_1afb36855f85cf7d84469e806465986877" prot="public" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>RBTorsionForce</name></member>
+      <member refid="classOpenMM_1_1RBTorsionForce_1a6a952cab1f569e1a4f656c722baf0f7e" prot="private" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>rbTorsions</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1RBTorsionForce_1af61aa6e3e6aaf2913c50b93704025db9" prot="public" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>setTorsionParameters</name></member>
+      <member refid="classOpenMM_1_1RBTorsionForce_1a30c71133a93de04839f06967d2470086" prot="public" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>setUsesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1RBTorsionForce_1a3e28b9992e08ccf82158a64d575933a1" prot="public" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>updateParametersInContext</name></member>
+      <member refid="classOpenMM_1_1RBTorsionForce_1af19a52941d775a4a7398565d7ccf245e" prot="private" virt="non-virtual"><scope>OpenMM::RBTorsionForce</scope><name>usePeriodic</name></member>
+      <member refid="classOpenMM_1_1RBTorsionForce_1aee77f8fd9e62e03d9e14fb65808de621" prot="public" virt="virtual"><scope>OpenMM::RBTorsionForce</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::RBTorsionForce</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

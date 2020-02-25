@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomCVForce_1_1GlobalParameterInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomCVForce::GlobalParameterInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCVForce_1_1GlobalParameterInfo_1a8853dd1a010410cfa657385a2186c521" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomCVForce::GlobalParameterInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="295" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCVForce_1_1GlobalParameterInfo_1a41799ee678d023a555c357a596c828bf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::CustomCVForce::GlobalParameterInfo::defaultValue</definition>
+        <argsstring></argsstring>
+        <name>defaultValue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="296" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1_1GlobalParameterInfo_1af5b3b035b2ef604800f27e9fb1488dec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCVForce::GlobalParameterInfo::GlobalParameterInfo</definition>
+        <argsstring>()</argsstring>
+        <name>GlobalParameterInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="297" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="297" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1_1GlobalParameterInfo_1a031b200c07e4cb161040932c362800b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCVForce::GlobalParameterInfo::GlobalParameterInfo</definition>
+        <argsstring>(const std::string &amp;name, double defaultValue)</argsstring>
+        <name>GlobalParameterInfo</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="299" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="299" bodyend="300"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a global parameter. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="293" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="293" bodyend="301"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomCVForce_1_1GlobalParameterInfo_1a41799ee678d023a555c357a596c828bf" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce::GlobalParameterInfo</scope><name>defaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1_1GlobalParameterInfo_1af5b3b035b2ef604800f27e9fb1488dec" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce::GlobalParameterInfo</scope><name>GlobalParameterInfo</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1_1GlobalParameterInfo_1a031b200c07e4cb161040932c362800b2" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce::GlobalParameterInfo</scope><name>GlobalParameterInfo</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1_1GlobalParameterInfo_1a8853dd1a010410cfa657385a2186c521" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce::GlobalParameterInfo</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,850 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1Context" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::Context</compoundname>
+    <includes refid="Context_8h" local="no">Context.h</includes>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classOpenMM_1_1Context_1a7e2f3e20ff3f49ee3b9c0e529422b663" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class ContextImpl</definition>
+        <argsstring></argsstring>
+        <name>ContextImpl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="276" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="classOpenMM_1_1Context_1af8c938c866ec933ad058da546558883a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class Force</definition>
+        <argsstring></argsstring>
+        <name>Force</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="277" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="classOpenMM_1_1Context_1abf3debbc7d531797ccbd70098a07ddee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class ForceImpl</definition>
+        <argsstring></argsstring>
+        <name>ForceImpl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="278" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="friend" id="classOpenMM_1_1Context_1a9def841f7cd75057805532dab4d0f459" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class Platform</definition>
+        <argsstring></argsstring>
+        <name>Platform</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="279" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1Context_1ac52193902524502b12ba02508525ebdb" prot="private" static="no" mutable="no">
+        <type><ref refid="classOpenMM_1_1Context_1a7e2f3e20ff3f49ee3b9c0e529422b663" kindref="member">ContextImpl</ref> *</type>
+        <definition>ContextImpl* OpenMM::Context::impl</definition>
+        <argsstring></argsstring>
+        <name>impl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="283" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Context_1a4d928364cc933e99a48346b9e80a2cd6" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; OpenMM::Context::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="284" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a59e8ea1182c4d3c1ad82c0f86b1044e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::Context::Context</definition>
+        <argsstring>(const System &amp;system, Integrator &amp;integrator)</argsstring>
+        <name>Context</name>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> &amp;</type>
+          <declname>system</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> &amp;</type>
+          <declname>integrator</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a new <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> in which to run a simulation.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>system</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> which will be simulated </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>integrator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> which will be used to simulate the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="75" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1ad7877d18578f96342e846f5f0171f473" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::Context::Context</definition>
+        <argsstring>(const System &amp;system, Integrator &amp;integrator, Platform &amp;platform)</argsstring>
+        <name>Context</name>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> &amp;</type>
+          <declname>system</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> &amp;</type>
+          <declname>integrator</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> &amp;</type>
+          <declname>platform</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a new <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> in which to run a simulation, explicitly specifying what <ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> should be used to perform calculations.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>system</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> which will be simulated </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>integrator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> which will be used to simulate the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>platform</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> to use for calculations </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="84" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a4a870c22bee789e43d3d14c75fb44aa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::Context::Context</definition>
+        <argsstring>(const System &amp;system, Integrator &amp;integrator, Platform &amp;platform, const std::map&lt; std::string, std::string &gt; &amp;properties)</argsstring>
+        <name>Context</name>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> &amp;</type>
+          <declname>system</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> &amp;</type>
+          <declname>integrator</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> &amp;</type>
+          <declname>platform</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>properties</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a new <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> in which to run a simulation, explicitly specifying what <ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> should be used to perform calculations and the values of platform-specific properties.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>system</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> which will be simulated </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>integrator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> which will be used to simulate the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>platform</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> to use for calculations </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>properties</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a set of values for platform-specific properties. Keys are the property names. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="94" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1aa8a108df034aa2bdd3feb721c6477449" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::Context::~Context</definition>
+        <argsstring>()</argsstring>
+        <name>~Context</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="95" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a7771a10185cd52dcdd855af48cfda24c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> &amp;</type>
+        <definition>const System&amp; OpenMM::Context::getSystem</definition>
+        <argsstring>() const</argsstring>
+        <name>getSystem</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> being simulated in this context. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="99" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1abc57619c18beb5216875f9b2207fd8ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> &amp;</type>
+        <definition>const Integrator&amp; OpenMM::Context::getIntegrator</definition>
+        <argsstring>() const</argsstring>
+        <name>getIntegrator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> being used to by this context. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="103" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a008d1f294e8a27e57ab0d8df9e48c3f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> &amp;</type>
+        <definition>Integrator&amp; OpenMM::Context::getIntegrator</definition>
+        <argsstring>()</argsstring>
+        <name>getIntegrator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> being used to by this context. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="107" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1ae620bc3076d03b222432359040296374" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> &amp;</type>
+        <definition>const Platform&amp; OpenMM::Context::getPlatform</definition>
+        <argsstring>() const</argsstring>
+        <name>getPlatform</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the <ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> being used for calculations. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="111" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1acffd139ae153d72a61cdcd78e9f38520" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> &amp;</type>
+        <definition>Platform&amp; OpenMM::Context::getPlatform</definition>
+        <argsstring>()</argsstring>
+        <name>getPlatform</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the <ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> being used for calculations. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="115" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a60d4c6fd8ba0f202d12c71d3860d8a63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1State" kindref="compound">State</ref></type>
+        <definition>State OpenMM::Context::getState</definition>
+        <argsstring>(int types, bool enforcePeriodicBox=false, int groups=0xFFFFFFFF) const</argsstring>
+        <name>getState</name>
+        <param>
+          <type>int</type>
+          <declname>types</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enforcePeriodicBox</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>groups</declname>
+          <defval>0xFFFFFFFF</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a <ref refid="classOpenMM_1_1State" kindref="compound">State</ref> object recording the current state information stored in this context.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>types</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the set of data types which should be stored in the <ref refid="classOpenMM_1_1State" kindref="compound">State</ref> object. This should be a union of DataType values, e.g. (<ref refid="classOpenMM_1_1State_1a33046c06dbd6c93b71cc5d1448771933a8a29780edc4c2177e02baf36e831d7a8" kindref="member">State::Positions</ref> | <ref refid="classOpenMM_1_1State_1a33046c06dbd6c93b71cc5d1448771933a05a304f7ed317c9984a6a1f00c357495" kindref="member">State::Velocities</ref>). </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enforcePeriodicBox</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if false, the position of each particle will be whatever position is stored in the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>, regardless of periodic boundary conditions. If true, particle positions will be translated so the center of every molecule lies in the same periodic box. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>groups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a set of bit flags for which force groups to include when computing forces and energies. Group i will be included if (groups&amp;(1&lt;&lt;i)) != 0. The default value includes all groups. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="127" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a089b598279a2e9d97c5491bb28cdd97b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::setState</definition>
+        <argsstring>(const State &amp;state)</argsstring>
+        <name>setState</name>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1State" kindref="compound">State</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Copy information from a <ref refid="classOpenMM_1_1State" kindref="compound">State</ref> object into this <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. This restores the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to approximately the same state it was in when the <ref refid="classOpenMM_1_1State" kindref="compound">State</ref> was created. If the <ref refid="classOpenMM_1_1State" kindref="compound">State</ref> does not include a piece of information (e.g. positions or velocities), that aspect of the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is left unchanged.</para><para>Even when all possible information is included in the <ref refid="classOpenMM_1_1State" kindref="compound">State</ref>, the effect of calling this method is still less complete than <ref refid="classOpenMM_1_1Context_1a48e3d6ff750f9849e9d2f0fc525a5aef" kindref="member">loadCheckpoint()</ref>. For example, it does not restore the internal states of random number generators. On the other hand, it has the advantage of not being hardware specific. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="139" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a51de7154c362e1dd5d436574dedd8a0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::setTime</definition>
+        <argsstring>(double time)</argsstring>
+        <name>setTime</name>
+        <param>
+          <type>double</type>
+          <declname>time</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the current time of the simulation (in picoseconds). </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="143" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1aa2ef02829cc8ff94f1de0a6b76bddeba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::setPositions</definition>
+        <argsstring>(const std::vector&lt; Vec3 &gt; &amp;positions)</argsstring>
+        <name>setPositions</name>
+        <param>
+          <type>const std::vector&lt; <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &gt; &amp;</type>
+          <declname>positions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the positions of all particles in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> (measured in nm). This method simply sets the positions without checking to see whether they satisfy distance constraints. If you want constraints to be enforced, call <ref refid="classOpenMM_1_1Context_1ad47f1b8173f909c51baa8fedd3cfcb42" kindref="member">applyConstraints()</ref> after setting the positions.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>positions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector whose length equals the number of particles in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. The i&apos;th element contains the position of the i&apos;th particle. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="152" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a546310d844a02bb68d8efd48f01e6c13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::setVelocities</definition>
+        <argsstring>(const std::vector&lt; Vec3 &gt; &amp;velocities)</argsstring>
+        <name>setVelocities</name>
+        <param>
+          <type>const std::vector&lt; <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &gt; &amp;</type>
+          <declname>velocities</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the velocities of all particles in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> (measured in nm/picosecond).</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>velocities</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a vector whose length equals the number of particles in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. The i&apos;th element contains the velocity of the i&apos;th particle. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="159" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a99c0a55468a9885d8ecbd40eb464bcef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::setVelocitiesToTemperature</definition>
+        <argsstring>(double temperature, int randomSeed=osrngseed())</argsstring>
+        <name>setVelocitiesToTemperature</name>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>randomSeed</declname>
+          <defval>osrngseed()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the velocities of all particles in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> to random values chosen from a Boltzmann distribution at a given temperature.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the temperature for which to select the velocities (measured in Kelvin) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>randomSeed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the random number seed to use when selecting velocities </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="167" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a3923b148285320d23c0dc0e0f6800457" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::map&lt; std::string, double &gt; &amp;</type>
+        <definition>const std::map&lt;std::string, double&gt;&amp; OpenMM::Context::getParameters</definition>
+        <argsstring>() const</argsstring>
+        <name>getParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all adjustable parameters that have been defined by <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> objects in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>, along with their current values. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="172" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a64795bdd0004407427a72deab1479533" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::Context::getParameter</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getParameter</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the value of an adjustable parameter defined by a <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="178" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a368b7f53ee35bb151ee686441b7900af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::setParameter</definition>
+        <argsstring>(const std::string &amp;name, double value)</argsstring>
+        <name>setParameter</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the value of an adjustable parameter defined by a <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter to set </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="185" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a9290069003944cdf1ab63b85bd3f35f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::setPeriodicBoxVectors</definition>
+        <argsstring>(const Vec3 &amp;a, const Vec3 &amp;b, const Vec3 &amp;c)</argsstring>
+        <name>setPeriodicBoxVectors</name>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the vectors defining the axes of the periodic box (measured in nm). They will affect any <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> that uses periodic boundary conditions.</para><para>Triclinic boxes are supported, but the vectors must satisfy certain requirements. In particular, a must point in the x direction, b must point &quot;mostly&quot; in the y direction, and c must point &quot;mostly&quot; in the z direction. See the documentation for details.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the vector defining the first edge of the periodic box </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the vector defining the second edge of the periodic box </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the vector defining the third edge of the periodic box </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="198" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1ad47f1b8173f909c51baa8fedd3cfcb42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::applyConstraints</definition>
+        <argsstring>(double tol)</argsstring>
+        <name>applyConstraints</name>
+        <param>
+          <type>double</type>
+          <declname>tol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the positions of particles so that all distance constraints are satisfied. This also recomputes the locations of all virtual sites.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the distance tolerance within which constraints must be satisfied. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="205" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a300d8d5841cc7372b0786d38a2eaa80d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::applyVelocityConstraints</definition>
+        <argsstring>(double tol)</argsstring>
+        <name>applyVelocityConstraints</name>
+        <param>
+          <type>double</type>
+          <declname>tol</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the velocities of particles so the net velocity of each constrained distance is zero.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tol</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the velocity tolerance within which constraints must be satisfied. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="211" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1ac1a8a9293f1e605cdbe8376c74874e88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::computeVirtualSites</definition>
+        <argsstring>()</argsstring>
+        <name>computeVirtualSites</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Recompute the locations of all virtual sites. There is rarely a reason to call this, since virtual sites are also updated by <ref refid="classOpenMM_1_1Context_1ad47f1b8173f909c51baa8fedd3cfcb42" kindref="member">applyConstraints()</ref>. This is only for the rare situations when you want to enforce virtual sites but <emphasis>not</emphasis> constraints. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="218" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a4e7c05a9541b0de2b380534e8e55bcb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::reinitialize</definition>
+        <argsstring>(bool preserveState=false)</argsstring>
+        <name>reinitialize</name>
+        <param>
+          <type>bool</type>
+          <declname>preserveState</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it caches information about the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> being simulated and the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> objects contained in it. This means that, if the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> or Forces are then modified, the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> does not see the changes. Call <ref refid="classOpenMM_1_1Context_1a4e7c05a9541b0de2b380534e8e55bcb3" kindref="member">reinitialize()</ref> to force the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to rebuild its internal representation of the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> and pick up any changes that have been made.</para><para>This is an expensive operation, so you should try to avoid calling it too frequently. Most <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> classes have an updateParametersInContext() method that provides a less expensive way of updating certain types of information. However, this method is the only way to make some types of changes, so it is sometimes necessary to call it.</para><para>By default, reinitializing a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> causes all state information (positions, velocities, etc.) to be discarded. You can optionally tell it to try to preserve state information. It does this by internally creating a checkpoint, then reinitializing the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>, then loading the checkpoint. Be aware that if the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> has changed in a way that prevents the checkpoint from being loaded (such as changing the number of particles), this will throw an exception and the state information will be lost. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="238" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1abaef06b56c175990c5b292a75ba31c2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::createCheckpoint</definition>
+        <argsstring>(std::ostream &amp;stream)</argsstring>
+        <name>createCheckpoint</name>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a checkpoint recording the current state of the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. This should be treated as an opaque block of binary data. See <ref refid="classOpenMM_1_1Context_1a48e3d6ff750f9849e9d2f0fc525a5aef" kindref="member">loadCheckpoint()</ref> for more details.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>an output stream the checkpoint data should be written to </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="245" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a48e3d6ff750f9849e9d2f0fc525a5aef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Context::loadCheckpoint</definition>
+        <argsstring>(std::istream &amp;stream)</argsstring>
+        <name>loadCheckpoint</name>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Load a checkpoint that was written by <ref refid="classOpenMM_1_1Context_1abaef06b56c175990c5b292a75ba31c2f" kindref="member">createCheckpoint()</ref>.</para><para>A checkpoint contains not only publicly visible data such as the particle positions and velocities, but also internal data such as the states of random number generators. Ideally, loading a checkpoint should restore the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to an identical state to when it was written, such that continuing the simulation will produce an identical trajectory. This is not strictly guaranteed to be true, however, and should not be relied on. For most purposes, however, the internal state should be close enough to be reasonably considered equivalent.</para><para>A checkpoint contains data that is highly specific to the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> from which it was created. It depends on the details of the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>, the <ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> being used, and the hardware and software of the computer it was created on. If you try to load it on a computer with different hardware, or for a <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> that is different in any way, loading is likely to fail. Checkpoints created with different versions of <ref refid="namespaceOpenMM" kindref="compound">OpenMM</ref> are also often incompatible. If a checkpoint cannot be loaded, that is signaled by throwing an exception.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>an input stream the checkpoint data should be read from </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="265" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a5fa955501d6dcb0874cf13a68b1e0617" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt;std::vector&lt;int&gt; &gt;&amp; OpenMM::Context::getMolecules</definition>
+        <argsstring>() const</argsstring>
+        <name>getMolecules</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a description of how the particles in the system are grouped into molecules. Two particles are in the same molecule if they are connected by constraints or bonds, where every <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object can define bonds in whatever way are appropriate to that force.</para><para>Each element lists the indices of all particles in a single molecule. Every particle is guaranteed to belong to exactly one molecule. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="274" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classOpenMM_1_1Context_1af9ff764968a20ae7aea912a6e142b719" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::Context::Context</definition>
+        <argsstring>(const System &amp;system, Integrator &amp;integrator, ContextImpl &amp;linked)</argsstring>
+        <name>Context</name>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> &amp;</type>
+          <declname>system</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> &amp;</type>
+          <declname>integrator</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context_1a7e2f3e20ff3f49ee3b9c0e529422b663" kindref="member">ContextImpl</ref> &amp;</type>
+          <declname>linked</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="280" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1aca49e1220b794aad46ef35aa8dd95ace" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1Context_1a7e2f3e20ff3f49ee3b9c0e529422b663" kindref="member">ContextImpl</ref> &amp;</type>
+        <definition>ContextImpl&amp; OpenMM::Context::getImpl</definition>
+        <argsstring>()</argsstring>
+        <name>getImpl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="281" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Context_1a1643608e4fa6397c3253e32d69641c39" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classOpenMM_1_1Context_1a7e2f3e20ff3f49ee3b9c0e529422b663" kindref="member">ContextImpl</ref> &amp;</type>
+        <definition>const ContextImpl&amp; OpenMM::Context::getImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>getImpl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="282" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>A <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> stores the complete state of a simulation. More specifically, it includes:</para><para><itemizedlist>
+<listitem>
+<para>The current time </para></listitem>
+<listitem>
+<para>The position of each particle </para></listitem>
+<listitem>
+<para>The velocity of each particle </para></listitem>
+<listitem>
+<para>The values of configurable parameters defined by <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> objects in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> </para></listitem>
+</itemizedlist>
+</para><para>You can retrieve a snapshot of the current state at any time by calling <ref refid="classOpenMM_1_1Context_1a60d4c6fd8ba0f202d12c71d3860d8a63" kindref="member">getState()</ref>. This allows you to record the state of the simulation at various points, either for analysis or for checkpointing. <ref refid="classOpenMM_1_1Context_1a60d4c6fd8ba0f202d12c71d3860d8a63" kindref="member">getState()</ref> can also be used to retrieve the current forces on each particle and the current energy of the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" line="67" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Context.h" bodystart="67" bodyend="285"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1Context_1ad47f1b8173f909c51baa8fedd3cfcb42" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>applyConstraints</name></member>
+      <member refid="classOpenMM_1_1Context_1a300d8d5841cc7372b0786d38a2eaa80d" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>applyVelocityConstraints</name></member>
+      <member refid="classOpenMM_1_1Context_1ac1a8a9293f1e605cdbe8376c74874e88" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>computeVirtualSites</name></member>
+      <member refid="classOpenMM_1_1Context_1a59e8ea1182c4d3c1ad82c0f86b1044e4" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>Context</name></member>
+      <member refid="classOpenMM_1_1Context_1ad7877d18578f96342e846f5f0171f473" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>Context</name></member>
+      <member refid="classOpenMM_1_1Context_1a4a870c22bee789e43d3d14c75fb44aa3" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>Context</name></member>
+      <member refid="classOpenMM_1_1Context_1af9ff764968a20ae7aea912a6e142b719" prot="private" virt="non-virtual"><scope>OpenMM::Context</scope><name>Context</name></member>
+      <member refid="classOpenMM_1_1Context_1a7e2f3e20ff3f49ee3b9c0e529422b663" prot="private" virt="non-virtual"><scope>OpenMM::Context</scope><name>ContextImpl</name></member>
+      <member refid="classOpenMM_1_1Context_1abaef06b56c175990c5b292a75ba31c2f" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>createCheckpoint</name></member>
+      <member refid="classOpenMM_1_1Context_1af8c938c866ec933ad058da546558883a" prot="private" virt="non-virtual"><scope>OpenMM::Context</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1Context_1abf3debbc7d531797ccbd70098a07ddee" prot="private" virt="non-virtual"><scope>OpenMM::Context</scope><name>ForceImpl</name></member>
+      <member refid="classOpenMM_1_1Context_1aca49e1220b794aad46ef35aa8dd95ace" prot="private" virt="non-virtual"><scope>OpenMM::Context</scope><name>getImpl</name></member>
+      <member refid="classOpenMM_1_1Context_1a1643608e4fa6397c3253e32d69641c39" prot="private" virt="non-virtual"><scope>OpenMM::Context</scope><name>getImpl</name></member>
+      <member refid="classOpenMM_1_1Context_1abc57619c18beb5216875f9b2207fd8ca" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>getIntegrator</name></member>
+      <member refid="classOpenMM_1_1Context_1a008d1f294e8a27e57ab0d8df9e48c3f8" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>getIntegrator</name></member>
+      <member refid="classOpenMM_1_1Context_1a5fa955501d6dcb0874cf13a68b1e0617" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>getMolecules</name></member>
+      <member refid="classOpenMM_1_1Context_1a64795bdd0004407427a72deab1479533" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>getParameter</name></member>
+      <member refid="classOpenMM_1_1Context_1a3923b148285320d23c0dc0e0f6800457" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>getParameters</name></member>
+      <member refid="classOpenMM_1_1Context_1ae620bc3076d03b222432359040296374" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>getPlatform</name></member>
+      <member refid="classOpenMM_1_1Context_1acffd139ae153d72a61cdcd78e9f38520" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>getPlatform</name></member>
+      <member refid="classOpenMM_1_1Context_1a60d4c6fd8ba0f202d12c71d3860d8a63" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>getState</name></member>
+      <member refid="classOpenMM_1_1Context_1a7771a10185cd52dcdd855af48cfda24c" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>getSystem</name></member>
+      <member refid="classOpenMM_1_1Context_1ac52193902524502b12ba02508525ebdb" prot="private" virt="non-virtual"><scope>OpenMM::Context</scope><name>impl</name></member>
+      <member refid="classOpenMM_1_1Context_1a48e3d6ff750f9849e9d2f0fc525a5aef" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>loadCheckpoint</name></member>
+      <member refid="classOpenMM_1_1Context_1a9def841f7cd75057805532dab4d0f459" prot="private" virt="non-virtual"><scope>OpenMM::Context</scope><name>Platform</name></member>
+      <member refid="classOpenMM_1_1Context_1a4d928364cc933e99a48346b9e80a2cd6" prot="private" virt="non-virtual"><scope>OpenMM::Context</scope><name>properties</name></member>
+      <member refid="classOpenMM_1_1Context_1a4e7c05a9541b0de2b380534e8e55bcb3" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>reinitialize</name></member>
+      <member refid="classOpenMM_1_1Context_1a368b7f53ee35bb151ee686441b7900af" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>setParameter</name></member>
+      <member refid="classOpenMM_1_1Context_1a9290069003944cdf1ab63b85bd3f35f1" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>setPeriodicBoxVectors</name></member>
+      <member refid="classOpenMM_1_1Context_1aa2ef02829cc8ff94f1de0a6b76bddeba" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>setPositions</name></member>
+      <member refid="classOpenMM_1_1Context_1a089b598279a2e9d97c5491bb28cdd97b" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>setState</name></member>
+      <member refid="classOpenMM_1_1Context_1a51de7154c362e1dd5d436574dedd8a0a" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>setTime</name></member>
+      <member refid="classOpenMM_1_1Context_1a546310d844a02bb68d8efd48f01e6c13" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>setVelocities</name></member>
+      <member refid="classOpenMM_1_1Context_1a99c0a55468a9885d8ecbd40eb464bcef" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>setVelocitiesToTemperature</name></member>
+      <member refid="classOpenMM_1_1Context_1aa8a108df034aa2bdd3feb721c6477449" prot="public" virt="non-virtual"><scope>OpenMM::Context</scope><name>~Context</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

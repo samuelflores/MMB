@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1OpenMMException" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::OpenMMException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">exception</basecompoundref>
+    <includes refid="OpenMMException_8h" local="no">OpenMMException.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1OpenMMException_1af95d96e6e02bd230b0c3da7820125b12" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::OpenMMException::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h" line="54" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1OpenMMException_1a63b0e8845fc9690488f948b1077f50a7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::OpenMMException::OpenMMException</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>OpenMMException</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h" line="46" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h" bodystart="46" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1OpenMMException_1a77d9b446939f6e7ac722f7a18a7fa81e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::OpenMMException::~OpenMMException</definition>
+        <argsstring>()</argsstring>
+        <name>~OpenMMException</name>
+        <exceptions> throw ()</exceptions>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h" line="48" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h" bodystart="48" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1OpenMMException_1aba93b6b15cf553bc9bbb9227a1c03b3c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char* OpenMM::OpenMMException::what</definition>
+        <argsstring>() const</argsstring>
+        <name>what</name>
+        <exceptions> throw ()</exceptions>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h" line="50" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h" bodystart="50" bodyend="52"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class is used for all exceptions thrown by <ref refid="namespaceOpenMM" kindref="compound">OpenMM</ref>. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="288">
+        <label>std::exception</label>
+      </node>
+      <node id="287">
+        <label>OpenMM::OpenMMException</label>
+        <link refid="classOpenMM_1_1OpenMMException"/>
+        <childnode refid="288" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="290">
+        <label>std::exception</label>
+      </node>
+      <node id="289">
+        <label>OpenMM::OpenMMException</label>
+        <link refid="classOpenMM_1_1OpenMMException"/>
+        <childnode refid="290" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h" line="44" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/OpenMMException.h" bodystart="44" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1OpenMMException_1af95d96e6e02bd230b0c3da7820125b12" prot="private" virt="non-virtual"><scope>OpenMM::OpenMMException</scope><name>message</name></member>
+      <member refid="classOpenMM_1_1OpenMMException_1a63b0e8845fc9690488f948b1077f50a7" prot="public" virt="non-virtual"><scope>OpenMM::OpenMMException</scope><name>OpenMMException</name></member>
+      <member refid="classOpenMM_1_1OpenMMException_1aba93b6b15cf553bc9bbb9227a1c03b3c" prot="public" virt="non-virtual"><scope>OpenMM::OpenMMException</scope><name>what</name></member>
+      <member refid="classOpenMM_1_1OpenMMException_1a77d9b446939f6e7ac722f7a18a7fa81e" prot="public" virt="non-virtual"><scope>OpenMM::OpenMMException</scope><name>~OpenMMException</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

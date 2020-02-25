@@ -1,0 +1,409 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1HarmonicAngleForce" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::HarmonicAngleForce</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="HarmonicAngleForce_8h" local="no">HarmonicAngleForce.h</includes>
+    <innerclass refid="classOpenMM_1_1HarmonicAngleForce_1_1AngleInfo" prot="private">OpenMM::HarmonicAngleForce::AngleInfo</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1HarmonicAngleForce_1ac8b0725c5db0fc818325576ea4665159" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; AngleInfo &gt;</type>
+        <definition>std::vector&lt;AngleInfo&gt; OpenMM::HarmonicAngleForce::angles</definition>
+        <argsstring></argsstring>
+        <name>angles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="120" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1HarmonicAngleForce_1a3f349741664b907c31c56f117de4b420" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool OpenMM::HarmonicAngleForce::usePeriodic</definition>
+        <argsstring></argsstring>
+        <name>usePeriodic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="121" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1HarmonicAngleForce_1a50bc4181310dabac01449d46086f1f8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::HarmonicAngleForce::HarmonicAngleForce</definition>
+        <argsstring>()</argsstring>
+        <name>HarmonicAngleForce</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1HarmonicAngleForce" kindref="compound">HarmonicAngleForce</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="55" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1HarmonicAngleForce_1a95ab7cda540badf50516bbae00d4ddf8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::HarmonicAngleForce::getNumAngles</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumAngles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of harmonic bond angle terms in the potential function </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="59" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1HarmonicAngleForce_1ab18fb60664e3f8a4988984247ea42450" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::HarmonicAngleForce::addAngle</definition>
+        <argsstring>(int particle1, int particle2, int particle3, double angle, double k)</argsstring>
+        <name>addAngle</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>angle</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add an angle term to the force field.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the angle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the angle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the angle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>angle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the equilibrium angle, measured in radians </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the harmonic force constant for the angle, measured in kJ/mol/radian^2 </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the angle that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="72" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1HarmonicAngleForce_1aa70b7536cb096ce8b71b0748675c3601" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::HarmonicAngleForce::getAngleParameters</definition>
+        <argsstring>(int index, int &amp;particle1, int &amp;particle2, int &amp;particle3, double &amp;angle, double &amp;k) const</argsstring>
+        <name>getAngleParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>angle</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the force field parameters for an angle term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the angle for which to get parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the angle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the angle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the angle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">angle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the equilibrium angle, measured in radians </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the harmonic force constant for the angle, measured in kJ/mol/radian^2 </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="83" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1HarmonicAngleForce_1aa38589e6e5faeef78446a0e234290660" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::HarmonicAngleForce::setAngleParameters</definition>
+        <argsstring>(int index, int particle1, int particle2, int particle3, double angle, double k)</argsstring>
+        <name>setAngleParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>angle</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the force field parameters for an angle term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the angle for which to set parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the angle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the angle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the angle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>angle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the equilibrium angle, measured in radians </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the harmonic force constant for the angle, measured in kJ/mol/radian^2 </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="94" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1HarmonicAngleForce_1a69918806e888c8d2c3c76ba2710c4c8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::HarmonicAngleForce::updateParametersInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>updateParametersInContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the per-angle parameters in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to match those stored in this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. This method provides an efficient method to update certain parameters in an existing <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> without needing to reinitialize it. Simply call <ref refid="classOpenMM_1_1HarmonicAngleForce_1aa38589e6e5faeef78446a0e234290660" kindref="member">setAngleParameters()</ref> to modify this object&apos;s parameters, then call <ref refid="classOpenMM_1_1HarmonicAngleForce_1a69918806e888c8d2c3c76ba2710c4c8f" kindref="member">updateParametersInContext()</ref> to copy them over to the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para>The only information this method updates is the values of per-angle parameters. The set of particles involved in a angle cannot be changed, nor can new angles be added. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="104" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1HarmonicAngleForce_1ae61ff4f32685f6d47e193459294bd529" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::HarmonicAngleForce::setUsesPeriodicBoundaryConditions</definition>
+        <argsstring>(bool periodic)</argsstring>
+        <name>setUsesPeriodicBoundaryConditions</name>
+        <param>
+          <type>bool</type>
+          <declname>periodic</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set whether this force should apply periodic boundary conditions when calculating displacements. Usually this is not appropriate for bonded forces, but there are situations when it can be useful. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="109" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1HarmonicAngleForce_1ac2116a3372dfed857eee10a44bbc5927" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::HarmonicAngleForce::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if force uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="116" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1HarmonicAngleForce_1aa865d9a8b43566f8fd1eaa048d482048" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::HarmonicAngleForce::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="117" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class implements an interaction between groups of three particles that varies harmonically with the angle between them. To use it, create a <ref refid="classOpenMM_1_1HarmonicAngleForce" kindref="compound">HarmonicAngleForce</ref> object then call <ref refid="classOpenMM_1_1HarmonicAngleForce_1ab18fb60664e3f8a4988984247ea42450" kindref="member">addAngle()</ref> once for each angle. After an angle has been added, you can modify its force field parameters by calling <ref refid="classOpenMM_1_1HarmonicAngleForce_1aa38589e6e5faeef78446a0e234290660" kindref="member">setAngleParameters()</ref>. This will have no effect on Contexts that already exist unless you call <ref refid="classOpenMM_1_1HarmonicAngleForce_1a69918806e888c8d2c3c76ba2710c4c8f" kindref="member">updateParametersInContext()</ref>. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="230">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="229">
+        <label>OpenMM::HarmonicAngleForce</label>
+        <link refid="classOpenMM_1_1HarmonicAngleForce"/>
+        <childnode refid="230" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="232">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="231">
+        <label>OpenMM::HarmonicAngleForce</label>
+        <link refid="classOpenMM_1_1HarmonicAngleForce"/>
+        <childnode refid="232" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" line="50" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/HarmonicAngleForce.h" bodystart="50" bodyend="122"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1HarmonicAngleForce_1ab18fb60664e3f8a4988984247ea42450" prot="public" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>addAngle</name></member>
+      <member refid="classOpenMM_1_1HarmonicAngleForce_1ac8b0725c5db0fc818325576ea4665159" prot="private" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>angles</name></member>
+      <member refid="classOpenMM_1_1HarmonicAngleForce_1aa865d9a8b43566f8fd1eaa048d482048" prot="protected" virt="virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1HarmonicAngleForce_1aa70b7536cb096ce8b71b0748675c3601" prot="public" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>getAngleParameters</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1HarmonicAngleForce_1a95ab7cda540badf50516bbae00d4ddf8" prot="public" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>getNumAngles</name></member>
+      <member refid="classOpenMM_1_1HarmonicAngleForce_1a50bc4181310dabac01449d46086f1f8b" prot="public" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>HarmonicAngleForce</name></member>
+      <member refid="classOpenMM_1_1HarmonicAngleForce_1aa38589e6e5faeef78446a0e234290660" prot="public" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>setAngleParameters</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1HarmonicAngleForce_1ae61ff4f32685f6d47e193459294bd529" prot="public" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>setUsesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1HarmonicAngleForce_1a69918806e888c8d2c3c76ba2710c4c8f" prot="public" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>updateParametersInContext</name></member>
+      <member refid="classOpenMM_1_1HarmonicAngleForce_1a3f349741664b907c31c56f117de4b420" prot="private" virt="non-virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>usePeriodic</name></member>
+      <member refid="classOpenMM_1_1HarmonicAngleForce_1ac2116a3372dfed857eee10a44bbc5927" prot="public" virt="virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::HarmonicAngleForce</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

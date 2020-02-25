@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1OutOfPlaneSite" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::OutOfPlaneSite</compoundname>
+    <basecompoundref refid="classOpenMM_1_1VirtualSite" prot="public" virt="non-virtual">OpenMM::VirtualSite</basecompoundref>
+    <includes refid="VirtualSite_8h" local="no">VirtualSite.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1OutOfPlaneSite_1a74fac505d5d563f73800db4a807c9b05" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::OutOfPlaneSite::weight12</definition>
+        <argsstring></argsstring>
+        <name>weight12</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="167" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1OutOfPlaneSite_1a514289587570d38f8cf64acdd045562b" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::OutOfPlaneSite::weight13</definition>
+        <argsstring></argsstring>
+        <name>weight13</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="167" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1OutOfPlaneSite_1ab1b890625feb5cfb0188bf900601a27c" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::OutOfPlaneSite::weightCross</definition>
+        <argsstring></argsstring>
+        <name>weightCross</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="167" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1OutOfPlaneSite_1aa9442688108b1baac6e1cf51e21a1cae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::OutOfPlaneSite::OutOfPlaneSite</definition>
+        <argsstring>(int particle1, int particle2, int particle3, double weight12, double weight13, double weightCross)</argsstring>
+        <name>OutOfPlaneSite</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight12</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weight13</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>weightCross</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new <ref refid="classOpenMM_1_1OutOfPlaneSite" kindref="compound">OutOfPlaneSite</ref> virtual site.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight12</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factor for the vector from particle1 to particle2 </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight13</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factor for the vector from particle1 to particle3 </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weightCross</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factor for the cross product </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="153" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1OutOfPlaneSite_1ae7bb7716428860bd6f04d1c19fbd3532" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::OutOfPlaneSite::getWeight12</definition>
+        <argsstring>() const</argsstring>
+        <name>getWeight12</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weight factor for the vector from particle1 to particle2. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="157" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1OutOfPlaneSite_1ab22b28515ca108d7565b26e7a5da20a0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::OutOfPlaneSite::getWeight13</definition>
+        <argsstring>() const</argsstring>
+        <name>getWeight13</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weight factor for the vector from particle1 to particle3. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="161" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1OutOfPlaneSite_1aa4dc38efb2f02fc799d12505263b71ba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::OutOfPlaneSite::getWeightCross</definition>
+        <argsstring>() const</argsstring>
+        <name>getWeightCross</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weight factor for the cross product. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="165" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is a <ref refid="classOpenMM_1_1VirtualSite" kindref="compound">VirtualSite</ref> that computes the particle location based on three other particles&apos; locations. If r<subscript>1</subscript> is the location of particle 1, r<subscript>12</subscript> is the vector from particle 1 to particle 2, and r<subscript>13</subscript> is the vector from particle 1 to particle 3, then the virtual site location is given by</para><para>r<subscript>1</subscript> + w<subscript>12</subscript>r<subscript>12</subscript> + w<subscript>13</subscript>r<subscript>13</subscript> + w<subscript>cross</subscript>(r<subscript>12</subscript> x r<subscript>13</subscript>)</para><para>The three weight factors are user-specified. This allows the virtual site location to be out of the plane of the three particles. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="391">
+        <label>OpenMM::OutOfPlaneSite</label>
+        <link refid="classOpenMM_1_1OutOfPlaneSite"/>
+        <childnode refid="392" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="392">
+        <label>OpenMM::VirtualSite</label>
+        <link refid="classOpenMM_1_1VirtualSite"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="393">
+        <label>OpenMM::OutOfPlaneSite</label>
+        <link refid="classOpenMM_1_1OutOfPlaneSite"/>
+        <childnode refid="394" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="394">
+        <label>OpenMM::VirtualSite</label>
+        <link refid="classOpenMM_1_1VirtualSite"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="141" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="141" bodyend="168"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1VirtualSite_1a4e228a080c51c677a3d79772c2615c1a" prot="public" virt="non-virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>getNumParticles</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1a7c6b5b8eaac689ede4cd831e26c032f9" prot="public" virt="non-virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>getParticle</name></member>
+      <member refid="classOpenMM_1_1OutOfPlaneSite_1ae7bb7716428860bd6f04d1c19fbd3532" prot="public" virt="non-virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>getWeight12</name></member>
+      <member refid="classOpenMM_1_1OutOfPlaneSite_1ab22b28515ca108d7565b26e7a5da20a0" prot="public" virt="non-virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>getWeight13</name></member>
+      <member refid="classOpenMM_1_1OutOfPlaneSite_1aa4dc38efb2f02fc799d12505263b71ba" prot="public" virt="non-virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>getWeightCross</name></member>
+      <member refid="classOpenMM_1_1OutOfPlaneSite_1aa9442688108b1baac6e1cf51e21a1cae" prot="public" virt="non-virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>OutOfPlaneSite</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1ace9d369cb1809df040f5025c43ef2c0d" prot="protected" virt="non-virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>setParticles</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1a565dfbb5e6a82a2337f2710c13825483" prot="protected" virt="non-virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>VirtualSite</name></member>
+      <member refid="classOpenMM_1_1OutOfPlaneSite_1a74fac505d5d563f73800db4a807c9b05" prot="private" virt="non-virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>weight12</name></member>
+      <member refid="classOpenMM_1_1OutOfPlaneSite_1a514289587570d38f8cf64acdd045562b" prot="private" virt="non-virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>weight13</name></member>
+      <member refid="classOpenMM_1_1OutOfPlaneSite_1ab1b890625feb5cfb0188bf900601a27c" prot="private" virt="non-virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>weightCross</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1aeb160de3c491a0cb742a7c72bfc3fd1d" prot="public" virt="virtual"><scope>OpenMM::OutOfPlaneSite</scope><name>~VirtualSite</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

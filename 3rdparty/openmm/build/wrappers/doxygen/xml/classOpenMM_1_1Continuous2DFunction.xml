@@ -1,0 +1,433 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1Continuous2DFunction" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::Continuous2DFunction</compoundname>
+    <basecompoundref refid="classOpenMM_1_1TabulatedFunction" prot="public" virt="non-virtual">OpenMM::TabulatedFunction</basecompoundref>
+    <includes refid="TabulatedFunction_8h" local="no">TabulatedFunction.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1Continuous2DFunction_1a104cb919541e52b9db4dc990c07c1254" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::Continuous2DFunction::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="171" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Continuous2DFunction_1a077c3e20601e85d40085a578cacfc768" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::Continuous2DFunction::xsize</definition>
+        <argsstring></argsstring>
+        <name>xsize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="172" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Continuous2DFunction_1a80ec01dd11301e6c29581ae0e99919fb" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::Continuous2DFunction::ysize</definition>
+        <argsstring></argsstring>
+        <name>ysize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="172" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Continuous2DFunction_1a188e45131261ebf77deed5cf161098ee" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::Continuous2DFunction::xmin</definition>
+        <argsstring></argsstring>
+        <name>xmin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="173" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Continuous2DFunction_1a7da2ef75c4d91fcb4702c66a0e8da0af" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::Continuous2DFunction::xmax</definition>
+        <argsstring></argsstring>
+        <name>xmax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="173" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Continuous2DFunction_1a95f01544928bb8c14e3a56260e407567" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::Continuous2DFunction::ymin</definition>
+        <argsstring></argsstring>
+        <name>ymin</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="173" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Continuous2DFunction_1aecf3159ddeee54c11d6223feaaaf1e38" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::Continuous2DFunction::ymax</definition>
+        <argsstring></argsstring>
+        <name>ymax</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="173" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1Continuous2DFunction_1aa2f046f9d96ace75ca18870e6fd2df3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::Continuous2DFunction::Continuous2DFunction</definition>
+        <argsstring>(int xsize, int ysize, const std::vector&lt; double &gt; &amp;values, double xmin, double xmax, double ymin, double ymax)</argsstring>
+        <name>Continuous2DFunction</name>
+        <param>
+          <type>int</type>
+          <declname>xsize</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ysize</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>xmin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>xmax</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ymin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ymax</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1Continuous2DFunction" kindref="compound">Continuous2DFunction</ref> f(x,y) based on a set of tabulated values.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the tabulated values of the function f(x,y) at xsize uniformly spaced values of x between xmin and xmax, and ysize values of y between ymin and ymax. A natural cubic spline is used to interpolate between the tabulated values. The function is assumed to be zero when x or y is outside its specified range. The values should be ordered so that values[i+xsize*j] = f(x_i,y_j), where x_i is the i&apos;th uniformly spaced value of x. This must be of length xsize*ysize. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the x direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ysize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the y direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xmin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the first element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xmax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the last element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ymin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of y corresponding to the first element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ymax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of y corresponding to the last element of values </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="133" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Continuous2DFunction_1ac354c57d9d3ba0f61890f1ddc8981f65" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Continuous2DFunction::getFunctionParameters</definition>
+        <argsstring>(int &amp;xsize, int &amp;ysize, std::vector&lt; double &gt; &amp;values, double &amp;xmin, double &amp;xmax, double &amp;ymin, double &amp;ymax) const</argsstring>
+        <name>getFunctionParameters</name>
+        <param>
+          <type>int &amp;</type>
+          <declname>xsize</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>ysize</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>xmin</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>xmax</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>ymin</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>ymax</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the parameters for the tabulated function.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="out">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the tabulated values of the function f(x,y) at xsize uniformly spaced values of x between xmin and xmax, and ysize values of y between ymin and ymax. A natural cubic spline is used to interpolate between the tabulated values. The function is assumed to be zero when x or y is outside its specified range. The values should be ordered so that values[i+xsize*j] = f(x_i,y_j), where x_i is the i&apos;th uniformly spaced value of x. This must be of length xsize*ysize. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">xsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the x direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">ysize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the y direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">xmin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the first element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">xmax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the last element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">ymin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of y corresponding to the first element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">ymax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of y corresponding to the last element of values </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="148" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Continuous2DFunction_1a61dce052a991d553d7642b41fa1e58f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Continuous2DFunction::setFunctionParameters</definition>
+        <argsstring>(int xsize, int ysize, const std::vector&lt; double &gt; &amp;values, double xmin, double xmax, double ymin, double ymax)</argsstring>
+        <name>setFunctionParameters</name>
+        <param>
+          <type>int</type>
+          <declname>xsize</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ysize</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>xmin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>xmax</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ymin</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ymax</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the parameters for the tabulated function.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the tabulated values of the function f(x,y) at xsize uniformly spaced values of x between xmin and xmax, and ysize values of y between ymin and ymax. A natural cubic spline is used to interpolate between the tabulated values. The function is assumed to be zero when x or y is outside its specified range. The values should be ordered so that values[i+xsize*j] = f(x_i,y_j), where x_i is the i&apos;th uniformly spaced value of x. This must be of length xsize*ysize. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the x direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ysize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the y direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xmin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the first element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xmax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of x corresponding to the last element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ymin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of y corresponding to the first element of values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ymax</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the value of y corresponding to the last element of values </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="163" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Continuous2DFunction_1a4b02399cef4ae51a1ed6c53ace3d4a29" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classOpenMM_1_1Continuous2DFunction" kindref="compound">Continuous2DFunction</ref> *</type>
+        <definition>Continuous2DFunction* OpenMM::Continuous2DFunction::Copy</definition>
+        <argsstring>() const</argsstring>
+        <name>Copy</name>
+        <reimplements refid="classOpenMM_1_1TabulatedFunction_1abeff78bec7bba6f538e16b571404342c">Copy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a deep copy of the tabulated function</para><para><xrefsect id="deprecated_1_deprecated000020"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This will be removed in a future release. </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="169" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is a <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> that computes a continuous two dimensional function. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="60">
+        <label>OpenMM::TabulatedFunction</label>
+        <link refid="classOpenMM_1_1TabulatedFunction"/>
+      </node>
+      <node id="59">
+        <label>OpenMM::Continuous2DFunction</label>
+        <link refid="classOpenMM_1_1Continuous2DFunction"/>
+        <childnode refid="60" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="62">
+        <label>OpenMM::TabulatedFunction</label>
+        <link refid="classOpenMM_1_1TabulatedFunction"/>
+      </node>
+      <node id="61">
+        <label>OpenMM::Continuous2DFunction</label>
+        <link refid="classOpenMM_1_1Continuous2DFunction"/>
+        <childnode refid="62" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="117" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="117" bodyend="174"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1Continuous2DFunction_1aa2f046f9d96ace75ca18870e6fd2df3c" prot="public" virt="non-virtual"><scope>OpenMM::Continuous2DFunction</scope><name>Continuous2DFunction</name></member>
+      <member refid="classOpenMM_1_1Continuous2DFunction_1a4b02399cef4ae51a1ed6c53ace3d4a29" prot="public" virt="virtual"><scope>OpenMM::Continuous2DFunction</scope><name>Copy</name></member>
+      <member refid="classOpenMM_1_1Continuous2DFunction_1ac354c57d9d3ba0f61890f1ddc8981f65" prot="public" virt="non-virtual"><scope>OpenMM::Continuous2DFunction</scope><name>getFunctionParameters</name></member>
+      <member refid="classOpenMM_1_1Continuous2DFunction_1a61dce052a991d553d7642b41fa1e58f4" prot="public" virt="non-virtual"><scope>OpenMM::Continuous2DFunction</scope><name>setFunctionParameters</name></member>
+      <member refid="classOpenMM_1_1Continuous2DFunction_1a104cb919541e52b9db4dc990c07c1254" prot="private" virt="non-virtual"><scope>OpenMM::Continuous2DFunction</scope><name>values</name></member>
+      <member refid="classOpenMM_1_1Continuous2DFunction_1a7da2ef75c4d91fcb4702c66a0e8da0af" prot="private" virt="non-virtual"><scope>OpenMM::Continuous2DFunction</scope><name>xmax</name></member>
+      <member refid="classOpenMM_1_1Continuous2DFunction_1a188e45131261ebf77deed5cf161098ee" prot="private" virt="non-virtual"><scope>OpenMM::Continuous2DFunction</scope><name>xmin</name></member>
+      <member refid="classOpenMM_1_1Continuous2DFunction_1a077c3e20601e85d40085a578cacfc768" prot="private" virt="non-virtual"><scope>OpenMM::Continuous2DFunction</scope><name>xsize</name></member>
+      <member refid="classOpenMM_1_1Continuous2DFunction_1aecf3159ddeee54c11d6223feaaaf1e38" prot="private" virt="non-virtual"><scope>OpenMM::Continuous2DFunction</scope><name>ymax</name></member>
+      <member refid="classOpenMM_1_1Continuous2DFunction_1a95f01544928bb8c14e3a56260e407567" prot="private" virt="non-virtual"><scope>OpenMM::Continuous2DFunction</scope><name>ymin</name></member>
+      <member refid="classOpenMM_1_1Continuous2DFunction_1a80ec01dd11301e6c29581ae0e99919fb" prot="private" virt="non-virtual"><scope>OpenMM::Continuous2DFunction</scope><name>ysize</name></member>
+      <member refid="classOpenMM_1_1TabulatedFunction_1a05a008921f73a6a35179ca9b1440dd0f" prot="public" virt="virtual"><scope>OpenMM::Continuous2DFunction</scope><name>~TabulatedFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

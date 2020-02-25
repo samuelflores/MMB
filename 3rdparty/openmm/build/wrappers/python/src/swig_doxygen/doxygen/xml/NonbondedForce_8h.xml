@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="NonbondedForce_8h" kind="file" language="C++">
+    <compoundname>NonbondedForce.h</compoundname>
+    <includes refid="Context_8h" local="yes">Context.h</includes>
+    <includes refid="Force_8h" local="yes">Force.h</includes>
+    <includes local="no">map</includes>
+    <includes local="no">set</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">internal/windowsExport.h</includes>
+    <includedby refid="OpenMM_8h" local="yes">/home/sam/github/openmm/openmmapi/include/OpenMM.h</includedby>
+    <incdepgraph>
+      <node id="463">
+        <label>internal/OSRngSeed.h</label>
+      </node>
+      <node id="453">
+        <label>Integrator.h</label>
+        <link refid="Integrator_8h_source"/>
+        <childnode refid="454" relation="include">
+        </childnode>
+        <childnode refid="455" relation="include">
+        </childnode>
+        <childnode refid="458" relation="include">
+        </childnode>
+        <childnode refid="460" relation="include">
+        </childnode>
+        <childnode refid="461" relation="include">
+        </childnode>
+      </node>
+      <node id="461">
+        <label>internal/windowsExport.h</label>
+      </node>
+      <node id="456">
+        <label>cassert</label>
+      </node>
+      <node id="459">
+        <label>string</label>
+      </node>
+      <node id="458">
+        <label>map</label>
+      </node>
+      <node id="452">
+        <label>Context.h</label>
+        <link refid="Context_8h_source"/>
+        <childnode refid="453" relation="include">
+        </childnode>
+        <childnode refid="454" relation="include">
+        </childnode>
+        <childnode refid="462" relation="include">
+        </childnode>
+        <childnode refid="457" relation="include">
+        </childnode>
+        <childnode refid="458" relation="include">
+        </childnode>
+        <childnode refid="459" relation="include">
+        </childnode>
+        <childnode refid="460" relation="include">
+        </childnode>
+        <childnode refid="461" relation="include">
+        </childnode>
+        <childnode refid="463" relation="include">
+        </childnode>
+      </node>
+      <node id="460">
+        <label>vector</label>
+      </node>
+      <node id="466">
+        <label>utility</label>
+      </node>
+      <node id="457">
+        <label>iosfwd</label>
+      </node>
+      <node id="454">
+        <label>State.h</label>
+        <link refid="State_8h_source"/>
+        <childnode refid="455" relation="include">
+        </childnode>
+        <childnode refid="458" relation="include">
+        </childnode>
+        <childnode refid="459" relation="include">
+        </childnode>
+        <childnode refid="460" relation="include">
+        </childnode>
+        <childnode refid="461" relation="include">
+        </childnode>
+      </node>
+      <node id="464">
+        <label>Force.h</label>
+        <link refid="Force_8h_source"/>
+        <childnode refid="461" relation="include">
+        </childnode>
+      </node>
+      <node id="455">
+        <label>Vec3.h</label>
+        <link refid="Vec3_8h_source"/>
+        <childnode refid="456" relation="include">
+        </childnode>
+        <childnode refid="457" relation="include">
+        </childnode>
+      </node>
+      <node id="462">
+        <label>System.h</label>
+        <link refid="System_8h_source"/>
+        <childnode refid="455" relation="include">
+        </childnode>
+        <childnode refid="460" relation="include">
+        </childnode>
+        <childnode refid="461" relation="include">
+        </childnode>
+      </node>
+      <node id="451">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h</label>
+        <link refid="NonbondedForce_8h"/>
+        <childnode refid="452" relation="include">
+        </childnode>
+        <childnode refid="464" relation="include">
+        </childnode>
+        <childnode refid="458" relation="include">
+        </childnode>
+        <childnode refid="465" relation="include">
+        </childnode>
+        <childnode refid="466" relation="include">
+        </childnode>
+        <childnode refid="460" relation="include">
+        </childnode>
+        <childnode refid="461" relation="include">
+        </childnode>
+      </node>
+      <node id="465">
+        <label>set</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="468">
+        <label>/home/sam/github/openmm/openmmapi/include/OpenMM.h</label>
+        <link refid="OpenMM_8h_source"/>
+      </node>
+      <node id="467">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h</label>
+        <link refid="NonbondedForce_8h"/>
+        <childnode refid="468" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classOpenMM_1_1NonbondedForce" prot="public">OpenMM::NonbondedForce</innerclass>
+    <innerclass refid="classOpenMM_1_1NonbondedForce_1_1ParticleInfo" prot="private">OpenMM::NonbondedForce::ParticleInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1NonbondedForce_1_1ExceptionInfo" prot="private">OpenMM::NonbondedForce::ExceptionInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1NonbondedForce_1_1GlobalParameterInfo" prot="private">OpenMM::NonbondedForce::GlobalParameterInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo" prot="private">OpenMM::NonbondedForce::ParticleOffsetInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo" prot="private">OpenMM::NonbondedForce::ExceptionOffsetInfo</innerclass>
+    <innernamespace refid="namespaceOpenMM">OpenMM</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1Discrete3DFunction" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::Discrete3DFunction</compoundname>
+    <basecompoundref refid="classOpenMM_1_1TabulatedFunction" prot="public" virt="non-virtual">OpenMM::TabulatedFunction</basecompoundref>
+    <includes refid="TabulatedFunction_8h" local="no">TabulatedFunction.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1Discrete3DFunction_1a3ad4fd9b4478eae8cc23b525efbf5025" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::Discrete3DFunction::xsize</definition>
+        <argsstring></argsstring>
+        <name>xsize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="377" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Discrete3DFunction_1a1ddbbc7905a3e1d9e4739652e1d02a72" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::Discrete3DFunction::ysize</definition>
+        <argsstring></argsstring>
+        <name>ysize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="377" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Discrete3DFunction_1ab38af99a5d2732f06907e83ba4774451" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::Discrete3DFunction::zsize</definition>
+        <argsstring></argsstring>
+        <name>zsize</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="377" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1Discrete3DFunction_1a59c6faf47e838c7c46302d46715bc360" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::Discrete3DFunction::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="378" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1Discrete3DFunction_1a508509fe0336cf0a1d373f5c6834705a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::Discrete3DFunction::Discrete3DFunction</definition>
+        <argsstring>(int xsize, int ysize, int zsize, const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>Discrete3DFunction</name>
+        <param>
+          <type>int</type>
+          <declname>xsize</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ysize</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>zsize</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1Discrete3DFunction" kindref="compound">Discrete3DFunction</ref> f(x,y,z) based on a set of tabulated values.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>xsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the x direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ysize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the y direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>zsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the z direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the tabulated values of the function f(x,y,z), ordered so that values[i+xsize*j+xsize*ysize*k] = f(i,j,k). This must be of length xsize*ysize*zsize. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="349" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Discrete3DFunction_1ad2d863680d23d3bc8003de999d91ed27" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Discrete3DFunction::getFunctionParameters</definition>
+        <argsstring>(int &amp;xsize, int &amp;ysize, int &amp;zsize, std::vector&lt; double &gt; &amp;values) const</argsstring>
+        <name>getFunctionParameters</name>
+        <param>
+          <type>int &amp;</type>
+          <declname>xsize</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>ysize</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>zsize</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the parameters for the tabulated function.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="out">xsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the x direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">ysize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the y direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">zsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the z direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the tabulated values of the function f(x,y,z), ordered so that values[i+xsize*j+xsize*ysize*k] = f(i,j,k). This must be of length xsize*ysize*zsize. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="359" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Discrete3DFunction_1aef9ba683aecfa55113545938d0f9bccf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Discrete3DFunction::setFunctionParameters</definition>
+        <argsstring>(int xsize, int ysize, int zsize, const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>setFunctionParameters</name>
+        <param>
+          <type>int</type>
+          <declname>xsize</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ysize</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>zsize</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the parameters for the tabulated function.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>xsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the x direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ysize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the y direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>zsize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of table elements along the z direction </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the tabulated values of the function f(x,y,z), ordered so that values[i+xsize*j+xsize*ysize*k] = f(i,j,k). This must be of length xsize*ysize*zsize. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="369" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Discrete3DFunction_1ad0df5f2198df5d249ac066f668c20f0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classOpenMM_1_1Discrete3DFunction" kindref="compound">Discrete3DFunction</ref> *</type>
+        <definition>Discrete3DFunction* OpenMM::Discrete3DFunction::Copy</definition>
+        <argsstring>() const</argsstring>
+        <name>Copy</name>
+        <reimplements refid="classOpenMM_1_1TabulatedFunction_1abeff78bec7bba6f538e16b571404342c">Copy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a deep copy of the tabulated function</para><para><xrefsect id="deprecated_1_deprecated000024"><xreftitle>Deprecated</xreftitle><xrefdescription><para>This will be removed in a future release. </para></xrefdescription></xrefsect></para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="375" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is a <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> that computes a discrete three dimensional function f(x,y,z). To evaluate it, x, y, and z are each rounded to the nearest integer and the table element with those indices is returned. If any index is outside the range [0, size), the result is undefined. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="175">
+        <label>OpenMM::TabulatedFunction</label>
+        <link refid="classOpenMM_1_1TabulatedFunction"/>
+      </node>
+      <node id="174">
+        <label>OpenMM::Discrete3DFunction</label>
+        <link refid="classOpenMM_1_1Discrete3DFunction"/>
+        <childnode refid="175" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="177">
+        <label>OpenMM::TabulatedFunction</label>
+        <link refid="classOpenMM_1_1TabulatedFunction"/>
+      </node>
+      <node id="176">
+        <label>OpenMM::Discrete3DFunction</label>
+        <link refid="classOpenMM_1_1Discrete3DFunction"/>
+        <childnode refid="177" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" line="338" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/TabulatedFunction.h" bodystart="338" bodyend="379"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1Discrete3DFunction_1ad0df5f2198df5d249ac066f668c20f0e" prot="public" virt="virtual"><scope>OpenMM::Discrete3DFunction</scope><name>Copy</name></member>
+      <member refid="classOpenMM_1_1Discrete3DFunction_1a508509fe0336cf0a1d373f5c6834705a" prot="public" virt="non-virtual"><scope>OpenMM::Discrete3DFunction</scope><name>Discrete3DFunction</name></member>
+      <member refid="classOpenMM_1_1Discrete3DFunction_1ad2d863680d23d3bc8003de999d91ed27" prot="public" virt="non-virtual"><scope>OpenMM::Discrete3DFunction</scope><name>getFunctionParameters</name></member>
+      <member refid="classOpenMM_1_1Discrete3DFunction_1aef9ba683aecfa55113545938d0f9bccf" prot="public" virt="non-virtual"><scope>OpenMM::Discrete3DFunction</scope><name>setFunctionParameters</name></member>
+      <member refid="classOpenMM_1_1Discrete3DFunction_1a59c6faf47e838c7c46302d46715bc360" prot="private" virt="non-virtual"><scope>OpenMM::Discrete3DFunction</scope><name>values</name></member>
+      <member refid="classOpenMM_1_1Discrete3DFunction_1a3ad4fd9b4478eae8cc23b525efbf5025" prot="private" virt="non-virtual"><scope>OpenMM::Discrete3DFunction</scope><name>xsize</name></member>
+      <member refid="classOpenMM_1_1Discrete3DFunction_1a1ddbbc7905a3e1d9e4739652e1d02a72" prot="private" virt="non-virtual"><scope>OpenMM::Discrete3DFunction</scope><name>ysize</name></member>
+      <member refid="classOpenMM_1_1Discrete3DFunction_1ab38af99a5d2732f06907e83ba4774451" prot="private" virt="non-virtual"><scope>OpenMM::Discrete3DFunction</scope><name>zsize</name></member>
+      <member refid="classOpenMM_1_1TabulatedFunction_1a05a008921f73a6a35179ca9b1440dd0f" prot="public" virt="virtual"><scope>OpenMM::Discrete3DFunction</scope><name>~TabulatedFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

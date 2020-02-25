@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG  -rdynamic -msse2 -DLEPTON_USE_JIT -Wl,--no-as-needed -lrt CMakeFiles/TestSerializeAmoebaGeneralizedKirkwoodForce.dir/TestSerializeAmoebaGeneralizedKirkwoodForce.cpp.o  -o ../../../../TestSerializeAmoebaGeneralizedKirkwoodForce -Wl,-rpath,/home/sam/github/openmm/build ../../../../libOpenMMAmoeba.so ../../../../libOpenMM.so -ldl -lpthread 

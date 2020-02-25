@@ -1,0 +1,444 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1Force" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>OpenMM::Force</compoundname>
+    <derivedcompoundref refid="classOpenMM_1_1AndersenThermostat" prot="public" virt="non-virtual">OpenMM::AndersenThermostat</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CMAPTorsionForce" prot="public" virt="non-virtual">OpenMM::CMAPTorsionForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CMMotionRemover" prot="public" virt="non-virtual">OpenMM::CMMotionRemover</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CustomAngleForce" prot="public" virt="non-virtual">OpenMM::CustomAngleForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CustomBondForce" prot="public" virt="non-virtual">OpenMM::CustomBondForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CustomCentroidBondForce" prot="public" virt="non-virtual">OpenMM::CustomCentroidBondForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CustomCompoundBondForce" prot="public" virt="non-virtual">OpenMM::CustomCompoundBondForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CustomCVForce" prot="public" virt="non-virtual">OpenMM::CustomCVForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CustomExternalForce" prot="public" virt="non-virtual">OpenMM::CustomExternalForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CustomGBForce" prot="public" virt="non-virtual">OpenMM::CustomGBForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CustomHbondForce" prot="public" virt="non-virtual">OpenMM::CustomHbondForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CustomManyParticleForce" prot="public" virt="non-virtual">OpenMM::CustomManyParticleForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CustomNonbondedForce" prot="public" virt="non-virtual">OpenMM::CustomNonbondedForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1CustomTorsionForce" prot="public" virt="non-virtual">OpenMM::CustomTorsionForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1GayBerneForce" prot="public" virt="non-virtual">OpenMM::GayBerneForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1GBSAOBCForce" prot="public" virt="non-virtual">OpenMM::GBSAOBCForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1HarmonicAngleForce" prot="public" virt="non-virtual">OpenMM::HarmonicAngleForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1HarmonicBondForce" prot="public" virt="non-virtual">OpenMM::HarmonicBondForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1MonteCarloAnisotropicBarostat" prot="public" virt="non-virtual">OpenMM::MonteCarloAnisotropicBarostat</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1MonteCarloBarostat" prot="public" virt="non-virtual">OpenMM::MonteCarloBarostat</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1MonteCarloMembraneBarostat" prot="public" virt="non-virtual">OpenMM::MonteCarloMembraneBarostat</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1NonbondedForce" prot="public" virt="non-virtual">OpenMM::NonbondedForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1PeriodicTorsionForce" prot="public" virt="non-virtual">OpenMM::PeriodicTorsionForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1RBTorsionForce" prot="public" virt="non-virtual">OpenMM::RBTorsionForce</derivedcompoundref>
+    <derivedcompoundref refid="classOpenMM_1_1RMSDForce" prot="public" virt="non-virtual">OpenMM::RMSDForce</derivedcompoundref>
+    <includes refid="Force_8h" local="no">Force.h</includes>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classOpenMM_1_1Force_1a7e2f3e20ff3f49ee3b9c0e529422b663" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class ContextImpl</definition>
+        <argsstring></argsstring>
+        <name>ContextImpl</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="90" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1Force_1aae1489f643dfda1452ea04951f8629ed" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::Force::forceGroup</definition>
+        <argsstring></argsstring>
+        <name>forceGroup</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="110" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::Force::Force</definition>
+        <argsstring>()</argsstring>
+        <name>Force</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="67" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" bodystart="67" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type></type>
+        <definition>virtual OpenMM::Force::~Force</definition>
+        <argsstring>()</argsstring>
+        <name>~Force</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="69" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" bodystart="69" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::Force::getForceGroup</definition>
+        <argsstring>() const</argsstring>
+        <name>getForceGroup</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the force group this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> belongs to. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="74" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::Force::setForceGroup</definition>
+        <argsstring>(int group)</argsstring>
+        <name>setForceGroup</name>
+        <param>
+          <type>int</type>
+          <declname>group</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the force group this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> belongs to.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>group</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the group index. Legal values are between 0 and 31 (inclusive). </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="80" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>virtual bool OpenMM::Force::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplementedby refid="classOpenMM_1_1CMMotionRemover_1a2ddf90c5f57c921708246327dd876f4e">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1RMSDForce_1abb03e09c146e031857692bb189dcf33b">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1HarmonicBondForce_1a7abd68d505e4a4488ae10e0ea0325c5a">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1HarmonicAngleForce_1ac2116a3372dfed857eee10a44bbc5927">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1PeriodicTorsionForce_1afab1dfe0bbeeb46c97f8cb74836fc8eb">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1RBTorsionForce_1aee77f8fd9e62e03d9e14fb65808de621">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1AndersenThermostat_1adcc51dc1d2928b7a067c6208caa06b27">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1MonteCarloBarostat_1a27783bb9c3525770af353ba08d0fc8b2">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CMAPTorsionForce_1a4f3be4a00655f54cf991d2160ef034d9">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1MonteCarloAnisotropicBarostat_1a269962b3dc842cd8142e449f715e8fa6">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1GBSAOBCForce_1a9ca7f7f8ee30c4e08b45478f249aef6b">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomExternalForce_1a76d2d5f31132eee4d7d1b821ed2382d6">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomBondForce_1a721fdbf9495cc2dda5a4987827ed054a">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomAngleForce_1a730d53e9d54c24f1667d1109350b5572">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1MonteCarloMembraneBarostat_1acb964e9c3f99047e1e7d3ca50ccd9864">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomTorsionForce_1ab7bf2feaff78468615e3c2b27659a1b2">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1GayBerneForce_1a2acce836f68763da494e75bbd5d89f41">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomCVForce_1ac5f0e12cf36b95bccb86d7921d26798f">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomCompoundBondForce_1a8de302c705bbb440e244d538fd71124d">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomCentroidBondForce_1a98885a113adccc72662c51acba651768">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomHbondForce_1abb72f0b42875b68d303ce2ca7e0180ae">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomManyParticleForce_1a188db924fe51896f2af3216864b67040">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomNonbondedForce_1ab1247cfc637e558f79bb04cdd1c114a0">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomGBForce_1a9194c6e0c188944551bf16514824b221">usesPeriodicBoundaryConditions</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1NonbondedForce_1a659f3db7a1aa6971fd8bd656557c6ddb">usesPeriodicBoundaryConditions</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions. This method should be overridden for all <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> subclasses, or a <ref refid="classOpenMM_1_1OpenMMException" kindref="compound">OpenMM::OpenMMException</ref> will be thrown</para><para><simplesect kind="return"><para>true if <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> uses periodic boundaries or false if it does not </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="88" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>ForceImpl *</type>
+        <definition>virtual ForceImpl* OpenMM::Force::createImpl</definition>
+        <argsstring>() const =0</argsstring>
+        <name>createImpl</name>
+        <reimplementedby refid="classOpenMM_1_1CMMotionRemover_1a0a1b5f49d8596224ec2ffe2165e7d85e">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1RMSDForce_1a275a495923b15497dbf46c6a27f81a22">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1HarmonicBondForce_1a31ac7c22d2c7a5d6d1eb8550139df14e">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1HarmonicAngleForce_1aa865d9a8b43566f8fd1eaa048d482048">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1PeriodicTorsionForce_1a77429317b61139aeb46780f6767f26c9">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1RBTorsionForce_1a3232dd170ddd042dfa919ef4e03e2848">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1AndersenThermostat_1a26bb653085e819903dce7765d17cd7c8">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1MonteCarloBarostat_1acb40b2383969bbd2579a87289b475964">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CMAPTorsionForce_1a1950726addfd573546fef10ea8ec1d74">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1MonteCarloAnisotropicBarostat_1a7877036c8317d3695641278ea974343b">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1GBSAOBCForce_1a3affb49077421d9c9b7d7c93e55b84b7">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomExternalForce_1abf211cc35e7fe9f8c33237288992b00a">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomBondForce_1a0ad9525370051f53b91f7ce61e42fd59">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomAngleForce_1a3e5bb51ba1f8d04c92a4dfe7ba4e0315">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1MonteCarloMembraneBarostat_1ac72c2e5c2c5f7da88b82f6aa919849db">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomTorsionForce_1a7ae84cb67cf74f7310febb7ab8d3e9f4">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1GayBerneForce_1ac4e7cb592a3db86da2f8ba116bd9088d">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomCVForce_1a073663584213f42d021c946a87f48da6">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomCompoundBondForce_1a938910a7968bda8a0b3e5b83c3b828aa">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomCentroidBondForce_1a936bdd2cc163e7a0c35637e8194cc53c">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomHbondForce_1a9142993fb43c55b0f1370e4f12113a16">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomManyParticleForce_1a11980532ee689d4a6291ec151c0bddc1">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomNonbondedForce_1a5c4e01ce6fcdb5776c08934411c85ffa">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1CustomGBForce_1a85dca7bb559d27ff3a7e392b79a4e709">createImpl</reimplementedby>
+        <reimplementedby refid="classOpenMM_1_1NonbondedForce_1a59d4509417a71933eb87f2154f7e5c80">createImpl</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="96" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ForceImpl &amp;</type>
+        <definition>ForceImpl&amp; OpenMM::Force::getImplInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>getImplInContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the ForceImpl corresponding to this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="100" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const ForceImpl &amp;</type>
+        <definition>const ForceImpl&amp; OpenMM::Force::getImplInContext</definition>
+        <argsstring>(const Context &amp;context) const</argsstring>
+        <name>getImplInContext</name>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a const reference to the ForceImpl corresponding to this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="104" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1Force_1a7e2f3e20ff3f49ee3b9c0e529422b663" kindref="member">ContextImpl</ref> &amp;</type>
+        <definition>ContextImpl&amp; OpenMM::Force::getContextImpl</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>getContextImpl</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the ContextImpl corresponding to a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="108" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> objects apply forces to the particles in a <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>, or alter their behavior in other ways. This is an abstract class. Subclasses define particular forces.</para><para>More specifically, a <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object can do any or all of the following:</para><para><itemizedlist>
+<listitem>
+<para>Add a contribution to the force on each particle </para></listitem>
+<listitem>
+<para>Add a contribution to the potential energy of the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> </para></listitem>
+<listitem>
+<para>Modify the positions and velocities of particles at the start of each time step </para></listitem>
+<listitem>
+<para>Define parameters which are stored in the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> and can be modified by the user </para></listitem>
+<listitem>
+<para>Change the values of parameters defined by other <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> objects at the start of each time step </para></listitem>
+</itemizedlist>
+</para><para>Forces may be organized into &quot;force groups&quot;. This is used for multiple time step integration, and allows subsets of the Forces in a <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> to be evaluated at different times. By default, all Forces are in group 0. Call <ref refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" kindref="member">setForceGroup()</ref> to change this. Some <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> subclasses may provide additional methods to further split their computations into multiple groups. Be aware that particular Platforms may place restrictions on the use of force groups, such as requiring all nonbonded forces to be in the same group. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="142">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="145">
+        <label>OpenMM::CMMotionRemover</label>
+        <link refid="classOpenMM_1_1CMMotionRemover"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="163">
+        <label>OpenMM::MonteCarloMembraneBarostat</label>
+        <link refid="classOpenMM_1_1MonteCarloMembraneBarostat"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="155">
+        <label>OpenMM::CustomNonbondedForce</label>
+        <link refid="classOpenMM_1_1CustomNonbondedForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="148">
+        <label>OpenMM::CustomCentroidBondForce</label>
+        <link refid="classOpenMM_1_1CustomCentroidBondForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="143">
+        <label>OpenMM::AndersenThermostat</label>
+        <link refid="classOpenMM_1_1AndersenThermostat"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="167">
+        <label>OpenMM::RMSDForce</label>
+        <link refid="classOpenMM_1_1RMSDForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="149">
+        <label>OpenMM::CustomCompoundBondForce</label>
+        <link refid="classOpenMM_1_1CustomCompoundBondForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="152">
+        <label>OpenMM::CustomGBForce</label>
+        <link refid="classOpenMM_1_1CustomGBForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="144">
+        <label>OpenMM::CMAPTorsionForce</label>
+        <link refid="classOpenMM_1_1CMAPTorsionForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="166">
+        <label>OpenMM::RBTorsionForce</label>
+        <link refid="classOpenMM_1_1RBTorsionForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="146">
+        <label>OpenMM::CustomAngleForce</label>
+        <link refid="classOpenMM_1_1CustomAngleForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="159">
+        <label>OpenMM::HarmonicAngleForce</label>
+        <link refid="classOpenMM_1_1HarmonicAngleForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="161">
+        <label>OpenMM::MonteCarloAnisotropicBarostat</label>
+        <link refid="classOpenMM_1_1MonteCarloAnisotropicBarostat"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="153">
+        <label>OpenMM::CustomHbondForce</label>
+        <link refid="classOpenMM_1_1CustomHbondForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="162">
+        <label>OpenMM::MonteCarloBarostat</label>
+        <link refid="classOpenMM_1_1MonteCarloBarostat"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="147">
+        <label>OpenMM::CustomBondForce</label>
+        <link refid="classOpenMM_1_1CustomBondForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="157">
+        <label>OpenMM::GayBerneForce</label>
+        <link refid="classOpenMM_1_1GayBerneForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="164">
+        <label>OpenMM::NonbondedForce</label>
+        <link refid="classOpenMM_1_1NonbondedForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="154">
+        <label>OpenMM::CustomManyParticleForce</label>
+        <link refid="classOpenMM_1_1CustomManyParticleForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="151">
+        <label>OpenMM::CustomExternalForce</label>
+        <link refid="classOpenMM_1_1CustomExternalForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="156">
+        <label>OpenMM::CustomTorsionForce</label>
+        <link refid="classOpenMM_1_1CustomTorsionForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="160">
+        <label>OpenMM::HarmonicBondForce</label>
+        <link refid="classOpenMM_1_1HarmonicBondForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="165">
+        <label>OpenMM::PeriodicTorsionForce</label>
+        <link refid="classOpenMM_1_1PeriodicTorsionForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="150">
+        <label>OpenMM::CustomCVForce</label>
+        <link refid="classOpenMM_1_1CustomCVForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="158">
+        <label>OpenMM::GBSAOBCForce</label>
+        <link refid="classOpenMM_1_1GBSAOBCForce"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" line="65" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/Force.h" bodystart="65" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1Force_1a7e2f3e20ff3f49ee3b9c0e529422b663" prot="protected" virt="non-virtual"><scope>OpenMM::Force</scope><name>ContextImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee" prot="protected" virt="pure-virtual"><scope>OpenMM::Force</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::Force</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1Force_1aae1489f643dfda1452ea04951f8629ed" prot="private" virt="non-virtual"><scope>OpenMM::Force</scope><name>forceGroup</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::Force</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::Force</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::Force</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::Force</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::Force</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f" prot="public" virt="virtual"><scope>OpenMM::Force</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::Force</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

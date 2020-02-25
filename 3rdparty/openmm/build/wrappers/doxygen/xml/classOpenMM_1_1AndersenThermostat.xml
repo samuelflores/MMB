@@ -1,0 +1,306 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1AndersenThermostat" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::AndersenThermostat</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="AndersenThermostat_8h" local="no">AndersenThermostat.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1AndersenThermostat_1a320a358685764becd92c1fa856330e8e" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AndersenThermostat::defaultTemp</definition>
+        <argsstring></argsstring>
+        <name>defaultTemp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="137" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AndersenThermostat_1a8ac597fdc017d1e3c79ec51249c2eda0" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AndersenThermostat::defaultFreq</definition>
+        <argsstring></argsstring>
+        <name>defaultFreq</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="137" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AndersenThermostat_1af904606d5502eb9c49a67158f69b4658" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AndersenThermostat::randomNumberSeed</definition>
+        <argsstring></argsstring>
+        <name>randomNumberSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="138" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classOpenMM_1_1AndersenThermostat_1acc74c72164403cd0e216a41a91a6dce0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>static const std::string&amp; OpenMM::AndersenThermostat::Temperature</definition>
+        <argsstring>()</argsstring>
+        <name>Temperature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the name of the parameter which stores the current temperature of the heat bath (in Kelvin). </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="52" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AndersenThermostat_1ab1bd05d2e4e9524859af565d80d08eee" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>static const std::string&amp; OpenMM::AndersenThermostat::CollisionFrequency</definition>
+        <argsstring>()</argsstring>
+        <name>CollisionFrequency</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the name of the parameter which store the current collision frequency (in 1/ps). </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="59" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="59" bodyend="62"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1AndersenThermostat_1afa68f61f2816f34ec88035fa26d1fcca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::AndersenThermostat::AndersenThermostat</definition>
+        <argsstring>(double defaultTemperature, double defaultCollisionFrequency)</argsstring>
+        <name>AndersenThermostat</name>
+        <param>
+          <type>double</type>
+          <declname>defaultTemperature</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultCollisionFrequency</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create an <ref refid="classOpenMM_1_1AndersenThermostat" kindref="compound">AndersenThermostat</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>defaultTemperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default temperature of the heat bath (in Kelvin) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultCollisionFrequency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default collision frequency (in 1/ps) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="69" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AndersenThermostat_1a9f5d3bc34bf17bf0f5e9f15e17322142" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AndersenThermostat::getDefaultTemperature</definition>
+        <argsstring>() const</argsstring>
+        <name>getDefaultTemperature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the default temperature of the heat bath (in Kelvin).</para><para><simplesect kind="return"><para>the default temperature of the heat bath, measured in Kelvin. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="75" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AndersenThermostat_1a978bf9144b565f4c181db6fc7ed31ff7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AndersenThermostat::setDefaultTemperature</definition>
+        <argsstring>(double temperature)</argsstring>
+        <name>setDefaultTemperature</name>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the default temperature of the heat bath. This will affect any new Contexts you create, but not ones that already exist.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default temperature of the heat bath (in Kelvin) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="84" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AndersenThermostat_1a45e6fcf047761a4d81cd8cae658869af" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::AndersenThermostat::getDefaultCollisionFrequency</definition>
+        <argsstring>() const</argsstring>
+        <name>getDefaultCollisionFrequency</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the default collision frequency (in 1/ps).</para><para><simplesect kind="return"><para>the default collision frequency, measured in 1/ps. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="92" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AndersenThermostat_1a6f6054417fedef8e3073d0d21e7134ad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AndersenThermostat::setDefaultCollisionFrequency</definition>
+        <argsstring>(double frequency)</argsstring>
+        <name>setDefaultCollisionFrequency</name>
+        <param>
+          <type>double</type>
+          <declname>frequency</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the default collision frequency. This will affect any new Contexts you create, but not ones that already exist.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frequency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default collision frequency (in 1/ps) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="101" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AndersenThermostat_1a401de8d2995a2387f18138be7dfabac3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::AndersenThermostat::getRandomNumberSeed</definition>
+        <argsstring>() const</argsstring>
+        <name>getRandomNumberSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the random number seed. See <ref refid="classOpenMM_1_1AndersenThermostat_1ac52c067d563b0cd6c02ddff87c47a6be" kindref="member">setRandomNumberSeed()</ref> for details. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="107" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AndersenThermostat_1ac52c067d563b0cd6c02ddff87c47a6be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::AndersenThermostat::setRandomNumberSeed</definition>
+        <argsstring>(int seed)</argsstring>
+        <name>setRandomNumberSeed</name>
+        <param>
+          <type>int</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the random number seed. The precise meaning of this parameter is undefined, and is left up to each <ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> to interpret in an appropriate way. It is guaranteed that if two simulations are run with different random number seeds, the sequence of collisions will be different. On the other hand, no guarantees are made about the behavior of simulations that use the same seed. In particular, Platforms are permitted to use non-deterministic algorithms which produce different results on successive runs, even if those runs were initialized identically.</para><para>If seed is set to 0 (which is the default value assigned), a unique seed is chosen when a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created from this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref>. This is done to ensure that each <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> receives unique random seeds without you needing to set them explicitly. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="122" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="122" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AndersenThermostat_1adcc51dc1d2928b7a067c6208caa06b27" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::AndersenThermostat::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if force uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="131" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="131" bodyend="133"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1AndersenThermostat_1a26bb653085e819903dce7765d17cd7c8" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::AndersenThermostat::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="135" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class uses the Andersen method to maintain constant temperature. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="0">
+        <label>OpenMM::AndersenThermostat</label>
+        <link refid="classOpenMM_1_1AndersenThermostat"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="2">
+        <label>OpenMM::AndersenThermostat</label>
+        <link refid="classOpenMM_1_1AndersenThermostat"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" line="46" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/AndersenThermostat.h" bodystart="46" bodyend="139"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1AndersenThermostat_1afa68f61f2816f34ec88035fa26d1fcca" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>AndersenThermostat</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1ab1bd05d2e4e9524859af565d80d08eee" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>CollisionFrequency</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1a26bb653085e819903dce7765d17cd7c8" prot="protected" virt="virtual"><scope>OpenMM::AndersenThermostat</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1a8ac597fdc017d1e3c79ec51249c2eda0" prot="private" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>defaultFreq</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1a320a358685764becd92c1fa856330e8e" prot="private" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>defaultTemp</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1a45e6fcf047761a4d81cd8cae658869af" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>getDefaultCollisionFrequency</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1a9f5d3bc34bf17bf0f5e9f15e17322142" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>getDefaultTemperature</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1a401de8d2995a2387f18138be7dfabac3" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>getRandomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1af904606d5502eb9c49a67158f69b4658" prot="private" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>randomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1a6f6054417fedef8e3073d0d21e7134ad" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>setDefaultCollisionFrequency</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1a978bf9144b565f4c181db6fc7ed31ff7" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>setDefaultTemperature</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1ac52c067d563b0cd6c02ddff87c47a6be" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>setRandomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1acc74c72164403cd0e216a41a91a6dce0" prot="public" virt="non-virtual"><scope>OpenMM::AndersenThermostat</scope><name>Temperature</name></member>
+      <member refid="classOpenMM_1_1AndersenThermostat_1adcc51dc1d2928b7a067c6208caa06b27" prot="public" virt="virtual"><scope>OpenMM::AndersenThermostat</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::AndersenThermostat</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

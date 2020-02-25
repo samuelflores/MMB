@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CMAPTorsionForce_1_1MapInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CMAPTorsionForce::MapInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1_1MapInfo_1a8721531ec7cc8cd34328b8a9e6fac847" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::MapInfo::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="190" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1_1MapInfo_1afb713d23804e6180ffc8639e7ffe51c4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::CMAPTorsionForce::MapInfo::energy</definition>
+        <argsstring></argsstring>
+        <name>energy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="191" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1_1MapInfo_1aefcd5c7418901162d490f5deb919098c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CMAPTorsionForce::MapInfo::MapInfo</definition>
+        <argsstring>()</argsstring>
+        <name>MapInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="192" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="192" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1_1MapInfo_1adaeb076c3bf96b8823adc77b65d251a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CMAPTorsionForce::MapInfo::MapInfo</definition>
+        <argsstring>(int size, const std::vector&lt; double &gt; &amp;energy)</argsstring>
+        <name>MapInfo</name>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="195" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="195" bodyend="197"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a map. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="188" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="188" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1MapInfo_1afb713d23804e6180ffc8639e7ffe51c4" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::MapInfo</scope><name>energy</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1MapInfo_1aefcd5c7418901162d490f5deb919098c" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::MapInfo</scope><name>MapInfo</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1MapInfo_1adaeb076c3bf96b8823adc77b65d251a1" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::MapInfo</scope><name>MapInfo</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1MapInfo_1a8721531ec7cc8cd34328b8a9e6fac847" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::MapInfo</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

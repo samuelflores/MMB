@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomNonbondedForce_1_1FunctionInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomNonbondedForce::FunctionInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomNonbondedForce_1_1FunctionInfo_1ae28763e17a6f1ddf0c20bd42ba731f45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomNonbondedForce::FunctionInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomNonbondedForce.h" line="589" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomNonbondedForce.h" bodystart="589" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomNonbondedForce_1_1FunctionInfo_1af19fa112c32a0b0fad7fc05437d91a8a" prot="public" static="no" mutable="no">
+        <type><ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> *</type>
+        <definition>TabulatedFunction* OpenMM::CustomNonbondedForce::FunctionInfo::function</definition>
+        <argsstring></argsstring>
+        <name>function</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomNonbondedForce.h" line="590" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomNonbondedForce.h" bodystart="590" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomNonbondedForce_1_1FunctionInfo_1a7102d23237bcd23d35d4a560c5c32e7b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomNonbondedForce::FunctionInfo::FunctionInfo</definition>
+        <argsstring>()</argsstring>
+        <name>FunctionInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomNonbondedForce.h" line="591" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomNonbondedForce.h" bodystart="591" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomNonbondedForce_1_1FunctionInfo_1abdb301557a135c67174cbd1e4e8c02ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomNonbondedForce::FunctionInfo::FunctionInfo</definition>
+        <argsstring>(const std::string &amp;name, TabulatedFunction *function)</argsstring>
+        <name>FunctionInfo</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> *</type>
+          <declname>function</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomNonbondedForce.h" line="593" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomNonbondedForce.h" bodystart="593" bodyend="594"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a tabulated function. </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="261">
+        <label>OpenMM::TabulatedFunction</label>
+        <link refid="classOpenMM_1_1TabulatedFunction"/>
+      </node>
+      <node id="260">
+        <label>OpenMM::CustomNonbondedForce::FunctionInfo</label>
+        <childnode refid="261" relation="usage">
+          <edgelabel>function</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomNonbondedForce.h" line="587" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomNonbondedForce.h" bodystart="587" bodyend="595"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomNonbondedForce_1_1FunctionInfo_1af19fa112c32a0b0fad7fc05437d91a8a" prot="public" virt="non-virtual"><scope>OpenMM::CustomNonbondedForce::FunctionInfo</scope><name>function</name></member>
+      <member refid="classOpenMM_1_1CustomNonbondedForce_1_1FunctionInfo_1a7102d23237bcd23d35d4a560c5c32e7b" prot="public" virt="non-virtual"><scope>OpenMM::CustomNonbondedForce::FunctionInfo</scope><name>FunctionInfo</name></member>
+      <member refid="classOpenMM_1_1CustomNonbondedForce_1_1FunctionInfo_1abdb301557a135c67174cbd1e4e8c02ea" prot="public" virt="non-virtual"><scope>OpenMM::CustomNonbondedForce::FunctionInfo</scope><name>FunctionInfo</name></member>
+      <member refid="classOpenMM_1_1CustomNonbondedForce_1_1FunctionInfo_1ae28763e17a6f1ddf0c20bd42ba731f45" prot="public" virt="non-virtual"><scope>OpenMM::CustomNonbondedForce::FunctionInfo</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

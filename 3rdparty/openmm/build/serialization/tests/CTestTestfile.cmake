@@ -1,0 +1,37 @@
+# CMake generated Testfile for 
+# Source directory: /home/sam/github/openmm/serialization/tests
+# Build directory: /home/sam/github/openmm/build/serialization/tests
+# 
+# This file includes the relevant testing commands required for 
+# testing this directory and lists subdirectories to be tested as well.
+add_test(TestSerializationNode "/home/sam/github/openmm/build/TestSerializationNode")
+add_test(TestSerializeAndersenThermostat "/home/sam/github/openmm/build/TestSerializeAndersenThermostat")
+add_test(TestSerializeCMAPTorsion "/home/sam/github/openmm/build/TestSerializeCMAPTorsion")
+add_test(TestSerializeCMMotionRemover "/home/sam/github/openmm/build/TestSerializeCMMotionRemover")
+add_test(TestSerializeCustomAngleForce "/home/sam/github/openmm/build/TestSerializeCustomAngleForce")
+add_test(TestSerializeCustomBondForce "/home/sam/github/openmm/build/TestSerializeCustomBondForce")
+add_test(TestSerializeCustomCVForce "/home/sam/github/openmm/build/TestSerializeCustomCVForce")
+add_test(TestSerializeCustomCentroidBondForce "/home/sam/github/openmm/build/TestSerializeCustomCentroidBondForce")
+add_test(TestSerializeCustomCompoundBondForce "/home/sam/github/openmm/build/TestSerializeCustomCompoundBondForce")
+add_test(TestSerializeCustomExternalForce "/home/sam/github/openmm/build/TestSerializeCustomExternalForce")
+add_test(TestSerializeCustomGBForce "/home/sam/github/openmm/build/TestSerializeCustomGBForce")
+add_test(TestSerializeCustomHbondForce "/home/sam/github/openmm/build/TestSerializeCustomHbondForce")
+add_test(TestSerializeCustomManyParticleForce "/home/sam/github/openmm/build/TestSerializeCustomManyParticleForce")
+add_test(TestSerializeCustomNonbondedForce "/home/sam/github/openmm/build/TestSerializeCustomNonbondedForce")
+add_test(TestSerializeCustomTorsionForce "/home/sam/github/openmm/build/TestSerializeCustomTorsionForce")
+add_test(TestSerializeGBSAOBCForce "/home/sam/github/openmm/build/TestSerializeGBSAOBCForce")
+add_test(TestSerializeGayBerneForce "/home/sam/github/openmm/build/TestSerializeGayBerneForce")
+add_test(TestSerializeHarmonicAngleForce "/home/sam/github/openmm/build/TestSerializeHarmonicAngleForce")
+add_test(TestSerializeHarmonicBondForce "/home/sam/github/openmm/build/TestSerializeHarmonicBondForce")
+add_test(TestSerializeIntegrator "/home/sam/github/openmm/build/TestSerializeIntegrator")
+add_test(TestSerializeMonteCarloAnisotropicBarostat "/home/sam/github/openmm/build/TestSerializeMonteCarloAnisotropicBarostat")
+add_test(TestSerializeMonteCarloBarostat "/home/sam/github/openmm/build/TestSerializeMonteCarloBarostat")
+add_test(TestSerializeMonteCarloMembraneBarostat "/home/sam/github/openmm/build/TestSerializeMonteCarloMembraneBarostat")
+add_test(TestSerializeNonbondedForce "/home/sam/github/openmm/build/TestSerializeNonbondedForce")
+add_test(TestSerializeNoseHooverIntegrator "/home/sam/github/openmm/build/TestSerializeNoseHooverIntegrator")
+add_test(TestSerializePeriodicTorsionForce "/home/sam/github/openmm/build/TestSerializePeriodicTorsionForce")
+add_test(TestSerializeRBTorsionForce "/home/sam/github/openmm/build/TestSerializeRBTorsionForce")
+add_test(TestSerializeRMSDForce "/home/sam/github/openmm/build/TestSerializeRMSDForce")
+add_test(TestSerializeState "/home/sam/github/openmm/build/TestSerializeState")
+add_test(TestSerializeSystem "/home/sam/github/openmm/build/TestSerializeSystem")
+add_test(TestSerializeTabulatedFunctions "/home/sam/github/openmm/build/TestSerializeTabulatedFunctions")

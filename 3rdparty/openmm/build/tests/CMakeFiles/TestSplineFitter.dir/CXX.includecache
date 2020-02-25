@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../openmmapi/include/openmm/internal/AssertionUtilities.h
+windowsExport.h
+../openmmapi/include/openmm/internal/windowsExport.h
+cmath
+-
+sstream
+-
+
+../openmmapi/include/openmm/internal/SplineFitter.h
+windowsExport.h
+../openmmapi/include/openmm/internal/windowsExport.h
+vector
+-
+
+../openmmapi/include/openmm/internal/windowsExport.h
+
+/home/sam/github/openmm/tests/TestSplineFitter.cpp
+openmm/internal/AssertionUtilities.h
+/home/sam/github/openmm/tests/openmm/internal/AssertionUtilities.h
+openmm/internal/SplineFitter.h
+/home/sam/github/openmm/tests/openmm/internal/SplineFitter.h
+cmath
+-
+iostream
+-
+vector
+-
+

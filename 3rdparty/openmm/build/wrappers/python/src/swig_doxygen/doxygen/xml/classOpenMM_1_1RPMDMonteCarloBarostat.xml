@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1RPMDMonteCarloBarostat" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::RPMDMonteCarloBarostat</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="RPMDMonteCarloBarostat_8h" local="no">RPMDMonteCarloBarostat.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1RPMDMonteCarloBarostat_1adf31f76483c4c323504d00bdf6edc04f" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::RPMDMonteCarloBarostat::defaultPressure</definition>
+        <argsstring></argsstring>
+        <name>defaultPressure</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="128" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1RPMDMonteCarloBarostat_1a39e182ba95f3024929117448f20461ac" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::RPMDMonteCarloBarostat::frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="129" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1RPMDMonteCarloBarostat_1a67f332915dbbf894587ea4e8ad1d6470" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::RPMDMonteCarloBarostat::randomNumberSeed</definition>
+        <argsstring></argsstring>
+        <name>randomNumberSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="129" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classOpenMM_1_1RPMDMonteCarloBarostat_1a6a0f1fec070e608a78d71cfab1e1abe6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>static const std::string&amp; OpenMM::RPMDMonteCarloBarostat::Pressure</definition>
+        <argsstring>()</argsstring>
+        <name>Pressure</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This is the name of the parameter which stores the current pressure acting on the system (in bar). </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="54" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="54" bodyend="57"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1RPMDMonteCarloBarostat_1a83dbb3620840314c3b8a8e3d7654bc24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::RPMDMonteCarloBarostat::RPMDMonteCarloBarostat</definition>
+        <argsstring>(double defaultPressure, int frequency=25)</argsstring>
+        <name>RPMDMonteCarloBarostat</name>
+        <param>
+          <type>double</type>
+          <declname>defaultPressure</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>frequency</declname>
+          <defval>25</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1MonteCarloBarostat" kindref="compound">MonteCarloBarostat</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>defaultPressure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default pressure acting on the system (in bar) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>frequency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the frequency at which Monte Carlo pressure changes should be attempted (in time steps) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="64" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RPMDMonteCarloBarostat_1a2f4b517ef723d2773f49a86926e95183" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::RPMDMonteCarloBarostat::getDefaultPressure</definition>
+        <argsstring>() const</argsstring>
+        <name>getDefaultPressure</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the default pressure acting on the system (in bar).</para><para><simplesect kind="return"><para>the default pressure acting on the system, measured in bar. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="70" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RPMDMonteCarloBarostat_1ac2027f9d48bddae141911106279e6891" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::RPMDMonteCarloBarostat::setDefaultPressure</definition>
+        <argsstring>(double pressure)</argsstring>
+        <name>setDefaultPressure</name>
+        <param>
+          <type>double</type>
+          <declname>pressure</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the default pressure acting on the system. This will affect any new Contexts you create, but not ones that already exist.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pressure</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default pressure acting on the system, measured in bar. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="79" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RPMDMonteCarloBarostat_1a40663d9a1fbd39f5e0ac1f578c46ca4a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::RPMDMonteCarloBarostat::getFrequency</definition>
+        <argsstring>() const</argsstring>
+        <name>getFrequency</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the frequency (in time steps) at which Monte Carlo pressure changes should be attempted. If this is set to 0, the barostat is disabled. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="86" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RPMDMonteCarloBarostat_1a4ef05e5bcc693fb250326a8aed2bd0f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::RPMDMonteCarloBarostat::setFrequency</definition>
+        <argsstring>(int freq)</argsstring>
+        <name>setFrequency</name>
+        <param>
+          <type>int</type>
+          <declname>freq</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the frequency (in time steps) at which Monte Carlo pressure changes should be attempted. If this is set to 0, the barostat is disabled. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="93" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RPMDMonteCarloBarostat_1a935c52d39f427d2f8293dde61a2901d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::RPMDMonteCarloBarostat::getRandomNumberSeed</definition>
+        <argsstring>() const</argsstring>
+        <name>getRandomNumberSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the random number seed. See <ref refid="classOpenMM_1_1RPMDMonteCarloBarostat_1a289bda11e1a44a064f5de7e28f8c38b7" kindref="member">setRandomNumberSeed()</ref> for details. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="99" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="99" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RPMDMonteCarloBarostat_1a289bda11e1a44a064f5de7e28f8c38b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::RPMDMonteCarloBarostat::setRandomNumberSeed</definition>
+        <argsstring>(int seed)</argsstring>
+        <name>setRandomNumberSeed</name>
+        <param>
+          <type>int</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the random number seed. It is guaranteed that if two simulations are run with different random number seeds, the sequence of Monte Carlo steps will be different. On the other hand, no guarantees are made about the behavior of simulations that use the same seed. In particular, Platforms are permitted to use non-deterministic algorithms which produce different results on successive runs, even if those runs were initialized identically.</para><para>If seed is set to 0 (which is the default value assigned), a unique seed is chosen when a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created from this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref>. This is done to ensure that each <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> receives unique random seeds without you needing to set them explicitly. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="113" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="113" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RPMDMonteCarloBarostat_1aabb96ff71afab88d99f5bd5ea44927f4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::RPMDMonteCarloBarostat::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if force uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="122" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="122" bodyend="124"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1RPMDMonteCarloBarostat_1a70b63d479bdee92716f4b42b1e30a21e" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::RPMDMonteCarloBarostat::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="126" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class is very similar to <ref refid="classOpenMM_1_1MonteCarloBarostat" kindref="compound">MonteCarloBarostat</ref>, but it is specifically designed for use with <ref refid="classOpenMM_1_1RPMDIntegrator" kindref="compound">RPMDIntegrator</ref>. For each trial move, it scales all copies of the system by the same amount, then accepts or rejects the move based on the change to the total energy of the ring polymer (as returned by the integrator&apos;s getTotalEnergy() method). </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="453">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="452">
+        <label>OpenMM::RPMDMonteCarloBarostat</label>
+        <link refid="classOpenMM_1_1RPMDMonteCarloBarostat"/>
+        <childnode refid="453" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="455">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="454">
+        <label>OpenMM::RPMDMonteCarloBarostat</label>
+        <link refid="classOpenMM_1_1RPMDMonteCarloBarostat"/>
+        <childnode refid="455" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" line="48" column="1" bodyfile="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h" bodystart="48" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1a70b63d479bdee92716f4b42b1e30a21e" prot="protected" virt="virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1adf31f76483c4c323504d00bdf6edc04f" prot="private" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>defaultPressure</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1a39e182ba95f3024929117448f20461ac" prot="private" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>frequency</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1a2f4b517ef723d2773f49a86926e95183" prot="public" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>getDefaultPressure</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1a40663d9a1fbd39f5e0ac1f578c46ca4a" prot="public" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>getFrequency</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1a935c52d39f427d2f8293dde61a2901d0" prot="public" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>getRandomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1a6a0f1fec070e608a78d71cfab1e1abe6" prot="public" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>Pressure</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1a67f332915dbbf894587ea4e8ad1d6470" prot="private" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>randomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1a83dbb3620840314c3b8a8e3d7654bc24" prot="public" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>RPMDMonteCarloBarostat</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1ac2027f9d48bddae141911106279e6891" prot="public" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>setDefaultPressure</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1a4ef05e5bcc693fb250326a8aed2bd0f5" prot="public" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>setFrequency</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1a289bda11e1a44a064f5de7e28f8c38b7" prot="public" virt="non-virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>setRandomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1RPMDMonteCarloBarostat_1aabb96ff71afab88d99f5bd5ea44927f4" prot="public" virt="virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::RPMDMonteCarloBarostat</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

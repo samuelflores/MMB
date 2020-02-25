@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1LocalCoordinatesSite" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::LocalCoordinatesSite</compoundname>
+    <basecompoundref refid="classOpenMM_1_1VirtualSite" prot="public" virt="non-virtual">OpenMM::VirtualSite</basecompoundref>
+    <includes refid="VirtualSite_8h" local="no">VirtualSite.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1LocalCoordinatesSite_1a3cfb53cf58c0644c507cd1b229bcb367" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::LocalCoordinatesSite::originWeights</definition>
+        <argsstring></argsstring>
+        <name>originWeights</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="255" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1LocalCoordinatesSite_1a53a1a0eb147b338290888a44cd324ece" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::LocalCoordinatesSite::xWeights</definition>
+        <argsstring></argsstring>
+        <name>xWeights</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="255" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1LocalCoordinatesSite_1afb0bf5090ef013690bb3273f6c4e66c5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::LocalCoordinatesSite::yWeights</definition>
+        <argsstring></argsstring>
+        <name>yWeights</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="255" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1LocalCoordinatesSite_1ae9b865ce653deffdd54242f27d715053" prot="private" static="no" mutable="no">
+        <type><ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref></type>
+        <definition>Vec3 OpenMM::LocalCoordinatesSite::localPosition</definition>
+        <argsstring></argsstring>
+        <name>localPosition</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="256" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1LocalCoordinatesSite_1a6f732f41f89eb85d07dd7f9d4af8c383" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::LocalCoordinatesSite::LocalCoordinatesSite</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;particles, const std::vector&lt; double &gt; &amp;originWeights, const std::vector&lt; double &gt; &amp;xWeights, const std::vector&lt; double &gt; &amp;yWeights, const Vec3 &amp;localPosition)</argsstring>
+        <name>LocalCoordinatesSite</name>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>particles</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>originWeights</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>xWeights</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>yWeights</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &amp;</type>
+          <declname>localPosition</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new <ref refid="classOpenMM_1_1LocalCoordinatesSite" kindref="compound">LocalCoordinatesSite</ref> virtual site.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the indices of the particle the site depends on </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>originWeights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factors for the particles when computing the origin location </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xWeights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factors for the particles when computing xdir </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>yWeights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factors for the particles when computing ydir </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>localPosition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the position of the virtual site in the local coordinate system </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="206" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LocalCoordinatesSite_1abef9c267c0e379f36d012fb9acd3f764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::LocalCoordinatesSite::LocalCoordinatesSite</definition>
+        <argsstring>(int particle1, int particle2, int particle3, const Vec3 &amp;originWeights, const Vec3 &amp;xWeights, const Vec3 &amp;yWeights, const Vec3 &amp;localPosition)</argsstring>
+        <name>LocalCoordinatesSite</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle3</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &amp;</type>
+          <declname>originWeights</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &amp;</type>
+          <declname>xWeights</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &amp;</type>
+          <declname>yWeights</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &amp;</type>
+          <declname>localPosition</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new <ref refid="classOpenMM_1_1LocalCoordinatesSite" kindref="compound">LocalCoordinatesSite</ref> virtual site. This constructor assumes the site depends on exactly three other particles.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>originWeights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factors for the three particles when computing the origin location </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>xWeights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factors for the three particles when computing xdir </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>yWeights</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the weight factors for the three particles when computing ydir </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>localPosition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the position of the virtual site in the local coordinate system </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="219" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LocalCoordinatesSite_1a29cf9cb7ec05b27b5e562b9e6238fb27" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::LocalCoordinatesSite::getOriginWeights</definition>
+        <argsstring>(std::vector&lt; double &gt; &amp;weights) const</argsstring>
+        <name>getOriginWeights</name>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weight factors for the particles when computing the origin location. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="223" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LocalCoordinatesSite_1afd686f43e1ee657db7b8dc98cb9ea603" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref></type>
+        <definition>Vec3 OpenMM::LocalCoordinatesSite::getOriginWeights</definition>
+        <argsstring>() const</argsstring>
+        <name>getOriginWeights</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weight factors for the particles when computing the origin location. This version assumes the site depends on exactly three other particles, and throws an exception if that is not the case. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="229" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LocalCoordinatesSite_1ac94130e5c8044838c7f558a74c43816d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::LocalCoordinatesSite::getXWeights</definition>
+        <argsstring>(std::vector&lt; double &gt; &amp;weights) const</argsstring>
+        <name>getXWeights</name>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weight factors for the particles when computing xdir. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="233" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LocalCoordinatesSite_1a60cfc00d45e91cb5d650e3f5bae9cfee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref></type>
+        <definition>Vec3 OpenMM::LocalCoordinatesSite::getXWeights</definition>
+        <argsstring>() const</argsstring>
+        <name>getXWeights</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weight factors for the particles when computing xdir. This version assumes the site depends on exactly three other particles, and throws an exception if that is not the case. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="239" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LocalCoordinatesSite_1a72f3a2d5ac67d79ba6cbcfaa67ba1fb1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::LocalCoordinatesSite::getYWeights</definition>
+        <argsstring>(std::vector&lt; double &gt; &amp;weights) const</argsstring>
+        <name>getYWeights</name>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>weights</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weight factors for the particles when computing ydir. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="243" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LocalCoordinatesSite_1acc54495c4785766b4fa2adf74ef3dec3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref></type>
+        <definition>Vec3 OpenMM::LocalCoordinatesSite::getYWeights</definition>
+        <argsstring>() const</argsstring>
+        <name>getYWeights</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weight factors for the particles when computing ydir. This version assumes the site depends on exactly three other particles, and throws an exception if that is not the case. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="249" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LocalCoordinatesSite_1a97a6648432247ebf2340ffd78a362277" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &amp;</type>
+        <definition>const Vec3&amp; OpenMM::LocalCoordinatesSite::getLocalPosition</definition>
+        <argsstring>() const</argsstring>
+        <name>getLocalPosition</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the position of the virtual site in the local coordinate system. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="253" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is a <ref refid="classOpenMM_1_1VirtualSite" kindref="compound">VirtualSite</ref> that uses the locations of several other particles to compute a local coordinate system, then places the virtual site at a fixed location in that coordinate system. The origin of the coordinate system and the directions of its x and y axes are each specified as a weighted sum of the locations of the other particles:</para><para>origin = w<superscript>o</superscript><subscript>1</subscript>r<subscript>1</subscript> + w<superscript>o</superscript><subscript>2</subscript>r<subscript>2</subscript> + w<superscript>o</superscript><subscript>3</subscript>r<subscript>3</subscript> + ...</para><para>xdir = w<superscript>x</superscript><subscript>1</subscript>r<subscript>1</subscript> + w<superscript>x</superscript><subscript>2</subscript>r<subscript>2</subscript> + w<superscript>x</superscript><subscript>3</subscript>r<subscript>3</subscript> + ...</para><para>ydir = w<superscript>y</superscript><subscript>1</subscript>r<subscript>1</subscript> + w<superscript>y</superscript><subscript>2</subscript>r<subscript>2</subscript> + w<superscript>y</superscript><subscript>3</subscript>r<subscript>3</subscript> + ...</para><para>For the origin, the weights must add to one. For example if (w<superscript>o</superscript><subscript>1</subscript>, w<superscript>o</superscript><subscript>2</subscript>, w<superscript>o</superscript><subscript>3</subscript>) = (1.0, 0.0, 0.0), the origin of the local coordinate system is at the location of particle 1. For xdir and ydir, the weights must add to zero. For example, if (w<superscript>x</superscript><subscript>1</subscript>, w<superscript>x</superscript><subscript>2</subscript>, w<superscript>x</superscript><subscript>3</subscript>) = (-1.0, 0.5, 0.5), the x axis points from particle 1 toward the midpoint between particles 2 and 3.</para><para>The z direction is computed as zdir = xdir x ydir. To ensure the axes are all orthogonal, ydir is then recomputed as ydir = zdir x xdir. All three axis vectors are then normalized, and the virtual site location is set to</para><para>origin + x*xdir + y*ydir + z*zdir </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="256">
+        <label>OpenMM::LocalCoordinatesSite</label>
+        <link refid="classOpenMM_1_1LocalCoordinatesSite"/>
+        <childnode refid="257" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="257">
+        <label>OpenMM::VirtualSite</label>
+        <link refid="classOpenMM_1_1VirtualSite"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="258">
+        <label>OpenMM::LocalCoordinatesSite</label>
+        <link refid="classOpenMM_1_1LocalCoordinatesSite"/>
+        <childnode refid="259" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="259">
+        <label>OpenMM::VirtualSite</label>
+        <link refid="classOpenMM_1_1VirtualSite"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" line="195" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/VirtualSite.h" bodystart="195" bodyend="257"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1a97a6648432247ebf2340ffd78a362277" prot="public" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>getLocalPosition</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1a4e228a080c51c677a3d79772c2615c1a" prot="public" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>getNumParticles</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1a29cf9cb7ec05b27b5e562b9e6238fb27" prot="public" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>getOriginWeights</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1afd686f43e1ee657db7b8dc98cb9ea603" prot="public" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>getOriginWeights</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1a7c6b5b8eaac689ede4cd831e26c032f9" prot="public" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>getParticle</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1ac94130e5c8044838c7f558a74c43816d" prot="public" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>getXWeights</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1a60cfc00d45e91cb5d650e3f5bae9cfee" prot="public" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>getXWeights</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1a72f3a2d5ac67d79ba6cbcfaa67ba1fb1" prot="public" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>getYWeights</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1acc54495c4785766b4fa2adf74ef3dec3" prot="public" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>getYWeights</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1a6f732f41f89eb85d07dd7f9d4af8c383" prot="public" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>LocalCoordinatesSite</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1abef9c267c0e379f36d012fb9acd3f764" prot="public" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>LocalCoordinatesSite</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1ae9b865ce653deffdd54242f27d715053" prot="private" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>localPosition</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1a3cfb53cf58c0644c507cd1b229bcb367" prot="private" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>originWeights</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1ace9d369cb1809df040f5025c43ef2c0d" prot="protected" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>setParticles</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1a565dfbb5e6a82a2337f2710c13825483" prot="protected" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>VirtualSite</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1a53a1a0eb147b338290888a44cd324ece" prot="private" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>xWeights</name></member>
+      <member refid="classOpenMM_1_1LocalCoordinatesSite_1afb0bf5090ef013690bb3273f6c4e66c5" prot="private" virt="non-virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>yWeights</name></member>
+      <member refid="classOpenMM_1_1VirtualSite_1aeb160de3c491a0cb742a7c72bfc3fd1d" prot="public" virt="virtual"><scope>OpenMM::LocalCoordinatesSite</scope><name>~VirtualSite</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

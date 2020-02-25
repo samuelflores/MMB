@@ -1,0 +1,225 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::GayBerneForce::ParticleInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a3d3b06a3c93791316ff557d046e94350" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::GayBerneForce::ParticleInfo::xparticle</definition>
+        <argsstring></argsstring>
+        <name>xparticle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="285" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a620731fe0885ea410bc3728bc9545d53" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::GayBerneForce::ParticleInfo::yparticle</definition>
+        <argsstring></argsstring>
+        <name>yparticle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="285" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a69773c0c7a8f114d149216d86cae424c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GayBerneForce::ParticleInfo::sigma</definition>
+        <argsstring></argsstring>
+        <name>sigma</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="286" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a2746d8da2c3ca2e60e98a7db728a8aa6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GayBerneForce::ParticleInfo::epsilon</definition>
+        <argsstring></argsstring>
+        <name>epsilon</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="286" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a4538de4f210b5c7ab44d7f1a592ea99f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GayBerneForce::ParticleInfo::sx</definition>
+        <argsstring></argsstring>
+        <name>sx</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="286" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1adaaaeefa54685f9c1961e5ffeae497a6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GayBerneForce::ParticleInfo::sy</definition>
+        <argsstring></argsstring>
+        <name>sy</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="286" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a48b600b357fa7155bddea7cc6691c5ad" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GayBerneForce::ParticleInfo::sz</definition>
+        <argsstring></argsstring>
+        <name>sz</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="286" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a6d61928d4aab0494591bbcbe375a40c6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GayBerneForce::ParticleInfo::ex</definition>
+        <argsstring></argsstring>
+        <name>ex</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="286" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1ad630ffbb01f52e592b87092c2c6cd545" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GayBerneForce::ParticleInfo::ey</definition>
+        <argsstring></argsstring>
+        <name>ey</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="286" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a9f4d9a254cf37a85a0ae935a9eaa5f4e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GayBerneForce::ParticleInfo::ez</definition>
+        <argsstring></argsstring>
+        <name>ez</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="286" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1ada01ca6d89b366cf0e325f50bb1e8600" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::GayBerneForce::ParticleInfo::ParticleInfo</definition>
+        <argsstring>()</argsstring>
+        <name>ParticleInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="287" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="287" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a44782c1652103456763cbcc6a5b7f8fd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::GayBerneForce::ParticleInfo::ParticleInfo</definition>
+        <argsstring>(double sigma, double epsilon, int xparticle, int yparticle, double sx, double sy, double sz, double ex, double ey, double ez)</argsstring>
+        <name>ParticleInfo</name>
+        <param>
+          <type>double</type>
+          <declname>sigma</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilon</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>xparticle</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>yparticle</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sx</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sy</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sz</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ex</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ey</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>ez</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="291" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="291" bodyend="293"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a particle. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="283" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="283" bodyend="294"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a2746d8da2c3ca2e60e98a7db728a8aa6" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>epsilon</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a6d61928d4aab0494591bbcbe375a40c6" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>ex</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1ad630ffbb01f52e592b87092c2c6cd545" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>ey</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a9f4d9a254cf37a85a0ae935a9eaa5f4e" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>ez</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1ada01ca6d89b366cf0e325f50bb1e8600" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>ParticleInfo</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a44782c1652103456763cbcc6a5b7f8fd" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>ParticleInfo</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a69773c0c7a8f114d149216d86cae424c" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>sigma</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a4538de4f210b5c7ab44d7f1a592ea99f" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>sx</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1adaaaeefa54685f9c1961e5ffeae497a6" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>sy</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a48b600b357fa7155bddea7cc6691c5ad" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>sz</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a3d3b06a3c93791316ff557d046e94350" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>xparticle</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo_1a620731fe0885ea410bc3728bc9545d53" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ParticleInfo</scope><name>yparticle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomCVForce_1_1FunctionInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomCVForce::FunctionInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCVForce_1_1FunctionInfo_1a254386e52127e899fc14adfa638f74dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomCVForce::FunctionInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="323" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCVForce_1_1FunctionInfo_1af565376b2abfbd87eb40c3d6502f864d" prot="public" static="no" mutable="no">
+        <type><ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> *</type>
+        <definition>TabulatedFunction* OpenMM::CustomCVForce::FunctionInfo::function</definition>
+        <argsstring></argsstring>
+        <name>function</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="324" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1_1FunctionInfo_1a4bdbc84e10c4d90faecf4deff3ff8074" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCVForce::FunctionInfo::FunctionInfo</definition>
+        <argsstring>()</argsstring>
+        <name>FunctionInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="325" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="325" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1_1FunctionInfo_1a16a3c53ef783299260e2e557096239cc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCVForce::FunctionInfo::FunctionInfo</definition>
+        <argsstring>(const std::string &amp;name, TabulatedFunction *function)</argsstring>
+        <name>FunctionInfo</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> *</type>
+          <declname>function</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="327" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="327" bodyend="328"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a tabulated function. </para>    </detaileddescription>
+    <collaborationgraph>
+      <node id="257">
+        <label>OpenMM::CustomCVForce::FunctionInfo</label>
+        <childnode refid="258" relation="usage">
+          <edgelabel>function</edgelabel>
+        </childnode>
+      </node>
+      <node id="258">
+        <label>OpenMM::TabulatedFunction</label>
+        <link refid="classOpenMM_1_1TabulatedFunction"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="321" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="321" bodyend="329"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomCVForce_1_1FunctionInfo_1af565376b2abfbd87eb40c3d6502f864d" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce::FunctionInfo</scope><name>function</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1_1FunctionInfo_1a4bdbc84e10c4d90faecf4deff3ff8074" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce::FunctionInfo</scope><name>FunctionInfo</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1_1FunctionInfo_1a16a3c53ef783299260e2e557096239cc" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce::FunctionInfo</scope><name>FunctionInfo</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1_1FunctionInfo_1a254386e52127e899fc14adfa638f74dd" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce::FunctionInfo</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

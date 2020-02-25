@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="OpenMMAmoeba_8h" kind="file" language="C++">
+    <compoundname>OpenMMAmoeba.h</compoundname>
+    <includes refid="AmoebaBondForce_8h" local="yes">openmm/AmoebaBondForce.h</includes>
+    <includes refid="AmoebaAngleForce_8h" local="yes">openmm/AmoebaAngleForce.h</includes>
+    <includes refid="AmoebaInPlaneAngleForce_8h" local="yes">openmm/AmoebaInPlaneAngleForce.h</includes>
+    <includes refid="AmoebaPiTorsionForce_8h" local="yes">openmm/AmoebaPiTorsionForce.h</includes>
+    <includes refid="AmoebaStretchBendForce_8h" local="yes">openmm/AmoebaStretchBendForce.h</includes>
+    <includes refid="AmoebaOutOfPlaneBendForce_8h" local="yes">openmm/AmoebaOutOfPlaneBendForce.h</includes>
+    <includes refid="AmoebaTorsionTorsionForce_8h" local="yes">openmm/AmoebaTorsionTorsionForce.h</includes>
+    <includes refid="AmoebaMultipoleForce_8h" local="yes">openmm/AmoebaMultipoleForce.h</includes>
+    <includes refid="AmoebaGeneralizedKirkwoodForce_8h" local="yes">openmm/AmoebaGeneralizedKirkwoodForce.h</includes>
+    <includes refid="AmoebaVdwForce_8h" local="yes">openmm/AmoebaVdwForce.h</includes>
+    <includes refid="AmoebaWcaDispersionForce_8h" local="yes">openmm/AmoebaWcaDispersionForce.h</includes>
+    <includes refid="HippoNonbondedForce_8h" local="yes">openmm/HippoNonbondedForce.h</includes>
+    <incdepgraph>
+      <node id="807">
+        <label>internal/windowsExportAmoeba.h</label>
+      </node>
+      <node id="800">
+        <label>/home/sam/github/openmm/plugins/amoeba/openmmapi/include/OpenMMAmoeba.h</label>
+        <link refid="OpenMMAmoeba_8h"/>
+        <childnode refid="801" relation="include">
+        </childnode>
+        <childnode refid="810" relation="include">
+        </childnode>
+        <childnode refid="811" relation="include">
+        </childnode>
+        <childnode refid="812" relation="include">
+        </childnode>
+        <childnode refid="813" relation="include">
+        </childnode>
+        <childnode refid="814" relation="include">
+        </childnode>
+        <childnode refid="815" relation="include">
+        </childnode>
+        <childnode refid="817" relation="include">
+        </childnode>
+        <childnode refid="822" relation="include">
+        </childnode>
+        <childnode refid="823" relation="include">
+        </childnode>
+        <childnode refid="824" relation="include">
+        </childnode>
+        <childnode refid="825" relation="include">
+        </childnode>
+      </node>
+      <node id="803">
+        <label>internal/windowsExport.h</label>
+      </node>
+      <node id="825">
+        <label>openmm/HippoNonbondedForce.h</label>
+        <link refid="HippoNonbondedForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="804" relation="include">
+        </childnode>
+        <childnode refid="808" relation="include">
+        </childnode>
+        <childnode refid="826" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+      </node>
+      <node id="801">
+        <label>openmm/AmoebaBondForce.h</label>
+        <link refid="AmoebaBondForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="804" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="808" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+      </node>
+      <node id="816">
+        <label>cmath</label>
+      </node>
+      <node id="805">
+        <label>cassert</label>
+      </node>
+      <node id="810">
+        <label>openmm/AmoebaAngleForce.h</label>
+        <link refid="AmoebaAngleForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+      </node>
+      <node id="820">
+        <label>string</label>
+      </node>
+      <node id="808">
+        <label>map</label>
+      </node>
+      <node id="811">
+        <label>openmm/AmoebaInPlaneAngleForce.h</label>
+        <link refid="AmoebaInPlaneAngleForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+      </node>
+      <node id="819">
+        <label>exception</label>
+      </node>
+      <node id="813">
+        <label>openmm/AmoebaStretchBendForce.h</label>
+        <link refid="AmoebaStretchBendForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+      </node>
+      <node id="812">
+        <label>openmm/AmoebaPiTorsionForce.h</label>
+        <link refid="AmoebaPiTorsionForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+      </node>
+      <node id="814">
+        <label>openmm/AmoebaOutOfPlaneBendForce.h</label>
+        <link refid="AmoebaOutOfPlaneBendForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+      </node>
+      <node id="822">
+        <label>openmm/AmoebaGeneralizedKirkwoodForce.h</label>
+        <link refid="AmoebaGeneralizedKirkwoodForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+      </node>
+      <node id="809">
+        <label>vector</label>
+      </node>
+      <node id="824">
+        <label>openmm/AmoebaWcaDispersionForce.h</label>
+        <link refid="AmoebaWcaDispersionForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+      </node>
+      <node id="826">
+        <label>utility</label>
+      </node>
+      <node id="821">
+        <label>sstream</label>
+      </node>
+      <node id="818">
+        <label>openmm/OpenMMException.h</label>
+        <link refid="OpenMMException_8h_source"/>
+        <childnode refid="819" relation="include">
+        </childnode>
+        <childnode refid="820" relation="include">
+        </childnode>
+      </node>
+      <node id="806">
+        <label>iosfwd</label>
+      </node>
+      <node id="817">
+        <label>openmm/AmoebaMultipoleForce.h</label>
+        <link refid="AmoebaMultipoleForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="818" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="804" relation="include">
+        </childnode>
+        <childnode refid="821" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+      </node>
+      <node id="802">
+        <label>openmm/Force.h</label>
+        <link refid="Force_8h_source"/>
+        <childnode refid="803" relation="include">
+        </childnode>
+      </node>
+      <node id="804">
+        <label>openmm/Vec3.h</label>
+        <link refid="Vec3_8h_source"/>
+        <childnode refid="805" relation="include">
+        </childnode>
+        <childnode refid="806" relation="include">
+        </childnode>
+      </node>
+      <node id="823">
+        <label>openmm/AmoebaVdwForce.h</label>
+        <link refid="AmoebaVdwForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+      </node>
+      <node id="815">
+        <label>openmm/AmoebaTorsionTorsionForce.h</label>
+        <link refid="AmoebaTorsionTorsionForce_8h_source"/>
+        <childnode refid="802" relation="include">
+        </childnode>
+        <childnode refid="807" relation="include">
+        </childnode>
+        <childnode refid="809" relation="include">
+        </childnode>
+        <childnode refid="816" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/OpenMMAmoeba.h"/>
+  </compounddef>
+</doxygen>

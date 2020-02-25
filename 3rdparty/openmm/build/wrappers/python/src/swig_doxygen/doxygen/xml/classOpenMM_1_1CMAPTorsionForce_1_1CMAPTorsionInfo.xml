@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a13407ed64d931b45fbd040084e7cdaa1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::CMAPTorsionInfo::map</definition>
+        <argsstring></argsstring>
+        <name>map</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="206" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a4f82dfaccb6cd36f5af9adbb3e015d5e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::CMAPTorsionInfo::a1</definition>
+        <argsstring></argsstring>
+        <name>a1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="206" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a68dc72556aa3c9f16efc1450ac8b6f5d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::CMAPTorsionInfo::a2</definition>
+        <argsstring></argsstring>
+        <name>a2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="206" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a99fe98a6584a814b12268cbc2064d150" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::CMAPTorsionInfo::a3</definition>
+        <argsstring></argsstring>
+        <name>a3</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="206" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a6f1af47436d4b927217a1638d9d0dfef" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::CMAPTorsionInfo::a4</definition>
+        <argsstring></argsstring>
+        <name>a4</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="206" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a0a61a2645d152c76ac0f755824a07e91" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::CMAPTorsionInfo::b1</definition>
+        <argsstring></argsstring>
+        <name>b1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="206" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a569cb3e4b0f27f9044cdfa86c600f1db" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::CMAPTorsionInfo::b2</definition>
+        <argsstring></argsstring>
+        <name>b2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="206" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1adbc26b3b7ed310db23d6f238306d0500" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::CMAPTorsionInfo::b3</definition>
+        <argsstring></argsstring>
+        <name>b3</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="206" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1aca44c855e0ec12eb78f2960934a76de6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::CMAPTorsionInfo::b4</definition>
+        <argsstring></argsstring>
+        <name>b4</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="206" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a3f317e3fd17a27183c543b5ec798ea5c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CMAPTorsionForce::CMAPTorsionInfo::CMAPTorsionInfo</definition>
+        <argsstring>()</argsstring>
+        <name>CMAPTorsionInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="207" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="207" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a63d8915d5afee71fae68b0c3e04c596a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CMAPTorsionForce::CMAPTorsionInfo::CMAPTorsionInfo</definition>
+        <argsstring>(int map, int a1, int a2, int a3, int a4, int b1, int b2, int b3, int b4)</argsstring>
+        <name>CMAPTorsionInfo</name>
+        <param>
+          <type>int</type>
+          <declname>map</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a3</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a4</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b3</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b4</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="210" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="210" bodyend="212"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a torsion. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="204" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="204" bodyend="213"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a4f82dfaccb6cd36f5af9adbb3e015d5e" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</scope><name>a1</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a68dc72556aa3c9f16efc1450ac8b6f5d" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</scope><name>a2</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a99fe98a6584a814b12268cbc2064d150" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</scope><name>a3</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a6f1af47436d4b927217a1638d9d0dfef" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</scope><name>a4</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a0a61a2645d152c76ac0f755824a07e91" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</scope><name>b1</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a569cb3e4b0f27f9044cdfa86c600f1db" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</scope><name>b2</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1adbc26b3b7ed310db23d6f238306d0500" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</scope><name>b3</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1aca44c855e0ec12eb78f2960934a76de6" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</scope><name>b4</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a3f317e3fd17a27183c543b5ec798ea5c" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</scope><name>CMAPTorsionInfo</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a63d8915d5afee71fae68b0c3e04c596a" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</scope><name>CMAPTorsionInfo</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo_1a13407ed64d931b45fbd040084e7cdaa1" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce::CMAPTorsionInfo</scope><name>map</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

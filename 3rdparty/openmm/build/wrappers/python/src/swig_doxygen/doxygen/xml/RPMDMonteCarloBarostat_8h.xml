@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="RPMDMonteCarloBarostat_8h" kind="file" language="C++">
+    <compoundname>RPMDMonteCarloBarostat.h</compoundname>
+    <includes refid="Force_8h" local="yes">openmm/Force.h</includes>
+    <includes local="no">string</includes>
+    <includes local="yes">internal/windowsExportRpmd.h</includes>
+    <incdepgraph>
+      <node id="935">
+        <label>internal/windowsExport.h</label>
+      </node>
+      <node id="936">
+        <label>string</label>
+      </node>
+      <node id="933">
+        <label>/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h</label>
+        <link refid="RPMDMonteCarloBarostat_8h"/>
+        <childnode refid="934" relation="include">
+        </childnode>
+        <childnode refid="936" relation="include">
+        </childnode>
+        <childnode refid="937" relation="include">
+        </childnode>
+      </node>
+      <node id="934">
+        <label>openmm/Force.h</label>
+        <link refid="Force_8h_source"/>
+        <childnode refid="935" relation="include">
+        </childnode>
+      </node>
+      <node id="937">
+        <label>internal/windowsExportRpmd.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classOpenMM_1_1RPMDMonteCarloBarostat" prot="public">OpenMM::RPMDMonteCarloBarostat</innerclass>
+    <innernamespace refid="namespaceOpenMM">OpenMM</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/plugins/rpmd/openmmapi/include/openmm/RPMDMonteCarloBarostat.h"/>
+  </compounddef>
+</doxygen>

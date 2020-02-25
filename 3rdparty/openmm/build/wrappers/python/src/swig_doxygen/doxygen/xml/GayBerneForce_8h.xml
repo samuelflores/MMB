@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="GayBerneForce_8h" kind="file" language="C++">
+    <compoundname>GayBerneForce.h</compoundname>
+    <includes refid="Context_8h" local="yes">Context.h</includes>
+    <includes refid="Force_8h" local="yes">Force.h</includes>
+    <includes local="no">map</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">internal/windowsExport.h</includes>
+    <includedby refid="OpenMM_8h" local="yes">/home/sam/github/openmm/openmmapi/include/OpenMM.h</includedby>
+    <incdepgraph>
+      <node id="341">
+        <label>internal/OSRngSeed.h</label>
+      </node>
+      <node id="331">
+        <label>Integrator.h</label>
+        <link refid="Integrator_8h_source"/>
+        <childnode refid="332" relation="include">
+        </childnode>
+        <childnode refid="333" relation="include">
+        </childnode>
+        <childnode refid="336" relation="include">
+        </childnode>
+        <childnode refid="338" relation="include">
+        </childnode>
+        <childnode refid="339" relation="include">
+        </childnode>
+      </node>
+      <node id="339">
+        <label>internal/windowsExport.h</label>
+      </node>
+      <node id="334">
+        <label>cassert</label>
+      </node>
+      <node id="337">
+        <label>string</label>
+      </node>
+      <node id="336">
+        <label>map</label>
+      </node>
+      <node id="330">
+        <label>Context.h</label>
+        <link refid="Context_8h_source"/>
+        <childnode refid="331" relation="include">
+        </childnode>
+        <childnode refid="332" relation="include">
+        </childnode>
+        <childnode refid="340" relation="include">
+        </childnode>
+        <childnode refid="335" relation="include">
+        </childnode>
+        <childnode refid="336" relation="include">
+        </childnode>
+        <childnode refid="337" relation="include">
+        </childnode>
+        <childnode refid="338" relation="include">
+        </childnode>
+        <childnode refid="339" relation="include">
+        </childnode>
+        <childnode refid="341" relation="include">
+        </childnode>
+      </node>
+      <node id="329">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h</label>
+        <link refid="GayBerneForce_8h"/>
+        <childnode refid="330" relation="include">
+        </childnode>
+        <childnode refid="342" relation="include">
+        </childnode>
+        <childnode refid="336" relation="include">
+        </childnode>
+        <childnode refid="343" relation="include">
+        </childnode>
+        <childnode refid="338" relation="include">
+        </childnode>
+        <childnode refid="339" relation="include">
+        </childnode>
+      </node>
+      <node id="338">
+        <label>vector</label>
+      </node>
+      <node id="343">
+        <label>utility</label>
+      </node>
+      <node id="335">
+        <label>iosfwd</label>
+      </node>
+      <node id="332">
+        <label>State.h</label>
+        <link refid="State_8h_source"/>
+        <childnode refid="333" relation="include">
+        </childnode>
+        <childnode refid="336" relation="include">
+        </childnode>
+        <childnode refid="337" relation="include">
+        </childnode>
+        <childnode refid="338" relation="include">
+        </childnode>
+        <childnode refid="339" relation="include">
+        </childnode>
+      </node>
+      <node id="342">
+        <label>Force.h</label>
+        <link refid="Force_8h_source"/>
+        <childnode refid="339" relation="include">
+        </childnode>
+      </node>
+      <node id="333">
+        <label>Vec3.h</label>
+        <link refid="Vec3_8h_source"/>
+        <childnode refid="334" relation="include">
+        </childnode>
+        <childnode refid="335" relation="include">
+        </childnode>
+      </node>
+      <node id="340">
+        <label>System.h</label>
+        <link refid="System_8h_source"/>
+        <childnode refid="333" relation="include">
+        </childnode>
+        <childnode refid="338" relation="include">
+        </childnode>
+        <childnode refid="339" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="345">
+        <label>/home/sam/github/openmm/openmmapi/include/OpenMM.h</label>
+        <link refid="OpenMM_8h_source"/>
+      </node>
+      <node id="344">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h</label>
+        <link refid="GayBerneForce_8h"/>
+        <childnode refid="345" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classOpenMM_1_1GayBerneForce" prot="public">OpenMM::GayBerneForce</innerclass>
+    <innerclass refid="classOpenMM_1_1GayBerneForce_1_1ParticleInfo" prot="private">OpenMM::GayBerneForce::ParticleInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo" prot="private">OpenMM::GayBerneForce::ExceptionInfo</innerclass>
+    <innernamespace refid="namespaceOpenMM">OpenMM</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h"/>
+  </compounddef>
+</doxygen>

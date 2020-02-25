@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="GBSAOBCForce_8h" kind="file" language="C++">
+    <compoundname>GBSAOBCForce.h</compoundname>
+    <includes refid="Force_8h" local="yes">Force.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">internal/windowsExport.h</includes>
+    <includedby refid="OpenMM_8h" local="yes">/home/sam/github/openmm/openmmapi/include/OpenMM.h</includedby>
+    <incdepgraph>
+      <node id="348">
+        <label>internal/windowsExport.h</label>
+      </node>
+      <node id="346">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h</label>
+        <link refid="GBSAOBCForce_8h"/>
+        <childnode refid="347" relation="include">
+        </childnode>
+        <childnode refid="349" relation="include">
+        </childnode>
+        <childnode refid="348" relation="include">
+        </childnode>
+      </node>
+      <node id="349">
+        <label>vector</label>
+      </node>
+      <node id="347">
+        <label>Force.h</label>
+        <link refid="Force_8h_source"/>
+        <childnode refid="348" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="351">
+        <label>/home/sam/github/openmm/openmmapi/include/OpenMM.h</label>
+        <link refid="OpenMM_8h_source"/>
+      </node>
+      <node id="350">
+        <label>/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h</label>
+        <link refid="GBSAOBCForce_8h"/>
+        <childnode refid="351" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classOpenMM_1_1GBSAOBCForce" prot="public">OpenMM::GBSAOBCForce</innerclass>
+    <innerclass refid="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo" prot="private">OpenMM::GBSAOBCForce::ParticleInfo</innerclass>
+    <innernamespace refid="namespaceOpenMM">OpenMM</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="AmoebaBondForce_8h" kind="file" language="C++">
+    <compoundname>AmoebaBondForce.h</compoundname>
+    <includes local="yes">openmm/Force.h</includes>
+    <includes local="yes">openmm/Vec3.h</includes>
+    <includes local="yes">internal/windowsExportAmoeba.h</includes>
+    <includes local="no">map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="OpenMMAmoeba_8h" local="yes">/home/sam/github/openmm/plugins/amoeba/openmmapi/include/OpenMMAmoeba.h</includedby>
+    <incdepgraph>
+      <node id="9">
+        <label>internal/windowsExportAmoeba.h</label>
+      </node>
+      <node id="8">
+        <label>openmm/Vec3.h</label>
+      </node>
+      <node id="6">
+        <label>/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h</label>
+        <link refid="AmoebaBondForce_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>openmm/Force.h</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="13">
+        <label>/home/sam/github/openmm/plugins/amoeba/openmmapi/include/OpenMMAmoeba.h</label>
+        <link refid="OpenMMAmoeba_8h"/>
+      </node>
+      <node id="12">
+        <label>/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h</label>
+        <link refid="AmoebaBondForce_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classOpenMM_1_1AmoebaBondForce" prot="public">OpenMM::AmoebaBondForce</innerclass>
+    <innerclass refid="classOpenMM_1_1AmoebaBondForce_1_1BondInfo" prot="private">OpenMM::AmoebaBondForce::BondInfo</innerclass>
+    <innernamespace refid="namespaceOpenMM">OpenMM</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaBondForce.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomManyParticleForce_1_1ExclusionInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomManyParticleForce::ExclusionInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomManyParticleForce_1_1ExclusionInfo_1a1069fb6e290de8325b1a7713d6ae5fb7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CustomManyParticleForce::ExclusionInfo::particle1</definition>
+        <argsstring></argsstring>
+        <name>particle1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="544" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="544" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomManyParticleForce_1_1ExclusionInfo_1a71dfd4f5601935a07bbc92725e6f8596" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::CustomManyParticleForce::ExclusionInfo::particle2</definition>
+        <argsstring></argsstring>
+        <name>particle2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="544" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="544" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomManyParticleForce_1_1ExclusionInfo_1a722be58db63e1e616eb578b46f48f79c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomManyParticleForce::ExclusionInfo::ExclusionInfo</definition>
+        <argsstring>()</argsstring>
+        <name>ExclusionInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="545" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="545" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomManyParticleForce_1_1ExclusionInfo_1a31716f1c44578cc4bb682d405160dab8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomManyParticleForce::ExclusionInfo::ExclusionInfo</definition>
+        <argsstring>(int particle1, int particle2)</argsstring>
+        <name>ExclusionInfo</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="548" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="548" bodyend="550"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about an exclusion. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" line="542" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomManyParticleForce.h" bodystart="542" bodyend="551"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1ExclusionInfo_1a722be58db63e1e616eb578b46f48f79c" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::ExclusionInfo</scope><name>ExclusionInfo</name></member>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1ExclusionInfo_1a31716f1c44578cc4bb682d405160dab8" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::ExclusionInfo</scope><name>ExclusionInfo</name></member>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1ExclusionInfo_1a1069fb6e290de8325b1a7713d6ae5fb7" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::ExclusionInfo</scope><name>particle1</name></member>
+      <member refid="classOpenMM_1_1CustomManyParticleForce_1_1ExclusionInfo_1a71dfd4f5601935a07bbc92725e6f8596" prot="public" virt="non-virtual"><scope>OpenMM::CustomManyParticleForce::ExclusionInfo</scope><name>particle2</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

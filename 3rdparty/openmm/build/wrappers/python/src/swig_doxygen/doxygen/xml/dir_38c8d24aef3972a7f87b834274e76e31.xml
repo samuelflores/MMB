@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_38c8d24aef3972a7f87b834274e76e31" kind="dir">
+    <compoundname>/home/sam/github/openmm/plugins</compoundname>
+    <innerdir refid="dir_19b10037b45b8981daefe9b345e925d1">/home/sam/github/openmm/plugins/amoeba</innerdir>
+    <innerdir refid="dir_808fdba1221e935fbfdc5a6cfc529f13">/home/sam/github/openmm/plugins/drude</innerdir>
+    <innerdir refid="dir_c7beffe25bc36092ebc5e5b537aede56">/home/sam/github/openmm/plugins/rpmd</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/plugins/"/>
+  </compounddef>
+</doxygen>

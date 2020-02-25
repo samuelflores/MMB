@@ -1,0 +1,2147 @@
+Start testing: Feb 25 14:10 CET
+----------------------------------------------------------
+1/134 Testing: TestReferenceAndersenThermostat
+1/134 Test: TestReferenceAndersenThermostat
+Command: "/home/sam/github/openmm/build/TestReferenceAndersenThermostat"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceAndersenThermostat" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAndersenThermostat: symbol lookup error: /home/sam/github/openmm/build/TestReferenceAndersenThermostat: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAndersenThermostat" end time: Feb 25 14:10 CET
+"TestReferenceAndersenThermostat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/134 Testing: TestReferenceBAOABLangevinIntegrator
+2/134 Test: TestReferenceBAOABLangevinIntegrator
+Command: "/home/sam/github/openmm/build/TestReferenceBAOABLangevinIntegrator"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceBAOABLangevinIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceBAOABLangevinIntegrator: symbol lookup error: /home/sam/github/openmm/build/TestReferenceBAOABLangevinIntegrator: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceBAOABLangevinIntegrator" end time: Feb 25 14:10 CET
+"TestReferenceBAOABLangevinIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/134 Testing: TestReferenceBrownianIntegrator
+3/134 Test: TestReferenceBrownianIntegrator
+Command: "/home/sam/github/openmm/build/TestReferenceBrownianIntegrator"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceBrownianIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceBrownianIntegrator: symbol lookup error: /home/sam/github/openmm/build/TestReferenceBrownianIntegrator: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceBrownianIntegrator" end time: Feb 25 14:10 CET
+"TestReferenceBrownianIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/134 Testing: TestReferenceCMAPTorsionForce
+4/134 Test: TestReferenceCMAPTorsionForce
+Command: "/home/sam/github/openmm/build/TestReferenceCMAPTorsionForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCMAPTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCMAPTorsionForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCMAPTorsionForce: undefined symbol: _ZN6OpenMM20PeriodicTorsionForce33setUsesPeriodicBoundaryConditionsEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCMAPTorsionForce" end time: Feb 25 14:10 CET
+"TestReferenceCMAPTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/134 Testing: TestReferenceCMMotionRemover
+5/134 Test: TestReferenceCMMotionRemover
+Command: "/home/sam/github/openmm/build/TestReferenceCMMotionRemover"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCMMotionRemover" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCMMotionRemover: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCMMotionRemover: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCMMotionRemover" end time: Feb 25 14:10 CET
+"TestReferenceCMMotionRemover" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/134 Testing: TestReferenceCheckpoints
+6/134 Test: TestReferenceCheckpoints
+Command: "/home/sam/github/openmm/build/TestReferenceCheckpoints"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCheckpoints" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCheckpoints: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCheckpoints: undefined symbol: _ZN6OpenMM7Context12setParameterERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEd
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCheckpoints" end time: Feb 25 14:10 CET
+"TestReferenceCheckpoints" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/134 Testing: TestReferenceCompoundIntegrator
+7/134 Test: TestReferenceCompoundIntegrator
+Command: "/home/sam/github/openmm/build/TestReferenceCompoundIntegrator"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCompoundIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCompoundIntegrator: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCompoundIntegrator: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCompoundIntegrator" end time: Feb 25 14:10 CET
+"TestReferenceCompoundIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/134 Testing: TestReferenceCustomAngleForce
+8/134 Test: TestReferenceCustomAngleForce
+Command: "/home/sam/github/openmm/build/TestReferenceCustomAngleForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomAngleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomAngleForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomAngleForce: undefined symbol: _ZN6OpenMM7Context12setParameterERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEd
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomAngleForce" end time: Feb 25 14:10 CET
+"TestReferenceCustomAngleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/134 Testing: TestReferenceCustomBondForce
+9/134 Test: TestReferenceCustomBondForce
+Command: "/home/sam/github/openmm/build/TestReferenceCustomBondForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomBondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomBondForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomBondForce: undefined symbol: _ZN6OpenMM7Context12setParameterERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEd
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomBondForce" end time: Feb 25 14:10 CET
+"TestReferenceCustomBondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/134 Testing: TestReferenceCustomCVForce
+10/134 Test: TestReferenceCustomCVForce
+Command: "/home/sam/github/openmm/build/TestReferenceCustomCVForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomCVForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomCVForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomCVForce: undefined symbol: _ZN6OpenMM13CustomCVForce20addTabulatedFunctionERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS_17TabulatedFunctionE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomCVForce" end time: Feb 25 14:10 CET
+"TestReferenceCustomCVForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/134 Testing: TestReferenceCustomCentroidBondForce
+11/134 Test: TestReferenceCustomCentroidBondForce
+Command: "/home/sam/github/openmm/build/TestReferenceCustomCentroidBondForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomCentroidBondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomCentroidBondForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomCentroidBondForce: undefined symbol: _ZN6OpenMM23CustomCentroidBondForce20addTabulatedFunctionERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS_17TabulatedFunctionE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomCentroidBondForce" end time: Feb 25 14:10 CET
+"TestReferenceCustomCentroidBondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/134 Testing: TestReferenceCustomCompoundBondForce
+12/134 Test: TestReferenceCustomCompoundBondForce
+Command: "/home/sam/github/openmm/build/TestReferenceCustomCompoundBondForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomCompoundBondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomCompoundBondForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomCompoundBondForce: undefined symbol: _ZN6OpenMM7Context12setParameterERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEd
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomCompoundBondForce" end time: Feb 25 14:10 CET
+"TestReferenceCustomCompoundBondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/134 Testing: TestReferenceCustomExternalForce
+13/134 Test: TestReferenceCustomExternalForce
+Command: "/home/sam/github/openmm/build/TestReferenceCustomExternalForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomExternalForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomExternalForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomExternalForce: undefined symbol: _ZN6OpenMM19CustomExternalForceC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomExternalForce" end time: Feb 25 14:10 CET
+"TestReferenceCustomExternalForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/134 Testing: TestReferenceCustomGBForce
+14/134 Test: TestReferenceCustomGBForce
+Command: "/home/sam/github/openmm/build/TestReferenceCustomGBForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomGBForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomGBForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomGBForce: undefined symbol: _ZN6OpenMM7Context12setParameterERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEd
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomGBForce" end time: Feb 25 14:10 CET
+"TestReferenceCustomGBForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/134 Testing: TestReferenceCustomHbondForce
+15/134 Test: TestReferenceCustomHbondForce
+Command: "/home/sam/github/openmm/build/TestReferenceCustomHbondForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomHbondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomHbondForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomHbondForce: undefined symbol: _ZN6OpenMM16CustomHbondForce20addTabulatedFunctionERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS_17TabulatedFunctionE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomHbondForce" end time: Feb 25 14:10 CET
+"TestReferenceCustomHbondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/134 Testing: TestReferenceCustomIntegrator
+16/134 Test: TestReferenceCustomIntegrator
+Command: "/home/sam/github/openmm/build/TestReferenceCustomIntegrator"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomIntegrator: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomIntegrator: undefined symbol: _ZN6OpenMM15CustomBondForceC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomIntegrator" end time: Feb 25 14:10 CET
+"TestReferenceCustomIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/134 Testing: TestReferenceCustomManyParticleForce
+17/134 Test: TestReferenceCustomManyParticleForce
+Command: "/home/sam/github/openmm/build/TestReferenceCustomManyParticleForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomManyParticleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomManyParticleForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomManyParticleForce: undefined symbol: _ZN6OpenMM7Context12setParameterERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEd
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomManyParticleForce" end time: Feb 25 14:10 CET
+"TestReferenceCustomManyParticleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/134 Testing: TestReferenceCustomNonbondedForce
+18/134 Test: TestReferenceCustomNonbondedForce
+Command: "/home/sam/github/openmm/build/TestReferenceCustomNonbondedForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomNonbondedForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomNonbondedForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomNonbondedForce: undefined symbol: _ZN6OpenMM7Context12setParameterERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEd
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomNonbondedForce" end time: Feb 25 14:10 CET
+"TestReferenceCustomNonbondedForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/134 Testing: TestReferenceCustomTorsionForce
+19/134 Test: TestReferenceCustomTorsionForce
+Command: "/home/sam/github/openmm/build/TestReferenceCustomTorsionForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceCustomTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceCustomTorsionForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceCustomTorsionForce: undefined symbol: _ZN6OpenMM7Context12setParameterERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEd
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceCustomTorsionForce" end time: Feb 25 14:10 CET
+"TestReferenceCustomTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/134 Testing: TestReferenceDispersionPME
+20/134 Test: TestReferenceDispersionPME
+Command: "/home/sam/github/openmm/build/TestReferenceDispersionPME"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceDispersionPME" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceDispersionPME: symbol lookup error: /home/sam/github/openmm/build/TestReferenceDispersionPME: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceDispersionPME" end time: Feb 25 14:10 CET
+"TestReferenceDispersionPME" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/134 Testing: TestReferenceEwald
+21/134 Test: TestReferenceEwald
+Command: "/home/sam/github/openmm/build/TestReferenceEwald"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceEwald" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceEwald: symbol lookup error: /home/sam/github/openmm/build/TestReferenceEwald: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceEwald" end time: Feb 25 14:10 CET
+"TestReferenceEwald" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/134 Testing: TestReferenceGBSAOBCForce
+22/134 Test: TestReferenceGBSAOBCForce
+Command: "/home/sam/github/openmm/build/TestReferenceGBSAOBCForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceGBSAOBCForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceGBSAOBCForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceGBSAOBCForce: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceGBSAOBCForce" end time: Feb 25 14:10 CET
+"TestReferenceGBSAOBCForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/134 Testing: TestReferenceGayBerneForce
+23/134 Test: TestReferenceGayBerneForce
+Command: "/home/sam/github/openmm/build/TestReferenceGayBerneForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceGayBerneForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceGayBerneForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceGayBerneForce: undefined symbol: _ZN6OpenMM13GayBerneForce25updateParametersInContextERNS_7ContextE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceGayBerneForce" end time: Feb 25 14:10 CET
+"TestReferenceGayBerneForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/134 Testing: TestReferenceHarmonicAngleForce
+24/134 Test: TestReferenceHarmonicAngleForce
+Command: "/home/sam/github/openmm/build/TestReferenceHarmonicAngleForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceHarmonicAngleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceHarmonicAngleForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceHarmonicAngleForce: undefined symbol: _ZN6OpenMM18HarmonicAngleForce33setUsesPeriodicBoundaryConditionsEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceHarmonicAngleForce" end time: Feb 25 14:10 CET
+"TestReferenceHarmonicAngleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/134 Testing: TestReferenceHarmonicBondForce
+25/134 Test: TestReferenceHarmonicBondForce
+Command: "/home/sam/github/openmm/build/TestReferenceHarmonicBondForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceHarmonicBondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceHarmonicBondForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceHarmonicBondForce: undefined symbol: _ZN6OpenMM17HarmonicBondForce33setUsesPeriodicBoundaryConditionsEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceHarmonicBondForce" end time: Feb 25 14:10 CET
+"TestReferenceHarmonicBondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/134 Testing: TestReferenceKineticEnergy
+26/134 Test: TestReferenceKineticEnergy
+Command: "/home/sam/github/openmm/build/TestReferenceKineticEnergy"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceKineticEnergy" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceKineticEnergy: symbol lookup error: /home/sam/github/openmm/build/TestReferenceKineticEnergy: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceKineticEnergy" end time: Feb 25 14:10 CET
+"TestReferenceKineticEnergy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/134 Testing: TestReferenceLangevinIntegrator
+27/134 Test: TestReferenceLangevinIntegrator
+Command: "/home/sam/github/openmm/build/TestReferenceLangevinIntegrator"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceLangevinIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceLangevinIntegrator: symbol lookup error: /home/sam/github/openmm/build/TestReferenceLangevinIntegrator: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceLangevinIntegrator" end time: Feb 25 14:10 CET
+"TestReferenceLangevinIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/134 Testing: TestReferenceLocalEnergyMinimizer
+28/134 Test: TestReferenceLocalEnergyMinimizer
+Command: "/home/sam/github/openmm/build/TestReferenceLocalEnergyMinimizer"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceLocalEnergyMinimizer" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceLocalEnergyMinimizer: symbol lookup error: /home/sam/github/openmm/build/TestReferenceLocalEnergyMinimizer: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceLocalEnergyMinimizer" end time: Feb 25 14:10 CET
+"TestReferenceLocalEnergyMinimizer" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/134 Testing: TestReferenceMonteCarloAnisotropicBarostat
+29/134 Test: TestReferenceMonteCarloAnisotropicBarostat
+Command: "/home/sam/github/openmm/build/TestReferenceMonteCarloAnisotropicBarostat"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceMonteCarloAnisotropicBarostat" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceMonteCarloAnisotropicBarostat: symbol lookup error: /home/sam/github/openmm/build/TestReferenceMonteCarloAnisotropicBarostat: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceMonteCarloAnisotropicBarostat" end time: Feb 25 14:10 CET
+"TestReferenceMonteCarloAnisotropicBarostat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/134 Testing: TestReferenceMonteCarloBarostat
+30/134 Test: TestReferenceMonteCarloBarostat
+Command: "/home/sam/github/openmm/build/TestReferenceMonteCarloBarostat"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceMonteCarloBarostat" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceMonteCarloBarostat: symbol lookup error: /home/sam/github/openmm/build/TestReferenceMonteCarloBarostat: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceMonteCarloBarostat" end time: Feb 25 14:10 CET
+"TestReferenceMonteCarloBarostat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/134 Testing: TestReferenceMonteCarloMembraneBarostat
+31/134 Test: TestReferenceMonteCarloMembraneBarostat
+Command: "/home/sam/github/openmm/build/TestReferenceMonteCarloMembraneBarostat"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceMonteCarloMembraneBarostat" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceMonteCarloMembraneBarostat: symbol lookup error: /home/sam/github/openmm/build/TestReferenceMonteCarloMembraneBarostat: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceMonteCarloMembraneBarostat" end time: Feb 25 14:10 CET
+"TestReferenceMonteCarloMembraneBarostat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/134 Testing: TestReferenceNeighborList
+32/134 Test: TestReferenceNeighborList
+Command: "/home/sam/github/openmm/build/TestReferenceNeighborList"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceNeighborList" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceNeighborList: symbol lookup error: /home/sam/github/openmm/build/TestReferenceNeighborList: undefined symbol: _ZN6OpenMM28computeNeighborListVoxelHashERSt6vectorISt4pairIjjESaIS2_EEiRKS0_INS_4Vec3ESaIS6_EERKS0_ISt3setIiSt4lessIiESaIiEESaISF_EEPKS6_bddb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceNeighborList" end time: Feb 25 14:10 CET
+"TestReferenceNeighborList" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/134 Testing: TestReferenceNonbondedForce
+33/134 Test: TestReferenceNonbondedForce
+Command: "/home/sam/github/openmm/build/TestReferenceNonbondedForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceNonbondedForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceNonbondedForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceNonbondedForce: undefined symbol: _ZN6OpenMM7Context12setParameterERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEd
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceNonbondedForce" end time: Feb 25 14:10 CET
+"TestReferenceNonbondedForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/134 Testing: TestReferenceNoseHooverIntegrator
+34/134 Test: TestReferenceNoseHooverIntegrator
+Command: "/home/sam/github/openmm/build/TestReferenceNoseHooverIntegrator"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceNoseHooverIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceNoseHooverIntegrator: symbol lookup error: /home/sam/github/openmm/build/TestReferenceNoseHooverIntegrator: undefined symbol: _ZN6OpenMM20NoseHooverIntegrator4stepEi
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceNoseHooverIntegrator" end time: Feb 25 14:10 CET
+"TestReferenceNoseHooverIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/134 Testing: TestReferenceNoseHooverThermostat
+35/134 Test: TestReferenceNoseHooverThermostat
+Command: "/home/sam/github/openmm/build/TestReferenceNoseHooverThermostat"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceNoseHooverThermostat" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceNoseHooverThermostat: symbol lookup error: /home/sam/github/openmm/build/TestReferenceNoseHooverThermostat: undefined symbol: _ZN6OpenMM20NoseHooverIntegrator4stepEi
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceNoseHooverThermostat" end time: Feb 25 14:10 CET
+"TestReferenceNoseHooverThermostat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/134 Testing: TestReferencePeriodicTorsionForce
+36/134 Test: TestReferencePeriodicTorsionForce
+Command: "/home/sam/github/openmm/build/TestReferencePeriodicTorsionForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferencePeriodicTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferencePeriodicTorsionForce: symbol lookup error: /home/sam/github/openmm/build/TestReferencePeriodicTorsionForce: undefined symbol: _ZN6OpenMM20PeriodicTorsionForce33setUsesPeriodicBoundaryConditionsEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferencePeriodicTorsionForce" end time: Feb 25 14:10 CET
+"TestReferencePeriodicTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/134 Testing: TestReferenceRBTorsionForce
+37/134 Test: TestReferenceRBTorsionForce
+Command: "/home/sam/github/openmm/build/TestReferenceRBTorsionForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceRBTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceRBTorsionForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceRBTorsionForce: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceRBTorsionForce" end time: Feb 25 14:10 CET
+"TestReferenceRBTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/134 Testing: TestReferenceRMSDForce
+38/134 Test: TestReferenceRMSDForce
+Command: "/home/sam/github/openmm/build/TestReferenceRMSDForce"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceRMSDForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceRMSDForce: symbol lookup error: /home/sam/github/openmm/build/TestReferenceRMSDForce: undefined symbol: _ZN6OpenMM9RMSDForce25updateParametersInContextERNS_7ContextE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceRMSDForce" end time: Feb 25 14:10 CET
+"TestReferenceRMSDForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/134 Testing: TestReferenceRandom
+39/134 Test: TestReferenceRandom
+Command: "/home/sam/github/openmm/build/TestReferenceRandom"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceRandom" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceRandom: symbol lookup error: /home/sam/github/openmm/build/TestReferenceRandom: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceRandom" end time: Feb 25 14:10 CET
+"TestReferenceRandom" time elapsed: 00:00:00
+----------------------------------------------------------
+
+40/134 Testing: TestReferenceSettle
+40/134 Test: TestReferenceSettle
+Command: "/home/sam/github/openmm/build/TestReferenceSettle"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceSettle" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceSettle: symbol lookup error: /home/sam/github/openmm/build/TestReferenceSettle: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceSettle" end time: Feb 25 14:10 CET
+"TestReferenceSettle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/134 Testing: TestReferenceVariableLangevinIntegrator
+41/134 Test: TestReferenceVariableLangevinIntegrator
+Command: "/home/sam/github/openmm/build/TestReferenceVariableLangevinIntegrator"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceVariableLangevinIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceVariableLangevinIntegrator: symbol lookup error: /home/sam/github/openmm/build/TestReferenceVariableLangevinIntegrator: undefined symbol: _ZN6OpenMM7Context12reinitializeEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceVariableLangevinIntegrator" end time: Feb 25 14:10 CET
+"TestReferenceVariableLangevinIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+42/134 Testing: TestReferenceVariableVerletIntegrator
+42/134 Test: TestReferenceVariableVerletIntegrator
+Command: "/home/sam/github/openmm/build/TestReferenceVariableVerletIntegrator"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceVariableVerletIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceVariableVerletIntegrator: symbol lookup error: /home/sam/github/openmm/build/TestReferenceVariableVerletIntegrator: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceVariableVerletIntegrator" end time: Feb 25 14:10 CET
+"TestReferenceVariableVerletIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+43/134 Testing: TestReferenceVerletIntegrator
+43/134 Test: TestReferenceVerletIntegrator
+Command: "/home/sam/github/openmm/build/TestReferenceVerletIntegrator"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceVerletIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceVerletIntegrator: symbol lookup error: /home/sam/github/openmm/build/TestReferenceVerletIntegrator: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceVerletIntegrator" end time: Feb 25 14:10 CET
+"TestReferenceVerletIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/134 Testing: TestReferenceVirtualSites
+44/134 Test: TestReferenceVirtualSites
+Command: "/home/sam/github/openmm/build/TestReferenceVirtualSites"
+Directory: /home/sam/github/openmm/build/platforms/reference/tests
+"TestReferenceVirtualSites" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceVirtualSites: symbol lookup error: /home/sam/github/openmm/build/TestReferenceVirtualSites: undefined symbol: _ZN6OpenMM15CustomBondForceC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceVirtualSites" end time: Feb 25 14:10 CET
+"TestReferenceVirtualSites" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/134 Testing: TestCpuBAOABLangevinIntegrator
+45/134 Test: TestCpuBAOABLangevinIntegrator
+Command: "/home/sam/github/openmm/build/TestCpuBAOABLangevinIntegrator" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuBAOABLangevinIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuBAOABLangevinIntegrator: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuBAOABLangevinIntegrator" end time: Feb 25 14:10 CET
+"TestCpuBAOABLangevinIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+46/134 Testing: TestCpuCheckpoints
+46/134 Test: TestCpuCheckpoints
+Command: "/home/sam/github/openmm/build/TestCpuCheckpoints" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuCheckpoints" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuCheckpoints: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuCheckpoints" end time: Feb 25 14:10 CET
+"TestCpuCheckpoints" time elapsed: 00:00:00
+----------------------------------------------------------
+
+47/134 Testing: TestCpuCompoundIntegrator
+47/134 Test: TestCpuCompoundIntegrator
+Command: "/home/sam/github/openmm/build/TestCpuCompoundIntegrator" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuCompoundIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuCompoundIntegrator: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuCompoundIntegrator" end time: Feb 25 14:10 CET
+"TestCpuCompoundIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+48/134 Testing: TestCpuCustomGBForce
+48/134 Test: TestCpuCustomGBForce
+Command: "/home/sam/github/openmm/build/TestCpuCustomGBForce" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuCustomGBForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuCustomGBForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuCustomGBForce" end time: Feb 25 14:10 CET
+"TestCpuCustomGBForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+49/134 Testing: TestCpuCustomManyParticleForce
+49/134 Test: TestCpuCustomManyParticleForce
+Command: "/home/sam/github/openmm/build/TestCpuCustomManyParticleForce" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuCustomManyParticleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuCustomManyParticleForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuCustomManyParticleForce" end time: Feb 25 14:10 CET
+"TestCpuCustomManyParticleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+50/134 Testing: TestCpuCustomNonbondedForce
+50/134 Test: TestCpuCustomNonbondedForce
+Command: "/home/sam/github/openmm/build/TestCpuCustomNonbondedForce" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuCustomNonbondedForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuCustomNonbondedForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuCustomNonbondedForce" end time: Feb 25 14:10 CET
+"TestCpuCustomNonbondedForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+51/134 Testing: TestCpuDispersionPME
+51/134 Test: TestCpuDispersionPME
+Command: "/home/sam/github/openmm/build/TestCpuDispersionPME" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuDispersionPME" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuDispersionPME: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuDispersionPME" end time: Feb 25 14:10 CET
+"TestCpuDispersionPME" time elapsed: 00:00:00
+----------------------------------------------------------
+
+52/134 Testing: TestCpuEwald
+52/134 Test: TestCpuEwald
+Command: "/home/sam/github/openmm/build/TestCpuEwald" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuEwald" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuEwald: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuEwald" end time: Feb 25 14:10 CET
+"TestCpuEwald" time elapsed: 00:00:00
+----------------------------------------------------------
+
+53/134 Testing: TestCpuGBSAOBCForce
+53/134 Test: TestCpuGBSAOBCForce
+Command: "/home/sam/github/openmm/build/TestCpuGBSAOBCForce" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuGBSAOBCForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuGBSAOBCForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuGBSAOBCForce" end time: Feb 25 14:10 CET
+"TestCpuGBSAOBCForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+54/134 Testing: TestCpuGayBerneForce
+54/134 Test: TestCpuGayBerneForce
+Command: "/home/sam/github/openmm/build/TestCpuGayBerneForce" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuGayBerneForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuGayBerneForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuGayBerneForce" end time: Feb 25 14:10 CET
+"TestCpuGayBerneForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+55/134 Testing: TestCpuHarmonicAngleForce
+55/134 Test: TestCpuHarmonicAngleForce
+Command: "/home/sam/github/openmm/build/TestCpuHarmonicAngleForce" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuHarmonicAngleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuHarmonicAngleForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuHarmonicAngleForce" end time: Feb 25 14:10 CET
+"TestCpuHarmonicAngleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+56/134 Testing: TestCpuLangevinIntegrator
+56/134 Test: TestCpuLangevinIntegrator
+Command: "/home/sam/github/openmm/build/TestCpuLangevinIntegrator" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuLangevinIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuLangevinIntegrator: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuLangevinIntegrator" end time: Feb 25 14:10 CET
+"TestCpuLangevinIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+57/134 Testing: TestCpuNeighborList
+57/134 Test: TestCpuNeighborList
+Command: "/home/sam/github/openmm/build/TestCpuNeighborList" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuNeighborList" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuNeighborList: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuNeighborList" end time: Feb 25 14:10 CET
+"TestCpuNeighborList" time elapsed: 00:00:00
+----------------------------------------------------------
+
+58/134 Testing: TestCpuNonbondedForce
+58/134 Test: TestCpuNonbondedForce
+Command: "/home/sam/github/openmm/build/TestCpuNonbondedForce" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuNonbondedForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuNonbondedForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuNonbondedForce" end time: Feb 25 14:10 CET
+"TestCpuNonbondedForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+59/134 Testing: TestCpuPeriodicTorsionForce
+59/134 Test: TestCpuPeriodicTorsionForce
+Command: "/home/sam/github/openmm/build/TestCpuPeriodicTorsionForce" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuPeriodicTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuPeriodicTorsionForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuPeriodicTorsionForce" end time: Feb 25 14:10 CET
+"TestCpuPeriodicTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+60/134 Testing: TestCpuRBTorsionForce
+60/134 Test: TestCpuRBTorsionForce
+Command: "/home/sam/github/openmm/build/TestCpuRBTorsionForce" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuRBTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuRBTorsionForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuRBTorsionForce" end time: Feb 25 14:10 CET
+"TestCpuRBTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+61/134 Testing: TestCpuSettle
+61/134 Test: TestCpuSettle
+Command: "/home/sam/github/openmm/build/TestCpuSettle" "single"
+Directory: /home/sam/github/openmm/build/platforms/cpu/tests
+"TestCpuSettle" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestCpuSettle: symbol lookup error: /home/sam/github/openmm/build/libOpenMMCPU.so: undefined symbol: _ZTIN6OpenMM22ReferenceBAOABDynamicsE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestCpuSettle" end time: Feb 25 14:10 CET
+"TestCpuSettle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+62/134 Testing: TestReferenceAmoebaAngleForce
+62/134 Test: TestReferenceAmoebaAngleForce
+Command: "/home/sam/github/openmm/build/TestReferenceAmoebaAngleForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceAmoebaAngleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAmoebaAngleForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAmoebaAngleForce" end time: Feb 25 14:10 CET
+"TestReferenceAmoebaAngleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+63/134 Testing: TestReferenceAmoebaBondForce
+63/134 Test: TestReferenceAmoebaBondForce
+Command: "/home/sam/github/openmm/build/TestReferenceAmoebaBondForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceAmoebaBondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAmoebaBondForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAmoebaBondForce" end time: Feb 25 14:10 CET
+"TestReferenceAmoebaBondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+64/134 Testing: TestReferenceAmoebaExtrapolatedPolarization
+64/134 Test: TestReferenceAmoebaExtrapolatedPolarization
+Command: "/home/sam/github/openmm/build/TestReferenceAmoebaExtrapolatedPolarization"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceAmoebaExtrapolatedPolarization" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAmoebaExtrapolatedPolarization: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAmoebaExtrapolatedPolarization" end time: Feb 25 14:10 CET
+"TestReferenceAmoebaExtrapolatedPolarization" time elapsed: 00:00:00
+----------------------------------------------------------
+
+65/134 Testing: TestReferenceAmoebaGeneralizedKirkwoodForce
+65/134 Test: TestReferenceAmoebaGeneralizedKirkwoodForce
+Command: "/home/sam/github/openmm/build/TestReferenceAmoebaGeneralizedKirkwoodForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceAmoebaGeneralizedKirkwoodForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAmoebaGeneralizedKirkwoodForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAmoebaGeneralizedKirkwoodForce" end time: Feb 25 14:10 CET
+"TestReferenceAmoebaGeneralizedKirkwoodForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+66/134 Testing: TestReferenceAmoebaInPlaneAngleForce
+66/134 Test: TestReferenceAmoebaInPlaneAngleForce
+Command: "/home/sam/github/openmm/build/TestReferenceAmoebaInPlaneAngleForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceAmoebaInPlaneAngleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAmoebaInPlaneAngleForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAmoebaInPlaneAngleForce" end time: Feb 25 14:10 CET
+"TestReferenceAmoebaInPlaneAngleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+67/134 Testing: TestReferenceAmoebaMultipoleForce
+67/134 Test: TestReferenceAmoebaMultipoleForce
+Command: "/home/sam/github/openmm/build/TestReferenceAmoebaMultipoleForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceAmoebaMultipoleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAmoebaMultipoleForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAmoebaMultipoleForce" end time: Feb 25 14:10 CET
+"TestReferenceAmoebaMultipoleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+68/134 Testing: TestReferenceAmoebaOutOfPlaneBendForce
+68/134 Test: TestReferenceAmoebaOutOfPlaneBendForce
+Command: "/home/sam/github/openmm/build/TestReferenceAmoebaOutOfPlaneBendForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceAmoebaOutOfPlaneBendForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAmoebaOutOfPlaneBendForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAmoebaOutOfPlaneBendForce" end time: Feb 25 14:10 CET
+"TestReferenceAmoebaOutOfPlaneBendForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+69/134 Testing: TestReferenceAmoebaPiTorsionForce
+69/134 Test: TestReferenceAmoebaPiTorsionForce
+Command: "/home/sam/github/openmm/build/TestReferenceAmoebaPiTorsionForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceAmoebaPiTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAmoebaPiTorsionForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAmoebaPiTorsionForce" end time: Feb 25 14:10 CET
+"TestReferenceAmoebaPiTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+70/134 Testing: TestReferenceAmoebaStretchBendForce
+70/134 Test: TestReferenceAmoebaStretchBendForce
+Command: "/home/sam/github/openmm/build/TestReferenceAmoebaStretchBendForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceAmoebaStretchBendForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAmoebaStretchBendForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAmoebaStretchBendForce" end time: Feb 25 14:10 CET
+"TestReferenceAmoebaStretchBendForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+71/134 Testing: TestReferenceAmoebaTorsionTorsionForce
+71/134 Test: TestReferenceAmoebaTorsionTorsionForce
+Command: "/home/sam/github/openmm/build/TestReferenceAmoebaTorsionTorsionForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceAmoebaTorsionTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAmoebaTorsionTorsionForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAmoebaTorsionTorsionForce" end time: Feb 25 14:10 CET
+"TestReferenceAmoebaTorsionTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+72/134 Testing: TestReferenceAmoebaVdwForce
+72/134 Test: TestReferenceAmoebaVdwForce
+Command: "/home/sam/github/openmm/build/TestReferenceAmoebaVdwForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceAmoebaVdwForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceAmoebaVdwForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceAmoebaVdwForce" end time: Feb 25 14:10 CET
+"TestReferenceAmoebaVdwForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+73/134 Testing: TestReferenceHippoNonbondedForce
+73/134 Test: TestReferenceHippoNonbondedForce
+Command: "/home/sam/github/openmm/build/TestReferenceHippoNonbondedForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceHippoNonbondedForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceHippoNonbondedForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceHippoNonbondedForce" end time: Feb 25 14:10 CET
+"TestReferenceHippoNonbondedForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+74/134 Testing: TestReferenceWcaDispersionForce
+74/134 Test: TestReferenceWcaDispersionForce
+Command: "/home/sam/github/openmm/build/TestReferenceWcaDispersionForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/platforms/reference/tests
+"TestReferenceWcaDispersionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceWcaDispersionForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceWcaDispersionForce" end time: Feb 25 14:10 CET
+"TestReferenceWcaDispersionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+75/134 Testing: TestSerializeAmoebaAngleForce
+75/134 Test: TestSerializeAmoebaAngleForce
+Command: "/home/sam/github/openmm/build/TestSerializeAmoebaAngleForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeAmoebaAngleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAmoebaAngleForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAmoebaAngleForce" end time: Feb 25 14:10 CET
+"TestSerializeAmoebaAngleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+76/134 Testing: TestSerializeAmoebaBondForce
+76/134 Test: TestSerializeAmoebaBondForce
+Command: "/home/sam/github/openmm/build/TestSerializeAmoebaBondForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeAmoebaBondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAmoebaBondForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAmoebaBondForce" end time: Feb 25 14:10 CET
+"TestSerializeAmoebaBondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+77/134 Testing: TestSerializeAmoebaGeneralizedKirkwoodForce
+77/134 Test: TestSerializeAmoebaGeneralizedKirkwoodForce
+Command: "/home/sam/github/openmm/build/TestSerializeAmoebaGeneralizedKirkwoodForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeAmoebaGeneralizedKirkwoodForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAmoebaGeneralizedKirkwoodForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAmoebaGeneralizedKirkwoodForce" end time: Feb 25 14:10 CET
+"TestSerializeAmoebaGeneralizedKirkwoodForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+78/134 Testing: TestSerializeAmoebaInPlaneAngleForce
+78/134 Test: TestSerializeAmoebaInPlaneAngleForce
+Command: "/home/sam/github/openmm/build/TestSerializeAmoebaInPlaneAngleForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeAmoebaInPlaneAngleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAmoebaInPlaneAngleForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAmoebaInPlaneAngleForce" end time: Feb 25 14:10 CET
+"TestSerializeAmoebaInPlaneAngleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+79/134 Testing: TestSerializeAmoebaMultipoleForce
+79/134 Test: TestSerializeAmoebaMultipoleForce
+Command: "/home/sam/github/openmm/build/TestSerializeAmoebaMultipoleForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeAmoebaMultipoleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAmoebaMultipoleForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAmoebaMultipoleForce" end time: Feb 25 14:10 CET
+"TestSerializeAmoebaMultipoleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+80/134 Testing: TestSerializeAmoebaOutOfPlaneBendForce
+80/134 Test: TestSerializeAmoebaOutOfPlaneBendForce
+Command: "/home/sam/github/openmm/build/TestSerializeAmoebaOutOfPlaneBendForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeAmoebaOutOfPlaneBendForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAmoebaOutOfPlaneBendForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAmoebaOutOfPlaneBendForce" end time: Feb 25 14:10 CET
+"TestSerializeAmoebaOutOfPlaneBendForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+81/134 Testing: TestSerializeAmoebaPiTorsionForce
+81/134 Test: TestSerializeAmoebaPiTorsionForce
+Command: "/home/sam/github/openmm/build/TestSerializeAmoebaPiTorsionForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeAmoebaPiTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAmoebaPiTorsionForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAmoebaPiTorsionForce" end time: Feb 25 14:10 CET
+"TestSerializeAmoebaPiTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+82/134 Testing: TestSerializeAmoebaStretchBendForce
+82/134 Test: TestSerializeAmoebaStretchBendForce
+Command: "/home/sam/github/openmm/build/TestSerializeAmoebaStretchBendForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeAmoebaStretchBendForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAmoebaStretchBendForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAmoebaStretchBendForce" end time: Feb 25 14:10 CET
+"TestSerializeAmoebaStretchBendForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+83/134 Testing: TestSerializeAmoebaTorsionTorsionForce
+83/134 Test: TestSerializeAmoebaTorsionTorsionForce
+Command: "/home/sam/github/openmm/build/TestSerializeAmoebaTorsionTorsionForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeAmoebaTorsionTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAmoebaTorsionTorsionForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAmoebaTorsionTorsionForce" end time: Feb 25 14:10 CET
+"TestSerializeAmoebaTorsionTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+84/134 Testing: TestSerializeAmoebaVdwForce
+84/134 Test: TestSerializeAmoebaVdwForce
+Command: "/home/sam/github/openmm/build/TestSerializeAmoebaVdwForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeAmoebaVdwForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAmoebaVdwForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAmoebaVdwForce" end time: Feb 25 14:10 CET
+"TestSerializeAmoebaVdwForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+85/134 Testing: TestSerializeAmoebaWcaDispersionForce
+85/134 Test: TestSerializeAmoebaWcaDispersionForce
+Command: "/home/sam/github/openmm/build/TestSerializeAmoebaWcaDispersionForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeAmoebaWcaDispersionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAmoebaWcaDispersionForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAmoebaWcaDispersionForce" end time: Feb 25 14:10 CET
+"TestSerializeAmoebaWcaDispersionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+86/134 Testing: TestSerializeHippoNonbondedForce
+86/134 Test: TestSerializeHippoNonbondedForce
+Command: "/home/sam/github/openmm/build/TestSerializeHippoNonbondedForce"
+Directory: /home/sam/github/openmm/build/plugins/amoeba/serialization/tests
+"TestSerializeHippoNonbondedForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeHippoNonbondedForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMAmoeba.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeHippoNonbondedForce" end time: Feb 25 14:10 CET
+"TestSerializeHippoNonbondedForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+87/134 Testing: TestReferenceRpmd
+87/134 Test: TestReferenceRpmd
+Command: "/home/sam/github/openmm/build/TestReferenceRpmd"
+Directory: /home/sam/github/openmm/build/plugins/rpmd/platforms/reference/tests
+"TestReferenceRpmd" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceRpmd: symbol lookup error: /home/sam/github/openmm/build/libOpenMMRPMD.so: undefined symbol: _ZNK6OpenMM10Integrator11getStepSizeEv
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceRpmd" end time: Feb 25 14:10 CET
+"TestReferenceRpmd" time elapsed: 00:00:00
+----------------------------------------------------------
+
+88/134 Testing: TestReferenceDrudeForce
+88/134 Test: TestReferenceDrudeForce
+Command: "/home/sam/github/openmm/build/TestReferenceDrudeForce"
+Directory: /home/sam/github/openmm/build/plugins/drude/platforms/reference/tests
+"TestReferenceDrudeForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceDrudeForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMDrude.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceDrudeForce" end time: Feb 25 14:10 CET
+"TestReferenceDrudeForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+89/134 Testing: TestReferenceDrudeLangevinIntegrator
+89/134 Test: TestReferenceDrudeLangevinIntegrator
+Command: "/home/sam/github/openmm/build/TestReferenceDrudeLangevinIntegrator"
+Directory: /home/sam/github/openmm/build/plugins/drude/platforms/reference/tests
+"TestReferenceDrudeLangevinIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceDrudeLangevinIntegrator: symbol lookup error: /home/sam/github/openmm/build/libOpenMMDrude.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceDrudeLangevinIntegrator" end time: Feb 25 14:10 CET
+"TestReferenceDrudeLangevinIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+90/134 Testing: TestReferenceDrudeNoseHoover
+90/134 Test: TestReferenceDrudeNoseHoover
+Command: "/home/sam/github/openmm/build/TestReferenceDrudeNoseHoover"
+Directory: /home/sam/github/openmm/build/plugins/drude/platforms/reference/tests
+"TestReferenceDrudeNoseHoover" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceDrudeNoseHoover: symbol lookup error: /home/sam/github/openmm/build/libOpenMMDrude.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceDrudeNoseHoover" end time: Feb 25 14:10 CET
+"TestReferenceDrudeNoseHoover" time elapsed: 00:00:00
+----------------------------------------------------------
+
+91/134 Testing: TestReferenceDrudeSCFIntegrator
+91/134 Test: TestReferenceDrudeSCFIntegrator
+Command: "/home/sam/github/openmm/build/TestReferenceDrudeSCFIntegrator"
+Directory: /home/sam/github/openmm/build/plugins/drude/platforms/reference/tests
+"TestReferenceDrudeSCFIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestReferenceDrudeSCFIntegrator: symbol lookup error: /home/sam/github/openmm/build/libOpenMMDrude.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestReferenceDrudeSCFIntegrator" end time: Feb 25 14:10 CET
+"TestReferenceDrudeSCFIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+92/134 Testing: TestSerializeDrudeForce
+92/134 Test: TestSerializeDrudeForce
+Command: "/home/sam/github/openmm/build/TestSerializeDrudeForce"
+Directory: /home/sam/github/openmm/build/plugins/drude/serialization/tests
+"TestSerializeDrudeForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeDrudeForce: symbol lookup error: /home/sam/github/openmm/build/libOpenMMDrude.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeDrudeForce" end time: Feb 25 14:10 CET
+"TestSerializeDrudeForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+93/134 Testing: TestSerializeDrudeLangevinIntegrator
+93/134 Test: TestSerializeDrudeLangevinIntegrator
+Command: "/home/sam/github/openmm/build/TestSerializeDrudeLangevinIntegrator"
+Directory: /home/sam/github/openmm/build/plugins/drude/serialization/tests
+"TestSerializeDrudeLangevinIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeDrudeLangevinIntegrator: symbol lookup error: /home/sam/github/openmm/build/libOpenMMDrude.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeDrudeLangevinIntegrator" end time: Feb 25 14:10 CET
+"TestSerializeDrudeLangevinIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+94/134 Testing: TestSerializeDrudeNoseHooverIntegrator
+94/134 Test: TestSerializeDrudeNoseHooverIntegrator
+Command: "/home/sam/github/openmm/build/TestSerializeDrudeNoseHooverIntegrator"
+Directory: /home/sam/github/openmm/build/plugins/drude/serialization/tests
+"TestSerializeDrudeNoseHooverIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeDrudeNoseHooverIntegrator: symbol lookup error: /home/sam/github/openmm/build/libOpenMMDrude.so: undefined symbol: _ZN6OpenMM9ForceImpl18updateContextStateERNS_11ContextImplE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeDrudeNoseHooverIntegrator" end time: Feb 25 14:10 CET
+"TestSerializeDrudeNoseHooverIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+95/134 Testing: TestSerializationNode
+95/134 Test: TestSerializationNode
+Command: "/home/sam/github/openmm/build/TestSerializationNode"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializationNode" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializationNode: symbol lookup error: /home/sam/github/openmm/build/TestSerializationNode: undefined symbol: _ZNK6OpenMM17SerializationNode14getIntPropertyERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializationNode" end time: Feb 25 14:10 CET
+"TestSerializationNode" time elapsed: 00:00:00
+----------------------------------------------------------
+
+96/134 Testing: TestSerializeAndersenThermostat
+96/134 Test: TestSerializeAndersenThermostat
+Command: "/home/sam/github/openmm/build/TestSerializeAndersenThermostat"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeAndersenThermostat" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeAndersenThermostat: symbol lookup error: /home/sam/github/openmm/build/TestSerializeAndersenThermostat: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeAndersenThermostat" end time: Feb 25 14:10 CET
+"TestSerializeAndersenThermostat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+97/134 Testing: TestSerializeCMAPTorsion
+97/134 Test: TestSerializeCMAPTorsion
+Command: "/home/sam/github/openmm/build/TestSerializeCMAPTorsion"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCMAPTorsion" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCMAPTorsion: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCMAPTorsion: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCMAPTorsion" end time: Feb 25 14:10 CET
+"TestSerializeCMAPTorsion" time elapsed: 00:00:00
+----------------------------------------------------------
+
+98/134 Testing: TestSerializeCMMotionRemover
+98/134 Test: TestSerializeCMMotionRemover
+Command: "/home/sam/github/openmm/build/TestSerializeCMMotionRemover"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCMMotionRemover" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCMMotionRemover: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCMMotionRemover: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCMMotionRemover" end time: Feb 25 14:10 CET
+"TestSerializeCMMotionRemover" time elapsed: 00:00:00
+----------------------------------------------------------
+
+99/134 Testing: TestSerializeCustomAngleForce
+99/134 Test: TestSerializeCustomAngleForce
+Command: "/home/sam/github/openmm/build/TestSerializeCustomAngleForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCustomAngleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCustomAngleForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCustomAngleForce: undefined symbol: _ZN6OpenMM16CustomAngleForceC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCustomAngleForce" end time: Feb 25 14:10 CET
+"TestSerializeCustomAngleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+100/134 Testing: TestSerializeCustomBondForce
+100/134 Test: TestSerializeCustomBondForce
+Command: "/home/sam/github/openmm/build/TestSerializeCustomBondForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCustomBondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCustomBondForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCustomBondForce: undefined symbol: _ZN6OpenMM15CustomBondForceC1ERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCustomBondForce" end time: Feb 25 14:10 CET
+"TestSerializeCustomBondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+101/134 Testing: TestSerializeCustomCVForce
+101/134 Test: TestSerializeCustomCVForce
+Command: "/home/sam/github/openmm/build/TestSerializeCustomCVForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCustomCVForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCustomCVForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCustomCVForce: undefined symbol: _ZN6OpenMM13CustomCVForce20addTabulatedFunctionERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS_17TabulatedFunctionE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCustomCVForce" end time: Feb 25 14:10 CET
+"TestSerializeCustomCVForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+102/134 Testing: TestSerializeCustomCentroidBondForce
+102/134 Test: TestSerializeCustomCentroidBondForce
+Command: "/home/sam/github/openmm/build/TestSerializeCustomCentroidBondForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCustomCentroidBondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCustomCentroidBondForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCustomCentroidBondForce: undefined symbol: _ZN6OpenMM23CustomCentroidBondForce20addTabulatedFunctionERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS_17TabulatedFunctionE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCustomCentroidBondForce" end time: Feb 25 14:10 CET
+"TestSerializeCustomCentroidBondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+103/134 Testing: TestSerializeCustomCompoundBondForce
+103/134 Test: TestSerializeCustomCompoundBondForce
+Command: "/home/sam/github/openmm/build/TestSerializeCustomCompoundBondForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCustomCompoundBondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCustomCompoundBondForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCustomCompoundBondForce: undefined symbol: _ZN6OpenMM23CustomCompoundBondForceC1EiRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCustomCompoundBondForce" end time: Feb 25 14:10 CET
+"TestSerializeCustomCompoundBondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+104/134 Testing: TestSerializeCustomExternalForce
+104/134 Test: TestSerializeCustomExternalForce
+Command: "/home/sam/github/openmm/build/TestSerializeCustomExternalForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCustomExternalForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCustomExternalForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCustomExternalForce: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCustomExternalForce" end time: Feb 25 14:10 CET
+"TestSerializeCustomExternalForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+105/134 Testing: TestSerializeCustomGBForce
+105/134 Test: TestSerializeCustomGBForce
+Command: "/home/sam/github/openmm/build/TestSerializeCustomGBForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCustomGBForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCustomGBForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCustomGBForce: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCustomGBForce" end time: Feb 25 14:10 CET
+"TestSerializeCustomGBForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+106/134 Testing: TestSerializeCustomHbondForce
+106/134 Test: TestSerializeCustomHbondForce
+Command: "/home/sam/github/openmm/build/TestSerializeCustomHbondForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCustomHbondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCustomHbondForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCustomHbondForce: undefined symbol: _ZN6OpenMM16CustomHbondForce20addTabulatedFunctionERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEPNS_17TabulatedFunctionE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCustomHbondForce" end time: Feb 25 14:10 CET
+"TestSerializeCustomHbondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+107/134 Testing: TestSerializeCustomManyParticleForce
+107/134 Test: TestSerializeCustomManyParticleForce
+Command: "/home/sam/github/openmm/build/TestSerializeCustomManyParticleForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCustomManyParticleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCustomManyParticleForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCustomManyParticleForce: undefined symbol: _ZNK6OpenMM23CustomManyParticleForce22getGlobalParameterNameB5cxx11Ei
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCustomManyParticleForce" end time: Feb 25 14:10 CET
+"TestSerializeCustomManyParticleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+108/134 Testing: TestSerializeCustomNonbondedForce
+108/134 Test: TestSerializeCustomNonbondedForce
+Command: "/home/sam/github/openmm/build/TestSerializeCustomNonbondedForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCustomNonbondedForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCustomNonbondedForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCustomNonbondedForce: undefined symbol: _ZNK6OpenMM20CustomNonbondedForce22getGlobalParameterNameB5cxx11Ei
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCustomNonbondedForce" end time: Feb 25 14:10 CET
+"TestSerializeCustomNonbondedForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+109/134 Testing: TestSerializeCustomTorsionForce
+109/134 Test: TestSerializeCustomTorsionForce
+Command: "/home/sam/github/openmm/build/TestSerializeCustomTorsionForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeCustomTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeCustomTorsionForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeCustomTorsionForce: undefined symbol: _ZNK6OpenMM18CustomTorsionForce17getEnergyFunctionB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeCustomTorsionForce" end time: Feb 25 14:10 CET
+"TestSerializeCustomTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+110/134 Testing: TestSerializeGBSAOBCForce
+110/134 Test: TestSerializeGBSAOBCForce
+Command: "/home/sam/github/openmm/build/TestSerializeGBSAOBCForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeGBSAOBCForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeGBSAOBCForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeGBSAOBCForce: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeGBSAOBCForce" end time: Feb 25 14:10 CET
+"TestSerializeGBSAOBCForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+111/134 Testing: TestSerializeGayBerneForce
+111/134 Test: TestSerializeGayBerneForce
+Command: "/home/sam/github/openmm/build/TestSerializeGayBerneForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeGayBerneForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeGayBerneForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeGayBerneForce: undefined symbol: _ZNK6OpenMM13GayBerneForce23getUseSwitchingFunctionEv
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeGayBerneForce" end time: Feb 25 14:10 CET
+"TestSerializeGayBerneForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+112/134 Testing: TestSerializeHarmonicAngleForce
+112/134 Test: TestSerializeHarmonicAngleForce
+Command: "/home/sam/github/openmm/build/TestSerializeHarmonicAngleForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeHarmonicAngleForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeHarmonicAngleForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeHarmonicAngleForce: undefined symbol: _ZN6OpenMM18HarmonicAngleForce33setUsesPeriodicBoundaryConditionsEb
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeHarmonicAngleForce" end time: Feb 25 14:10 CET
+"TestSerializeHarmonicAngleForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+113/134 Testing: TestSerializeHarmonicBondForce
+113/134 Test: TestSerializeHarmonicBondForce
+Command: "/home/sam/github/openmm/build/TestSerializeHarmonicBondForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeHarmonicBondForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeHarmonicBondForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeHarmonicBondForce: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeHarmonicBondForce" end time: Feb 25 14:10 CET
+"TestSerializeHarmonicBondForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+114/134 Testing: TestSerializeIntegrator
+114/134 Test: TestSerializeIntegrator
+Command: "/home/sam/github/openmm/build/TestSerializeIntegrator"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeIntegrator: symbol lookup error: /home/sam/github/openmm/build/TestSerializeIntegrator: undefined symbol: _ZNK6OpenMM18CompoundIntegrator20getCurrentIntegratorEv
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeIntegrator" end time: Feb 25 14:10 CET
+"TestSerializeIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+115/134 Testing: TestSerializeMonteCarloAnisotropicBarostat
+115/134 Test: TestSerializeMonteCarloAnisotropicBarostat
+Command: "/home/sam/github/openmm/build/TestSerializeMonteCarloAnisotropicBarostat"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeMonteCarloAnisotropicBarostat" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeMonteCarloAnisotropicBarostat: symbol lookup error: /home/sam/github/openmm/build/TestSerializeMonteCarloAnisotropicBarostat: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeMonteCarloAnisotropicBarostat" end time: Feb 25 14:10 CET
+"TestSerializeMonteCarloAnisotropicBarostat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+116/134 Testing: TestSerializeMonteCarloBarostat
+116/134 Test: TestSerializeMonteCarloBarostat
+Command: "/home/sam/github/openmm/build/TestSerializeMonteCarloBarostat"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeMonteCarloBarostat" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeMonteCarloBarostat: symbol lookup error: /home/sam/github/openmm/build/TestSerializeMonteCarloBarostat: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeMonteCarloBarostat" end time: Feb 25 14:10 CET
+"TestSerializeMonteCarloBarostat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+117/134 Testing: TestSerializeMonteCarloMembraneBarostat
+117/134 Test: TestSerializeMonteCarloMembraneBarostat
+Command: "/home/sam/github/openmm/build/TestSerializeMonteCarloMembraneBarostat"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeMonteCarloMembraneBarostat" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeMonteCarloMembraneBarostat: symbol lookup error: /home/sam/github/openmm/build/TestSerializeMonteCarloMembraneBarostat: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeMonteCarloMembraneBarostat" end time: Feb 25 14:10 CET
+"TestSerializeMonteCarloMembraneBarostat" time elapsed: 00:00:00
+----------------------------------------------------------
+
+118/134 Testing: TestSerializeNonbondedForce
+118/134 Test: TestSerializeNonbondedForce
+Command: "/home/sam/github/openmm/build/TestSerializeNonbondedForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeNonbondedForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeNonbondedForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeNonbondedForce: undefined symbol: _ZNK6OpenMM14NonbondedForce27getExceptionParameterOffsetEiRNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERiRdS9_S9_
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeNonbondedForce" end time: Feb 25 14:10 CET
+"TestSerializeNonbondedForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+119/134 Testing: TestSerializeNoseHooverIntegrator
+119/134 Test: TestSerializeNoseHooverIntegrator
+Command: "/home/sam/github/openmm/build/TestSerializeNoseHooverIntegrator"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeNoseHooverIntegrator" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeNoseHooverIntegrator: symbol lookup error: /home/sam/github/openmm/build/TestSerializeNoseHooverIntegrator: undefined symbol: _ZN6OpenMM20NoseHooverIntegratorC1Edddiii
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeNoseHooverIntegrator" end time: Feb 25 14:10 CET
+"TestSerializeNoseHooverIntegrator" time elapsed: 00:00:00
+----------------------------------------------------------
+
+120/134 Testing: TestSerializePeriodicTorsionForce
+120/134 Test: TestSerializePeriodicTorsionForce
+Command: "/home/sam/github/openmm/build/TestSerializePeriodicTorsionForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializePeriodicTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializePeriodicTorsionForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializePeriodicTorsionForce: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializePeriodicTorsionForce" end time: Feb 25 14:10 CET
+"TestSerializePeriodicTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+121/134 Testing: TestSerializeRBTorsionForce
+121/134 Test: TestSerializeRBTorsionForce
+Command: "/home/sam/github/openmm/build/TestSerializeRBTorsionForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeRBTorsionForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeRBTorsionForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeRBTorsionForce: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeRBTorsionForce" end time: Feb 25 14:10 CET
+"TestSerializeRBTorsionForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+122/134 Testing: TestSerializeRMSDForce
+122/134 Test: TestSerializeRMSDForce
+Command: "/home/sam/github/openmm/build/TestSerializeRMSDForce"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeRMSDForce" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeRMSDForce: symbol lookup error: /home/sam/github/openmm/build/TestSerializeRMSDForce: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeRMSDForce" end time: Feb 25 14:10 CET
+"TestSerializeRMSDForce" time elapsed: 00:00:00
+----------------------------------------------------------
+
+123/134 Testing: TestSerializeState
+123/134 Test: TestSerializeState
+Command: "/home/sam/github/openmm/build/TestSerializeState"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeState" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeState: symbol lookup error: /home/sam/github/openmm/build/TestSerializeState: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeState" end time: Feb 25 14:10 CET
+"TestSerializeState" time elapsed: 00:00:00
+----------------------------------------------------------
+
+124/134 Testing: TestSerializeSystem
+124/134 Test: TestSerializeSystem
+Command: "/home/sam/github/openmm/build/TestSerializeSystem"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeSystem" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeSystem: symbol lookup error: /home/sam/github/openmm/build/TestSerializeSystem: undefined symbol: _ZN6OpenMM20LocalCoordinatesSiteC1ERKSt6vectorIiSaIiEERKS1_IdSaIdEES9_S9_RKNS_4Vec3E
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeSystem" end time: Feb 25 14:10 CET
+"TestSerializeSystem" time elapsed: 00:00:00
+----------------------------------------------------------
+
+125/134 Testing: TestSerializeTabulatedFunctions
+125/134 Test: TestSerializeTabulatedFunctions
+Command: "/home/sam/github/openmm/build/TestSerializeTabulatedFunctions"
+Directory: /home/sam/github/openmm/build/serialization/tests
+"TestSerializeTabulatedFunctions" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSerializeTabulatedFunctions: symbol lookup error: /home/sam/github/openmm/build/TestSerializeTabulatedFunctions: undefined symbol: _ZNK6OpenMM18SerializationProxy11getTypeNameB5cxx11Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSerializeTabulatedFunctions" end time: Feb 25 14:10 CET
+"TestSerializeTabulatedFunctions" time elapsed: 00:00:00
+----------------------------------------------------------
+
+126/134 Testing: TestEnforcePeriodicBox
+126/134 Test: TestEnforcePeriodicBox
+Command: "/home/sam/github/openmm/build/TestEnforcePeriodicBox"
+Directory: /home/sam/github/openmm/build/tests
+"TestEnforcePeriodicBox" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestEnforcePeriodicBox: symbol lookup error: /home/sam/github/openmm/build/TestEnforcePeriodicBox: undefined symbol: _ZN6OpenMM8Platform17getPlatformByNameERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestEnforcePeriodicBox" end time: Feb 25 14:10 CET
+"TestEnforcePeriodicBox" time elapsed: 00:00:00
+----------------------------------------------------------
+
+127/134 Testing: TestFindExclusions
+127/134 Test: TestFindExclusions
+Command: "/home/sam/github/openmm/build/TestFindExclusions"
+Directory: /home/sam/github/openmm/build/tests
+"TestFindExclusions" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestFindExclusions: symbol lookup error: /home/sam/github/openmm/build/TestFindExclusions: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestFindExclusions" end time: Feb 25 14:10 CET
+"TestFindExclusions" time elapsed: 00:00:00
+----------------------------------------------------------
+
+128/134 Testing: TestFindMolecules
+128/134 Test: TestFindMolecules
+Command: "/home/sam/github/openmm/build/TestFindMolecules"
+Directory: /home/sam/github/openmm/build/tests
+"TestFindMolecules" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestFindMolecules: symbol lookup error: /home/sam/github/openmm/build/TestFindMolecules: undefined symbol: _ZN6OpenMM8Platform17getPlatformByNameERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestFindMolecules" end time: Feb 25 14:10 CET
+"TestFindMolecules" time elapsed: 00:00:00
+----------------------------------------------------------
+
+129/134 Testing: TestParser
+129/134 Test: TestParser
+Command: "/home/sam/github/openmm/build/TestParser"
+Directory: /home/sam/github/openmm/build/tests
+"TestParser" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestParser: symbol lookup error: /home/sam/github/openmm/build/TestParser: undefined symbol: _ZN6Lepton18CompiledExpression20getVariableReferenceERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestParser" end time: Feb 25 14:10 CET
+"TestParser" time elapsed: 00:00:00
+----------------------------------------------------------
+
+130/134 Testing: TestSplineFitter
+130/134 Test: TestSplineFitter
+Command: "/home/sam/github/openmm/build/TestSplineFitter"
+Directory: /home/sam/github/openmm/build/tests
+"TestSplineFitter" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSplineFitter: symbol lookup error: /home/sam/github/openmm/build/TestSplineFitter: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSplineFitter" end time: Feb 25 14:10 CET
+"TestSplineFitter" time elapsed: 00:00:00
+----------------------------------------------------------
+
+131/134 Testing: TestSystem
+131/134 Test: TestSystem
+Command: "/home/sam/github/openmm/build/TestSystem"
+Directory: /home/sam/github/openmm/build/tests
+"TestSystem" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestSystem: symbol lookup error: /home/sam/github/openmm/build/TestSystem: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestSystem" end time: Feb 25 14:10 CET
+"TestSystem" time elapsed: 00:00:00
+----------------------------------------------------------
+
+132/134 Testing: TestVectorExpression
+132/134 Test: TestVectorExpression
+Command: "/home/sam/github/openmm/build/TestVectorExpression"
+Directory: /home/sam/github/openmm/build/tests
+"TestVectorExpression" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestVectorExpression: symbol lookup error: /home/sam/github/openmm/build/TestVectorExpression: undefined symbol: _ZN6OpenMM16VectorExpressionD1Ev
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestVectorExpression" end time: Feb 25 14:10 CET
+"TestVectorExpression" time elapsed: 00:00:00
+----------------------------------------------------------
+
+133/134 Testing: TestVectorize
+133/134 Test: TestVectorize
+Command: "/home/sam/github/openmm/build/TestVectorize"
+Directory: /home/sam/github/openmm/build/tests
+"TestVectorize" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestVectorize: symbol lookup error: /home/sam/github/openmm/build/TestVectorize: undefined symbol: _Z6exp_psDv4_f
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestVectorize" end time: Feb 25 14:10 CET
+"TestVectorize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+134/134 Testing: TestVectorize8
+134/134 Test: TestVectorize8
+Command: "/home/sam/github/openmm/build/TestVectorize8"
+Directory: /home/sam/github/openmm/build/tests
+"TestVectorize8" start time: Feb 25 14:10 CET
+Output:
+----------------------------------------------------------
+/home/sam/github/openmm/build/TestVectorize8: symbol lookup error: /home/sam/github/openmm/build/TestVectorize8: undefined symbol: _ZN6OpenMM14throwExceptionEPKciRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEE
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Failed.
+"TestVectorize8" end time: Feb 25 14:10 CET
+"TestVectorize8" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Feb 25 14:10 CET

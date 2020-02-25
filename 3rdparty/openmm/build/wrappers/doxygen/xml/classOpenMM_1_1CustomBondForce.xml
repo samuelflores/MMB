@@ -1,0 +1,802 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomBondForce" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::CustomBondForce</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="CustomBondForce_8h" local="no">CustomBondForce.h</includes>
+    <innerclass refid="classOpenMM_1_1CustomBondForce_1_1BondInfo" prot="private">OpenMM::CustomBondForce::BondInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomBondForce_1_1BondParameterInfo" prot="private">OpenMM::CustomBondForce::BondParameterInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomBondForce_1_1GlobalParameterInfo" prot="private">OpenMM::CustomBondForce::GlobalParameterInfo</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomBondForce_1a3c0e67997fa12c1be08ef0986a229401" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomBondForce::energyExpression</definition>
+        <argsstring></argsstring>
+        <name>energyExpression</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="249" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomBondForce_1a013532bbb4b84aeb0a101360600ac11f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; BondParameterInfo &gt;</type>
+        <definition>std::vector&lt;BondParameterInfo&gt; OpenMM::CustomBondForce::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="250" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomBondForce_1adb67223638970346229b0d08067d5164" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; GlobalParameterInfo &gt;</type>
+        <definition>std::vector&lt;GlobalParameterInfo&gt; OpenMM::CustomBondForce::globalParameters</definition>
+        <argsstring></argsstring>
+        <name>globalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="251" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomBondForce_1ab9fd1f9fa261704ae43968cf001ba773" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; BondInfo &gt;</type>
+        <definition>std::vector&lt;BondInfo&gt; OpenMM::CustomBondForce::bonds</definition>
+        <argsstring></argsstring>
+        <name>bonds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="252" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomBondForce_1a0f9db9777475a2f74c50b796d298830d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; OpenMM::CustomBondForce::energyParameterDerivatives</definition>
+        <argsstring></argsstring>
+        <name>energyParameterDerivatives</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="253" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomBondForce_1ae4c82b0700520533f11311a573e73dc5" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool OpenMM::CustomBondForce::usePeriodic</definition>
+        <argsstring></argsstring>
+        <name>usePeriodic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="254" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a3a568b94e2d999c898036bd58383cb57" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomBondForce::CustomBondForce</definition>
+        <argsstring>(const std::string &amp;energy)</argsstring>
+        <name>CustomBondForce</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1CustomBondForce" kindref="compound">CustomBondForce</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>an algebraic expression giving the interaction energy between two bonded particles as a function of r, the distance between them </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="85" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1ae576ff50eadd6d1cbaf3e8532d8075a8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomBondForce::getNumBonds</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumBonds</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of bonds for which force field parameters have been defined. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="89" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a405e9927d039e7f46e45a50834c0b042" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomBondForce::getNumPerBondParameters</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumPerBondParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of per-bond parameters that the interaction depends on. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="95" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" bodystart="95" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a568049698e41490f599148e255439ab0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomBondForce::getNumGlobalParameters</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumGlobalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of global parameters that the interaction depends on. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="101" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a18fd7c54b0a6f8f233605b74080db2ea" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomBondForce::getNumEnergyParameterDerivatives</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumEnergyParameterDerivatives</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of global parameters with respect to which the derivative of the energy should be computed. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="108" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" bodystart="108" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1adb18db9f71ad3c6addcbd27683bdd76a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomBondForce::getEnergyFunction</definition>
+        <argsstring>() const</argsstring>
+        <name>getEnergyFunction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the algebraic expression that gives the interaction energy for each bond </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="114" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a4d565145ec73649de36ecba496d1afc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomBondForce::setEnergyFunction</definition>
+        <argsstring>(const std::string &amp;energy)</argsstring>
+        <name>setEnergyFunction</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the algebraic expression that gives the interaction energy for each bond </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="118" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a702f0181b533f99d828973d97a073afc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomBondForce::addPerBondParameter</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>addPerBondParameter</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a new per-bond parameter that the interaction may depend on.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the parameter that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="125" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1aeb8fc1d539ee4fc2d397123da3eda4c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomBondForce::getPerBondParameterName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getPerBondParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a per-bond parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to get the name </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="132" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a1c345ab52f63ca1c51b5f76a8fb6ad98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomBondForce::setPerBondParameterName</definition>
+        <argsstring>(int index, const std::string &amp;name)</argsstring>
+        <name>setPerBondParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the name of a per-bond parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to set the name </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="139" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a94b17d0b08d497ed9f20c62fa717e7c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomBondForce::addGlobalParameter</definition>
+        <argsstring>(const std::string &amp;name, double defaultValue)</argsstring>
+        <name>addGlobalParameter</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a new global parameter that the interaction may depend on. The default value provided to this method is the initial value of the parameter in newly created Contexts. You can change the value at any time by calling setParameter() on the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default value of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the parameter that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="149" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1aa78e6a62130e28b2afaa00f0fe445e99" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomBondForce::getGlobalParameterName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getGlobalParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to get the name </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="156" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1ab7cc6dc0a9ce440b8c41eb05f7c61d0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomBondForce::setGlobalParameterName</definition>
+        <argsstring>(int index, const std::string &amp;name)</argsstring>
+        <name>setGlobalParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the name of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to set the name </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="163" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a3f20e93b49b4d88f185b77bd746733a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::CustomBondForce::getGlobalParameterDefaultValue</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getGlobalParameterDefaultValue</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the default value of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to get the default value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter default value </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="170" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a9ee69db069b2d806e86a154848c78567" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomBondForce::setGlobalParameterDefaultValue</definition>
+        <argsstring>(int index, double defaultValue)</argsstring>
+        <name>setGlobalParameterDefaultValue</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the default value of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to set the default value </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default value of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="177" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a3fc2c8df31d042e5be915dedb0ccdb09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomBondForce::addEnergyParameterDerivative</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>addEnergyParameterDerivative</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Request that this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> compute the derivative of its energy with respect to a global parameter. The parameter must have already been added with <ref refid="classOpenMM_1_1CustomBondForce_1a94b17d0b08d497ed9f20c62fa717e7c2" kindref="member">addGlobalParameter()</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="184" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1adf17c32261ab6b881b8e7a203b415d8a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomBondForce::getEnergyParameterDerivativeName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getEnergyParameterDerivativeName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a global parameter with respect to which this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> should compute the derivative of the energy.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter derivative, between 0 and <ref refid="classOpenMM_1_1CustomBondForce_1a18fd7c54b0a6f8f233605b74080db2ea" kindref="member">getNumEnergyParameterDerivatives()</ref> </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="192" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a433f78737dbfcdd0d763858d5258b177" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomBondForce::addBond</definition>
+        <argsstring>(int particle1, int particle2, const std::vector&lt; double &gt; &amp;parameters=std::vector&lt; double &gt;())</argsstring>
+        <name>addBond</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+          <defval>std::vector&lt; double &gt;()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a bond term to the force field.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of parameters for the new bond </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the bond that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="201" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1aa88fa6dd568ccb9ddb5aa616953a7a33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomBondForce::getBondParameters</definition>
+        <argsstring>(int index, int &amp;particle1, int &amp;particle2, std::vector&lt; double &gt; &amp;parameters) const</argsstring>
+        <name>getBondParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the force field parameters for a bond term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the bond for which to get parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of parameters for the bond </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="210" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1affe2e4e74eccded0b6ec9a139096fd8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomBondForce::setBondParameters</definition>
+        <argsstring>(int index, int particle1, int particle2, const std::vector&lt; double &gt; &amp;parameters=std::vector&lt; double &gt;())</argsstring>
+        <name>setBondParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>parameters</declname>
+          <defval>std::vector&lt; double &gt;()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the force field parameters for a bond term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the bond for which to set parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particle2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle connected by the bond </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of parameters for the bond </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="219" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a8d3220ec39f4eb0a27b5eadbad1aba26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomBondForce::updateParametersInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>updateParametersInContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the per-bond parameters in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to match those stored in this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. This method provides an efficient method to update certain parameters in an existing <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> without needing to reinitialize it. Simply call <ref refid="classOpenMM_1_1CustomBondForce_1affe2e4e74eccded0b6ec9a139096fd8f" kindref="member">setBondParameters()</ref> to modify this object&apos;s parameters, then call <ref refid="classOpenMM_1_1CustomBondForce_1a8d3220ec39f4eb0a27b5eadbad1aba26" kindref="member">updateParametersInContext()</ref> to copy them over to the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para>This method has several limitations. The only information it updates is the values of per-bond parameters. All other aspects of the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> (such as the energy function) are unaffected and can only be changed by reinitializing the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. The set of particles involved in a bond cannot be changed, nor can new bonds be added. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="230" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1add8c7a880caa12e967df2e6b8c6f2d93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomBondForce::setUsesPeriodicBoundaryConditions</definition>
+        <argsstring>(bool periodic)</argsstring>
+        <name>setUsesPeriodicBoundaryConditions</name>
+        <param>
+          <type>bool</type>
+          <declname>periodic</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set whether this force should apply periodic boundary conditions when calculating displacements. Usually this is not appropriate for bonded forces, but there are situations when it can be useful. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="235" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a721fdbf9495cc2dda5a4987827ed054a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::CustomBondForce::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if force uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="242" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomBondForce_1a0ad9525370051f53b91f7ce61e42fd59" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::CustomBondForce::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="244" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class implements bonded interactions between pairs of particles. Unlike <ref refid="classOpenMM_1_1HarmonicBondForce" kindref="compound">HarmonicBondForce</ref>, the functional form of the interaction is completely customizable, and may involve arbitrary algebraic expressions. It may depend on the distance between particles, as well as on arbitrary global and per-bond parameters.</para><para>To use this class, create a <ref refid="classOpenMM_1_1CustomBondForce" kindref="compound">CustomBondForce</ref> object, passing an algebraic expression to the constructor that defines the interaction energy between each pair of bonded particles. The expression may depend on r, the distance between the particles, as well as on any parameters you choose. Then call <ref refid="classOpenMM_1_1CustomBondForce_1a702f0181b533f99d828973d97a073afc" kindref="member">addPerBondParameter()</ref> to define per-bond parameters, and <ref refid="classOpenMM_1_1CustomBondForce_1a94b17d0b08d497ed9f20c62fa717e7c2" kindref="member">addGlobalParameter()</ref> to define global parameters. The values of per-bond parameters are specified as part of the system definition, while values of global parameters may be modified during a simulation by calling <ref refid="classOpenMM_1_1Context_1a368b7f53ee35bb151ee686441b7900af" kindref="member">Context::setParameter()</ref>. Finally, call <ref refid="classOpenMM_1_1CustomBondForce_1a433f78737dbfcdd0d763858d5258b177" kindref="member">addBond()</ref> once for each bond. After a bond has been added, you can modify its parameters by calling <ref refid="classOpenMM_1_1CustomBondForce_1affe2e4e74eccded0b6ec9a139096fd8f" kindref="member">setBondParameters()</ref>. This will have no effect on Contexts that already exist unless you call <ref refid="classOpenMM_1_1CustomBondForce_1a8d3220ec39f4eb0a27b5eadbad1aba26" kindref="member">updateParametersInContext()</ref>.</para><para>As an example, the following code creates a <ref refid="classOpenMM_1_1CustomBondForce" kindref="compound">CustomBondForce</ref> that implements a harmonic potential:</para><para><computeroutput>CustomBondForce* force = new <ref refid="classOpenMM_1_1CustomBondForce" kindref="compound">CustomBondForce</ref>(&quot;0.5*k*(r-r0)^2&quot;);</computeroutput></para><para>This force depends on two parameters: the spring constant k and equilibrium distance r0. The following code defines these parameters:</para><para><computeroutput><preformatted>
+force-&gt;addPerBondParameter(&quot;k&quot;);
+force-&gt;addPerBondParameter(&quot;r0&quot;);
+</preformatted></computeroutput></para><para>This class also has the ability to compute derivatives of the potential energy with respect to global parameters. Call <ref refid="classOpenMM_1_1CustomBondForce_1a3fc2c8df31d042e5be915dedb0ccdb09" kindref="member">addEnergyParameterDerivative()</ref> to request that the derivative with respect to a particular parameter be computed. You can then query its value in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> by calling getState() on it.</para><para>Expressions may involve the operators + (add), - (subtract), * (multiply), / (divide), and ^ (power), and the following functions: sqrt, exp, log, sin, cos, sec, csc, tan, cot, asin, acos, atan, atan2, sinh, cosh, tanh, erf, erfc, min, max, abs, floor, ceil, step, delta, select. All trigonometric functions are defined in radians, and log is the natural logarithm. step(x) = 0 if x is less than 0, 1 otherwise. delta(x) = 1 if x is 0, 0 otherwise. select(x,y,z) = z if x = 0, y otherwise. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="72">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="71">
+        <label>OpenMM::CustomBondForce</label>
+        <link refid="classOpenMM_1_1CustomBondForce"/>
+        <childnode refid="72" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="74">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="73">
+        <label>OpenMM::CustomBondForce</label>
+        <link refid="classOpenMM_1_1CustomBondForce"/>
+        <childnode refid="74" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" line="77" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomBondForce.h" bodystart="77" bodyend="255"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomBondForce_1a433f78737dbfcdd0d763858d5258b177" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>addBond</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a3fc2c8df31d042e5be915dedb0ccdb09" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>addEnergyParameterDerivative</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a94b17d0b08d497ed9f20c62fa717e7c2" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>addGlobalParameter</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a702f0181b533f99d828973d97a073afc" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>addPerBondParameter</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1ab9fd1f9fa261704ae43968cf001ba773" prot="private" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>bonds</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a0ad9525370051f53b91f7ce61e42fd59" prot="protected" virt="virtual"><scope>OpenMM::CustomBondForce</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a3a568b94e2d999c898036bd58383cb57" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>CustomBondForce</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a3c0e67997fa12c1be08ef0986a229401" prot="private" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>energyExpression</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a0f9db9777475a2f74c50b796d298830d" prot="private" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>energyParameterDerivatives</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1aa88fa6dd568ccb9ddb5aa616953a7a33" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getBondParameters</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1adb18db9f71ad3c6addcbd27683bdd76a" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getEnergyFunction</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1adf17c32261ab6b881b8e7a203b415d8a" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getEnergyParameterDerivativeName</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a3f20e93b49b4d88f185b77bd746733a6" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getGlobalParameterDefaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1aa78e6a62130e28b2afaa00f0fe445e99" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getGlobalParameterName</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1ae576ff50eadd6d1cbaf3e8532d8075a8" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getNumBonds</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a18fd7c54b0a6f8f233605b74080db2ea" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getNumEnergyParameterDerivatives</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a568049698e41490f599148e255439ab0" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getNumGlobalParameters</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a405e9927d039e7f46e45a50834c0b042" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getNumPerBondParameters</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1aeb8fc1d539ee4fc2d397123da3eda4c9" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>getPerBondParameterName</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1adb67223638970346229b0d08067d5164" prot="private" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>globalParameters</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a013532bbb4b84aeb0a101360600ac11f" prot="private" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>parameters</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1affe2e4e74eccded0b6ec9a139096fd8f" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>setBondParameters</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a4d565145ec73649de36ecba496d1afc6" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>setEnergyFunction</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a9ee69db069b2d806e86a154848c78567" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>setGlobalParameterDefaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1ab7cc6dc0a9ce440b8c41eb05f7c61d0c" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>setGlobalParameterName</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a1c345ab52f63ca1c51b5f76a8fb6ad98" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>setPerBondParameterName</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1add8c7a880caa12e967df2e6b8c6f2d93" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>setUsesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a8d3220ec39f4eb0a27b5eadbad1aba26" prot="public" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>updateParametersInContext</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1ae4c82b0700520533f11311a573e73dc5" prot="private" virt="non-virtual"><scope>OpenMM::CustomBondForce</scope><name>usePeriodic</name></member>
+      <member refid="classOpenMM_1_1CustomBondForce_1a721fdbf9495cc2dda5a4987827ed054a" prot="public" virt="virtual"><scope>OpenMM::CustomBondForce</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::CustomBondForce</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

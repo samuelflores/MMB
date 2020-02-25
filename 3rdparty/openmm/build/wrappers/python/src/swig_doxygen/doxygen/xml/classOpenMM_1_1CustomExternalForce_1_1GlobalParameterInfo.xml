@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomExternalForce_1_1GlobalParameterInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomExternalForce::GlobalParameterInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomExternalForce_1_1GlobalParameterInfo_1a8a1bda07c6d39bdf674757030435b406" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomExternalForce::GlobalParameterInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="265" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomExternalForce_1_1GlobalParameterInfo_1a108323cf5940617add574acc005260cf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::CustomExternalForce::GlobalParameterInfo::defaultValue</definition>
+        <argsstring></argsstring>
+        <name>defaultValue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="266" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1_1GlobalParameterInfo_1a979c7bc80f939730c9b7d26d651e359a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomExternalForce::GlobalParameterInfo::GlobalParameterInfo</definition>
+        <argsstring>()</argsstring>
+        <name>GlobalParameterInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="267" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="267" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomExternalForce_1_1GlobalParameterInfo_1a3749a09568b662e596d6cb190488cb83" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomExternalForce::GlobalParameterInfo::GlobalParameterInfo</definition>
+        <argsstring>(const std::string &amp;name, double defaultValue)</argsstring>
+        <name>GlobalParameterInfo</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="269" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="269" bodyend="270"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a global parameter. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" line="263" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomExternalForce.h" bodystart="263" bodyend="271"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomExternalForce_1_1GlobalParameterInfo_1a108323cf5940617add574acc005260cf" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce::GlobalParameterInfo</scope><name>defaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1_1GlobalParameterInfo_1a979c7bc80f939730c9b7d26d651e359a" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce::GlobalParameterInfo</scope><name>GlobalParameterInfo</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1_1GlobalParameterInfo_1a3749a09568b662e596d6cb190488cb83" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce::GlobalParameterInfo</scope><name>GlobalParameterInfo</name></member>
+      <member refid="classOpenMM_1_1CustomExternalForce_1_1GlobalParameterInfo_1a8a1bda07c6d39bdf674757030435b406" prot="public" virt="non-virtual"><scope>OpenMM::CustomExternalForce::GlobalParameterInfo</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

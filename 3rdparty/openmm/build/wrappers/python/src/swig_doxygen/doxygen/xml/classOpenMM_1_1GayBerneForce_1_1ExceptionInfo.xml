@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::GayBerneForce::ExceptionInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1a2477556ec43a2f6cf5978bdbf7716714" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::GayBerneForce::ExceptionInfo::particle1</definition>
+        <argsstring></argsstring>
+        <name>particle1</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="302" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1a2ebbca94a3fea490929bc4e4986402cf" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::GayBerneForce::ExceptionInfo::particle2</definition>
+        <argsstring></argsstring>
+        <name>particle2</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="302" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1a069fe8dcfaf3057eb3705bcdc2ff2e61" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GayBerneForce::ExceptionInfo::sigma</definition>
+        <argsstring></argsstring>
+        <name>sigma</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="303" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1ae0e224bb9cbb1d1058553c28a3d3f74f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GayBerneForce::ExceptionInfo::epsilon</definition>
+        <argsstring></argsstring>
+        <name>epsilon</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="303" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1a173e81934c4216d905944413d4acbb2c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::GayBerneForce::ExceptionInfo::ExceptionInfo</definition>
+        <argsstring>()</argsstring>
+        <name>ExceptionInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="304" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="304" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1a44769e34f801e66c001567d6dfac974a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::GayBerneForce::ExceptionInfo::ExceptionInfo</definition>
+        <argsstring>(int particle1, int particle2, double sigma, double epsilon)</argsstring>
+        <name>ExceptionInfo</name>
+        <param>
+          <type>int</type>
+          <declname>particle1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sigma</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilon</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="308" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="308" bodyend="310"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about an exception. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" line="300" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GayBerneForce.h" bodystart="300" bodyend="311"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1ae0e224bb9cbb1d1058553c28a3d3f74f" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ExceptionInfo</scope><name>epsilon</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1a173e81934c4216d905944413d4acbb2c" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ExceptionInfo</scope><name>ExceptionInfo</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1a44769e34f801e66c001567d6dfac974a" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ExceptionInfo</scope><name>ExceptionInfo</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1a2477556ec43a2f6cf5978bdbf7716714" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ExceptionInfo</scope><name>particle1</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1a2ebbca94a3fea490929bc4e4986402cf" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ExceptionInfo</scope><name>particle2</name></member>
+      <member refid="classOpenMM_1_1GayBerneForce_1_1ExceptionInfo_1a069fe8dcfaf3057eb3705bcdc2ff2e61" prot="public" virt="non-virtual"><scope>OpenMM::GayBerneForce::ExceptionInfo</scope><name>sigma</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

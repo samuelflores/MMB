@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomHbondForce_1_1PerPairParameterInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomHbondForce::PerPairParameterInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomHbondForce_1_1PerPairParameterInfo_1ad05456a145f43354620fe76ccbb4b36d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomHbondForce::PerPairParameterInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomHbondForce.h" line="499" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomHbondForce.h" bodystart="499" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomHbondForce_1_1PerPairParameterInfo_1a61b05f5c8e48f2796d1f271cbaecece1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomHbondForce::PerPairParameterInfo::PerPairParameterInfo</definition>
+        <argsstring>()</argsstring>
+        <name>PerPairParameterInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomHbondForce.h" line="500" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomHbondForce.h" bodystart="500" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomHbondForce_1_1PerPairParameterInfo_1a9737d39109b5b2803c004dfa717da169" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomHbondForce::PerPairParameterInfo::PerPairParameterInfo</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>PerPairParameterInfo</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomHbondForce.h" line="502" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomHbondForce.h" bodystart="502" bodyend="503"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a per-donor or per-acceptor parameter. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomHbondForce.h" line="497" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomHbondForce.h" bodystart="497" bodyend="504"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomHbondForce_1_1PerPairParameterInfo_1ad05456a145f43354620fe76ccbb4b36d" prot="public" virt="non-virtual"><scope>OpenMM::CustomHbondForce::PerPairParameterInfo</scope><name>name</name></member>
+      <member refid="classOpenMM_1_1CustomHbondForce_1_1PerPairParameterInfo_1a61b05f5c8e48f2796d1f271cbaecece1" prot="public" virt="non-virtual"><scope>OpenMM::CustomHbondForce::PerPairParameterInfo</scope><name>PerPairParameterInfo</name></member>
+      <member refid="classOpenMM_1_1CustomHbondForce_1_1PerPairParameterInfo_1a9737d39109b5b2803c004dfa717da169" prot="public" virt="non-virtual"><scope>OpenMM::CustomHbondForce::PerPairParameterInfo</scope><name>PerPairParameterInfo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

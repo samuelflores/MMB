@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomGBForce_1_1GlobalParameterInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::CustomGBForce::GlobalParameterInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomGBForce_1_1GlobalParameterInfo_1a4a5abe3d0e018cf85728bf72c81e7019" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomGBForce::GlobalParameterInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" line="616" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" bodystart="616" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomGBForce_1_1GlobalParameterInfo_1a1e852b9ca58de3342617c43634da911b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::CustomGBForce::GlobalParameterInfo::defaultValue</definition>
+        <argsstring></argsstring>
+        <name>defaultValue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" line="617" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" bodystart="617" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomGBForce_1_1GlobalParameterInfo_1aa2caf6cb134c3285f29f6f4e31487ccb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomGBForce::GlobalParameterInfo::GlobalParameterInfo</definition>
+        <argsstring>()</argsstring>
+        <name>GlobalParameterInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" line="618" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" bodystart="618" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomGBForce_1_1GlobalParameterInfo_1ae4deadc4e7fc34da60b3058f50b20329" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomGBForce::GlobalParameterInfo::GlobalParameterInfo</definition>
+        <argsstring>(const std::string &amp;name, double defaultValue)</argsstring>
+        <name>GlobalParameterInfo</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" line="620" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" bodystart="620" bodyend="621"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a global parameter. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" line="614" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomGBForce.h" bodystart="614" bodyend="622"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomGBForce_1_1GlobalParameterInfo_1a1e852b9ca58de3342617c43634da911b" prot="public" virt="non-virtual"><scope>OpenMM::CustomGBForce::GlobalParameterInfo</scope><name>defaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomGBForce_1_1GlobalParameterInfo_1aa2caf6cb134c3285f29f6f4e31487ccb" prot="public" virt="non-virtual"><scope>OpenMM::CustomGBForce::GlobalParameterInfo</scope><name>GlobalParameterInfo</name></member>
+      <member refid="classOpenMM_1_1CustomGBForce_1_1GlobalParameterInfo_1ae4deadc4e7fc34da60b3058f50b20329" prot="public" virt="non-virtual"><scope>OpenMM::CustomGBForce::GlobalParameterInfo</scope><name>GlobalParameterInfo</name></member>
+      <member refid="classOpenMM_1_1CustomGBForce_1_1GlobalParameterInfo_1a4a5abe3d0e018cf85728bf72c81e7019" prot="public" virt="non-virtual"><scope>OpenMM::CustomGBForce::GlobalParameterInfo</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

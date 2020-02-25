@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_aa65617dcda608a520c162e1bc291312" kind="dir">
+    <compoundname>/home/sam/github/openmm/serialization/include/openmm/serialization</compoundname>
+    <innerfile refid="SerializationNode_8h">SerializationNode.h</innerfile>
+    <innerfile refid="SerializationProxy_8h">SerializationProxy.h</innerfile>
+    <innerfile refid="XmlSerializer_8h">XmlSerializer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/serialization/include/openmm/serialization/"/>
+  </compounddef>
+</doxygen>

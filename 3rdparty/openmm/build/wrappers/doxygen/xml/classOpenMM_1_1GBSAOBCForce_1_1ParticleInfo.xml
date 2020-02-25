@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::GBSAOBCForce::ParticleInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo_1a3b5082eb0695a7f764742072ed796cf4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GBSAOBCForce::ParticleInfo::charge</definition>
+        <argsstring></argsstring>
+        <name>charge</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" line="211" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo_1a415a0f67c38bf61fb3bdf966373e3e0f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GBSAOBCForce::ParticleInfo::radius</definition>
+        <argsstring></argsstring>
+        <name>radius</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" line="211" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo_1a455cb5ccd08ded27f5f475ea88664d07" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::GBSAOBCForce::ParticleInfo::scalingFactor</definition>
+        <argsstring></argsstring>
+        <name>scalingFactor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" line="211" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo_1a07c8d5f4180f036a56947ad3fcce0d33" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::GBSAOBCForce::ParticleInfo::ParticleInfo</definition>
+        <argsstring>()</argsstring>
+        <name>ParticleInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" line="212" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" bodystart="212" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo_1a78ed9b060618305ba3d4421d42f71d03" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::GBSAOBCForce::ParticleInfo::ParticleInfo</definition>
+        <argsstring>(double charge, double radius, double scalingFactor)</argsstring>
+        <name>ParticleInfo</name>
+        <param>
+          <type>double</type>
+          <declname>charge</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>radius</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>scalingFactor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" line="215" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" bodystart="215" bodyend="217"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a particle. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" line="209" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/GBSAOBCForce.h" bodystart="209" bodyend="218"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo_1a3b5082eb0695a7f764742072ed796cf4" prot="public" virt="non-virtual"><scope>OpenMM::GBSAOBCForce::ParticleInfo</scope><name>charge</name></member>
+      <member refid="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo_1a07c8d5f4180f036a56947ad3fcce0d33" prot="public" virt="non-virtual"><scope>OpenMM::GBSAOBCForce::ParticleInfo</scope><name>ParticleInfo</name></member>
+      <member refid="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo_1a78ed9b060618305ba3d4421d42f71d03" prot="public" virt="non-virtual"><scope>OpenMM::GBSAOBCForce::ParticleInfo</scope><name>ParticleInfo</name></member>
+      <member refid="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo_1a415a0f67c38bf61fb3bdf966373e3e0f" prot="public" virt="non-virtual"><scope>OpenMM::GBSAOBCForce::ParticleInfo</scope><name>radius</name></member>
+      <member refid="classOpenMM_1_1GBSAOBCForce_1_1ParticleInfo_1a455cb5ccd08ded27f5f475ea88664d07" prot="public" virt="non-virtual"><scope>OpenMM::GBSAOBCForce::ParticleInfo</scope><name>scalingFactor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

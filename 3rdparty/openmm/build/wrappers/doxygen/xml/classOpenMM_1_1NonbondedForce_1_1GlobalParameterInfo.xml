@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1NonbondedForce_1_1GlobalParameterInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::NonbondedForce::GlobalParameterInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1GlobalParameterInfo_1ad4b984e2b99b41d1aab74b9774ae355d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::NonbondedForce::GlobalParameterInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="657" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="657" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1GlobalParameterInfo_1af8b2425c91f9d8636c719bd078a8533d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NonbondedForce::GlobalParameterInfo::defaultValue</definition>
+        <argsstring></argsstring>
+        <name>defaultValue</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="658" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="658" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1NonbondedForce_1_1GlobalParameterInfo_1a28bc0079d906a0fbcf682f4ebf0cee92" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::NonbondedForce::GlobalParameterInfo::GlobalParameterInfo</definition>
+        <argsstring>()</argsstring>
+        <name>GlobalParameterInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="659" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="659" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NonbondedForce_1_1GlobalParameterInfo_1a47665d8eb247fd1e94be79d067717fc9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::NonbondedForce::GlobalParameterInfo::GlobalParameterInfo</definition>
+        <argsstring>(const std::string &amp;name, double defaultValue)</argsstring>
+        <name>GlobalParameterInfo</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="661" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="661" bodyend="662"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a global parameter. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="655" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="655" bodyend="663"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1GlobalParameterInfo_1af8b2425c91f9d8636c719bd078a8533d" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::GlobalParameterInfo</scope><name>defaultValue</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1GlobalParameterInfo_1a28bc0079d906a0fbcf682f4ebf0cee92" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::GlobalParameterInfo</scope><name>GlobalParameterInfo</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1GlobalParameterInfo_1a47665d8eb247fd1e94be79d067717fc9" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::GlobalParameterInfo</scope><name>GlobalParameterInfo</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1GlobalParameterInfo_1ad4b984e2b99b41d1aab74b9774ae355d" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::GlobalParameterInfo</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

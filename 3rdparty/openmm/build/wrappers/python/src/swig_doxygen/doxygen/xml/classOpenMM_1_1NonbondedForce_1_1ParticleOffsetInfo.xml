@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::NonbondedForce::ParticleOffsetInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a991c00b1731991a438e4c2691e685fcc" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::NonbondedForce::ParticleOffsetInfo::particle</definition>
+        <argsstring></argsstring>
+        <name>particle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="671" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="671" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1aa93bf551bd5b5e5e1089ca4b0a6f48b7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::NonbondedForce::ParticleOffsetInfo::parameter</definition>
+        <argsstring></argsstring>
+        <name>parameter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="671" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="671" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a605098451c3be50d9cea6c266f14f753" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NonbondedForce::ParticleOffsetInfo::chargeScale</definition>
+        <argsstring></argsstring>
+        <name>chargeScale</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="672" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="672" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a22ce4015067e5851e30adf53ee3541bc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NonbondedForce::ParticleOffsetInfo::sigmaScale</definition>
+        <argsstring></argsstring>
+        <name>sigmaScale</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="672" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="672" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a84669c74d3305ad11457a2102fc955fb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NonbondedForce::ParticleOffsetInfo::epsilonScale</definition>
+        <argsstring></argsstring>
+        <name>epsilonScale</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="672" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="672" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a6d170e7bd98a3634c3473b35a2401ba3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::NonbondedForce::ParticleOffsetInfo::ParticleOffsetInfo</definition>
+        <argsstring>()</argsstring>
+        <name>ParticleOffsetInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="673" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="673" bodyend="676"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a3a54fe198ac8e6f3c1b9cb5770b97768" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::NonbondedForce::ParticleOffsetInfo::ParticleOffsetInfo</definition>
+        <argsstring>(int parameter, int particle, double chargeScale, double sigmaScale, double epsilonScale)</argsstring>
+        <name>ParticleOffsetInfo</name>
+        <param>
+          <type>int</type>
+          <declname>parameter</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>particle</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>chargeScale</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sigmaScale</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilonScale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="677" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="677" bodyend="679"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a particle parameter offset. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="669" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="669" bodyend="680"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a605098451c3be50d9cea6c266f14f753" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ParticleOffsetInfo</scope><name>chargeScale</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a84669c74d3305ad11457a2102fc955fb" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ParticleOffsetInfo</scope><name>epsilonScale</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1aa93bf551bd5b5e5e1089ca4b0a6f48b7" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ParticleOffsetInfo</scope><name>parameter</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a991c00b1731991a438e4c2691e685fcc" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ParticleOffsetInfo</scope><name>particle</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a6d170e7bd98a3634c3473b35a2401ba3" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ParticleOffsetInfo</scope><name>ParticleOffsetInfo</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a3a54fe198ac8e6f3c1b9cb5770b97768" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ParticleOffsetInfo</scope><name>ParticleOffsetInfo</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ParticleOffsetInfo_1a22ce4015067e5851e30adf53ee3541bc" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ParticleOffsetInfo</scope><name>sigmaScale</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1RMSDForce" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::RMSDForce</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="RMSDForce_8h" local="no">RMSDForce.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1RMSDForce_1a4f9c2124605e9a99629cac500678ba35" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &gt;</type>
+        <definition>std::vector&lt;Vec3&gt; OpenMM::RMSDForce::referencePositions</definition>
+        <argsstring></argsstring>
+        <name>referencePositions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" line="112" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1RMSDForce_1add2dec90e167d6320bada11d47772ba9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; OpenMM::RMSDForce::particles</definition>
+        <argsstring></argsstring>
+        <name>particles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" line="113" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1RMSDForce_1a7b1432d65f4566ff641c39287546bcf9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::RMSDForce::RMSDForce</definition>
+        <argsstring>(const std::vector&lt; Vec3 &gt; &amp;referencePositions, const std::vector&lt; int &gt; &amp;particles=std::vector&lt; int &gt;())</argsstring>
+        <name>RMSDForce</name>
+        <param>
+          <type>const std::vector&lt; <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &gt; &amp;</type>
+          <declname>referencePositions</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>particles</declname>
+          <defval>std::vector&lt; int &gt;()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create an <ref refid="classOpenMM_1_1RMSDForce" kindref="compound">RMSDForce</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>referencePositions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the reference positions to compute the deviation from. The length of this vector must equal the number of particles in the system, even if not all particles are used in computing the RMSD. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>particles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the indices of the particles to use when computing the RMSD. If this is empty (the default), all particles in the system will be used. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" line="68" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RMSDForce_1a5b8e8be8f85daefb38ac0b16590ec34f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt;Vec3&gt;&amp; OpenMM::RMSDForce::getReferencePositions</definition>
+        <argsstring>() const</argsstring>
+        <name>getReferencePositions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the reference positions to compute the deviation from. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" line="73" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RMSDForce_1a101ab50c14e3a92bec544a6adabe103d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::RMSDForce::setReferencePositions</definition>
+        <argsstring>(const std::vector&lt; Vec3 &gt; &amp;positions)</argsstring>
+        <name>setReferencePositions</name>
+        <param>
+          <type>const std::vector&lt; <ref refid="classOpenMM_1_1Vec3" kindref="compound">Vec3</ref> &gt; &amp;</type>
+          <declname>positions</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the reference positions to compute the deviation from. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" line="79" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RMSDForce_1ae8f005e091a64b4792cb8fd75a290679" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; int &gt; &amp;</type>
+        <definition>const std::vector&lt;int&gt;&amp; OpenMM::RMSDForce::getParticles</definition>
+        <argsstring>() const</argsstring>
+        <name>getParticles</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the indices of the particles to use when computing the RMSD. If this is empty, all particles in the system will be used. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" line="84" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RMSDForce_1af47a7b5619c52936ed813d26bd4f1b29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::RMSDForce::setParticles</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;particles)</argsstring>
+        <name>setParticles</name>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>particles</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the indices of the particles to use when computing the RMSD. If this is empty, all particles in the system will be used. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" line="91" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RMSDForce_1a7639f88f275b329910c163b681ea623d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::RMSDForce::updateParametersInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>updateParametersInContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the reference positions and particle indices in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to match those stored in this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. This method provides an efficient method to update certain parameters in an existing <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> without needing to reinitialize it. Simply call <ref refid="classOpenMM_1_1RMSDForce_1a101ab50c14e3a92bec544a6adabe103d" kindref="member">setReferencePositions()</ref> and <ref refid="classOpenMM_1_1RMSDForce_1af47a7b5619c52936ed813d26bd4f1b29" kindref="member">setParticles()</ref> to modify this object&apos;s parameters, then call <ref refid="classOpenMM_1_1RMSDForce_1a7639f88f275b329910c163b681ea623d" kindref="member">updateParametersInContext()</ref> to copy them over to the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" line="99" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1RMSDForce_1abb03e09c146e031857692bb189dcf33b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::RMSDForce::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if force uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" line="106" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" bodystart="106" bodyend="108"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1RMSDForce_1a275a495923b15497dbf46c6a27f81a22" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::RMSDForce::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" line="110" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is a force whose energy equals the root mean squared deviation (RMSD) between the current coordinates and a reference structure. It is intended for use with <ref refid="classOpenMM_1_1CustomCVForce" kindref="compound">CustomCVForce</ref>. You will not normally want a force that exactly equals the RMSD, but there are many situations where it is useful to have a restraining or biasing force that depends on the RMSD in some way.</para><para>The force is computed by first aligning the particle positions to the reference structure, then computing the RMSD between the aligned positions and the reference. The computation can optionally be done based on only a subset of the particles in the system. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="444">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="443">
+        <label>OpenMM::RMSDForce</label>
+        <link refid="classOpenMM_1_1RMSDForce"/>
+        <childnode refid="444" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="446">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="445">
+        <label>OpenMM::RMSDForce</label>
+        <link refid="classOpenMM_1_1RMSDForce"/>
+        <childnode refid="446" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" line="55" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/RMSDForce.h" bodystart="55" bodyend="114"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1RMSDForce_1a275a495923b15497dbf46c6a27f81a22" prot="protected" virt="virtual"><scope>OpenMM::RMSDForce</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1RMSDForce_1ae8f005e091a64b4792cb8fd75a290679" prot="public" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>getParticles</name></member>
+      <member refid="classOpenMM_1_1RMSDForce_1a5b8e8be8f85daefb38ac0b16590ec34f" prot="public" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>getReferencePositions</name></member>
+      <member refid="classOpenMM_1_1RMSDForce_1add2dec90e167d6320bada11d47772ba9" prot="private" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>particles</name></member>
+      <member refid="classOpenMM_1_1RMSDForce_1a4f9c2124605e9a99629cac500678ba35" prot="private" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>referencePositions</name></member>
+      <member refid="classOpenMM_1_1RMSDForce_1a7b1432d65f4566ff641c39287546bcf9" prot="public" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>RMSDForce</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1RMSDForce_1af47a7b5619c52936ed813d26bd4f1b29" prot="public" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>setParticles</name></member>
+      <member refid="classOpenMM_1_1RMSDForce_1a101ab50c14e3a92bec544a6adabe103d" prot="public" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>setReferencePositions</name></member>
+      <member refid="classOpenMM_1_1RMSDForce_1a7639f88f275b329910c163b681ea623d" prot="public" virt="non-virtual"><scope>OpenMM::RMSDForce</scope><name>updateParametersInContext</name></member>
+      <member refid="classOpenMM_1_1RMSDForce_1abb03e09c146e031857692bb189dcf33b" prot="public" virt="virtual"><scope>OpenMM::RMSDForce</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::RMSDForce</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

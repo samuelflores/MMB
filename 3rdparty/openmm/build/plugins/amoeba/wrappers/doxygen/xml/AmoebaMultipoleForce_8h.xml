@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="AmoebaMultipoleForce_8h" kind="file" language="C++">
+    <compoundname>AmoebaMultipoleForce.h</compoundname>
+    <includes local="yes">openmm/Force.h</includes>
+    <includes local="yes">openmm/OpenMMException.h</includes>
+    <includes local="yes">internal/windowsExportAmoeba.h</includes>
+    <includes local="yes">openmm/Vec3.h</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="OpenMMAmoeba_8h" local="yes">/home/sam/github/openmm/plugins/amoeba/openmmapi/include/OpenMMAmoeba.h</includedby>
+    <incdepgraph>
+      <node id="29">
+        <label>internal/windowsExportAmoeba.h</label>
+      </node>
+      <node id="30">
+        <label>openmm/Vec3.h</label>
+      </node>
+      <node id="27">
+        <label>openmm/Force.h</label>
+      </node>
+      <node id="32">
+        <label>vector</label>
+      </node>
+      <node id="31">
+        <label>sstream</label>
+      </node>
+      <node id="28">
+        <label>openmm/OpenMMException.h</label>
+      </node>
+      <node id="26">
+        <label>/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h</label>
+        <link refid="AmoebaMultipoleForce_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="34">
+        <label>/home/sam/github/openmm/plugins/amoeba/openmmapi/include/OpenMMAmoeba.h</label>
+        <link refid="OpenMMAmoeba_8h"/>
+      </node>
+      <node id="33">
+        <label>/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h</label>
+        <link refid="AmoebaMultipoleForce_8h"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classOpenMM_1_1AmoebaMultipoleForce" prot="public">OpenMM::AmoebaMultipoleForce</innerclass>
+    <innerclass refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo" prot="private">OpenMM::AmoebaMultipoleForce::MultipoleInfo</innerclass>
+    <innernamespace refid="namespaceOpenMM">OpenMM</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h"/>
+  </compounddef>
+</doxygen>

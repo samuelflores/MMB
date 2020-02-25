@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1LangevinIntegrator" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::LangevinIntegrator</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Integrator" prot="public" virt="non-virtual">OpenMM::Integrator</basecompoundref>
+    <includes refid="LangevinIntegrator_8h" local="no">LangevinIntegrator.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1LangevinIntegrator_1a97dd6cda802caec41746f60bba54e7df" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::LangevinIntegrator::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="137" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1LangevinIntegrator_1a2e25ade1b0a6785eb7382048f725902c" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::LangevinIntegrator::friction</definition>
+        <argsstring></argsstring>
+        <name>friction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="137" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1LangevinIntegrator_1a2e68215f8dc34c2ff7bf916ec65421fb" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::LangevinIntegrator::randomNumberSeed</definition>
+        <argsstring></argsstring>
+        <name>randomNumberSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="138" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1LangevinIntegrator_1a64296cc3a177814edc98510ff8866590" prot="private" static="no" mutable="no">
+        <type>Kernel</type>
+        <definition>Kernel OpenMM::LangevinIntegrator::kernel</definition>
+        <argsstring></argsstring>
+        <name>kernel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="139" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1a4e1217456a209e73d3c6cfe5369865e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::LangevinIntegrator::LangevinIntegrator</definition>
+        <argsstring>(double temperature, double frictionCoeff, double stepSize)</argsstring>
+        <name>LangevinIntegrator</name>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>frictionCoeff</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>stepSize</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1LangevinIntegrator" kindref="compound">LangevinIntegrator</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the temperature of the heat bath (in Kelvin) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>frictionCoeff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the friction coefficient which couples the system to the heat bath (in inverse picoseconds) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stepSize</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the step size with which to integrate the system (in picoseconds) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="54" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1a3f7b09682275c52db8e6e0cd5169c3e4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::LangevinIntegrator::getTemperature</definition>
+        <argsstring>() const</argsstring>
+        <name>getTemperature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the temperature of the heat bath (in Kelvin).</para><para><simplesect kind="return"><para>the temperature of the heat bath, measured in Kelvin </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="60" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1a48d50866f3aa416265d451a6ca998453" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::LangevinIntegrator::setTemperature</definition>
+        <argsstring>(double temp)</argsstring>
+        <name>setTemperature</name>
+        <param>
+          <type>double</type>
+          <declname>temp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the temperature of the heat bath (in Kelvin).</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>temp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the temperature of the heat bath, measured in Kelvin </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="68" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1af6f3e8b1e72ea08712dedf8f6683393a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::LangevinIntegrator::getFriction</definition>
+        <argsstring>() const</argsstring>
+        <name>getFriction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the friction coefficient which determines how strongly the system is coupled to the heat bath (in inverse ps).</para><para><simplesect kind="return"><para>the friction coefficient, measured in 1/ps </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="77" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" bodystart="77" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1a4665defbba18ee1d4a9682fa6b79c597" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::LangevinIntegrator::setFriction</definition>
+        <argsstring>(double coeff)</argsstring>
+        <name>setFriction</name>
+        <param>
+          <type>double</type>
+          <declname>coeff</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the friction coefficient which determines how strongly the system is coupled to the heat bath (in inverse ps).</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>coeff</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the friction coefficient, measured in 1/ps </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="86" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1a94cfcca72eeab105307419d7ef8e0690" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::LangevinIntegrator::getRandomNumberSeed</definition>
+        <argsstring>() const</argsstring>
+        <name>getRandomNumberSeed</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the random number seed. See <ref refid="classOpenMM_1_1LangevinIntegrator_1a928bbada2fc53c36aa456d4fb7e9f773" kindref="member">setRandomNumberSeed()</ref> for details. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="92" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1a928bbada2fc53c36aa456d4fb7e9f773" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::LangevinIntegrator::setRandomNumberSeed</definition>
+        <argsstring>(int seed)</argsstring>
+        <name>setRandomNumberSeed</name>
+        <param>
+          <type>int</type>
+          <declname>seed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the random number seed. The precise meaning of this parameter is undefined, and is left up to each <ref refid="classOpenMM_1_1Platform" kindref="compound">Platform</ref> to interpret in an appropriate way. It is guaranteed that if two simulations are run with different random number seeds, the sequence of random forces will be different. On the other hand, no guarantees are made about the behavior of simulations that use the same seed. In particular, Platforms are permitted to use non-deterministic algorithms which produce different results on successive runs, even if those runs were initialized identically.</para><para>If seed is set to 0 (which is the default value assigned), a unique seed is chosen when a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created from this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref>. This is done to ensure that each <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> receives unique random seeds without you needing to set them explicitly. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="107" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1a7b8c533776000a6c360eb8112dc8123c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void OpenMM::LangevinIntegrator::step</definition>
+        <argsstring>(int steps)</argsstring>
+        <name>step</name>
+        <reimplements refid="classOpenMM_1_1Integrator_1a55151232664ae778eb2f0e2e8bbe7b67">step</reimplements>
+        <param>
+          <type>int</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Advance a simulation through time by taking a series of time steps.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of time steps to take </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="115" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1a11ca455fa4de1f2de19db97db2cc9861" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void OpenMM::LangevinIntegrator::initialize</definition>
+        <argsstring>(ContextImpl &amp;context)</argsstring>
+        <name>initialize</name>
+        <reimplements refid="classOpenMM_1_1Integrator_1a6a2b5bcc61b799be0a37b4a431bdcd7d">initialize</reimplements>
+        <param>
+          <type><ref refid="classOpenMM_1_1Integrator_1a7e2f3e20ff3f49ee3b9c0e529422b663" kindref="member">ContextImpl</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This will be called by the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> when it is created. It informs the <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> of what context it will be integrating, and gives it a chance to do any necessary initialization. It will also get called again if the application calls reinitialize() on the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="122" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1a41c8b6d3b44ae64c3663887de5db32ce" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void OpenMM::LangevinIntegrator::cleanup</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup</name>
+        <reimplements refid="classOpenMM_1_1Integrator_1a204f42ff795b94be55d0c9ba32261af6">cleanup</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>This will be called by the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> when it is destroyed to let the <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> do any necessary cleanup. It will also get called again if the application calls reinitialize() on the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="127" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1a58c814ff7cb8f10e74959ead874cb5e2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; OpenMM::LangevinIntegrator::getKernelNames</definition>
+        <argsstring>()</argsstring>
+        <name>getKernelNames</name>
+        <reimplements refid="classOpenMM_1_1Integrator_1ab27c6938ff637bef4d7478c90f687af4">getKernelNames</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the names of all Kernels used by this <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="131" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1LangevinIntegrator_1a614f3018e913f959edb81cc697a9466d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double OpenMM::LangevinIntegrator::computeKineticEnergy</definition>
+        <argsstring>()</argsstring>
+        <name>computeKineticEnergy</name>
+        <reimplements refid="classOpenMM_1_1Integrator_1a0fd62d5846712eca58341556d48d991c">computeKineticEnergy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute the kinetic energy of the system at the current time. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="135" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an <ref refid="classOpenMM_1_1Integrator" kindref="compound">Integrator</ref> which simulates a <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> using Langevin dynamics. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="251">
+        <label>OpenMM::LangevinIntegrator</label>
+        <link refid="classOpenMM_1_1LangevinIntegrator"/>
+        <childnode refid="252" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="252">
+        <label>OpenMM::Integrator</label>
+        <link refid="classOpenMM_1_1Integrator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="253">
+        <label>OpenMM::LangevinIntegrator</label>
+        <link refid="classOpenMM_1_1LangevinIntegrator"/>
+        <childnode refid="254" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="254">
+        <label>OpenMM::Integrator</label>
+        <link refid="classOpenMM_1_1Integrator"/>
+        <childnode refid="255" relation="usage">
+          <edgelabel>owner</edgelabel>
+        </childnode>
+      </node>
+      <node id="255">
+        <label>OpenMM::Context</label>
+        <link refid="classOpenMM_1_1Context"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" line="45" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/LangevinIntegrator.h" bodystart="45" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a41c8b6d3b44ae64c3663887de5db32ce" prot="protected" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>cleanup</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a614f3018e913f959edb81cc697a9466d" prot="protected" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>computeKineticEnergy</name></member>
+      <member refid="classOpenMM_1_1Integrator_1ac9c1c07848ae2c2e8617a949a11070c1" prot="protected" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>context</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a2e25ade1b0a6785eb7382048f725902c" prot="private" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>friction</name></member>
+      <member refid="classOpenMM_1_1Integrator_1af742feb7b5b9adfcb259bf2dbc9319c4" prot="public" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>getConstraintTolerance</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1af6f3e8b1e72ea08712dedf8f6683393a" prot="public" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>getFriction</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a58c814ff7cb8f10e74959ead874cb5e2" prot="protected" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>getKernelNames</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a94cfcca72eeab105307419d7ef8e0690" prot="public" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>getRandomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a880821318aee5b25b02f0929887825c1" prot="public" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>getStepSize</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a3f7b09682275c52db8e6e0cd5169c3e4" prot="public" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>getTemperature</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a11ca455fa4de1f2de19db97db2cc9861" prot="protected" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>initialize</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a2732506bfb2afd8e2e9954d08cab1304" prot="public" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>Integrator</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a64296cc3a177814edc98510ff8866590" prot="private" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>kernel</name></member>
+      <member refid="classOpenMM_1_1Integrator_1ad61399ae80cda00231dd5d573cfd30e8" prot="protected" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>kineticEnergyRequiresForce</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a4e1217456a209e73d3c6cfe5369865e0" prot="public" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>LangevinIntegrator</name></member>
+      <member refid="classOpenMM_1_1Integrator_1ab3f6088553343feb8f47ab789e7a09a1" prot="protected" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>owner</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a2e68215f8dc34c2ff7bf916ec65421fb" prot="private" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>randomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a47f81ac027670bcad6050c72cc41bd67" prot="public" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>setConstraintTolerance</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a4665defbba18ee1d4a9682fa6b79c597" prot="public" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>setFriction</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a928bbada2fc53c36aa456d4fb7e9f773" prot="public" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>setRandomNumberSeed</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a86ef00f4e3abb9e3e325e3c4ebe5ead1" prot="public" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>setStepSize</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a48d50866f3aa416265d451a6ca998453" prot="public" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>setTemperature</name></member>
+      <member refid="classOpenMM_1_1Integrator_1aa41aa4c012de261afa5dda15af4fb721" prot="protected" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>stateChanged</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a7b8c533776000a6c360eb8112dc8123c" prot="public" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>step</name></member>
+      <member refid="classOpenMM_1_1LangevinIntegrator_1a97dd6cda802caec41746f60bba54e7df" prot="private" virt="non-virtual"><scope>OpenMM::LangevinIntegrator</scope><name>temperature</name></member>
+      <member refid="classOpenMM_1_1Integrator_1a9abbef84d9e2c4e5a3d3139f8fa84fff" prot="public" virt="virtual"><scope>OpenMM::LangevinIntegrator</scope><name>~Integrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

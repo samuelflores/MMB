@@ -1,0 +1,56 @@
+pipeline {
+    agent none
+
+    stages {
+        stage("Build and test") {
+            parallel {
+                stage("Build and test CUDA platform") {
+                    agent {
+                        docker {
+                            image "swails/openmm-all:latest"
+                            label "cuda && docker"
+                            alwaysPull true
+                        }
+                    }
+                    steps {
+                        sh "git clean -fxd && git checkout ."
+                        withEnv(["OPENMM_CUDA_COMPILER=/usr/local/cuda/bin/nvcc"]) {
+                            sh "devtools/ci/jenkins/install.sh"
+                            sh "devtools/ci/jenkins/test.sh -R 'TestCuda' --parallel 2"
+                        }
+                    }
+                }
+
+                stage("Build and test OpenCL platform") {
+                    agent {
+                        docker {
+                            image "swails/openmm-all:latest"
+                            label "cuda && docker"
+                            alwaysPull true
+                        }
+                    }
+                    steps {
+                        sh "git clean -fxd && git checkout ."
+                        sh "devtools/ci/jenkins/install.sh"
+                        sh "devtools/ci/jenkins/test.sh -R 'TestOpenCL' --parallel 2"
+                    }
+                }
+
+                stage("Build/test CPU platforms") {
+                    agent {
+                        docker {
+                            image "swails/openmm-cpu:latest"
+                            label "docker"
+                            alwaysPull true
+                        }
+                    }
+
+                    steps {
+                        sh "git clean -fxd && git checkout ."
+                        sh "devtools/ci/jenkins/install_and_test_cpu.sh"
+                    }
+                }
+            }
+        }
+    }
+}

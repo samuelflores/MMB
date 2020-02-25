@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_6f1fed49b97bdc1b0222a46212d893e1" kind="dir">
+    <compoundname>/home/sam/github/openmm/olla/include</compoundname>
+    <innerdir refid="dir_f7d8b67ffd26dcf72f7ed39888aeb918">/home/sam/github/openmm/olla/include/openmm</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="/home/sam/github/openmm/olla/include/"/>
+  </compounddef>
+</doxygen>

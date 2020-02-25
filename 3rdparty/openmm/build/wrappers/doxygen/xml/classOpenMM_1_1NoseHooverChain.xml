@@ -1,0 +1,685 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1NoseHooverChain" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::NoseHooverChain</compoundname>
+    <includes refid="NoseHooverChain_8h" local="no">NoseHooverChain.h</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1NoseHooverChain_1a3c9a96202866ccda8d3e46e8eb3ca98c" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NoseHooverChain::temp</definition>
+        <argsstring></argsstring>
+        <name>temp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="256" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NoseHooverChain_1a364807872bd0b6807afdee21b3f08b78" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NoseHooverChain::freq</definition>
+        <argsstring></argsstring>
+        <name>freq</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="256" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NoseHooverChain_1ac181bae20375a7f755c4fe198682a50c" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NoseHooverChain::relativeTemp</definition>
+        <argsstring></argsstring>
+        <name>relativeTemp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="256" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NoseHooverChain_1ae2766618decedd7f43018353b406d45d" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NoseHooverChain::relativeFreq</definition>
+        <argsstring></argsstring>
+        <name>relativeFreq</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="256" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NoseHooverChain_1ac1210b682db4455c3d60e9d3043950a5" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::NoseHooverChain::numDOFs</definition>
+        <argsstring></argsstring>
+        <name>numDOFs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="257" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NoseHooverChain_1acb3778e13fb628ca7f2fb529e7db250a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::NoseHooverChain::chainLength</definition>
+        <argsstring></argsstring>
+        <name>chainLength</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="257" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NoseHooverChain_1a482076414e74eb3f18142afb3ba655ce" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::NoseHooverChain::numMTS</definition>
+        <argsstring></argsstring>
+        <name>numMTS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="257" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NoseHooverChain_1a239aa140e3341ca95c5c48b1a0a7dd06" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::NoseHooverChain::numYS</definition>
+        <argsstring></argsstring>
+        <name>numYS</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="257" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NoseHooverChain_1a302f265dde03013b41876b8dd1db19a1" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::NoseHooverChain::chainID</definition>
+        <argsstring></argsstring>
+        <name>chainID</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="259" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NoseHooverChain_1a9fcf59d8df63a4774c60402f70aad090" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; OpenMM::NoseHooverChain::thermostatedAtoms</definition>
+        <argsstring></argsstring>
+        <name>thermostatedAtoms</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="260" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NoseHooverChain_1a922d378e514c5a711ab68104c82a8f94" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; int, int &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;int, int&gt; &gt; OpenMM::NoseHooverChain::thermostatedPairs</definition>
+        <argsstring></argsstring>
+        <name>thermostatedPairs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="261" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a46ed793d3a4380bf0a15bd010ce121d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::NoseHooverChain::NoseHooverChain</definition>
+        <argsstring>(double temperature, double relativeTemperature, double collisionFrequency, double relativeCollisionFrequency, int numDOFs, int chainLength, int numMTS, int numYoshidaSuzuki, int chainID, const std::vector&lt; int &gt; &amp;thermostatedAtoms, const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;thermostatedPairs)</argsstring>
+        <name>NoseHooverChain</name>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>relativeTemperature</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>collisionFrequency</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>relativeCollisionFrequency</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numDOFs</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chainLength</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numMTS</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>numYoshidaSuzuki</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>chainID</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>thermostatedAtoms</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;</type>
+          <declname>thermostatedPairs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1NoseHooverChain" kindref="compound">NoseHooverChain</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the temperature of the heat bath for absolute motion (in Kelvin) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>collisionFrequency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the collision frequency for absolute motion (in 1/ps) </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>relativeTemperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the temperature of the heat bath for relative motion(in Kelvin). This is only used if the list of thermostated pairs is not empty. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>relativeCollisionFrequency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the collision frequency for relative motion(in 1/ps). This is only used if the list of thermostated pairs is not empty. </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numDOFs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of degrees of freedom in the particles that interact with this chain </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chainLength</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the length of (number of particles in) this heat bath </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numMTS</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of multi time steps used to propagate this chain </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>numYoshidaSuzuki</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of Yoshida Suzuki steps used to propagate this chain (1, 3, or 5). </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>chainID</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the chain id used to distinguish this Nose-Hoover chain from others that may be used to control a different set of particles, e.g. for Drude oscillators </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>thermostatedAtoms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of atoms to be handled by this thermostat </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>thermostatedPairs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of connected pairs to be thermostated; their absolute center of mass motion will be thermostated independently from their motion relative to one another. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="82" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1af9c42da52dfbe6e993465211379a7ac6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::NoseHooverChain::getTemperature</definition>
+        <argsstring>() const</argsstring>
+        <name>getTemperature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the temperature of the heat bath for treating absolute particle motion (in Kelvin).</para><para><simplesect kind="return"><para>the temperature of the heat bath, measured in Kelvin. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="91" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="91" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1abfdf5e9c4ba338204b2f672e20e58595" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::NoseHooverChain::setTemperature</definition>
+        <argsstring>(double temperature)</argsstring>
+        <name>setTemperature</name>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the temperature of the heat bath for treating absolute particle motion. This will affect any new Contexts you create, but not ones that already exist.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the temperature of the heat bath (in Kelvin) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="100" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a01fd79609db8e4a97f62994422cd4243" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::NoseHooverChain::getRelativeTemperature</definition>
+        <argsstring>() const</argsstring>
+        <name>getRelativeTemperature</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the temperature of the heat bath for treating relative particle motion (in Kelvin).</para><para><simplesect kind="return"><para>the temperature of the heat bath, measured in Kelvin. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="108" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="108" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a49763fb6c4d4bb3161d903898cdf797e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::NoseHooverChain::setRelativeTemperature</definition>
+        <argsstring>(double temperature)</argsstring>
+        <name>setRelativeTemperature</name>
+        <param>
+          <type>double</type>
+          <declname>temperature</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the temperature of the heat bath for treating relative motion if this thermostat has been set up to treat connected pairs of atoms. This will affect any new Contexts you create, but not ones that already exist.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>temperature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the temperature of the heat bath for relative motion (in Kelvin) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="118" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="118" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1ad35a7fdf599569fd918fb5fe4805845c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::NoseHooverChain::getCollisionFrequency</definition>
+        <argsstring>() const</argsstring>
+        <name>getCollisionFrequency</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the collision frequency for treating absolute particle motion (in 1/ps).</para><para><simplesect kind="return"><para>the collision frequency, measured in 1/ps. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="126" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="126" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a9bf43b9a75976d6c685bbdf8b521a2cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::NoseHooverChain::setCollisionFrequency</definition>
+        <argsstring>(double frequency)</argsstring>
+        <name>setCollisionFrequency</name>
+        <param>
+          <type>double</type>
+          <declname>frequency</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the collision frequency for treating absolute particle motion. This will affect any new Contexts you create, but not those that already exist.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frequency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the collision frequency (in 1/ps) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="135" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="135" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a982db372125a97979f3fff5e8b90cb03" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::NoseHooverChain::getRelativeCollisionFrequency</definition>
+        <argsstring>() const</argsstring>
+        <name>getRelativeCollisionFrequency</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the collision frequency for treating relative particle motion (in 1/ps).</para><para><simplesect kind="return"><para>the collision frequency, measured in 1/ps. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="143" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="143" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a656b38c5f69fd18374fda72ebf3f5c0b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::NoseHooverChain::setRelativeCollisionFrequency</definition>
+        <argsstring>(double frequency)</argsstring>
+        <name>setRelativeCollisionFrequency</name>
+        <param>
+          <type>double</type>
+          <declname>frequency</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the collision frequency for treating relative particle motion if this thermostat has been set up to handle connected pairs of atoms. This will affect any new Contexts you create, but not those that already exist.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>frequency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the collision frequency (in 1/ps) </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="153" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="153" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1aa98bdb41df9c975c8fb6dd049b98b2f2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::NoseHooverChain::getNumDegreesOfFreedom</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumDegreesOfFreedom</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of degrees of freedom in the particles controled by this heat bath.</para><para><simplesect kind="return"><para>the number of degrees of freedom. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="161" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="161" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a83ddf0aa3880da4b762f8c888c626ba6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::NoseHooverChain::setNumDegreesOfFreedom</definition>
+        <argsstring>(int numDOF)</argsstring>
+        <name>setNumDegreesOfFreedom</name>
+        <param>
+          <type>int</type>
+          <declname>numDOF</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the number of degrees of freedom in the particles controled by this heat bath. This will affect any new Contexts you create, but not those that already exist.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>numDOF</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the number of degrees of freedom. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="170" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="170" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a3e606e4ec4b15e8e19d48c095426b272" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::NoseHooverChain::getChainLength</definition>
+        <argsstring>() const</argsstring>
+        <name>getChainLength</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the chain length of this heat bath.</para><para><simplesect kind="return"><para>the chain length. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="178" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="178" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a3e0f24bb9264e99904ac2e2d4cbe7851" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::NoseHooverChain::getNumMultiTimeSteps</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumMultiTimeSteps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of steps used in the multi time step propagation.</para><para><simplesect kind="return"><para>the number of multi time steps. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="186" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="186" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1affa555f55b9fe5a987f3064400273497" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::NoseHooverChain::getNumYoshidaSuzukiTimeSteps</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumYoshidaSuzukiTimeSteps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of steps used in the Yoshida-Suzuki decomposition for multi time step propagation.</para><para><simplesect kind="return"><para>the number of multi time steps in the Yoshida-Suzuki decomposition. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="195" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="195" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a6c509bd612aa365274d9a0c0b50074d1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::NoseHooverChain::getChainID</definition>
+        <argsstring>() const</argsstring>
+        <name>getChainID</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the chain id used to identify this chain</para><para><simplesect kind="return"><para>the chain id </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="203" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="203" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a3beb69de4dcab09d3866b76284f09356" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; int &gt; &amp;</type>
+        <definition>const std::vector&lt;int&gt;&amp; OpenMM::NoseHooverChain::getThermostatedAtoms</definition>
+        <argsstring>() const</argsstring>
+        <name>getThermostatedAtoms</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the atom ids of all atoms that are thermostated</para><para><simplesect kind="return"><para>ids of all atoms that are being handled by this thermostat </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="211" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="211" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1abb1b1fc9c6322ccbe7128b71f09c0f13" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::NoseHooverChain::setThermostatedAtoms</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;atomIDs)</argsstring>
+        <name>setThermostatedAtoms</name>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>atomIDs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set list of atoms that are handled by this thermostat</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>atomIDs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="219" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="219" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a5976c92a239654b05cf703f173ed22b6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::pair&lt; int, int &gt; &gt;&amp; OpenMM::NoseHooverChain::getThermostatedPairs</definition>
+        <argsstring>() const</argsstring>
+        <name>getThermostatedPairs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the list of any connected pairs to be handled by this thermostat. If this is a regular thermostat, returns an empty vector.</para><para><simplesect kind="return"><para>list of connected pairs. </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="228" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="228" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1a68d9bfaaf35e81bc9d2a1afca1f33cce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::NoseHooverChain::setThermostatedPairs</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;pairIDs)</argsstring>
+        <name>setThermostatedPairs</name>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; int, int &gt; &gt; &amp;</type>
+          <declname>pairIDs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>In case this thermostat handles the kinetic energy of Drude particles set the atom IDs of all parent atoms.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pairIDs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the list of connected pairs to thermostat. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="237" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="237" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1ae83a3da02346878eee9126b6929010e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::NoseHooverChain::getYoshidaSuzukiWeights</definition>
+        <argsstring>() const</argsstring>
+        <name>getYoshidaSuzukiWeights</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the weights used in the Yoshida Suzuki multi time step decomposition (dimensionless)</para><para><simplesect kind="return"><para>the weights for the Yoshida-Suzuki integration </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="245" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NoseHooverChain_1aeec23e241c786396e7cd932cc4cba18e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::NoseHooverChain::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if force uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="252" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="252" bodyend="254"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class defines a chain of Nose-Hoover particles to be used as a heat bath to scale the velocities of a collection of particles subject to thermostating. The heat bath is propagated using the multi time step approach detailed in</para><para>G. J. Martyna, M. E. Tuckerman, D. J. Tobias and M. L. Klein, Mol. Phys. 87, 1117 (1996).</para><para>where the total number of timesteps used to propagate the chain in each step is the number of MTS steps multiplied by the number of terms in the Yoshida-Suzuki decomposition.</para><para>Two types of NHC may be created. The first is a simple thermostat that couples with a given subset of the atoms within a system, controling their absolute motion. The second is more elaborate and can thermostat tethered pairs of atoms and in this case two thermostats are created: one that controls the absolute center of mass velocity of each pair and another that controls their motion relative to one another. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" line="60" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NoseHooverChain.h" bodystart="60" bodyend="262"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a302f265dde03013b41876b8dd1db19a1" prot="private" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>chainID</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1acb3778e13fb628ca7f2fb529e7db250a" prot="private" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>chainLength</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a364807872bd0b6807afdee21b3f08b78" prot="private" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>freq</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a6c509bd612aa365274d9a0c0b50074d1" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getChainID</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a3e606e4ec4b15e8e19d48c095426b272" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getChainLength</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1ad35a7fdf599569fd918fb5fe4805845c" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getCollisionFrequency</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1aa98bdb41df9c975c8fb6dd049b98b2f2" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getNumDegreesOfFreedom</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a3e0f24bb9264e99904ac2e2d4cbe7851" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getNumMultiTimeSteps</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1affa555f55b9fe5a987f3064400273497" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getNumYoshidaSuzukiTimeSteps</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a982db372125a97979f3fff5e8b90cb03" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getRelativeCollisionFrequency</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a01fd79609db8e4a97f62994422cd4243" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getRelativeTemperature</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1af9c42da52dfbe6e993465211379a7ac6" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getTemperature</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a3beb69de4dcab09d3866b76284f09356" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getThermostatedAtoms</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a5976c92a239654b05cf703f173ed22b6" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getThermostatedPairs</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1ae83a3da02346878eee9126b6929010e1" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>getYoshidaSuzukiWeights</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a46ed793d3a4380bf0a15bd010ce121d4" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>NoseHooverChain</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1ac1210b682db4455c3d60e9d3043950a5" prot="private" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>numDOFs</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a482076414e74eb3f18142afb3ba655ce" prot="private" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>numMTS</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a239aa140e3341ca95c5c48b1a0a7dd06" prot="private" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>numYS</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1ae2766618decedd7f43018353b406d45d" prot="private" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>relativeFreq</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1ac181bae20375a7f755c4fe198682a50c" prot="private" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>relativeTemp</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a9bf43b9a75976d6c685bbdf8b521a2cd" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>setCollisionFrequency</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a83ddf0aa3880da4b762f8c888c626ba6" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>setNumDegreesOfFreedom</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a656b38c5f69fd18374fda72ebf3f5c0b" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>setRelativeCollisionFrequency</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a49763fb6c4d4bb3161d903898cdf797e" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>setRelativeTemperature</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1abfdf5e9c4ba338204b2f672e20e58595" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>setTemperature</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1abb1b1fc9c6322ccbe7128b71f09c0f13" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>setThermostatedAtoms</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a68d9bfaaf35e81bc9d2a1afca1f33cce" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>setThermostatedPairs</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a3c9a96202866ccda8d3e46e8eb3ca98c" prot="private" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>temp</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a9fcf59d8df63a4774c60402f70aad090" prot="private" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>thermostatedAtoms</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1a922d378e514c5a711ab68104c82a8f94" prot="private" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>thermostatedPairs</name></member>
+      <member refid="classOpenMM_1_1NoseHooverChain_1aeec23e241c786396e7cd932cc4cba18e" prot="public" virt="non-virtual"><scope>OpenMM::NoseHooverChain</scope><name>usesPeriodicBoundaryConditions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

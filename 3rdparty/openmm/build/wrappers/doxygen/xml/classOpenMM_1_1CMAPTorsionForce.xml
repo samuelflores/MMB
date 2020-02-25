@@ -1,0 +1,704 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CMAPTorsionForce" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::CMAPTorsionForce</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="CMAPTorsionForce_8h" local="no">CMAPTorsionForce.h</includes>
+    <innerclass refid="classOpenMM_1_1CMAPTorsionForce_1_1CMAPTorsionInfo" prot="private">OpenMM::CMAPTorsionForce::CMAPTorsionInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1CMAPTorsionForce_1_1MapInfo" prot="private">OpenMM::CMAPTorsionForce::MapInfo</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1a27bc00271688d13560c3038651853e8d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; MapInfo &gt;</type>
+        <definition>std::vector&lt;MapInfo&gt; OpenMM::CMAPTorsionForce::maps</definition>
+        <argsstring></argsstring>
+        <name>maps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="179" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1a6a116fa57d19bd4d5697f908d52cf170" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; CMAPTorsionInfo &gt;</type>
+        <definition>std::vector&lt;CMAPTorsionInfo&gt; OpenMM::CMAPTorsionForce::torsions</definition>
+        <argsstring></argsstring>
+        <name>torsions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="180" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CMAPTorsionForce_1ac72b4e279cfbc32baa8bfd1d838537e8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool OpenMM::CMAPTorsionForce::usePeriodic</definition>
+        <argsstring></argsstring>
+        <name>usePeriodic</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="181" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1a8c1f1482c1769947244643490e809d19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CMAPTorsionForce::CMAPTorsionForce</definition>
+        <argsstring>()</argsstring>
+        <name>CMAPTorsionForce</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1CMAPTorsionForce" kindref="compound">CMAPTorsionForce</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="60" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1abbb1adb80662b71dfd7088395418061f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::getNumMaps</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumMaps</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of maps that have been defined. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="64" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1a965da7deaf689e71f5ba9e37cb839dee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::getNumTorsions</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumTorsions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of CMAP torsion terms in the potential function </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="70" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1aa01af8271de09e1a7682814b63f161af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::addMap</definition>
+        <argsstring>(int size, const std::vector&lt; double &gt; &amp;energy)</argsstring>
+        <name>addMap</name>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new map that can be used for torsion pairs.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the size of the map along each dimension </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the energy values for the map. This must be of length size*size. The element energy[i+size*j] contains the energy when the first torsion angle equals i*2*PI/size and the second torsion angle equals j*2*PI/size. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the map that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="83" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1aac33d9102c1e53bbab91943333a04015" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CMAPTorsionForce::getMapParameters</definition>
+        <argsstring>(int index, int &amp;size, std::vector&lt; double &gt; &amp;energy) const</argsstring>
+        <name>getMapParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the energy values of a map.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the map for which to get energy values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the size of the map along each dimension </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the energy values for the map. This must be of length size*size. The element energy[i+size*j] contains the energy when the first torsion angle equals i*2*PI/size and the second torsion angle equals j*2*PI/size. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="94" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1a02ef12332f9c1f56aaebc8de073fdf10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CMAPTorsionForce::setMapParameters</definition>
+        <argsstring>(int index, int size, const std::vector&lt; double &gt; &amp;energy)</argsstring>
+        <name>setMapParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the energy values of a map.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the map for which to set energy values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the size of the map along each dimension </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the energy values for the map. This must be of length size*size. The element energy[i+size*j] contains the energy when the first torsion angle equals i*2*PI/size and the second torsion angle equals j*2*PI/size. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="105" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1a947a5d06f3dc165c15978797bea46c0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CMAPTorsionForce::addTorsion</definition>
+        <argsstring>(int map, int a1, int a2, int a3, int a4, int b1, int b2, int b3, int b4)</argsstring>
+        <name>addTorsion</name>
+        <param>
+          <type>int</type>
+          <declname>map</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a3</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a4</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b3</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b4</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a CMAP torsion term to the force field.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the map to use for this term </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the fourth particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the fourth particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the torsion that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="120" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1a8f86a82ab7473b73741fb1628a1f23cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CMAPTorsionForce::getTorsionParameters</definition>
+        <argsstring>(int index, int &amp;map, int &amp;a1, int &amp;a2, int &amp;a3, int &amp;a4, int &amp;b1, int &amp;b2, int &amp;b3, int &amp;b4) const</argsstring>
+        <name>getTorsionParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>map</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>a1</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>a2</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>a3</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>a4</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>b1</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>b2</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>b3</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>b4</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the force field parameters for a CMAP torsion term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the torsion for which to get parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the map to use for this term </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">a1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">a2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">a3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">a4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the fourth particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">b1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">b2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">b3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">b4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the fourth particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="135" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1ade54e7bd828b0a06fa75c2b5d4617a63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CMAPTorsionForce::setTorsionParameters</definition>
+        <argsstring>(int index, int map, int a1, int a2, int a3, int a4, int b1, int b2, int b3, int b4)</argsstring>
+        <name>setTorsionParameters</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>map</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a3</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>a4</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b2</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b3</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>b4</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the force field parameters for a CMAP torsion term.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the torsion for which to set parameters </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the map to use for this term </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>a4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the fourth particle forming the first torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the first particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the second particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b3</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the third particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b4</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the fourth particle forming the second torsion </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="150" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1ad269f36257dcf64d73e6895fae401a2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CMAPTorsionForce::updateParametersInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>updateParametersInContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the map and torsion parameters in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to match those stored in this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. This method provides an efficient method to update certain parameters in an existing <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> without needing to reinitialize it. Simply call <ref refid="classOpenMM_1_1CMAPTorsionForce_1a02ef12332f9c1f56aaebc8de073fdf10" kindref="member">setMapParameters()</ref> and <ref refid="classOpenMM_1_1CMAPTorsionForce_1ade54e7bd828b0a06fa75c2b5d4617a63" kindref="member">setTorsionParameters()</ref> to modify this object&apos;s parameters, then call <ref refid="classOpenMM_1_1CMAPTorsionForce_1ad269f36257dcf64d73e6895fae401a2e" kindref="member">updateParametersInContext()</ref> to copy them over to the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para>The only information that can be updated with this method is the energy values for a map, and the map index for a torsion. The size of a map and the set of particles involved in a torsion cannot be changed. Also, new bonds and torsions cannot be added. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="161" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1aa6ef4429e87a2d5407cc1e9b6fa703f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CMAPTorsionForce::setUsesPeriodicBoundaryConditions</definition>
+        <argsstring>(bool periodic)</argsstring>
+        <name>setUsesPeriodicBoundaryConditions</name>
+        <param>
+          <type>bool</type>
+          <declname>periodic</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set whether this force should apply periodic boundary conditions when calculating displacements. Usually this is not appropriate for bonded forces, but there are situations when it can be useful. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="166" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1a4f3be4a00655f54cf991d2160ef034d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::CMAPTorsionForce::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if force uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="173" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1CMAPTorsionForce_1a1950726addfd573546fef10ea8ec1d74" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::CMAPTorsionForce::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="175" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class implements an interaction between pairs of dihedral angles. The interaction energy is defined by an &quot;energy correction map&quot; (CMAP), which is simply a set of tabulated energy values on a regular grid of (phi, psi) angles. Natural cubic spline interpolation is used to compute forces and energies at arbitrary values of the two angles.</para><para>To use this class, first create one or more energy correction maps by calling <ref refid="classOpenMM_1_1CMAPTorsionForce_1aa01af8271de09e1a7682814b63f161af" kindref="member">addMap()</ref>. For each one, you provide an array of energies at uniformly spaced values of the two angles. Next, add interactions by calling <ref refid="classOpenMM_1_1CMAPTorsionForce_1a947a5d06f3dc165c15978797bea46c0c" kindref="member">addTorsion()</ref>. For each one, you specify the sequence of particles used to calculate each of the two dihedral angles, and the index of the map used to calculate their interaction energy. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="35">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="34">
+        <label>OpenMM::CMAPTorsionForce</label>
+        <link refid="classOpenMM_1_1CMAPTorsionForce"/>
+        <childnode refid="35" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="37">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="36">
+        <label>OpenMM::CMAPTorsionForce</label>
+        <link refid="classOpenMM_1_1CMAPTorsionForce"/>
+        <childnode refid="37" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" line="55" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CMAPTorsionForce.h" bodystart="55" bodyend="182"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1aa01af8271de09e1a7682814b63f161af" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>addMap</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1a947a5d06f3dc165c15978797bea46c0c" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>addTorsion</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1a8c1f1482c1769947244643490e809d19" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>CMAPTorsionForce</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1a1950726addfd573546fef10ea8ec1d74" prot="protected" virt="virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1aac33d9102c1e53bbab91943333a04015" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>getMapParameters</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1abbb1adb80662b71dfd7088395418061f" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>getNumMaps</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1a965da7deaf689e71f5ba9e37cb839dee" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>getNumTorsions</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1a8f86a82ab7473b73741fb1628a1f23cf" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>getTorsionParameters</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1a27bc00271688d13560c3038651853e8d" prot="private" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>maps</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1a02ef12332f9c1f56aaebc8de073fdf10" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>setMapParameters</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1ade54e7bd828b0a06fa75c2b5d4617a63" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>setTorsionParameters</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1aa6ef4429e87a2d5407cc1e9b6fa703f3" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>setUsesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1a6a116fa57d19bd4d5697f908d52cf170" prot="private" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>torsions</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1ad269f36257dcf64d73e6895fae401a2e" prot="public" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>updateParametersInContext</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1ac72b4e279cfbc32baa8bfd1d838537e8" prot="private" virt="non-virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>usePeriodic</name></member>
+      <member refid="classOpenMM_1_1CMAPTorsionForce_1a4f3be4a00655f54cf991d2160ef034d9" prot="public" virt="virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::CMAPTorsionForce</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

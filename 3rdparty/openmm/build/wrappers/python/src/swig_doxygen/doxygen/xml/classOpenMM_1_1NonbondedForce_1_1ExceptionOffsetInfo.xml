@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::NonbondedForce::ExceptionOffsetInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1ae855e5a095a19c29a08b6b4eaa180186" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::NonbondedForce::ExceptionOffsetInfo::exception</definition>
+        <argsstring></argsstring>
+        <name>exception</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="688" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="688" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1a861c33b5cc7ac5077185792e76082fff" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::NonbondedForce::ExceptionOffsetInfo::parameter</definition>
+        <argsstring></argsstring>
+        <name>parameter</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="688" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="688" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1ae8e3ba9b11e49ba59770f72017417de6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NonbondedForce::ExceptionOffsetInfo::chargeProdScale</definition>
+        <argsstring></argsstring>
+        <name>chargeProdScale</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="689" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="689" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1aa3454c3f624934443f2a34def8030265" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NonbondedForce::ExceptionOffsetInfo::sigmaScale</definition>
+        <argsstring></argsstring>
+        <name>sigmaScale</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="689" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="689" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1a28d4075ad36f2b869d865dde13cd6bc3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::NonbondedForce::ExceptionOffsetInfo::epsilonScale</definition>
+        <argsstring></argsstring>
+        <name>epsilonScale</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="689" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="689" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1a5b195320ed36e9fc6949fcf77d54a6d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::NonbondedForce::ExceptionOffsetInfo::ExceptionOffsetInfo</definition>
+        <argsstring>()</argsstring>
+        <name>ExceptionOffsetInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="690" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="690" bodyend="693"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1a74d751d005fae3175bb9ca9432979437" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::NonbondedForce::ExceptionOffsetInfo::ExceptionOffsetInfo</definition>
+        <argsstring>(int parameter, int exception, double chargeProdScale, double sigmaScale, double epsilonScale)</argsstring>
+        <name>ExceptionOffsetInfo</name>
+        <param>
+          <type>int</type>
+          <declname>parameter</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>exception</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>chargeProdScale</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>sigmaScale</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilonScale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="694" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="694" bodyend="696"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about an exception parameter offset. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" line="686" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/NonbondedForce.h" bodystart="686" bodyend="697"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1ae8e3ba9b11e49ba59770f72017417de6" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionOffsetInfo</scope><name>chargeProdScale</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1a28d4075ad36f2b869d865dde13cd6bc3" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionOffsetInfo</scope><name>epsilonScale</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1ae855e5a095a19c29a08b6b4eaa180186" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionOffsetInfo</scope><name>exception</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1a5b195320ed36e9fc6949fcf77d54a6d5" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionOffsetInfo</scope><name>ExceptionOffsetInfo</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1a74d751d005fae3175bb9ca9432979437" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionOffsetInfo</scope><name>ExceptionOffsetInfo</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1a861c33b5cc7ac5077185792e76082fff" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionOffsetInfo</scope><name>parameter</name></member>
+      <member refid="classOpenMM_1_1NonbondedForce_1_1ExceptionOffsetInfo_1aa3454c3f624934443f2a34def8030265" prot="public" virt="non-virtual"><scope>OpenMM::NonbondedForce::ExceptionOffsetInfo</scope><name>sigmaScale</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,239 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo" kind="class" language="C++" prot="private">
+    <compoundname>OpenMM::AmoebaMultipoleForce::MultipoleInfo</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1ada5c4fa630d54362e1d03eeee099a720" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::MultipoleInfo::axisType</definition>
+        <argsstring></argsstring>
+        <name>axisType</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="471" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1aa7b4b2fd0e8cb9a3a4ecbd5f77ad1707" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::MultipoleInfo::multipoleAtomZ</definition>
+        <argsstring></argsstring>
+        <name>multipoleAtomZ</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="471" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a05502d5035f91cc0ec6ab4dd9288a341" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::MultipoleInfo::multipoleAtomX</definition>
+        <argsstring></argsstring>
+        <name>multipoleAtomX</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="471" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1aa775ccfe21649079ae4dc9086d892cfa" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int OpenMM::AmoebaMultipoleForce::MultipoleInfo::multipoleAtomY</definition>
+        <argsstring></argsstring>
+        <name>multipoleAtomY</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="471" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="471" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1abe2eb8e3620a0d7dd6ce5bcfb324e7c8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::MultipoleInfo::charge</definition>
+        <argsstring></argsstring>
+        <name>charge</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="472" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1ad558a366f079d913eb88c043f172785f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::MultipoleInfo::thole</definition>
+        <argsstring></argsstring>
+        <name>thole</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="472" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1af872b6feeefe3530a6f7aec3c1208f77" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::MultipoleInfo::dampingFactor</definition>
+        <argsstring></argsstring>
+        <name>dampingFactor</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="472" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a3fff99ae42c15759aed6d19880dfc6e3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double OpenMM::AmoebaMultipoleForce::MultipoleInfo::polarity</definition>
+        <argsstring></argsstring>
+        <name>polarity</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="472" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="472" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a4c0e60f6fbf2991b7003b1b293157d98" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::AmoebaMultipoleForce::MultipoleInfo::molecularDipole</definition>
+        <argsstring></argsstring>
+        <name>molecularDipole</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="474" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="474" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a939d40117f5ef441f088beb7a7df1c9b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; OpenMM::AmoebaMultipoleForce::MultipoleInfo::molecularQuadrupole</definition>
+        <argsstring></argsstring>
+        <name>molecularQuadrupole</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="475" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="475" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a7cc7b45645ce816f97915dc3de79fd07" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; int &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt;int&gt; &gt; OpenMM::AmoebaMultipoleForce::MultipoleInfo::covalentInfo</definition>
+        <argsstring></argsstring>
+        <name>covalentInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="476" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="476" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1aa39039584f347e004ca2b7f7dc9ca3bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::AmoebaMultipoleForce::MultipoleInfo::MultipoleInfo</definition>
+        <argsstring>()</argsstring>
+        <name>MultipoleInfo</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="478" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="478" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a739dffba249c1a5dc154567b808a76cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::AmoebaMultipoleForce::MultipoleInfo::MultipoleInfo</definition>
+        <argsstring>(double charge, const std::vector&lt; double &gt; &amp;inputMolecularDipole, const std::vector&lt; double &gt; &amp;inputMolecularQuadrupole, int axisType, int multipoleAtomZ, int multipoleAtomX, int multipoleAtomY, double thole, double dampingFactor, double polarity)</argsstring>
+        <name>MultipoleInfo</name>
+        <param>
+          <type>double</type>
+          <declname>charge</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>inputMolecularDipole</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>inputMolecularQuadrupole</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>axisType</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>multipoleAtomZ</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>multipoleAtomX</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>multipoleAtomY</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>thole</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>dampingFactor</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>polarity</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="487" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="487" bodyend="509"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This is an internal class used to record information about a multipole. </para>    </detaileddescription>
+    <location file="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" line="468" column="1" bodyfile="/home/sam/github/openmm/plugins/amoeba/openmmapi/include/openmm/AmoebaMultipoleForce.h" bodystart="468" bodyend="510"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1ada5c4fa630d54362e1d03eeee099a720" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>axisType</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1abe2eb8e3620a0d7dd6ce5bcfb324e7c8" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>charge</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a7cc7b45645ce816f97915dc3de79fd07" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>covalentInfo</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1af872b6feeefe3530a6f7aec3c1208f77" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>dampingFactor</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a4c0e60f6fbf2991b7003b1b293157d98" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>molecularDipole</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a939d40117f5ef441f088beb7a7df1c9b" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>molecularQuadrupole</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a05502d5035f91cc0ec6ab4dd9288a341" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>multipoleAtomX</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1aa775ccfe21649079ae4dc9086d892cfa" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>multipoleAtomY</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1aa7b4b2fd0e8cb9a3a4ecbd5f77ad1707" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>multipoleAtomZ</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1aa39039584f347e004ca2b7f7dc9ca3bd" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>MultipoleInfo</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a739dffba249c1a5dc154567b808a76cd" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>MultipoleInfo</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1a3fff99ae42c15759aed6d19880dfc6e3" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>polarity</name></member>
+      <member refid="classOpenMM_1_1AmoebaMultipoleForce_1_1MultipoleInfo_1ad558a366f079d913eb88c043f172785f" prot="public" virt="non-virtual"><scope>OpenMM::AmoebaMultipoleForce::MultipoleInfo</scope><name>thole</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

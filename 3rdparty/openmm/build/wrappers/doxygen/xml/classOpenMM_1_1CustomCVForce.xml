@@ -1,0 +1,823 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classOpenMM_1_1CustomCVForce" kind="class" language="C++" prot="public">
+    <compoundname>OpenMM::CustomCVForce</compoundname>
+    <basecompoundref refid="classOpenMM_1_1Force" prot="public" virt="non-virtual">OpenMM::Force</basecompoundref>
+    <includes refid="CustomCVForce_8h" local="no">CustomCVForce.h</includes>
+    <innerclass refid="classOpenMM_1_1CustomCVForce_1_1FunctionInfo" prot="private">OpenMM::CustomCVForce::FunctionInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomCVForce_1_1GlobalParameterInfo" prot="private">OpenMM::CustomCVForce::GlobalParameterInfo</innerclass>
+    <innerclass refid="classOpenMM_1_1CustomCVForce_1_1VariableInfo" prot="private">OpenMM::CustomCVForce::VariableInfo</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCVForce_1a31367708141939747f6019d39a9c694b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string OpenMM::CustomCVForce::energyExpression</definition>
+        <argsstring></argsstring>
+        <name>energyExpression</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="282" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCVForce_1a3381a33d15648fdb8f81320f888b950b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; GlobalParameterInfo &gt;</type>
+        <definition>std::vector&lt;GlobalParameterInfo&gt; OpenMM::CustomCVForce::globalParameters</definition>
+        <argsstring></argsstring>
+        <name>globalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="283" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCVForce_1a1283614009e6784d458407ddf4b9f280" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; VariableInfo &gt;</type>
+        <definition>std::vector&lt;VariableInfo&gt; OpenMM::CustomCVForce::variables</definition>
+        <argsstring></argsstring>
+        <name>variables</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="284" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCVForce_1af637b52e4cc0bf588e566a76aeb8cf3b" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; FunctionInfo &gt;</type>
+        <definition>std::vector&lt;FunctionInfo&gt; OpenMM::CustomCVForce::functions</definition>
+        <argsstring></argsstring>
+        <name>functions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="285" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classOpenMM_1_1CustomCVForce_1a38d9c73db6632d397696c99cde0bd7a8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; OpenMM::CustomCVForce::energyParameterDerivatives</definition>
+        <argsstring></argsstring>
+        <name>energyParameterDerivatives</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="286" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a2dfaf9366731ab56ddf98a9186508209" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCVForce::CustomCVForce</definition>
+        <argsstring>(const std::string &amp;energy)</argsstring>
+        <name>CustomCVForce</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a <ref refid="classOpenMM_1_1CustomCVForce" kindref="compound">CustomCVForce</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>energy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>an algebraic expression giving the energy of the system as a function of the collective variables and global parameters </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="82" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1af59447a8e08830e5505ddeda3ca129bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>OpenMM::CustomCVForce::~CustomCVForce</definition>
+        <argsstring>()</argsstring>
+        <name>~CustomCVForce</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="83" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1adf16702fbf4a0185d2a9265695559c3d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCVForce::getNumCollectiveVariables</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumCollectiveVariables</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of collective variables that the interaction depends on. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="87" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1aa9b6dbd973a0538c1879f5502b7cd036" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCVForce::getNumGlobalParameters</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumGlobalParameters</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of global parameters that the interaction depends on. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="93" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a6c0ce1d9994e9e1b2ddc927ead7bbf01" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCVForce::getNumEnergyParameterDerivatives</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumEnergyParameterDerivatives</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of global parameters with respect to which the derivative of the energy should be computed. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="100" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a9fca6c6ed6b9e0b96eb8af197d8bac4b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCVForce::getNumTabulatedFunctions</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumTabulatedFunctions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the number of tabulated functions that have been defined. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="106" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1aea9d9cca44395be2a438c8bb6d792747" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomCVForce::getEnergyFunction</definition>
+        <argsstring>() const</argsstring>
+        <name>getEnergyFunction</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the algebraic expression that gives the energy of the system </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="112" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a5b08e069997fa2f2fe849f1cd9e103e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCVForce::setEnergyFunction</definition>
+        <argsstring>(const std::string &amp;energy)</argsstring>
+        <name>setEnergyFunction</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>energy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the algebraic expression that gives the energy of the system </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="116" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1af97f7eea6e69961e9cfc7376b6674eee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCVForce::addCollectiveVariable</definition>
+        <argsstring>(const std::string &amp;name, Force *variable)</argsstring>
+        <name>addCollectiveVariable</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> *</type>
+          <declname>variable</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a collective variable that the force may depend on. The collective variable is represented by a <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object, which should have been created on the heap with the &quot;new&quot; operator. The <ref refid="classOpenMM_1_1CustomCVForce" kindref="compound">CustomCVForce</ref> takes over ownership of it, and deletes the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> when the <ref refid="classOpenMM_1_1CustomCVForce" kindref="compound">CustomCVForce</ref> itself is deleted.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the collective variable, as it will appear in the energy expression </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>variable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the collective variable, represented by a <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. The value of the variable is the energy computed by the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref>. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index within the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> of the variable that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="128" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a8ced7cf01db1a1787690af8b658385e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomCVForce::getCollectiveVariableName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getCollectiveVariableName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a collective variable.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the collective variable for which to get the name </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the variable name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="135" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a53783f3df04a41da3ec6e3ad1d232fb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> &amp;</type>
+        <definition>Force&amp; OpenMM::CustomCVForce::getCollectiveVariable</definition>
+        <argsstring>(int index)</argsstring>
+        <name>getCollectiveVariable</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a writable reference to the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object that computes a collective variable.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the collective variable to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="142" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1ac449811bcd933880c442680f386d913b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> &amp;</type>
+        <definition>const Force&amp; OpenMM::CustomCVForce::getCollectiveVariable</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getCollectiveVariable</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a const reference to the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object that computes a collective variable.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the collective variable to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="149" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a4f7d690121f7197f83dbb85cc770f96c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCVForce::addGlobalParameter</definition>
+        <argsstring>(const std::string &amp;name, double defaultValue)</argsstring>
+        <name>addGlobalParameter</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a new global parameter that the interaction may depend on. The default value provided to this method is the initial value of the parameter in newly created Contexts. You can change the value at any time by calling setParameter() on the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default value of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the parameter that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="159" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a32f3e1d0627e7c56b1f2c1e0085f83da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomCVForce::getGlobalParameterName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getGlobalParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to get the name </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="166" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a3d9f4c5cf20c535e8cd7658e69229a22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCVForce::setGlobalParameterName</definition>
+        <argsstring>(int index, const std::string &amp;name)</argsstring>
+        <name>setGlobalParameterName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the name of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to set the name </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="173" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a34e669bb834db1c2204b7253d7e77b16" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double OpenMM::CustomCVForce::getGlobalParameterDefaultValue</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getGlobalParameterDefaultValue</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the default value of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to get the default value </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter default value </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="180" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a02fd851a015f5f13c533a29c935da824" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCVForce::setGlobalParameterDefaultValue</definition>
+        <argsstring>(int index, double defaultValue)</argsstring>
+        <name>setGlobalParameterDefaultValue</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>defaultValue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Set the default value of a global parameter.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter for which to set the default value </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the default value of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="187" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1af5df662f9b635af538d83acecf736f61" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCVForce::addEnergyParameterDerivative</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>addEnergyParameterDerivative</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Request that this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> compute the derivative of its energy with respect to a global parameter. The parameter must have already been added with <ref refid="classOpenMM_1_1CustomCVForce_1a4f7d690121f7197f83dbb85cc770f96c" kindref="member">addGlobalParameter()</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the parameter </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="194" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1ac36f83a27f5a2c29af240fc3448bae38" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomCVForce::getEnergyParameterDerivativeName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getEnergyParameterDerivativeName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a global parameter with respect to which this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> should compute the derivative of the energy.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the parameter derivative, between 0 and <ref refid="classOpenMM_1_1CustomCVForce_1a6c0ce1d9994e9e1b2ddc927ead7bbf01" kindref="member">getNumEnergyParameterDerivatives()</ref> </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the parameter name </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="202" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a0206a582c13a0e726bf5af761024ecb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int OpenMM::CustomCVForce::addTabulatedFunction</definition>
+        <argsstring>(const std::string &amp;name, TabulatedFunction *function)</argsstring>
+        <name>addTabulatedFunction</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> *</type>
+          <declname>function</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a tabulated function that may appear in the energy expression.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the name of the function as it appears in expressions </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>function</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>a <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> object defining the function. The <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> should have been created on the heap with the &quot;new&quot; operator. The <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> takes over ownership of it, and deletes it when the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> itself is deleted. </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the index of the function that was added </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="212" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1abbda8e5441dc5b45166cd90443ef5cda" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> &amp;</type>
+        <definition>const TabulatedFunction&amp; OpenMM::CustomCVForce::getTabulatedFunction</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getTabulatedFunction</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a const reference to a tabulated function that may appear in the energy expression.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the function to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> object defining the function </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="219" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a05d4418494afda6efa634305c718baeb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> &amp;</type>
+        <definition>TabulatedFunction&amp; OpenMM::CustomCVForce::getTabulatedFunction</definition>
+        <argsstring>(int index)</argsstring>
+        <name>getTabulatedFunction</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get a reference to a tabulated function that may appear in the energy expression.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the function to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> object defining the function </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="226" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a4ebe66743e754aa4c2540420a58aa481" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string&amp; OpenMM::CustomCVForce::getTabulatedFunctionName</definition>
+        <argsstring>(int index) const</argsstring>
+        <name>getTabulatedFunctionName</name>
+        <param>
+          <type>int</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the name of a tabulated function that may appear in the energy expression.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the index of the function to get </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the name of the function as it appears in expressions </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="233" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1ae83a67c9e1fe662c2ef481f44057767b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCVForce::getCollectiveVariableValues</definition>
+        <argsstring>(Context &amp;context, std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>getCollectiveVariableValues</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the current values of the collective variables in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> for which to get the values </para></parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="out">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the values of the collective variables are computed and stored into this </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="241" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a17dd2a6ef72b2c46f6b08ca903defd3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+        <definition>Context&amp; OpenMM::CustomCVForce::getInnerContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>getInnerContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the inner <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> used for evaluating collective variables.</para><para>When you create a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> for a <ref refid="classOpenMM_1_1System" kindref="compound">System</ref> that contains a <ref refid="classOpenMM_1_1CustomCVForce" kindref="compound">CustomCVForce</ref>, internally it creates a new <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>, adds the Forces that define the CVs to it, creates a new <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> for that <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>, and uses it to evaluate the variables. In most cases you can ignore all of this. It is just an implementation detail. However, there are a few cases where you need to directly access that internal <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. For example, if you want to modify one of the Forces that defines a collective variable and call <ref refid="classOpenMM_1_1CustomCVForce_1ae32d1ecf05c42510e999ceb942b7baee" kindref="member">updateParametersInContext()</ref> on it, you need to pass that inner <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to it. This method returns a reference to it.</para><para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> containing the <ref refid="classOpenMM_1_1CustomCVForce" kindref="compound">CustomCVForce</ref> </para></parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>the inner <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> used to evaluate the collective variables </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="257" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1ae32d1ecf05c42510e999ceb942b7baee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void OpenMM::CustomCVForce::updateParametersInContext</definition>
+        <argsstring>(Context &amp;context)</argsstring>
+        <name>updateParametersInContext</name>
+        <param>
+          <type><ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Update the tabulated function parameters in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> to match those stored in this <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. This method provides an efficient method to update certain parameters in an existing <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> without needing to reinitialize it. Simply call getTabulatedFunction(index).setFunctionParameters() to modify this object&apos;s parameters, then call <ref refid="classOpenMM_1_1CustomCVForce_1ae32d1ecf05c42510e999ceb942b7baee" kindref="member">updateParametersInContext()</ref> to copy them over to the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>.</para><para>This method is very limited. The only information it updates is the parameters of tabulated functions. All other aspects of the <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> (the energy expression, the set of collective variables, etc.) are unaffected and can only be changed by reinitializing the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref>. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="268" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1ac5f0e12cf36b95bccb86d7921d26798f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool OpenMM::CustomCVForce::usesPeriodicBoundaryConditions</definition>
+        <argsstring>() const</argsstring>
+        <name>usesPeriodicBoundaryConditions</name>
+        <reimplements refid="classOpenMM_1_1Force_1a955afab55a1cd8b24cdf91258477237f">usesPeriodicBoundaryConditions</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns whether or not this force makes use of periodic boundary conditions.</para><para><simplesect kind="return"><para>true if force uses PBC and false otherwise </para></simplesect>
+</para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="275" column="1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classOpenMM_1_1CustomCVForce_1a073663584213f42d021c946a87f48da6" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ForceImpl *</type>
+        <definition>ForceImpl* OpenMM::CustomCVForce::createImpl</definition>
+        <argsstring>() const</argsstring>
+        <name>createImpl</name>
+        <reimplements refid="classOpenMM_1_1Force_1adbc62fd074ba150a19ee290da79380ee">createImpl</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is created, it invokes this method on each <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> in the <ref refid="classOpenMM_1_1System" kindref="compound">System</ref>. It should create a new ForceImpl object which can be used by the context for calculating forces. The ForceImpl will be deleted automatically when the <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> is deleted. </para>        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="277" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>This class supports energy functions that depend on collective variables. To use it, you define a set of collective variables (scalar valued functions that depend on the particle positions), and an algebraic expression for the energy as a function of the collective variables. The expression also may involve tabulated functions, and may depend on arbitrary global parameters.</para><para>Each collective variable is defined by a <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref> object. The <ref refid="classOpenMM_1_1Force" kindref="compound">Force</ref>&apos;s potential energy is computed, and that becomes the value of the variable. This provides enormous flexibility in defining collective variables, especially by using custom forces. Anything that can be computed as a potential function can also be used as a collective variable.</para><para>To use this class, create a <ref refid="classOpenMM_1_1CustomCVForce" kindref="compound">CustomCVForce</ref> object, passing an algebraic expression to the constructor that defines the potential energy. Then call <ref refid="classOpenMM_1_1CustomCVForce_1af97f7eea6e69961e9cfc7376b6674eee" kindref="member">addCollectiveVariable()</ref> to define collective variables and <ref refid="classOpenMM_1_1CustomCVForce_1a4f7d690121f7197f83dbb85cc770f96c" kindref="member">addGlobalParameter()</ref> to define global parameters. The values of global parameters may be modified during a simulation by calling <ref refid="classOpenMM_1_1Context_1a368b7f53ee35bb151ee686441b7900af" kindref="member">Context::setParameter()</ref>.</para><para>This class also has the ability to compute derivatives of the potential energy with respect to global parameters. Call <ref refid="classOpenMM_1_1CustomCVForce_1af5df662f9b635af538d83acecf736f61" kindref="member">addEnergyParameterDerivative()</ref> to request that the derivative with respect to a particular parameter be computed. You can then query its value in a <ref refid="classOpenMM_1_1Context" kindref="compound">Context</ref> by calling getState() on it.</para><para>Expressions may involve the operators + (add), - (subtract), * (multiply), / (divide), and ^ (power), and the following functions: sqrt, exp, log, sin, cos, sec, csc, tan, cot, asin, acos, atan, atan2, sinh, cosh, tanh, erf, erfc, min, max, abs, floor, ceil, step, delta, select. All trigonometric functions are defined in radians, and log is the natural logarithm. step(x) = 0 if x is less than 0, 1 otherwise. delta(x) = 1 if x is 0, 0 otherwise. select(x,y,z) = z if x = 0, y otherwise.</para><para>In addition, you can call <ref refid="classOpenMM_1_1CustomCVForce_1a0206a582c13a0e726bf5af761024ecb8" kindref="member">addTabulatedFunction()</ref> to define a new function based on tabulated values. You specify the function by creating a <ref refid="classOpenMM_1_1TabulatedFunction" kindref="compound">TabulatedFunction</ref> object. That function can then appear in the expression. </para>    </detaileddescription>
+    <inheritancegraph>
+      <node id="84">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="83">
+        <label>OpenMM::CustomCVForce</label>
+        <link refid="classOpenMM_1_1CustomCVForce"/>
+        <childnode refid="84" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="86">
+        <label>OpenMM::Force</label>
+        <link refid="classOpenMM_1_1Force"/>
+      </node>
+      <node id="85">
+        <label>OpenMM::CustomCVForce</label>
+        <link refid="classOpenMM_1_1CustomCVForce"/>
+        <childnode refid="86" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" line="74" column="1" bodyfile="/home/sam/github/openmm/openmmapi/include/openmm/CustomCVForce.h" bodystart="74" bodyend="287"/>
+    <listofallmembers>
+      <member refid="classOpenMM_1_1CustomCVForce_1af97f7eea6e69961e9cfc7376b6674eee" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>addCollectiveVariable</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1af5df662f9b635af538d83acecf736f61" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>addEnergyParameterDerivative</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a4f7d690121f7197f83dbb85cc770f96c" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>addGlobalParameter</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a0206a582c13a0e726bf5af761024ecb8" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>addTabulatedFunction</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a073663584213f42d021c946a87f48da6" prot="protected" virt="virtual"><scope>OpenMM::CustomCVForce</scope><name>createImpl</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a2dfaf9366731ab56ddf98a9186508209" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>CustomCVForce</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a31367708141939747f6019d39a9c694b" prot="private" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>energyExpression</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a38d9c73db6632d397696c99cde0bd7a8" prot="private" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>energyParameterDerivatives</name></member>
+      <member refid="classOpenMM_1_1Force_1a40e75e251ec93d3bc9fc87b96026fbc2" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>Force</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1af637b52e4cc0bf588e566a76aeb8cf3b" prot="private" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>functions</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a53783f3df04a41da3ec6e3ad1d232fb8" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getCollectiveVariable</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1ac449811bcd933880c442680f386d913b" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getCollectiveVariable</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a8ced7cf01db1a1787690af8b658385e2" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getCollectiveVariableName</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1ae83a67c9e1fe662c2ef481f44057767b" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getCollectiveVariableValues</name></member>
+      <member refid="classOpenMM_1_1Force_1aa6d1d0fd8cad61e7ea37305c6d13a10d" prot="protected" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getContextImpl</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1aea9d9cca44395be2a438c8bb6d792747" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getEnergyFunction</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1ac36f83a27f5a2c29af240fc3448bae38" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getEnergyParameterDerivativeName</name></member>
+      <member refid="classOpenMM_1_1Force_1ab9428f8447cba02d548963242dd674ff" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getForceGroup</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a34e669bb834db1c2204b7253d7e77b16" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getGlobalParameterDefaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a32f3e1d0627e7c56b1f2c1e0085f83da" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getGlobalParameterName</name></member>
+      <member refid="classOpenMM_1_1Force_1a4dead2c44734956400d0ca8619650890" prot="protected" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1Force_1abbd385fd10eb005b240bd399c601d0dd" prot="protected" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getImplInContext</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a17dd2a6ef72b2c46f6b08ca903defd3d" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getInnerContext</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1adf16702fbf4a0185d2a9265695559c3d" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getNumCollectiveVariables</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a6c0ce1d9994e9e1b2ddc927ead7bbf01" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getNumEnergyParameterDerivatives</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1aa9b6dbd973a0538c1879f5502b7cd036" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getNumGlobalParameters</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a9fca6c6ed6b9e0b96eb8af197d8bac4b" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getNumTabulatedFunctions</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1abbda8e5441dc5b45166cd90443ef5cda" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getTabulatedFunction</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a05d4418494afda6efa634305c718baeb" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getTabulatedFunction</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a4ebe66743e754aa4c2540420a58aa481" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>getTabulatedFunctionName</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a3381a33d15648fdb8f81320f888b950b" prot="private" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>globalParameters</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a5b08e069997fa2f2fe849f1cd9e103e7" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>setEnergyFunction</name></member>
+      <member refid="classOpenMM_1_1Force_1a53e3829a91825a9f6aa17e5ade713f84" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>setForceGroup</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a02fd851a015f5f13c533a29c935da824" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>setGlobalParameterDefaultValue</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a3d9f4c5cf20c535e8cd7658e69229a22" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>setGlobalParameterName</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1ae32d1ecf05c42510e999ceb942b7baee" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>updateParametersInContext</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1ac5f0e12cf36b95bccb86d7921d26798f" prot="public" virt="virtual"><scope>OpenMM::CustomCVForce</scope><name>usesPeriodicBoundaryConditions</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1a1283614009e6784d458407ddf4b9f280" prot="private" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>variables</name></member>
+      <member refid="classOpenMM_1_1CustomCVForce_1af59447a8e08830e5505ddeda3ca129bd" prot="public" virt="non-virtual"><scope>OpenMM::CustomCVForce</scope><name>~CustomCVForce</name></member>
+      <member refid="classOpenMM_1_1Force_1a6516b32ebeb95a694f56d93bdf81f4fb" prot="public" virt="virtual"><scope>OpenMM::CustomCVForce</scope><name>~Force</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

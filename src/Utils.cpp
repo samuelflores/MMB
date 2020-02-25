@@ -58,15 +58,13 @@ int myChdir(std::string directoryPath){
 
 void closingMessage() {
     std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
-    std::cout<<__FILE__<<":"<<__LINE__<<" Questions or problems? Please use the public forum at https://simtk.org/forums/viewforum.php?f=359&amp;sid=770b2f0d333ecb740d8c2f9e7e80e51c  "<<std::endl;
-    std::cout<<__FILE__<<":"<<__LINE__<<" If privacy is necessary you can email samuelfloresc@gmail.com   "<<std::endl;
+    std::cout<<__FILE__<<":"<<__LINE__<<" Questions or problems? Please use the public forum at https://simtk.org/forums/viewforum.php?f=359&amp;sid=770b2f0d333ecb740d8c2f9e7e80e51c  .. or email me."<<std::endl;
     std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
     std::cout<<__FILE__<<":"<<__LINE__<<" Please support continued development. "<<std::endl;
     //std::cout<<__FILE__<<":"<<__LINE__<<" Suggested donation: "<<std::endl;
-    //std::cout<<__FILE__<<":"<<__LINE__<<" Academic: 75 EUR"<<std::endl;
-    std::cout<<__FILE__<<":"<<__LINE__<<" Industry: required to contact for a quote: sam@xray.bmc.uu.se "<<std::endl;
     //std::cout<<__FILE__<<":"<<__LINE__<<" Industry (per user): 1000 EUR "<<std::endl;
     std::cout<<__FILE__<<":"<<__LINE__<<" By bank transfer to IBAN: SE0750000000053680279418 , SWIFT: ESSESESS "<<std::endl;
+    std::cout<<__FILE__<<":"<<__LINE__<<" Industrial and other inquiries: samuel.flores@scilifelab.se "<<std::endl;
     std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
 };
 

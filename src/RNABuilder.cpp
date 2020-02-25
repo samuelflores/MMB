@@ -6,7 +6,7 @@
 Copyright (c) 2011-16 by the author                                        
 Author: Samuel Flores                                                      
                                                                            
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to use the Software for non-profit academic research only. Any commercial, for-profit, or industrial use requires the payment of usage fees.                  
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to use the Software.
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.            
                             
@@ -23,8 +23,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
  *                                                                            *
  * Permission is hereby granted, free of charge, to any person obtaining a    *
  * copy of this software and associated documentation files (the "Software"), *
- * to use the Software for non-profit academic research only. Any commercial, *
- * for-profit, or industrial use requires the payment of usage fees.        *
+ * to use the Software.                                                       *
  *                                                                            *
  * The above copyright notice and this permission notice shall be included in *
  * all copies or substantial portions of the Software.                        *
@@ -62,7 +61,6 @@ void printUsage() {
     std::cout << " -help                 Display this information " << std::endl;
     std::cout << " -c  contactsFile      Set name of contacts file " << std::endl;
     //std::cout << " -d  directory         Set working directory " << std::endl<<std::endl;
-    std::cout << "Commercial use of this software requires payment of usage fees " << std::endl<<std::endl;
     std::cout << "Last compiled on "<<__DATE__<<" at "<<__TIME__<< std::endl<<std::endl;
     std::cout << "MMB units are nm, kJ/mol, ps, and daltons (g/mol). In MMB 2.10 and earlier, we took some lengths and ground locations in Å (atomSpring, springToGround, atomTether, applyContactsWithin, applyMobilizersWithin, etc.).  As of MMB 2.11 all such lengths and locations are in nm.  Please update your older scripts if you plan to reuse them in MMB 2.11 and later." <<std::endl <<std::endl;
     //std::cout<<"Debug flag : "<<__DEBUG__<<std::endl;

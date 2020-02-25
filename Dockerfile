@@ -26,7 +26,10 @@ RUN git clone https://github.com/simbody/simbody.git /github/simbody
 RUN git clone https://github.com/seqan/seqan.git /github/seqan
 RUN svn checkout https://simtk.org/svn/molmodel/trunk /svn/molmodel
 #run svn checkout https://simtk.org/svn/rnatoolbox/trunk /svn/RNAToolbox/
-
+RUN mkdir /Documentation
+WORKDIR /Documentation
+# Get the MMB reference guide from its repository on pe1:
+RUN wget http://pe1.scilifelab.se/MMB-annex/Documentation/MMB.3_0.Reference-Guide.pdf
 RUN mkdir /github/MMB/3rdparty/openmm/build
 WORKDIR /github/MMB/3rdparty/build
 RUN cmake ..

@@ -21,17 +21,17 @@ WORKDIR /
 #RUN cd /
 RUN mkdir /github /svn
 #RUN mkdir /svn
-RUN git clone https://github.com/pandegroup/openmm.git   /github/openmm
+#//RUN git clone https://github.com/pandegroup/openmm.git   /github/openmm
 RUN git clone https://github.com/simbody/simbody.git /github/simbody
 RUN git clone https://github.com/seqan/seqan.git /github/seqan
 RUN svn checkout https://simtk.org/svn/molmodel/trunk /svn/molmodel
 #run svn checkout https://simtk.org/svn/rnatoolbox/trunk /svn/RNAToolbox/
 
-RUN mkdir /github/openmm/build
-WORKDIR /github/openmm/build
+RUN mkdir /github/MMB/3rdparty/openmm/build
+WORKDIR /github/MMB/3rdparty/build
 RUN cmake ..
 RUN make install 
-# default install directory is /usr/usr/local/openmm
+# default install directory is /usr/local/openmm
 
 #run mkdir /github/simbody/build ; cd /github/simbody/build ; cmake .. ; make install 
 RUN mkdir /github/simbody/build 

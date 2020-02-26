@@ -13,7 +13,7 @@ LABEL git_commit=$GIT_COMMIT
 
 
 
-RUN apt-get update && apt-get install -y  apt-utils     cmake    cmake-curses-gui    g++    vim    doxygen    swig python  libblas-dev liblapack-dev  git-core subversion mc
+RUN apt-get update && apt-get install -y  apt-utils     cmake    cmake-curses-gui    g++    vim    doxygen    swig python  libblas-dev liblapack-dev  git-core subversion mc wget
    
 #RUN apt-get install -y mc
 

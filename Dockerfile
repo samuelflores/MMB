@@ -51,7 +51,7 @@ RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
 
 # Now openmm will install from MMB repo:
 RUN mkdir /github/MMB/3rdparty/openmm/build
-WORKDIR /github/MMB/3rdparty/build
+WORKDIR /github/MMB/3rdparty/openmm/build
 RUN cmake ..
 RUN make install 
 # default install directory is /usr/local/openmm

@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic -msse2 -DLEPTON_USE_JIT -Wl,--no-as-needed -lrt CMakeFiles/TestReferenceBrownianIntegrator.dir/TestReferenceBrownianIntegrator.cpp.o  -o ../../../TestReferenceBrownianIntegrator -Wl,-rpath,/home/sam/github/openmm/build ../../../libOpenMM.so -ldl -lpthread 

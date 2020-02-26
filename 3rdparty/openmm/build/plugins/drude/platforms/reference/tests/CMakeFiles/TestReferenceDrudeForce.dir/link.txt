@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic -msse2 -DLEPTON_USE_JIT -Wl,--no-as-needed -lrt CMakeFiles/TestReferenceDrudeForce.dir/TestReferenceDrudeForce.cpp.o  -o ../../../../../TestReferenceDrudeForce -Wl,-rpath,/home/sam/github/openmm/build ../../../../../libOpenMMDrudeReference.so ../../../../../libOpenMMDrude.so ../../../../../libOpenMM.so -ldl -lpthread 

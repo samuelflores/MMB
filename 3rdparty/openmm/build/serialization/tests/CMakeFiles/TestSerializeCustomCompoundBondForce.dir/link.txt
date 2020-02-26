@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic -msse2 -DLEPTON_USE_JIT -Wl,--no-as-needed -lrt CMakeFiles/TestSerializeCustomCompoundBondForce.dir/TestSerializeCustomCompoundBondForce.cpp.o  -o ../../TestSerializeCustomCompoundBondForce -Wl,-rpath,/home/sam/github/openmm/build ../../libOpenMM.so -ldl -lpthread 

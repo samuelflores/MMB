@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic -msse2 -DLEPTON_USE_JIT -Wl,--no-as-needed -lrt CMakeFiles/TestCpuCustomNonbondedForce.dir/TestCpuCustomNonbondedForce.cpp.o  -o ../../../TestCpuCustomNonbondedForce -Wl,-rpath,/home/sam/github/openmm/build ../../../libOpenMMCPU.so ../../../libOpenMM.so -ldl -lpthread 

@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic -msse2 -DLEPTON_USE_JIT -Wl,--no-as-needed -lrt CMakeFiles/HelloArgon.dir/HelloArgon.cpp.o  -o ../HelloArgon -Wl,-rpath,/home/sam/github/openmm/build ../libOpenMM.so -ldl -lpthread 

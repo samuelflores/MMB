@@ -1,1 +1,0 @@
-/usr/bin/c++  -O3 -DNDEBUG  -rdynamic -msse2 -DLEPTON_USE_JIT -Wl,--no-as-needed -lrt CMakeFiles/TestCpuHarmonicAngleForce.dir/TestCpuHarmonicAngleForce.cpp.o  -o ../../../TestCpuHarmonicAngleForce -Wl,-rpath,/home/sam/github/openmm/build ../../../libOpenMMCPU.so ../../../libOpenMM.so -ldl -lpthread 

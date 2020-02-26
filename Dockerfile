@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y  apt-utils     cmake    cmake-curses-gu
 WORKDIR /
 #RUN cd /
 RUN mkdir /github /svn
+# Removed openmm from here. This is because openmm is now forked into MMB, with an eye to debian packaging.
 #RUN mkdir /svn
 #//RUN git clone https://github.com/pandegroup/openmm.git   /github/openmm
 RUN git clone https://github.com/simbody/simbody.git /github/simbody
@@ -30,11 +31,6 @@ RUN mkdir /Documentation
 WORKDIR /Documentation
 # Get the MMB reference guide from its repository on pe1:
 RUN wget http://pe1.scilifelab.se/MMB-annex/Documentation/MMB.3_0.Reference-Guide.pdf
-RUN mkdir /github/MMB/3rdparty/openmm/build
-WORKDIR /github/MMB/3rdparty/build
-RUN cmake ..
-RUN make install 
-# default install directory is /usr/local/openmm
 
 #run mkdir /github/simbody/build ; cd /github/simbody/build ; cmake .. ; make install 
 RUN mkdir /github/simbody/build 
@@ -52,6 +48,14 @@ RUN make install
 
 # MMB part
 RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
+
+# Now openmm will install from MMB repo:
+RUN mkdir /github/MMB/3rdparty/openmm/build
+WORKDIR /github/MMB/3rdparty/build
+RUN cmake ..
+RUN make install 
+# default install directory is /usr/local/openmm
+
 #WORKDIR /github/MMB
 # in the case of MMB 3.0:
 

@@ -102,3 +102,4 @@ RUN cp    /github/MMB/include/resources/parameters.csv .
 #run apt-get install -y  git-core
 #ENV LD_LIBRARY_PATH /usr/local/lib
 #ENV PATH "/usr/local/bin:$PATH"
+USER 1082

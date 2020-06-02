@@ -623,11 +623,29 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" about to match chain \""<< getChainID()<<"\" to file name : "<<inputFileName<<endl;
     if(pdbStructure == NULL)
     {
-        ifstream inputFile(inputFileName.c_str());
-        return matchCoordinates(inputFile, matchExact, matchIdealized, matchOptimize,
+        PdbStructure myPdbStructure;
+        
+        //============================================ Use PDB reader or CIF reader depending on the extension.
+        if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
+        {
+            //============================================ No problem, continue as usual
+            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Filename " << inputFileName << " suggests PDB file. Using the PDB file reader ... " << std::endl;
+            ifstream pdbfile                          ( inputFileName.c_str()) ;
+            myPdbStructure                            = PdbStructure ( pdbfile );
+            pdbfile.close                             ( );
+        }
+        else
+        {
+            //============================================ This should be a CIF file, read it using MMDB
+            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Caching the PdbStructure from CIF file " << inputFileName << std::endl;
+            myPdbStructure                            = PdbStructure ( inputFileName );
+        }
+        
+        
+        
+        return matchCoordinates( myPdbStructure, matchExact, matchIdealized, matchOptimize,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                          guessCoordinates, matchingMinimizerTolerance, myPlanarityThreshold);
-        inputFile.close();
     }
     else
     {
@@ -638,7 +656,7 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
     }
 }
 
-int  BiopolymerClass::matchCoordinates(istream & inputFile, 
+int  BiopolymerClass::matchCoordinates(istream & inputFile,
                                        bool matchExact, bool matchIdealized,
                                        const bool matchOptimize ,  
                                        bool matchHydrogenAtomLocations, 
@@ -3900,7 +3918,7 @@ const bool BiopolymerClassContainer::isProtein(const Biopolymer & inputBiopolyme
     return true;
 };
 
-void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,const bool proteinCapping, const String & chainsPrefix, const bool tempRenumberPdbResidues ){ 
+void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,const bool proteinCapping, const String & chainsPrefix, const bool tempRenumberPdbResidues ){
     //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" >"<< deletedResidueVector.size() <<"<"<<std::endl;
     std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
     std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to load sequences from file : "<<inPDBFileName<<std::endl;
@@ -3916,8 +3934,8 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
         ErrorManager::instance.treatError();
     } else {
         std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Apparently "<<inPDBFileName<<" has size "<<st.st_size <<" . This seems OK."<<std::endl;
-    }     
-    PDBReader myPDBReader (inPDBFileName ); //, deletedResidueVector);
+    }
+    PDBReader myPDBReader ( inPDBFileName ); //, deletedResidueVector);
     std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
     CompoundSystem system;
     std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
@@ -3930,19 +3948,31 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     myPDBReader.createCompounds( system, chainsPrefix );
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Done with myPDBReader.createCompounds( system)"<<endl;
     cout<<__FILE__<<":"<<__LINE__<<" system.getNumCompounds() = "<<system.getNumCompounds() <<endl;
-    cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Caching the PdbStructure from file " << inPDBFileName << endl;
-    ifstream pdbfile(inPDBFileName.c_str());
-    cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Using chains prefix: >"<<chainsPrefix<<"<"<<endl;
-    PdbStructure myPdbStructure(pdbfile, chainsPrefix);
+    
+    //================================================ Use PDB reader or CIF reader depending on the extension.
+    PdbStructure myPdbStructure;
+    if ( inPDBFileName.substr ( inPDBFileName.length() - 4, inPDBFileName.length() - 1) == ".pdb" )
+    {
+        //============================================ No problem, continue as usual
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Filename " << inPDBFileName << " suggests PDB file. Using the PDB file reader ... " << std::endl;
+        ifstream pdbfile                              ( inPDBFileName.c_str()) ;
+        myPdbStructure                                = PdbStructure ( pdbfile, chainsPrefix );
+        pdbfile.close                                 ( );
+    }
+    else
+    {
+        //============================================ This should be a CIF file, read it using MMDB
+        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Caching the PdbStructure from CIF file " << inPDBFileName << std::endl;
+        myPdbStructure                                = PdbStructure ( inPDBFileName );
+    }
+    
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
     pdbStructureMap.insert(pair<String, PdbStructure>(inPDBFileName, myPdbStructure) );
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" myPdbStructure.getNumModels() "<<myPdbStructure.getNumModels()<<endl;
-    int myNumChains =  myPdbStructure.getModel(Pdb::ModelIndex(0)).getNumChains(); 
+    int myNumChains =  myPdbStructure.getModel(Pdb::ModelIndex(0)).getNumChains();
     // PdbStructure can sometimes come up with a higher chain count. Maybe it puts in some HETATOM's or HOH's as extra chains. So we will use this one which we get more from CompoundSystem:
     int myNumChainsFromSystem =  system.getNumCompounds() /  myPdbStructure.getNumModels() ;
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" myNumChains "<<myNumChains<<endl;
-    pdbfile.close();
-    
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
 
     cout<<__FILE__<<":"<<__LINE__<<" system.getNumCompounds() = "<<system.getNumCompounds() <<endl;

@@ -41,12 +41,6 @@ RUN cmake ..
 #install prefix is /usr/local
 RUN make install 
 
-
-RUN mkdir /svn/molmodel/build
-WORKDIR /svn/molmodel/build
-RUN cmake  -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF ..
-RUN make install
-
 # MMB part
 RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
 
@@ -75,6 +69,13 @@ RUN ./configure --enable-shared && make && make install
 WORKDIR /github/MMB/3rdparty/libccp4
 RUN ./configure --enable-shared && make && make install
 
+##################
+### Molmodel
+##################
+RUN mkdir /svn/molmodel/build
+WORKDIR /svn/molmodel/build
+RUN cmake  -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF ..
+RUN make install
 
 #RUN git -C /github/MMB  checkout $GIT_COMMIT        
 

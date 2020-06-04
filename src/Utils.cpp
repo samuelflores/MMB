@@ -63,7 +63,7 @@ void closingMessage() {
     std::cout<<__FILE__<<":"<<__LINE__<<" Please support continued development. "<<std::endl;
     //std::cout<<__FILE__<<":"<<__LINE__<<" Suggested donation: "<<std::endl;
     //std::cout<<__FILE__<<":"<<__LINE__<<" Industry (per user): 1000 EUR "<<std::endl;
-    std::cout<<__FILE__<<":"<<__LINE__<<" By bank transfer to IBAN: SE0750000000053680279418 , SWIFT: ESSESESS "<<std::endl;
+    //std::cout<<__FILE__<<":"<<__LINE__<<" By bank transfer to IBAN: SE0750000000053680279418 , SWIFT: ESSESESS "<<std::endl;
     std::cout<<__FILE__<<":"<<__LINE__<<" Industrial and other inquiries: samuel.flores@scilifelab.se "<<std::endl;
     std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
 };

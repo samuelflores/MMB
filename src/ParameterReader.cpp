@@ -209,7 +209,7 @@ using namespace std  ;
             @SpringConstant  90.0
             
             firstStage 1  
-            #  User varibles are not permitted for setting firstStage or lastStage. Would have been convenient just now
+            #  User variables are not permitted for setting firstStage or lastStage. Would have been convenient just now
             lastStage ZZZZ              
             ##############
             # End common part
@@ -4972,7 +4972,7 @@ void ParameterReader::setFirstAndLastStage(const char * parameterFileName ) {
 
             size_t position  = String(mystring[1] ).find_last_of('@');
             if (    position != String::npos) { 
-                cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" User varibles are not permitted for setting firstStage or lastStage. "<<endl;   
+                cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" User variables are not permitted for setting firstStage or lastStage. "<<endl;   
             }
 
 
@@ -4981,7 +4981,7 @@ void ParameterReader::setFirstAndLastStage(const char * parameterFileName ) {
         else if (((mystring[0]).compare("-LS") == 0) || ((mystring[0]).compare("lastStage") == 0))  {
             size_t position  = String(mystring[1] ).find_last_of('@');
             if (    position != String::npos) { 
-                cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" User varibles are not permitted for setting firstStage or lastStage. "<<endl;   
+                cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" User variables are not permitted for setting firstStage or lastStage. "<<endl;   
             }
             lastStage = myAtoI(userVariables,(mystring[1]).c_str());     
         }

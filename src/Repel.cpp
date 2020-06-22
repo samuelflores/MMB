@@ -906,7 +906,7 @@ void ConstrainedDynamics::initializeIntegrator(){
             _state.updU()[i] =  rand() * .0001 / RAND_MAX ;
     cout<<"[Repel.h:ConstrainedDynamics] Starting dynamics now."<<endl;
     //cout<<"[Repel.h:ConstrainedDynamics] _study.getPredictedNextStepSize() " << (*_study).getPredictedNextStepSize()<<endl;
-    cout<<__FILE__<<":"<<__LINE__<<" size of _matter subsytem Q vector or number of degrees of freedom: "<<(_matter.getQ(_state)).size()<<endl;
+    cout<<__FILE__<<":"<<__LINE__<<" size of _matter subsystem Q vector or number of degrees of freedom: "<<(_matter.getQ(_state)).size()<<endl;
     if (_parameterReader->minimize) {
         if (_parameterReader->basePairContainer.numBasePairs() >0) {
             ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error! If you want to minimize, you can't have any baseInteraction\'s!"<<endl;

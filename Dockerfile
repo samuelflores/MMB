@@ -25,8 +25,9 @@ RUN mkdir /github /svn
 #//RUN git clone https://github.com/pandegroup/openmm.git   /github/openmm
 RUN git clone https://github.com/simbody/simbody.git /github/simbody
 RUN git clone https://github.com/seqan/seqan.git /github/seqan
-RUN svn checkout https://simtk.org/svn/molmodel/trunk /svn/molmodel
-#run svn checkout https://simtk.org/svn/rnatoolbox/trunk /svn/RNAToolbox/
+#RUN svn checkout https://simtk.org/svn/molmodel/trunk /svn/molmodel
+RUN git clone  https://github.com/samuelflores/molmodel.git /github/molmodel
+
 RUN mkdir /Documentation
 WORKDIR /Documentation
 # Get the MMB reference guide from its repository on pe1:
@@ -72,8 +73,10 @@ RUN ./configure --enable-shared && make && make install
 ##################
 ### Molmodel
 ##################
-RUN mkdir /svn/molmodel/build
-WORKDIR /svn/molmodel/build
+#RUN mkdir /svn/molmodel/build
+#WORKDIR /svn/molmodel/build
+RUN mkdir /github/molmodel/build
+WORKDIR /github/molmodel/build
 RUN cmake  -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF ..
 RUN make install
 

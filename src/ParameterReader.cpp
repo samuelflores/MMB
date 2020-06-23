@@ -764,6 +764,7 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "potentialType                          int     "<<potentialType         <<endl;
     myOstream << remarkString << "prioritize                             int     "<<prioritize     <<endl;
     myOstream << remarkString << "proteinCapping                         bool    "<<proteinCapping     << " : When true, adds terminal capping groups to protein chains. "<<endl;
+    myOstream << remarkString << "useNACappingHydroxyls                  bool    "<<useNACappingHydroxyls<<" : When true (default) replaces the 5' phosphorus with an H5T."<<endl;
     myOstream << remarkString << "randomizeInitialVelocities             bool    "<<setInitialVelocities<<" : When true, adds a stochastic velocity to each body at the beginning of the stage. " <<endl;
     myOstream << remarkString << "readPreviousFrameFile                  bool    "<<readPreviousFrameFile     <<endl;
     myOstream << remarkString << "readMagnesiumPositionsFromFile         bool    "<<readMagnesiumPositionsFromFile<<endl;
@@ -1020,7 +1021,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
             myBiopolymerClassContainer.addBiopolymerClass(parameterStringClass.getString(3),parameterStringClass.getString(1), 
                     ResidueID((parameterStringClass.getString(2))) ,
-                    "Protein",proteinCapping, previousFrameFileName, readPreviousFrameFile);
+                    "Protein",proteinCapping, previousFrameFileName, readPreviousFrameFile,useNACappingHydroxyls);
             //myBiopolymerClassContainer.updBiopolymerClass(parameterStringClass.getString(1)).modifyResidue();
             //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"This is temporary .. SCF"<<endl;
             //myBiopolymerClassContainer.updBiopolymerClass(String("A")).modifyResidue(_dumm); // can't do here, don't have dumm..
@@ -1052,7 +1053,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                     //ResidueID( myAtoI(userVariables,(parameterStringClass.getString(2)).c_str())),
                     ResidueID(parameterStringClass.getString(2)) , 
                     //myResidue,
-                    String("RNA"), false, previousFrameFileName, readPreviousFrameFile);
+                    String("RNA"), false, previousFrameFileName, readPreviousFrameFile, useNACappingHydroxyls);
         }
         else if ((((parameterStringClass.getString(0)).compare("DNA") ==0 )) ) 
         {
@@ -1078,7 +1079,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                     //ResidueID( userVariables,(parameterStringClass.getString(2)).c_str()),
                     ResidueID(parameterStringClass.getString(2)) ,
                     //myResidue,
-                    String("DNA"), false, previousFrameFileName, readPreviousFrameFile);
+                    String("DNA"), false, previousFrameFileName, readPreviousFrameFile, useNACappingHydroxyls);
             //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" myResidue = "<<myResidue.outString()<<std::endl;
         }
         else {
@@ -3439,6 +3440,15 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         prioritize = aToBool(parameterStringClass.getString(0), (parameterStringClass.getString(1)).c_str());     
         return;
     }
+    if (((parameterStringClass.getString(0)).compare("useNACappingHydroxyls") ==0))  {
+        parameterStringClass.validateNumFields(2);
+        if (myBiopolymerClassContainer.getNumBiopolymers() >0) {
+            ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : You must specify the useNACappingHydroxyls parameter BEFORE you specify the first biopolymer (DNA, RNA, protein, etc.)"<<endl;
+            ErrorManager::instance.treatError();
+        }
+        useNACappingHydroxyls = aToBool(parameterStringClass.getString(0), (parameterStringClass.getString(1)).c_str());     
+        return;
+    }
     if (((parameterStringClass.getString(0)).compare("proteinCapping") ==0))  {
         parameterStringClass.validateNumFields(2);
         if (myBiopolymerClassContainer.getNumBiopolymers() >0) {
@@ -4922,7 +4932,7 @@ void ParameterReader::loadSequencesFromPdb(const char * pdbFileName, const strin
     if (densityContainer.numDensityStretches() > 0) {
         ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : You have already declared "<<densityContainer.numDensityStretches()<<" biopolymer stretches to be fitted to the density map.  Please do this after you have created ALL biopolymer chains."<<endl; ErrorManager::instance.treatError();
     }
-    myBiopolymerClassContainer.loadSequencesFromPdb( pdbFileName, proteinCapping, chainsPrefix, tempRenumberPdbResidues  );
+    myBiopolymerClassContainer.loadSequencesFromPdb( pdbFileName, proteinCapping, chainsPrefix, tempRenumberPdbResidues, useNACappingHydroxyls  );
     //myBiopolymerClassContainer.loadResidueIDVector();  // is now being done by setResidueIDsAndInsertionCodesFromBiopolymer
     return;
 }
@@ -5176,6 +5186,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     potentialType  = "HarmonicInverse";
     prioritize = false ;
     proteinCapping = false;
+    useNACappingHydroxyls = true ;
     readInQVector = false;
     readPreviousFrameFile = true;
     readMagnesiumPositionsFromFile = true;

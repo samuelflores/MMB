@@ -126,7 +126,7 @@ public:
     };*/
 
     BiopolymerClass(); // sets all properties to empty values.
-    BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, String myBiopolymerType, bool proteinCapping ); // validates and sets the listed properties.          
+    BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, String myBiopolymerType, bool proteinCapping, bool useNACappingHydroxyls   ); // validates and sets the listed properties.          
     
     int  initializeBiopolymer(CompoundSystem & system, 
                               bool myProteinCapping, 
@@ -416,7 +416,9 @@ public :
     void        addBiopolymerClass(String mySequence, 
                                    String myChainID, ResidueID myFirstResidueID, 
                                    String myBiopolymerType, bool proteinCapping,
-                                   String pdbFileName="", bool loadFromPdb=false
+                                   String pdbFileName, bool loadFromPdb, 
+                                   //String pdbFileName="", bool loadFromPdb=false, 
+				   bool useNACappingHydroxyls
                                   ); // validates and sets the listed properties.        
     void        addBiopolymerClass(String newChainID, BiopolymerClass newBiopolymerClass) {
         if (hasChainID(newChainID)) {
@@ -513,7 +515,7 @@ public :
     const bool  isRNA    (const Biopolymer & inputBiopolymer) ;
     const bool  isDNA    (const Biopolymer & inputBiopolymer) ;
     const bool  isProtein(const Biopolymer & inputBiopolymer, bool endCaps) ;
-    void        loadSequencesFromPdb(String inPDBFilename,bool proteinCapping, const String & chainsPrefix = "", const bool tempRenumberPdbResidues = 0 ); 
+    void        loadSequencesFromPdb(String inPDBFilename,bool proteinCapping, const String & chainsPrefix , const bool tempRenumberPdbResidues  , const bool useNACappingHydroxyls); 
     const PdbStructure & getPdbStructure(String fileName);
     void        printBiopolymerInfo() ;
     void setResidueIDsAndInsertionCodesFromBiopolymer(const String chain, const Biopolymer & inputBiopolymer,const  bool endCaps);
@@ -556,7 +558,7 @@ public :
     void        setOriginalSequence(String myChainID, String myOriginalSequence) {updBiopolymerClass(myChainID).setOriginalSequence(myOriginalSequence);}
     void        setOriginalSequencesFromCurrentSequences()   ; 
     void        replaceBiopolymerWithMutatedBiopolymerClass(BiopolymerClass & myOldBiopolymerClass, 
-                                             String & myNewSequence);
+                                             String & myNewSequence, bool useNACappingHydroxyls = true);
     void        substituteResidue(String myChain , ResidueID myResidue, String mySubstitution, bool proteinCapping) ;
     void        insertResidue(Mutation myInsertion,  bool proteinCapping) ;
     vector <Mutation> &     updMutationVector(){return mutationVector;}

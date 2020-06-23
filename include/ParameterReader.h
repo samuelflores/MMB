@@ -159,6 +159,7 @@ public:
     String potentialType;
     bool prioritize ;
     bool proteinCapping;
+    bool useNACappingHydroxyls;
     double excludedVolumeRadius;
     int readInQVector ;
     bool readPreviousFrameFile ;

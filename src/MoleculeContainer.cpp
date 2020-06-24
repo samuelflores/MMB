@@ -660,38 +660,55 @@ void MoleculeClassContainer::matchDefaultConfiguration(bool readPreviousFrameFil
 {
     cout<<__FILE__<<":"<<__LINE__<<" readPreviousFrameFile = "<<readPreviousFrameFile<<", pdbFileName = >"<<pdbFileName<<"< "<<endl;
     if (readPreviousFrameFile) {
-        std::ifstream inputFile(pdbFileName.c_str(), ifstream::in);
-        PdbStructure pdbStructure(inputFile);
-	map<const String, MoleculeClass>::iterator it;
-	map<const String, MoleculeClass>::iterator next;
-	//int i = 0;
-	next = moleculeClassMap.begin();
-	while (next != moleculeClassMap.end())
-	{
-	   it = next;
-	   Compound & myCompound = (it->second).molecule;
-           cout <<__FILE__<<":"<<__LINE__<<" About to create atom targets from file "<<pdbFileName<<endl;
-           cout <<__FILE__<<":"<<__LINE__<<myCompound.getPdbChainId()<<endl;
-	   Compound::AtomTargetLocations atomTargets = myCompound.createAtomTargets(pdbStructure);
-	   map<Compound::AtomIndex, Vec3>::iterator targetIt;
-	   map<Compound::AtomIndex, Vec3>::iterator targetNext;
-	   targetNext = atomTargets.begin();
-	   while (targetNext != atomTargets.end())
-	   { 
-	      targetIt = targetNext;
-              cout <<__FILE__<<":"<<__LINE__<<endl;//
-              cout<<" "<<targetIt->second<<endl;
-              targetNext++; 
-           }
-	   if (matchExact)
-		    {
-                    //cout<<__FILE__<<":"<<__LINE__<<" Top level transform before fitting: "<<myCompound.getTopLevelTransform()<<endl;
-		    myCompound.matchDefaultConfiguration(atomTargets,   Compound::Match_Exact );
-                    //cout<<__FILE__<<":"<<__LINE__<<" Top level transform after fitting: "<<myCompound.getTopLevelTransform()<<endl;
-		    }
-	   if (matchIdealized)
-		    {myCompound.matchDefaultConfiguration(atomTargets,   Compound::Match_Idealized );} //planarity tolerance is in Radians, if Sherm's email is to be believed
-	   next++;
+        PdbStructure pdbStructure;
+        //============================================ Read in PDB or CIF
+        if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".pdb" )
+        {
+            std::ifstream inputFile                   (pdbFileName.c_str(), ifstream::in);
+            pdbStructure                              = PdbStructure (inputFile);
+        }
+        else if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".cif" )
+        {
+#ifdef CPP4_MAPS_USAGE
+            pdbStructure                              = PdbStructure (pdbFileName);
+#else
+            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file output, but did not compile with the MMDB2 library. Cannot proceed, if you want to use mmCIF files, please re-compile with the MMDB2 library option allowed." <<endl; ErrorManager::instance.treatError();
+#endif
+        }
+        else
+        {
+            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Failed to detect the extension of the input file " << pdbFileName << ". The supported extensions are: \'.pdb\' and \'.cif\'. Terminating now..." <<endl; ErrorManager::instance.treatError();
+        }
+	    map<const String, MoleculeClass>::iterator it;
+	    map<const String, MoleculeClass>::iterator next;
+	    //int i = 0;
+	    next = moleculeClassMap.begin();
+	    while (next != moleculeClassMap.end())
+	    {
+	       it = next;
+	       Compound & myCompound = (it->second).molecule;
+               cout <<__FILE__<<":"<<__LINE__<<" About to create atom targets from file "<<pdbFileName<<endl;
+               cout <<__FILE__<<":"<<__LINE__<<myCompound.getPdbChainId()<<endl;
+	       Compound::AtomTargetLocations atomTargets = myCompound.createAtomTargets(pdbStructure);
+	       map<Compound::AtomIndex, Vec3>::iterator targetIt;
+	       map<Compound::AtomIndex, Vec3>::iterator targetNext;
+	       targetNext = atomTargets.begin();
+	       while (targetNext != atomTargets.end())
+	       {
+	          targetIt = targetNext;
+                  cout <<__FILE__<<":"<<__LINE__<<endl;//
+                  cout<<" "<<targetIt->second<<endl;
+                  targetNext++;
+               }
+	       if (matchExact)
+	    	    {
+                        //cout<<__FILE__<<":"<<__LINE__<<" Top level transform before fitting:     "<<myCompound.getTopLevelTransform()<<endl;
+	    	    myCompound.matchDefaultConfiguration(atomTargets,   Compound::Match_Exact );
+                        //cout<<__FILE__<<":"<<__LINE__<<" Top level transform after fitting:     "<<myCompound.getTopLevelTransform()<<endl;
+	    	    }
+	       if (matchIdealized)
+	    	    {myCompound.matchDefaultConfiguration(atomTargets,   Compound::Match_Idealized );} //planarity     tolerance is in Radians, if Sherm's email is to be believed
+	       next++;
         }
     }
 }

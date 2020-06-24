@@ -4105,6 +4105,21 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     //printBiopolymerSequenceInfo(updBiopolymerClass("g").myBiopolymer);
 };
 
+void BiopolymerClassContainer::resetAllPdbFileNames ( String newPdbFileNames )
+{
+    //================================================ Iterate through all biopolymers
+    map<const String, BiopolymerClass>::iterator it;
+    map<const String, BiopolymerClass>::iterator next;
+
+    next                                              = this->biopolymerClassMap.begin();
+    while (next != this->biopolymerClassMap.end())
+    {
+        it = next;
+        (it->second).setPdbFileName                   ( newPdbFileNames );
+        next++;
+    }
+}
+
 void BiopolymerClassContainer::printBiopolymerInfo() {
     map<const String,BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
     for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {

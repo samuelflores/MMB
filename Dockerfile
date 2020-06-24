@@ -77,7 +77,7 @@ RUN ./configure --enable-shared && make && make install
 #WORKDIR /svn/molmodel/build
 RUN mkdir /github/molmodel/build
 WORKDIR /github/molmodel/build
-RUN cmake  -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF ..
+RUN cmake -DADD_MMDB2_LIBRARY=TRUE -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF ..
 RUN make install
 
 #RUN git -C /github/MMB  checkout $GIT_COMMIT        

@@ -33,6 +33,7 @@ WORKDIR /Documentation
 # Get the MMB reference guide from its repository on pe1:
 RUN wget http://pe1.scilifelab.se/MMB-annex/Documentation/MMB.3_0.Reference-Guide.pdf
 RUN wget http://pe1.scilifelab.se/MMB-annex/Documentation/MMB.3_2.tutorial.pdf       
+RUN wget http://pe1.scilifelab.se/MMB-annex/Documentation/MMB.3_2.tutorial.docx        
 
 #run mkdir /github/simbody/build ; cd /github/simbody/build ; cmake .. ; make install 
 RUN mkdir /github/simbody/build 

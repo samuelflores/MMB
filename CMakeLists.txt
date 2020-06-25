@@ -238,7 +238,7 @@ IF (BUILD_MMB_SHARED_LIB)
 	### Add CCP4 Libs
 	#################
 	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} ccp4c )
+		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} mmdb2 ccp4c )
 	ENDIF ( Build_CCP4 )
 
     # Install files
@@ -321,7 +321,7 @@ IF (BUILD_MMB_SHARED_EXEC)
 	### Add CCP4 Libs
 	#################
 	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( MMB ccp4c )
+		TARGET_LINK_LIBRARIES ( MMB mmdb2 ccp4c )
 	ENDIF ( Build_CCP4 )
 
     INSTALL(TARGETS MMB
@@ -361,7 +361,7 @@ IF (BUILD_MMB_STATIC)
 	### Add CCP4 Libs
 	#################
 	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( ${STATIC_MMB_TARGET} ccp4c )
+		TARGET_LINK_LIBRARIES ( ${STATIC_MMB_TARGET} mmdb2 ccp4c )
 	ENDIF ( Build_CCP4 )
 
     # Link with static library
@@ -383,7 +383,7 @@ IF (BUILD_MMB_STATIC)
 	### Add CCP4 Libs
 	#################
 	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( MMB_static ccp4c )
+		TARGET_LINK_LIBRARIES ( MMB_static mmdb2 ccp4c )
 	ENDIF ( Build_CCP4 )
 
     # Install files
@@ -419,7 +419,7 @@ IF (BUILD_MMB_GUI_TEST)
 	### Add CCP4 Libs
 	#################
 	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} ccp4c )
+		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} mmdb2 ccp4c )
 	ENDIF ( Build_CCP4 )
 
     # Install files

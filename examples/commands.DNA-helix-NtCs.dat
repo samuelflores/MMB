@@ -1,8 +1,8 @@
 firstStage 1
 #doing this in two stages:
 lastStage 2
-DNA A 1 TTCAGCACCATGGACAGCGCC
-DNA B 1 GGCGCTGTCCATGGTGCTGAA
+DNA A 1 TTTTTTTTTTTTTTTTTTTTT
+DNA B 1 AAAAAAAAAAAAAAAAAAAAA
 
 # This multiplies the strength of the baseInteraction's by the given factor:
 baseInteractionScaleFactor 200

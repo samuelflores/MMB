@@ -501,7 +501,7 @@ BiopolymerClass::BiopolymerClass() {
     std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" sizeof(myBiopolymer) = "<< sizeof(myBiopolymer) <<std::endl;
 }
 
-BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, String myBiopolymerType, bool proteinCapping ){
+BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, String myBiopolymerType, bool proteinCapping , bool useNACappingHydroxyls ){
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
     clear();
     setBiopolymerType(     myBiopolymerType);
@@ -520,9 +520,10 @@ BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID 
     validateChainID();
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
     if (  biopolymerType == BiopolymerType::RNA) {
-        myBiopolymer = SimTK::RNA(mySequence,1);
+	// useNACappingHydroxyls , when true (default) replaces the 5' phosphorus with an H5T.      
+        myBiopolymer = SimTK::RNA(mySequence,useNACappingHydroxyls);
     } else if (  biopolymerType == BiopolymerType::DNA) {
-        myBiopolymer = SimTK::DNA(mySequence,1);
+        myBiopolymer = SimTK::DNA(mySequence,useNACappingHydroxyls);
     } else if (  biopolymerType == BiopolymerType::Protein) {
         //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" "<<mySequence<<", "<<proteinCapping<<endl;
         myBiopolymer = SimTK::Protein   (mySequence,BondMobility::Rigid,proteinCapping);
@@ -2779,9 +2780,9 @@ void BiopolymerClassContainer::validateAtomInfoVectors(){
 
 
 void BiopolymerClassContainer::addBiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, 
-                                                  String myBiopolymerType, bool proteinCapping, String pdbFileName, bool loadFromPdb)
+                                                  String myBiopolymerType, bool proteinCapping, String pdbFileName, bool loadFromPdb, bool useNACappingHydroxyls)
 {
-    BiopolymerClass bp(mySequence, myChainID, myFirstResidueNumber, myBiopolymerType, proteinCapping);
+    BiopolymerClass bp(mySequence, myChainID, myFirstResidueNumber, myBiopolymerType, proteinCapping,useNACappingHydroxyls);
     bp.setRenumberPdbResidues(0); // Default value
     biopolymerClassMap[myChainID] = bp;
     biopolymerClassMap.at(myChainID).setPdbFileName(pdbFileName);
@@ -3918,7 +3919,7 @@ const bool BiopolymerClassContainer::isProtein(const Biopolymer & inputBiopolyme
     return true;
 };
 
-void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,const bool proteinCapping, const String & chainsPrefix, const bool tempRenumberPdbResidues ){
+void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,const bool proteinCapping, const String & chainsPrefix, const bool tempRenumberPdbResidues, bool useNACappingHydroxyls ){
     //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" >"<< deletedResidueVector.size() <<"<"<<std::endl;
     std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
     std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to load sequences from file : "<<inPDBFileName<<std::endl;
@@ -4023,7 +4024,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
                      myBiopolymerType, 
                      proteinCapping,
                      inPDBFileName,
-                     true);
+                     true, useNACappingHydroxyls);
                     //updBiopolymerClass(myChainIdString).setResidueNumbersAndInsertionCodesFromBiopolymer(myRNA, 'FALSE'     ); // provided biopolymer has end caps because it's a protein.
                     setOriginalSequence(myChainIdString,mySequence); 
                     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" mySequence "<<mySequence<<endl;
@@ -4053,7 +4054,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
                      myBiopolymerType, 
                      proteinCapping,
                      inPDBFileName,
-                     true);
+                     true,useNACappingHydroxyls);
                     //if (tempRenumberPdbResidues){
                     //   renumberPdbResidues(ResidueID("1"));
                     //}
@@ -4078,7 +4079,8 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
                         myBiopolymerType, 
                         proteinCapping,
                         inPDBFileName,
-                        true); // this will setRenumberPdbResidues(0)
+                        true, // this will setRenumberPdbResidues(-1)
+			useNACappingHydroxyls); 
                     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
                     setResidueIDsAndInsertionCodesFromBiopolymer(myChainIdString,myProtein,1); // provided biopolymer has end caps because it's a protein.
                     updBiopolymerClass(myChainIdString).setRenumberPdbResidues(tempRenumberPdbResidues);
@@ -4102,6 +4104,21 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
 
     //printBiopolymerSequenceInfo(updBiopolymerClass("g").myBiopolymer);
 };
+
+void BiopolymerClassContainer::resetAllPdbFileNames ( String newPdbFileNames )
+{
+    //================================================ Iterate through all biopolymers
+    map<const String, BiopolymerClass>::iterator it;
+    map<const String, BiopolymerClass>::iterator next;
+
+    next                                              = this->biopolymerClassMap.begin();
+    while (next != this->biopolymerClassMap.end())
+    {
+        it = next;
+        (it->second).setPdbFileName                   ( newPdbFileNames );
+        next++;
+    }
+}
 
 void BiopolymerClassContainer::printBiopolymerInfo() {
     map<const String,BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
@@ -4364,7 +4381,7 @@ void BiopolymerClassContainer::substituteResidue(String myChain , ResidueID myRe
 }
 
 void BiopolymerClassContainer::replaceBiopolymerWithMutatedBiopolymerClass(BiopolymerClass & myOldBiopolymerClass, 
-                                                            String & myNewSequence)
+                                                            String & myNewSequence, bool useNACappingHydroxyls )
 {
     String myChain = myOldBiopolymerClass.getChainID();
     ResidueID myFirstResidueNumber = myOldBiopolymerClass.getFirstResidueID();
@@ -4381,7 +4398,7 @@ void BiopolymerClassContainer::replaceBiopolymerWithMutatedBiopolymerClass(Biopo
     }
     addBiopolymerClass(myNewSequence,myChain, myFirstResidueNumber ,
                        oldBiopolymerClassBiopolymerType  ,proteinCapping,
-                       oldBiopolymerClassPdbFileName, oldBiopolymerClassLoadFromPdb);
+                       oldBiopolymerClassPdbFileName, oldBiopolymerClassLoadFromPdb, useNACappingHydroxyls);
     updBiopolymerClass(myChain).setActivePhysics(oldActivePhysics);
     setOriginalSequence(myChain,myOriginalSequence);
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Restoring residue numbers and insertion codes after mutating.. "<<endl;

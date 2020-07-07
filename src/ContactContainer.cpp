@@ -16,7 +16,7 @@
 
 void ContactContainer::clear(){
     residueStretchVector.clear();
-    cout<<__FILE__<<":"<<__LINE__<<" Just cleared residueStretchVector .. this now containts "<<numContacts()<<" contacts "<<endl;
+    cout<<__FILE__<<":"<<__LINE__<<" Just cleared residueStretchVector .. this now contains "<<numContacts()<<" contacts "<<endl;
     contactWithinVector.clear();
 
 }

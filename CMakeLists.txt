@@ -9,15 +9,15 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(MMB)
 
 SET( MMB_MAJOR_VERSION 3 )
-SET( MMB_MINOR_VERSION 01)
+SET( MMB_MINOR_VERSION 2 )
 SET( MMB_PATCH_VERSION 0 )
 
 SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "This is a Release build by default" )
 #SET(CMAKE_GENERATOR "Xcode" CACHE STRING "Since you on a Mac, we assume you want to use Xcode" FORCE) 
 #SET(CMAKE_GENERATOR "Xcode" CACHE STRING "Since you on a Mac, we assume you want to use Xcode" FORCE) 
 
-#SET(Build_NtC            FALSE CACHE BOOL 
-        #"Build NtC features of MMB. This greatly increases the size of the BiopolymerClassContainer object in memory")
+SET(Build_NtC            TRUE  CACHE BOOL 
+        "Build NtC features of MMB. This greatly increases the size of the BiopolymerClassContainer object in memory")
 SET(Build_CCP4           FALSE CACHE BOOL 
         "Build CCP4 maps support features for MMB?")
 SET(BUILD_MMB_SHARED_LIB TRUE CACHE BOOL 
@@ -152,12 +152,6 @@ SET(MMB_LIBRARY_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/BiopolymerClass.cpp  
     #//${PROJECT_SOURCE_DIR}/src/elliptic_integral.cpp
     ${PROJECT_SOURCE_DIR}/src/UnitCellParameters.cpp  
-    #IF (Build_NtC)
-        # SCF manually commented these 3  out. Once Peter fixes the issue with the 2D arrays in BiopolymerClassContainer, we can put them back in. Or have a build varaible to determine whether to build these:
-        ${PROJECT_SOURCE_DIR}/src/NTC_PARAMETER_READER.cpp
-        ${PROJECT_SOURCE_DIR}/src/NtCClassContainer.cpp
-        ${PROJECT_SOURCE_DIR}/src/NtCForces.cpp
-    #ENDIF(Build_NtC)
     # This should remain commented out:
     #${PROJECT_SOURCE_DIR}/src/NtCInteractionParameterReader.cpp 
     ${PROJECT_SOURCE_DIR}/src/AtomSpringContainer.cpp  
@@ -182,6 +176,16 @@ SET(MMB_LIBRARY_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/ErrorManager.cpp 
     ${PROJECT_SOURCE_DIR}/src/PeriodicPdbAndEnergyWriter.cpp
     )
+
+IF (Build_NtC)
+    SET(MMB_LIBRARY_SOURCE_FILES
+        ${MMB_LIBRARY_SOURCE_FILES}
+        # SCF manually commented these 3  out. Once Peter fixes the issue with the 2D arrays in BiopolymerClassContainer, we can put them back in. Or have a build varaible to determine whether to build these:
+        ${PROJECT_SOURCE_DIR}/src/NTC_PARAMETER_READER.cpp
+        ${PROJECT_SOURCE_DIR}/src/NtCClassContainer.cpp
+        ${PROJECT_SOURCE_DIR}/src/NtCForces.cpp
+        )
+ENDIF(Build_NtC)
 
 SET(MMB_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/RNABuilder.cpp  )
@@ -234,7 +238,7 @@ IF (BUILD_MMB_SHARED_LIB)
 	### Add CCP4 Libs
 	#################
 	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} ccp4c )
+		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} mmdb2 ccp4c )
 	ENDIF ( Build_CCP4 )
 
     # Install files
@@ -317,7 +321,7 @@ IF (BUILD_MMB_SHARED_EXEC)
 	### Add CCP4 Libs
 	#################
 	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( MMB ccp4c )
+		TARGET_LINK_LIBRARIES ( MMB mmdb2 ccp4c )
 	ENDIF ( Build_CCP4 )
 
     INSTALL(TARGETS MMB
@@ -357,7 +361,7 @@ IF (BUILD_MMB_STATIC)
 	### Add CCP4 Libs
 	#################
 	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( ${STATIC_MMB_TARGET} ccp4c )
+		TARGET_LINK_LIBRARIES ( ${STATIC_MMB_TARGET} mmdb2 ccp4c )
 	ENDIF ( Build_CCP4 )
 
     # Link with static library
@@ -379,7 +383,7 @@ IF (BUILD_MMB_STATIC)
 	### Add CCP4 Libs
 	#################
 	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( MMB_static ccp4c )
+		TARGET_LINK_LIBRARIES ( MMB_static mmdb2 ccp4c )
 	ENDIF ( Build_CCP4 )
 
     # Install files
@@ -415,7 +419,7 @@ IF (BUILD_MMB_GUI_TEST)
 	### Add CCP4 Libs
 	#################
 	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} ccp4c )
+		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} mmdb2 ccp4c )
 	ENDIF ( Build_CCP4 )
 
     # Install files

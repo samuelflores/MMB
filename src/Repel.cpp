@@ -18,6 +18,12 @@
 #include "ConstraintContainer.h"
 #include "ElectrostaticPotentialGridForce.h"
 #include "PeriodicPdbAndEnergyWriter.h"
+
+#ifdef CPP4_MAPS_USAGE
+  #include <mmdb2/mmdb_manager.h>
+  #include <mmdb2/mmdb_cifdefs.h>
+#endif
+
 using namespace SimTK;
 using namespace std;
 /**
@@ -378,7 +384,9 @@ int  ConstrainedDynamics::initializeBiopolymersAndCustomMolecules()
 }
 
 int  ConstrainedDynamics::initializeBiopolymersAndCustomMolecules(CompoundSystem & system){
-
+    //================================================ Depending on settings, set the PDB file name to CIF instead of PDB
+    _parameterReader->myBiopolymerClassContainer.resetAllPdbFileNames ( _parameterReader->previousFrameFileName );
+    
     _parameterReader->moleculeClassContainer.initializeCompounds (_dumm);
     cout<<__FILE__<<":"<<__LINE__<<endl;
     _parameterReader->moleculeClassContainer.matchDefaultConfiguration (_parameterReader->readPreviousFrameFile, _parameterReader->previousFrameFileName, _parameterReader->matchExact,  _parameterReader->matchIdealized  );
@@ -906,7 +914,7 @@ void ConstrainedDynamics::initializeIntegrator(){
             _state.updU()[i] =  rand() * .0001 / RAND_MAX ;
     cout<<"[Repel.h:ConstrainedDynamics] Starting dynamics now."<<endl;
     //cout<<"[Repel.h:ConstrainedDynamics] _study.getPredictedNextStepSize() " << (*_study).getPredictedNextStepSize()<<endl;
-    cout<<__FILE__<<":"<<__LINE__<<" size of _matter subsytem Q vector or number of degrees of freedom: "<<(_matter.getQ(_state)).size()<<endl;
+    cout<<__FILE__<<":"<<__LINE__<<" size of _matter subsystem Q vector or number of degrees of freedom: "<<(_matter.getQ(_state)).size()<<endl;
     if (_parameterReader->minimize) {
         if (_parameterReader->basePairContainer.numBasePairs() >0) {
             ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error! If you want to minimize, you can't have any baseInteraction\'s!"<<endl;
@@ -938,12 +946,272 @@ void ConstrainedDynamics::postDynamics(){
     cout<<"[Repel.h:ConstrainedDynamics] (*_study).getNumStepsTaken() " << (*_study).getNumStepsTaken()<<endl;
     cout<<"[Repel.h:ConstrainedDynamics] (*_study).getNumStepsAttempted() " <<(*_study).getNumStepsAttempted()<<endl;
     _state = _ts->getState();
-    if (_parameterReader->writeLastFrameFile) {
-        PdbAtom::setWriteFullPrecisionLocation(true);// write last frame file with full precision (REMARK-SIMTK-COORDS lines added).
-        ofstream lastFrameFile(_parameterReader->lastFrameFileName.c_str()); 
-        for (SimTK::CompoundSystem::CompoundIndex c(0); c < _system.getNumCompounds(); ++c)
-            (_system.getCompound(c)).writePdb(_state, lastFrameFile,Transform(Vec3(0)));
-        lastFrameFile.close();
+    if (_parameterReader->writeLastFrameFile)
+    {
+        if ( _parameterReader->useCIFFileFormat )
+        {
+#ifdef CPP4_MAPS_USAGE
+            //======================================== Initialise variables
+            mmdb::Manager *mmdb2Manager               = new mmdb::Manager ( );
+            mmdb::Model *mmdb2Model                   = new mmdb::Model ( mmdb2Manager, 1 );
+            mmdb::io::File cifOutputFile;
+            mmdb::mmcif::Data cifOutData;
+            int compoundNumber                        = 1;
+            int requiredPrecision                     = 19;
+            
+            //======================================== Create MMDB2 Biomolecule
+            mmdb2Manager->MakeBiomolecule             ( 1, 1 );
+            
+            //======================================== Open file for writing
+            cifOutputFile.assign                      ( _parameterReader->lastFrameFileName.c_str ( ) );
+            if ( !cifOutputFile.rewrite ( ) )
+            {
+                ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Failed to open the file "<< _parameterReader->lastFrameFileName.c_str ( ) << " for writing." << std::endl;
+                ErrorManager::instance.treatError     ( );
+            }
+            
+            //======================================== Set mmCIF file head
+            std::string strName                       = _parameterReader->lastFrameFileName;
+            istringstream iss                         ( strName );
+            std::vector<std::string> tokens; std::string token;
+            while ( std::getline ( iss, token, '.') ) { if ( !token.empty() ) { tokens.push_back ( token ); } }
+            if ( tokens.size() > 2 ) { strName = std::string ( tokens.at(tokens.size()-3) + tokens.at(tokens.size()-2) ); }
+            else { strName = "LASTX"; }
+            strName.erase                             ( std::remove ( strName.begin(), strName.end(), '/'), strName.end() );
+            std::transform                            ( strName.begin(), strName.end(), strName.begin(), ::toupper);
+            cifOutData.PutDataName                    ( strName.c_str() );
+            
+            //======================================== For each compound
+            for (SimTK::CompoundSystem::CompoundIndex c(0); c < _system.getNumCompounds(); ++c)
+            {
+                //==================================== Build the MMDB2 structure
+                (_system.getCompound(c)).buildCif     ( _state, mmdb2Model, Transform( Vec3 ( 0 ) ) );
+                
+                //==================================== Add the model to the data
+                 for ( int noModel = 0; noModel < mmdb2Model->GetNumberOfChains(); noModel++ )
+                 {
+                     if ( mmdb2Model->GetChain(noModel) )
+                     {
+                         for ( int noRes = 0; noRes < mmdb2Model->GetChain(noModel)->GetNumberOfResidues(); noRes++ )
+                         {
+                             if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes) )
+                             {
+                                 for ( int noAt = 0; noAt < mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetNumberOfAtoms(); noAt++ )
+                                 {
+                                     if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt) )
+                                     {
+                                         //==================== Initialise variables
+                                         mmdb::mmcif::PLoop Loop;
+                                         mmdb::AtomName AtName;
+                                         mmdb::Element el;
+                                         char N[10];
+                                         int i,j,RC;
+                                         mmdb::PChain chain  = mmdb2Model->GetChain(noModel)->GetResidue(noRes)->chain;
+                                         mmdb::PModel model  = mmdb::PModel ( mmdb2Model->GetChain(noModel)->GetModel() );
+                                         
+                                         //================ Initialise the Loop object
+                                         RC           = cifOutData.AddLoop ( mmdb::CIFCAT_ATOM_SITE, Loop );
+                                         if ( RC != mmdb::mmcif::CIFRC_Ok )
+                                         {
+                                             //============ The category was (re)created, provide tags
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_GROUP_PDB          ); // ATOM, TER etc.
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_ID                 ); // serial number
+
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_TYPE_SYMBOL        ); // element symbol
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_LABEL_ATOM_ID      ); // atom name
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_LABEL_ALT_ID       ); // alt location
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_LABEL_COMP_ID      ); // residue name
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_LABEL_ASYM_ID      ); // chain ID
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_LABEL_ENTITY_ID    ); // entity ID
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_LABEL_SEQ_ID       ); // res seq number
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_PDBX_PDB_INS_CODE  ); // insertion code
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_SEGMENT_ID         ); // segment ID
+
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_CARTN_X            ); // x-coordinate
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_CARTN_Y            ); // y-coordinate
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_CARTN_Z            ); // z-coordinate
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_OCCUPANCY          ); // occupancy
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_B_ISO_OR_EQUIV     ); // temp factor
+
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_CARTN_X_ESD        ); // x-sigma
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_CARTN_Y_ESD        ); // y-sigma
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_CARTN_Z_ESD        ); // z-sigma
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_OCCUPANCY_ESD      ); // occupancy-sigma
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_B_ISO_OR_EQUIV_ESD ); // t-factor-sigma
+
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_PDBX_FORMAL_CHARGE ); // charge on atom
+
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_AUTH_SEQ_ID        ); // res seq number
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_AUTH_COMP_ID       ); // residue name
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_AUTH_ASYM_ID       ); // chain id
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_AUTH_ATOM_ID       ); // atom name
+
+                                             Loop->AddLoopTag ( mmdb::CIFTAG_PDBX_PDB_MODEL_NUM ); // model number
+                                         }
+                                         
+                                         //================ Is this a normal atom record?
+                                         if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->WhatIsSet & ( mmdb::ASET_Coordinates | mmdb::ASET_CoordSigma))
+                                         {
+                                             //============ Yes!
+                                             
+                                             // group_PDB field
+                                             if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->Het ) { Loop->AddString ( pstr ( "HETATM" ) ); }
+                                             else                                                                        { Loop->AddString ( pstr( "ATOM" ) ); }
+                                         
+                                             // id field
+                                             if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->serNum > 0 ) { Loop->AddInteger ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->serNum ); }
+                                             else                                                                               { Loop->AddInteger ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->GetIndex() ); }
+                                             
+                                             if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->WhatIsSet & mmdb::ASET_Coordinates)
+                                             {
+                                                 // type_symbol field
+                                                 mmdb::strcpy_css ( el, mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->element );
+                                                 Loop->AddString ( el, true );
+                                                 
+                                                 // label_atom_id field
+                                                 mmdb::strcpy_css ( AtName, mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->label_atom_id );
+                                                 Loop->AddString ( AtName );
+                                                 
+                                                 // label_alt_id field
+                                                 Loop->AddString  ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->altLoc, true );
+
+                                                 // label_comp_id field
+                                                 Loop->AddString ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->label_comp_id );
+                                                 
+                                                 // label_asym_id field
+                                                 Loop->AddString ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->label_asym_id );
+                                                 
+                                                 // label_entity_id field
+                                                 if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->label_entity_id > 0 ) { Loop->AddInteger ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->label_entity_id ); }
+                                                 else                                                                         { Loop->AddNoData  ( mmdb::mmcif::CIF_NODATA_DOT ); }
+                                                 
+                                                 // label_seq_id field
+                                                 if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->label_seq_id > mmdb::MinInt4 ) { Loop->AddInteger ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->label_seq_id ); }
+                                                 else                                                                                  { Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_DOT ); }
+                                                 
+                                                 // pdbx_PDB_ins_code field
+                                                 Loop->AddString ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->insCode, true );
+
+                                                 // segment_id field
+                                                 Loop->AddString ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->segID, true );
+                                                 
+                                                 // Cartn_x, Cartn_y, Cartn_z fields
+                                                 Loop->AddReal ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->x, requiredPrecision );
+                                                 Loop->AddReal ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->y, requiredPrecision );
+                                                 Loop->AddReal ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->z, requiredPrecision );
+                                                 
+                                                 // occupancy field
+                                                 if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->WhatIsSet & mmdb::ASET_Occupancy ) { Loop->AddReal ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->occupancy, requiredPrecision ); }
+                                                 else { Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_QUESTION ); }
+                                                 
+                                                 // B_iso_or_equiv field
+                                                 if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->WhatIsSet & mmdb::ASET_tempFactor ) { Loop->AddReal ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->tempFactor, requiredPrecision ); }
+                                                 else { Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_QUESTION ); }
+
+                                                 // cartn_x_esd, cartn_y_esd, cartn_z_esd fields
+                                                 if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->WhatIsSet & mmdb::ASET_CoordSigma )
+                                                 {
+                                                   Loop->AddReal ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->sigX, requiredPrecision );
+                                                   Loop->AddReal ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->sigY, requiredPrecision );
+                                                   Loop->AddReal ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->sigZ, requiredPrecision );
+                                                 } else
+                                                 {
+                                                   Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_QUESTION );
+                                                   Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_QUESTION );
+                                                   Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_QUESTION );
+                                                 }
+                                                 
+                                                 // occupancy_esd field
+                                                 if ( ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->WhatIsSet & mmdb::ASET_OccSigma) &&
+                                                      ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->WhatIsSet & mmdb::ASET_Occupancy) )
+                                                 {
+                                                       Loop->AddReal ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->sigOcc, requiredPrecision );
+                                                 }
+                                                 else { Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_QUESTION ); }
+                                                 
+                                               // B_iso_or_equiv_esd field
+                                               if ( ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->WhatIsSet & mmdb::ASET_tFacSigma) &&
+                                                    ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->WhatIsSet & mmdb::ASET_tempFactor) )
+                                               {
+                                                     Loop->AddReal ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->sigTemp, requiredPrecision );
+                                               }
+                                               else { Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_QUESTION ); }
+                                             }
+                                             else
+                                             {
+                                               for ( int iter = 0; iter < 18; iter++ )
+                                               {
+                                                 Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_QUESTION );
+                                               }
+                                             }
+                                             
+                                             // pdbx_formal_charge field
+                                             if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->WhatIsSet & mmdb::ASET_Charge)
+                                             {
+                                               sprintf ( N, "%+2i", mmdb::mround ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->charge ) );
+                                               Loop->AddString ( N, true );
+                                             }
+                                             else { Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_QUESTION ); }
+
+                                             // auth_seq_id field
+                                             if ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->seqNum > mmdb::MinInt4 ) { Loop->AddInteger ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->seqNum ); }
+                                             else                                                                            { Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_DOT ); }
+                                             
+                                             // auth_comp_id field
+                                             Loop->AddString ( mmdb2Model->GetChain(noModel)->GetResidue(noRes)->name );
+
+                                             // auth_asym_id field
+                                             if ( mmdb2Model->GetChain(noModel) ) { Loop->AddString ( mmdb2Model->GetChain(noModel)->GetChainID(), true ); }
+                                             else { Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_DOT ); }
+                                             
+                                             // auth_atom_id field
+                                             mmdb::strcpy_css ( AtName, mmdb2Model->GetChain(noModel)->GetResidue(noRes)->GetAtom(noAt)->name );
+                                             Loop->AddString  ( AtName );
+                                             
+                                             // pdbx_PDB_model_num field
+                                             if ( mmdb2Model->GetSerNum() > 0) { Loop->AddInteger ( mmdb2Model->GetSerNum() ); }
+                                             else                              { Loop->AddNoData ( mmdb::mmcif::CIF_NODATA_QUESTION ); }
+                                         }
+                                     }
+                                 }
+                             }
+                         }
+                     }
+                 }
+                
+                //==================================== Write out the CIF file. This is basically a copy of the WriteMMCIF function, but since this function is hardcoded to print the data_ line as a second line and this is not compatible with the current mmCIF formatting, I had to copy and make the single change...
+                cifOutputFile.Write                   ( pstr("data_") );
+                cifOutputFile.WriteLine               ( cifOutData.GetDataName() );
+                
+                for ( int i = 0; i < cifOutData.GetNumberOfCategories(); i++ )
+                {
+                    mmdb::mmcif::Category* cat        = cifOutData.GetCategory(i);
+                    if ( cat )
+                    {
+                        cat->WriteMMCIF               ( cifOutputFile );
+                    }
+                }
+                
+                //==================================== Write the entity poly seq loop
+                (_system.getCompound(c)).writeEntityPolySeqLoop ( _state, &cifOutputFile, compoundNumber );
+                cifOutputFile.shut                    ( );
+                
+                //==================================== Prepare for next compound
+                ++compoundNumber;
+            }
+#else
+            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file output, but did not compile with the MMDB2 library. Cannot proceed, if you want to use mmCIF files, please re-compile with the MMDB2 library option allowed." <<endl;
+            ErrorManager::instance.treatError         ( );
+#endif
+        }
+        else
+        {
+            PdbAtom::setWriteFullPrecisionLocation(true);// write last frame file with full precision (REMARK-SIMTK-COORDS lines added).
+            ofstream lastFrameFile(_parameterReader->lastFrameFileName.c_str());
+            for (SimTK::CompoundSystem::CompoundIndex c(0); c < _system.getNumCompounds(); ++c)
+                (_system.getCompound(c)).writePdb(_state, lastFrameFile,Transform(Vec3(0)));
+            lastFrameFile.close();
+        }
     }
     ////////////////////////////////////////////
 

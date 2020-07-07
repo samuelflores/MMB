@@ -33,6 +33,7 @@ public:
         //vector<MagnesiumIon> myMagnesiumIonVec
 
     );
+    ~PeriodicPdbAndEnergyWriter();
 
     void handleEvent(State& state, Real accuracy, bool& shouldTerminate) const;
 
@@ -42,7 +43,10 @@ private:
     std::ostream& outputStream;
     ParameterReader & myParameterReader;
     BiopolymerClassContainer & myBiopolymerClassContainer;
-    static std::vector<double> myEnergies; 
+    static std::vector<double> myEnergies;
+#ifdef CPP4_MAPS_USAGE
+    mmdb::Manager *mmdb2Manager;
+#endif
 
 };
 

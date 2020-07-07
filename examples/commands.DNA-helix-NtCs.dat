@@ -1,0 +1,85 @@
+firstStage 1
+#doing this in two stages:
+lastStage 2
+DNA A 1 TTTTTTTTTTTTTTTTTTTTT
+DNA B 1 AAAAAAAAAAAAAAAAAAAAA
+
+# This multiplies the strength of the baseInteraction's by the given factor:
+baseInteractionScaleFactor 200
+
+#since we upped the strength, we don't need as many reporting intervals:
+numReportingIntervals 30
+
+# You don't have to specify each baseInteraction individually. This generates them for the whole helix:
+nucleicAcidDuplex A 1 21 B 21 1
+
+
+#NtCs slow down your calculation. So let's turn them on only after the helix is almost fully folded.
+readAtStage 2
+# We need less time for this stage, since we are almost folded at the start
+numReportingIntervals 10
+# This is a user variable. Just because I am too lazy to type the numbers 1 to 21 manually:
+@residueIndex 1
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+# Now we increment @residueIndex. So it will now be set to 2:
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+# Now it will become 3. And so on:
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+@residueIndex 1+@residueIndex
+NtC A @residueIndex @residueIndex+1 BB00 .5
+NtC B @residueIndex @residueIndex+1 BB00 .5
+readBlockEnd
+

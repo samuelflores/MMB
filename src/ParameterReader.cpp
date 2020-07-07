@@ -4249,6 +4249,9 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" MMB-command: readAtStage "<<n<<std::endl;
             tetherCommandStream<<"readAtStage "<<n<<std::endl;
             // base-pair-at-origin.pdb contains a single base pair, with axis perpendicular to Z-axis.
+	    // We had a problem with a rotation command which was spitting out tiny values in scientific notation, which MMB later had a hard time parsing. Solution is to used fixed-format, with 6 places precision:
+	    tetherCommandStream.setf(std::ios_base::fixed, std::ios_base::floatfield);
+            tetherCommandStream.precision(6);  
             tetherCommandStream<<"previousFrameFileName    base-pair."<<n<<".pdb   "<<std::endl;
             tetherCommandStream<<"DNA A "<<n<<" A "<<std::endl;
             tetherCommandStream<<"DNA B "<<9999-n<<" T "<<std::endl;

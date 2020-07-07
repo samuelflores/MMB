@@ -36,7 +36,9 @@
 //#include <tr1/cmath>
 //#include <boost/math/special_functions/ellint_2.hpp>
 #include <regex> // for search and replace
-
+#ifdef Lepton_USAGE // This is included only if Lepton_USAGE is defined
+#include "Lepton.h"
+#endif
 using std::cout;
 using std::endl;
 
@@ -520,6 +522,19 @@ bool checkForDouble(String const& s) {
 // a recursive algorithm for reading a double from a String.  This String may contain ints, user variables (begin with @), +, and -.  No whitespaces or additional characters should be in the String.
 double   ParameterReader::myAtoF(  map<const String,double> myUserVariables,  const char* value){
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" inside myAtoF. converting string : >"<<value<<"<"<<endl; 
+    
+#ifdef Lepton_USAGE
+    map<string,double> leptonFormatUserVariables; // Wish this were not necessary. but userVariables uses the signature const SimTK::String,double . Lepton uses string, double.
+    leptonFormatUserVariables.clear();
+    for (auto  myUserVariablesIterator = myUserVariables.begin() ; myUserVariablesIterator !=myUserVariables.end(); myUserVariablesIterator++) {
+        leptonFormatUserVariables[myUserVariablesIterator->first] = myUserVariablesIterator->second;	    
+    }
+    double leptonResult = Lepton::Parser::parse(std::string(value)).evaluate(leptonFormatUserVariables);
+    cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Lepton evaluation = >"<< leptonResult<<"< "<<std::endl;	
+    return leptonResult; // if Lepton_USAGE is defined, then we return here and the rest of the procedure is not used. 
+#endif
+    // If Lepton_USAGE is NOT defined, then we parse the formula the old dumb way, as follows.
+
     size_t plusPosition  = String(value).find_last_of('+'); // returns the position of the last '+' in value
     size_t minusPosition = String(value).find_last_of('-'); // ditto for '-'
     if ((plusPosition > minusPosition) && (plusPosition  != String::npos) )  minusPosition = String::npos; // If the plus sign is closer to the end of the string, pretend we didn't find any '-'
@@ -1562,6 +1577,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                                                  const bool readOnlyUntilStage,
                                                  const bool readExcept)
 {
+    parameterStringClass.print();	 
     if (   ((parameterStringClass.getString(0)).compare("-SQ") ==0 ) 
             || ((parameterStringClass.getString(0)).compare("sequence") ==0 )  
             || ((parameterStringClass.getString(0)).compare("rnaSequence") ==0 ) 
@@ -2693,6 +2709,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     //cout << "here " << endl;
     #ifdef BuildNtC  
     if ( ((parameterStringClass.getString(0)).compare("NtC") == 0)) {
+	//parameterStringClass.print();
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Syntax: NtC <chain> <start residue> <end residue> <NtC class> <force constant> [meta <secondary weight>] "<<endl;
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" For example, if (DNA) chain A, residues 1 and 2 are in a B-form helix helix, and you want a force constant of 1.5, you can specify :  "<<endl;
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"     NtC A 1 2 AA00 1.5  "<<endl;
@@ -5493,7 +5510,7 @@ void ParameterReader::initializeFromFileOnly(const char * parameterFileName ) {
         String tempString;
         getline(inFile, tempString);
         ParameterStringClass parameterStringClass( tempString );
-        parameterStringClass.print();
+        //parameterStringClass.print();
         // now start detecting and dealing with parameter flags
         if (((parameterStringClass.getString(0)).compare("readFromStage") == 0) || ((parameterStringClass.getString(0)).compare("readAtStage") == 0) || ((parameterStringClass.getString(0)).compare("readToStage") == 0) || ((parameterStringClass.getString(0)).compare("readExceptAtStage") == 0)  ) 
         {

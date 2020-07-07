@@ -9,7 +9,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(MMB)
 
 SET( MMB_MAJOR_VERSION 3 )
-SET( MMB_MINOR_VERSION 2 )
+SET( MMB_MINOR_VERSION 3 )
 SET( MMB_PATCH_VERSION 0 )
 
 SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "This is a Release build by default" )
@@ -18,6 +18,8 @@ SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "This is a Release build by default"
 
 SET(Build_NtC            TRUE  CACHE BOOL 
         "Build NtC features of MMB. This greatly increases the size of the BiopolymerClassContainer object in memory")
+SET(Build_Lepton         TRUE  CACHE BOOL 
+	"Build SimTK Lepton math parser?           ")
 SET(Build_CCP4           FALSE CACHE BOOL 
         "Build CCP4 maps support features for MMB?")
 SET(BUILD_MMB_SHARED_LIB TRUE CACHE BOOL 
@@ -39,6 +41,8 @@ SET(OpenMM_INCLUDE_DIR "" CACHE PATH
 SET(OpenMM_INSTALL_DIR "" CACHE PATH
         "OpenMM install directory. Used to find libs.")
 #Add the OpenMM library
+SET(Lepton_INCLUDE_DIR "/3rdparty/Lepton1.3/include/" CACHE PATH
+	"Where to find Lepton includes")
 SET(LIBCCP4_INCLUDE_DIR "" CACHE PATH
         "Where to find libccp4 includes")
 SET(LIBCCP4_LIB_DIR "" CACHE PATH
@@ -124,6 +128,15 @@ INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include ${Simbody_INCLUDE_DIR} ${SimTK
 LINK_DIRECTORIES(${Simbody_LIB_DIR}${LIB64} ${SimTKmolmodel}/lib ${CMAKE_BINARY_DIR} ${OpenMM_INSTALL_DIR}/lib   )
 
 ##################
+### Add Lepton Paths
+##################
+IF    ( Build_Lepton )
+	INCLUDE_DIRECTORIES ( ${Lepton_INCLUDE_DIR} )
+	#LINK_DIRECTORIES    ( ${Lepton_LIB_DIR}     )
+	ADD_DEFINITIONS     ( -DLepton_USAGE )
+ENDIF ( Build_Lepton )
+
+##################
 ### Add CCP4 Paths
 ##################
 IF    ( Build_CCP4 )
@@ -186,6 +199,19 @@ IF (Build_NtC)
         ${PROJECT_SOURCE_DIR}/src/NtCForces.cpp
         )
 ENDIF(Build_NtC)
+# If Build_Lepton
+IF (Build_Lepton)
+    SET(MMB_LIBRARY_SOURCE_FILES
+        ${MMB_LIBRARY_SOURCE_FILES}
+        # SCF manually commented these 3  out. Once Peter fixes the issue with the 2D arrays in BiopolymerClassContainer, we can put them back in. Or have a build varaible to determine whether to build these:
+	${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/CompiledExpression.cpp
+        ${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/ExpressionProgram.cpp
+        ${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/ExpressionTreeNode.cpp
+        ${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/Operation.cpp            
+        ${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/ParsedExpression.cpp   
+	${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/Parser.cpp                 
+        )
+ENDIF(Build_Lepton)
 
 SET(MMB_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/RNABuilder.cpp  )
@@ -234,6 +260,13 @@ IF (BUILD_MMB_SHARED_LIB)
               ${OpenMM_SHARED_LIBS_D}
               ${OpenMM_SHARED_LIBS}
               ${SimTK_GENERAL_LIBS})
+    #################
+    ### Add Lepton Libs
+	#################
+	# actually this part should not be needed as we are not compiling a full library
+	#IF    ( Build_Lepton )
+		#	TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} lepton      )
+		#ENDIF ( Build_Lepton )
     #################
 	### Add CCP4 Libs
 	#################

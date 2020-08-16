@@ -3927,6 +3927,12 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     //myCheckFile.validateExists();
     //myCheckFile.validateNonZeroSize(); 
     struct stat st;
+    // Just querying the members of st is not a good idea. First, check to make sure stat succeeded at all: 
+    if ((stat(inPDBFileName.c_str(), &st)) == -1){
+        ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" ERROR: Tried to determine status of file >"<< inPDBFileName << "< but stat returned a failure code. Perhaps the file does not exist, or path permissions are not correct."<<std::endl;
+        ErrorManager::instance.treatError();
+    }
+
     stat(inPDBFileName.c_str(), &st);
 
     std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" About to check that "<<inPDBFileName<<" has nonzero size.."<<std::endl;

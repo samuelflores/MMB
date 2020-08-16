@@ -148,7 +148,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
                 stringstream ss4;
                 ss4.clear();
                 ss4.str("");
-                ss4<<"./last."<<(i-1)<<".pdb"; 
+                ss4<<"./last."<<(i-1)<<".cif"; 
                 myParameterReader.previousFrameFileName = ss4.str();
             }
 

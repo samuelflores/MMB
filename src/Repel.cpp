@@ -984,6 +984,7 @@ void ConstrainedDynamics::postDynamics(){
             //======================================== For each compound
             for (SimTK::CompoundSystem::CompoundIndex c(0); c < _system.getNumCompounds(); ++c)
             {
+		std::cout <<__FILE__<<":"<<__LINE__<<" c = "<<c<< " compoundNumber = "<<compoundNumber <<std::endl;     
                 //==================================== Build the MMDB2 structure
                 (_system.getCompound(c)).buildCif     ( _state, mmdb2Model, Transform( Vec3 ( 0 ) ) );
                 

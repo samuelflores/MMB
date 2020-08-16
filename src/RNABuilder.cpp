@@ -139,16 +139,16 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
                 stringstream ss2;
                 ss2.clear();
                 ss2.str("");
-		// SCF changed standard to look for .cif, 16 aug 2020. Quite bold! Now if you really want to use .pdb, you have to explicitly specify the filename.
-                ss2<<"./last."<<i<<".cif"; 
-                //ss2<<"./last."<<i<<".pdb"; 
+                //ss2<<"./last."<<i<<".cif"; 
+                ss2<<"./last."<<i<<".pdb"; 
                 myParameterReader.lastFrameFileName = ss2.str();
             } 
             if  (myParameterReader.previousFrameFileName == "NOT-SET"){
                 stringstream ss4;
                 ss4.clear();
                 ss4.str("");
-                ss4<<"./last."<<(i-1)<<".cif"; 
+                ss4<<"./last."<<(i-1)<<".pdb"; 
+                //ss4<<"./last."<<(i-1)<<".cif"; 
                 myParameterReader.previousFrameFileName = ss4.str();
             }
 

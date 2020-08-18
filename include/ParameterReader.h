@@ -380,7 +380,8 @@ public:
                                    const bool readExcept = false);
 
     void initializeFromFileOnly(const char * parameterFileName = "./commands.dat" ) ;
-    void setFirstAndLastStage(const char * parameterFileName = "./commands.dat" ) ;
+    void setFirstAndLastStageAndUseCifFiles(const char * parameterFileName = "./commands.dat" ) ;
+    //void setFirstAndLastStage(const char * parameterFileName = "./commands.dat" ) ;
 
     void loadSequencesFromPdb(const char * pdbFileName, const string & chainsPrefix = "", const bool tempRenumberPdbResidues = 0 );
 

@@ -1195,11 +1195,13 @@ void ConstrainedDynamics::postDynamics(){
                 
                 //==================================== Write the entity poly seq loop
                 (_system.getCompound(c)).writeEntityPolySeqLoop ( _state, &cifOutputFile, compoundNumber );
-                cifOutputFile.shut                    ( );
+		// SCF decided this was being prematurely closed, moved down a few lines, out of the loop
+                // cifOutputFile.shut                    ( );
                 
                 //==================================== Prepare for next compound
                 ++compoundNumber;
             }
+            cifOutputFile.shut                    ( );
 #else
             ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file output, but did not compile with the MMDB2 library. Cannot proceed, if you want to use mmCIF files, please re-compile with the MMDB2 library option allowed." <<endl;
             ErrorManager::instance.treatError         ( );

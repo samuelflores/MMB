@@ -116,10 +116,11 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
         
         cout<<__FILE__<<":"<<__LINE__<<" About to read "<<parameterFile<<" to set firstStage and lastStage"<<endl; 
         cout<<__FILE__<<":"<<__LINE__<<endl; 
-        myParameterReader.setFirstAndLastStage(parameterFile.c_str());
+        myParameterReader.setFirstAndLastStageAndUseCifFiles(parameterFile.c_str());
 
         cout<<__FILE__<<":"<<__LINE__<<"  lastStage = "<<myParameterReader.lastStage<<endl; 
         cout<<__FILE__<<":"<<__LINE__<<"  firstStage = "<<myParameterReader.firstStage<<endl; 
+        cout<<__FILE__<<":"<<__LINE__<<"  useCIFFileFormat = "<<myParameterReader.useCIFFileFormat<<endl; 
         if ((myParameterReader.lastStage < myParameterReader.firstStage))   
         {
             ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" stage < 1 error!  Most likely you have failed to specify the command file, (currently "<< parameterFile<<"), or it was not found"<<endl;
@@ -151,18 +152,14 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
                 //ss4<<"./last."<<(i-1)<<".cif"; 
                 myParameterReader.previousFrameFileName = ss4.str();
             }
-
-            cout<<__FILE__<<":"<<__LINE__<<"  about to make sure we aren't trying to read from BOTH .pdb and QVector files, but exactly one."<<endl;
-            if (i == 1)  {myParameterReader.readPreviousFrameFile = 0;} //else myParameterReader.readPreviousFrameFile = 1;
-            if (i == 1)  {myParameterReader.readInQVector         = 0;} //else myParameterReader.readPreviousFrameFile = 1;
-
-            myParameterReader.initializeFromFileOnly(parameterFile.c_str());
+            // SCF moved from here
             //printBiopolymerSequenceInfo(myParameterReader.myBiopolymerClassContainer.updBiopolymerClass("g").myBiopolymer);
             // end new way
             
             std::stringstream ss2;
             ss2.clear(); ss2.str("");
             ss2 << "./last." << i << ".pdb";
+            cout<<__FILE__<<":"<<__LINE__<<"  myParameterReader.lastFrameFileName = " << myParameterReader.lastFrameFileName << " , myParameterReader.useCIFFileFormat = "<<myParameterReader.useCIFFileFormat <<std::endl;
             if  (myParameterReader.lastFrameFileName == ss2.str())
             {
                 if ( myParameterReader.useCIFFileFormat )
@@ -192,7 +189,13 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
                     //================================ Do nothing, PDB already set
                 }
             }
-            
+	    // SCF moved to here
+            cout<<__FILE__<<":"<<__LINE__<<"  about to make sure we aren't trying to read from BOTH .pdb and QVector files, but exactly one."<<endl;
+            if (i == 1)  {myParameterReader.readPreviousFrameFile = 0;} //else myParameterReader.readPreviousFrameFile = 1;
+            if (i == 1)  {myParameterReader.readInQVector         = 0;} //else myParameterReader.readPreviousFrameFile = 1;
+
+            myParameterReader.initializeFromFileOnly(parameterFile.c_str());
+            //
             myParameterReader.postInitialize();
             //scf added .. there was an issue with counting Coulomb forces
             myParameterReader.removeNonPriorityBasePairs(myParameterReader.currentStage);//i);

@@ -645,11 +645,12 @@ vector<String> readAndParseOnColWidth   (ifstream & inFile, int columnWidth) {
         };  
     };  
     void ParameterStringClass::print() const {
-        //std::cout<<__FILE__<<":"<<__LINE__<<" ";
+        std::cout<<__FILE__<<":"<<__LINE__<<" ";
         for (int i = 0 ; i < size(); i++){
-            std::cout<<__FILE__<<":"<<__LINE__<<" "<<i<<" >"<<stringVector[i]<<"< "<<std::endl;
+            std::cout<<stringVector[i]<<" ";
+            //std::cout<<__FILE__<<":"<<__LINE__<<" "<<i<<" >"<<stringVector[i]<<"< "<<std::endl;
         };
-        //std::cout<<std::endl;
+        std::cout<<std::endl;
     };
 
     String ParameterStringClass::getString() const {

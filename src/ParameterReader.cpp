@@ -5585,7 +5585,8 @@ void ParameterReader::loadSequencesFromPdb(const char * pdbFileName, const strin
 }
 
 
-void ParameterReader::setFirstAndLastStage(const char * parameterFileName ) {
+void ParameterReader::setFirstAndLastStageAndUseCifFiles(const char * parameterFileName ) {
+//void ParameterReader::setFirstAndLastStage(const char * parameterFileName ) {
     #ifdef _DEBUG_FLAGS_ON_
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"  "<<endl;   
     #endif 
@@ -5612,6 +5613,7 @@ void ParameterReader::setFirstAndLastStage(const char * parameterFileName ) {
     // make sure firstStage and lastStage are initialized
     firstStage = 0;
     lastStage = 0;
+    useCIFFileFormat = 0;
     while (inFile.good()) {
         for (int w = 0;w<numFields;w++) mystring[w]="";
         String tempString;
@@ -5642,6 +5644,15 @@ void ParameterReader::setFirstAndLastStage(const char * parameterFileName ) {
             }
             lastStage = myAtoI(userVariables,(mystring[1]).c_str());     
         }
+	else if ( ( mystring[0]).compare("useCIFFiles") == 0 )
+	{
+	    //============================================ Set the CIF files usage
+	    //parameterStringClass.validateNumFields        ( 2 );
+	    //this->mmbRemarkCounter                        = 0;
+	    //this->mmbRemarkNum                            = 3; // This means we will be writing into the Refinement REMARK section, if it means anything at this point.
+	    useCIFFileFormat                        = aToBool ( mystring[0], (mystring[1]).c_str() );
+            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" useCIFFileFormat now set to "<<useCIFFileFormat<<endl;   
+	}
     } // of while inFile 
 } ;
 
@@ -5745,8 +5756,8 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     // SCF start rationalized initialization scheme
     clearContainers();
 
-    // variables previously declared and initialized in Repel.h:
-    useCIFFileFormat         = false;
+    //variables previously declared and initialized in Repel.h:
+    ///useCIFFileFormat         = false;
     addAllAtomSterics        = false;
     addAllHeavyAtomSterics   = false;
     addBackboneOxygenForces  = false;

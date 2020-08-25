@@ -20,8 +20,8 @@ SET(Build_NtC            TRUE  CACHE BOOL
         "Build NtC features of MMB. This greatly increases the size of the BiopolymerClassContainer object in memory")
 SET(Build_Lepton         TRUE  CACHE BOOL 
 	"Build SimTK Lepton math parser?           ")
-SET(Build_CCP4           FALSE CACHE BOOL 
-        "Build CCP4 maps support features for MMB?")
+SET(Build_GEMMI          FALSE CACHE BOOL 
+        "Build Gemmi maps and mmCIF support features for MMB?")
 SET(BUILD_MMB_SHARED_LIB TRUE CACHE BOOL 
         "Build MMB dynamic library")
 SET(BUILD_MMB_SHARED_EXEC TRUE CACHE BOOL 
@@ -43,10 +43,9 @@ SET(OpenMM_INSTALL_DIR "" CACHE PATH
 #Add the OpenMM library
 SET(Lepton_INCLUDE_DIR "/3rdparty/Lepton1.3/include/" CACHE PATH
 	"Where to find Lepton includes")
-SET(LIBCCP4_INCLUDE_DIR "" CACHE PATH
-        "Where to find libccp4 includes")
-SET(LIBCCP4_LIB_DIR "" CACHE PATH
-        "Where to find libccp4 library")
+#Add the Gemmi library path
+SET(GEMMI_INCLUDE_DIR "" CACHE PATH
+        "Where to find Gemmi includes")
 
 SET(OpenMM_SHARED_LIBS
         optimized OpenMM)
@@ -136,14 +135,13 @@ IF    ( Build_Lepton )
 	ADD_DEFINITIONS     ( -DLepton_USAGE )
 ENDIF ( Build_Lepton )
 
-##################
-### Add CCP4 Paths
-##################
-IF    ( Build_CCP4 )
-	INCLUDE_DIRECTORIES ( ${LIBCCP4_INCLUDE_DIR} )
-	LINK_DIRECTORIES    ( ${LIBCCP4_LIB_DIR}     )
-	ADD_DEFINITIONS     ( -DCPP4_MAPS_USAGE )
-ENDIF ( Build_CCP4 )
+###################
+### Add Gemmi Paths
+###################
+IF    ( Build_GEMMI )
+	INCLUDE_DIRECTORIES ( ${GEMMI_INCLUDE_DIR} )
+	ADD_DEFINITIONS     ( -DGEMMI_USAGE )
+ENDIF ( Build_GEMMI )
 
 # On Mac, build 32 bit binaries.
 IF(APPLE)
@@ -267,12 +265,14 @@ IF (BUILD_MMB_SHARED_LIB)
 	#IF    ( Build_Lepton )
 		#	TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} lepton      )
 		#ENDIF ( Build_Lepton )
-    #################
-	### Add CCP4 Libs
-	#################
-	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} mmdb2 ccp4c )
-	ENDIF ( Build_CCP4 )
+
+    ##################
+	### Add Gemmi Libs
+	##################
+	IF    ( Build_GEMMI )
+		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} z )
+		target_include_directories ( ${SHARED_MMB_TARGET} INTERFACE ${GEMMI_INCLUDE_DIR} )
+	ENDIF ( Build_GEMMI )
 
     # Install files
     INSTALL(TARGETS ${SHARED_MMB_TARGET}
@@ -350,12 +350,13 @@ IF (BUILD_MMB_SHARED_EXEC)
               ${OpenMM_SHARED_LIBS}
               ${SimTK_GENERAL_LIBS})
               
-    #################
-	### Add CCP4 Libs
-	#################
-	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( MMB mmdb2 ccp4c )
-	ENDIF ( Build_CCP4 )
+    ##################
+	### Add Gemmi Libs
+	##################
+	IF    ( Build_GEMMI )
+		TARGET_LINK_LIBRARIES ( MMB z )
+		target_include_directories (MMB INTERFACE ${GEMMI_INCLUDE_DIR} )
+	ENDIF ( Build_GEMMI )
 
     INSTALL(TARGETS MMB
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
@@ -390,12 +391,13 @@ IF (BUILD_MMB_STATIC)
               ${OpenMM_SHARED_LIBS}
               ${SimTK_GENERAL_LIBS})
               
-    #################
-	### Add CCP4 Libs
-	#################
-	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( ${STATIC_MMB_TARGET} mmdb2 ccp4c )
-	ENDIF ( Build_CCP4 )
+    ##################
+	### Add Gemmi Libs
+	##################
+	IF    ( Build_GEMMI )
+		TARGET_LINK_LIBRARIES ( ${STATIC_MMB_TARGET} z )
+		target_include_directories ( ${STATIC_MMB_TARGET} INTERFACE ${GEMMI_INCLUDE_DIR} )
+	ENDIF ( Build_GEMMI )
 
     # Link with static library
     ADD_EXECUTABLE(MMB_static ${MMB_HEADER_FILES} ${MMB_SOURCE_FILES})
@@ -412,12 +414,12 @@ IF (BUILD_MMB_STATIC)
               ${OpenMM_SHARED_LIBS}
               ${SimTK_GENERAL_LIBS})
               
-    #################
-	### Add CCP4 Libs
-	#################
-	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( MMB_static mmdb2 ccp4c )
-	ENDIF ( Build_CCP4 )
+    ##################
+	### Add Gemmi Libs
+	##################
+	IF    ( Build_GEMMI )
+		TARGET_LINK_LIBRARIES ( MMB_static z )
+	ENDIF ( Build_GEMMI )
 
     # Install files
     INSTALL(TARGETS MMB_static ${STATIC_MMB_TARGET}
@@ -448,12 +450,13 @@ IF (BUILD_MMB_GUI_TEST)
               ${OpenMM_SHARED_LIBS}
               ${SimTK_GENERAL_LIBS})
               
-    #################
-	### Add CCP4 Libs
-	#################
-	IF    ( Build_CCP4 )
-		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} mmdb2 ccp4c )
-	ENDIF ( Build_CCP4 )
+    ##################
+	### Add Gemmi Libs
+	##################
+	IF    ( Build_GEMMI )
+		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} z )
+		target_include_directories ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} INTERFACE ${GEMMI_INCLUDE_DIR} )
+	ENDIF ( Build_GEMMI )
 
     # Install files
     INSTALL(TARGETS ${SHARED_MMB_PYTHON_WRAPPER_TARGET}

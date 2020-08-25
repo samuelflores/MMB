@@ -19,6 +19,12 @@
 #include "UnitCellParameters.h"
 #include <time.h>       /* time */
 
+#ifdef GEMMI_USAGE
+    //================================================ Include Gemmi headers
+    #include <gemmi/ccp4.hpp>
+    #include <gemmi/gz.hpp>
+#endif
+
 using namespace std;
 using namespace SimTK;
 
@@ -558,10 +564,11 @@ void DensityMap::loadParametersAndDensity(const String densityFileName)
             ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unable to open density map : "<<densityFileName<<" .. Situs is nota  supported format at the moment"<<endl;
             ErrorManager::instance.treatError();
         }
-    else if (extension == ".map" || extension == ".ccp4" || extension == ".mrc" )
+    else if (extension == ".map"    || extension == ".ccp4"    || extension == ".mrc"    ||
+             extension == ".map.gz" || extension == ".ccp4.gz" || extension == ".mrc.gz" )
     {
-#ifdef CPP4_MAPS_USAGE
-        loadParametersAndDensity_CCP4MAP  ( densityFileName );
+#ifdef GEMMI_USAGE
+        loadParametersAndDensity_CCP4MAP              ( densityFileName );
 #else
         ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unable to open density map : "<<densityFileName<<" .. CCP4 maps loading feature was not allowed when MMB installation was done on this machine."<<endl;
         ErrorManager::instance.treatError();
@@ -574,251 +581,107 @@ void DensityMap::loadParametersAndDensity(const String densityFileName)
     }
 }
 
-#ifdef CPP4_MAPS_USAGE
+#ifdef GEMMI_USAGE
 /*! \brief Function responsible for reading in the CCP4's MAP format.
 
-This function uses the CMAPLIB ccp4's library (the C version of the original fortran library) to read both, the
-header and the data portions of the file format. It should be able to deal with both, the CCP4 MAP and the MRC
-formats.
+    This function uses the Gemmi library to read in the CCP4 formatted map data. It makes use of the setup function from
+    Gemmi, so that the symmetry operations and other unpleasantries should be already deal with when the map is read.
  
-More specifically, the function firstly opens the supplied MAP file, proceeding to read in the cell information (float
-array of 6 numbers, x, y and z dimensions in Angstroms and angles a, b and c) from the file header. It then continues
-to read the dims (int array of 3 with the x, y and z axes sizes in indices) from the file header. Then, it reads the origin
-(int array of 3 with x, y and z axes origin positions) and the axis order (int array of 3 with the x, y and z axes order given
-by values 0, 1 and 2) from the file header.
- 
-Next, this function fills in the unitCellParameters structure with the correct indexing information, index distances and
-angles. Subsequently, the function calls the DeOrthogonalisation matrix computation function and the grid preparing
-functions. Finally, this function reads in the data portion of the file, taking into account the axis orders are detected
-from the file header and saving the densities to the GridIndices object. It then closes the MAP file and terminates the
-function.
- 
-\warning This function requires the ccp4's CMAPLIB library and will not work unless this is installed and properly linked.
-\warning This function does only limitted reporting to the log, please add appropriate log outputs for the procedure.
-\warning This function needs more testing - it was tested only for a single case, please do more testing and then remore this warning.
+    \warning This function requires the Gemmi library and will not work unless this is installed.
+    \warning This function does only limitted reporting to the log, please add appropriate log outputs for the procedure.
 
-\param[in] densityFileName String containing the path to the density file which should read in.
+    \param[in] densityFileName String containing the path to the density file which should read in.
 */
-void DensityMap::loadParametersAndDensity_CCP4MAP(const String densityFileName) {
-    //======================================== Create CCP4MAPfile object
-    CMap_io::CMMFile *mapFile                 = NULL;
+void DensityMap::loadParametersAndDensity_CCP4MAP(const String densityFileName)
+{
+    //================================================ Open the file using Gammi
+    gemmi::Ccp4<float> map;
+    map.read_ccp4                                     ( gemmi::MaybeGzipped ( densityFileName.c_str() ) );
     
-    //======================================== Set local variables
-    int myMapMode                             = O_RDONLY;
-    float xDim, yDim, zDim, aAng, bAng, cAng; // The cell dimensions in Angstroms and the angles of the cell axes in degrees
-    int xInds, yInds, zInds;                  // The number of indices along the three axes.
-    int xAxisOrder, yAxisOrder, zAxisOrder;   // The order of the axes (XYZ, YXZ, ...)
-    int xOrigin, yOrigin, zOrigin;            // The origin of the indexing system.
+    //================================================ Read in the axes starting points before it is modified by the gemmi set-up
+    int xFrom                                         = static_cast<int> ( map.header_i32   ( 5  ) );
+    int yFrom                                         = static_cast<int> ( map.header_i32   ( 6  ) );
+    int zFrom                                         = static_cast<int> ( map.header_i32   ( 7  ) );
     
-    //======================================== Open file for reading and check if it can be opened
-    mapFile                                   = reinterpret_cast<CMap_io::CMMFile*> ( CMap_io::ccp4_cmap_open ( densityFileName.c_str() , myMapMode ) );
-    if ( mapFile == NULL )
+    //================================================ Convert to XYZ and create complete map, if need be
+    map.setup                                         ( gemmi::GridSetup::ReorderOnly, NAN );
+    
+    //================================================ Parse the map header for cell info
+    int xDimInds                                      = static_cast<int> ( map.header_i32   ( 1  ) );
+    int yDimInds                                      = static_cast<int> ( map.header_i32   ( 2  ) );
+    int zDimInds                                      = static_cast<int> ( map.header_i32   ( 3  ) );
+    
+    float xDim                                        = static_cast<float> ( map.header_float ( 11 ) );
+    float yDim                                        = static_cast<float> ( map.header_float ( 12 ) );
+    float zDim                                        = static_cast<float> ( map.header_float ( 13 ) );
+    
+    float aAng                                        = static_cast<float> ( map.header_float ( 14 ) );
+    float bAng                                        = static_cast<float> ( map.header_float ( 15 ) );
+    float cAng                                        = static_cast<float> ( map.header_float ( 16 ) );
+    
+    int xAxOrigin                                     = static_cast<int> ( map.header_i32   ( 50 ) ) + xFrom;
+    int yAxOrigin                                     = static_cast<int> ( map.header_i32   ( 51 ) ) + yFrom;
+    int zAxOrigin                                     = static_cast<int> ( map.header_i32   ( 52 ) ) + zFrom;
+    
+    int xAxOrder                                      = static_cast<int> ( map.header_i32   ( 17 ) );
+    int yAxOrder                                      = static_cast<int> ( map.header_i32   ( 18 ) );
+    int zAxOrder                                      = static_cast<int> ( map.header_i32   ( 19 ) );
+    
+    int xGridInds                                     = xDimInds;
+    int yGridInds                                     = yDimInds;
+    int zGridInds                                     = zDimInds;
+    
+    //================================================ Set the N for unitCellParameters object
+    unitCellParameters.setN                           ( xDimInds,                   // Number of indices along the x-axis
+                                                        xFrom,                      // X-axis from index
+                                                        xFrom + xDimInds - 1,       // X-axis to index
+                                                        yDimInds,                   // Number of indices along the y-axis
+                                                        yFrom,                      // Y-axis from index
+                                                        yFrom + yDimInds - 1,       // Y-axis to index
+                                                        zDimInds,                   // Number of indices along the z-axis
+                                                        zFrom,                      // Z-axis from index
+                                                        zFrom + zDimInds - 1 );     // Z-axis to index
+    
+    //================================================ Set dimensions and angles for unitCellParameters object
+    unitCellParameters.setabc                         ( ( xDim / ( xDimInds - 1 ) ) / 10.0 ,  // Distance between two indices along the x-axis in nm ( divide by 10 to get nm from A )
+                                                        ( yDim / ( yDimInds - 1 ) ) / 10.0 ,  // Distance between two indices along the y-axis in nm ( divide by 10 to get nm from A )
+                                                        ( zDim / ( zDimInds - 1 ) ) / 10.0 ); // Distance between two indices along the z-axis in nm ( divide by 10 to get nm from A )
+    unitCellParameters.setAlphaUsingDegrees           ( aAng );
+    unitCellParameters.setBetaUsingDegrees            ( bAng );
+    unitCellParameters.setGammaUsingDegrees           ( cAng );
+    
+    //================================================ De-orthoginalisation matrix
+    unitCellParameters.setDeOrthogonalizationMatrix   ( );
+    
+    //================================================ Prepate grid
+    initializeArrayOfGridPoints                       ( );
+    
+    //================================================ Read in the map
     {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unable to open density map : "<<densityFileName<<endl;
-        ErrorManager::instance.treatError();
-    }
-    
-    //======================================== Read in the cell information
-    {
-         //=================================== Initialise variables
-         float *cell                          = NULL;
-         
-         //=================================== Allocate memory
-         cell                                 = (float*) malloc ( 6 * sizeof ( float ) );
-         
-         //=================================== Check memory allocation
-         if ( cell == NULL ) { ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Failed to allocate memory." << endl; ErrorManager::instance.treatError(); }
-         
-         //=================================== Read the data
-         CMap_io::ccp4_cmap_get_cell          ( mapFile, cell );
-         
-         //=================================== Save the data
-         xDim                                 = cell[0];
-         yDim                                 = cell[1];
-         zDim                                 = cell[2];
-         aAng                                 = cell[3];
-         bAng                                 = cell[4];
-         cAng                                 = cell[5];
-         
-         //=================================== Release memory
-         free                                 ( cell );
-    }
-    
-    //======================================== Read in the dimensions information
-    {
-         //=================================== Initialise variables
-         int *dim                             = NULL;
-         
-         //=================================== Allocate memory
-         dim                                  = (int*) malloc (3 * sizeof ( int ) );
-         
-         //=================================== Check memory allocation
-         if ( dim == NULL ) { ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Failed to allocate memory." << endl; ErrorManager::instance.treatError(); }
-         
-         //=================================== Read the data
-         CMap_io::ccp4_cmap_get_dim           ( mapFile, dim );
-         
-         //=================================== Save the data
-         xInds                                = dim[0];
-         yInds                                = dim[1];
-         zInds                                = dim[2];
-         
-         //=================================== Release memory
-         free                                 ( dim );
-    }
-    
-    //======================================== Read in the system origin information
-    {
-         //=================================== Initialise variables
-         int *origin                          = NULL;
-         
-         //=================================== Allocate memory
-         origin                               = (int*) malloc (3 * sizeof ( int ) );
-         
-         //=================================== Check memory allocation
-         if ( origin == NULL ) { ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Failed to allocate memory." << endl; ErrorManager::instance.treatError(); }
-         
-         //=================================== Read the data
-         CMap_io::ccp4_cmap_get_origin        ( mapFile, origin );
-         
-         //=================================== Save the data
-         xOrigin                              = origin[0];
-         yOrigin                              = origin[1];
-         zOrigin                              = origin[2];
-         
-         //=================================== Release memory
-         free                                 ( origin );
-    }
-    
-    //======================================== Read in the axes order information
-    {
-         //=================================== Initialise variables
-         int *order                           = NULL;
-         
-         //=================================== Allocate memory
-         order                                = (int*) malloc (3 * sizeof ( int ) );
-         
-         //=================================== Check memory allocation
-         if ( order == NULL ) { ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Failed to allocate memory." << endl; ErrorManager::instance.treatError(); }
-         
-         //=================================== Read the data
-         CMap_io::ccp4_cmap_get_order         ( mapFile, order );
-         
-         //=================================== Save the data
-         xAxisOrder                           = order[0];
-         yAxisOrder                           = order[1];
-         zAxisOrder                           = order[2];
-         
-         //=================================== Release memory
-         free                                 ( order );
-    }
-    
-    //======================================== Set the N for unitCellParameters object
-    unitCellParameters.setN                   ( xInds,                   // Number of atoms along the x-axis
-                                                xOrigin,                 // X-axis from index
-                                                xOrigin + xInds - 1,     // X-axis to index
-                                                yInds,                   // Number of atoms along the y-axis
-                                                yOrigin,                 // Y-axis from index
-                                                yOrigin + yInds - 1,     // Y-axis to index
-                                                zInds,                   // Number of atoms along the z-axis
-                                                zOrigin,                 // Z-axis from index
-                                                zOrigin + zInds - 1 );   // Z-axis to index
-    
-    //======================================== Set dimensions and angles for unitCellParameters object
-    unitCellParameters.setabc                 ( ( xDim / ( xInds - 1 ) ) / 10.0 ,  // Distance between two indices along the x-axis in nm ( divide by 10 to get nm from A )
-                                                ( yDim / ( yInds - 1 ) ) / 10.0 ,  // Distance between two indices along the y-axis in nm ( divide by 10 to get nm from A )
-                                                ( zDim / ( zInds - 1 ) ) / 10.0 ); // Distance between two indices along the z-axis in nm ( divide by 10 to get nm from A )
-    unitCellParameters.setAlphaUsingDegrees   ( aAng );
-    unitCellParameters.setBetaUsingDegrees    ( bAng );
-    unitCellParameters.setGammaUsingDegrees   ( cAng );
-    
-    //======================================== De-orthoginalisation matrix
-    unitCellParameters.setDeOrthogonalizationMatrix ( );
-    
-    //======================================== Prepate grid
-    initializeArrayOfGridPoints               ( );
-    
-    //======================================== Read in the densities
-    {
-        //==================================== Check the map mode
-        int mapMode                           = CMap_io::ccp4_cmap_get_datamode ( mapFile );
-        if ( ( mapMode != 0 ) && ( mapMode != 2 ) )
-        {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Allowed map modes are 0 or 2, supplied map mode is: " << mapMode << endl; ErrorManager::instance.treatError();
-        }
-        
-        //==================================== Initialise local variables
-        int index;
-        int iters[3];
-        int maxLim[3];
-        int XYZOrder[3];
+        //============================================ Initialise internal variables
+        int axOrdArr[3];
+        int axDimArr[3];
         int newU, newV, newW;
-        int arrPos;
-        int maxMapV = 0, maxMapW = 0;
-        int order[3]; order[0] = xAxisOrder;    order[1] = yAxisOrder;    order[2] = zAxisOrder;
-        int orig[3];  orig[0]  = xOrigin;       orig[1]  = yOrigin;       orig[2]  = zOrigin;
-        int dim[3];   dim[0]   = xInds;         dim[1]   = yInds;         dim[2]   = zInds;
-        
-        //==================================== Set the dimensions for XYZ indexing
-        if ( order[1] == 1 ) { maxMapV = dim[0] - 1; }
-        if ( order[1] == 2 ) { maxMapV = dim[1] - 1; }
-        if ( order[1] == 3 ) { maxMapV = dim[2] - 1; }
-        
-        if ( order[2] == 1 ) { maxMapW = dim[0] - 1; }
-        if ( order[2] == 2 ) { maxMapW = dim[1] - 1; }
-        if ( order[2] == 3 ) { maxMapW = dim[2] - 1; }
-        
-        //==================================== Set the XYZ indexing order and indices
-        for ( int iter = 0; iter < 3; iter++ )
+
+        //============================================ Fill in values
+        axDimArr[0]                                   = xDimInds;
+        axDimArr[1]                                   = yDimInds;
+        axDimArr[2]                                   = zDimInds;
+
+        //============================================ Copy read in data to internal map variable
+        for ( axOrdArr[0] = 0; axOrdArr[0] < axDimArr[xAxOrder-1]; axOrdArr[0]++ )
         {
-            maxLim[iter]                      = orig[iter] + dim[iter] - 1;
-            XYZOrder[order[iter]-1]           = iter;
-        }
-        
-        //==================================== Solve the dimensions and sizes for reading
-        int fastDimSize                       = ( maxLim[0] - orig[0] + 1 );
-        int midDimSize                        = ( maxLim[1] - orig[1] + 1 ) * fastDimSize;
-        std::vector < float > section         ( midDimSize );
-        
-        //==================================== Read in the map data from the correct axis order, which can be any.
-        for ( iters[2] = orig[2]; iters[2] <= maxLim[2]; iters[2]++ )
-        {
-            index                             = 0;
-            CMap_io::ccp4_cmap_read_section( mapFile, &section[0] );
-            
-            //================================ Deal with mode 0
-            if ( mapMode == 0 )
+            for ( axOrdArr[1] = 0; axOrdArr[1] < axDimArr[yAxOrder-1]; axOrdArr[1]++ )
             {
-                for ( int iter = ( midDimSize - 1 ); iter >= 0; iter-- )
+                for ( axOrdArr[2] = 0; axOrdArr[2] < axDimArr[zAxOrder-1]; axOrdArr[2]++ )
                 {
-                    section[iter]             = static_cast < float > ( ( reinterpret_cast<unsigned char*> (&section[0]) )[iter] );
-                }
-            }
-            
-            for ( iters[1] = orig[1]; iters[1] <= maxLim[1]; iters[1]++ )
-            {
-                for ( iters[0] = orig[0]; iters[0] <= maxLim[0]; iters[0]++ )
-                {
-                    //======================== Compute the correct XYZ positions
-                    //newU                      = iters[XYZOrder[0]] - orig[XYZOrder[0]];
-                    //newV                      = iters[XYZOrder[1]] - orig[XYZOrder[1]];
-                    //newW                      = iters[XYZOrder[2]] - orig[XYZOrder[2]];
-                    // 2 Feb 2020, SCF changed according to Michal Tykac's instructions to:
-                    newU                      = iters[0] - orig[0];
-                    newV                      = iters[1] - orig[1];
-                    newW                      = iters[2] - orig[2];
- 
-		    //======================== Save the read in density into the correct MMB grid position
-                    GridIndices centralGridIndices ( newU,  newV, newW );
-                    GridPoint & centralGridPoint = updGridPoint ( centralGridIndices );
-                    setDensity                ( centralGridPoint, static_cast < float > ( section[ index++ ] ) );
+                    GridIndices centralGridIndices    ( axOrdArr[0],  axOrdArr[1], axOrdArr[2] );
+                    GridPoint & centralGridPoint      = updGridPoint ( centralGridIndices );
+                    setDensity                        ( centralGridPoint, static_cast < float > ( map.grid.get_value_q( axOrdArr[xAxOrder-1], axOrdArr[yAxOrder-1], axOrdArr[zAxOrder-1] ) ) );
                 }
             }
         }
     }
-    
-    //======================================== Close the map file
-    CMap_io::ccp4_cmap_close                  ( mapFile );
 
     //======================================== DONE!
     return ;

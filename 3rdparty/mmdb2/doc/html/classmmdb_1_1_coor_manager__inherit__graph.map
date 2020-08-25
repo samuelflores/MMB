@@ -1,9 +1,0 @@
-<map id="G" name="G">
-<area shape="rect" href="$classmmdb_1_1_sel_manager.html" title="mmdb::SelManager" alt="" coords="13,393,176,420"/>
-<area shape="rect" href="$classmmdb_1_1_root.html" title="mmdb::Root" alt="" coords="40,239,149,265"/>
-<area shape="rect" href="$classmmdb_1_1_u_d_data.html" title="mmdb::UDData" alt="" coords="28,161,161,188"/>
-<area shape="rect" href="$classmmdb_1_1_mask.html" title="mmdb::Mask" alt="" coords="39,84,151,111"/>
-<area shape="rect" href="$classmmdb_1_1io_1_1_stream.html" title="mmdb::io::Stream" alt="" coords="19,7,171,33"/>
-<area shape="rect" href="$classmmdb_1_1_bond_manager.html" title="mmdb::BondManager" alt="" coords="5,471,184,497"/>
-<area shape="rect" href="$classmmdb_1_1_manager.html" title="mmdb::Manager" alt="" coords="24,548,165,575"/>
-</map>

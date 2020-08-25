@@ -40,11 +40,6 @@
 #include "NTC_PARAMETER_READER.h"
 //#endif
 
-
-#ifdef CPP4_MAPS_USAGE
-  #include <mmdb2/mmdb_manager.h>
-#endif
-
 // Here is where we define GetCurrentDir , an OS dependent function to retrieve the current working directory.
 #ifdef WINDOWS
     #include <direct.h>
@@ -85,12 +80,11 @@ public:
     bool   addSelectedAtoms;          
     bool   addTestSpring;
     bool   useCIFFileFormat;
-#ifdef CPP4_MAPS_USAGE
-    mmdb::io::File cifTrajectoryFile;
-    mmdb::mmcif::Data cifData;
+#ifdef GEMMI_USAGE
+    gemmi::Structure gemmiCifTrajectoryFile;
+    std::vector< std::pair < std::string, std::string > > trajectoryFileRemarks;
+    std::vector< std::pair < std::string, std::string > > lastFileRemarks;
 #endif
-    int mmbRemarkCounter;
-    int mmbRemarkNum;
     bool   alignmentForcesIsGapped;
     double alignmentForcesGapPenalty;
     double alignmentForcesDeadLengthFraction;
@@ -335,8 +329,8 @@ public:
     void removeBasePairsInRigidStretch ();
 
     void printAllSettings (   ostream  & myOstream = std::cout, String remarkString = "") ;
-#ifdef CPP4_MAPS_USAGE
-    void printAllSettings (   mmdb::mmcif::Data* cifData, int *remCounter, int remNum, String remarkString = "" ) ;
+#ifdef GEMMI_USAGE
+    void printAllSettingsToMMCIF ( std::vector< std::pair < std::string, std::string > > &remarksVec ) ;
 #endif
  
 

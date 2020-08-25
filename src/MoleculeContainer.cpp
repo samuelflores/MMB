@@ -669,10 +669,10 @@ void MoleculeClassContainer::matchDefaultConfiguration(bool readPreviousFrameFil
         }
         else if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".cif" )
         {
-#ifdef CPP4_MAPS_USAGE
+#ifdef GEMMI_USAGE
             pdbStructure                              = PdbStructure (pdbFileName);
 #else
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file output, but did not compile with the MMDB2 library. Cannot proceed, if you want to use mmCIF files, please re-compile with the MMDB2 library option allowed." <<endl; ErrorManager::instance.treatError();
+            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file usage, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl; ErrorManager::instance.treatError();
 #endif
         }
         else

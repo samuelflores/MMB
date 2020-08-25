@@ -626,23 +626,47 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
     {
         PdbStructure myPdbStructure;
         
-        //============================================ Use PDB reader or CIF reader depending on the extension.
+        //============================================ Read in PDB or CIF
         if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
         {
-            //============================================ No problem, continue as usual
-            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Filename " << inputFileName << " suggests PDB file. Using the PDB file reader ... " << std::endl;
-            ifstream pdbfile                          ( inputFileName.c_str()) ;
-            myPdbStructure                            = PdbStructure ( pdbfile );
-            pdbfile.close                             ( );
+            std::cout << "Here we are!" << std::endl;
+            std::ifstream inputFile                   ( inputFileName.c_str(), ifstream::in );
+            
+            std::cout << " ... Is file " << inputFileName << " good?" << std::endl;
+            if ( !inputFile.good() )
+            {
+#ifdef GEMMI_USAGE
+                std::cout << " ... Nope! Trying ";
+                std::string testSwitchName            = inputFileName.substr ( 0, pdbFileName.size()-4) + ".cif";
+                std::cout << testSwitchName << " for now." << std::endl;
+                myPdbStructure                        = PdbStructure ( testSwitchName );
+#endif
+            }
+            else
+            {
+                std::cout << " ... Apparently so! Reading from " << inputFileName << std::endl;
+                myPdbStructure                        = PdbStructure (inputFile);
+            }
         }
-        else
+        else if ( ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".cif"    ) ||
+                  ( inputFileName.substr ( inputFileName.length() - 7, inputFileName.length() - 1) == ".cif.gz" ) )
         {
-            //============================================ This should be a CIF file, read it using MMDB
-            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Caching the PdbStructure from CIF file " << inputFileName << std::endl;
-            myPdbStructure                            = PdbStructure ( inputFileName );
+#ifdef GEMMI_USAGE
+            std::ifstream textExists                  ( inputFileName.c_str() );
+            if ( textExists.good() )
+            {
+                myPdbStructure                        = PdbStructure ( inputFileName );
+            }
+            else
+            {
+                std::string testSwitchName            = inputFileName.substr ( 0, pdbFileName.size()-4) + ".pdb";
+                std::ifstream inputFile               ( testSwitchName.c_str(), ifstream::in );
+                myPdbStructure                        = PdbStructure (inputFile);
+            }
+#else
+            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file usage, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl; ErrorManager::instance.treatError();
+#endif
         }
-        
-        
         
         return matchCoordinates( myPdbStructure, matchExact, matchIdealized, matchOptimize,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,

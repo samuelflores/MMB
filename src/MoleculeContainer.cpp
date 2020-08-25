@@ -664,20 +664,48 @@ void MoleculeClassContainer::matchDefaultConfiguration(bool readPreviousFrameFil
         //============================================ Read in PDB or CIF
         if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".pdb" )
         {
-            std::ifstream inputFile                   (pdbFileName.c_str(), ifstream::in);
-            pdbStructure                              = PdbStructure (inputFile);
+            std::cout << "Here we are!" << std::endl;
+            std::ifstream inputFile                   ( pdbFileName.c_str(), ifstream::in );
+            
+            std::cout << " ... Is file " << pdbFileName << " good?" << std::endl;
+            if ( !inputFile.good() )
+            {
+#ifdef GEMMI_USAGE
+                std::cout << " ... Nope! Trying ";
+                std::string testSwitchName            = pdbFileName.substr ( 0, pdbFileName.size()-4) + ".cif";
+                std::cout << testSwitchName << " for now." << std::endl;
+                pdbStructure                          = PdbStructure ( testSwitchName );
+#endif
+            }
+            else
+            {
+                std::cout << " ... Apparently so! Reading from " << pdbFileName << std::endl;
+                pdbStructure                          = PdbStructure (inputFile);
+            }
         }
-        else if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".cif" )
+        else if ( ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".cif"    ) ||
+                  ( pdbFileName.substr ( pdbFileName.length() - 7, pdbFileName.length() - 1) == ".cif.gz" ) )
         {
 #ifdef GEMMI_USAGE
-            pdbStructure                              = PdbStructure (pdbFileName);
+            std::ifstream textExists                  ( pdbFileName.c_str() );
+            if ( textExists.good() )
+            {
+                pdbStructure                          = PdbStructure (pdbFileName);
+            }
+            else
+            {
+                std::string testSwitchName            = pdbFileName.substr ( 0, pdbFileName.size()-4) + ".pdb";
+                std::ifstream inputFile               ( testSwitchName.c_str(), ifstream::in );
+                pdbStructure                          = PdbStructure (inputFile);
+                
+            }
 #else
             ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file usage, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl; ErrorManager::instance.treatError();
 #endif
         }
         else
         {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Failed to detect the extension of the input file " << pdbFileName << ". The supported extensions are: \'.pdb\' and \'.cif\'. Terminating now..." <<endl; ErrorManager::instance.treatError();
+            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Failed to detect the extension of the input file " << pdbFileName << ". The supported extensions are: \'.pdb\', \'.cif\' and \'.cif.gz\'. Terminating now..." <<endl; ErrorManager::instance.treatError();
         }
 	    map<const String, MoleculeClass>::iterator it;
 	    map<const String, MoleculeClass>::iterator next;

@@ -184,6 +184,11 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
             myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": DuMM Molecular Dynamics Potential Energy = " + std::to_string ( dummPotentialEnergy ) + " kJ/mol, " + std::to_string( dummPotentialEnergy / 4.184 ) + " kcal/mol" ) );
             myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Kinetic Energy                           = " + std::to_string ( myKineticEnergy ) + " kJ/mol, " + std::to_string( myKineticEnergy / 4.184 ) + " kcal/mol" ) );
             myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Energy                                   = " + std::to_string ( myEnergy ) + " kJ/mol" ) );
+            
+            cout <<"Total Potential Energy =                   "<<myPotentialEnergy <<" kJ/mol, "<<myPotentialEnergy/4.184<<" kcal/mol"<<std::endl;
+            cout <<"DuMM Molecular Dynamics Potential Energy = "<<dummPotentialEnergy <<" kJ/mol, "<<dummPotentialEnergy/4.184<<" kcal/mol"<<std::endl;
+            cout <<"Kinetic Energy = "<< myKineticEnergy <<" kJ/mol, "<<myKineticEnergy/4.184<<" kcal/mol"<<std::endl;
+            cout <<"REMARK Energy = "<< myEnergy <<" kJ/mol "<<std::endl;
         }
         
         std::stringstream alMomHlp; alMomHlp << system.calcSystemRigidBodyMomentum(state);

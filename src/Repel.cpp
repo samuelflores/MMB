@@ -979,7 +979,7 @@ void ConstrainedDynamics::postDynamics(){
                 if ( ( bioType == BiopolymerType::RNA ) || ( bioType == BiopolymerType::DNA ) || ( bioType == BiopolymerType::Protein ) ) { isPolymer = true; }
                 
                 //==================================== Build the Gemmi model from molmodel data
-                (_system.getCompound(c)).buildCif     ( _state, &gModel, isPolymer, Transform( Vec3 ( 0 ) ) );
+                (_system.getCompound(c)).buildCif     ( _state, &gModel, isPolymer, 17, Transform( Vec3 ( 0 ) ) );
                 
                 //==================================== Save model to structure
                 outStruct.models.push_back            ( gModel );

@@ -98,7 +98,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
             if ( ( bioType == BiopolymerType::RNA ) || ( bioType == BiopolymerType::DNA ) || ( bioType == BiopolymerType::Protein ) ) { isPolymer = true; }
             
             //======================================== Build the Gemmi model from molmodel data
-            (system.getCompound(c)).buildCif          ( state, &gModel, isPolymer, Transform( Vec3 ( 0 ) ) );
+            (system.getCompound(c)).buildCif          ( state, &gModel, isPolymer, 3, Transform( Vec3 ( 0 ) ) );
             
             //======================================== Update compound number
             compoundNumber++;

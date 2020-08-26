@@ -393,8 +393,85 @@ void WaterDroplet::adopt( CompoundSystem & system, bool readPreviousFrameFile) {
 void WaterDropletContainer::matchDefaultConfiguration(bool readPreviousFrameFile, String pdbFileName,bool matchExact, bool matchIdealized)
 {
     if (readPreviousFrameFile) {
-        std::ifstream inputFile(pdbFileName.c_str(), ifstream::in);
-        PdbStructure pdbStructure(inputFile);
+        PdbStructure pdbStructure;
+        
+        //============================================ Read in PDB or CIF
+        if ( pdbFileName.length() > 4 )
+        {
+            if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".pdb" )
+            {
+                std::ifstream inputFile               ( pdbFileName.c_str(), ifstream::in );
+                
+                if ( !inputFile.good() )
+                {
+                    ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                    ErrorManager::instance.treatError ( );
+                }
+                else
+                {
+                    pdbStructure                      = PdbStructure (inputFile);
+                }
+            }
+            else if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".cif" )
+            {
+#ifdef GEMMI_USAGE
+                std::ifstream testOpen                ( pdbFileName.c_str() );
+                if ( testOpen.good() )
+                {
+                    pdbStructure                      = PdbStructure (pdbFileName);
+                }
+                else
+                {
+                    std::string pdbFileHlp            = pdbFileName;
+                    pdbFileHlp.append                 ( ".gz" );
+                    
+                    std::ifstream testOpen2           ( pdbFileHlp.c_str() );
+                    if ( testOpen2.good() )
+                    {
+                        pdbStructure                  = PdbStructure ( pdbFileHlp );
+                    }
+                    else
+                    {
+                        ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                        ErrorManager::instance.treatError ( );
+                    }
+                    testOpen2.close                   ( );
+                }
+                testOpen.close                        ( );
+#else
+                ErrorManager::instance << "!!! Error !!! MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl;
+                ErrorManager::instance.treatError     ( );
+#endif
+            }
+            else if ( pdbFileName.length() > 7 )
+            {
+                if ( pdbFileName.substr ( pdbFileName.length() - 7, pdbFileName.length() - 1) == ".cif.gz" )
+                {
+#ifdef GEMMI_USAGE
+                pdbStructure                          = PdbStructure (pdbFileName);
+#else
+                ErrorManager::instance << "!!! Error !!! MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl;
+                ErrorManager::instance.treatError     ( );
+#endif
+                }
+                else
+                {
+                    ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                    ErrorManager::instance.treatError ( );
+                }
+            }
+            else
+            {
+                ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                ErrorManager::instance.treatError     ( );
+            }
+        }
+        else
+        {
+            ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+            ErrorManager::instance.treatError         ( );
+        }
+        
         cout <<__FILE__<<":"<<__LINE__<<endl;
 	for (int i = 0; i< (int)waterDropletVector.size(); i++){
   

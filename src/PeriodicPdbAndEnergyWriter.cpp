@@ -194,7 +194,8 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
         std::stringstream alMomHlp; alMomHlp << system.calcSystemRigidBodyMomentum(state);
         myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Angular, Linear Momentum                 = " + alMomHlp.str() ) );
         std::stringstream getNuHlp; getNuHlp << state.getNU();
-        myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": [" + __FILE__ + "] state.getNU()    = " + getNuHlp.str() + "\n" ) );
+        myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": [" + __FILE__ + "] state.getNU()    = " + getNuHlp.str() ) );
+        myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "" ) );
         
         //============================================ Write out CIF
         SimTK::CIFOut::writeOutCif                    ( myParameterReader.gemmiCifTrajectoryFile, myParameterReader.outTrajectoryFileName, myParameterReader.trajectoryFileRemarks );

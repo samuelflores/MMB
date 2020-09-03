@@ -56,6 +56,12 @@ RUN make install
 #WORKDIR /github/MMB
 # in the case of MMB 3.0:
 
+##############
+### Gemmi Part
+##############
+WORKDIR /github
+RUN git clone https://github.com/project-gemmi/gemmi.git
+
 ##################
 ### Molmodel
 ##################

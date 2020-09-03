@@ -1278,6 +1278,7 @@ class  MMBAtomInfo {
         void setChain(const String myChain ){ chain = myChain;}
         String getChain( ){ return chain ;}
         ResidueInfo::Index getResidueIndex( ){ return  residueIndex;}
+        ResidueID          getResidueID   ( ){ return  residueID   ;}
         void setResidueIndex(ResidueInfo::Index  myResidueIndex ){ residueIndex = myResidueIndex;}
         MMBAtomInfo(){};
         MMBAtomInfo(String myChain,  ResidueID myResidueID, String myAtomName ){

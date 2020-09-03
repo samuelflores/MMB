@@ -1279,6 +1279,9 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter,  
         for (ResidueInfo::AtomIndex k (0) ;k < myResidueInfo.getNumAtoms() ; k++) {
             //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" j,k "<<j.outString()<<", "<<k<<endl;
             MMBAtomInfo myAtomInfo = mmbAtomInfo(j,k,matter);
+            myAtomInfo.setResidueIndex(getResidueIndex(j));
+            myAtomInfo.setChain(getChainID());
+            myAtomInfo.setResidueID(j);	
             //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
            const PdbAtom& myPdbAtom = myPdbChain.getAtom(myAtomInfo.atomName, PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
             //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<endl;
@@ -1318,7 +1321,9 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, D
             ResidueInfo myResidueInfo = myBiopolymer.updResidue(getResidueIndex(j));
                    for (ResidueInfo::AtomIndex k (0) ;k < myResidueInfo.getNumAtoms() ; k++) {
                         MMBAtomInfo myAtomInfo = mmbAtomInfo(j,k,matter,dumm);
- 
+                        myAtomInfo.setResidueIndex(getResidueIndex(j));
+		        myAtomInfo.setChain(getChainID());
+		        myAtomInfo.setResidueID(j);	
                         // Added this as a fix:
 			const PdbAtom& myPdbAtom = myPdbChain.getAtom(myAtomInfo.atomName, PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
 			Vec3 myPositionVec3 = myPdbAtom.getCoordinates();
@@ -3324,6 +3329,11 @@ void BiopolymerClassContainer::setNeighborsFromList(vector<MMBAtomInfo>& concate
         if(dist <= radius)
         {
             atom1.addNeighbor(&atom2);
+            atom2.addNeighbor(&atom1); // For applyContactsWithin, ContactContainer.cpp : ContactContainer::createContactsWithin loops over a list of atoms and looks at its neighbor. since the neighborlist is on order of larger on left, smaller on right, then we have to do both forward and reverse linking. This of course doubles the number of neighbors. But I think it's more efficient than trying to do double looping.  Hopefully memory won't be an issue. 
+
+            //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Added neighbor atom 1 = "<<atom1.getChain()<<atom1.getResidueIndex()<<atom1.getAtomName() << " , atom 2 = "<<atom2.getChain()<<atom2.getResidueIndex()<<atom2.getAtomName()<<std::endl;
+            //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Added neighbor atom 2 = "<<atom2.getChain()<<atom2.getResidueIndex()<<atom2.getAtomName() << " , atom 1 = "<<atom1.getChain()<<atom1.getResidueIndex()<<atom1.getAtomName()<<std::endl;
+	     
         }
     }    
 }

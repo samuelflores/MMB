@@ -626,23 +626,82 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
     {
         PdbStructure myPdbStructure;
         
-        //============================================ Use PDB reader or CIF reader depending on the extension.
-        if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
+        //============================================ Read in PDB or CIF
+        if ( inputFileName.length() > 4 )
         {
-            //============================================ No problem, continue as usual
-            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Filename " << inputFileName << " suggests PDB file. Using the PDB file reader ... " << std::endl;
-            ifstream pdbfile                          ( inputFileName.c_str()) ;
-            myPdbStructure                            = PdbStructure ( pdbfile );
-            pdbfile.close                             ( );
+            if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
+            {
+                std::ifstream inputFile               ( inputFileName.c_str(), ifstream::in );
+                
+                if ( !inputFile.good() )
+                {
+                    ErrorManager::instance << "!!! Error !!! The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                    ErrorManager::instance.treatError ( );
+                }
+                else
+                {
+                    myPdbStructure                    = PdbStructure (inputFile);
+                }
+            }
+            else if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".cif" )
+            {
+#ifdef GEMMI_USAGE
+                std::ifstream testOpen                ( inputFileName.c_str() );
+                if ( testOpen.good() )
+                {
+                    myPdbStructure                    = PdbStructure (inputFileName);
+                }
+                else
+                {
+                    std::string pdbFileHlp            = inputFileName;
+                    pdbFileHlp.append                 ( ".gz" );
+                    
+                    std::ifstream testOpen2           ( pdbFileHlp.c_str() );
+                    if ( testOpen2.good() )
+                    {
+                        myPdbStructure                = PdbStructure ( pdbFileHlp );
+                    }
+                    else
+                    {
+                        ErrorManager::instance << "!!! Error !!! The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                        ErrorManager::instance.treatError ( );
+                    }
+                    testOpen2.close                   ( );
+                }
+                testOpen.close                        ( );
+#else
+                ErrorManager::instance << "!!! Error !!! MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl;
+                ErrorManager::instance.treatError     ( );
+#endif
+            }
+            else if ( inputFileName.length() > 7 )
+            {
+                if ( inputFileName.substr ( inputFileName.length() - 7, inputFileName.length() - 1) == ".cif.gz" )
+                {
+#ifdef GEMMI_USAGE
+                myPdbStructure                        = PdbStructure (inputFileName);
+#else
+                ErrorManager::instance << "!!! Error !!! MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl;
+                ErrorManager::instance.treatError     ( );
+#endif
+                }
+                else
+                {
+                    ErrorManager::instance << "!!! Error !!! The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                    ErrorManager::instance.treatError ( );
+                }
+            }
+            else
+            {
+                ErrorManager::instance << "!!! Error !!! The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                ErrorManager::instance.treatError     ( );
+            }
         }
         else
         {
-            //============================================ This should be a CIF file, read it using MMDB
-            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Caching the PdbStructure from CIF file " << inputFileName << std::endl;
-            myPdbStructure                            = PdbStructure ( inputFileName );
+            ErrorManager::instance << "!!! Error !!! The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+            ErrorManager::instance.treatError         ( );
         }
-        
-        
         
         return matchCoordinates( myPdbStructure, matchExact, matchIdealized, matchOptimize,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,

@@ -13,7 +13,7 @@ LABEL git_commit=$GIT_COMMIT
 
 
 
-RUN apt-get update && apt-get install -y  apt-utils     cmake    cmake-curses-gui    g++    vim    doxygen    swig python  libblas-dev liblapack-dev  git-core subversion mc wget
+RUN apt-get update && apt-get install -y  apt-utils     cmake    cmake-curses-gui    g++    vim    doxygen    swig python  libblas-dev liblapack-dev  git-core subversion mc wget zlib1g zlib1g-dev
    
 #RUN apt-get install -y mc
 
@@ -56,20 +56,11 @@ RUN make install
 #WORKDIR /github/MMB
 # in the case of MMB 3.0:
 
-##################
-### CCP4 Maps Part
-##################
-
-# Install dependencies
-RUN apt-get update && apt-get install -y python-dev gfortran m4
-
-# Copy and install MMDB2
-WORKDIR /github/MMB/3rdparty/mmdb2
-RUN ./configure --enable-shared && make && make install
-
-# Copy and install libccp4
-WORKDIR /github/MMB/3rdparty/libccp4
-RUN ./configure --enable-shared && make && make install
+##############
+### Gemmi Part
+##############
+WORKDIR /github
+RUN git clone https://github.com/project-gemmi/gemmi.git
 
 ##################
 ### Molmodel
@@ -78,7 +69,8 @@ RUN ./configure --enable-shared && make && make install
 #WORKDIR /svn/molmodel/build
 RUN mkdir /github/molmodel/build
 WORKDIR /github/molmodel/build
-RUN cmake -DADD_MMDB2_LIBRARY=TRUE -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF ..
+RUN cmake -DUSE_GEMMI=TRUE -DGEMMI_PATH=/github/gemmi/include -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF ..
+#RUN cmake -DUSE_GEMMI=FALSE -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF ..
 RUN make install
 
 #RUN git -C /github/MMB  checkout $GIT_COMMIT        
@@ -86,7 +78,8 @@ RUN make install
 RUN mkdir /github/MMB/build
 WORKDIR /github/MMB/build
 RUN git pull --all
-RUN cmake -DBuild_CCP4=TRUE -DLIBCCP4_INCLUDE_DIR=/github/MMB/3rdparty/include -DLepton_INCLUDE_DIR=/github/MMB/3rdparty/Lepton1.3/include -DLIBCCP4_LIB_DIR=/github/MMB/3rdparty/lib  -DOpenMM_INSTALL_DIR=//usr/local/openmm  -DOpenMM_INCLUDE_DIR="/usr/local/openmm/include/openmm/reference/;/usr/local/openmm/include/openmm/;/usr/local/openmm/include"  -DCMAKE_BUILD_TYPE=Release -DSeqAn_INCLUDE_DIR=/github/seqan/include -DCMAKE_CXX_FLAGS="-std=c++14 -D BuildNtC -D USE_OPENMM -D  MMDB2_LIB_USAGE " -DSimTK_INSTALL_DIR=/usr/local -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_PREFIX_PATH=/usr/local -DCMAKE_INSTALL_PREFIX=/usr/local  ..
+RUN cmake -DBuild_GEMMI=TRUE -DGEMMI_INCLUDE_DIR=/github/gemmi/include -DLepton_INCLUDE_DIR=/github/MMB/3rdparty/Lepton1.3/include -DOpenMM_INSTALL_DIR=//usr/local/openmm  -DOpenMM_INCLUDE_DIR="/usr/local/openmm/include/openmm/reference/;/usr/local/openmm/include/openmm/;/usr/local/openmm/include"  -DCMAKE_BUILD_TYPE=Release -DSeqAn_INCLUDE_DIR=/github/seqan/include -DCMAKE_CXX_FLAGS="-std=c++14 -D BuildNtC -D USE_OPENMM" -DSimTK_INSTALL_DIR=/usr/local -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_PREFIX_PATH=/usr/local -DCMAKE_INSTALL_PREFIX=/usr/local  ..
+#RUN cmake -DBuild_GEMMI=FALSE -DLepton_INCLUDE_DIR=/github/MMB/3rdparty/Lepton1.3/include -DOpenMM_INSTALL_DIR=//usr/local/openmm  -DOpenMM_INCLUDE_DIR="/usr/local/openmm/include/openmm/reference/;/usr/local/openmm/include/openmm/;/usr/local/openmm/include"  -DCMAKE_BUILD_TYPE=Release -DSeqAn_INCLUDE_DIR=/github/seqan/include -DCMAKE_CXX_FLAGS="-std=c++14 -D BuildNtC -D USE_OPENMM" -DSimTK_INSTALL_DIR=/usr/local -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_PREFIX_PATH=/usr/local -DCMAKE_INSTALL_PREFIX=/usr/local  ..
 
 
 RUN touch /github/MMB/build/done-cmake.txt

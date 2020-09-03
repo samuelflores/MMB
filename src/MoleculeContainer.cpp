@@ -659,26 +659,87 @@ void  MoleculeClassContainer::validateChainID(String myChainID){
 void MoleculeClassContainer::matchDefaultConfiguration(bool readPreviousFrameFile, String pdbFileName,bool matchExact, bool matchIdealized)
 {
     cout<<__FILE__<<":"<<__LINE__<<" readPreviousFrameFile = "<<readPreviousFrameFile<<", pdbFileName = >"<<pdbFileName<<"< "<<endl;
-    if (readPreviousFrameFile) {
+    if (readPreviousFrameFile)
+    {
         PdbStructure pdbStructure;
+        
         //============================================ Read in PDB or CIF
-        if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".pdb" )
+        if ( pdbFileName.length() > 4 )
         {
-            std::ifstream inputFile                   (pdbFileName.c_str(), ifstream::in);
-            pdbStructure                              = PdbStructure (inputFile);
-        }
-        else if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".cif" )
-        {
-#ifdef CPP4_MAPS_USAGE
-            pdbStructure                              = PdbStructure (pdbFileName);
+            if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".pdb" )
+            {
+                std::ifstream inputFile               ( pdbFileName.c_str(), ifstream::in );
+                
+                if ( !inputFile.good() )
+                {
+                    ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                    ErrorManager::instance.treatError ( );
+                }
+                else
+                {
+                    pdbStructure                      = PdbStructure (inputFile);
+                }
+            }
+            else if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".cif" )
+            {
+#ifdef GEMMI_USAGE
+                std::ifstream testOpen                ( pdbFileName.c_str() );
+                if ( testOpen.good() )
+                {
+                    pdbStructure                      = PdbStructure (pdbFileName);
+                }
+                else
+                {
+                    std::string pdbFileHlp            = pdbFileName;
+                    pdbFileHlp.append                 ( ".gz" );
+                    
+                    std::ifstream testOpen2           ( pdbFileHlp.c_str() );
+                    if ( testOpen2.good() )
+                    {
+                        pdbStructure                  = PdbStructure ( pdbFileHlp );
+                    }
+                    else
+                    {
+                        ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                        ErrorManager::instance.treatError ( );
+                    }
+                    testOpen2.close                   ( );
+                }
+                testOpen.close                        ( );
 #else
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file output, but did not compile with the MMDB2 library. Cannot proceed, if you want to use mmCIF files, please re-compile with the MMDB2 library option allowed." <<endl; ErrorManager::instance.treatError();
+                ErrorManager::instance << "!!! Error !!! MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl;
+                ErrorManager::instance.treatError     ( );
 #endif
+            }
+            else if ( pdbFileName.length() > 7 )
+            {
+                if ( pdbFileName.substr ( pdbFileName.length() - 7, pdbFileName.length() - 1) == ".cif.gz" )
+                {
+#ifdef GEMMI_USAGE
+                pdbStructure                          = PdbStructure (pdbFileName);
+#else
+                ErrorManager::instance << "!!! Error !!! MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl;
+                ErrorManager::instance.treatError     ( );
+#endif
+                }
+                else
+                {
+                    ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                    ErrorManager::instance.treatError ( );
+                }
+            }
+            else
+            {
+                ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                ErrorManager::instance.treatError     ( );
+            }
         }
         else
         {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Failed to detect the extension of the input file " << pdbFileName << ". The supported extensions are: \'.pdb\' and \'.cif\'. Terminating now..." <<endl; ErrorManager::instance.treatError();
+            ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+            ErrorManager::instance.treatError         ( );
         }
+        
 	    map<const String, MoleculeClass>::iterator it;
 	    map<const String, MoleculeClass>::iterator next;
 	    //int i = 0;

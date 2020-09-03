@@ -706,617 +706,128 @@ void ParameterReader::removeBasePairsInRigidStretch () {
     } 
 };
 
-#ifdef CPP4_MAPS_USAGE
-void makeRemark ( std::string s, mmdb::mmcif::Data *cifData, int *remCounter, int remNum )
-{
-    mmdb::Remark *remark                              = new mmdb::Remark ( s.c_str() );
-    remark->remarkNum                                 = remNum;
-    remark->MakeCIF                                   ( cifData, *remCounter );
-    *remCounter++;
-    delete remark;
-    return ;
-};
-
-void ParameterReader::printAllSettings ( mmdb::mmcif::Data *cifData, int *remCounter, int remNum, String remarkString )
-{
-    std::stringstream myStringStream;
-
-    myStringStream << remarkString << "addAllAtomSterics                      bool    " << addAllAtomSterics;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "addAllHeavyAtomSterics                 bool    "<<addAllHeavyAtomSterics;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "addProteinBackboneSterics              bool    "<<addProteinBackboneSterics;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "addRNABackboneSterics                  bool    "<<addRNABackboneSterics;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "addSelectedAtoms                       bool    "<<addSelectedAtoms<<" : Add steric spheres to certain RNA atoms as specified in the RNABuilder parameter file. ";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "useCIFFileFormat                       bool    "<<useCIFFileFormat<<" : Use mmCIF formatted files instead of PDB formatted files for internal and output files. ";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "mmbRemarkCounter                       int     "<<mmbRemarkCounter;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "mmbRemarkNum                           int     "<<mmbRemarkNum;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "alignmentForcesIsGapped                bool    "<<alignmentForcesIsGapped<<" : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "alignmentForcesGapPenalty              double  "<<alignmentForcesGapPenalty<<" : The penalty applied to gaps. The noGaps condition is enforced with a high value of this parameter. Can vary through the course of the input commands file. This is only the final value.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "alignmentForcesDeadLengthFraction      double  "<<alignmentForcesDeadLengthFraction<<" : The fraction of the initial length to which the alignmentSprings equilibrate. Should be in the interval (0,1]. A nonzero value enables e.g. progressive morphing.  Can vary through the course of the input commands file. This is only the final value.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "alignmentForcesForceConstant           double  "<<alignmentForcesForceConstant<<" : Force constant for the  alignmentForces springs. Can vary through the course of the input commands file. This is only the final value.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "calcEnergy                             bool    "<<calcEnergy;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-//    myStringStream << remarkString << "constrainRigidSegments                 bool    "<<constrainRigidSegments;
-//    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-//    myStringStream.clear();
-//    myStringStream.str("");
-
-    myStringStream << remarkString << "constraintTolerance                    double   "<<constraintTolerance;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "cutoffRadius                           double   "<<cutoffRadius<<" (nm)";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "densityAtomFraction                    String  "<<densityAtomFraction;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "densityFileName                        String  "<<densityFileName;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "densityFitPhosphates                   bool    "<<densityFitPhosphates<<" : When set to False, this means phophate groups in DNA and RNA will feel zero density map fitting force. Be warned that this slows down your run A LOT -- proportional to the number of nucleic acid residues that have fitting forces turned on.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "densityForceConstant                   double   "<<densityForceConstant;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "densityNoiseComputeAutocorrelation                double   "<<densityNoiseComputeAutocorrelation<<" Compute the autocorrelation function for both the planck's law noise and input density. may only have effect if densityNoiseScale > 0.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "densityReportAtEachAtomPosition        bool    "<<densityReportAtEachAtomPosition<<" Write out the local density observed at each atom position, and the corresponding atom name. Written to stdout. Only works when the density forces are active. ";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "densityNoiseTemperature                double   "<<densityNoiseTemperature<<" Temperature for the Planck's Law based noise generator for the density map.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "densityNoiseScale                      double   "<<densityNoiseScale<<" Overall scale of the noise for the Planck's Law based noise generator for the density map. Note that this scales the noise amplitude, but the amplitude is squared prior to being added to the density map, and being used to compute signalToNoiseRatio. ";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-//    myStringStream << remarkString << "densityMapActivate                     String  "<<densityMapActivate;
-//    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-//    myStringStream.clear();
-//    myStringStream.str("");
-
-    myStringStream << remarkString << "dutyCycle                              double   "<<dutyCycle<<" : Must lie in (0,1) ";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "electroDensityFileName                        String  "<<densityFileName;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "electroDensityForceConstant                   double   "<<densityForceConstant;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "excludedVolumeRadius                   double   "<<excludedVolumeRadius<<" : Radius (in nm) of contact spheres to be applied in AllHeavyAtomSterics and AllAtomSterics.  ";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "excludedVolumeStiffness                double   "<<excludedVolumeStiffness;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-//    myStringStream << remarkString << "firstResidueMobilizerType              String  "<< firstResidueMobilizerType<<" : use constrainToGround to set this to Weld ";
-//    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-//    myStringStream.clear();
-//    myStringStream.str("");
-
-    myStringStream << remarkString << "firstStage                             int     "<<firstStage;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "fitDefaultTolerance                    double   "<<fitDefaultTolerance ;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "baseInteractionScaleFactor             double   "<<twoTransformForceMultiplier;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "globalAmberImproperTorsionScaleFactor  double   "<<globalAmberImproperTorsionScaleFactor;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "globalBondBendScaleFactor              double   "<<globalBondBendScaleFactor;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "globalBondStretchScaleFactor           double   "<<globalBondStretchScaleFactor;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "globalBondTorsionScaleFactor           double   "<<globalBondTorsionScaleFactor;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "globalCoulombScaleFactor               double   "<<globalCoulombScaleFactor;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "globalGbsaScaleFactor                  double   "<<globalGbsaScaleFactor;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "globalVdwScaleFactor                   double   "<<globalVdwScaleFactor;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "guessCoordinates                       bool     "<<guessCoordinates<<" : If true, invents coordinates for any atoms missing from the input PDB file.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "inQVectorFileName                      String  "<<inQVectorFileName;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "initialSeparation                      double   "<<initialSeparation;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "integratorAccuracy                     double   "<<integratorAccuracy;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "integratorStepSize                     int     "<<integratorStepSize;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "integratorType                         String  "<<integratorType;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "lastStage                              int     "<<lastStage;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "leontisWesthofInFileName               String  "<<leontisWesthofInFileName;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "loadTinkerParameterFile                bool    "<<loadTinkerParameterFile;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "outQVectorFileName                     String  "<<outQVectorFileName;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "magnesiumIonChainId                    String  "<<magnesiumIonChainId;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "magnesiumIonRadius                     String  "<<magnesiumIonRadius;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "matchHydrogenAtomLocations             bool  "<<matchHydrogenAtomLocations    <<" : If false, do not read the hydrogen atom positions from the input pdb file.  Just guess new atom locations.  This is useful if the hydrogens are in bad (e.g. colinear) locations.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-//    myStringStream << remarkString << "matchProteinCarboxylOxygenLocations    bool  "<<matchProteinCarboxylOxygenLocations    <<" : If false, do not read the carboxyl oxygen atom positions of proteins from the input pdb file.  Just guess new atom locations.  This is useful if the Oxygens are in bad (e.g. non-planar) locations.";
-//    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-//    myStringStream.clear();
-//    myStringStream.str("");
-
-//    myStringStream << remarkString << "matchingMinimizerTolerance           bool  "<<matchingMinimizerTolerance<<" This sets the tolerance for the minimizer used in optimizing the fitting of internal coordinates to the cartesian coordinates in the input structure file.   The default value typically leads to good accuracy, but you may wish to experiment with larger values to save compute time at the cost of accuracy.";
-//    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-//    myStringStream.clear();
-//    myStringStream.str("");
-
-    myStringStream << remarkString << "matchExact                             bool  "<<matchExact     <<" If True, this matches all bond lengths, angles, and dihedrals to the 2-, 3-, and 4- neighbor atom sets. Locally the match will be nearly perfect, but over a long biopolymer error can accumulate.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "matchIdealized                         bool  "<<matchIdealized <<" If True, the bond lengths and angles will be set to default (idealized) values and the torsion angles will be iteratively adjusted to match the input structure.  Thus the global structure is likely to be good, but small-scale details will differ from those of the input structure.  This is much more expensive than matchExact.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "matchOptimize                          bool  "<<matchOptimize     <<" If True, this matches all bond lengths, angles, and dihedrals to the 2-, 3-, and 4- neighbor atom sets. Locally the match will be nearly perfect, but over a long biopolymer error can accumulate.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-//    myStringStream << remarkString << "matchPerfect                         bool  "<<matchPerfect   <<" This is a macro.  If True, it sets BOTH matchExact and matchIdealized to True.  This means that all bond lengths, angles, and dihedrals will be matched locally, and then there will be a global refinement of torsion angles to correct for accumulated error.  This costs as much as matchIdealized, but generally gives better results.";
-//    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-//    myStringStream.clear();
-//    myStringStream.str("");
-
-    myStringStream << remarkString << "minimize                               bool  "<<minimize;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "monteCarloTemperature                  int   "<<monteCarloTemperature;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "monteCarloTemperatureIncrement         int   "<<monteCarloTemperatureIncrement;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "nastGlobalBondTorsionScaleFactor       int   "<<nastGlobalBondTorsionScaleFactor;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "noseHooverTime                         double "<<noseHooverTime;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "numReportingIntervals                  int     "<<numReportingIntervals;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "outMonteCarloFileName                  String  "<<outMonteCarloFileName;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "outTrajectoryFileName                  String  "<<outTrajectoryFileName;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-//    myStringStream << remarkString << "physicsWhereYouWantIt                  bool    "<<physicsWhereYouWantIt;
-//    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-//    myStringStream.clear();
-//    myStringStream.str("");
-
-    myStringStream << remarkString << "physicsRadius                          double  "<<physicsRadius         <<" : All residues within physicsRadius of \"flexible\" atoms are included in the physics zone. \"flexible\" is defined as belonging to a body of mass < 40.";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "planarityThreshold                     double  "<<planarityThreshold;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "potentialType                          int     "<<potentialType;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "prioritize                             int     "<<prioritize;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "proteinCapping                         bool    "<<proteinCapping     << " : When true, adds terminal capping groups to protein chains. ";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "randomizeInitialVelocities             bool    "<<setInitialVelocities<<" : When true, adds a stochastic velocity to each body at the beginning of the stage. ";
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "readPreviousFrameFile                  bool    "<<readPreviousFrameFile;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "readMagnesiumPositionsFromFile         bool    "<<readMagnesiumPositionsFromFile;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "removeMomentumPeriod                   double   "<<removeMomentumPeriod;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "removeRigidBodyMomentum                bool    "<<removeRigidBodyMomentum;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "reportingInterval                      double   "<<reportingInterval;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "restrainingForceConstant               double   "<<restrainingForceConstant;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "restrainingTorqueConstant              double   "<<restrainingTorqueConstant;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "rigidifyFormedHelices                  int     "<<rigidifyFormedHelices;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "scrubberPeriod                         double   "<<scrubberPeriod;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "safeParameters                         int     "<<safeParameters;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "setChiBondMobility                     int     "<<setChiBondMobility;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-//    myStringStream << remarkString << "setDefaultMDParameters               int     "<<setDefaultMDParameters;
-//    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-//    myStringStream.clear();
-//    myStringStream.str("");
-
-    myStringStream << remarkString << "setForceAndStericScrubber              bool    "<<setForceAndStericScrubber;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "setForceScrubber                       bool    "<<setForceScrubber;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "setHelicalStacking                     bool    "<<setHelicalStacking;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "setRemoveBasePairsInRigidStretch       bool    "<<setRemoveBasePairsInRigidStretch;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "setTemperature                         bool    "<<setTemperature;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "smallGroupInertiaMultiplier            double   "<<smallGroupInertiaMultiplier;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "sphericalHelixCenter                   double   "<<sphericalHelixCenter;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "sphericalHelixRadius                   double   "<<sphericalHelixRadius;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "sphericalHelixStartTheta               double   "<<sphericalHelixStartTheta;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "sphericalHelixPhiOffset                double   "<<sphericalHelixPhiOffset;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "sphericalHelixInterStrandDistance      double   "<<sphericalHelixInterStrandDistance;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "stackAllHelicalResidues                bool    "<<stackAllHelicalResidues;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "temperature                            bool    "<<temperature;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "thermostatType                         String  "<<thermostatType;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "tinkerParameterFileName                String  "<<tinkerParameterFileName;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "useFixedStepSize                       bool    "<<useFixedStepSize;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "useMultithreadedComputation            bool    "<<useMultithreadedComputation;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "useOpenMMAcceleration                  bool    "<<useOpenMMAcceleration;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "vanderWallSphereRadius                 double   "<<vanderWallSphereRadius;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "velocityRescalingInterval              int     "<<velocityRescalingInterval;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "verbose                                int     "<<verbose;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "vmdOutput                              int     "<<vmdOutput;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "waterDropletMake                       bool    "<<waterDropletMake;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "waterInertiaMultiplier                 double   "<< waterInertiaMultiplier;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "writeCoordinates                       bool    "<<writeCoordinates;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "writeDoublePrecisionTrajectories       bool    "<<writeDoublePrecisionTrajectories;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "writeLastFrameFile                     bool    "<<writeLastFrameFile;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "workingDirectory                       String  "<<workingDirectory;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "helixBondMobility                      BondMobility::Mobility"<<helixBondMobility;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "loopBondMobility                       BondMobility::Mobility"<<loopBondMobility;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "overallBondMobility                    BondMobility::Mobility"<<overallBondMobility;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    myStringStream << remarkString << "chiBondMobility                        BondMobility::Mobility"<<chiBondMobility;
-    makeRemark ( myStringStream.str(), cifData, remCounter, remNum );
-    myStringStream.clear();
-    myStringStream.str("");
-
-    return ;
+#ifdef GEMMI_USAGE
+void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::string, std::string > > &remarksVec ) {
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addAllAtomSterics                      bool    " + std::to_string ( addAllAtomSterics ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addAllHeavyAtomSterics                 bool    " + std::to_string ( addProteinBackboneSterics ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addProteinBackboneSterics              bool    " + std::to_string ( addRNABackboneSterics ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addRNABackboneSterics                  bool    " + std::to_string ( addRNABackboneSterics ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addSelectedAtoms                       bool    " + std::to_string ( addSelectedAtoms ) + " : Add steric spheres to certain RNA atoms as specified in the RNABuilder parameter file. " ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useCIFFileFormat                       bool    " + std::to_string ( useCIFFileFormat ) + " : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesIsGapped                bool    " + std::to_string ( alignmentForcesIsGapped ) + " : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesGapPenalty              double  " + std::to_string ( alignmentForcesGapPenalty ) + " : The penalty applied to gaps. The noGaps condition is enforced with a high value of this parameter. Can vary through the course of the input commands file. This is only the final value." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesDeadLengthFraction      double  " + std::to_string ( alignmentForcesDeadLengthFraction ) + " : The fraction of the initial length to which the alignmentSprings equilibrate. Should be in the interval (0,1]. A nonzero value enables e.g. progressive morphing.  Can vary through the course of the input commands file. This is only the final value." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesForceConstant           double  " + std::to_string ( alignmentForcesForceConstant ) + " : Force constant for the  alignmentForces springs. Can vary through the course of the input commands file. This is only the final value." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "applyC1pSprings                        bool    " + std::to_string ( applyC1pSprings ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "calcEnergy                             bool    " + std::to_string ( calcEnergy ) ) );
+//    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "constrainRigidSegments                 bool    " + std::to_string ( constrainRigidSegments ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "constraintTolerance                    double  " + std::to_string ( constraintTolerance ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "cutoffRadius                           double  " + std::to_string ( cutoffRadius ) + " (nm)" ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityAtomFraction                    String  " + std::to_string ( densityAtomFraction ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityFileName                        String  " + std::string ( densityFileName ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityFitPhosphates                   bool    " + std::to_string ( densityFitPhosphates ) + " : When set to False, this means phophate groups in DNA and RNA will feel zero density map fitting force. Be warned that this slows down your run A LOT -- proportional to the number of nucleic acid residues that have fitting forces turned on." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityForceConstant                   double  " + std::to_string ( densityForceConstant ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityNoiseComputeAutocorrelation     double  " + std::to_string ( densityNoiseComputeAutocorrelation ) + " : Compute the autocorrelation function for both the planck's law noise and input density. may only have effect if densityNoiseScale > 0." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityReportAtEachAtomPosition        bool    " + std::to_string ( densityReportAtEachAtomPosition ) + " : Write out the local density observed at each atom position, and the corresponding atom name. Written to stdout. Only works when the density forces are active. " ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityNoiseTemperature                double  " + std::to_string ( densityNoiseTemperature ) + " : Temperature for the Planck's Law based noise generator for the density map." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityNoiseScale                      double  " + std::to_string ( densityNoiseScale ) + " : Overall scale of the noise for the Planck's Law based noise generator for the density map. Note that this scales the noise amplitude, but the amplitude is squared prior to being added to the density map, and being used to compute signalToNoiseRatio. " ) );
+//    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityMapActivate                     String  " + std::to_string ( densityMapActivate ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addAllAtomSterics                      bool    " + std::to_string ( addAllAtomSterics ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "dutyCycle                              double  " + std::to_string ( dutyCycle ) + " : Must lie in (0,1)" ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "electroDensityFileName                 String  " + std::string ( densityFileName ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "electroDensityForceConstant            double  " + std::to_string ( densityForceConstant ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "excludedVolumeRadius                   double  " + std::to_string ( excludedVolumeRadius ) + " : Radius (in nm) of contact spheres to be applied in AllHeavyAtomSterics and AllAtomSterics." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "excludedVolumeStiffness                double  " + std::to_string ( excludedVolumeStiffness ) ) );
+//    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "firstResidueMobilizerType              String  " + std::to_string ( firstResidueMobilizerType ) + " : use constrainToGround to set this to Weld." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "firstStage                             int     " + std::to_string ( firstStage ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "fitDefaultTolerance                    double  " + std::to_string ( fitDefaultTolerance ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "baseInteractionScaleFactor             double  " + std::to_string ( twoTransformForceMultiplier ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "globalAmberImproperTorsionScaleFactor  double  " + std::to_string ( globalAmberImproperTorsionScaleFactor ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "globalBondBendScaleFactor              double  " + std::to_string ( globalBondBendScaleFactor ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "globalBondStretchScaleFactor           double  " + std::to_string ( globalBondStretchScaleFactor ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "globalBondTorsionScaleFactor           double  " + std::to_string ( globalBondTorsionScaleFactor ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "globalCoulombScaleFactor               double  " + std::to_string ( globalCoulombScaleFactor ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "globalGbsaScaleFactor                  double  " + std::to_string ( globalGbsaScaleFactor ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "globalVdwScaleFactor                   double  " + std::to_string ( globalVdwScaleFactor ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "guessCoordinates                       bool    " + std::to_string ( guessCoordinates ) + " : If true, invents coordinates for any atoms missing from the input PDB file." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "inQVectorFileName                      String  " + std::string ( inQVectorFileName ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "initialSeparation                      double  " + std::to_string ( initialSeparation ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "integratorAccuracy                     double  " + std::to_string ( integratorAccuracy ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "integratorStepSize                     int     " + std::to_string ( integratorStepSize ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "integratorType                         String  " + std::string ( integratorType ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "lastStage                              int     " + std::to_string ( lastStage ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "leontisWesthofInFileName               String  " + std::string ( leontisWesthofInFileName ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "loadTinkerParameterFile                bool    " + std::to_string ( loadTinkerParameterFile ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "outQVectorFileName                     String  " + std::string ( outQVectorFileName ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "magnesiumIonChainId                    String  " + std::string ( magnesiumIonChainId ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "magnesiumIonRadius                     String  " + std::to_string ( magnesiumIonRadius ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "matchHydrogenAtomLocations             bool    " + std::to_string ( matchHydrogenAtomLocations ) + " : If false, do not read the hydrogen atom positions from the input pdb file.  Just guess new atom locations.  This is useful if the hydrogens are in bad (e.g. colinear) locations." ) );
+//    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "matchProteinCarboxylOxygenLocations    bool    " + std::to_string ( matchProteinCarboxylOxygenLocations ) + " : If false, do not read the carboxyl oxygen atom positions of proteins from the input pdb file.  Just guess new atom locations.  This is useful if the Oxygens are in bad (e.g. non-planar) locations." ) );
+//    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "matchingMinimizerTolerance             bool    " + std::to_string ( matchingMinimizerTolerance ) + " : This sets the tolerance for the minimizer used in optimizing the fitting of internal coordinates to the cartesian coordinates in the input structure file.   The default value typically leads to good accuracy, but you may wish to experiment with larger values to save compute time at the cost of accuracy." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "matchExact                             bool    " + std::to_string ( matchExact ) + " : If True, this matches all bond lengths, angles, and dihedrals to the 2-, 3-, and 4- neighbor atom sets. Locally the match will be nearly perfect, but over a long biopolymer error can accumulate." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "matchIdealized                         bool    " + std::to_string ( matchIdealized ) + " : If True, the bond lengths and angles will be set to default (idealized) values and the torsion angles will be iteratively adjusted to match the input structure.  Thus the global structure is likely to be good, but small-scale details will differ from those of the input structure.  This is much more expensive than matchExact." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "matchOptimize                          bool    " + std::to_string ( matchOptimize ) + " : If True, this matches all bond lengths, angles, and dihedrals to the 2-, 3-, and 4- neighbor atom sets. Locally the match will be nearly perfect, but over a long biopolymer error can accumulate." ) );
+//    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "matchPerfect                           bool    " + std::to_string ( matchPerfect ) + " : This is a macro.  If True, it sets BOTH matchExact and matchIdealized to True.  This means that all bond lengths, angles, and dihedrals will be matched locally, and then there will be a global refinement of torsion angles to correct for accumulated error.  This costs as much as matchIdealized, but generally gives better results." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "minimize                               bool    " + std::to_string ( minimize ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "monteCarloTemperature                  int     " + std::to_string ( monteCarloTemperature ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "monteCarloTemperatureIncrement         int     " + std::to_string ( monteCarloTemperatureIncrement ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "nastGlobalBondTorsionScaleFactor       int     " + std::to_string ( nastGlobalBondTorsionScaleFactor ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "noseHooverTime                         double  " + std::to_string ( noseHooverTime ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "numReportingIntervals                  int     " + std::to_string ( numReportingIntervals ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "outMonteCarloFileName                  String  " + std::string ( outMonteCarloFileName ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "outTrajectoryFileName                  String  " + std::string ( outTrajectoryFileName ) ) );
+//    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "physicsWhereYouWantIt                  bool    " + std::to_string ( physicsWhereYouWantIt ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "physicsRadius                          double  " + std::to_string ( physicsRadius ) + " : All residues within physicsRadius of \"flexible\" atoms are included in the physics zone. \"flexible\" is defined as belonging to a body of mass < 40." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "planarityThreshold                     double  " + std::to_string ( planarityThreshold ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "potentialType                          int     " + std::string ( potentialType ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "prioritize                             int     " + std::to_string ( prioritize ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "proteinCapping                         bool    " + std::to_string ( proteinCapping ) + " : When true, adds terminal capping groups to protein chains. " ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useNACappingHydroxyls                  bool    " + std::to_string ( useNACappingHydroxyls ) + " : When true (default) replaces the 5' phosphorus with an H5T." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "randomizeInitialVelocities             bool    " + std::to_string ( setInitialVelocities ) + " : When true, adds a stochastic velocity to each body at the beginning of the stage. " ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "readPreviousFrameFile                  bool    " + std::to_string ( readPreviousFrameFile ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "readMagnesiumPositionsFromFile         bool    " + std::to_string ( readMagnesiumPositionsFromFile ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "removeMomentumPeriod                   double  " + std::to_string ( removeMomentumPeriod ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "removeRigidBodyMomentum                bool    " + std::to_string ( removeRigidBodyMomentum ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "reportingInterval                      double  " + std::to_string ( reportingInterval ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "restrainingForceConstant               double  " + std::to_string ( restrainingForceConstant ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "restrainingTorqueConstant              double  " + std::to_string ( restrainingTorqueConstant ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "rigidifyFormedHelices                  int     " + std::to_string ( rigidifyFormedHelices ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "scrubberPeriod                         double  " + std::to_string ( scrubberPeriod ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "safeParameters                         int     " + std::to_string ( safeParameters ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "setChiBondMobility                     int     " + std::to_string ( setChiBondMobility ) ) );
+//    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "setDefaultMDParameters                 int     " + std::to_string ( setDefaultMDParameters ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "setForceAndStericScrubber              bool    " + std::to_string ( setForceAndStericScrubber ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "setForceScrubber                       bool    " + std::to_string ( setForceScrubber ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "setHelicalStacking                     bool    " + std::to_string ( setHelicalStacking ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "setRemoveBasePairsInRigidStretch       bool    " + std::to_string ( setRemoveBasePairsInRigidStretch ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "setTemperature                         bool    " + std::to_string ( setTemperature ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "smallGroupInertiaMultiplier            double  " + std::to_string ( smallGroupInertiaMultiplier ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixCenter                   Vec3    " + std::to_string ( sphericalHelixCenter[0] ) + " ; " + std::to_string ( sphericalHelixCenter[1] ) + " ; " + std::to_string ( sphericalHelixCenter[2] ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixRadius                   double  " + std::to_string ( sphericalHelixRadius ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixStartTheta               double  " + std::to_string ( sphericalHelixStartTheta ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixPhiOffset                double  " + std::to_string ( sphericalHelixPhiOffset ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixInterStrandDistance      double  " + std::to_string ( sphericalHelixInterStrandDistance ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "stackAllHelicalResidues                bool    " + std::to_string ( stackAllHelicalResidues ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "temperature                            bool    " + std::to_string ( temperature ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "thermostatType                         String  " + std::string ( thermostatType ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "tinkerParameterFileName                String  " + std::string ( tinkerParameterFileName ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useFixedStepSize                       bool    " + std::to_string ( useFixedStepSize ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useMultithreadedComputation            bool    " + std::to_string ( useMultithreadedComputation ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useOpenMMAcceleration                  bool    " + std::to_string ( useOpenMMAcceleration ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "vanderWallSphereRadius                 double  " + std::to_string ( vanderWallSphereRadius ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "velocityRescalingInterval              int     " + std::to_string ( velocityRescalingInterval ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "verbose                                int     " + std::to_string ( verbose ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "vmdOutput                              int     " + std::to_string ( vmdOutput ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "waterDropletMake                       bool    " + std::to_string ( waterDropletMake ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "waterInertiaMultiplier                 double  " + std::to_string ( waterInertiaMultiplier ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "writeCoordinates                       bool    " + std::to_string ( writeCoordinates ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "writeDoublePrecisionTrajectories       bool    " + std::to_string ( writeDoublePrecisionTrajectories ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "writeLastFrameFile                     bool    " + std::to_string ( writeLastFrameFile ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "workingDirectory                       String  " + std::string ( workingDirectory ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "helixBondMobility                      BondMobility::Mobility " + std::to_string ( helixBondMobility ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "loopBondMobility                       BondMobility::Mobility " + std::to_string ( loopBondMobility ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "overallBondMobility                    BondMobility::Mobility " + std::to_string ( overallBondMobility ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "chiBondMobility                        BondMobility::Mobility " + std::to_string ( chiBondMobility ) ) );
 };
 #endif
 
@@ -1327,8 +838,6 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "addRNABackboneSterics                  bool    "<<addRNABackboneSterics         <<endl;
     myOstream << remarkString << "addSelectedAtoms                       bool    "<<addSelectedAtoms<<" : Add steric spheres to certain RNA atoms as specified in the RNABuilder parameter file. " <<endl;
     myOstream << remarkString << "useCIFFileFormat                       bool    "<<useCIFFileFormat<<" : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " <<endl;
-    myOstream << remarkString << "mmbRemarkCounter                       int     "<<mmbRemarkCounter <<endl;
-    myOstream << remarkString << "mmbRemarkNum                           int     "<<mmbRemarkNum <<endl;
     myOstream << remarkString << "alignmentForcesIsGapped                bool    "<<alignmentForcesIsGapped<<" : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." <<endl;
     myOstream << remarkString << "alignmentForcesGapPenalty              double  "<<alignmentForcesGapPenalty<<" : The penalty applied to gaps. The noGaps condition is enforced with a high value of this parameter. Can vary through the course of the input commands file. This is only the final value." <<endl;
     myOstream << remarkString << "alignmentForcesDeadLengthFraction      double  "<<alignmentForcesDeadLengthFraction<<" : The fraction of the initial length to which the alignmentSprings equilibrate. Should be in the interval (0,1]. A nonzero value enables e.g. progressive morphing.  Can vary through the course of the input commands file. This is only the final value." <<endl;
@@ -4779,8 +4288,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     {
         //============================================ Set the CIF files usage
         parameterStringClass.validateNumFields        ( 2 );
-        this->mmbRemarkCounter                        = 0;
-        this->mmbRemarkNum                            = 3; // This means we will be writing into the Refinement REMARK section, if it means anything at this point.
         this->useCIFFileFormat                        = aToBool ( parameterStringClass.getString ( 0 ), ( parameterStringClass.getString ( 1 ) ).c_str() );
         return;
     }
@@ -5648,8 +5155,6 @@ void ParameterReader::setFirstAndLastStageAndUseCifFiles(const char * parameterF
 	{
 	    //============================================ Set the CIF files usage
 	    //parameterStringClass.validateNumFields        ( 2 );
-	    //this->mmbRemarkCounter                        = 0;
-	    //this->mmbRemarkNum                            = 3; // This means we will be writing into the Refinement REMARK section, if it means anything at this point.
 	    useCIFFileFormat                        = aToBool ( mystring[0], (mystring[1]).c_str() );
             cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" useCIFFileFormat now set to "<<useCIFFileFormat<<endl;   
 	}

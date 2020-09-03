@@ -19,10 +19,6 @@
 //#include "PeriodicPdbAndEnergyWriter.h"
 #define _DEBUG_FLAGS_ON_
 
-#ifdef CPP4_MAPS_USAGE
-  #include <mmdb2/mmdb_manager.h>
-#endif
-
 void printUsage() {
     std::cout<<std::endl;
     std::cout << "Usage: MMB [options] \n" << endl;
@@ -242,59 +238,16 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             ofstream output;
             if ( myParameterReader.useCIFFileFormat )
             {
-#ifdef CPP4_MAPS_USAGE
-                //==================================== Open file for writing
-                myParameterReader.cifTrajectoryFile.assign ( myParameterReader.outTrajectoryFileName.c_str ( ) );
-                if ( !myParameterReader.cifTrajectoryFile.rewrite ( ) )
-                {
-                    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Failed to open the file "<< myParameterReader.outTrajectoryFileName << " for writing." << std::endl;
-                    ErrorManager::instance.treatError ( );
-                }
-                
-                //==================================== Fill it with remarks
-                mmdb::Remark initRemark               = mmdb::Remark ( std::string ( "REMARK contents of user input file " + std::string ( parameterFile ) ).c_str() );
-                initRemark.remarkNum                  = myParameterReader.mmbRemarkNum;
-                initRemark.MakeCIF                    ( &myParameterReader.cifData, myParameterReader.mmbRemarkCounter );
-                myParameterReader.mmbRemarkCounter++;
-                
-                ifstream inFile                       = ifstream ( parameterFile.c_str ( ), ios_base::in );
+#ifdef GEMMI_USAGE
+                myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Contents of user input file " + std::string( parameterFile ) + " :" ) );
+                ifstream inFile                       = ifstream ( parameterFile.c_str(),ios_base::in );
                 while ( inFile.good() )
                 {
                     String tempString;
                     getline                           ( inFile, tempString );
-                    mmdb::Remark repetRemark          = mmdb::Remark ( std::string ( "REMARK " + std::string ( tempString ) ).c_str ( ) );
-                    repetRemark.remarkNum             = myParameterReader.mmbRemarkNum;
-                    repetRemark.MakeCIF               ( &myParameterReader.cifData, myParameterReader.mmbRemarkCounter );
-                    myParameterReader.mmbRemarkCounter++;
+                    myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", tempString ) );
                 }
-                mmdb::Remark closeRemark              = mmdb::Remark ( std::string ( "REMARK end of user input file " ).c_str ( ) );
-                closeRemark.remarkNum                 = myParameterReader.mmbRemarkNum;
-                closeRemark.MakeCIF                   ( &myParameterReader.cifData, myParameterReader.mmbRemarkCounter );
-                myParameterReader.mmbRemarkCounter++;
-
-                //==================================== Write out the current info
-                std::stringstream hlpSS;
-                hlpSS << "TRAJECTORYFILE" << i;
-                myParameterReader.cifData.PutDataName ( hlpSS.str().c_str() );
-                
-                //==================================== Write out the CIF file. This is basically a copy of the WriteMMCIF function, but since this function is hardcoded to print the data_ line as a second line and this is not compatible with the current mmCIF formatting, I had to copy and make the single change...
-                myParameterReader.cifTrajectoryFile.Write     ( pstr("data_") );
-                myParameterReader.cifTrajectoryFile.WriteLine ( myParameterReader.cifData.GetDataName() );
-                
-                for ( int i = 0; i < myParameterReader.cifData.GetNumberOfCategories(); i++ )
-                {
-                    mmdb::mmcif::Category* cat        = myParameterReader.cifData.GetCategory(i);
-                    if ( cat )
-                    {
-                        cat->WriteMMCIF               ( myParameterReader.cifTrajectoryFile );
-                    }
-                }
-                
-                //==================================== And close the file
-                myParameterReader.cifTrajectoryFile.shut ( );
-#else
-                ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file output, but did not compile with the MMDB2 library. Cannot proceed, if you want to use mmCIF files, please re-compile with the MMDB2 library option allowed." <<endl;
-                ErrorManager::instance.treatError             ( );
+                myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "End of user input file." ) );
 #endif
             }
             else
@@ -328,47 +281,10 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             myParameterReader.printAllSettings(std::cout,String("") );
             if ( myParameterReader.useCIFFileFormat )
             {
-#ifdef CPP4_MAPS_USAGE
-                //==================================== Re-open file for writing
-                myParameterReader.cifTrajectoryFile.assign ( myParameterReader.outTrajectoryFileName.c_str ( ) );
-                if ( !myParameterReader.cifTrajectoryFile.rewrite ( ) )
-                {
-                    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Failed to open the file "<< myParameterReader.outTrajectoryFileName << " for writing." << std::endl;
-                    ErrorManager::instance.treatError ( );
-                }
-                
-                //==================================== Fill it with remarks
-                mmdb::Remark emptyRemark              = mmdb::Remark ( std::string ( "REMARK" ).c_str() );
-                emptyRemark.remarkNum                 = myParameterReader.mmbRemarkNum;
-                emptyRemark.MakeCIF                   ( &myParameterReader.cifData, myParameterReader.mmbRemarkCounter );
-                myParameterReader.mmbRemarkCounter++;
-                mmdb::Remark initRemark               = mmdb::Remark ( std::string ( "REMARK about to call myParameterReader.printAllSettings" ).c_str() );
-                initRemark.remarkNum                  = myParameterReader.mmbRemarkNum;
-                initRemark.MakeCIF                    ( &myParameterReader.cifData, myParameterReader.mmbRemarkCounter );
-                myParameterReader.mmbRemarkCounter++;
-                
-                myParameterReader.printAllSettings    ( &myParameterReader.cifData, &myParameterReader.mmbRemarkCounter, myParameterReader.mmbRemarkNum, String ( "REMARK " ) );
-                
-                mmdb::Remark closeRemark              = mmdb::Remark ( std::string ( "REMARK done with call to myParameterReader.printAllSettings" ).c_str ( ) );
-                closeRemark.remarkNum                 = myParameterReader.mmbRemarkNum;
-                closeRemark.MakeCIF                   ( &myParameterReader.cifData, myParameterReader.mmbRemarkCounter );
-                myParameterReader.mmbRemarkCounter++;
-                
-                //==================================== Write out the CIF file. This is basically a copy of the WriteMMCIF function, but since this function is hardcoded to print the data_ line as a second line and this is not compatible with the current mmCIF formatting, I had to copy and make the single change...
-                myParameterReader.cifTrajectoryFile.Write     ( pstr("data_") );
-                myParameterReader.cifTrajectoryFile.WriteLine ( myParameterReader.cifData.GetDataName() );
-                
-                for ( int i = 0; i < myParameterReader.cifData.GetNumberOfCategories(); i++ )
-                {
-                    mmdb::mmcif::Category* cat        = myParameterReader.cifData.GetCategory(i);
-                    if ( cat )
-                    {
-                        cat->WriteMMCIF               ( myParameterReader.cifTrajectoryFile );
-                    }
-                }
-                
-                //==================================== And shut the file
-                myParameterReader.cifTrajectoryFile.shut ( );
+#ifdef GEMMI_USAGE
+                myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "About to call myParameterReader.printAllSettings." ) );
+                myParameterReader.printAllSettingsToMMCIF ( myParameterReader.lastFileRemarks );
+                myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Done with call to myParameterReader.printAllSettings." ) );
 #endif
             }
             else

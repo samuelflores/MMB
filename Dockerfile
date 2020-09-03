@@ -23,7 +23,7 @@ RUN mkdir /github /svn
 # Removed openmm from here. This is because openmm is now forked into MMB, with an eye to debian packaging.
 #RUN mkdir /svn
 #//RUN git clone https://github.com/pandegroup/openmm.git   /github/openmm
-RUN git clone https://github.com/simbody/simbody.git /github/simbody
+RUN git clone  -b simbody-3.7 --single-branch https://github.com/simbody/simbody.git /github/simbody
 RUN git clone https://github.com/seqan/seqan.git /github/seqan
 #RUN svn checkout https://simtk.org/svn/molmodel/trunk /svn/molmodel
 RUN git clone  https://github.com/samuelflores/molmodel.git /github/molmodel

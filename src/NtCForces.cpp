@@ -16,91 +16,6 @@
     NTC_Torque::NTC_Torque (SimbodyMatterSubsystem& matter,ParameterReader& myParameterReader,  NTC_PAR_Class& myNTC_PAR_Class, BiopolymerClassContainer & myBiopolymerClassContainer, std::ostream& outputStream ) : matter(matter),myParameterReader(myParameterReader), myNTC_PAR_Class (myNTC_PAR_Class), myBiopolymerClassContainer(myBiopolymerClassContainer), outputStream(outputStream)
         { 
     };    
-     /* 
-    void NTC_Torque::calcAxes(const State& state ,NTC_PAR_BondRow myNTC_PAR_BondRow,ResidueID residueNumber1,ResidueID residueNumber2,String chainId1,String chain2,Vec3 & xAxisVector1,Vec3 & yAxisVector1, Vec3 & zAxisVector1,Vec3 & xAxisVector2,Vec3 & yAxisVector2 , Vec3 & zAxisVector2,
-        Vec3 & glycosidicNitrogenAtom1LocationInGround,Vec3 & glycosidicNitrogenAtom2LocationInGround, Vec3 & ring1CenterLocationInGround, Vec3 & ring2CenterLocationInGround) const { 
-      
-            ResidueID myResidueNumber;
-            ResidueID myResidueNumber2;
-            
-            myResidueNumber = residueNumber1;
-        
-            myResidueNumber.ResidueNumber += stoi(myNTC_PAR_BondRow.atom_shift[0]);      
-            
-            glycosidicNitrogenAtom1LocationInGround = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[0]);
-            
-            glycosidicNitrogenAtom2LocationInGround = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[0]);
-
-            myResidueNumber = residueNumber1;
-        
-            myResidueNumber.ResidueNumber += stoi(myNTC_PAR_BondRow.atom_shift[1]);            
-            
-            Vec3 firstRingAtomvector1 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[1]) - glycosidicNitrogenAtom1LocationInGround;
-
-            myResidueNumber = residueNumber1;
-        
-            myResidueNumber.ResidueNumber += stoi(myNTC_PAR_BondRow.atom_shift[2]);
-            
-            Vec3 secondRingAtomvector1 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[2]) - glycosidicNitrogenAtom1LocationInGround;
-
-            myResidueNumber = residueNumber1;
-        
-            myResidueNumber.ResidueNumber += stoi(myNTC_PAR_BondRow.atom_shift[2]);
-            
-            Vec3 firstRingAtomvector2 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[2]) - glycosidicNitrogenAtom2LocationInGround;
-
-            myResidueNumber = residueNumber1;
-        
-            myResidueNumber.ResidueNumber += stoi(myNTC_PAR_BondRow.atom_shift[1]);           
-
-            Vec3 secondRingAtomvector2 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[1]) - glycosidicNitrogenAtom2LocationInGround;
-
-            myResidueNumber = residueNumber1;
-        
-            myResidueNumber.ResidueNumber += stoi(myNTC_PAR_BondRow.atom_shift[0]);           
-
-            myResidueNumber2 = residueNumber1;
-        
-            myResidueNumber2.ResidueNumber += stoi(myNTC_PAR_BondRow.atom_shift[1]);           
-            
-            ring1CenterLocationInGround = (myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[0])
-                                              +myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber2,myNTC_PAR_BondRow.residue1Atom[1]))/2;
-                                              
-            myResidueNumber = residueNumber1;
-        
-            myResidueNumber.ResidueNumber += stoi(myNTC_PAR_BondRow.atom_shift[2]);           
-
-            myResidueNumber2 = residueNumber1;
-        
-            myResidueNumber2.ResidueNumber += stoi(myNTC_PAR_BondRow.atom_shift[3]);                                      
-                                              
-                                              
-            ring2CenterLocationInGround = (myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[2])
-                                              +myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber2,myNTC_PAR_BondRow.residue1Atom[3]))/2; 
-                                              
-            xAxisVector1 =  firstRingAtomvector1 - secondRingAtomvector1;
-                                              
-            xAxisVector2 =  firstRingAtomvector2 - secondRingAtomvector2;            
-            
-            zAxisVector1 = (firstRingAtomvector1%secondRingAtomvector1);
-
-            zAxisVector1 = zAxisVector1/zAxisVector1.norm();
-
-            zAxisVector2 = (firstRingAtomvector2%secondRingAtomvector2);
-
-            zAxisVector2 = zAxisVector2/zAxisVector2.norm();
-
-            yAxisVector1 = zAxisVector1%xAxisVector1;
-
-            yAxisVector1= yAxisVector1/yAxisVector1.norm();
-
-            yAxisVector2 = zAxisVector2%xAxisVector2;
-
-            yAxisVector2= yAxisVector2/yAxisVector2.norm();
-            
-       //     cout << xAxisVector1(0) << xAxisVector1(1) << xAxisVector1(2) << endl;
-                                              
-    }; */  
     
     void NTC_Torque::calcForce(const State& state, Vector_<SpatialVec>& bodyForces,  
             Vector_<Vec3>& particleForces, Vector& mobilityForces) const 
@@ -381,6 +296,8 @@
 
         double energy = 0.0;  
         double rms    = 0.0;
+        double rmsTorsionAngleForThisNtCAndDinucleotide    = 0.0;
+	String oldNtCClassString = "ZZZZZZ";
         MobilizedBody body1;
         MobilizedBody body2;
         MobilizedBody body3;
@@ -417,6 +334,13 @@
         
         for (int r=0;r<myParameterReader.ntc_class_container.numNTC_Torsions();r++) 
         { 
+           // If we have changed our NtC class type, meaning we are computing a new NtC Class, not just an additional torsion in the same class:		
+	   if (!((myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_Class_String == oldNtCClassString)) {
+               if (r > 0) cout << __LINE__<< "  RMSD Angle sum for NtC of type "<<(myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_step_ID <<" NtC Index: "<<  (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_INDEX <<" "  <<   oldNtCClassString <<" is "  <<rmsTorsionAngleForThisNtCAndDinucleotide << endl;
+	       rmsTorsionAngleForThisNtCAndDinucleotide = 0.; 
+
+	   }
+            //rmsTorsionAngleForThisNtCAndDinucleotide = 0;		
 	    if (myParameterReader.verbose) cout<<__FILE__<<":"<<__LINE__<<"  doing base pair #"<<r<<endl;	
         
             String chainId1=(myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_FirstBPChain;            
@@ -488,7 +412,7 @@
     cout << " NTC sampling - CHAIN ID = " << chainId1 << ", residuenumber " << myResidueNumber.ResidueNumber  << " difference-angle = "<< dist_ang << " , CONFALVALUE = " << myNTC_PAR_BondRow.CONFALVALUE << " , " << angle*57.295779513 << " = angle at time t for atoms  = " << myNTC_PAR_BondRow.residue1Atom[0] << " , " << myNTC_PAR_BondRow.residue1Atom[1] << " , " << myNTC_PAR_BondRow.residue1Atom[2] << " , " << myNTC_PAR_BondRow.residue1Atom[3] << " , "<< myNTC_PAR_BondRow.rotationAngle*57.295779513 << " = angle_0 from  input , " << "energy = " << energy << endl;
         
     rms   += sqrt(pow(dist_ang,2));    
-            
+    rmsTorsionAngleForThisNtCAndDinucleotide += sqrt(pow(dist_ang,2));
 // end real torsions
 	}
 // bonds
@@ -515,6 +439,11 @@
           energy += myNTC_PAR_BondRow.springConstant[0]*pow(1.0-exp(-(2.0*myNTC_PAR_BondRow.CONFALVALUE)*(d - myNTC_PAR_BondRow.bondLength[0])),2);
           
 	     };
+           //cout << __LINE__<< "  RMSD Angle sum for NtC of type "<<(myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_step_ID <<" NtC Index: "<<  (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_INDEX <<" "  <<   (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_Class_String<<" is "  <<rmsTorsionAngleForThisNtCAndDinucleotide << endl;
+	   // If this is the last torsion:
+	   if (r == (myParameterReader.ntc_class_container.numNTC_Torsions()-1)){
+               cout <<  " = RMSD Angle sum for NtC of type "<<(myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_step_ID <<" NtC Index: "<<  (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_INDEX <<" "  <<   (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_Class_String<<" is "  <<rmsTorsionAngleForThisNtCAndDinucleotide << endl;}
+	   oldNtCClassString = (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_Class_String;
        };
        
        cout << rms << " = RMSD Angle sum " << endl;

@@ -1,0 +1,40 @@
+# We can now identify the nearest NtC class for a given dinucleotide structure using MMB, on the basis of RMS torsion angle.
+# What you do is put the PDB structure containing the NtC of interest in last.1.pdb. 
+# then alter the chain ID and residue numbers below appropriately. Further comments follow..
+firstStage 2  
+lastStage 3
+# This file will work with the provided tRNA.pdb. So just cp ../examples/tRNA.pdb ./last.1.pdb and you are ready to go..
+loadSequencesFromPdb
+readAtStage 2
+numReportingIntervals 10
+# At stage 2, we are going to deliberately put this dinucleotide in conformation AA00. If you don't want to do that, but rather figure out what NtC class the structure is already in, then set firstStage 3 and put the tRNA.pdb in last.2.pdb.
+NtC V 5 6 AA00 0.5
+readBlockEnd
+readAtStage 3
+# Now at stage 3 we do the actual comparison of the last.2.pdb dinucleotide against a few NtCs
+numReportingIntervals 1
+reportingInterval .00001
+# We rigidify , so that means we are not modifying but just classifying:
+mobilizer Rigid
+# Here is a list of the NtC classes we will compare our structure to. Actually you should add more NtCs, you can put all of them here:
+NtC V 5 6                           BB00 1.0
+NtC V 5 6                           AA00 1.0
+NtC V 5 6                           AAS1 1.0
+NtC V 5 6                           BB17 1.0
+NtC V 5 6                           OP06 1.0
+NtC V 5 6                           IC02 1.0
+NtC V 5 6                           AB03 1.0
+# Then run as e.g.
+#  MMB -c commands.identify-NtC.dat  | grep "RMSD Angle sum for NtC"
+#  Output will look like this:
+#  339  RMSD Angle sum for NtC of type 5 NtC Index: 0 BB00 is 750.041
+# 339  RMSD Angle sum for NtC of type 5 NtC Index: 0 AA00 is 60.3497
+# 339  RMSD Angle sum for NtC of type 5 NtC Index: 0 AAS1 is 282.856
+# 339  RMSD Angle sum for NtC of type 5 NtC Index: 0 BB17 is 887.692
+# 339  RMSD Angle sum for NtC of type 5 NtC Index: 0 OP06 is 356.499
+# 339  RMSD Angle sum for NtC of type 5 NtC Index: 0 IC02 is 425.111
+#  = RMSD Angle sum for NtC of type 5 NtC Index: 0 AB03 is 661.212
+#
+# You are looking for the lowest squared angle sum, so voila, it is AA00.
+
+readBlockEnd

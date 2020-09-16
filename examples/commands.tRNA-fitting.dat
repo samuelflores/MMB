@@ -14,6 +14,9 @@ removeRigidBodyMomentum false
 # This is constant that multiplies the density forces. In this case we leave it at the default value of unity:
 densityForceConstant 1.00
 
+# Next you need to fetch tRNA.xplor . I'm not providing this on github b.c. it's antisocial. You can do:
+# wget http://pe1.scilifelab.se/MMB-annex//examples/tRNA.xplor .
+# While you're there, you may admire other fine MMB documents and products.
 # This file contains the density map in XPLOR format:
 densityFileName ./tRNA.xplor
 

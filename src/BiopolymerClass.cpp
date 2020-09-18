@@ -1555,10 +1555,17 @@ const ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID residueID){
     int residueIndex;
     if (residueIDVector.size() >0){
     vector<ResidueID>::iterator residueIDVectorIterator ;
-    //ResidueID tempRes =(* (residueIDVector.begin()) );          
-    residueIDVectorIterator = find(residueIDVector.begin(), residueIDVector.end(), residueID);
+    //residueIDVectorIterator = find(residueIDVector.begin(), residueIDVector.end(), residueID);
+    // Turns out std::find is a linear operation. Trying this one which should be logarithmic:
+    auto residueIDVectorIteratorRange = equal_range(residueIDVector.begin(), residueIDVector.end(), residueID);
+    //if (residueIDVectorIterator != residueIDVectorIteratorRange.first){
+    //    ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" unexplained error!"<<std::endl;
+    //    ErrorManager::instance.treatError();
+    //}
+    // Let's assume only one was found. If more than one exists that is a problem, but that should hae been prevented with earlier data validation.
+    residueIDVectorIterator = residueIDVectorIteratorRange.first;
+    // end of new find operation
     int residueIDVectorPosition = residueIDVectorIterator-residueIDVector.begin();
-        
         residueIndex = ResidueInfo::Index(residueIDVectorPosition);
         //std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Your residue ID: "<<residueID.outString() << " has a corresponding residue index : "<<residueIndex<<std::endl;  
         if ((residueIndex < 0 ) || (residueIndex >= getChainLength())) {

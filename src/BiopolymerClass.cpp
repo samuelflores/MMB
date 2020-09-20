@@ -186,6 +186,9 @@ String BiopolymerClass::printOriginalAndRenumberedResidueIDs(const String myPdbI
 
 void BiopolymerClass::clear() {
     myBiopolymer =  Biopolymer();
+    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" sizeof(PdbStructure) = "<< sizeof(PdbStructure) <<std::endl;
+    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" sizeof(myBiopolymer) = "<< sizeof(myBiopolymer) <<std::endl;
+    
     //firstResidueNumber = 0;
     biopolymerType =    BiopolymerType::Unassigned;
     setProteinCapping ( false);
@@ -197,7 +200,7 @@ void BiopolymerClass::clear() {
     residueIDVector.clear();
     setFirstResidueMobilizerType(String("Free")); // set the default for this variable.  This means the root atom is connected to ground by a Free mobilizer conferring 6 DOFs.  The alternative is a Weld mobilizer, conferring 0 DOFs.
     setActivePhysics(true);
-    pdbStructure = NULL;
+    //pdbStructure = NULL;
 }
 
 void  BiopolymerClass::validateChainID(){
@@ -622,39 +625,99 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
 
     ) {
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" about to match chain \""<< getChainID()<<"\" to file name : "<<inputFileName<<endl;
-    if(pdbStructure == NULL)
+    //if(pdbStructure == NULL)
     {
         PdbStructure myPdbStructure;
         
-        //============================================ Use PDB reader or CIF reader depending on the extension.
-        if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
+        //============================================ Read in PDB or CIF
+        if ( inputFileName.length() > 4 )
         {
-            //============================================ No problem, continue as usual
-            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Filename " << inputFileName << " suggests PDB file. Using the PDB file reader ... " << std::endl;
-            ifstream pdbfile                          ( inputFileName.c_str()) ;
-            myPdbStructure                            = PdbStructure ( pdbfile );
-            pdbfile.close                             ( );
+            if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
+            {
+                std::ifstream inputFile               ( inputFileName.c_str(), ifstream::in );
+                
+                if ( !inputFile.good() )
+                {
+                    ErrorManager::instance << "!!! Error !!! The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                    ErrorManager::instance.treatError ( );
+                }
+                else
+                {
+                    myPdbStructure                    = PdbStructure (inputFile);
+                }
+            }
+            else if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".cif" )
+            {
+#ifdef GEMMI_USAGE
+                std::ifstream testOpen                ( inputFileName.c_str() );
+                if ( testOpen.good() )
+                {
+                    myPdbStructure                    = PdbStructure (inputFileName);
+                }
+                else
+                {
+                    std::string pdbFileHlp            = inputFileName;
+                    pdbFileHlp.append                 ( ".gz" );
+                    
+                    std::ifstream testOpen2           ( pdbFileHlp.c_str() );
+                    if ( testOpen2.good() )
+                    {
+                        myPdbStructure                = PdbStructure ( pdbFileHlp );
+                    }
+                    else
+                    {
+                        ErrorManager::instance << "!!! Error !!! The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                        ErrorManager::instance.treatError ( );
+                    }
+                    testOpen2.close                   ( );
+                }
+                testOpen.close                        ( );
+#else
+                ErrorManager::instance << "!!! Error !!! MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl;
+                ErrorManager::instance.treatError     ( );
+#endif
+            }
+            else if ( inputFileName.length() > 7 )
+            {
+                if ( inputFileName.substr ( inputFileName.length() - 7, inputFileName.length() - 1) == ".cif.gz" )
+                {
+#ifdef GEMMI_USAGE
+                myPdbStructure                        = PdbStructure (inputFileName);
+#else
+                ErrorManager::instance << "!!! Error !!! MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl;
+                ErrorManager::instance.treatError     ( );
+#endif
+                }
+                else
+                {
+                    ErrorManager::instance << "!!! Error !!! The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                    ErrorManager::instance.treatError ( );
+                }
+            }
+            else
+            {
+                ErrorManager::instance << "!!! Error !!! The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+                ErrorManager::instance.treatError     ( );
+            }
         }
         else
         {
-            //============================================ This should be a CIF file, read it using MMDB
-            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Caching the PdbStructure from CIF file " << inputFileName << std::endl;
-            myPdbStructure                            = PdbStructure ( inputFileName );
+            ErrorManager::instance << "!!! Error !!! The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
+            ErrorManager::instance.treatError         ( );
         }
-        
-        
         
         return matchCoordinates( myPdbStructure, matchExact, matchIdealized, matchOptimize,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                          guessCoordinates, matchingMinimizerTolerance, myPlanarityThreshold);
     }
+    /*
     else
     {
         cout << "using cached PdbStructure" << endl;
         return matchCoordinates(*pdbStructure, matchExact, matchIdealized, matchOptimize,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                          guessCoordinates, matchingMinimizerTolerance, myPlanarityThreshold);
-    }
+    }*/
 }
 
 int  BiopolymerClass::matchCoordinates(istream & inputFile,
@@ -1496,17 +1559,10 @@ const ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID residueID){
     int residueIndex;
     if (residueIDVector.size() >0){
     vector<ResidueID>::iterator residueIDVectorIterator ;
-    //residueIDVectorIterator = find(residueIDVector.begin(), residueIDVector.end(), residueID);
-    // Turns out std::find is a linear operation. Trying this one which should be logarithmic:
-    auto residueIDVectorIteratorRange = equal_range(residueIDVector.begin(), residueIDVector.end(), residueID);
-    //if (residueIDVectorIterator != residueIDVectorIteratorRange.first){
-    //    ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" unexplained error!"<<std::endl;
-    //    ErrorManager::instance.treatError();
-    //}
-    // Let's assume only one was found. If more than one exists that is a problem, but that should hae been prevented with earlier data validation.
-    residueIDVectorIterator = residueIDVectorIteratorRange.first;
-    // end of new find operation
+    //ResidueID tempRes =(* (residueIDVector.begin()) );          
+    residueIDVectorIterator = find(residueIDVector.begin(), residueIDVector.end(), residueID);
     int residueIDVectorPosition = residueIDVectorIterator-residueIDVector.begin();
+        
         residueIndex = ResidueInfo::Index(residueIDVectorPosition);
         //std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Your residue ID: "<<residueID.outString() << " has a corresponding residue index : "<<residueIndex<<std::endl;  
         if ((residueIndex < 0 ) || (residueIndex >= getChainLength())) {
@@ -2360,11 +2416,11 @@ String BiopolymerClass::getPdbFileName(){
     return pdbFileName;
 }
 
-void  BiopolymerClass::setPdbStructure(const PdbStructure * myPdbStructure)
+void  BiopolymerClass::setPdbStructure(const PdbStructure myPdbStructure)
 {
     this->pdbStructure = myPdbStructure;
 }
-const PdbStructure* BiopolymerClass::getPdbStructure()
+const PdbStructure BiopolymerClass::getPdbStructure()
 {
     return this->pdbStructure;
 }
@@ -4118,7 +4174,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
                    ErrorManager::instance.treatError();
                 }
                 BiopolymerClass & myBiopolymerClass = updBiopolymerClass(myChainIdString);
-                myBiopolymerClass.setPdbStructure(&(pdbStructureMap.at(inPDBFileName)));
+                myBiopolymerClass.setPdbStructure((pdbStructureMap.at(inPDBFileName)));
             } // of if Biopolymer
         } // of if Molecule
         cout<<__FILE__<<":"<<__LINE__<<" This BiopolymerClassContainer now     has getNumBiopolymers() = "<< getNumBiopolymers() <<endl;

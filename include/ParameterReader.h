@@ -289,7 +289,7 @@ public:
     NTC_FORCE_Class         ntc_force_class;
     NTC_Class_Container ntc_class_container;
     //#endif
-    BiopolymerClass         mybiopolymerclass;
+    //BiopolymerClass         mybiopolymerclass;
     
     mutable map<const String,double> userVariables;
     DensityMap myDensityMap;

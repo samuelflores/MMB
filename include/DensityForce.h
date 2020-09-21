@@ -39,7 +39,7 @@ protected:
    DuMMForceFieldSubsystem & dumm;   
     //LeontisWesthofClass& myLeontisWesthofClass;
     BiopolymerClassContainer & myBiopolymerClassContainer;
-    Biopolymer * myChain;
+    //Biopolymer myChain;
     mutable int parameterReaderIndex; 
     std::ostream& outputStream; 
 public: 

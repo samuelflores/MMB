@@ -4247,6 +4247,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             fprintf (spiralPdbFile,"ATOM  %5d MG2+ MG  Z%4d    %8.3f%8.3f%8.3f \n",n,n,currentXYZ[0]*10, currentXYZ[1]*10,currentXYZ[2]*10  ); // Converting to Ångströms
             std::cout<<std::endl;
             std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" MMB-command: readAtStage "<<n<<std::endl;
+	    tetherCommandStream.setf(std::ios_base::fixed, std::ios_base::floatfield);
+	    tetherCommandStream.precision(6);                                                  
             tetherCommandStream<<"readAtStage "<<n<<std::endl;
             // base-pair-at-origin.pdb contains a single base pair, with axis perpendicular to Z-axis.
             tetherCommandStream<<"previousFrameFileName    base-pair."<<n<<".pdb   "<<std::endl;

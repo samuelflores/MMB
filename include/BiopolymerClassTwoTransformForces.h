@@ -34,7 +34,7 @@ private:
     ParameterReader& myParameterReader;	 
     LeontisWesthofClass& myLeontisWesthofClass;
     BiopolymerClassContainer & myBiopolymerClassContainer;
-    Biopolymer * myChain;
+    //Biopolymer * myChain;
     mutable int parameterReaderIndex; 
     std::ostream& outputStream; 
 public: 

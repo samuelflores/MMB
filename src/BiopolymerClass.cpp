@@ -3289,46 +3289,54 @@ void BiopolymerClassContainer::printAllIncludedResidues (vector<IncludeAllNonBon
 }
 
 #ifdef USE_OPENMM
-vector< pair<const BiopolymerClass*, const ResidueID*> > BiopolymerClassContainer::getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, const State & state, OpenMM::NeighborList * neighborList){
+vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer::getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, const State & state, OpenMM::NeighborList & neighborList){
     vector<MMBAtomInfo> concatenatedAtomInfoVector = getConcatenatedAtomInfoVector(state);
     return getResiduesWithin(concatenatedAtomInfoVector, chainID, resID, radius, neighborList); // calls two below.
 }
 
-vector< pair<const BiopolymerClass*, const ResidueID*> > BiopolymerClassContainer::getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList * neighborList){
+vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer::getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList & neighborList){
     vector<MMBAtomInfo> concatenatedAtomInfoVector = getConcatenatedAtomInfoVector();
     return getResiduesWithin(concatenatedAtomInfoVector, chainID, resID, radius, neighborList); // calls one below
 }
 
-vector< pair<const BiopolymerClass*, const ResidueID*> > BiopolymerClassContainer::getResiduesWithin(vector<MMBAtomInfo>& concatenatedAtomInfoVector, const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList * neighborList){
+vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer::getResiduesWithin(vector<MMBAtomInfo>& concatenatedAtomInfoVector, const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList & neighborList){
 
-    vector< pair<const BiopolymerClass*, const ResidueID*> > residuesWithin;
+    vector< pair<const BiopolymerClass, const ResidueID> > residuesWithin;
     BiopolymerClass & primaryBiopolymerClass = updBiopolymerClass(chainID);
 
     // We add the given residue first
-    residuesWithin.push_back(make_pair(&primaryBiopolymerClass,&resID));
+    residuesWithin.push_back(make_pair(primaryBiopolymerClass,resID));
 
     // Get the neighborlist
-    if(neighborList == NULL)
-    {
+    //if(neighborList == NULL)
+    //{
+    //    OpenMM::NeighborList nl = getNeighborList(concatenatedAtomInfoVector, radius);
+    //    neighborList = &nl;
+    //}
+    // Depointerized 25 sept 2020:
+    if(neighborList.size() > 0    ){
+        ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : neighborList is not empty. Going to die now. It has length  "<<neighborList.size() <<endl;
+        ErrorManager::instance.treatError();
+    } else {
         OpenMM::NeighborList nl = getNeighborList(concatenatedAtomInfoVector, radius);
-        neighborList = &nl;
+        neighborList = nl;
     }
 
 
     cout << "Going through the neighbors" << endl;
     // Go through the list
-    for ( int j = 0 ; j < neighborList->size(); j++) 
+    for ( int j = 0 ; j < neighborList.size(); j++) 
     {
         if(j % 1000000 == 0)
             cout << "NeighborList; read " << j << " neighbors" << endl;
-        unsigned int id1 = (*neighborList)[j].first;
-        unsigned int id2 = (*neighborList)[j].second;
+        unsigned int id1 = (neighborList)[j].first;
+        unsigned int id2 = (neighborList)[j].second;
 
-        MMBAtomInfo & atom1 = concatenatedAtomInfoVector[id1];
-        MMBAtomInfo & atom2 = concatenatedAtomInfoVector[id2];
+        MMBAtomInfo  atom1 = concatenatedAtomInfoVector[id1];
+        MMBAtomInfo  atom2 = concatenatedAtomInfoVector[id2];
 
-        BiopolymerClass & bpc1 = updBiopolymerClass(atom1.chain);
-        BiopolymerClass & bpc2 = updBiopolymerClass(atom2.chain);
+        BiopolymerClass  bpc1 = updBiopolymerClass(atom1.chain);
+        BiopolymerClass  bpc2 = updBiopolymerClass(atom2.chain);
 
         double dist = atom1.distance(atom2);
 
@@ -3339,12 +3347,12 @@ vector< pair<const BiopolymerClass*, const ResidueID*> > BiopolymerClassContaine
         // if residue 1 is the given residue we add residue 2
         if(atom1.chain == chainID && atom1.residueID == resID && dist <= radius)
         {
-            residuesWithin.push_back(make_pair(&(bpc2),&(atom2.residueID)));
+            residuesWithin.push_back(make_pair((bpc2),(atom2.residueID)));
         }
         // if residue 2 is the given residue we add residue 1
         else if(atom2.chain == chainID && atom2.residueID == resID && dist <= radius)
         {
-            residuesWithin.push_back(make_pair(&(bpc1),&(atom1.residueID)));
+            residuesWithin.push_back(make_pair((bpc1),(atom1.residueID)));
         }
     }
     return residuesWithin;

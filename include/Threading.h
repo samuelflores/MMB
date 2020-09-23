@@ -8,7 +8,7 @@ typedef seqan::Align<TSequence, seqan::ArrayGaps> TAlign;
 
 
 struct ThreadingPartner {
-    BiopolymerClass * biopolymerClass;
+    BiopolymerClass biopolymerClass;
     vector <ResidueID> includedResidues;
     ResidueID startResidue;
     ResidueID endResidue;
@@ -30,12 +30,12 @@ class ThreadingStruct {
         // In homologyScanner, per convention partner 0 is the homologJob, partner 1 is the PrimaryJob
         ThreadingPartner & updThreadingPartner (int index){return threadingPartners[index];}
         ThreadingPartner  getThreadingPartner (int index) const {return threadingPartners[index];}
-        std::string getChain(int index){return threadingPartners[index].biopolymerClass->getChainID();};
+        std::string getChain(int index){return threadingPartners[index].biopolymerClass.getChainID();};
         void setDefaultStartEndResidues(){
-            updThreadingPartner(0).startResidue = updThreadingPartner(0).biopolymerClass->getFirstResidueID();
-            updThreadingPartner(0).  endResidue = updThreadingPartner(0).biopolymerClass-> getLastResidueID();
-            updThreadingPartner(1).startResidue = updThreadingPartner(1).biopolymerClass->getFirstResidueID();
-            updThreadingPartner(1).  endResidue = updThreadingPartner(1).biopolymerClass-> getLastResidueID();
+            updThreadingPartner(0).startResidue = updThreadingPartner(0).biopolymerClass.getFirstResidueID();
+            updThreadingPartner(0).  endResidue = updThreadingPartner(0).biopolymerClass. getLastResidueID();
+            updThreadingPartner(1).startResidue = updThreadingPartner(1).biopolymerClass.getFirstResidueID();
+            updThreadingPartner(1).  endResidue = updThreadingPartner(1).biopolymerClass. getLastResidueID();
         }
         double forceConstant;
         bool backboneOnly;
@@ -47,16 +47,16 @@ class ThreadingStruct {
 
         // align, alignmentStats should be empty, undefined, or garbage unless and until this method is called:
         void setLongSequences(){
-            threadingPartners[0].sequence = (threadingPartners[0].biopolymerClass->getSubSequence(threadingPartners[0].startResidue , threadingPartners[0].endResidue )).c_str();
-            threadingPartners[1].sequence = (threadingPartners[1].biopolymerClass->getSubSequence(threadingPartners[1].startResidue , threadingPartners[1].endResidue )).c_str();
+            threadingPartners[0].sequence = (threadingPartners[0].biopolymerClass.getSubSequence(threadingPartners[0].startResidue , threadingPartners[0].endResidue )).c_str();
+            threadingPartners[1].sequence = (threadingPartners[1].biopolymerClass.getSubSequence(threadingPartners[1].startResidue , threadingPartners[1].endResidue )).c_str();
             computeAlign(); // Just to make sure align is in sync with the new sequences
         }
 
         void sortIncludedResidues(){
             //threadingPartners[0].includedResidues = 
-            threadingPartners[0].biopolymerClass->sort(threadingPartners[0].includedResidues);
+            threadingPartners[0].biopolymerClass.sort(threadingPartners[0].includedResidues);
             //threadingPartners[1].includedResidues = 
-            threadingPartners[1].biopolymerClass->sort(threadingPartners[1].includedResidues);
+            threadingPartners[1].biopolymerClass.sort(threadingPartners[1].includedResidues);
         }
 
 	bool hasResidue( ResidueID residue , int biopolymerIndex ){
@@ -85,8 +85,8 @@ class ThreadingStruct {
 
 	void setShortSequences(){
 	    sortIncludedResidues();
-	    threadingPartners[0].sequence = (threadingPartners[0].biopolymerClass->getSequence(threadingPartners[0].includedResidues)).c_str();
-	    threadingPartners[1].sequence = (threadingPartners[1].biopolymerClass->getSequence(threadingPartners[1].includedResidues)).c_str();
+	    threadingPartners[0].sequence = (threadingPartners[0].biopolymerClass.getSequence(threadingPartners[0].includedResidues)).c_str();
+	    threadingPartners[1].sequence = (threadingPartners[1].biopolymerClass.getSequence(threadingPartners[1].includedResidues)).c_str();
 	    computeAlign(); // Just to make sure align is in sync with the new sequences
 	}
 
@@ -112,14 +112,14 @@ class ThreadingStruct {
 	    if (( queryBiopolymerIndex > 1) ||  ( queryBiopolymerIndex < 0) ){std::cout <<__FILE__<<":"<<__LINE__<< " queryBiopolymerIndex =  "<< queryBiopolymerIndex <<" is out of range. Expected 0 or 1. "  <<std::endl; exit(1);}
 	    if (( correspondingBiopolymerIndex > 1) ||  ( correspondingBiopolymerIndex < 0) ){std::cout <<__FILE__<<":"<<__LINE__<< " correspondingBiopolymerIndex =  "<< correspondingBiopolymerIndex <<" is out of range. Expected 0 or 1. "  <<std::endl; exit(1);}
 	    if (!(alignHasBeenComputed)) {std::cout <<__FILE__<<":"<<__LINE__<< " alignHasBeenComputed = "<< alignHasBeenComputed <<std::endl; exit(1);}
-	    int querySourceIndex = threadingPartners[queryBiopolymerIndex].biopolymerClass->getResidueIndex(queryResidue) -  threadingPartners[queryBiopolymerIndex].biopolymerClass->getResidueIndex(threadingPartners[queryBiopolymerIndex].startResidue);
+	    int querySourceIndex = threadingPartners[queryBiopolymerIndex].biopolymerClass.getResidueIndex(queryResidue) -  threadingPartners[queryBiopolymerIndex].biopolymerClass.getResidueIndex(threadingPartners[queryBiopolymerIndex].startResidue);
 	     int viewIndex = toViewPosition(row(align, queryBiopolymerIndex),querySourceIndex);
 	     int correspondingSourceIndex =  toSourcePosition(row(align,correspondingBiopolymerIndex ) ,viewIndex);
 	     if (String(seqan::row (align,correspondingBiopolymerIndex )[viewIndex]) == ("-")   ){
-		 //std::cout <<__FILE__<<":"<<__LINE__<< " queryResidue = "<<queryResidue.outString()<< " of queryBiopolymerIndex "<<queryBiopolymerIndex<< " with chain ID "<<   threadingPartners[queryBiopolymerIndex].biopolymerClass->getChainID() << " is an insertion with respect to correspondingBiopolymerIndex. Unable to set correspondingResidue "  <<std::endl;
+		 //std::cout <<__FILE__<<":"<<__LINE__<< " queryResidue = "<<queryResidue.outString()<< " of queryBiopolymerIndex "<<queryBiopolymerIndex<< " with chain ID "<<   threadingPartners[queryBiopolymerIndex].biopolymerClass.getChainID() << " is an insertion with respect to correspondingBiopolymerIndex. Unable to set correspondingResidue "  <<std::endl;
 		 return 1;
 	     }
-	     correspondingResidue =  threadingPartners[correspondingBiopolymerIndex].biopolymerClass->sum( threadingPartners[correspondingBiopolymerIndex].startResidue, correspondingSourceIndex);
+	     correspondingResidue =  threadingPartners[correspondingBiopolymerIndex].biopolymerClass.sum( threadingPartners[correspondingBiopolymerIndex].startResidue, correspondingSourceIndex);
 	     return 0;
 	 }; // of method
 
@@ -142,8 +142,8 @@ class ThreadingStruct {
 	 }
 
 
-	ThreadingStruct(BiopolymerClass * biopolymerClass0, ResidueID resStart0, ResidueID resEnd0,
-		     BiopolymerClass * biopolymerClass1, ResidueID resStart1, ResidueID resEnd1,
+	ThreadingStruct(BiopolymerClass  biopolymerClass0, ResidueID resStart0, ResidueID resEnd0,
+		     BiopolymerClass  biopolymerClass1, ResidueID resStart1, ResidueID resEnd1,
 		     double forceConstant, bool backboneOnly
 		     ) //:
 

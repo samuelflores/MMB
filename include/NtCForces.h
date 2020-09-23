@@ -36,7 +36,7 @@ private:
     ParameterReader& myParameterReader;	 
     NTC_PAR_Class& myNTC_PAR_Class;
     BiopolymerClassContainer & myBiopolymerClassContainer;
-    Biopolymer * myChain;
+    //Biopolymer * myChain;
     mutable int parameterReaderIndex; 
     std::ostream& outputStream; 
 public: 

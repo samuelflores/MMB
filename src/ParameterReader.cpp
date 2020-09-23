@@ -2490,16 +2490,16 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                 //cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" myForceConstant= "<<myForceConstant<<endl;
 	    }
             cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"alignmentForcesForceConstant = "<<alignmentForcesForceConstant<<endl;
-            thread.updThreadingPartner(0).biopolymerClass = & myBiopolymerClassContainer.updBiopolymerClass( parameterStringClass.getString(1));
-            thread.updThreadingPartner(0).startResidue =  myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(2),thread.updThreadingPartner(0).biopolymerClass->getChainID());
+            thread.updThreadingPartner(0).biopolymerClass =  myBiopolymerClassContainer.updBiopolymerClass( parameterStringClass.getString(1));
+            thread.updThreadingPartner(0).startResidue =  myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(2),thread.updThreadingPartner(0).biopolymerClass.getChainID());
 //residueStart1   = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(2),thread.chainID1);
-            thread.updThreadingPartner(0).endResidue     = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(3),thread.updThreadingPartner(0).biopolymerClass->getChainID());
+            thread.updThreadingPartner(0).endResidue     = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(3),thread.updThreadingPartner(0).biopolymerClass.getChainID());
             thread.forceConstant   = alignmentForcesForceConstant; // set to super high value just to make sure it's being reset later.
-            thread.updThreadingPartner(1).biopolymerClass = & myBiopolymerClassContainer.updBiopolymerClass( parameterStringClass.getString(4));
+            thread.updThreadingPartner(1).biopolymerClass =  myBiopolymerClassContainer.updBiopolymerClass( parameterStringClass.getString(4));
             //thread.chainID2        = parameterStringClass.getString(4);
             
-            thread.updThreadingPartner(1).startResidue   = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(5),thread.updThreadingPartner(1).biopolymerClass->getChainID());
-            thread.updThreadingPartner(1).  endResidue     = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(6),thread.updThreadingPartner(1).biopolymerClass->getChainID());
+            thread.updThreadingPartner(1).startResidue   = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(5),thread.updThreadingPartner(1).biopolymerClass.getChainID());
+            thread.updThreadingPartner(1).  endResidue     = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(6),thread.updThreadingPartner(1).biopolymerClass. getChainID());
             thread.isGapped   = alignmentForcesIsGapped;
             thread.deadLengthIsFractionOfInitialLength = alignmentForcesDeadLengthIsFractionOfInitialLength;
             thread.deadLengthFraction = alignmentForcesDeadLengthFraction;

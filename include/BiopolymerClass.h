@@ -12,7 +12,9 @@
 #define BiopolymerClass_H_
 #define MUTATIONMINORSEPARATOR "-"
 #define MUTATIONMAJORSEPARATOR "."
+#include <array>
 #include <string>
+#include <vector>
 
 #include <utility>
 #include "Mutation.h"
@@ -396,17 +398,25 @@ private :
     map <const String, PdbStructure> pdbStructureMap;
 
 public :   
-    #ifdef BuildNtC 
-    double  hist[500][361];
-    double  prob[500][361];
-    double  counter[500];
-    double  hist_d[500][31];
-    double  prob_d[500][31];
-    double  counter_d[500];    
-    #endif 
+    #ifdef BuildNtC
+    #define NTC_IAS 361
+    #define NTC_IAS_D 31
+    #define NTC_OAS 500
+    std::vector<std::array<double, NTC_IAS>> hist;
+    std::vector<std::array<double, NTC_IAS>> prob;
+    std::vector<double> counter;
+    std::vector<std::array<double, NTC_IAS_D>> hist_d;
+    std::vector<std::array<double, NTC_IAS_D>> prob_d;
+    std::vector<double> counter_d;
+    #endif // BuildNtC
     int     count = 0;
     
-    BiopolymerClassContainer(){};
+    BiopolymerClassContainer(){
+    #ifdef BuildNtC
+        hist.resize(NTC_OAS); prob.resize(NTC_OAS); counter.resize(NTC_OAS);
+        hist_d.resize(NTC_OAS); prob_d.resize(NTC_OAS); counter_d.resize(NTC_OAS);
+    #endif // BuildNtC
+    };
     map <const String, BiopolymerClass> getBiopolymerClassMap () const {return biopolymerClassMap;};
     vector<AtomicPropertyOverrideStruct> atomicPropertyOverrideVector;
     void        clear(); //: deletes all BiopolymerClass's in biopolymerClassMap, as well as other linked lists

@@ -386,6 +386,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             closingMessage();
             cout <<__FILE__<<":"<<__LINE__<<endl;
             //exit(0); //hoping to avoid the corrupted double linked list issue
+
         }
 
     }

@@ -57,7 +57,7 @@ private:
     vector<MMBAtomInfo> ignoreAtomPositionVector;
     vector<ResidueID> residueIDVector; // the element index should match the residue index for fast retrieval
     String  pdbFileName;
-    const   PdbStructure * pdbStructure;
+    PdbStructure pdbStructure;
     bool    loadFromPdb;
     void    clear(); // sets all methods to empty values
     void    validateChainID();
@@ -112,8 +112,8 @@ public:
     void    setPdbFileName(String pdbFileName);
     String  getPdbFileName();
 
-    void    setPdbStructure(const PdbStructure *);
-    const   PdbStructure* getPdbStructure();
+    void    setPdbStructure( PdbStructure );
+    const   PdbStructure getPdbStructure();
     
     void    setLoadFromPdb(bool yesno);
     bool    getLoadFromPdb();
@@ -489,9 +489,9 @@ public :
     void        printAllIncludedResidues (vector<IncludeAllNonBondAtomsInResidue> & includeAllNonBondAtomsInResidueVector );
 
     #ifdef USE_OPENMM
-    std::vector< std::pair<const BiopolymerClass*, const ResidueID*> > getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, const State & state, OpenMM::NeighborList * neighborList=NULL);
-    std::vector< std::pair<const BiopolymerClass*, const ResidueID*> > getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList * neighborList=NULL);
-    std::vector< std::pair<const BiopolymerClass*, const ResidueID*> > getResiduesWithin(vector<MMBAtomInfo>& concatenatedAtomInfoVector, const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList * neighborList=NULL);
+    std::vector< std::pair<const BiopolymerClass, const ResidueID> > getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, const State & state, OpenMM::NeighborList &  neighborList);
+    std::vector< std::pair<const BiopolymerClass, const ResidueID> > getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList & neighborList);
+    std::vector< std::pair<const BiopolymerClass, const ResidueID> > getResiduesWithin(vector<MMBAtomInfo>& concatenatedAtomInfoVector, const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList & neighborList);
     OpenMM::NeighborList getNeighborList(const vector<MMBAtomInfo>& concatenatedAtomInfoVector, double radius);
     void        setNeighborsFromList(vector<MMBAtomInfo>& concatenatedAtomInfoVector, OpenMM::NeighborList& neighborList, double radius);
     template <class type > void findBiopolymerResiduesWithinRadius (const type           & allResiduesWithin      , const State state, vector<SingleResidue> & neighboringResidueVector);

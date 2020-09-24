@@ -373,15 +373,18 @@ ConstrainedDynamics::~ConstrainedDynamics()
 void ConstrainedDynamics::initializeDumm(){
     _parameterReader->configureDumm(_dumm);
 }
-
+int  ConstrainedDynamics::initializeBiopolymersAndCustomMoleculesWithoutResettingPdbFileNames()
+{
+    return initializeBiopolymersAndCustomMolecules(_system, bool(false));
+}
 int  ConstrainedDynamics::initializeBiopolymersAndCustomMolecules()
 {
-    return initializeBiopolymersAndCustomMolecules(_system);
+    return initializeBiopolymersAndCustomMolecules(_system, bool(true)); // second argument does not need to be specified, defaults to true. But seems safer this way.
 }
-
-int  ConstrainedDynamics::initializeBiopolymersAndCustomMolecules(CompoundSystem & system){
+// Argument resetAllPdbFileNames defaults to True (see header).
+int  ConstrainedDynamics::initializeBiopolymersAndCustomMolecules(CompoundSystem & system, bool resetAllPdbFileNames ){
     //================================================ Depending on settings, set the PDB file name to CIF instead of PDB
-    _parameterReader->myBiopolymerClassContainer.resetAllPdbFileNames ( _parameterReader->previousFrameFileName );
+    if (resetAllPdbFileNames) {_parameterReader->myBiopolymerClassContainer.resetAllPdbFileNames ( _parameterReader->previousFrameFileName );}
     
     _parameterReader->moleculeClassContainer.initializeCompounds (_dumm);
     cout<<__FILE__<<":"<<__LINE__<<endl;

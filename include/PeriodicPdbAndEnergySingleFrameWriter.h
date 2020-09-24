@@ -51,7 +51,7 @@ public:
 	
 		//scf added time reporting 
                 time_t rawtime;
-                struct tm * timeinfo;
+                struct tm  timeinfo;
                 time ( &rawtime );
                 timeinfo = localtime ( &rawtime );
                 outputStream <<"REMARK Current time is: "<<asctime (timeinfo) <<"REMARK elapsed time: "<<(clock()/CLOCKS_PER_SEC)<<std::endl;

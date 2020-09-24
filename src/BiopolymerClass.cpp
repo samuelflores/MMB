@@ -186,6 +186,9 @@ String BiopolymerClass::printOriginalAndRenumberedResidueIDs(const String myPdbI
 
 void BiopolymerClass::clear() {
     myBiopolymer =  Biopolymer();
+    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" sizeof(PdbStructure) = "<< sizeof(PdbStructure) <<std::endl;
+    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" sizeof(myBiopolymer) = "<< sizeof(myBiopolymer) <<std::endl;
+    
     //firstResidueNumber = 0;
     biopolymerType =    BiopolymerType::Unassigned;
     setProteinCapping ( false);
@@ -197,7 +200,7 @@ void BiopolymerClass::clear() {
     residueIDVector.clear();
     setFirstResidueMobilizerType(String("Free")); // set the default for this variable.  This means the root atom is connected to ground by a Free mobilizer conferring 6 DOFs.  The alternative is a Weld mobilizer, conferring 0 DOFs.
     setActivePhysics(true);
-    pdbStructure = NULL;
+    //pdbStructure = NULL;
 }
 
 void  BiopolymerClass::validateChainID(){
@@ -622,7 +625,7 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
 
     ) {
     cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" about to match chain \""<< getChainID()<<"\" to file name : "<<inputFileName<<endl;
-    if(pdbStructure == NULL)
+    //if(pdbStructure == NULL)
     {
         PdbStructure myPdbStructure;
         
@@ -707,13 +710,14 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                          guessCoordinates, matchingMinimizerTolerance, myPlanarityThreshold);
     }
+    /*
     else
     {
         cout << "using cached PdbStructure" << endl;
         return matchCoordinates(*pdbStructure, matchExact, matchIdealized, matchOptimize,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                          guessCoordinates, matchingMinimizerTolerance, myPlanarityThreshold);
-    }
+    }*/
 }
 
 int  BiopolymerClass::matchCoordinates(istream & inputFile,
@@ -1555,17 +1559,10 @@ const ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID residueID){
     int residueIndex;
     if (residueIDVector.size() >0){
     vector<ResidueID>::iterator residueIDVectorIterator ;
-    //residueIDVectorIterator = find(residueIDVector.begin(), residueIDVector.end(), residueID);
-    // Turns out std::find is a linear operation. Trying this one which should be logarithmic:
-    auto residueIDVectorIteratorRange = equal_range(residueIDVector.begin(), residueIDVector.end(), residueID);
-    //if (residueIDVectorIterator != residueIDVectorIteratorRange.first){
-    //    ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" unexplained error!"<<std::endl;
-    //    ErrorManager::instance.treatError();
-    //}
-    // Let's assume only one was found. If more than one exists that is a problem, but that should hae been prevented with earlier data validation.
-    residueIDVectorIterator = residueIDVectorIteratorRange.first;
-    // end of new find operation
+    //ResidueID tempRes =(* (residueIDVector.begin()) );          
+    residueIDVectorIterator = find(residueIDVector.begin(), residueIDVector.end(), residueID);
     int residueIDVectorPosition = residueIDVectorIterator-residueIDVector.begin();
+        
         residueIndex = ResidueInfo::Index(residueIDVectorPosition);
         //std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Your residue ID: "<<residueID.outString() << " has a corresponding residue index : "<<residueIndex<<std::endl;  
         if ((residueIndex < 0 ) || (residueIndex >= getChainLength())) {
@@ -2419,11 +2416,11 @@ String BiopolymerClass::getPdbFileName(){
     return pdbFileName;
 }
 
-void  BiopolymerClass::setPdbStructure(const PdbStructure * myPdbStructure)
+void  BiopolymerClass::setPdbStructure(const PdbStructure myPdbStructure)
 {
     this->pdbStructure = myPdbStructure;
 }
-const PdbStructure* BiopolymerClass::getPdbStructure()
+const PdbStructure BiopolymerClass::getPdbStructure()
 {
     return this->pdbStructure;
 }
@@ -3292,46 +3289,54 @@ void BiopolymerClassContainer::printAllIncludedResidues (vector<IncludeAllNonBon
 }
 
 #ifdef USE_OPENMM
-vector< pair<const BiopolymerClass*, const ResidueID*> > BiopolymerClassContainer::getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, const State & state, OpenMM::NeighborList * neighborList){
+vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer::getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, const State & state, OpenMM::NeighborList & neighborList){
     vector<MMBAtomInfo> concatenatedAtomInfoVector = getConcatenatedAtomInfoVector(state);
     return getResiduesWithin(concatenatedAtomInfoVector, chainID, resID, radius, neighborList); // calls two below.
 }
 
-vector< pair<const BiopolymerClass*, const ResidueID*> > BiopolymerClassContainer::getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList * neighborList){
+vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer::getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList & neighborList){
     vector<MMBAtomInfo> concatenatedAtomInfoVector = getConcatenatedAtomInfoVector();
     return getResiduesWithin(concatenatedAtomInfoVector, chainID, resID, radius, neighborList); // calls one below
 }
 
-vector< pair<const BiopolymerClass*, const ResidueID*> > BiopolymerClassContainer::getResiduesWithin(vector<MMBAtomInfo>& concatenatedAtomInfoVector, const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList * neighborList){
+vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer::getResiduesWithin(vector<MMBAtomInfo>& concatenatedAtomInfoVector, const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList & neighborList){
 
-    vector< pair<const BiopolymerClass*, const ResidueID*> > residuesWithin;
+    vector< pair<const BiopolymerClass, const ResidueID> > residuesWithin;
     BiopolymerClass & primaryBiopolymerClass = updBiopolymerClass(chainID);
 
     // We add the given residue first
-    residuesWithin.push_back(make_pair(&primaryBiopolymerClass,&resID));
+    residuesWithin.push_back(make_pair(primaryBiopolymerClass,resID));
 
     // Get the neighborlist
-    if(neighborList == NULL)
-    {
+    //if(neighborList == NULL)
+    //{
+    //    OpenMM::NeighborList nl = getNeighborList(concatenatedAtomInfoVector, radius);
+    //    neighborList = &nl;
+    //}
+    // Depointerized 25 sept 2020:
+    if(neighborList.size() > 0    ){
+        ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : neighborList is not empty. Going to die now. It has length  "<<neighborList.size() <<endl;
+        ErrorManager::instance.treatError();
+    } else {
         OpenMM::NeighborList nl = getNeighborList(concatenatedAtomInfoVector, radius);
-        neighborList = &nl;
+        neighborList = nl;
     }
 
 
     cout << "Going through the neighbors" << endl;
     // Go through the list
-    for ( int j = 0 ; j < neighborList->size(); j++) 
+    for ( int j = 0 ; j < neighborList.size(); j++) 
     {
         if(j % 1000000 == 0)
             cout << "NeighborList; read " << j << " neighbors" << endl;
-        unsigned int id1 = (*neighborList)[j].first;
-        unsigned int id2 = (*neighborList)[j].second;
+        unsigned int id1 = (neighborList)[j].first;
+        unsigned int id2 = (neighborList)[j].second;
 
-        MMBAtomInfo & atom1 = concatenatedAtomInfoVector[id1];
-        MMBAtomInfo & atom2 = concatenatedAtomInfoVector[id2];
+        MMBAtomInfo  atom1 = concatenatedAtomInfoVector[id1];
+        MMBAtomInfo  atom2 = concatenatedAtomInfoVector[id2];
 
-        BiopolymerClass & bpc1 = updBiopolymerClass(atom1.chain);
-        BiopolymerClass & bpc2 = updBiopolymerClass(atom2.chain);
+        BiopolymerClass  bpc1 = updBiopolymerClass(atom1.chain);
+        BiopolymerClass  bpc2 = updBiopolymerClass(atom2.chain);
 
         double dist = atom1.distance(atom2);
 
@@ -3342,12 +3347,12 @@ vector< pair<const BiopolymerClass*, const ResidueID*> > BiopolymerClassContaine
         // if residue 1 is the given residue we add residue 2
         if(atom1.chain == chainID && atom1.residueID == resID && dist <= radius)
         {
-            residuesWithin.push_back(make_pair(&(bpc2),&(atom2.residueID)));
+            residuesWithin.push_back(make_pair((bpc2),(atom2.residueID)));
         }
         // if residue 2 is the given residue we add residue 1
         else if(atom2.chain == chainID && atom2.residueID == resID && dist <= radius)
         {
-            residuesWithin.push_back(make_pair(&(bpc1),&(atom1.residueID)));
+            residuesWithin.push_back(make_pair((bpc1),(atom1.residueID)));
         }
     }
     return residuesWithin;
@@ -4177,7 +4182,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
                    ErrorManager::instance.treatError();
                 }
                 BiopolymerClass & myBiopolymerClass = updBiopolymerClass(myChainIdString);
-                myBiopolymerClass.setPdbStructure(&(pdbStructureMap.at(inPDBFileName)));
+                myBiopolymerClass.setPdbStructure((pdbStructureMap.at(inPDBFileName)));
             } // of if Biopolymer
         } // of if Molecule
         cout<<__FILE__<<":"<<__LINE__<<" This BiopolymerClassContainer now     has getNumBiopolymers() = "<< getNumBiopolymers() <<endl;

@@ -217,8 +217,8 @@ void AtomSpringContainer::clearThreading(){
 }
 
 void AtomSpringContainer::validateThreading(const ThreadingStruct & thread, BiopolymerClassContainer & myBiopolymerClassContainer){
-    BiopolymerClass & bpc1 = *(thread.getThreadingPartner(0).biopolymerClass);// myBiopolymerClassContainer.updBiopolymerClass(thread.updThreadingPartner(0).biopolymerClass.getChainID());
-    BiopolymerClass & bpc2 = *(thread.getThreadingPartner(1).biopolymerClass);//myBiopolymerClassContainer.updBiopolymerClass(thread.updThreadingPartner(1).biopolymerClass.getChainID());
+    BiopolymerClass  bpc1 = (thread.getThreadingPartner(0).biopolymerClass);// myBiopolymerClassContainer.updBiopolymerClass(thread.updThreadingPartner(0).biopolymerClass.getChainID());
+    BiopolymerClass  bpc2 = (thread.getThreadingPartner(1).biopolymerClass);//myBiopolymerClassContainer.updBiopolymerClass(thread.updThreadingPartner(1).biopolymerClass.getChainID());
     //BiopolymerClass & bpc1 = myBiopolymerClassContainer.updBiopolymerClass(thread.updThreadingPartner(0).biopolymerClass.getChainID());
     //BiopolymerClass & bpc2 = myBiopolymerClassContainer.updBiopolymerClass(thread.updThreadingPartner(1).biopolymerClass.getChainID());
     //BiopolymerClass & bpc2 = myBiopolymerClassContainer.updBiopolymerClass(thread.);
@@ -256,7 +256,7 @@ void AtomSpringContainer::addThreading(String chain1, ResidueID resStart1, Resid
                                        String chain2, ResidueID resStart2, ResidueID resEnd2, 
                                        double forceConstant, bool backboneOnly, 
                                        BiopolymerClassContainer & myBiopolymerClassContainer){
-    ThreadingStruct thread(&myBiopolymerClassContainer.updBiopolymerClass(chain1) , resStart1, resEnd1,&myBiopolymerClassContainer.updBiopolymerClass( chain2), resStart2, resEnd2, forceConstant, backboneOnly);
+    ThreadingStruct thread(myBiopolymerClassContainer.updBiopolymerClass(chain1) , resStart1, resEnd1,myBiopolymerClassContainer.updBiopolymerClass( chain2), resStart2, resEnd2, forceConstant, backboneOnly);
     addThreading(thread, myBiopolymerClassContainer);
 }
 
@@ -286,7 +286,7 @@ void AtomSpringContainer::updateThreading(int id, String chain1, ResidueID resSt
         ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": you tried to update a non existing Threading." << endl;
         ErrorManager::instance.treatError();
     }
-    ThreadingStruct newThread(&myBiopolymerClassContainer.updBiopolymerClass(chain1), resStart1, resEnd1,&myBiopolymerClassContainer.updBiopolymerClass( chain2), resStart2, resEnd2, forceConstant, backboneOnly);
+    ThreadingStruct newThread(myBiopolymerClassContainer.updBiopolymerClass(chain1), resStart1, resEnd1,myBiopolymerClassContainer.updBiopolymerClass( chain2), resStart2, resEnd2, forceConstant, backboneOnly);
     this->updateThreading(id, newThread, myBiopolymerClassContainer);
 }
 
@@ -295,25 +295,25 @@ void AtomSpringContainer::createSpringsFromThreading(BiopolymerClassContainer & 
     vector<ThreadingStruct>::iterator it;
     for(it = threadingStructVector.begin(); it != threadingStructVector.end(); it++){
         ThreadingStruct & thread = *it;
-        BiopolymerClass & bp1 = *(thread.getThreadingPartner(0).biopolymerClass) ; //myBiopolymerClassContainer.updBiopolymerClass(thread.getThreadingPartner(0).biopolymerClass->getChainID()  );
+        BiopolymerClass  bp1 = (thread.getThreadingPartner(0).biopolymerClass) ; //myBiopolymerClassContainer.updBiopolymerClass(thread.getThreadingPartner(0).biopolymerClass.getChainID()  );
         int threadedLength = bp1.difference (thread.getThreadingPartner(0).endResidue  ,thread.getThreadingPartner(0).startResidue  ) + 1;
 
         if(bp1.getBiopolymerType() == BiopolymerType::Protein && thread.backboneOnly)
         {
             for (int i = 0; i < threadedLength; i++) 
             {
-                AtomSpring myAtomSpring1(thread.getThreadingPartner(0).biopolymerClass->getChainID(), thread.getThreadingPartner(0).biopolymerClass->sum(thread.getThreadingPartner(0).startResidue , i), String("N"),
-                                         thread.getThreadingPartner(1).biopolymerClass->getChainID(), thread.getThreadingPartner(1).biopolymerClass->sum(thread.getThreadingPartner(1).startResidue , i), String("N"),
+                AtomSpring myAtomSpring1(thread.getThreadingPartner(0).biopolymerClass.getChainID(), thread.getThreadingPartner(0).biopolymerClass.sum(thread.getThreadingPartner(0).startResidue , i), String("N"),
+                                         thread.getThreadingPartner(1).biopolymerClass.getChainID(), thread.getThreadingPartner(1).biopolymerClass.sum(thread.getThreadingPartner(1).startResidue , i), String("N"),
                                          thread.forceConstant
                                         );
 
-                AtomSpring myAtomSpring2(thread.getThreadingPartner(0).biopolymerClass->getChainID(), thread.getThreadingPartner(0).biopolymerClass->sum(thread.getThreadingPartner(0).startResidue , i), String("CA"),
-                                         thread.getThreadingPartner(1).biopolymerClass->getChainID(), thread.getThreadingPartner(1).biopolymerClass->sum(thread.getThreadingPartner(1).startResidue , i), String("CA"),
+                AtomSpring myAtomSpring2(thread.getThreadingPartner(0).biopolymerClass.getChainID(), thread.getThreadingPartner(0).biopolymerClass.sum(thread.getThreadingPartner(0).startResidue , i), String("CA"),
+                                         thread.getThreadingPartner(1).biopolymerClass.getChainID(), thread.getThreadingPartner(1).biopolymerClass.sum(thread.getThreadingPartner(1).startResidue , i), String("CA"),
                                          thread.forceConstant
                                         );
 
-                AtomSpring myAtomSpring3(thread.getThreadingPartner(0).biopolymerClass->getChainID(), thread.getThreadingPartner(0).biopolymerClass->sum(thread.getThreadingPartner(0).startResidue , i), String("C"),
-                                         thread.getThreadingPartner(1).biopolymerClass->getChainID(), thread.getThreadingPartner(1).biopolymerClass->sum(thread.getThreadingPartner(1).startResidue , i), String("C"),
+                AtomSpring myAtomSpring3(thread.getThreadingPartner(0).biopolymerClass.getChainID(), thread.getThreadingPartner(0).biopolymerClass.sum(thread.getThreadingPartner(0).startResidue , i), String("C"),
+                                         thread.getThreadingPartner(1).biopolymerClass.getChainID(), thread.getThreadingPartner(1).biopolymerClass.sum(thread.getThreadingPartner(1).startResidue , i), String("C"),
                                          thread.forceConstant
                                         );
                 this->add   (myAtomSpring1);
@@ -326,10 +326,10 @@ void AtomSpringContainer::createSpringsFromThreading(BiopolymerClassContainer & 
         {
             for (int i = 0; i < threadedLength; i++) 
             {
-                ResidueInfo myResidueInfoA = thread.getThreadingPartner(0).biopolymerClass->updResidueInfo(thread.getThreadingPartner(0).biopolymerClass->sum(thread.getThreadingPartner(0).startResidue  , i));
+                ResidueInfo myResidueInfoA = thread.getThreadingPartner(0).biopolymerClass.updResidueInfo(thread.getThreadingPartner(0).biopolymerClass.sum(thread.getThreadingPartner(0).startResidue  , i));
                 //ResidueInfo myResidueInfoA = myBiopolymerClassContainer.updBiopolymerClass(thread.chainID1).updResidueInfo(myBiopolymerClassContainer.updBiopolymerClass(thread.chainID1).sum( thread.residueStart1 , i));
 
-                ResidueInfo myResidueInfoB = thread.getThreadingPartner(1).biopolymerClass->updResidueInfo(thread.getThreadingPartner(1).biopolymerClass->sum(thread.getThreadingPartner(1).startResidue , i));
+                ResidueInfo myResidueInfoB = thread.getThreadingPartner(1).biopolymerClass. updResidueInfo(thread.getThreadingPartner(1).biopolymerClass. sum(thread.getThreadingPartner(1).startResidue , i));
                 for (int j = 0; j < (int)myResidueInfoA.getNumAtoms(); j++) {
                     String atomNameA =  myResidueInfoA.getAtomName(ResidueInfo::AtomIndex (j));
                     if (
@@ -351,13 +351,13 @@ void AtomSpringContainer::createSpringsFromThreading(BiopolymerClassContainer & 
                        ) 
                     { // do nothing; leaving out hydrogens
                     } else {
-                        if (thread.getThreadingPartner(1).biopolymerClass->hasAtom( thread.getThreadingPartner(1).biopolymerClass->sum (thread.getThreadingPartner(1).startResidue , i),atomNameA)) {
+                        if (thread.getThreadingPartner(1).biopolymerClass.hasAtom( thread.getThreadingPartner(1).biopolymerClass.sum (thread.getThreadingPartner(1).startResidue , i),atomNameA)) {
 
-                            AtomSpring myAtomSpring1(thread.getThreadingPartner(0).biopolymerClass->getChainID(), 
-                                                     thread.getThreadingPartner(0).biopolymerClass->sum(thread.getThreadingPartner(0).startResidue , i), 
+                            AtomSpring myAtomSpring1(thread.getThreadingPartner(0).biopolymerClass. getChainID(), 
+                                                     thread.getThreadingPartner(0).biopolymerClass. sum(thread.getThreadingPartner(0).startResidue , i), 
                                                      atomNameA,
-                                                     thread.getThreadingPartner(1).biopolymerClass->getChainID(), 
-                                                     thread.getThreadingPartner(1).biopolymerClass->sum(thread.getThreadingPartner(1).startResidue , i), 
+                                                     thread.getThreadingPartner(1).biopolymerClass. getChainID(), 
+                                                     thread.getThreadingPartner(1).biopolymerClass. sum(thread.getThreadingPartner(1).startResidue , i), 
                                                      atomNameA,
                                                      thread.forceConstant
                                                     );
@@ -381,8 +381,8 @@ void AtomSpringContainer::clearGappedThreading(){
 ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, ResidueID startResidue1,  ResidueID endResidue1, String chain2,  ResidueID startResidue2,  ResidueID endResidue2,  double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer)
 {
     ThreadingStruct thread;
-    thread.updThreadingPartner(0).biopolymerClass = &myBiopolymerClassContainer.updBiopolymerClass(chain1);
-    thread.updThreadingPartner(1).biopolymerClass = &myBiopolymerClassContainer.updBiopolymerClass(chain2);
+    thread.updThreadingPartner(0).biopolymerClass = myBiopolymerClassContainer.updBiopolymerClass(chain1);
+    thread.updThreadingPartner(1).biopolymerClass = myBiopolymerClassContainer.updBiopolymerClass(chain2);
     //thread.chainID1 = chain1;
     //thread.chainID2 = chain2;
     std::cout<<__FILE__<<":"<<__LINE__<<endl;
@@ -470,8 +470,8 @@ void AtomSpringContainer::createSpringsFromGappedThreading(BiopolymerClassContai
     {
         ThreadingStruct & thread = *it;
         cout << "ThreadForceConstant " << thread.forceConstant << endl;
-        String chainA = thread.updThreadingPartner(0).biopolymerClass->getChainID();//thread.chainID1;
-        String chainB = thread.updThreadingPartner(1).biopolymerClass->getChainID();
+        String chainA = thread.updThreadingPartner(0).biopolymerClass. getChainID();//thread.chainID1;
+        String chainB = thread.updThreadingPartner(1).biopolymerClass. getChainID();
         BiopolymerClass & bpA = myBiopolymerClassContainer.updBiopolymerClass(chainA);
         BiopolymerClass & bpB = myBiopolymerClassContainer.updBiopolymerClass(chainB);
 
@@ -510,7 +510,7 @@ void AtomSpringContainer::createSpringsFromGappedThreading(BiopolymerClassContai
             if ((String(seqan::row (align,0)[i]).compare("-")  != 0  )  &&
                 (String(seqan::row (align,1)[i]).compare("-")  != 0  )) 
             { 
-                cout<<__FILE__<<":"<<__LINE__<<" Applying threading forces to "<<thread.updThreadingPartner(0).biopolymerClass->getChainID()<<" : "<<bpA.sum(thread.updThreadingPartner(0).startResidue   , aIndex).outString()<<" to "<<thread.updThreadingPartner(1).biopolymerClass->getChainID()<<" : "<<bpB.sum(thread.updThreadingPartner(1).startResidue ,bIndex).outString()<<std::endl;
+                cout<<__FILE__<<":"<<__LINE__<<" Applying threading forces to "<<thread.updThreadingPartner(0).biopolymerClass. getChainID()<<" : "<<bpA.sum(thread.updThreadingPartner(0).startResidue   , aIndex).outString()<<" to "<<thread.updThreadingPartner(1).biopolymerClass. getChainID()<<" : "<<bpB.sum(thread.updThreadingPartner(1).startResidue ,bIndex).outString()<<std::endl;
                 ResidueInfo myResidueInfoA = bpA.updResidueInfo(bpA.sum(thread.updThreadingPartner(0).startResidue   , aIndex  )) ;
                 ResidueInfo myResidueInfoB = bpB.updResidueInfo(bpB.sum(thread.updThreadingPartner(1).startResidue   , bIndex)) ;
                 for (int j = 0; j < (int)myResidueInfoA.getNumAtoms(); j++) 

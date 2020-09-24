@@ -5756,6 +5756,9 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     // SCF start rationalized initialization scheme
     clearContainers();
 
+    mmbRemarkCounter = 0;
+    mmbRemarkNum = 0;
+
     //variables previously declared and initialized in Repel.h:
     ///useCIFFileFormat         = false;
     addAllAtomSterics        = false;
@@ -5883,6 +5886,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     sphericalHelixRadius     = 100.0;           
     sphericalHelixStartTheta = SimTK::Pi / 4.0; 
     sphericalHelixPhiOffset  = 0.0;             
+    sphericalHelixInterStrandDistance = 1.0; // TODO: Use a better default value
 
     stackAllHelicalResidues = true ;
     thermostatType ="NoseHoover";

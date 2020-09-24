@@ -22,6 +22,8 @@ ErrorManager& ErrorManager::operator=(const ErrorManager & em)
     _output = em._output; 
     _backup = em._backup;
     _buffer << em._buffer.rdbuf();
+
+    return *this;
 }
 
 ErrorManager::~ErrorManager(){

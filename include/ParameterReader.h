@@ -81,9 +81,9 @@ public:
     bool   addTestSpring;
     bool   useCIFFileFormat;
 #ifdef GEMMI_USAGE
-    gemmi::Structure gemmiCifTrajectoryFile;
     std::vector< std::pair < std::string, std::string > > trajectoryFileRemarks;
     std::vector< std::pair < std::string, std::string > > lastFileRemarks;
+    bool gemmi_isFirstInStage;
 #endif
     bool   alignmentForcesIsGapped;
     double alignmentForcesGapPenalty;

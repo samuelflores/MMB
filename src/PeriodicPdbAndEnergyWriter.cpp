@@ -36,18 +36,8 @@ SimTK::PeriodicPdbAndEnergyWriter::PeriodicPdbAndEnergyWriter( 	const CompoundSy
 																 //myMagnesiumIonVec(myMagnesiumIonVec)
 {
 #ifdef GEMMI_USAGE
-    //================================================ Clear any already existing models
-    myParameterReader.gemmiCifTrajectoryFile.models.clear();
-    
-    //================================================ Solve the data name
-    std::string strName                               = myParameterReader.outTrajectoryFileName;
-    istringstream iss                                 ( strName );
-    std::vector<std::string> tokens; std::string token;
-    while ( std::getline ( iss, token, '.') )         { if ( !token.empty() ) { tokens.push_back ( token ); } }
-    if ( tokens.size() > 2 )                          { strName = std::string ( tokens.at(tokens.size()-3) + tokens.at(tokens.size()-2) ); }
-    else                                              { strName = "TRAJECTORYX"; }
-    if ( strName[0] == '/' )                          { strName.erase(0, 1); }
-    myParameterReader.gemmiCifTrajectoryFile.name     = strName;
+    myParameterReader.trajectoryFileRemarks.clear     ( );
+    myParameterReader.gemmi_isFirstInStage            = true;
 #endif
 }
 
@@ -59,10 +49,19 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
     
     system.realize(state, Stage::Dynamics);
 
-    #ifdef GEMMI_USAGE
+#ifdef GEMMI_USAGE
     //================================================ Create new gemmi model for this position
     gemmi::Model gModel                               ( std::to_string( modelNumber ) );
-    #endif
+    
+    //================================================ Solve the data name
+    std::string strName                               = myParameterReader.outTrajectoryFileName;
+    istringstream iss                                 ( strName );
+    std::vector<std::string> tokens; std::string token;
+    while ( std::getline ( iss, token, '.') )         { if ( !token.empty() ) { tokens.push_back ( token ); } }
+    if ( tokens.size() > 2 )                          { strName = std::string ( tokens.at(tokens.size()-3) + tokens.at(tokens.size()-2) ); }
+    else                                              { strName = "TRAJECTORYX"; }
+    if ( strName[0] == '/' )                          { strName.erase(0, 1); }
+#endif
     
     if ( myParameterReader.useCIFFileFormat )
     {
@@ -126,43 +125,6 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
     if ( myParameterReader.useCIFFileFormat )
     {
 #ifdef GEMMI_USAGE
-        //============================================ Save model to structure
-        myParameterReader.gemmiCifTrajectoryFile.models.push_back ( gModel );
-
-        //============================================ Set Gemmi structure internal values based on loaded information
-        gemmi::setup_entities                         ( myParameterReader.gemmiCifTrajectoryFile );
-        gemmi::assign_label_seq_id                    ( myParameterReader.gemmiCifTrajectoryFile, true );
-        gemmi::assign_subchains                       ( myParameterReader.gemmiCifTrajectoryFile, true );
-        
-        //============================================ Add sequence to entities
-        compoundNumber                                = 1;
-        for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c)
-        {
-            //======================================== Print log
-            std::cout <<__FILE__<<":"<<__LINE__<<" c = "<<c<< " compoundNumber = "<<compoundNumber <<std::endl;
-            
-            //======================================== Get sequence for compound
-            std::string compSeq                       = (myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap ())[myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(compoundNumber-1).getChainID()].getSequence();
-            
-            //======================================== For each structure entity
-            for ( unsigned int enIt = 0; enIt < static_cast<unsigned int> ( myParameterReader.gemmiCifTrajectoryFile.entities.size() ); enIt++ )
-            {
-                //==================================== If entity name = MMB chain ID
-                if ( myParameterReader.gemmiCifTrajectoryFile.entities.at(enIt).name == myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(compoundNumber-1).getChainID() )
-                {
-                    //================================ Copy sequence
-                    myParameterReader.gemmiCifTrajectoryFile.entities.at(enIt).full_sequence.clear();
-                    for ( unsigned int sqIt = 0; sqIt < static_cast<unsigned int> ( compSeq.length() ); sqIt++ )
-                    {
-                        myParameterReader.gemmiCifTrajectoryFile.entities.at(enIt).full_sequence.emplace_back ( std::to_string ( compSeq[sqIt] ) );
-                    }
-                }
-            }
-            
-            //======================================== Update compound number
-            compoundNumber++;
-        }
-
         //============================================ Generate trajectory remarks
         myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Seconds since January 1st 1970           : " + std::to_string ( time ( NULL ) ) ) );
         std::string curTimeHlp                        ( asctime (timeinfo) );
@@ -198,7 +160,8 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
         myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "" ) );
         
         //============================================ Write out CIF
-        SimTK::CIFOut::writeOutCif                    ( myParameterReader.gemmiCifTrajectoryFile, myParameterReader.outTrajectoryFileName, myParameterReader.trajectoryFileRemarks );
+        SimTK::CIFOut::reWriteOutCif                  ( gModel, strName, myParameterReader, system, myParameterReader.gemmi_isFirstInStage );
+        if ( myParameterReader.gemmi_isFirstInStage ) { myParameterReader.gemmi_isFirstInStage = false; }
 #endif
     }
     else

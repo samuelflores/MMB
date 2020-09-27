@@ -109,12 +109,16 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
         }
     }
     
+#ifdef GEMMI_USAGE
+    SimTK::CIFOut::reWriteOutCif                      ( gModel, strName, "frame.cif", myParameterReader, system, true );
+#else
     filebuf fb;
     fb.open("frame.pdb",ios::out);
     std::ostream  fbstream (&fb);
     PdbAtom::setWriteFullPrecisionLocation(true); // get higher precision from file that might be reused for reading.
     for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c)
         (system.getCompound(c)).writePdb(state, fbstream,Transform(Vec3(0)));
+#endif
 
     //scf added time reporting 
     time_t rawtime;
@@ -160,7 +164,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
         myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "" ) );
         
         //============================================ Write out CIF
-        SimTK::CIFOut::reWriteOutCif                  ( gModel, strName, myParameterReader, system, myParameterReader.gemmi_isFirstInStage );
+        SimTK::CIFOut::reWriteOutCif                  ( gModel, strName, myParameterReader.outTrajectoryFileName, myParameterReader, system, myParameterReader.gemmi_isFirstInStage );
         if ( myParameterReader.gemmi_isFirstInStage ) { myParameterReader.gemmi_isFirstInStage = false; }
 #endif
     }

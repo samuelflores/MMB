@@ -54,7 +54,7 @@ void SimTK::CIFOut::writeOutCif ( gemmi::Structure outStruct, std::string fileNa
     
 }
 
-void SimTK::CIFOut::reWriteOutCif ( gemmi::Model gModel, std::string modelName, ParameterReader& myParameterReader, const CompoundSystem& system, bool firstInStage )
+void SimTK::CIFOut::reWriteOutCif ( gemmi::Model gModel, std::string modelName, std::string fileName, ParameterReader& myParameterReader, const CompoundSystem& system, bool firstInStage )
 {
     //================================================ Try to read in the file
     if ( firstInStage )
@@ -103,13 +103,13 @@ void SimTK::CIFOut::reWriteOutCif ( gemmi::Model gModel, std::string modelName, 
         }
         
         //============================================ Write out the file
-        writeOutCif ( myTrajectoryOutputFile, myParameterReader.outTrajectoryFileName, myParameterReader.trajectoryFileRemarks );
+        writeOutCif ( myTrajectoryOutputFile, fileName, myParameterReader.trajectoryFileRemarks );
         
     }
     else
     {
         //============================================ File does exist, read it, update it and re-write it
-        gemmi::cif::Document doc                      = gemmi::cif::read ( gemmi::MaybeGzipped ( myParameterReader.outTrajectoryFileName ) );
+        gemmi::cif::Document doc                      = gemmi::cif::read ( gemmi::MaybeGzipped ( fileName ) );
         gemmi::Structure myTrajectoryOutputFile       = gemmi::make_structure ( doc );
         
         //============================================ Add model to structure
@@ -121,7 +121,7 @@ void SimTK::CIFOut::reWriteOutCif ( gemmi::Model gModel, std::string modelName, 
         gemmi::assign_subchains                       ( myTrajectoryOutputFile, true );
         
         //============================================ Write out the file
-        writeOutCif ( myTrajectoryOutputFile, myParameterReader.outTrajectoryFileName, myParameterReader.trajectoryFileRemarks );
+        writeOutCif ( myTrajectoryOutputFile, fileName, myParameterReader.trajectoryFileRemarks );
     }
     
     //============================================ Done

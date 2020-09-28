@@ -108,17 +108,22 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
             (system.getCompound(c)).writePdb(state, outputStream,Transform(Vec3(0)));//, nextAtomSerialNumber);
         }
     }
-    
+
+    if ( myParameterReader.useCIFFileFormat )
+    {
 #ifdef GEMMI_USAGE
-    SimTK::CIFOut::reWriteOutCif                      ( gModel, strName, "frame.cif", myParameterReader, system, true );
-#else
-    filebuf fb;
-    fb.open("frame.pdb",ios::out);
-    std::ostream  fbstream (&fb);
-    PdbAtom::setWriteFullPrecisionLocation(true); // get higher precision from file that might be reused for reading.
-    for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c)
-        (system.getCompound(c)).writePdb(state, fbstream,Transform(Vec3(0)));
+        SimTK::CIFOut::reWriteOutCif                  ( gModel, strName, "frame.cif", myParameterReader, system, true );
 #endif
+    }
+    else
+    {
+        filebuf fb;
+        fb.open("frame.pdb",ios::out);
+        std::ostream  fbstream (&fb);
+        PdbAtom::setWriteFullPrecisionLocation(true); // get higher precision from file that might be reused for reading.
+        for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c)
+            (system.getCompound(c)).writePdb(state, fbstream,Transform(Vec3(0)));
+    }
 
     //scf added time reporting 
     time_t rawtime;

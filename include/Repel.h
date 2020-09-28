@@ -168,8 +168,7 @@ public:
     * Initialize Biopolymers starting position
     */
     int  initializeBiopolymersAndCustomMolecules();
-    int  initializeBiopolymersAndCustomMoleculesWithoutResettingPdbFileNames(); // calls initializeBiopolymersAndCustomMolecules(CompoundSystem , FALSE);
-    int  initializeBiopolymersAndCustomMolecules(CompoundSystem & system, bool resetAllPdbFileNames = true); // The second parameter, if left empty, defaults to True and means that each chain's prior pdbFileName is overwritten.
+    int  initializeBiopolymersAndCustomMolecules(CompoundSystem & system); 
 
     /**
     * Initialize one Biopolymer identified by its chain

@@ -515,7 +515,6 @@ public :
     const bool  isRNA    (const Biopolymer & inputBiopolymer) ;
     const bool  isDNA    (const Biopolymer & inputBiopolymer) ;
     const bool  isProtein(const Biopolymer & inputBiopolymer, bool endCaps) ;
-    void        resetAllPdbFileNames(String newPdbFileNames);
     void        loadSequencesFromPdb(String inPDBFilename,bool proteinCapping, const String & chainsPrefix , const bool tempRenumberPdbResidues  , const bool useNACappingHydroxyls); 
     const PdbStructure & getPdbStructure(String fileName);
     void        printBiopolymerInfo() ;

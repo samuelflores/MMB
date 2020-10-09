@@ -177,7 +177,7 @@ public:
     BiopolymerType::BiopolymerTypeEnum  getBiopolymerType() const;
     String  getBiopolymerTypeAsString();
     bool getRenumberPdbResidues (){return myRenumberPdbResidues;}
-    bool setRenumberPdbResidues (bool tempRenumberPdbResidues);/*{ 
+    void setRenumberPdbResidues (bool tempRenumberPdbResidues);/*{
         myRenumberPdbResidues = tempRenumberPdbResidues;
         std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Just set myRenumberPdbResidues to "<<getRenumberPdbResidues()<<" for chain "<<getChainID()<<std::endl;
         }*/

@@ -64,6 +64,11 @@ void MMBLogger::logCritical [[noreturn]] (const std::ostringstream& oss) {
 }
 #endif // MMBLOG_DONT_THROW_ON_CRITICAL
 
+void MMBLogger::setLoggingSeverity(const Severity severity)
+{
+    _loggingSeverity = severity < Severity::ALWAYS ? severity : Severity::ALWAYS;
+}
+
 void MMBLogger::setOutput(std::ostream *output)
 {
     std::lock_guard<std::mutex> lk(_writeMutex);

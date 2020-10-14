@@ -33,6 +33,8 @@
 // #define _DEBUG_FLAGS_ON_
 #include <cerrno>
 #include <cmath>
+#include <algorithm>
+#include <cctype>
 //#include <tr1/cmath>
 //#include <boost/math/special_functions/ellint_2.hpp>
 #include <regex> // for search and replace
@@ -4859,6 +4861,30 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         convergenceEpsilon = myAtoF(userVariables,(parameterStringClass.getString(1)).c_str());    
         return;
     }
+
+    if ((parameterStringClass.getString(0)).compare("loggingSeverity") == 0) {
+        parameterStringClass.validateNumFields(2);
+
+        std::string param = parameterStringClass.getString(1);
+        std::transform(param.begin(), param.end(), param.begin(), [](auto &&ch){ return std::tolower(ch); });
+
+        if (param == "debug")
+            MMBLogger::instance().setLoggingSeverity(MMBLogger::Severity::DEBUG);
+        else if (param == "info")
+            MMBLogger::instance().setLoggingSeverity(MMBLogger::Severity::INFO);
+        else if (param == "warning")
+            MMBLogger::instance().setLoggingSeverity(MMBLogger::Severity::WARNING);
+        else {
+            MMBLOG_FILE_FUNC_LINE(
+                WARNING,
+                "Unknown logging severity "<<param<<endl
+                <<"Allowed values are: debug, info, warning"<<endl
+            );
+        }
+
+        return;
+    }
+
     // if non recognizable string
     MMBLOG_FILE_FUNC_LINE(CRITICAL, "Non recognizable input: " << parameterStringClass.getString() << endl);
 }

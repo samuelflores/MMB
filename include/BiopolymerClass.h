@@ -14,7 +14,9 @@
 #define MUTATIONMAJORSEPARATOR "."
 #include <string>
 
+#include <array>
 #include <utility>
+#include <vector>
 #include "Mutation.h"
 #include "SimTKmolmodel.h"
 #include <seqan/align.h>
@@ -175,7 +177,7 @@ public:
     BiopolymerType::BiopolymerTypeEnum  getBiopolymerType() const;
     String  getBiopolymerTypeAsString();
     bool getRenumberPdbResidues (){return myRenumberPdbResidues;}
-    bool setRenumberPdbResidues (bool tempRenumberPdbResidues);/*{ 
+    void setRenumberPdbResidues (bool tempRenumberPdbResidues);/*{
         myRenumberPdbResidues = tempRenumberPdbResidues;
         std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Just set myRenumberPdbResidues to "<<getRenumberPdbResidues()<<" for chain "<<getChainID()<<std::endl;
         }*/
@@ -395,17 +397,17 @@ private :
     vector<Mutation> mutationVector; // this manages the vector of substitution mutations.  Not used for MMB, but breeder uses it extensively.
     map <const String, PdbStructure> pdbStructureMap;
 
-public :   
-    #ifdef BuildNtC 
-    double  hist[500][361];
-    double  prob[500][361];
-    double  counter[500];
-    double  hist_d[500][31];
-    double  prob_d[500][31];
-    double  counter_d[500];    
-    #endif 
+public:
+    #ifdef BuildNtC
+    std::vector<std::array<double, 361>> hist;
+    std::vector<std::array<double, 361>> prob;
+    std::vector<double> counter;
+    std::vector<std::array<double, 31>> hist_d;
+    std::vector<std::array<double, 31>> prob_d;
+    std::vector<double> counter_d;
+    #endif
     int     count = 0;
-    
+
     BiopolymerClassContainer(){};
     map <const String, BiopolymerClass> getBiopolymerClassMap () const {return biopolymerClassMap;};
     vector<AtomicPropertyOverrideStruct> atomicPropertyOverrideVector;

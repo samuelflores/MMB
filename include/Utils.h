@@ -38,6 +38,29 @@ using namespace SimTK;
 using namespace std;  
 
 
+struct LessThanComparator {
+    template <typename T>
+    static bool compare(const T &a, const T &b) {
+        return a < b;
+    }
+    template <typename T>
+    static bool invCompare(const T &a, const T &b) {
+        return a > b;
+    }
+};
+
+struct GreaterThanComparator {
+    template <typename T>
+    static bool compare(const T &a, const T &b) {
+        return a > b;
+    }
+    template <typename T>
+    static bool invCompare(const T &a, const T &b) {
+        return a < b;
+    }
+};
+
+
 class CheckFile {
 private: 
     String fileName;
@@ -588,42 +611,39 @@ class ResidueStretch   {
             else return false;
         }
         // Will need to replace these obsolete operators (ResidueID does not take inequalities any more) with new error traps
-        
-        bool operator > (ResidueStretch & a){
+
+        template <typename Comparator>
+        bool compareOp (const ResidueStretch & a) const {
             if (this->startResidue > this->endResidue) {
-               MMBLOG_FILE_LINE(CRITICAL, " The current residue stretch has a start residue : "<<this->startResidue.outString()<< " which is greater than its end residue: "<<this->endResidue.outString()<<std::endl);
+                MMBLOG_FILE_FUNC_LINE(
+                    CRITICAL,
+                    "The current residue stretch has a start residue : "<<this->startResidue.outString()
+                    <<" which is greater than its end residue: "<<this->endResidue.outString()<<std::endl
+                );
             }
+
             if (a.startResidue > a.endResidue) {
-               MMBLOG_FILE_LINE(CRITICAL, " The current residue stretch has a start residue : "<<a.startResidue.outString()<< " which is greater than its end residue: "<<a.endResidue.outString()<<std::endl);
+                MMBLOG_FILE_FUNC_LINE(
+                    CRITICAL,
+                    "The current residue stretch has a start residue : "<<a.startResidue.outString()
+                    << " which is greater than its end residue: "<<a.endResidue.outString()<<std::endl
+                );
             }
-            if  (this->chain >  a.chain      ) 
-                {return true;}
-            else if (this->chain <  a.chain      ) 
-                {return false;} 
-            else if (this->chain == a.chain      ) {
-		if (this->startResidue >  a.endResidue ) 
-                    {return true;}
-                else 
-                    {return false;} 
-            }
+
+            if (Comparator::compare(this->chain, a.chain))
+                return true;
+            else if (Comparator::invCompare(this->chain, a.chain))
+                return false;
+            else
+                return Comparator::compare(this->startResidue, a.endResidue);
         }
-        bool operator < (ResidueStretch & a){
-            if (this->startResidue > this->endResidue) {
-	       MMBLOG_FILE_LINE(CRITICAL, " The current residue stretch has a start residue : "<<this->startResidue.outString()<< " which is greater than its end residue: "<<this->endResidue.outString()<<std::endl);
-            }
-            if (a.startResidue > a.endResidue) {
-                MMBLOG_FILE_LINE(CRITICAL, " The current residue stretch has a start residue : "<<a.startResidue.outString()<< " which is greater than its end residue: "<<a.endResidue.outString()<<std::endl);
-            }
-            if  (this->chain <  a.chain      ) 
-                {return true;}
-            else if (this->chain >  a.chain      ) 
-                {return false;} 
-            else if (this->chain == a.chain      ) {
-		if (this->startResidue <  a.endResidue ) 
-                    {return true;}
-                else 
-                    {return false;} 
-            }
+
+        bool operator > (const ResidueStretch & a) const {
+            return compareOp<GreaterThanComparator>(a);
+        }
+
+        bool operator < (const ResidueStretch & a) const {
+            return compareOp<LessThanComparator>(a);
         }
     };
 

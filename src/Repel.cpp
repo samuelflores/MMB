@@ -1041,7 +1041,7 @@ void ConstrainedDynamics::runAllSteps() {
 
     // New way, to allow a step by step control later
         
-    for(_nextFrame; _nextFrame <= _parameterReader->numReportingIntervals; _nextFrame++){
+    for(; _nextFrame <= _parameterReader->numReportingIntervals; _nextFrame++){
         //MMBLOG_FILE_FUNC_LINE(std::endl; 
         _ts->stepTo(_nextFrame*_parameterReader->reportingInterval);
         _state = _ts->getState();

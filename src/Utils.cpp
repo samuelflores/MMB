@@ -19,41 +19,40 @@ using namespace SimTK;
 
 
 int myMkdir(std::string directoryPath){
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<":"<<" You are asking to create the directory  "<<directoryPath<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, " You are asking to create the directory  "<<directoryPath<<std::endl);
     if (!(opendir(directoryPath.c_str()))){
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<":"<<" opendir failed to open directory "<<directoryPath<<" . Will now create this directory.  " <<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, " opendir failed to open directory "<<directoryPath<<" . Will now create this directory.  " <<std::endl);
         const int dir_err = mkdir(directoryPath.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": mkdir returned : "<<dir_err <<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, ": mkdir returned : "<<dir_err <<std::endl);
         if (-1 == dir_err)
-        {    
+        {
             printf("Error creating directory!n");
-            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<":"<<" Failed to  create directory "<<directoryPath<<"  " <<std::endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, " Failed to  create directory "<<directoryPath<<"  " <<std::endl);
             exit(1);
         } else if (0 == dir_err) {
-            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<":"<<" Successfully created directory "<<directoryPath<<" " <<std::endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, " Successfully created directory "<<directoryPath<<" " <<std::endl);
         } else {
-            std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<":"<<" An unexpected error occurred when creating the directory "<<directoryPath<<" " <<std::endl;
-        }    
-    }    
-    if (access((directoryPath ).c_str(), R_OK) == 0) { 
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Found that we have read access to a directory called "<< directoryPath   <<" . So far so good."<<std::endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, " An unexpected error occurred when creating the directory "<<directoryPath<<" " <<std::endl);
+        }
+    }
+    if (access((directoryPath ).c_str(), R_OK) == 0) {
+        MMBLOG_FILE_FUNC_LINE(INFO, " Found that we have read access to a directory called "<< directoryPath   <<" . So far so good."<<std::endl);
         return 0;
     } else {
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Heads up! Found that we do NOT have read access to a directory called "<<  directoryPath  <<"  "<<std::endl; exit(1);
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Heads up! Found that we do NOT have read access to a directory called "<<  directoryPath  <<"  "<<std::endl);
         return 1;
-    }    
+    }
 }
 
 int myChdir(std::string directoryPath){
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to attempt changing directory to "<<directoryPath<<" . "<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, " About to attempt changing directory to "<<directoryPath<<" . "<<std::endl);
     if (chdir(directoryPath.c_str())){
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unable to change directory to "<<directoryPath<<" . Exiting now."<<std::endl;
-        exit(1);
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Unable to change directory to "<<directoryPath<<" . Exiting now."<<std::endl);
         return 1;
     } else {
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Was able to successfully change directory to "<<directoryPath<<" . "<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, " Was able to successfully change directory to "<<directoryPath<<" . "<<std::endl);
         return 0;
-    }    
+    }
 }
 
 void closingMessage() {
@@ -75,21 +74,19 @@ CheckFile::CheckFile(const String myFileName){
 }
 
 void CheckFile::validateNonZeroSize(){
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" About to check that "<<fileName<<" has nonzero size.."<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, " About to check that "<<fileName<<" has nonzero size.."<<std::endl);
     if ( st.st_size == 0){
-        ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" ERROR: Apparently "<<fileName<<" has size "<<st.st_size <<" . Dying now."<<std::endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Apparently "<<fileName<<" has size "<<st.st_size <<" . Dying now."<<std::endl);
     } else {
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Apparently "<<fileName<<" has size "<<st.st_size <<" . This seems OK."<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, " Apparently "<<fileName<<" has size "<<st.st_size <<" . This seems OK."<<std::endl);
     }
 }
 
 void CheckFile::validateExists(){
     if(stat(fileName.c_str(), &st) != 0){
-        ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__ <<" ERROR: stat says no file exists. Dying now."<<std::endl;
-        ErrorManager::instance.treatError();}
-    else {
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" stat says file exists. All is good. "<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " ERROR: stat says no file exists. Dying now."<<std::endl);
+    } else {
+        MMBLOG_FILE_FUNC_LINE(INFO, " stat says file exists. All is good. "<<std::endl);
     }
 }
 
@@ -129,22 +126,22 @@ BondMobility::Mobility stringToBondMobility(String bondMobilityString) {
        BondMobility::Mobility myBondMobility;
        // Remember  Free = 1, Torsion = 2, Rigid = 3
        if ((myBondMobilityString).compare("RIGID") == 0)              {
-           std::cout<<__FILE__<<":"<<__LINE__<<" Detected Rigid : >"<<bondMobilityString<<"< or >"<<myBondMobilityString<<"< "<<std::endl;
+           MMBLOG_FILE_FUNC_LINE(INFO, " Detected Rigid : >"<<bondMobilityString<<"< or >"<<myBondMobilityString<<"< "<<std::endl);
            myBondMobility = SimTK::BondMobility::Rigid;
            //std::cout<<__FILE__<<":"<<__LINE__<<" returning myBondMobility = >"<<myBondMobility<<"< "<<std::endl;
        }
        else if ((myBondMobilityString).compare("TORSION") == 0)       {
-           std::cout<<__FILE__<<":"<<__LINE__<<" Detected Torsion :"<<myBondMobilityString<<std::endl;
+           MMBLOG_FILE_FUNC_LINE(INFO, " Detected Torsion :"<<myBondMobilityString<<std::endl);
            myBondMobility = SimTK::BondMobility::Torsion;}
        else if ((myBondMobilityString).compare("DEFAULT") == 0)       {
-           std::cout<<__FILE__<<":"<<__LINE__<<" Detected Default :"<<myBondMobilityString<<std::endl;
+           MMBLOG_FILE_FUNC_LINE(INFO, " Detected Default :"<<myBondMobilityString<<std::endl);
            myBondMobility = SimTK::BondMobility::Default;}
        else if ((myBondMobilityString).compare("FREE")  == 0)         {
-           std::cout<<__FILE__<<":"<<__LINE__<<" Detected Free :"<<myBondMobilityString<<std::endl;
+           MMBLOG_FILE_FUNC_LINE(INFO, " Detected Free :"<<myBondMobilityString<<std::endl);
            myBondMobility = SimTK::BondMobility::Free ;}
        else {
-           ErrorManager::instance <<__FILE__<<":"<<__LINE__                           <<" At this time only Default, Free,Torsion, and Rigid bondMobilities are supported. You are attempting to apply \""                           << myBondMobilityString <<"\". "<<std::endl;
-           ErrorManager::instance.treatError();}
+           MMBLOG_FILE_FUNC_LINE(CRITICAL, " At this time only Default, Free,Torsion, and Rigid bondMobilities are supported. You are attempting to apply \"" << myBondMobilityString <<"\". "<<std::endl);
+       }
        return myBondMobility;
 }
 
@@ -160,10 +157,8 @@ void InterfaceContainer::addInterface(vector<String> myChains,vector<String> par
 	  (myMobilizerString.compare("Default")==0) || 
 	  (myMobilizerString.compare("Torsion")==0) ||
 	  (myMobilizerString.compare("Free")==0) 
-	) {    
-       ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Expected a mobilizer type (Default, Rigid, Torsion, Free), but got : >"<< myMobilizerString<<"< "<<std::endl;
-       ErrorManager::instance.treatError();
-	    
+	) {
+       MMBLOG_FILE_FUNC_LINE(CRITICAL, " Expected a mobilizer type (Default, Rigid, Torsion, Free), but got : >"<< myMobilizerString<<"< "<<std::endl);
     }
     myInterface.MobilizerString = myMobilizerString; 
     interfaceVector.push_back(myInterface); 
@@ -184,12 +179,12 @@ vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAto
             particleList[i] = concatenatedAtomInfoVector[i].position;
         }
 
-        cout<<__FILE__<<":"<<__LINE__<<" neighborList size is : "<<neighborList.size()<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, " neighborList size is : "<<neighborList.size()<<endl);
         for (int h = 0 ; h < numInterfaces(); h++ ){ // loop through interfaceContainer interfaces ..
             vector<String> referenceChains = getInterface(h).getChains();  
             vector<String> partnerChains = getInterface(h).getPartnerChains();  
             double         radius        = getInterface(h).getDepth();  
-            cout<<__FILE__<<":"<<__LINE__<<"Now turning interface "<< h << " to individual constraints between pairs of atoms."<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Now turning interface "<< h << " to individual constraints between pairs of atoms."<<endl);
             getInterface(h).print(); 
             cout<<__FILE__<<":"<<__LINE__<<endl;
             computeNeighborListVoxelHash(neighborList, particleList.size() , particleList, exclusions, &boxSize, false, radius  , 0.0);
@@ -214,7 +209,7 @@ vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAto
                         //(concatenatedAtomInfoVector[neighborList[j].first ].position - concatenatedAtomInfoVector[neighborList[j].second].position) // later, compute distance
                     );
                     contactingAtomInfoPairVector.push_back(myTwoAtomClass );
-                    cout<<__FILE__<<":"<<__LINE__<<" Detected contact : ";
+                    MMBLOG_FILE_FUNC_LINE(INFO, " Detected contact : ");
                     myTwoAtomClass.print();
                 }
                 else {
@@ -354,20 +349,17 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
 		   (String(putativeFixedFloat[i]).compare(".") == 0) || 
 		   (String(putativeFixedFloat[i]).compare("+") == 0) || 
 		   (String(putativeFixedFloat[i]).compare("-") == 0)))  {
-	 	        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Found a character : >"<<putativeFixedFloat[i]<< "< which is not of [0-9].+- .. this is not a fixed/float!"<<endl;
-			ErrorManager::instance.treatError();
+	 	        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Found a character : >"<<putativeFixedFloat[i]<< "< which is not of [0-9].+- .. this is not a fixed/float!"<<endl);
 			return false; // actually we shouldn't get to this line
 		}
 		if (((String(putativeFixedFloat[i]).compare("+") == 0) || (String(putativeFixedFloat[i]).compare("-") == 0)) && (i > 0)) {
-	 	        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"You have tried to use '+' or '-' somewhere other than at the beginning of the number string.  This is not allowed!"<<endl;
-			ErrorManager::instance.treatError();
+	 	        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have tried to use '+' or '-' somewhere other than at the beginning of the number string.  This is not allowed!"<<endl);
 			return false; // actually we shouldn't get to this line
 		}
 		if  (String(putativeFixedFloat[i]).compare(".") == 0) {
 			dotCount++;
 			if (dotCount > 1) {
-			    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"You have tried to use more than one '.' .. This is not allowed!"<<endl;
-			    ErrorManager::instance.treatError();
+			    MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have tried to use more than one '.' .. This is not allowed!"<<endl);
 			    return false; // actually we shouldn't get to this line
 			}
 		} 
@@ -379,7 +371,7 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
 
     // a recursive algorithm for reading an integer from a String.  This String may contain ints, user variables (begin with @), +, and -.  No whitespaces or additional characters should be in the String.
     int   myAtoI(  map<const String,double> myUserVariables,  const char* value){
-        cout<<__FILE__<<":"<<__LINE__<<""<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
         size_t plusPosition  = String(value).find_last_of('+');
         size_t minusPosition = String(value).find_last_of('-');
         if ((plusPosition > minusPosition) && (plusPosition  != String::npos) )  minusPosition = String::npos;
@@ -391,30 +383,29 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
         if ((lastPlusOrMinus != String::npos) && (lastPlusOrMinus != 0)) {
             baseIntegerString = String(value).substr(0, (lastPlusOrMinus + 0) ); // Put everything to the left of the last +/- into baseIntegerString
             String incrementString = (String(value).substr(lastPlusOrMinus+0,1000)); //  NOT adding 1 to lastPlusOrMinus means that the sign at lastPlusOrMinus goes with incrementString.
-            cout<<__FILE__<<":"<<__LINE__<<" At this stage, we are adding >"<<baseIntegerString<<"< and >"<<incrementString<<"<"<<endl;           
+            MMBLOG_FILE_FUNC_LINE(INFO, " At this stage, we are adding >"<<baseIntegerString<<"< and >"<<incrementString<<"<"<<endl);
             increment = myAtoI(myUserVariables, incrementString.c_str() );
-            cout<<__FILE__<<":"<<__LINE__<<" "<<incrementString<<" was interpreted as >"<<increment<<"<"<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, incrementString<<" was interpreted as >"<<increment<<"<"<<endl);
         } else if (lastPlusOrMinus == 0) { // There is a leading + or -, and  this is the only +/- in the whole expression.
             baseIntegerString = String(value).substr(1, 1000); // Put everything to from position 1 onwards into baseIntegerString
             if (plusPosition == 0) {
-                cout<<__FILE__<<":"<<__LINE__<<" Detected that the base string : >"<<String(value) <<"< has a leading \'+\'. "<<endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, " Detected that the base string : >"<<String(value) <<"< has a leading \'+\'. "<<endl);
                 // Trim the leading '+' and return the rest    
                 return myAtoI(myUserVariables, baseIntegerString.c_str() );
                 //cout<<__FILE__<<":"<<__LINE__<<" Interpreted >"<<baseIntegerString<<"< as "<<increment<<endl; 
 	    } else if (minusPosition == 0) {
-                cout<<__FILE__<<":"<<__LINE__<<" Detected that the base integer string : >"<<baseIntegerString<<"< has a leading \'-\'.  Inverting sign."<<endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, " Detected that the base integer string : >"<<baseIntegerString<<"< has a leading \'-\'.  Inverting sign."<<endl);
                 // Trim the leading '-' and return the negative
                 return -myAtoI(myUserVariables, baseIntegerString.c_str() );
                 //cout<<__FILE__<<":"<<__LINE__<<" Interpreted >"<<baseIntegerString<<"< as "<<increment<<endl; 
             }
         }
         else { // no + or - found.
-            cout<<__FILE__<<":"<<__LINE__<<""<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
             if (!((increment == -1111 ))){// && (decrement == -1111 )  )) {
-                ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unexplained error!"<<endl;
-                ErrorManager::instance.treatError();
-            }   
-            cout<<__FILE__<<":"<<__LINE__<<""<<endl;
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, " Unexplained error!"<<endl);
+            }
+            MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
             baseIntegerString = String(value);
             increment = 0;
             //decrement = 0;
@@ -422,21 +413,20 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
                 if ((baseIntegerString.substr(0,1)).compare("@") ==0) {
                     cout<<__FILE__<<":"<<__LINE__<<""<<endl;
                     if (myUserVariables.find(baseIntegerString.c_str()) == myUserVariables.end())
-                        {   
-                        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": Undefined user variable "<<value<<endl;
-                        ErrorManager::instance.treatError();
-                        }   
-                    cout<<__FILE__<<":"<<__LINE__<<""<<endl;
+                    {
+                        MMBLOG_FILE_FUNC_LINE(CRITICAL, ": Undefined user variable "<<value<<endl);
+                    }
+                    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
                     double  intCast   = double(int(myUserVariables[baseIntegerString.c_str()]));
-                    cout<<__FILE__<<":"<<__LINE__<<""<<endl;
+                    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
                     double  doubleCast = double(myUserVariables[baseIntegerString.c_str()]);
-                    cout<<__FILE__<<":"<<__LINE__<<""<<endl;
-                    cout<<__FILE__<<":"<<__LINE__<<" Read user variable "<<baseIntegerString.c_str()<<"  which is set to : "<<myUserVariables[baseIntegerString.c_str()]<<endl;
+                    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+                    MMBLOG_FILE_FUNC_LINE(INFO, " Read user variable "<<baseIntegerString.c_str()<<"  which is set to : "<<myUserVariables[baseIntegerString.c_str()]<<endl);
                     SimTK_ERRCHK_ALWAYS(( (intCast) == doubleCast  ) ,"[ParameterReader.cpp]","Expected an int and got a non-integer");
-                    cout<<__FILE__<<":"<<__LINE__<<""<<endl;
+                    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
                     baseInteger = int(myUserVariables[baseIntegerString.c_str()]);
-                    cout<<__FILE__<<":"<<__LINE__<<""<<endl;
-                }   
+                    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+                }
                 else if (isNumber(baseIntegerString.c_str()))
                 {
                     double  intCast   = double(int(atof(baseIntegerString.c_str())));
@@ -444,17 +434,16 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
                     SimTK_ERRCHK_ALWAYS(( (intCast) == doubleCast  ) ,"[ParameterReader.cpp]","Expected an int and got a non-integer");
                     baseInteger = (atoi(baseIntegerString.c_str()));
                 } else {
-                    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : What you have entered: >"<<baseIntegerString<<"< is neither a variable (starting with @) nor an explicit number."<<endl;
-                    ErrorManager::instance.treatError();
-                }  
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, " : What you have entered: >"<<baseIntegerString<<"< is neither a variable (starting with @) nor an explicit number."<<endl);
+                }
             //cout<<__FILE__<<":"<<__LINE__<<" : Result of "<<value<<" is : " <<  baseInteger <<endl;
             return baseInteger;
-        }   
+        }
 
         int baseInteger = myAtoI(myUserVariables,baseIntegerString.c_str() ) ; 
 
         int finalInteger = baseInteger + increment ;//- decrement;
-        cout<<__FILE__<<":"<<__LINE__<<" : Result of "<< value  <<" is : " << finalInteger <<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, " : Result of "<< value  <<" is : " << finalInteger <<endl);
         return finalInteger;
     }   
 
@@ -484,8 +473,7 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
 Vec3 ValidateVec3(Vec3 myVec3){
 
     if (! myVec3.isFinite()){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" This Vec3 vector is infinite or not a number : "<<myVec3<<endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " This Vec3 vector is infinite or not a number : "<<myVec3<<endl);
     }
     return myVec3;
     /*if      (std::isnan(myVec3[0])) {
@@ -518,9 +506,8 @@ int ValidateInt (const int myInt) {
 
 int ValidateNonNegativeInt (const int myInt) {
 	
-                if (!(myInt >= 0)) {
-			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Expected a nonnegative integer. "<<endl; 
-			ErrorManager::instance.treatError();
+        if (!(myInt >= 0)) {
+			MMBLOG_FILE_FUNC_LINE(CRITICAL, " Expected a nonnegative integer. "<<endl);
 		}
 		else return myInt;
 }
@@ -531,29 +518,21 @@ int ValidateNonNegativeInt (const int myInt) {
 double ValidateNonNegativeDouble(const double myDouble) {
 	
     if (std::isnan(myDouble)) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Not a number! "<<endl; 
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Not a number! "<<endl);
     }
     if (std::isinf(myDouble)) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Not a number! "<<endl; 
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Not a number! "<<endl);
     }
     if (!(myDouble>= 0)) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Expected a nonnegative Double   . "<<endl; 
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Expected a nonnegative Double   . "<<endl);
     }
     return myDouble;
 }
 
 double ValidateDouble(const double myDouble) {
 	
-    if (std::isnan(myDouble)) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Not a number! "<<endl; 
-        ErrorManager::instance.treatError();
-    }
-    if (std::isinf(myDouble)) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Not a number! "<<endl; 
-        ErrorManager::instance.treatError();
+    if (std::isnan(myDouble) || std::isinf(myDouble)) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Not a number! "<<endl);
     }
     return myDouble;
 }
@@ -637,20 +616,18 @@ vector<String> readAndParseOnColWidth   (ifstream & inFile, int columnWidth) {
     void ParameterStringClass::validateNumFields(int correctNumFields) const{ // make sure we have the right number of parameters
         std::cout<<__FILE__<<":"<<__LINE__<<" This line contains "<<size()<< " elements. comparing to "<<correctNumFields<<"."<<endl;
         if ( size() < correctNumFields ){
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": You have not specified enough parameters for this command."<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, ": You have not specified enough parameters for this command."<<endl);
         } else if ( size() > correctNumFields ) {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": You have specified too many parameters for this command."<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, ": You have specified too many parameters for this command."<<endl);
         };  
     };  
     void ParameterStringClass::print() const {
-        std::cout<<__FILE__<<":"<<__LINE__<<" ";
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         for (int i = 0 ; i < size(); i++){
-            std::cout<<stringVector[i]<<" ";
+            MMBLOG_FILE_FUNC_LINE(INFO, stringVector[i]<<" ");
             //std::cout<<__FILE__<<":"<<__LINE__<<" "<<i<<" >"<<stringVector[i]<<"< "<<std::endl;
         };
-        std::cout<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
     };
 
     String ParameterStringClass::getString() const {

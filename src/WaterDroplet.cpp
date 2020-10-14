@@ -32,29 +32,26 @@ double WaterDroplet::setRadius(double myRadius ){
 
 
 void WaterDroplet::printPDB(){
-    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"This doesn't work yet!"<<endl; ErrorManager::instance.treatError();
+    MMBLOG_FILE_FUNC_LINE(CRITICAL, "This doesn't work yet!"<<endl);
 };
 
 int WaterDroplet::validate(){
     float minRadius = 0;
     if (getRadius() < minRadius){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The droplet radius must be greater than "<<minRadius<<".  You have specified: "<<getRadius()<<endl;
-        ErrorManager::instance.treatError();}
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The droplet radius must be greater than "<<minRadius<<".  You have specified: "<<getRadius()<<endl);
+    }
     if (std::isnan(center[0])) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" x-component "<<center[0] <<" of Vec3 "<<center <<" is invalid. "<<endl; 
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "x-component "<<center[0] <<" of Vec3 "<<center <<" is invalid. "<<endl);
     }
     else if (std::isnan(center[1])) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" y-component "<<center[1] <<" of Vec3 "<<center <<" is invalid. "<<endl; 
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "y-component "<<center[1] <<" of Vec3 "<<center <<" is invalid. "<<endl);
     }
     else if (std::isnan(center[2])) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" z-component "<<center[2] <<" of Vec3 "<<center <<" is invalid. "<<endl; 
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "z-component "<<center[2] <<" of Vec3 "<<center <<" is invalid. "<<endl);
     }
 
     /*if (chainID.length() > 1){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The droplet chain ID must be a single character in length. You have specified: "<<chainID<<endl;
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " The droplet chain ID must be a single character in length. You have specified: "<<chainID<<endl;
         ErrorManager::instance.treatError();
     }*/
     validateWaterVector();
@@ -73,7 +70,7 @@ void WaterDropletContainer::printPDB(){
 
 void WaterDropletContainer::add( WaterDroplet & waterDroplet) {
     waterDroplet.validate();
-    if (hasChainID(waterDroplet.chainID)) {ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"There is already a water droplet with chain ID "<<waterDroplet.chainID<<endl; ErrorManager::instance.treatError();}
+    if (hasChainID(waterDroplet.chainID)) {MMBLOG_FILE_FUNC_LINE(CRITICAL, "There is already a water droplet with chain ID "<<waterDroplet.chainID<<endl);}
     waterDropletVector.push_back(waterDroplet);
 };
 
@@ -103,8 +100,7 @@ WaterDroplet WaterDropletContainer::getWaterDroplet(string chainID){
             return waterDropletVector[i];
         }
     }
-    ErrorManager::instance <<__FILE__<<" : "<<__LINE__<<" Failed to find water droplet with chain ID "<<chainID<<endl;
-    ErrorManager::instance.treatError();
+    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to find water droplet with chain ID "<<chainID<<endl);
 }
 
 
@@ -115,8 +111,7 @@ WaterDroplet & WaterDropletContainer::updWaterDroplet(string chainID){
             return waterDropletVector[i];
         }
     } 
-    ErrorManager::instance <<__FILE__<<" : "<<__LINE__<<" Failed to find water droplet with chain ID "<<chainID<<endl;
-    ErrorManager::instance.treatError();
+    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to find water droplet with chain ID "<<chainID<<endl);
 }
 
 bool WaterDropletContainer::hasChainID     (string chainID){
@@ -177,7 +172,7 @@ void WaterDroplet::addTethers(AtomSpringContainer & atomSpringContainer) {
 
 MobilizedBodyIndex WaterDroplet::getOxygenMobilizedBodyIndex(ResidueID residueNumber) {
     if (! waterVector[residueNumber.getResidueNumber()-firstResidueNumber.getResidueNumber()].hasAtom("OW")) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"The requested atom was not found!"<<endl; ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The requested atom was not found!"<<endl);
     }
     Compound::AtomIndex myAtomIndex = waterVector[residueNumber.getResidueNumber()-firstResidueNumber.getResidueNumber()].getAtomIndex("OW" );
     //cout<<myAtomIndex<<endl;
@@ -222,10 +217,9 @@ void WaterDroplet::includeAllAtoms(DuMMForceFieldSubsystem & dumm){
 
 void WaterDroplet::validateWaterVector() {
     for (int i =0 ; i < (int)waterVector.size() ; i++) {
-        cout<<__FILE__<<" : "<<__LINE__<<" : Validating water #"<<i<<", chain "<<chainID<<" : "<<waterVector[i].hasAtom("OW")<<endl;;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Validating water #"<<i<<", chain "<<chainID<<" : "<<waterVector[i].hasAtom("OW")<<endl);
         if (! waterVector[i].hasAtom("OW")) {
-
-            cout<<__FILE__<<" : "<<__LINE__<<" : Failed to find atom OW in waterVector element "<<i<<endl;;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Failed to find atom OW in waterVector element "<<i<<endl);
         }
     }
 }
@@ -251,8 +245,8 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
         double arista = .310433899; 
 	int cellsAcross = (int)(getRadius()*2/arista+1); // number of cells across.  add 1 b.c. water molecules are at corners of cells.
 
-        cout<<__FILE__<<":"<<__LINE__<<" Droplet radius = "<<dropletRadius<<" nm, cell width (arista) = "<<arista<<" nm"<<endl;
-	std::cout<<"cellsAcross = "<<cellsAcross<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Droplet radius = "<<dropletRadius<<" nm, cell width (arista) = "<<arista<<" nm"<<endl);
+	    MMBLOG_FILE_FUNC_LINE(INFO, "cellsAcross = "<<cellsAcross<<endl);
 
         Vec3 dropletCenter = Vec3 (center[0], center[1], center[2]); // used to convert Ångstroms to nanometers
 
@@ -280,10 +274,10 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
 	
         for (int i =0 ; i< (int)system.getNumCompounds(); i++)
 	{
-		cout<<"counting atoms in compound # "<<i<<endl;	
+		MMBLOG_FILE_FUNC_LINE(INFO, "counting atoms in compound # "<<i<<endl);
 		totalAtoms += system.updCompound(CompoundSystem::CompoundIndex(i)).getNumAtoms();
 	}	
-	cout<<"counted "<<totalAtoms<<" total atoms."<<endl;
+	MMBLOG_FILE_FUNC_LINE(INFO, "counted "<<totalAtoms<<" total atoms."<<endl);
 	//Create an array to hold their locations
 	vector<Vec3> atomLocationArray(totalAtoms);
  
@@ -306,9 +300,9 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
         }
    
         if (totalAtoms != myAtomInfoVector.size()) {
-	    cout<<"system had "<<totalAtoms<<" total atoms. myAtomInfoVector has "<<myAtomInfoVector.size()<<" elements. "<<endl;
-	    ErrorManager::instance<<__FILE__<<":"<<__LINE__<<": Error! wrong number of elements in myAtomInfoVector! "<<endl;
-	    ErrorManager::instance.treatError();
+	        MMBLOG_FILE_FUNC_LINE(CRITICAL,
+                    "system had "<<totalAtoms<<" total atoms. myAtomInfoVector has "<<myAtomInfoVector.size()<<" elements. "<<endl
+	                <<": Error! wrong number of elements in myAtomInfoVector! "<<endl);
         }
 	//int myAtomIndex = 0;
         for (int i = 0; i < myAtomInfoVector.size(); i++) 
@@ -342,21 +336,21 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
 		(myWaterMolecule).setPdbResidueNumber(k+1  );
 		(myWaterMolecule).setPdbChainId(chainID); 
                 waterVector.push_back(myWaterMolecule);
-                cout<<__FILE__<<":"<<__LINE__<<" Just added water with residue number: "<<(k+1)<<endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "Just added water with residue number: "<<(k+1)<<endl);
 	}
         validateWaterVector();
-        cout<<__FILE__<<":"<<__LINE__<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
 	int myWaterIndex =-1;
         for (int xi = 0; xi < cellsAcross; xi++) {
         	for (int yi = 0; yi < cellsAcross; yi++)
                     {
         		for (int zi = 0; zi < cellsAcross; zi++)
 			{
-				cout<<"checking occupation for "<<xi<<","<<yi<<","<<zi<<endl;
+				MMBLOG_FILE_FUNC_LINE(INFO, "checking occupation for "<<xi<<","<<yi<<","<<zi<<endl);
 				if (myWaterVecOccupation[xi][yi][zi]) 
 				{
 					myWaterIndex++;
-					if (myWaterIndex > numWater) {ErrorManager::instance<< "Attempted to adopt more water than exists in array"<<endl; ErrorManager::instance.treatError();}
+					if (myWaterIndex > numWater) {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Attempted to adopt more water than exists in array"<<endl);}
 				  	//cout<<"adopting water at "<< xi*arista-dropletRadius+dropletCenter[0]<<","<<yi*arista-dropletRadius+dropletCenter[1]<<"=,"<<zi*arista-dropletRadius+dropletCenter[2]<<endl;
 					Rotation myRotation(45.*Deg2Rad, YAxis);
 					myRotation =  myRotation * Rotation(45.*Deg2Rad, XAxis);
@@ -371,7 +365,7 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
                     } // of for yi
      
 		    } // of for xi
-	cout<<__FILE__<<":"<<__LINE__<<endl;	   
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
 	
 
 	};
@@ -379,14 +373,14 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
 void WaterDroplet::adopt( CompoundSystem & system, bool readPreviousFrameFile) {		      
     /*if (!(readPreviousFrameFile)) {
         for (int i = 0 ; i < waterVector.size(); i++) {
-            cout <<__FILE__<<":"<<__LINE__<<waterVector[i].getTopLevelTransform();
+            MMBLOG_FILE_FUNC_LINE(waterVector[i].getTopLevelTransform();
             system.adoptCompound(waterVector[i],defaultTransformVector[i]); // This should be moved to its own method
-            cout <<__FILE__<<":"<<__LINE__<<waterVector[i].getTopLevelTransform();}
+            MMBLOG_FILE_FUNC_LINE(waterVector[i].getTopLevelTransform();}
     } else {*/
         for (int i = 0 ; i < waterVector.size(); i++){
-            cout <<__FILE__<<":"<<__LINE__<<waterVector[i].getTopLevelTransform();
+            MMBLOG_FILE_FUNC_LINE(INFO, waterVector[i].getTopLevelTransform());
             system.adoptCompound(waterVector[i]); // This should be moved to its own method
-            cout <<__FILE__<<":"<<__LINE__<<waterVector[i].getTopLevelTransform();}
+            MMBLOG_FILE_FUNC_LINE(INFO, waterVector[i].getTopLevelTransform());}
     //}
 }
 
@@ -404,8 +398,7 @@ void WaterDropletContainer::matchDefaultConfiguration(bool readPreviousFrameFile
                 
                 if ( !inputFile.good() )
                 {
-                    ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
-                    ErrorManager::instance.treatError ( );
+                    MMBLOG_FILE_FUNC_LINE               (CRITICAL, "The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << endl);
                 }
                 else
                 {
@@ -432,15 +425,13 @@ void WaterDropletContainer::matchDefaultConfiguration(bool readPreviousFrameFile
                     }
                     else
                     {
-                        ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
-                        ErrorManager::instance.treatError ( );
+                        MMBLOG_FILE_FUNC_LINE           (CRITICAL, "The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << endl);
                     }
                     testOpen2.close                   ( );
                 }
                 testOpen.close                        ( );
 #else
-                ErrorManager::instance << "!!! Error !!! MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl;
-                ErrorManager::instance.treatError     ( );
+                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << endl);
 #endif
             }
             else if ( pdbFileName.length() > 7 )
@@ -450,29 +441,25 @@ void WaterDropletContainer::matchDefaultConfiguration(bool readPreviousFrameFile
 #ifdef GEMMI_USAGE
                 pdbStructure                          = PdbStructure (pdbFileName);
 #else
-                ErrorManager::instance << "!!! Error !!! MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl;
-                ErrorManager::instance.treatError     ( );
+                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << endl);
 #endif
                 }
                 else
                 {
-                    ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
-                    ErrorManager::instance.treatError ( );
+                    MMBLOG_FILE_FUNC_LINE               (CRITICAL, "The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << endl);
                 }
             }
             else
             {
-                ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
-                ErrorManager::instance.treatError     ( );
+                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << endl);
             }
         }
         else
         {
-            ErrorManager::instance << "!!! Error !!! The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl;
-            ErrorManager::instance.treatError         ( );
+            MMBLOG_FILE_FUNC_LINE                       (CRITICAL, "The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << endl);
         }
         
-        cout <<__FILE__<<":"<<__LINE__<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
 	for (int i = 0; i< (int)waterDropletVector.size(); i++){
   
             ////////////////////////////////////////////////
@@ -482,32 +469,32 @@ void WaterDropletContainer::matchDefaultConfiguration(bool readPreviousFrameFile
             int k = waterDropletVector[i].waterVector.size()-1;
 	    Water myExtraWater = waterDropletVector[i].waterVector[k]; // Note that we are making a COPY of the last water in the vector;
             while (keepGoing) {
-                cout <<__FILE__<<":"<<__LINE__<<" extra water PDB residue number = "<<myExtraWater.getPdbResidueNumber()<<endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "extra water PDB residue number = "<<myExtraWater.getPdbResidueNumber()<<endl);
 		myExtraWater.setPdbResidueNumber(myExtraWater.getPdbResidueNumber()+1);    
-                cout <<__FILE__<<":"<<__LINE__<<" extra water PDB residue number = "<<myExtraWater.getPdbResidueNumber()<<endl;
-                cout <<__FILE__<<":"<<__LINE__<<" myExtraWater.createAtomTargets(pdbStructure).size() = "<< myExtraWater.createAtomTargets(pdbStructure).size() <<endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "extra water PDB residue number = "<<myExtraWater.getPdbResidueNumber()<<endl);
+                MMBLOG_FILE_FUNC_LINE(INFO, "myExtraWater.createAtomTargets(pdbStructure).size() = "<< myExtraWater.createAtomTargets(pdbStructure).size() <<endl);
 		if (myExtraWater.createAtomTargets(pdbStructure).size() > 0) {
 		    waterDropletVector[i].waterVector.push_back(myExtraWater);} else keepGoing = false;
             }
             ////////////////////////////////////////////////
 	    for (int j = 0 ; j <   waterDropletVector[i].waterVector.size(); j++) {
-               cout <<__FILE__<<":"<<__LINE__<<endl;
+               MMBLOG_FILE_FUNC_LINE(INFO, endl);
 	       Water & myWater = waterDropletVector[i].waterVector[j]; 
-	       cout <<__FILE__<<":"<<__LINE__<<" About to create atom targets from file "<<pdbFileName<<endl;
-	       cout <<__FILE__<<":"<<__LINE__<<myWater.getPdbChainId()<<endl;
+	       MMBLOG_FILE_FUNC_LINE(INFO, "About to create atom targets from file "<<pdbFileName<<endl);
+	       MMBLOG_FILE_FUNC_LINE(INFO, myWater.getPdbChainId()<<endl);
 	       Compound::AtomTargetLocations atomTargets = myWater.createAtomTargets(pdbStructure);
                if ((j == 0) && (atomTargets.size() == 0)) {
-	           cout <<__FILE__<<":"<<__LINE__<<" No water molecules found for   droplet "<<i<<" in "<<pdbFileName<<" .. using computed coordinates."<<endl;
+	           MMBLOG_FILE_FUNC_LINE(INFO, "No water molecules found for   droplet "<<i<<" in "<<pdbFileName<<" .. using computed coordinates."<<endl);
                    return; // There is no initial structure. Just leave the initial atom positions as they are (probably in a regular lattice), and quit this function.
                } else if ((j > 0) && (atomTargets.size() == 0)) { // This is the case that vector has a water molecule which is not in the structure file.  deleting this and any sbusequent water molecules.
-	           cout <<__FILE__<<":"<<__LINE__<<" No coordinates found for droplet "<<i<<" molecule "<<j<<" in "<<pdbFileName<<" .. deleting this and subsequent waters."<<endl;
+	           MMBLOG_FILE_FUNC_LINE(INFO, "No coordinates found for droplet "<<i<<" molecule "<<j<<" in "<<pdbFileName<<" .. deleting this and subsequent waters."<<endl);
                    waterDropletVector[i].waterVector.erase(waterDropletVector[i].waterVector.begin()+j,waterDropletVector[i].waterVector.end()) ;
                    return;                  
                }
-               cout <<__FILE__<<":"<<__LINE__<<endl;
+               MMBLOG_FILE_FUNC_LINE(INFO, endl);
 
                for (map<Compound::AtomIndex, Vec3> ::iterator it= atomTargets.begin(); it !=atomTargets.end(); it++) {   
-                   cout <<__FILE__<<":"<<__LINE__<<it->second<<endl;
+                   MMBLOG_FILE_FUNC_LINE(INFO, it->second<<endl);
                }
 	       if (matchExact)
 			{
@@ -517,11 +504,11 @@ void WaterDropletContainer::matchDefaultConfiguration(bool readPreviousFrameFile
 			}
 	       if (matchIdealized)
 			{myWater.matchDefaultConfiguration(atomTargets,   Compound::Match_Idealized );} //planarity tolerance is in Radians, according to Sherm
-               cout <<__FILE__<<":"<<__LINE__<<myWater.getTopLevelTransform();
+               MMBLOG_FILE_FUNC_LINE(INFO, myWater.getTopLevelTransform());
 	    }
-            cout <<__FILE__<<":"<<__LINE__<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, endl);
     }
-    cout <<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
 }  
 }
 

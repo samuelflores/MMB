@@ -52,11 +52,10 @@ using namespace std;
         leontisWesthofMap.clear();
         myLeontisWesthofBondMatrix.myLeontisWesthofBondRow.clear();
         ifstream inFile(inFileName.c_str(),ifstream::in);
-        cout<<"Now checking for existence of "<<inFileName<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Now checking for existence of "<<inFileName<<endl);
 
         if (!(inFile.good())) {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : Unable to open parameter file "<<inFileName<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open parameter file "<<inFileName<<endl);
         }
         int q=0;
 	//char * s; 
@@ -141,7 +140,7 @@ using namespace std;
          
         //delete[] s;	
         inFile.close();
-        cout<<"done initializing myLeontisWesthofBondMatrix"<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "done initializing myLeontisWesthofBondMatrix"<<endl);
 
         return(0);
         };
@@ -149,12 +148,12 @@ using namespace std;
 
     void LeontisWesthofClass::printLeontisWesthofBondRows () {    
         for   (int q =0; q< (int)myLeontisWesthofBondMatrix.myLeontisWesthofBondRow.size(); q++) 
-            cout<<"[BaseInteractionParameterReader.cpp] 269: "<<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).pdbResidueName1
+            MMBLOG_FILE_FUNC_LINE(INFO, (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).pdbResidueName1
                 <<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).pdbResidueName2
                 <<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).bondingEdge1
                 <<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).bondingEdge2
                 <<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).glycosidicBondOrientation
-                <<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).isTwoTransformForce<<endl;
+                <<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).isTwoTransformForce<<endl);
     };
 
 
@@ -182,7 +181,7 @@ using namespace std;
                 //((((myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).isTwoTransformForce).compare(myBasePairIsTwoTransformForce) == (0) )  )
                 )
                 {
-		    if (0) cout<<"[BaseInteractionParameterReader.cpp] found the right LeontisWesthofBondRow. residue1Atom[0], residue1Atom[1], residue1Atom[2] ,residue1Atom[3] residue2Atom[0], residue2Atom[1], residue2Atom[2] ,residue2Atom[3]  ="<<
+		    if (0) MMBLOG_FILE_FUNC_LINE(INFO, "found the right LeontisWesthofBondRow. residue1Atom[0], residue1Atom[1], residue1Atom[2] ,residue1Atom[3] residue2Atom[0], residue2Atom[1], residue2Atom[2] ,residue2Atom[3]  ="<<
                     (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).residue1Atom[0]<<","<<
                     (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).residue1Atom[1]<<","<<
                     (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).residue1Atom[2]<<","<<
@@ -191,12 +190,12 @@ using namespace std;
                     (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).residue2Atom[1]<<","<<
                     (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).residue2Atom[2]<<","<<
                     (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).residue2Atom[3]<<
-	            endl;
+	            endl);
                     if (myBasePairIsTwoTransformForce.compare("contact") != 0) SimTK_ERRCHK_ALWAYS( fabs(((myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).rotationAxis).norm()-1.0) <.001 ,"[BaseInteractionParameterReader.cpp]","The desired interaction was found but the norm of its rotationAxis is not unity within tolerance of .001.  The interaction may be blank or incorrect.  "); 
                     
                     return q ; //myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q];
                 }	 	
-                    if (0) cout<<"[BaseInteractionParameterReader.cpp] looking at LeontisWesthofBondRow. residue1Atom[0], residue1Atom[1], residue1Atom[2] ,residue1Atom[3] residue2Atom[0], residue2Atom[1], residue2Atom[2] ,residue2Atom[3], bondingEdge1, bondingEdge2, glycosidicBondOrientation  ="<<
+                    if (0) MMBLOG_FILE_FUNC_LINE(INFO, "looking at LeontisWesthofBondRow. residue1Atom[0], residue1Atom[1], residue1Atom[2] ,residue1Atom[3] residue2Atom[0], residue2Atom[1], residue2Atom[2] ,residue2Atom[3], bondingEdge1, bondingEdge2, glycosidicBondOrientation  ="<<
                     
                     ((((myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).pdbResidueName1)))<<","<<  
                     ((((myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).pdbResidueName2)))<<","<<
@@ -212,17 +211,18 @@ using namespace std;
                     (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).bondingEdge1   <<","<<
                     (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).bondingEdge2   <<","<<
                     (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).glycosidicBondOrientation<<","<<
-	            endl;
-                    if (0) cout<<"[BaseInteractionParameterReader.cpp] pdbResidueName1, pdbResidueName2, ="<<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).pdbResidueName1<<","<<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).pdbResidueName2<<endl;
+	            endl);
+                    if (0) MMBLOG_FILE_FUNC_LINE(INFO, "pdbResidueName1, pdbResidueName2, ="<<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).pdbResidueName1<<","<<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).pdbResidueName2<<endl);
                    
         }
-	    cout<<"[BaseInteractionParameterReader.cpp] failed to match :"<<endl<<
+	    MMBLOG_FILE_FUNC_LINE(INFO,
+                "failed to match :"<<endl<<
                 ","<<(myBasePairIsTwoTransformForce)<<
                 ","<<(myPdbResidueName1)<<
                 ","<<(myPdbResidueName2)<<
                 ","<<(myBondingEdge1)<<
                 ","<<(myBondingEdge2)<<
-                ","<<(myGlycosidicBondOrientation)<<endl;  
+                ","<<(myGlycosidicBondOrientation)<<endl);
                 //","<<(myGlycosidicBondOrientation)<<endl;  
             SimTK_ERRCHK_ALWAYS(0,"[BaseInteractionParameterReader.cpp]","Found no match for the above user-specified interaction.  Either add this interaction type to the parameter file, or check your spelling, syntax, or semantics.");
 
@@ -240,8 +240,7 @@ using namespace std;
         if (iter != leontisWesthofMap.end() ) 
             myReturnLeontisWesthofBondRow =  iter->second ;
         else {
-            ErrorManager::instance<< __FILE__<<":"<<__LINE__<<" : Unable to find parameters for interaction : "<< myBasePairIsTwoTransformForce<<" between residue type: \""<<myPdbResidueName1 <<"\" , and residue type \""<<myPdbResidueName2<<"\", parameter "<<myBondingEdge1<<", "<<myBondingEdge2<<", orientation "<<myGlycosidicBondOrientation<<" between residue numbers "<<myResidueNumber1.getResidueNumber()<<" and "<<myResidueNumber2.getResidueNumber()<<endl; 
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to find parameters for interaction : "<< myBasePairIsTwoTransformForce<<" between residue type: \""<<myPdbResidueName1 <<"\" , and residue type \""<<myPdbResidueName2<<"\", parameter "<<myBondingEdge1<<", "<<myBondingEdge2<<", orientation "<<myGlycosidicBondOrientation<<" between residue numbers "<<myResidueNumber1.getResidueNumber()<<" and "<<myResidueNumber2.getResidueNumber()<<endl);
         }
 
 
@@ -252,13 +251,13 @@ using namespace std;
             (myBasePairIsTwoTransformForce.compare(myReturnLeontisWesthofBondRow.isTwoTransformForce) == 0)))
                 {
 
-                cout<<"[BaseInteractionParameterReader.cpp] for interaction between residues "<<myResidueNumber1.getResidueNumber()<< " and "<<myResidueNumber2.getResidueNumber() <<endl<<"trying to match :"<<endl<<
+                MMBLOG_FILE_FUNC_LINE(INFO, "for interaction between residues "<<myResidueNumber1.getResidueNumber()<< " and "<<myResidueNumber2.getResidueNumber() <<endl<<"trying to match :"<<endl<<
                     ","<<(myBasePairIsTwoTransformForce)<<  
                     ", myPdbResidueName1"<<(myPdbResidueName1)<<
                     ", myPdbResidueName2"<<(myPdbResidueName2)<<
                     ", myBondingEdge1"<<(myBondingEdge1)<<
                     ", myBondingEdge2"<<(myBondingEdge2)<<
-                    ", myGlycosidicBondOrientation"<<(myGlycosidicBondOrientation)<<endl;
+                    ", myGlycosidicBondOrientation"<<(myGlycosidicBondOrientation)<<endl);
 
                 }
 

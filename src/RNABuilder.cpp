@@ -11,7 +11,6 @@
 
  #include "SimTKmolmodel.h"
  //#include "SimTKsimbody_aux.h"
-#include "ErrorManager.h"
 #include "ParameterReader.h"
 #include "Repel.h"
 #include "Utils.h"
@@ -44,7 +43,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
     String outputDir = "./";
 
 
-    std::cout << __FILE__<<":"<<__LINE__<<" Current working directory: "<<Pathname::getCurrentWorkingDirectory()<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, " Current working directory: "<<Pathname::getCurrentWorkingDirectory()<<endl);
 
     bool useCurrentDir = true;
 
@@ -110,17 +109,16 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
 
         ParameterReader myParameterReader;
         
-        cout<<__FILE__<<":"<<__LINE__<<" About to read "<<parameterFile<<" to set firstStage and lastStage"<<endl; 
-        cout<<__FILE__<<":"<<__LINE__<<endl; 
+        MMBLOG_FILE_FUNC_LINE(INFO, "About to read "<<parameterFile<<" to set firstStage and lastStage"<<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         myParameterReader.setFirstAndLastStageAndUseCifFiles(parameterFile.c_str());
 
-        cout<<__FILE__<<":"<<__LINE__<<"  lastStage = "<<myParameterReader.lastStage<<endl; 
-        cout<<__FILE__<<":"<<__LINE__<<"  firstStage = "<<myParameterReader.firstStage<<endl; 
-        cout<<__FILE__<<":"<<__LINE__<<"  useCIFFileFormat = "<<myParameterReader.useCIFFileFormat<<endl; 
+        MMBLOG_FILE_FUNC_LINE(INFO, "lastStage = "<<myParameterReader.lastStage<<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, "firstStage = "<<myParameterReader.firstStage<<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, "useCIFFileFormat = "<<myParameterReader.useCIFFileFormat<<endl);
         if ((myParameterReader.lastStage < myParameterReader.firstStage))   
         {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" stage < 1 error!  Most likely you have failed to specify the command file, (currently "<< parameterFile<<"), or it was not found"<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "stage < 1 error!  Most likely you have failed to specify the command file, (currently "<< parameterFile<<"), or it was not found"<<endl);
         }
 
         for (int i = myParameterReader.firstStage; i<=  myParameterReader.lastStage; i++) {
@@ -128,8 +126,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
 
             myParameterReader.currentStage = i;
             if   (myParameterReader.currentStage<1) {
-                ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" stage < 1 error!  "<<endl; //Most likely you have failed to specify the command file, (currently "<< parameterFile<<"), or it was not found"<<endl;
-                ErrorManager::instance.treatError();
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "stage < 1 error!  "<<endl); //Most likely you have failed to specify the command file, (currently "<< parameterFile<<"), or it was not found"<<endl;
             }
 
             if  (myParameterReader.lastFrameFileName == "NOT-SET"){
@@ -155,7 +152,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             std::stringstream ss2;
             ss2.clear(); ss2.str("");
             ss2 << "./last." << i << ".pdb";
-            cout<<__FILE__<<":"<<__LINE__<<"  myParameterReader.lastFrameFileName = " << myParameterReader.lastFrameFileName << " , myParameterReader.useCIFFileFormat = "<<myParameterReader.useCIFFileFormat <<std::endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "myParameterReader.lastFrameFileName = " << myParameterReader.lastFrameFileName << " , myParameterReader.useCIFFileFormat = "<<myParameterReader.useCIFFileFormat <<endl);
             if  (myParameterReader.lastFrameFileName == ss2.str())
             {
                 if ( myParameterReader.useCIFFileFormat )
@@ -186,7 +183,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
                 }
             }
 	    // SCF moved to here
-            cout<<__FILE__<<":"<<__LINE__<<"  about to make sure we aren't trying to read from BOTH .pdb and QVector files, but exactly one."<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "about to make sure we aren't trying to read from BOTH .pdb and QVector files, but exactly one."<<endl);
             if (i == 1)  {myParameterReader.readPreviousFrameFile = 0;} //else myParameterReader.readPreviousFrameFile = 1;
             if (i == 1)  {myParameterReader.readInQVector         = 0;} //else myParameterReader.readPreviousFrameFile = 1;
 
@@ -195,14 +192,14 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             myParameterReader.postInitialize();
             //scf added .. there was an issue with counting Coulomb forces
             myParameterReader.removeNonPriorityBasePairs(myParameterReader.currentStage);//i);
-            cout<<__FILE__<<":"<<__LINE__<<"  myParameterReader.basePairContainer.numBasePairs()"<<  myParameterReader.basePairContainer.numBasePairs()<<        endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "myParameterReader.basePairContainer.numBasePairs()"<<  myParameterReader.basePairContainer.numBasePairs()<<endl);
 
-            cout<<__FILE__<<":"<<__LINE__<<"  myParameterReader.basePairContainer.numBasePairs()"<<  myParameterReader.basePairContainer.numBasePairs()<<        endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "myParameterReader.basePairContainer.numBasePairs()"<<  myParameterReader.basePairContainer.numBasePairs()<<endl);
             
             ConstrainedDynamics  myConstrainedDynamics(&myParameterReader);
             myConstrainedDynamics.initializeDumm();
 
-            cout<<__FILE__<<":"<<__LINE__<<"  myParameterReader.firstStage="<<myParameterReader.firstStage<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "myParameterReader.firstStage="<<myParameterReader.firstStage<<endl);
             ss2b.clear();
             ss2b.str("");
             ss2b<<"./last.qVector."<<i<<".dat"; 
@@ -267,16 +264,15 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
 
             myParameterReader.outMonteCarloFileName = ss6.str();
 
-            cout <<__FILE__<<":"<<__LINE__<<" "<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, endl);
             myParameterReader.removeNonPriorityBasePairs(myParameterReader.currentStage);//i);
-            cout<<__FILE__<<":"<<__LINE__<<"  BASE PAIRS before removing from rigid stretches:"<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "BASE PAIRS before removing from rigid stretches:"<<endl);
             myParameterReader.basePairContainer.printBasePairs();
             if (myParameterReader.setRemoveBasePairsInRigidStretch) myParameterReader.removeBasePairsInRigidStretch();
-            cout <<__FILE__<<":"<<__LINE__<<"  1"<<endl;
-            cout<<__FILE__<<":"<<__LINE__<<"  stage ="<<i<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "  1"<<endl);
+            MMBLOG_FILE_FUNC_LINE(INFO, "  stage ="<<i<<endl);
             if (myParameterReader.currentStage<1) {
-                ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" stage < 1 error!  Most likely you have failed to specify the command file, (currently "<< parameterFile<<"), or it was not found"<<endl;
-                ErrorManager::instance.treatError();
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "stage < 1 error!  Most likely you have failed to specify the command file, (currently "<< parameterFile<<"), or it was not found"<<endl);
             }
             myParameterReader.printAllSettings(std::cout,String("") );
             if ( myParameterReader.useCIFFileFormat )
@@ -295,18 +291,18 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             }
 
             //printBiopolymerSequenceInfo(myParameterReader.myBiopolymerClassContainer);
-            cout <<__FILE__<<":"<<__LINE__<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, endl);
             myConstrainedDynamics.runDynamics();
             myParameterReader.atomSpringContainer.calcKabschRmsd(myConstrainedDynamics.getCurrentState(),myParameterReader.myBiopolymerClassContainer);
-            cout <<__FILE__<<":"<<__LINE__<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, endl);
             closingMessage();
-            cout <<__FILE__<<":"<<__LINE__<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, endl);
             //exit(0); //hoping to avoid the corrupted double linked list issue
         }
 
     }
     catch (const std::exception & e) {
-        std::cout<<__FILE__<<":"<<__LINE__<<e.what() <<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, e.what() <<endl); //FIXME: This will log the error twice!
     }
 
 }

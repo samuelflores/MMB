@@ -17,8 +17,7 @@ void DisplacementContainer::validateDisplacement(const Displacement displacement
     myBiopolymerContainer.validateChainID(displacement.chain); 
     ValidateVec3(displacement.displacement);
     if (hasChain(displacement.chain)){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" You cannot create more than one displacement per chain"<<endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You cannot create more than one displacement per chain"<<endl);
     }
 }
 
@@ -36,8 +35,7 @@ Displacement & DisplacementContainer::updDisplacement(String chain) {
 	    return updDisplacement(i);
     }
     // if requested chain was not found, return an error
-    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" You have requested a chain for which no Displacement is available : "<<chain<<". You will first need to call the initialDisplacement command, even if it is only to issue a displacement of 0,0,0.  "<<endl;
-    ErrorManager::instance.treatError();
+    MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have requested a chain for which no Displacement is available : "<<chain<<". You will first need to call the initialDisplacement command, even if it is only to issue a displacement of 0,0,0.  "<<endl);
 };
 
 

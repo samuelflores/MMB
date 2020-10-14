@@ -4,7 +4,6 @@
 
 #include <vector>
 #include "SimTKmolmodel.h"
-#include "ErrorManager.h"
 #include "ExportMacros.h"
 #include "ConstraintContainer.h"
 #include "Utils.h"

@@ -32,7 +32,6 @@
 #include "DisplacementContainer.h"
 #include "Utils.h"
 #include "DensityContainer.h"
-#include "ErrorManager.h"
 #include "MoleculeContainer.h"
 //#ifdef BuildNtC
 #include "NtC_Class_Container.h"
@@ -59,8 +58,6 @@ private:
 
     ParameterReader(const ParameterReader &);
     ParameterReader & operator = (const ParameterReader &);
-
-    ErrorManager & _errorManager;
 
 public:
 

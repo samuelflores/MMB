@@ -28,13 +28,13 @@ using namespace SimTK;
 
 
 Vec3 getLeftAtomLocationFromAtomSpring(State & state,  BiopolymerClassContainer & biopolymerClassContainer, AtomSpring & atomSpring){
-    cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" atomSpring.atom1Residue ,   atomSpring.atom1Name  = "<<atomSpring.atom1Residue.outString() <<", "<<   atomSpring.atom1Name<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "atomSpring.atom1Residue, atomSpring.atom1Name  = "<<atomSpring.atom1Residue.outString() <<", "<<   atomSpring.atom1Name<<endl);
     return biopolymerClassContainer.updBiopolymerClass(atomSpring. atom1Chain).calcAtomLocationInGroundFrame(state,    
         atomSpring.atom1Residue ,   atomSpring.atom1Name);
     
 }
 Vec3 getRightAtomLocationFromAtomSpring(State & state,  BiopolymerClassContainer & biopolymerClassContainer, AtomSpring & atomSpring){
-    cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" atomSpring.atom2Residue ,   atomSpring.atom2Name  = "<<atomSpring.atom2Residue.outString() <<", "<<   atomSpring.atom2Name<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "atomSpring.atom2Residue ,   atomSpring.atom2Name  = "<<atomSpring.atom2Residue.outString() <<", "<<   atomSpring.atom2Name<<endl);
     return biopolymerClassContainer.updBiopolymerClass(atomSpring. atom2Chain).calcAtomLocationInGroundFrame(state,    
         atomSpring.atom2Residue ,   atomSpring.atom2Name);
 }
@@ -83,31 +83,31 @@ float AtomSpringContainer::calcKabschRmsd(State & state, BiopolymerClassContaine
     Kabsch78::VectorSet myVectorSet; myVectorSet.clear();
     double totalExtension = 0.;
     for (int i = 0; i <  atomSpringVector.size() ; i++) { // Count over all AtomSpring's
-        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;    
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         // getLeftAtomLocationFromAtomSpring, getRightAtomLocationFromAtomSpring both return Vec3 but we need vector<float>
         Vec3 leftVec3  = getLeftAtomLocationFromAtomSpring (state , biopolymerClassContainer , atomSpringVector[i] )  ;
         Vec3 rightVec3(-9999.9,-9999.9,-9999.9);
         if (atomSpringVector[i].toGround){
-            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Detected that you have some sort of spring or tether to ground. Please remove these if you want to call calcKabschRmsd. If you are not intereted in Kabsch you can ignore this message"<<std::endl;    
+            MMBLOG_FILE_FUNC_LINE(INFO, "Detected that you have some sort of spring or tether to ground. Please remove these if you want to call calcKabschRmsd. If you are not intereted in Kabsch you can ignore this message"<<endl);
             rightVec3=atomSpringVector[i].groundLocation;
             // This is not the sort of spring we want to do a Kabsch algorithm calc on .
             return -9999.9;
         } else {
-            cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;    
+            MMBLOG_FILE_FUNC_LINE(INFO, endl);
             rightVec3 = getRightAtomLocationFromAtomSpring(state , biopolymerClassContainer , atomSpringVector[i] )  ;}
         double myExtension = getExtension(state, biopolymerClassContainer, atomSpringVector[i]);
         totalExtension += (myExtension*myExtension);
-        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Comparing left location : "<< leftVec3<< " vs. right location : "<<rightVec3<<" . This gives extension of : "<<myExtension<<std::endl;    
+        MMBLOG_FILE_FUNC_LINE(INFO, "Comparing left location : "<< leftVec3<< " vs. right location : "<<rightVec3<<" . This gives extension of : "<<myExtension<<endl);
         Vec3Pair myVec3Pair(leftVec3, rightVec3);
         myVectorSet.push_back(myVec3Pair);
          
     }
      
-    cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" atomSpringVector.size() = "<<atomSpringVector.size()<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "atomSpringVector.size() = "<<atomSpringVector.size()<<endl);
     TransformAndResidual myTransformAndResidual = Kabsch78::superpose(myVectorSet);
     if (atomSpringVector.size() > 0) {
         totalExtension = sqrt(totalExtension/ atomSpringVector.size());
-        cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Detected <atomSpringVector.size() > 0. Kabsch algorithm gives RMSD for atomSpring's of : "<<myTransformAndResidual.residual<<" pre-Kabsch extension was "<<totalExtension<<std::endl;}
+        MMBLOG_FILE_FUNC_LINE(INFO, "Detected <atomSpringVector.size() > 0. Kabsch algorithm gives RMSD for atomSpring's of : "<<myTransformAndResidual.residual<<" pre-Kabsch extension was "<<totalExtension<<endl);}
     return myTransformAndResidual.residual;
         
 }
@@ -129,10 +129,10 @@ AtomSpring & AtomSpringContainer::initializeAtomSpring(AtomSpring & atomSpring) 
 
 
 void AtomSpringContainer::printAtomSpring(const AtomSpring atomSpring){
-    cout<<__FILE__<<":"<<__LINE__
-        <<" atom1Chain     = " << atomSpring.atom1Chain    
+    MMBLOG_FILE_FUNC_LINE(INFO,
+          "atom1Chain     = " << atomSpring.atom1Chain    
         <<" atom1Residue   = " << atomSpring.atom1Residue.outString()   
-	<<" atom1Name      = " << atomSpring.atom1Name     
+        <<" atom1Name      = " << atomSpring.atom1Name     
         <<" atom2Chain     = " << atomSpring.atom2Chain    
         <<" atom2Residue   = " << atomSpring.atom2Residue.outString()   
         <<" atom2Name      = " << atomSpring.atom2Name      
@@ -141,7 +141,7 @@ void AtomSpringContainer::printAtomSpring(const AtomSpring atomSpring){
         <<" groundLocation = " << atomSpring.groundLocation <<" (nm,nm,nm) "
         <<" forceConstant  = " << atomSpring.forceConstant <<" (kJ/mol/nm/nm) "
         <<" deadLength     = " << atomSpring.deadLength <<" (nm) "
-        <<endl;     
+        <<endl);
 };
 
 void AtomSpringContainer::printAtomSpring(int atomSpringIndex){
@@ -190,16 +190,14 @@ void AtomSpringContainer::addAtomSpring(const AtomSpring & atomSpring, Biopolyme
 
 void AtomSpringContainer::deleteAtomSpring(int id){
     if(id < 0 || id >= atomSpringVector.size()){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": you tried to delete a non existing AtomSpring." << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to delete a non existing AtomSpring." << endl);
     }
     atomSpringVector.erase(atomSpringVector.begin()+id);
 }
 
 void AtomSpringContainer::updateAtomSpring(const int id, const AtomSpring & newSpring, BiopolymerClassContainer & myBiopolymerClassContainer){
     if(id < 0 || id >= atomSpringVector.size()){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": you tried to update a non existing AtomSpring." << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(INFO, "you tried to update a non existing AtomSpring." << endl);
     }
     validateAtomSpring(newSpring, myBiopolymerClassContainer);
     atomSpringVector[id] = newSpring;
@@ -225,24 +223,20 @@ void AtomSpringContainer::validateThreading(const ThreadingStruct & thread, Biop
 
     if(bpc1.getBiopolymerType() != bpc2.getBiopolymerType())
     {
-       ErrorManager::instance << __FILE__ << " " << __LINE__ << ": In the threading command, both chains must be of the same type." << endl;
-       ErrorManager::instance.treatError(); 
+       MMBLOG_FILE_FUNC_LINE(CRITICAL, "In the threading command, both chains must be of the same type." << endl);
     }
 
     if( thread.getThreadingPartner(0).startResidue > thread.getThreadingPartner(0).endResidue)
     {
-        ErrorManager::instance << __FILE__ << " " << __LINE__ << ": In the threading command, the end residue must be greater than or equal to the start residue for each chain." << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "In the threading command, the end residue must be greater than or equal to the start residue for each chain." << endl);
     }
     if( thread.getThreadingPartner(1).startResidue  > thread.getThreadingPartner(1).endResidue )
     {
-        ErrorManager::instance << __FILE__ << " " << __LINE__ << ": In the threading command, the end residue must be greater than or equal to the start residue for each chain." << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "In the threading command, the end residue must be greater than or equal to the start residue for each chain." << endl);
     }
     if( bpc1.difference(thread.getThreadingPartner(0).endResidue,thread.getThreadingPartner(0).startResidue) != bpc2.difference(thread.getThreadingPartner(1).endResidue,thread.getThreadingPartner(1).startResidue))
     {
-        ErrorManager::instance << __FILE__ << " " << __LINE__ << ": In the threading command, the two threaded segments must be of the same length." << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "In the threading command, the two threaded segments must be of the same length." << endl);
     }
 }
 
@@ -262,8 +256,7 @@ void AtomSpringContainer::addThreading(String chain1, ResidueID resStart1, Resid
 
 void AtomSpringContainer::deleteThreading(int id){
     if(id < 0 || id >= threadingStructVector.size()){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": you tried to delete a non existing Threading." << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to delete a non existing Threading." << endl);
     }
     threadingStructVector.erase(threadingStructVector.begin()+id);
 }
@@ -271,8 +264,7 @@ void AtomSpringContainer::deleteThreading(int id){
 void AtomSpringContainer::updateThreading(int id, const ThreadingStruct & newThread, 
                                           BiopolymerClassContainer & myBiopolymerClassContainer){
     if(id < 0 || id >= threadingStructVector.size()){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": you tried to update a non existing Threading." << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to update a non existing Threading." << endl);
     }
     validateThreading(newThread, myBiopolymerClassContainer);
     threadingStructVector[id] = newThread;
@@ -283,8 +275,7 @@ void AtomSpringContainer::updateThreading(int id, String chain1, ResidueID resSt
                                           double forceConstant, bool backboneOnly, 
                                           BiopolymerClassContainer & myBiopolymerClassContainer){
     if(id < 0 || id >= threadingStructVector.size()){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": you tried to update a non existing Threading." << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to update a non existing Threading." << endl);
     }
     ThreadingStruct newThread(myBiopolymerClassContainer.updBiopolymerClass(chain1), resStart1, resEnd1,myBiopolymerClassContainer.updBiopolymerClass( chain2), resStart2, resEnd2, forceConstant, backboneOnly);
     this->updateThreading(id, newThread, myBiopolymerClassContainer);
@@ -385,16 +376,14 @@ ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, Residu
     thread.updThreadingPartner(1).biopolymerClass = myBiopolymerClassContainer.updBiopolymerClass(chain2);
     //thread.chainID1 = chain1;
     //thread.chainID2 = chain2;
-    std::cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     ResidueStretch  myResidueStretch1 = ResidueStretch(chain1, startResidue1, endResidue1);
     ResidueStretch  myResidueStretch2 = ResidueStretch(chain2, startResidue2, endResidue2);
     if (!(myBiopolymerClassContainer.updBiopolymerClass(chain1).hasResidueStretch(myResidueStretch1))) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": You have specified an invalid residue stretch: Chain "<<chain1<<" from residue "<<startResidue1.outString()<<" to "<<endResidue1.outString() << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have specified an invalid residue stretch: Chain "<<chain1<<" from residue "<<startResidue1.outString()<<" to "<<endResidue1.outString() << endl);
     }
     if (!(myBiopolymerClassContainer.updBiopolymerClass(chain2).hasResidueStretch(myResidueStretch2))) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": You have specified an invalid residue stretch: Chain "<<chain2<<" from residue "<<startResidue2.outString()<<" to "<<endResidue2.outString() << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have specified an invalid residue stretch: Chain "<<chain2<<" from residue "<<startResidue2.outString()<<" to "<<endResidue2.outString() << endl);
     }
     thread.updThreadingPartner(0).startResidue = startResidue1;//  myBiopolymerClassContainer.updBiopolymerClass(thread.chainID1).getFirstResidueID();
     thread.updThreadingPartner(1).startResidue = startResidue2; //myBiopolymerClassContainer.updBiopolymerClass(thread.chainID2).getFirstResidueID();
@@ -402,14 +391,14 @@ ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, Residu
     thread.updThreadingPartner(1).endResidue   = endResidue2; //myBiopolymerClassContainer.updBiopolymerClass(thread.chainID2).getLastResidueID();
     thread.forceConstant = forceConstant;
     thread.backboneOnly = backboneOnly;
-    std::cout<<__FILE__<<":"<<__LINE__<<": Created a ThreadingStruct connecting chain "<<chain1<<" residue "<<thread.updThreadingPartner(0).startResidue.outString() <<" to "<<thread.updThreadingPartner(0).endResidue.outString()<<" . "<<std::endl;
-    std::cout<<__FILE__<<":"<<__LINE__<<":                                   to chain "<<chain2<<" residue "<<thread.updThreadingPartner(1).startResidue.outString() <<" to "<<thread.updThreadingPartner(1).endResidue.outString()<<" . "<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Created a ThreadingStruct connecting chain "<<chain1<<" residue "<<thread.updThreadingPartner(0).startResidue.outString() <<" to "<<thread.updThreadingPartner(0).endResidue.outString()<<" . "<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, ":                                   to chain "<<chain2<<" residue "<<thread.updThreadingPartner(1).startResidue.outString() <<" to "<<thread.updThreadingPartner(1).endResidue.outString()<<" . "<<endl);
     return thread;
 }
 
 // Creates a gapped alignment using all residues in the two aligned chains.
 ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, String chain2, double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer){
-    std::cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     ResidueID myStartResidue1 = myBiopolymerClassContainer.updBiopolymerClass(chain1).getFirstResidueID();
     ResidueID myStartResidue2 = myBiopolymerClassContainer.updBiopolymerClass(chain2).getFirstResidueID();
     ResidueID myEndResidue1   = myBiopolymerClassContainer.updBiopolymerClass(chain1).getLastResidueID();
@@ -436,8 +425,7 @@ void AtomSpringContainer::addGappedThreading(String chain1, ResidueID startResid
 
 void AtomSpringContainer::deleteGappedThreading(int id){
     if(id < 0 || id >= gappedThreadingStructVector.size()){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": you tried to delete a non existing Threading." << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to delete a non existing Threading." << endl);
     }
     gappedThreadingStructVector.erase(gappedThreadingStructVector.begin()+id);
 }
@@ -445,8 +433,7 @@ void AtomSpringContainer::deleteGappedThreading(int id){
 void AtomSpringContainer::updateGappedThreading(int id, const ThreadingStruct & newThread, 
                                           BiopolymerClassContainer & myBiopolymerClassContainer){
     if(id < 0 || id >= gappedThreadingStructVector.size()){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": you tried to update a non existing Threading." << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to update a non existing Threading." << endl);
     }
     // validateThreading(newThread, myBiopolymerClassContainer);
     gappedThreadingStructVector[id] = newThread;
@@ -455,8 +442,7 @@ void AtomSpringContainer::updateGappedThreading(int id, const ThreadingStruct & 
 void AtomSpringContainer::updateGappedThreading(int id, String chain1, String chain2, double forceConstant, bool backboneOnly, 
                                           BiopolymerClassContainer & myBiopolymerClassContainer){
     if(id < 0 || id >= gappedThreadingStructVector.size()){
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": you tried to update a non existing Threading." << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to update a non existing Threading." << endl);
     }
     ThreadingStruct newThread = createGappedThreading(chain1, chain2, forceConstant, backboneOnly, myBiopolymerClassContainer);
     this->updateGappedThreading(id, newThread, myBiopolymerClassContainer);
@@ -489,8 +475,8 @@ void AtomSpringContainer::createSpringsFromGappedThreading(BiopolymerClassContai
         seqan::Blosum62 scoringScheme(-1, -12);
         int score = globalAlignment(align,scoringScheme ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
 
-        std::cout << "Score: " << score << ::std::endl;
-        std::cout << align << ::std::endl;
+        std::cout << "Score: " << score << ::endl;
+        std::cout << align << ::endl;
 
         seqan::AlignmentStats stats;
         computeAlignmentStats(stats, align, scoringScheme);
@@ -510,7 +496,7 @@ void AtomSpringContainer::createSpringsFromGappedThreading(BiopolymerClassContai
             if ((String(seqan::row (align,0)[i]).compare("-")  != 0  )  &&
                 (String(seqan::row (align,1)[i]).compare("-")  != 0  )) 
             { 
-                cout<<__FILE__<<":"<<__LINE__<<" Applying threading forces to "<<thread.updThreadingPartner(0).biopolymerClass. getChainID()<<" : "<<bpA.sum(thread.updThreadingPartner(0).startResidue   , aIndex).outString()<<" to "<<thread.updThreadingPartner(1).biopolymerClass. getChainID()<<" : "<<bpB.sum(thread.updThreadingPartner(1).startResidue ,bIndex).outString()<<std::endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "Applying threading forces to "<<thread.updThreadingPartner(0).biopolymerClass. getChainID()<<" : "<<bpA.sum(thread.updThreadingPartner(0).startResidue   , aIndex).outString()<<" to "<<thread.updThreadingPartner(1).biopolymerClass. getChainID()<<" : "<<bpB.sum(thread.updThreadingPartner(1).startResidue ,bIndex).outString()<<endl);
                 ResidueInfo myResidueInfoA = bpA.updResidueInfo(bpA.sum(thread.updThreadingPartner(0).startResidue   , aIndex  )) ;
                 ResidueInfo myResidueInfoB = bpB.updResidueInfo(bpB.sum(thread.updThreadingPartner(1).startResidue   , bIndex)) ;
                 for (int j = 0; j < (int)myResidueInfoA.getNumAtoms(); j++) 

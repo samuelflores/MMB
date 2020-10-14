@@ -45,8 +45,7 @@ using namespace std;
                 //myMobilizedBody1 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,myChain, myResidueID , myAtomName );
 	} else if (parameterReader.moleculeClassContainer.hasChainID(myChainID)) {
 	    // This is pending. I don't know yet what to do with this residue number..
-	    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" You are trying to weld an atom of a custom molecule (of chain ID: >"<<myChainID <<"<) to another atom. Unfortunately this feature is not yet supported. You should, however, be able to weld a custom molecule to Ground."<<endl;
-	    ErrorManager::instance.treatError();
+	    MMBLOG_FILE_FUNC_LINE(CRITICAL, "You are trying to weld an atom of a custom molecule (of chain ID: >"<<myChainID <<"<) to another atom. Unfortunately this feature is not yet supported. You should, however, be able to weld a custom molecule to Ground."<<endl);
 	} else if (parameterReader.myMonoAtomsContainer.hasChainID(myChainID)) {
 	    mobilizedBody = parameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).updMobilizedBody(myResidue, myMatter); 
 	}
@@ -117,30 +116,30 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
 
 
     void ConstrainedDynamics::constraintsAndRestraints  (ParameterReader & myParameterReader,BiopolymerClassContainer & myBiopolymerClassContainer,GeneralForceSubsystem & forces,SimbodyMatterSubsystem & matter, State & state, CompoundSystem & system) {
-	cout<<__FILE__<<":"<<__LINE__<< endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         //#ifdef BUILD_MMB_SHARED_LIB
         //#pragma message ("BUILD_MMB_SHARED_LIB is currently defined")
         //#else
         //#pragma message ("BUILD_MMB_SHARED_LIB is NOT currently defined")
         //#endif
-	cout<<__FILE__<<":"<<__LINE__<< endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
  
         #ifdef USE_OPENMM
         #pragma message ("USE_OPENMM is defined")
         #else 
         #pragma message ("USE_OPENMM is NOT defined")
         #endif 
-        cout<<__FILE__<<":"<<__LINE__<< endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         // here we turn the list of interface constraints from myParameterReader.constraintToGroundContainer.interfaceContainer into pairs of constraints, at most one pair for each pair of constrained chains.
         #ifdef USE_OPENMM    
         myParameterReader.constraintToGroundContainer.addSingleWeldConstraintPerInterfaceChainPair ( myBiopolymerClassContainer);
         #endif
-        cout<<__FILE__<<":"<<__LINE__<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         myParameterReader.constraintToGroundContainer.applyConstrainChainRigidSegments ( myBiopolymerClassContainer,  system,  matter, state);
         
-        cout<<__FILE__<<":"<<__LINE__<<" Now printing all constraints :"<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Now printing all constraints :"<<endl);
         myParameterReader.constraintToGroundContainer.printConstraintClasses();
-        cout<<__FILE__<<":"<<__LINE__<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         vector<Constraint> myWeld2;        
         vector<Force> myLinearBushing;
        
@@ -149,7 +148,7 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
         
         for (int i = 0; i < myParameterReader.constraintToGroundContainer.numConstraintClasses(); i++){
             ConstraintClass  myConstraintClass = myParameterReader.constraintToGroundContainer.getConstraintClass(i);
-            cout<<__FILE__<<":"<<__LINE__<<" Applying constraint index : "<<i<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Applying constraint index : "<<i<<endl);
             myConstraintClass.print();
             if (myConstraintClass.getConstraintType() == WeldToGround) { // constrain an atom to ground
                 String    myChain     = myConstraintClass.getChain1();
@@ -190,8 +189,7 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
 		       )
                     );
                 } else {
-                    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" You are trying to constriain chain "<<myChain<<" which is neither a biopolymer nor a custom molecule"<<endl;
-                    ErrorManager::instance.treatError();
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "You are trying to constriain chain "<<myChain<<" which is neither a biopolymer nor a custom molecule"<<endl);
                 }
             } else if (myConstraintClass.getConstraintType() == WeldToAtom) { // constrain two atoms to each other
                 String myAtomName = myConstraintClass.getAtomName1();
@@ -200,7 +198,7 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
                 // SCF : check whether we are dealing with biopolymer, monoAtom, or custom molecule, then generalize to handle all three. No further change should be necessary:
                 
                 //MobilizedBody getMobilizedBody(SimbodyMatterSubsystem & myMatter, ParameterReader & parameterReader, BiopolymerClassContainer & biopolymerClassContainer, String myChainID, ResidueID myResidue, String myAtom) {
-                cout<<__FILE__<<":"<<__LINE__<<endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, endl);
                 myMobilizedBody1 = getMobilizedBody(matter,myParameterReader,myBiopolymerClassContainer, myChain, myResidueID, myAtomName); 
                 // was:
                 //myMobilizedBody1 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,myChain, myResidueID , myAtomName );
@@ -219,8 +217,7 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
 		// was:
                 //MobilizedBodyIndex myMobilizedBodyIndex2 = myBiopolymerClassContainer.updBiopolymerClass(myChain2).getAtomMobilizedBodyIndex(matter, myResidueID2 , myAtomName2 );
                 if (myMobilizedBodyIndex1 == myMobilizedBodyIndex2) {
-                    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" You are trying to weld a mobilized body to itself.  This could happen, for instance, if you are welding two atoms from the same rigid stretch to each other."<<endl;
-                    ErrorManager::instance.treatError();
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "You are trying to weld a mobilized body to itself.  This could happen, for instance, if you are welding two atoms from the same rigid stretch to each other."<<endl);
                 }
                 myTransform2 = myMobilizedBody1.findBodyTransformInAnotherBody(state,myMobilizedBody2);
                 myWeld2.push_back(
@@ -252,8 +249,7 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
                         );
 
 		}  else {
-			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : You have specified an unsupported ConstraintType : "<<myConstraintClass.getConstraintType() <<endl;
-			ErrorManager::instance.treatError();
+			MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have specified an unsupported ConstraintType : "<<myConstraintClass.getConstraintType() <<endl);
 		    }
 
 
@@ -261,8 +257,7 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
 
         for (int q=0;q<(int)myParameterReader.baseOperationVector.size();q++) {
             if (((myParameterReader.baseOperationVector[q]).BasePairIsTwoTransformForce).compare("constraint" ) == 0) {
-                ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : An error has occurred!  Constraints are no longer specified with this data structure. "<<endl;
-                ErrorManager::instance.treatError();
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "An error has occurred!  Constraints are no longer specified with this data structure. "<<endl);
             }
   
             if ((   //(((myParameterReader.baseOperationVector[q]).BasePairIsTwoTransformForce).compare("constraint" ) == 0)||  // this no longer how we do constraints
@@ -290,7 +285,7 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
                         );
                     myTransform1 = Transform(Vec3(0));          
                 } else 
-                {ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error! The first chain in the constraint or restraint was neither a biopolymer nor a monoAtoms object, and you are not constraining to ground."<<endl; ErrorManager::instance.treatError();}
+                {MMBLOG_FILE_FUNC_LINE(CRITICAL, "The first chain in the constraint or restraint was neither a biopolymer nor a monoAtoms object, and you are not constraining to ground."<<endl); }
 
                 if (myBiopolymerClassContainer.hasChainID(myParameterReader.baseOperationVector[q].SecondBPChain)) {
                     myAtom2Name = myBiopolymerClassContainer.updBiopolymerClass(myParameterReader.baseOperationVector[q].SecondBPChain).getRepresentativeAtomName();
@@ -302,13 +297,13 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
                         );
                     myTransform2 = myMobilizedBody2.findBodyTransformInAnotherBody(state,myMobilizedBody1);            
                 } else 
-                {ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error! The second chain in the constraint or restraint was neither a biopolymer nor a monoAtoms object."<<endl; ErrorManager::instance.treatError();}
+                {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Error! The second chain in the constraint or restraint was neither a biopolymer nor a monoAtoms object."<<endl); }
 
-               cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+               MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
                state = system.realizeTopology();                                        
                system.realize(state,Stage::Position);
 
-               std::cout<<__FILE__<<":"<<__LINE__<<" : Enforcing constraint or restraint from : "<<string(myParameterReader.baseOperationVector[q].FirstBPChain) <<", " << myParameterReader.baseOperationVector[q].FirstBPResidue.outString() << " to : " << string( myParameterReader.baseOperationVector[q].SecondBPChain)<<", "<<myParameterReader.baseOperationVector[q].SecondBPResidue.outString()<<  std::endl;
+               MMBLOG_FILE_FUNC_LINE(INFO, "Enforcing constraint or restraint from : "<<string(myParameterReader.baseOperationVector[q].FirstBPChain) <<", " << myParameterReader.baseOperationVector[q].FirstBPResidue.outString() << " to : " << string( myParameterReader.baseOperationVector[q].SecondBPChain)<<", "<<myParameterReader.baseOperationVector[q].SecondBPResidue.outString()<<  std::endl);
                if ((myParameterReader.baseOperationVector[q].BasePairIsTwoTransformForce.compare("restrainToGround" ) == 0) ||
                     (myParameterReader.baseOperationVector[q].BasePairIsTwoTransformForce.compare("restraint" ) == 0) )   {
                     myLinearBushing.push_back (
@@ -340,9 +335,9 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
                        );
                 }
                 else           
-                {ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error! You have specified an unsupported constraint or restraint."<<endl; ErrorManager::instance.treatError();}
+                {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Error! You have specified an unsupported constraint or restraint."<<endl);}
 
-                cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
                 state = system.realizeTopology();
                 system.realize(state,Stage::Position);
            } // of if constraint,restraint, etc.
@@ -381,13 +376,13 @@ int  ConstrainedDynamics::initializeBiopolymersAndCustomMolecules()
 
 int  ConstrainedDynamics::initializeBiopolymersAndCustomMolecules(CompoundSystem & system ){
     _parameterReader->moleculeClassContainer.initializeCompounds (_dumm);
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     _parameterReader->moleculeClassContainer.matchDefaultConfiguration (_parameterReader->readPreviousFrameFile, _parameterReader->previousFrameFileName, _parameterReader->matchExact,  _parameterReader->matchIdealized  );
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     _parameterReader->moleculeClassContainer.adoptCompounds (system);
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
 
-    //cout<<__FILE__<<":"<<__LINE__<<"This is temporary .. SCF"<<endl;
+    //MMBLOG_FILE_FUNC_LINE("This is temporary .. SCF"<<endl;
     int returnValue = 0;
     returnValue = _parameterReader->myBiopolymerClassContainer.initializeBiopolymers(system,
                                                                        _parameterReader->proteinCapping, 
@@ -401,10 +396,10 @@ int  ConstrainedDynamics::initializeBiopolymersAndCustomMolecules(CompoundSystem
                                                                        _parameterReader->displacementContainer.getDisplacementVector(), 
                                                                        _parameterReader->matchingMinimizerTolerance, 
                                                                        _parameterReader->planarityThreshold );
-    cout<<__FILE__<<":"<<__LINE__<<" returnValue = "<<returnValue<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "returnValue = "<<returnValue<<endl);
     if (returnValue)
     {
-        cout<<__FILE__<<":"<<__LINE__<<" Warning : There was an error in initializeBiopolymers"<<endl;
+        MMBLOG_FILE_FUNC_LINE(WARNING, "There was an error in initializeBiopolymers"<<endl);
         //return 1; 
     };
      
@@ -444,86 +439,84 @@ void ConstrainedDynamics::initializeMoleculesAndBonds(CompoundSystem & system, D
     // This is actually broken now. Fix in void BiopolymerClassContainer::waterDropletAboutResidues 
     if (_parameterReader->waterDropletAboutResidueVector.size() > 0) _parameterReader->myBiopolymerClassContainer.waterDropletAboutResidues( _parameterReader->waterDropletAboutResidueVector,    _parameterReader->waterDropletContainer) ;
 
-    //cout<<__FILE__<<":"<<__LINE__<<endl;
+    //MMBLOG_FILE_FUNC_LINE(endl;
     _parameterReader->waterDropletContainer.addWaterMolecules(system, dumm, matter, _parameterReader->myBiopolymerClassContainer);
-    //cout<<__FILE__<<":"<<__LINE__<<endl;
+    //MMBLOG_FILE_FUNC_LINE(endl;
     _parameterReader->waterDropletContainer.validateWaterVectors();
-    //cout<<__FILE__<<":"<<__LINE__<<endl;
+    //MMBLOG_FILE_FUNC_LINE(endl;
     _parameterReader->waterDropletContainer.matchDefaultConfiguration (_parameterReader->readPreviousFrameFile, _parameterReader->previousFrameFileName, _parameterReader->matchExact,  _parameterReader->matchIdealized  );
-    //cout<<__FILE__<<":"<<__LINE__<<endl;
+    //MMBLOG_FILE_FUNC_LINE(endl;
     _parameterReader->waterDropletContainer.adopt (system,_parameterReader->readPreviousFrameFile);
-    //cout<<__FILE__<<":"<<__LINE__<<endl;
+    //MMBLOG_FILE_FUNC_LINE(endl;
     // Moved this from ParameterReader.cpp:
     for (int i = 0; i < _parameterReader->additionalCovalentBondVector.size(); i++) {
         CovalentBondClass myBond = _parameterReader->additionalCovalentBondVector[i];
         if (myBond.getChain1().compare(myBond.getChain2()) != 0 ){
-         ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : Chain IDs of both atoms must be the same."<<endl;
-             ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Chain IDs of both atoms must be the same."<<endl);
         }
 	if (_parameterReader->myBiopolymerClassContainer.hasChainID(myBond.getChain1())) {
 	    _parameterReader->myBiopolymerClassContainer.updBiopolymerClass(myBond.getChain1() ).addRingClosingBond(myBond);
 	} else if (_parameterReader->moleculeClassContainer.hasChainID(myBond.getChain1())) {
             _parameterReader->moleculeClassContainer.updMoleculeClass(myBond.getChain1()).addRingClosingBond(myBond);
         } else {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unexplained error!"<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);
         }
 
     }
-    cout<<__FILE__<<":"<<__LINE__<<" If you want to close the cysteine bridges, you can issue:"<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "If you want to close the cysteine bridges, you can issue:"<< endl);
     //_parameterReader->myBiopolymerClassContainer.createDisulphideBridges(std::cout); // Should make this user controllable. // there is an issue with immediately mutating.. consider adding to mutation vector..
 }
 
 #ifdef USE_OPENMM
 void ConstrainedDynamics::setInterfaceMobilizers(){
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     setInterfaceMobilizers(_system, _matter, _state);
 }
 
 void ConstrainedDynamics::setInterfaceMobilizers(CompoundSystem & system, SimbodyMatterSubsystem & matter, State & state){
-    cout<<__FILE__<<":"<<__LINE__<<" Checking interface mobilizers .."<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Checking interface mobilizers .."<<endl);
     _parameterReader->myBiopolymerClassContainer.validateAtomInfoVectors();
     _parameterReader->mobilizerContainer.addStretchesToVectorFromInterfaceContainer(_parameterReader->myBiopolymerClassContainer);
-    cout<<__FILE__<<":"<<__LINE__<<" Checking domains interface mobilizers .."<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Checking domains interface mobilizers .."<<endl);
     _parameterReader->mobilizerContainer.addMobilizerDomainsInterfacesToVector(_parameterReader->mobilizerDomainsInterfaceVector, _parameterReader->myBiopolymerClassContainer);
-    cout<<__FILE__<<":"<<__LINE__<<" Domains interface mobilizers checked"<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Domains interface mobilizers checked"<<endl);
     _parameterReader->mobilizerContainer.printMobilizerStretches();
-    cout<<__FILE__<<":"<<__LINE__<<" system.getNumRealizeCalls () = "<< system.getNumRealizeCalls () <<endl;
-    cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "system.getNumRealizeCalls () = "<< system.getNumRealizeCalls () <<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
     state = system.realizeTopology();
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     system.realize(state,Stage::Position);
 }
 #endif
 void ConstrainedDynamics::setMobilizers()
 {
-    cout<<__FILE__<<":"<<__LINE__<<endl; 
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     #ifdef USE_OPENMM
     _parameterReader->mobilizerContainer.createMobilizersWithin(_parameterReader->myBiopolymerClassContainer,_state);
     #endif
-    cout<<__FILE__<<":"<<__LINE__<<" Done adding MobilizerStretch's .  However we haven't yet dealt with 'Default' MobilizerStretch's. "<<endl;
-    cout<<__FILE__<<":"<<__LINE__<<" Printing all mobilizer stretches: "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Done adding MobilizerStretch's .  However we haven't yet dealt with 'Default' MobilizerStretch's. "<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "Printing all mobilizer stretches: "<<endl);
     _parameterReader->mobilizerContainer.printMobilizerStretches();
 
-    cout<<__FILE__<<":"<<__LINE__<<" About to clear MobilizerStretch's that have been overridden, or specified to remain at BondMobility 'Default' "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to clear MobilizerStretch's that have been overridden, or specified to remain at BondMobility 'Default' "<<endl);
 
     // removing all MobilizerStretch's that modify residues specified to be at BondMobility = "Default"
     for (int i = 0; i < _parameterReader->mobilizerContainer.getNumResidueStretches(); i++) {
-        cout<<__FILE__<<":"<<__LINE__<<" Examining mobilizer stretch "<<i<<" to see if it has bondMobility Default :"<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Examining mobilizer stretch "<<i<<" to see if it has bondMobility Default :"<<endl);
         _parameterReader->mobilizerContainer.residueStretchVector[i].printStretch();
         if (_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString().compare("Default") == 0){
             ResidueStretch tempResidueStretch = _parameterReader->mobilizerContainer.getResidueStretch(i);
-            cout<<__FILE__<<":"<<__LINE__<<" Detected that BondMobility : >"<<_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString()<<"< is Default."<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Detected that BondMobility : >"<<_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString()<<"< is Default."<<endl);
             _parameterReader->myBiopolymerClassContainer.updBiopolymerClass(tempResidueStretch.getChain() ).selectivelyRemoveResidueStretchFromContainer(tempResidueStretch,_parameterReader->mobilizerContainer);
             i--; // Compensating for the fact that the Default stretch i has been deleted.
             
         } else {
-            cout<<__FILE__<<":"<<__LINE__<<" Detected that BondMobility : >"<<_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString()<<"< is NOT Default."<<endl;
+            MMBLOG_FILE_FUNC_LINE(WARNING, "Detected that BondMobility : >"<<_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString()<<"< is NOT Default."<<endl);
         }    
     }  
     // Done dealing with "Default" mobilizer stretches
-    cout<<__FILE__<<":"<<__LINE__<<" Done dealing with MobilizerStretch's specified to remain at BondMobility 'Default' "<<endl;
-    cout<<__FILE__<<":"<<__LINE__<<" Printing all mobilizer stretches: "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Done dealing with MobilizerStretch's specified to remain at BondMobility 'Default' "<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "Printing all mobilizer stretches: "<<endl);
     _parameterReader->mobilizerContainer.printMobilizerStretches();
     
     _parameterReader->mobilizerContainer.setBiopolymerBondMobility(_parameterReader->myBiopolymerClassContainer);
@@ -532,25 +525,25 @@ void ConstrainedDynamics::setMobilizers()
 
 void ConstrainedDynamics::createMultibodyTree()
 {
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     createMultibodyTree(_system, _state);
 }
 
 void ConstrainedDynamics::createMultibodyTree(CompoundSystem & system, State & state){
-    cout<<__FILE__<<":"<<__LINE__<<" Calling modelOneCompound "<< system.getNumCompounds()<<" times."<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Calling modelOneCompound "<< system.getNumCompounds()<<" times."<<endl);
     for (CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c) {
         String currentChain = String(system.getCompound(c).getPdbChainId());
         if (_parameterReader->myBiopolymerClassContainer.hasChainID(currentChain)){
             String tempMobilizerType =  _parameterReader->myBiopolymerClassContainer.updBiopolymerClass(currentChain).getFirstResidueMobilizerType();
-        cout<<__FILE__<<":"<<__LINE__<<" Attaching biopolymer chain "<<currentChain<<" using mobilizer type = "<<tempMobilizerType<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Attaching biopolymer chain "<<currentChain<<" using mobilizer type = "<<tempMobilizerType<<endl);
             system.modelOneCompound(c,tempMobilizerType  );
         } else {
             String tempMobilizerType ("Free");
-        cout<<__FILE__<<":"<<__LINE__<<" Attaching non-biopolymer chain "<<currentChain<<" using mobilizer type = "<<tempMobilizerType<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Attaching non-biopolymer chain "<<currentChain<<" using mobilizer type = "<<tempMobilizerType<<endl);
             system.modelOneCompound(c, tempMobilizerType );  // for non-biopolymers, use the default behavior, which is for root atom to be connected with a Free mobilizer.
         }
     }
-    cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
     state = system.realizeTopology();
     system.realize(state,Stage::Position);
 }
@@ -561,38 +554,38 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     _parameterReader->waterDropletContainer.addTethers(_parameterReader->atomSpringContainer);
 
     _parameterReader->waterDropletContainer.validateWaterVectors();
-    cout<<__FILE__<<":"<<__LINE__<<endl; 
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     _parameterReader->myBiopolymerClassContainer.multiplySmallGroupInertia( _parameterReader->smallGroupInertiaMultiplier, _system,_matter, _state      );
     _parameterReader->waterDropletContainer.multiplySmallGroupInertia( _parameterReader->waterInertiaMultiplier, _system,_matter, _state      );
-    //cout<<__FILE__<<":"<<__LINE__<<endl;
+    //MMBLOG_FILE_FUNC_LINE(endl;
     #ifdef USE_OPENMM  
     _parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // investigate moving this outside the conditional, so it's available for DensityForce below.
     #endif
-    cout<<__FILE__<<":"<<__LINE__<<" You have specified _parameterReader->physicsRadius = "<<_parameterReader->physicsRadius<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "You have specified _parameterReader->physicsRadius = "<<_parameterReader->physicsRadius<<endl);
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); // Looks fine at this point ..
     if ( _parameterReader->physicsRadius > 0.0000001) 
     {
-        cout<<__FILE__<<":"<<__LINE__<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         _parameterReader->myBiopolymerClassContainer.physicsZone (_parameterReader->includeAllResiduesWithinVector, _parameterReader->physicsRadius,_matter,_state); 
     }
-    cout<<__FILE__<<":"<<__LINE__<< "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
     #ifdef USE_OPENMM
     // Act on physicsInterfaces command. Turn the interfaces into specific lists of residues:
     _parameterReader->  physicsContainer.addStretchesToVectorFromInterfaceContainer(_parameterReader->myBiopolymerClassContainer);
     #endif
-    cout<<__FILE__<<":"<<__LINE__<< "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
     // SCF this is a good place to insert includeInterChainInterface processing. 
     if (_parameterReader->includeIntraChainInterfaceVector.size() >0) 
     {
         //_parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // investigate moving this outside the conditional, so it's available for DensityForce below.
        for (int i = 0; i < _parameterReader->includeIntraChainInterfaceVector.size() ; i++) 
        {
-           cout<<__FILE__<<":"<<__LINE__<<endl;
+           MMBLOG_FILE_FUNC_LINE(INFO, endl);
            _parameterReader->myBiopolymerClassContainer.addIntraChainInterfaceResidues(_parameterReader->includeIntraChainInterfaceVector[i].Chain,  
                _parameterReader->physicsContainer.residueStretchVector //includeAllNonBondAtomsInResidueVector 
                , _parameterReader->includeIntraChainInterfaceVector[i].Depth ,  
 	       _matter,_state) ;
-           cout<<__FILE__<<":"<<__LINE__<<endl;
+           MMBLOG_FILE_FUNC_LINE(INFO, endl);
        }
     }
     if (_parameterReader->includeIntraChainInterfaceVector.size() >0) {
@@ -624,36 +617,36 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     NTC_Torque * myNTC_Torque = new NTC_Torque( _matter,  *_parameterReader,  _parameterReader->ntc_par_class, _parameterReader->myBiopolymerClassContainer, _output);
     Force::Custom(_forces, myNTC_Torque);
     #endif
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     if (_parameterReader->densityContainer.numDensityStretches() > 0) 
     {
-        cout<<__FILE__<<":"<<__LINE__<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         _parameterReader->myDensityMap.setNoiseTemperature(_parameterReader->densityNoiseTemperature);
-        cout<<__FILE__<<":"<<__LINE__<<" setting noiseScale to :" <<_parameterReader->densityNoiseScale<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "setting noiseScale to :" <<_parameterReader->densityNoiseScale<<endl);
         _parameterReader->myDensityMap.setNoiseScale(_parameterReader->densityNoiseScale);
-        cout<<__FILE__<<":"<<__LINE__<<" set noiseScale to :" <<_parameterReader->myDensityMap.getNoiseScale() <<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "set noiseScale to :" <<_parameterReader->myDensityMap.getNoiseScale() <<endl);
         _parameterReader->myDensityMap.loadParametersAndDensity(_parameterReader->densityFileName);
-        cout<<__FILE__<<":"<<__LINE__<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         if (_parameterReader->myDensityMap.getNoiseScale() > 0.0000001) {
-            cout<<__FILE__<<":"<<__LINE__<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, endl);
             _parameterReader->myDensityMap.populateNoiseMap();
             _parameterReader->myDensityMap.writeDensityMapXplor("./noise.xplor", 0, 1);   // write noise only
             _parameterReader->myDensityMap.writeDensityMapXplor("./density.xplor", 1,0);  // write noiseless density only
             _parameterReader->myDensityMap.writeDensityMapXplor("./noisyMap.xplor", 1,1); // write the sum of density + noise
             if (_parameterReader->densityNoiseComputeAutocorrelation){
-                std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" First, we write out the noise autocorrelation: "<< std::endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "First, we write out the noise autocorrelation: "<<endl);
                 _parameterReader->myDensityMap.densityAutocorrelation(1,0); // Arguments are : calculate noise correlation = 1, calculate density corrleation = 0
-                std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Second, we write out the autocorrelation of the input density map: "<< std::endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "Second, we write out the autocorrelation of the input density map: "<<endl);
                 _parameterReader->myDensityMap.densityAutocorrelation(0,1);
-                std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< std::endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, endl);
             }
         }
-        cout<<__FILE__<<":"<<__LINE__<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         _parameterReader->myDensityMap.precomputeGradient();
-        cout<<__FILE__<<":"<<__LINE__<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         _parameterReader->myDensityMap.precomputeGradientDerivatives();
-        cout<<__FILE__<<":"<<__LINE__<<endl;
-        cout<<__FILE__<<":"<<__LINE__<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         // This needs to be re-done here, with the "dumm" version of initializeAtomInfoVectors, which sets atomic numbers, masses, etc. Consider making a cheaper version of initializeAtomInfoVectors that only updates the existing MMBAtomInfo's, though I'm not sure this would save much.
         //_parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // SCF I'm not sure this is ready to be moved up .. trying dumm version earlier causes a crash
         _parameterReader->myBiopolymerClassContainer.validateAtomInfoVectors();
@@ -683,22 +676,22 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
                                                          );
         Force::Custom(_forces, myElectroForce);
     }
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); //  at this point.. 
-    cout<<__FILE__<<":"<<__LINE__<< "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl;
-    cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
     _state = _system.realizeTopology();
     _system.realize(_state,Stage::Position);
 
-    cout<<__FILE__<<":"<<__LINE__<< "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
 
 
-    cout<<__FILE__<<":"<<__LINE__<<" Did you intend to use PhysicsWhereYouWantIt? Checking size of _parameterReader->physicsContainer.getNumResidueStretches() " //includeAllNonBondAtomsInResidueVector.size() = "
-        <<_parameterReader->physicsContainer.getNumResidueStretches()<<endl;
-    cout<<__FILE__<<":"<<__LINE__<<" About to work on physicsWhereYouWantIt. DuMM now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Did you intend to use PhysicsWhereYouWantIt? Checking size of _parameterReader->physicsContainer.getNumResidueStretches() " //includeAllNonBondAtomsInResidueVector.size() = "
+        <<_parameterReader->physicsContainer.getNumResidueStretches()<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to work on physicsWhereYouWantIt. DuMM now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
 
 
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); //  at this point.. 
 
 
@@ -708,12 +701,12 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
         (_parameterReader->includeAllResiduesWithinVector.size() > 0)) ;
  
     if (myPhysicsWhereYouWantItActive) {
-        cout<<__FILE__<<":"<<__LINE__<<" physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. Clearing list .."<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. Clearing list .."<<endl);
         _dumm.clearIncludedNonbondAtomList();
-        cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
         _state = _system.realizeTopology();
         _system.realize(_state,Stage::Position);
-        cout<<__FILE__<<":"<<__LINE__<<" Cleared non-bonded atom list. Realized _state to the position stage. physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. Note that this number might not be zero -- we do not clear the bonded atom list."<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Cleared non-bonded atom list. Realized _state to the position stage. physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. Note that this number might not be zero -- we do not clear the bonded atom list."<<endl);
         // Could end this loop here. The only point is to clear the included atom list, in cases that any physicsWhereYouWantIt is active.
     }  
     else {
@@ -721,28 +714,28 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     // Note that bonded forces may still be more than needed depending on mobilizers.  Worth checking to see if futher optimization is needed.
     }
    
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); //  at this point.. 
 
 
     if (_parameterReader->includeNonBondAtomInBiopolymerVector.size() > 0) 
     {
-        cout<<__FILE__<<":"<<__LINE__<<" About to read a list of included atoms in biopolymer chains. physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "About to read a list of included atoms in biopolymer chains. physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
         _parameterReader->myBiopolymerClassContainer.includeNonBondAtoms(  _parameterReader->includeNonBondAtomInBiopolymerVector,  _state,  _dumm);
-            cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
             _state = _system.realizeTopology();
-        cout<<__FILE__<<":"<<__LINE__<<" Read a list of included atoms in biopolymer chains. physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Read a list of included atoms in biopolymer chains. physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
     }
-    cout<<__FILE__<<":"<<__LINE__<<" About to add all residues within the specified radius of of the residues specified in _parameterReader->includeAllResiduesWithinVector. Right now DuMM has "<< _dumm.getNumIncludedAtoms () <<" included atoms. "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to add all residues within the specified radius of of the residues specified in _parameterReader->includeAllResiduesWithinVector. Right now DuMM has "<< _dumm.getNumIncludedAtoms () <<" included atoms. "<<endl);
     // adds to includeAllNonBondAtomsInResidueVector, all residues within the specified radius of the residues specified in _parameterReader->includeAllResiduesWithinVector.
     // this doesn't need a check to make sure it contains something. Because if  _parameterReader->includeAllResiduesWithinVector is empty, this call does nothing:
-    cout<<__FILE__<<":"<<__LINE__<< "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
     #ifdef USE_OPENMM
     for (int i = 0 ;  i < _parameterReader->includeAllResiduesWithinVector.size() ; i++){_parameterReader->includeAllResiduesWithinVector[i].print(); }
     // this is where we add residues within a certain radius of a residue of interest:
     _parameterReader->myBiopolymerClassContainer.includeAllResiduesWithin(_parameterReader->includeAllResiduesWithinVector, _parameterReader->physicsContainer.residueStretchVector /*includeAllNonBondAtomsInResidueVector */ , _state); 
-    cout<<__FILE__<<":"<<__LINE__<<" Just finished adding all residues within the specified radius of of the residues specified in _parameterReader->includeAllResiduesWithinVector. Have not actually added _parameterReader->includeAllResiduesWithinVector atoms to DuMM. Right now DuMM has "<< _dumm.getNumIncludedAtoms () <<" included atoms. "<<endl;
-    cout<<__FILE__<<":"<<__LINE__<< "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Just finished adding all residues within the specified radius of of the residues specified in _parameterReader->includeAllResiduesWithinVector. Have not actually added _parameterReader->includeAllResiduesWithinVector atoms to DuMM. Right now DuMM has "<< _dumm.getNumIncludedAtoms () <<" included atoms. "<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
     #endif
 
 
@@ -750,66 +743,66 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     {
         _parameterReader->myBiopolymerClassContainer.includeAllNonBondAtomsInResidues(_parameterReader->physicsContainer.residueStretchVector /*includeAllNonBondAtomsInResidueVector*/ , _state, _dumm);
         // Made a change that affected topology. DuMM can't count atoms unless I update the topology:
-        cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
         _state = _system.realizeTopology();
         //_system.realize(_state,Stage::Position);
-        cout<<__FILE__<<":"<<__LINE__<<" Turned on Physics Where You Want It, for the following residues: "<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Turned on Physics Where You Want It, for the following residues: "<<endl);
         _parameterReader->myBiopolymerClassContainer.printAllIncludedResidues ( _parameterReader->physicsContainer.residueStretchVector);   //includeAllNonBondAtomsInResidueVector);
     }
-    cout<<__FILE__<<":"<<__LINE__<< "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
     bool myNonBondedOn = 
     ((_parameterReader->globalCoulombScaleFactor >0) ||
      (_parameterReader->globalVdwScaleFactor > 0));
-    cout<<__FILE__<<":"<<__LINE__<<" You have Coulomb and/or VdW forces : "<<myNonBondedOn<<" and some sort of PhysicsWhereYouWantIt : "<<myPhysicsWhereYouWantItActive<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "You have Coulomb and/or VdW forces : "<<myNonBondedOn<<" and some sort of PhysicsWhereYouWantIt : "<<myPhysicsWhereYouWantItActive<<endl);
     if (    myPhysicsWhereYouWantItActive && myNonBondedOn )
     {
-             cout<<__FILE__<<":"<<__LINE__<<" This is fine!"<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "This is fine!"<<endl);
     } else if (myPhysicsWhereYouWantItActive && (!( myNonBondedOn)) ) 
     {
-        ErrorManager::instance<<__FILE__<<":"<<__LINE__<<" You turned on Physics Where You Want It but don't have VdW or electrostatic interactions turned on!"<<endl;ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You turned on Physics Where You Want It but don't have VdW or electrostatic interactions turned on!"<<endl);
     } else if ((!(myPhysicsWhereYouWantItActive)) && myNonBondedOn) 
     {
-        cout<<__FILE__<<":"<<__LINE__<<" Warning!  you are using non-bonded force field terms, but have not specified a physics zone.  Therefore all atoms in your _system are included in the physics zone.  This could be expensive!"<<endl;
+        MMBLOG_FILE_FUNC_LINE(WARNING, " you are using non-bonded force field terms, but have not specified a physics zone.  Therefore all atoms in your _system are included in the physics zone.  This could be expensive!"<<endl);
     } else if ((!(myPhysicsWhereYouWantItActive)) && (!( myNonBondedOn)) ) 
     {
-             cout<<__FILE__<<":"<<__LINE__<<" This is fine!"<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "This is fine!"<<endl);
     } else 
     {
-        ErrorManager::instance<<__FILE__<<":"<<__LINE__<<" Unexplained error!"<<endl;ErrorManager::instance.treatError(); // Just being paranoid..
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl); // Just being paranoid..
     }
 
     //_parameterReader->myBiopolymerClassContainer.printAllIncludedResidues ( _parameterReader->physicsContainer.residueStretchVector ); //includeAllNonBondAtomsInResidueVector);
 
     ////////////// Reading included water droplet atoms //////////////
-    cout<<__FILE__<<":"<<__LINE__<<" About to read water droplet atoms, physicsWhereYouWantIt up to now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to read water droplet atoms, physicsWhereYouWantIt up to now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
     _parameterReader->waterDropletContainer.includeAllAtoms(_dumm);
     // this may be redundant .. should just do it once below:
-    cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
     _state = _system.realizeTopology();
 
     ////////////// Reading included monoAtoms (e.g. ions) //////////////
-    cout<<__FILE__<<":"<<__LINE__<<" About to read monoAtoms, physicsWhereYouWantIt up to now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to read monoAtoms, physicsWhereYouWantIt up to now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
     _parameterReader->myMonoAtomsContainer.includeAllAtoms(_dumm);
-    cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
     _state = _system.realizeTopology();
     ////////////// Reading moleculeClassContainer //////////////
-    cout<<__FILE__<<":"<<__LINE__<<" About to read moleculeClassContainer, physicsWhereYouWantIt up to now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to read moleculeClassContainer, physicsWhereYouWantIt up to now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
     _parameterReader->moleculeClassContainer.includeAllAtoms(_dumm);
-    cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
     _state = _system.realizeTopology();
 
-    cout<<__FILE__<<":"<<__LINE__<<" read directly specified residues + water droplet atoms, physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "read directly specified residues + water droplet atoms, physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
     //////////////////////////////////////////////////////////////////
     //DuMM::IncludedAtom 
     if (_parameterReader->verbose){
-    cout<<__FILE__<<":"<<__LINE__<<" Dumping "<<_dumm.getNumIncludedAtoms()<<" charged atom types: "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Dumping "<<_dumm.getNumIncludedAtoms()<<" charged atom types: "<<endl);
     //for (DuMM::NonbondAtomIndex  nbax (0); nbax<_dumm.getNumNonbondAtoms (); nbax++)
     for (DuMM::IncludedAtomIndex iax1 = DuMM::IncludedAtomIndex(0); iax1<_dumm.getNumIncludedAtoms (); iax1++)
     {
                    
         //DuMM::IncludedAtomIndex iax1 = _dumm.getIncludedAtomIndexOfNonbondAtom(nbax);
-        cout<<__FILE__<<":"<<__LINE__<<" partial charge:  "<<_dumm.getPartialCharge(iax1)<<" ";//<<endl;
-        cout<<__FILE__<<":"<<__LINE__<<" atom type name:  "<<_dumm.getChargedAtomName(iax1) <<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "partial charge:  "<<_dumm.getPartialCharge(iax1)<<" ");//<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "atom type name:  "<<_dumm.getChargedAtomName(iax1) <<endl);
     } 
     }
 }
@@ -824,15 +817,14 @@ void ConstrainedDynamics::createEventHandlers(){
         //
         if ((_parameterReader->thermostatType).compare("NoseHoover") == 0 ) { 
             Force::Thermostat  (_forces, _matter,SimTK_BOLTZMANN_CONSTANT_MD,_parameterReader->temperature,_parameterReader->noseHooverTime); //don't forget to set time constant back to 1.0.
-            cout<<__FILE__<<":"<<__LINE__<<" : Created Nose-Hoover thermostat."<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Created Nose-Hoover thermostat."<<endl);
         }
         else if ((_parameterReader->thermostatType).compare("VelocityRescaling") == 0 ) { 
             VelocityRescalingThermostat * myVelocityRescalingThermostat = new VelocityRescalingThermostat(_system,_parameterReader->temperature, _parameterReader->velocityRescalingInterval);
             _system.updDefaultSubsystem().addEventHandler(myVelocityRescalingThermostat);
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : Created velocity rescaling thermostat."<<endl;
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Created velocity rescaling thermostat."<<endl); // FIXME: Is the CRITICAL here actually correct?
         } else {
-          ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : Unrecognized thermostatType = "<<_parameterReader->thermostatType<<endl; 
-          ErrorManager::instance.treatError(); 
+          MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unrecognized thermostatType = "<<_parameterReader->thermostatType<<endl);
         }
     }
     //Force::GlobalDamper globalDamper(_forces,_matter,.001); // didn't seem to have an effect.  At .1 damping, it actually was sl wer.
@@ -853,7 +845,7 @@ void ConstrainedDynamics::createEventHandlers(){
     _system.updDefaultSubsystem().addEventHandler(myPeriodicPdbWriter);
 
     if (_parameterReader->setForceAndStericScrubber) {
-        cout<<__FILE__<<" : "<<__LINE__<<" _parameterReader->setForceAndStericScrubber = "<<_parameterReader->setForceAndStericScrubber<<", now activating scrubber." <<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->setForceAndStericScrubber = "<<_parameterReader->setForceAndStericScrubber<<", now activating scrubber." <<endl);
        
         PeriodicScrubber  * myPeriodicScrubber  = new PeriodicScrubber (_system,_forces,_dumm,(*_parameterReader),_parameterReader->scrubberPeriod/2);//,contacts,hc );//,  _parameterReader->scrubberPeriod/2,_parameterReader->dutyCycle);
         _system.updDefaultSubsystem().addEventHandler (myPeriodicScrubber );
@@ -879,8 +871,9 @@ void ConstrainedDynamics::initializeIntegrator(){
     else 
         if ((_parameterReader->integratorType).compare("Verlet"          )==0)
             _study = new VerletIntegrator(_system);
-        else
-            {cout<<"[Repel.h] You must specify an integratorType of one of the supported types!!!"<<endl;assert(0);}
+        else {
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "You must specify an integratorType of one of the supported types!!!" << endl);
+        }
 
     if (_parameterReader->useFixedStepSize)
         _study->setFixedStepSize(_parameterReader->integratorStepSize);
@@ -891,7 +884,7 @@ void ConstrainedDynamics::initializeIntegrator(){
     ////////////////////////////////////////////
 
     // have to realize topology since we've added periodic event handlers and reporters and other system objects.
-    cout<<__FILE__<<":"<<__LINE__<<" system.realizeTopology() "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
     _state = _system.realizeTopology();
 
     ////////////////////////////////////////////
@@ -905,21 +898,20 @@ void ConstrainedDynamics::initializeIntegrator(){
     if (_parameterReader->setInitialVelocities) 
     for (int i =0; i< _state.getNU(); i++)
             _state.updU()[i] =  rand() * .0001 / RAND_MAX ;
-    cout<<"[Repel.h:ConstrainedDynamics] Starting dynamics now."<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Starting dynamics now."<<endl);
     //cout<<"[Repel.h:ConstrainedDynamics] _study.getPredictedNextStepSize() " << (*_study).getPredictedNextStepSize()<<endl;
-    cout<<__FILE__<<":"<<__LINE__<<" size of _matter subsystem Q vector or number of degrees of freedom: "<<(_matter.getQ(_state)).size()<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "size of _matter subsystem Q vector or number of degrees of freedom: "<<(_matter.getQ(_state)).size()<<endl);
     if (_parameterReader->minimize) {
         if (_parameterReader->basePairContainer.numBasePairs() >0) {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error! If you want to minimize, you can't have any baseInteraction\'s!"<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "If you want to minimize, you can't have any baseInteraction\'s!"<<endl);
         } 
-        cout<<__FILE__<<":"<<__LINE__<<"Starting minimizer ..."<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Starting minimizer ..."<<endl);
         LocalEnergyMinimizer::minimizeEnergy(_system, _state, .001);
     } 
     _ts->initialize(_state);
-    cout<<__FILE__<<":"<<__LINE__<<" Force subsystem topology has been realized: "<<_forces.subsystemTopologyHasBeenRealized()    <<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Force subsystem topology has been realized: "<<_forces.subsystemTopologyHasBeenRealized()    <<endl);
 
-    cout<<__FILE__<<":"<<__LINE__<<" Matter subsystem mass = "<<_matter.calcSystemMass(_state)<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Matter subsystem mass = "<<_matter.calcSystemMass(_state)<<std::endl);
     
     _nextFrame = 1;
     _previousTimeStep = 0.0;
@@ -933,11 +925,11 @@ void ConstrainedDynamics::postDynamics(){
 
     _output.close();
 
-    cout<<"[Repel.h:ConstrainedDynamics] _study.getPreviousStepSizeTaken() " << (*_study).getPreviousStepSizeTaken()<<endl;
-    cout<<"[Repel.h:ConstrainedDynamics] (*_study).getPredictedNextStepSize() " <<(*_study).getPredictedNextStepSize()<<endl;
-    cout<<"[Repel.h:ConstrainedDynamics] (*_study).getActualInitialStepSizeTaken() " <<(*_study).getActualInitialStepSizeTaken()<<endl;
-    cout<<"[Repel.h:ConstrainedDynamics] (*_study).getNumStepsTaken() " << (*_study).getNumStepsTaken()<<endl;
-    cout<<"[Repel.h:ConstrainedDynamics] (*_study).getNumStepsAttempted() " <<(*_study).getNumStepsAttempted()<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "_study.getPreviousStepSizeTaken() " << (*_study).getPreviousStepSizeTaken()<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "(*_study).getPredictedNextStepSize() " <<(*_study).getPredictedNextStepSize()<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "(*_study).getActualInitialStepSizeTaken() " <<(*_study).getActualInitialStepSizeTaken()<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "(*_study).getNumStepsTaken() " << (*_study).getNumStepsTaken()<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "(*_study).getNumStepsAttempted() " <<(*_study).getNumStepsAttempted()<<endl);
     _state = _ts->getState();
     if (_parameterReader->writeLastFrameFile)
     {
@@ -965,7 +957,7 @@ void ConstrainedDynamics::postDynamics(){
             for (SimTK::CompoundSystem::CompoundIndex c(0); c < _system.getNumCompounds(); ++c)
             {
                 //==================================== Print log
-                std::cout <<__FILE__<<":"<<__LINE__<<" c = "<<c<< " compoundNumber = "<<compoundNumber <<std::endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "c = "<<c<< " compoundNumber = "<<compoundNumber <<endl);
                 
                 //==================================== Create new gemmi model for this compound
                 gemmi::Model gModel                   ( std::to_string( compoundNumber ) );
@@ -1011,8 +1003,7 @@ void ConstrainedDynamics::postDynamics(){
             //======================================== Write out CIF
             SimTK::CIFOut::writeOutCif                ( outStruct, _parameterReader->lastFrameFileName, _parameterReader->lastFileRemarks );
 #else
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file output, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl;
-            ErrorManager::instance.treatError         ( );
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Requested mmCIF file output, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl);
 #endif
         }
         else
@@ -1035,29 +1026,28 @@ void ConstrainedDynamics::postDynamics(){
         _study = NULL;
     }
 
-    cout<<__FILE__<<":"<<__LINE__<<" Stage "<<_parameterReader->currentStage<<" completed successfully! "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Stage "<<_parameterReader->currentStage<<" completed successfully! "<<endl);
 }
 
 void ConstrainedDynamics::runAllSteps() {
     if(getRemainingFramesNum() <= 0){
-        ErrorManager::instance << __FILE__ << " " << __FUNCTION__ << ": Cannot run more steps" << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot run more steps" << endl);
     }
 
     // Normal way to compute dynamics
     //_parameterReader->myBiopolymerClassContainer.printBiopolymerInfo();
     // _ts->stepTo(_parameterReader->numReportingIntervals*_parameterReader->reportingInterval);
-    cout<<__FILE__<<":"<<__LINE__<<" About to run time integrator for "<<_parameterReader->numReportingIntervals<< " reporting intervals, each of duration "<<_parameterReader->reportingInterval<<" ps "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to run time integrator for "<<_parameterReader->numReportingIntervals<< " reporting intervals, each of duration "<<_parameterReader->reportingInterval<<" ps "<<endl);
 
     // New way, to allow a step by step control later
         
     for(_nextFrame; _nextFrame <= _parameterReader->numReportingIntervals; _nextFrame++){
-        //cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+        //MMBLOG_FILE_FUNC_LINE(std::endl; 
         _ts->stepTo(_nextFrame*_parameterReader->reportingInterval);
         _state = _ts->getState();
-        //cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+        //MMBLOG_FILE_FUNC_LINE(std::endl; 
         if(_parameterReader->detectConvergence && _parameterReader->converged){
-            //cout<<__FILE__<<":"<<__LINE__<<std::endl; 
+            //MMBLOG_FILE_FUNC_LINE(std::endl; 
             _nextFrame = _parameterReader->numReportingIntervals;
         }
     }
@@ -1066,8 +1056,7 @@ void ConstrainedDynamics::runAllSteps() {
 
 unsigned int ConstrainedDynamics::runOneStep(){
     if(getRemainingFramesNum() <= 0){
-        ErrorManager::instance << __FILE__ << " " << __FUNCTION__ << ": Cannot run more steps" << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot run more steps" << endl);
     }
 
     double nextStep = _previousTimeStep + _parameterReader->reportingInterval;
@@ -1081,9 +1070,9 @@ unsigned int ConstrainedDynamics::runOneStep(){
 }
 
 void ConstrainedDynamics::initializeBodies(){
-    //cout<<__FILE__<<":"<<__LINE__<<endl;
+    //MMBLOG_FILE_FUNC_LINE(endl;
     initializeMoleculesAndBonds();
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     #ifdef USE_OPENMM
     setInterfaceMobilizers();
     #endif
@@ -1095,14 +1084,14 @@ void ConstrainedDynamics::initializeDynamics(){
     // This is where we call mobilizerContainer.addMobilizerStretchesToVector
     // This is where initializeAtomInfoVectors is called (at least when density map fitting is active): 
     // but note that initializeMoleculesAndBonds() precedes createState()
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); //   at this point ..
     initializeCustomForcesConstraints();
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     createEventHandlers();    
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     initializeIntegrator();    
-    cout<<__FILE__<<":"<<__LINE__<<" Net charge over "<<_dumm.getNumIncludedAtoms ()<<" atoms included in physics zone = "<< _dumm.getTotalIncludedCharge()<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Net charge over "<<_dumm.getNumIncludedAtoms ()<<" atoms included in physics zone = "<< _dumm.getTotalIncludedCharge()<<endl);
 }
 
 void ConstrainedDynamics::writeMMBPDB(std::ofstream & filestream){
@@ -1111,11 +1100,11 @@ void ConstrainedDynamics::writeMMBPDB(std::ofstream & filestream){
     SimbodyMatterSubsystem matter(system);
     DuMMForceFieldSubsystem dumm(system);
     _parameterReader->configureDumm(dumm);
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     initializeBiopolymersAndCustomMolecules(system);
     initializeMoleculesAndBonds(system, dumm, matter);
-    //cout<<__FILE__<<":"<<__LINE__<<endl;
-    //cout<<__FILE__<<":"<<__LINE__<<endl;
+    //MMBLOG_FILE_FUNC_LINE(endl;
+    //MMBLOG_FILE_FUNC_LINE(endl;
     // setInterfaceMobilizers(system, matter, state);
     // setMobilizers();
     createMultibodyTree(system, state);
@@ -1123,16 +1112,16 @@ void ConstrainedDynamics::writeMMBPDB(std::ofstream & filestream){
 }
 
 void ConstrainedDynamics::runDynamics() {
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     if (initializeBiopolymersAndCustomMolecules()){
-        cout<<__FILE__<<":"<<__LINE__<<" Warning: Returned an error from initializeBiopolymersAndCustomMolecules"<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(WARNING, "Returned an error from initializeBiopolymersAndCustomMolecules"<<endl);
         //exit(1) ;
     }
-    cout<<__FILE__<<":"<<__LINE__<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     initializeBodies();
-    //cout<<__FILE__<<":"<<__LINE__<<endl;
+    //MMBLOG_FILE_FUNC_LINE(endl;
      
-    //cout<<__FILE__<<":"<<__LINE__<<endl;
+    //MMBLOG_FILE_FUNC_LINE(endl;
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); //  Looks fine at this point ..
 
     initializeDynamics();

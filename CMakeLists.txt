@@ -184,7 +184,7 @@ SET(MMB_LIBRARY_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/DensityForce.cpp
     ${PROJECT_SOURCE_DIR}/src/ElectrostaticPotentialGridForce.cpp
     ${PROJECT_SOURCE_DIR}/src/MoleculeContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/ErrorManager.cpp 
+    ${PROJECT_SOURCE_DIR}/src/MMBLogger.cpp
     ${PROJECT_SOURCE_DIR}/src/PeriodicPdbAndEnergyWriter.cpp
     ${PROJECT_SOURCE_DIR}/src/CifOutput.cpp
     )

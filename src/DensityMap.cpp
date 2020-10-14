@@ -80,7 +80,7 @@ void DensityMap::validateGridParameters() {
         ( abs(((maxY-minY)/gridYSpacing +1) - totalNumGridY) > 1E-7  ) ||
         ( abs(((maxZ-minZ)/gridZSpacing +1) - totalNumGridZ) > 1E-7  ) 
        ) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<< " There is a problem with the max- , min- (XYZ) or totalNumGrid (XYZ) or grid (XYZ) Spacing parameters "<< ((maxX-minX)/gridXSpacing +1) - totalNumGridX <<endl;	
+        MMBLOG_FILE_FUNC_LINE(CRITICAL,  " There is a problem with the max- , min- (XYZ) or totalNumGrid (XYZ) or grid (XYZ) Spacing parameters "<< ((maxX-minX)/gridXSpacing +1) - totalNumGridX <<endl;	
         ErrorManager::instance.treatError();
     }*/
 }
@@ -123,8 +123,7 @@ bool        DensityMap::hasGridPoint(GridIndices myGridIndices){
 
 GridPoint & DensityMap::updGridPoint(GridIndices myGridIndices){
 		if (! hasGridPoint(myGridIndices)) {
-			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<	" No nearby grid point.  The point you requested "<< myGridIndices.getZGridIndex()<<" , "<<  myGridIndices.getYGridIndex()<<" , "<< myGridIndices.getXGridIndex() << " is off the density map.";
-			ErrorManager::instance.treatError();
+			MMBLOG_FILE_FUNC_LINE(CRITICAL, "No nearby grid point.  The point you requested "<< myGridIndices.getZGridIndex()<<" , "<<  myGridIndices.getYGridIndex()<<" , "<< myGridIndices.getXGridIndex() << " is off the density map."<<endl);
 		} else {
 			GridPoint & myGridPoint = ArrayOfGridPoints[myGridIndices.getZGridIndex()][myGridIndices.getYGridIndex()][myGridIndices.getXGridIndex()] ;
 			//myGridPoint.validate();
@@ -139,8 +138,7 @@ const GridPoint DensityMap::getGridPoint(GridIndices myGridIndices) const  {
    
 void	    DensityMap::validateGridPoint(GridIndices myGridIndices){
 			if (! hasGridPoint(myGridIndices)) {
-				ErrorManager::instance <<__FILE__<<":"<<__LINE__<<	" No nearby grid point.  The point you requested is off the density map.";
-				ErrorManager::instance.treatError();
+				MMBLOG_FILE_FUNC_LINE(CRITICAL, "No nearby grid point.  The point you requested is off the density map."<<endl);
 			} else validate(updGridPoint(myGridIndices));
 
 }
@@ -195,9 +193,9 @@ GridPoint & DensityMap::updGridPoint(Vec3 myPosition)  {
 }
 
 const double DensityMap::getDensity(Vec3 myPosition) {
-        //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<"Taking myPosition = "<<myPosition<<std::endl;
+        //MMBLOG_FILE_FUNC_LINE("Taking myPosition = "<<myPosition<<std::endl;
         Vec3 myFractionalVector = unitCellParameters.convertCartesianVectorToFractionalVector(myPosition);
-        //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<< myFractionalVector[0] <<", "<<  myFractionalVector[1]   <<", "<< myFractionalVector[2]   <<" ..preceding should be unitCellParameters.convertCartesianVectorToFractionalVector(myPosition)"<<std::endl;
+        //MMBLOG_FILE_FUNC_LINE( myFractionalVector[0] <<", "<<  myFractionalVector[1]   <<", "<< myFractionalVector[2]   <<" ..preceding should be unitCellParameters.convertCartesianVectorToFractionalVector(myPosition)"<<std::endl;
         if (!(unitCellParameters.fractionalVectorIsInsideMapBoundaries(myFractionalVector)))
 	{
 		return 0.0; //return zero density
@@ -212,11 +210,11 @@ const double DensityMap::getDensity(Vec3 myPosition) {
 //}
 void DensityMap::initializeArrayOfGridPoints(){
         //validateGridParameters();
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         unitCellParameters.validate();
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         initializeVectorOfAmplitudeAndRandomPhases();
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         Vec3 tempPosition(0,0,0);
         ArrayOfGridPoints.resize(unitCellParameters.getNc());
         for ( int zIndex = 0; zIndex < unitCellParameters.getNc(); zIndex++) {
@@ -239,18 +237,15 @@ void DensityMap::initializeArrayOfGridPoints(){
         			//ArrayOfGridPoints[zIndex, yIndex, xIndex] = tempGridPoint;			
         }}}
         if (ArrayOfGridPoints.size() != unitCellParameters.getNc()) {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Wrong number of grid points in Z direction! Found :"<< ArrayOfGridPoints.size()<<" expected : " << unitCellParameters.getNc()<<","<< unitCellParameters.getNc()<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of grid points in Z direction! Found :"<< ArrayOfGridPoints.size()<<" expected : " << unitCellParameters.getNc()<<","<< unitCellParameters.getNc()<<endl);
         }
         for ( int zIndex = 0; zIndex < unitCellParameters.getNc(); zIndex++) {
         	if (ArrayOfGridPoints[zIndex].size() != unitCellParameters.getNb()) {
-                   ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Wrong number of grid points in Y direction! Found :"<< ArrayOfGridPoints[zIndex].size()<<" expected : " << unitCellParameters.getNb()<<","<< unitCellParameters.getNc()<<endl;
-                    ErrorManager::instance.treatError();
+                   MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of grid points in Y direction! Found :"<< ArrayOfGridPoints[zIndex].size()<<" expected : " << unitCellParameters.getNb()<<","<< unitCellParameters.getNc()<<endl);
                 }
         	for ( int yIndex = 0; yIndex < unitCellParameters.getNb(); yIndex++) {
         	    if (ArrayOfGridPoints[zIndex][yIndex].size() != (unitCellParameters.getNa()) ) {
-        		             ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Wrong number of grid points in X direction! Found :"<< ArrayOfGridPoints[zIndex][yIndex].size()<<" expected : " << unitCellParameters.getNa()<<endl;
-                             ErrorManager::instance.treatError();
+        		             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of grid points in X direction! Found :"<< ArrayOfGridPoints[zIndex][yIndex].size()<<" expected : " << unitCellParameters.getNa()<<endl);
                 }
         	}
         } // of for zIndex
@@ -263,7 +258,7 @@ double plancksLaw(double temperature, double frequency){
     // pi and c are both taken to be unity
     // nu = 1/lambda
     //if (temperature >= 1000000){ 
-    //    std::cout<<__FILE__<<":"<<__LINE__<<" You have specified a very high temperature : "<<temperature<<" .. returning white noise spectrum"<<std::endl;  
+    //    MMBLOG_FILE_FUNC_LINE(" You have specified a very high temperature : "<<temperature<<" .. returning white noise spectrum"<<std::endl;  
     //    return 1.;
     //}
 
@@ -273,35 +268,32 @@ double plancksLaw(double temperature, double frequency){
 
 
 void DensityMap::resizeVectorOfAmplitudeAndRandomPhases(){ 
-        std::cout<<__FILE__<<":"<<__LINE__<<" resizing Z component vectorOfAmplitudeFrequencyAndRandomPhases to "<<(unitCellParameters.calcMaxFrequencyDoublingsZ () +1)<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "resizing Z component vectorOfAmplitudeFrequencyAndRandomPhases to "<<(unitCellParameters.calcMaxFrequencyDoublingsZ () +1)<<endl);
         vectorOfAmplitudeFrequencyAndRandomPhases.resize(unitCellParameters.calcMaxFrequencyDoublingsZ () +1);                                         
-        std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         for ( int zIndex = 0; zIndex <= unitCellParameters.calcMaxFrequencyDoublingsZ(); zIndex++) {
-                std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
-                std::cout<<__FILE__<<":"<<__LINE__<<" resizing  vectorOfAmplitudeFrequencyAndRandomPhases["<<zIndex <<"] to "<<(unitCellParameters.calcMaxFrequencyDoublingsZ () +1)<<std::endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, endl);
+                MMBLOG_FILE_FUNC_LINE(INFO, "resizing  vectorOfAmplitudeFrequencyAndRandomPhases["<<zIndex <<"] to "<<(unitCellParameters.calcMaxFrequencyDoublingsZ () +1)<<endl);
         	vectorOfAmplitudeFrequencyAndRandomPhases[zIndex].resize(unitCellParameters.calcMaxFrequencyDoublingsY () +1);
         	for ( int yIndex = 0; yIndex <=  unitCellParameters.calcMaxFrequencyDoublingsY(); yIndex++) {
-                    //std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
-                    //std::cout<<__FILE__<<":"<<__LINE__<<" resizing  vectorOfAmplitudeFrequencyAndRandomPhases["<<zIndex <<"]["<<yIndex<< "] to "<<(unitCellParameters.calcMaxFrequencyDoublingsX () +1)<<std::endl;
+                    //MMBLOG_FILE_FUNC_LINE(std::endl;
+                    //MMBLOG_FILE_FUNC_LINE(" resizing  vectorOfAmplitudeFrequencyAndRandomPhases["<<zIndex <<"]["<<yIndex<< "] to "<<(unitCellParameters.calcMaxFrequencyDoublingsX () +1)<<std::endl;
                     vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].resize(unitCellParameters.calcMaxFrequencyDoublingsX () +1);
         	}}
-        std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
 
         // Now make sure size was set correctly:
         if (vectorOfAmplitudeFrequencyAndRandomPhases.size() != (unitCellParameters.calcMaxFrequencyDoublingsZ()+1)) {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Wrong number of grid points in Z direction! Found :"<< vectorOfAmplitudeFrequencyAndRandomPhases.size()<<" expected : " << unitCellParameters.calcMaxFrequencyDoublingsZ()+1             <<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of grid points in Z direction! Found :"<< vectorOfAmplitudeFrequencyAndRandomPhases.size()<<" expected : " << unitCellParameters.calcMaxFrequencyDoublingsZ()+1             <<endl);
         }
         for ( int zIndex = 0; zIndex < unitCellParameters.calcMaxFrequencyDoublingsZ(); zIndex++) {
         	if (vectorOfAmplitudeFrequencyAndRandomPhases[zIndex].size() != (unitCellParameters.calcMaxFrequencyDoublingsY()+1) ) {
-                   ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Wrong number of grid points in Y direction! Found :"<< vectorOfAmplitudeFrequencyAndRandomPhases[zIndex].size()<<" expected : " << unitCellParameters.calcMaxFrequencyDoublingsY() +1            <<endl;
-                    ErrorManager::instance.treatError();
+                   MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of grid points in Y direction! Found :"<< vectorOfAmplitudeFrequencyAndRandomPhases[zIndex].size()<<" expected : " << unitCellParameters.calcMaxFrequencyDoublingsY() +1            <<endl);
                 }
         	for ( int yIndex = 0; yIndex < unitCellParameters.calcMaxFrequencyDoublingsY(); yIndex++) {
         	    if (vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].size() != (unitCellParameters.calcMaxFrequencyDoublingsX()+1 )) {
-                             std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
-        		     ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Check 1. Wrong number of grid points in X direction! Found :"<< vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].size()<<" expected : " <<unitCellParameters.calcMaxFrequencyDoublingsX()+1 <<endl;
-                             ErrorManager::instance.treatError();
+                             MMBLOG_FILE_FUNC_LINE(INFO, endl);
+        		     MMBLOG_FILE_FUNC_LINE(CRITICAL, "Check 1. Wrong number of grid points in X direction! Found :"<< vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].size()<<" expected : " <<unitCellParameters.calcMaxFrequencyDoublingsX()+1 <<endl);
                     }
         	}
         } // of for zIndex
@@ -319,8 +311,7 @@ void DensityMap::densityAutocorrelation(const bool computeNoiseAutocorrelation, 
     std::map <double ,autoCorrelationStruct> autoCorrelationMap;
     std::map <double ,autoCorrelationStruct>::iterator autoCorrelationMapIterator;
     if (!(computeNoiseAutocorrelation ^computeDensityAutocorrelation)){ // ^is XOR. So we demand that the user specify exactly one of computeNoiseAutocorrelation or computeDensityAutocorrelation, but not both.
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" You have specified computeNoiseAutocorrelation = "<<computeNoiseAutocorrelation<<" and computeDensityAutocorrelation = "<< computeDensityAutocorrelation << " .. you must specify exactly one of these." <<endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have specified computeNoiseAutocorrelation = "<<computeNoiseAutocorrelation<<" and computeDensityAutocorrelation = "<< computeDensityAutocorrelation << " .. you must specify exactly one of these." <<endl);
     }
     double distanceSquared = 0.;
     double xSquared = 0.;
@@ -333,7 +324,7 @@ void DensityMap::densityAutocorrelation(const bool computeNoiseAutocorrelation, 
     int yIndex2Corrected = 0;
     int zIndex2Corrected = 0;
 
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     for ( int xIndex1 = 0; xIndex1 < unitCellParameters.getNa();  xIndex1++){
         for ( int yIndex1 = 0; yIndex1 < unitCellParameters.getNb();  yIndex1++){
             for ( int zIndex1 = 0; zIndex1 < unitCellParameters.getNc();  zIndex1++)
@@ -369,28 +360,28 @@ void DensityMap::densityAutocorrelation(const bool computeNoiseAutocorrelation, 
                             autoCorrelationMapIterator = autoCorrelationMap.find(distanceSquared); 
                             if (autoCorrelationMapIterator != autoCorrelationMap.end()){autoCorrelationMapIterator->second.sumOfObservations += correlation;
                                 autoCorrelationMapIterator->second.numOfObservations ++;  
-                                //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"distanceSquared, sumCorrelation, numCorrelationObservations, correlation, "<<autoCorrelationMapIterator->first<<","<<autoCorrelationMapIterator->second.sumOfObservations <<","<<autoCorrelationMapIterator->second.numOfObservations<<","<<autoCorrelationMapIterator->second.sumOfObservations / autoCorrelationMapIterator->second.numOfObservations<<std::endl;
+                                //MMBLOG_FILE_FUNC_LINE("distanceSquared, sumCorrelation, numCorrelationObservations, correlation, "<<autoCorrelationMapIterator->first<<","<<autoCorrelationMapIterator->second.sumOfObservations <<","<<autoCorrelationMapIterator->second.numOfObservations<<","<<autoCorrelationMapIterator->second.sumOfObservations / autoCorrelationMapIterator->second.numOfObservations<<std::endl;
              
                             }
                             else {
                                 myAutoCorrelationStruct.sumOfObservations = correlation;
                                 myAutoCorrelationStruct.numOfObservations = 1;
                                 autoCorrelationMap.insert(std::make_pair(distanceSquared,myAutoCorrelationStruct));
-                                //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"distanceSquared, sumCorrelation, numCorrelationObservations, correlation, "<<distanceSquared<<","<<myAutoCorrelationStruct.sumOfObservations  <<","<<myAutoCorrelationStruct.numOfObservations<<std::endl;
+                                //MMBLOG_FILE_FUNC_LINE("distanceSquared, sumCorrelation, numCorrelationObservations, correlation, "<<distanceSquared<<","<<myAutoCorrelationStruct.sumOfObservations  <<","<<myAutoCorrelationStruct.numOfObservations<<std::endl;
                             }
 
                             autoCorrelationMap.insert(std::make_pair(distanceSquared,myAutoCorrelationStruct));
-                            //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " computeDensityAutocorrelation = " << computeDensityAutocorrelation <<" computeNoiseAutocorrelation = "<<computeNoiseAutocorrelation <<",  distanceSquared, correlation = ,"<<distanceSquared<<","<<correlation<<std::endl;
+                            //MMBLOG_FILE_FUNC_LINE( " computeDensityAutocorrelation = " << computeDensityAutocorrelation <<" computeNoiseAutocorrelation = "<<computeNoiseAutocorrelation <<",  distanceSquared, correlation = ,"<<distanceSquared<<","<<correlation<<std::endl;
     }}}}}}
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
-    std::cout<<std::string(40,'*')<<std::endl;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"   Starting autocorrelation section. "<<std::endl;
-    std::cout<<std::string(40,'*')<<std::endl;
-    std::cout<<"distanceSquared, sumCorrelation, numCorrelationObservations, correlation "<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, std::string(40,'*')<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "Starting autocorrelation section. "<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, std::string(40,'*')<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "distanceSquared, sumCorrelation, numCorrelationObservations, correlation "<<endl);
     for(autoCorrelationMapIterator = autoCorrelationMap.begin(); autoCorrelationMapIterator != autoCorrelationMap.end(); autoCorrelationMapIterator++){
-        std::cout<<autoCorrelationMapIterator->first<<","<<autoCorrelationMapIterator->second.sumOfObservations <<","<<autoCorrelationMapIterator->second.numOfObservations<<","<<autoCorrelationMapIterator->second.sumOfObservations / autoCorrelationMapIterator->second.numOfObservations<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, autoCorrelationMapIterator->first<<","<<autoCorrelationMapIterator->second.sumOfObservations <<","<<autoCorrelationMapIterator->second.numOfObservations<<","<<autoCorrelationMapIterator->second.sumOfObservations / autoCorrelationMapIterator->second.numOfObservations<<endl);
     }
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
 }
 
 void DensityMap::normalizeNoiseMap(const double totalNoiseEverywhere){
@@ -414,7 +405,7 @@ void DensityMap::normalizeNoiseMap(const double totalNoiseEverywhere){
                 newTotalNoiseEverywhere += updGridPoint(GridIndices(xIndex,yIndex,zIndex)).noise;
     }}}
     double signalToNoiseRatio = totalSignal / totalNoise;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " total signal = "<<totalSignal<<", total noise in dense regions = "<<totalNoise<<", total noise everywhere = "<<newTotalNoiseEverywhere<<",  signalToNoiseRatio (masked, dense regions only) = "<< signalToNoiseRatio << std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "total signal = "<<totalSignal<<", total noise in dense regions = "<<totalNoise<<", total noise everywhere = "<<newTotalNoiseEverywhere<<",  signalToNoiseRatio (masked, dense regions only) = "<< signalToNoiseRatio << endl);
     
 }
 
@@ -437,10 +428,10 @@ void DensityMap::populateNoiseMap(){
     double inverseNoiseTemperatureToPower4 = 1/pow(noiseTemperature,4); //Stefan–Boltzmann law says total radiance goes like T^4. So we normalize by this number to keep noise sort of constant with temperatuere. Of course our oven has a maximum wavenumber, so this won't be perfect.
     AmplitudeFrequencyAndRandomPhases myAmpFreqRandPhase;
     double myTotalVolume = unitCellParameters.totalVolume(); // compute this only once, cuz there are many operations (perhaps surprisingly)
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< "  unitCellParameters.totalVolume() = "<<  unitCellParameters.totalVolume() << std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "unitCellParameters.totalVolume() = "<<  unitCellParameters.totalVolume() << endl);
     for ( int xIndex = 0; xIndex < unitCellParameters.getNa();  xIndex++){
         
-        //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " xIndex = "<<xIndex <<  std::endl;
+        //MMBLOG_FILE_FUNC_LINE( " xIndex = "<<xIndex <<  std::endl;
         for ( int yIndex = 0; yIndex < unitCellParameters.getNb();  yIndex++){
             for ( int zIndex = 0; zIndex < unitCellParameters.getNc();  zIndex++){
                 updGridPoint(GridIndices(xIndex,yIndex,zIndex)).noise=0.;
@@ -448,9 +439,9 @@ void DensityMap::populateNoiseMap(){
                     for ( int yPhaseIndex = 1; yPhaseIndex <= unitCellParameters.calcMaxFrequencyDoublingsY () ;  yPhaseIndex++){
                         for ( int zPhaseIndex = 1; zPhaseIndex <= unitCellParameters.calcMaxFrequencyDoublingsZ () ;  zPhaseIndex++){
                             myAmpFreqRandPhase = vectorOfAmplitudeFrequencyAndRandomPhases[zPhaseIndex][yPhaseIndex][xPhaseIndex];
-                            //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< "  myAmpFreqRandPhase.phaseX = "<< myAmpFreqRandPhase.phaseX<<std::endl;
-                            //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< "  myAmpFreqRandPhase.phaseY = "<< myAmpFreqRandPhase.phaseY<<std::endl;
-                            //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< "  myAmpFreqRandPhase.phaseZ = "<< myAmpFreqRandPhase.phaseZ<<std::endl;
+                            //MMBLOG_FILE_FUNC_LINE( "  myAmpFreqRandPhase.phaseX = "<< myAmpFreqRandPhase.phaseX<<std::endl;
+                            //MMBLOG_FILE_FUNC_LINE( "  myAmpFreqRandPhase.phaseY = "<< myAmpFreqRandPhase.phaseY<<std::endl;
+                            //MMBLOG_FILE_FUNC_LINE( "  myAmpFreqRandPhase.phaseZ = "<< myAmpFreqRandPhase.phaseZ<<std::endl;
                             myNoise = //noiseScale  // this is the global noise scale. Moved this down so it is out of the inner loop.      
                                 myAmpFreqRandPhase.amplitude                                                                        //  amplitude for this wavenumber vector, taken from planck's law
                                 * sin(xIndex * unitCellParameters.geta() * myAmpFreqRandPhase.frequencyX + myAmpFreqRandPhase.phaseX) // position in X, times frequency in X, with random phase in X.
@@ -476,13 +467,13 @@ void DensityMap::populateNoiseMap(){
                 // updGridPoint(GridIndices(xIndex,yIndex,zIndex)).density += inverseNoiseTemperatureToPower4 * updGridPoint(GridIndices(xIndex,yIndex,zIndex)).noise; // Go ahead and add the noise to the density.
     }}} // of for zIndex, yIndex, xIndex
     if (averageNoise>0.) signalToNoiseRatio = averageSignal / averageNoise ; //signalToNoiseRatio / (unitCellParameters.getNa() * unitCellParameters.getNb() * unitCellParameters.getNc()); // Divide through by the total number of map points.
-    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< " total signal = "<<averageSignal<<", total noise in dense regions = "<<averageNoise<<", total noise everywhere = "<<totalNoiseEverywhere<<",  signalToNoiseRatio (masked, dense regions only) = "<< signalToNoiseRatio << std::endl;
+    //MMBLOG_FILE_FUNC_LINE( " total signal = "<<averageSignal<<", total noise in dense regions = "<<averageNoise<<", total noise everywhere = "<<totalNoiseEverywhere<<",  signalToNoiseRatio (masked, dense regions only) = "<< signalToNoiseRatio << std::endl;
     normalizeNoiseMap(totalNoiseEverywhere);
     // moved to Repel.cpp:
     //densityAutocorrelation(1,0); // Arguments are : calculate noise correlation = 1, calculate density corrleation = 0
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     //densityAutocorrelation(0,1);
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
 
 }
 
@@ -497,21 +488,21 @@ void DensityMap::populateNoiseMap(){
 
 void DensityMap::initializeVectorOfAmplitudeAndRandomPhases(){
         //validateGridParameters();
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         resizeVectorOfAmplitudeAndRandomPhases();
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         //validateVectorOfAmplitudeFrequencyAndRandomPhasesSize();
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         unitCellParameters.validate();
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         Vec3 tempPosition(0,0,0);	
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         AmplitudeFrequencyAndRandomPhases myAmpFreqPhase ;
         double myFrequency = 0.0;
         srand (time(NULL)); // initialize rand()
         // Just never access index 0 in x,y,z. Makes the math slightly easier.
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< "  unitCellParameters.geta() = "<<unitCellParameters.geta()<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< "  unitCellParameters.getNa() = "<<unitCellParameters.getNa()<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "unitCellParameters.geta() = "<<unitCellParameters.geta()<<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, "unitCellParameters.getNa() = "<<unitCellParameters.getNa()<<endl);
         for ( int xIndex = 1; xIndex <= unitCellParameters.calcMaxFrequencyDoublingsX ();xIndex++) {
                 for ( int yIndex = 1; yIndex <= unitCellParameters.calcMaxFrequencyDoublingsY ();yIndex++) {
                         for ( int zIndex = 1; zIndex <= unitCellParameters.calcMaxFrequencyDoublingsZ ();zIndex++) {
@@ -527,12 +518,12 @@ void DensityMap::initializeVectorOfAmplitudeAndRandomPhases(){
                             // There is actually a much faster way to take powers of 2: https://stackoverflow.com/questions/39693509/fast-integer-power-of-two
                             //myAmpFreqPhase.frequencyY = 2*(double)SimTK::Pi/(yIndex*unitCellParameters.getb());  
                             //myAmpFreqPhase.frequencyZ = 2*(double)SimTK::Pi/(zIndex*unitCellParameters.getc());  
-                            //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< "  myAmpFreqPhase.frequencyX = "<< myAmpFreqPhase.frequencyX <<std::endl;
-                            //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< "  myAmpFreqPhase.frequencyY = "<< myAmpFreqPhase.frequencyX <<std::endl;
-                            //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< "  myAmpFreqPhase.frequencyZ = "<< myAmpFreqPhase.frequencyX <<std::endl;
+                            //MMBLOG_FILE_FUNC_LINE( "  myAmpFreqPhase.frequencyX = "<< myAmpFreqPhase.frequencyX <<std::endl;
+                            //MMBLOG_FILE_FUNC_LINE( "  myAmpFreqPhase.frequencyY = "<< myAmpFreqPhase.frequencyX <<std::endl;
+                            //MMBLOG_FILE_FUNC_LINE( "  myAmpFreqPhase.frequencyZ = "<< myAmpFreqPhase.frequencyX <<std::endl;
                             myFrequency=  (sqrt(myAmpFreqPhase.frequencyX*myAmpFreqPhase.frequencyX + myAmpFreqPhase.frequencyY*myAmpFreqPhase.frequencyY + myAmpFreqPhase.frequencyZ*myAmpFreqPhase.frequencyZ )) ;
                             myAmpFreqPhase.amplitude = plancksLaw(noiseTemperature, myFrequency);
-                            //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< "wavenumber doublings x,y,z, noiseTemperature, myFrequency,freqX,freqY,freqZ, plancksLaw(noiseTemperature, myFrequency) =              "<<","<< xIndex <<","<< yIndex <<","<<zIndex <<","  <<noiseTemperature<<","<<myFrequency<<",>"<<  myAmpFreqPhase.frequencyX<<","<<   myAmpFreqPhase.frequencyY  <<","<< myAmpFreqPhase.frequencyZ <<"<,"<<    myAmpFreqPhase.amplitude<<std::endl  ;
+                            //MMBLOG_FILE_FUNC_LINE( "wavenumber doublings x,y,z, noiseTemperature, myFrequency,freqX,freqY,freqZ, plancksLaw(noiseTemperature, myFrequency) =              "<<","<< xIndex <<","<< yIndex <<","<<zIndex <<","  <<noiseTemperature<<","<<myFrequency<<",>"<<  myAmpFreqPhase.frequencyX<<","<<   myAmpFreqPhase.frequencyY  <<","<< myAmpFreqPhase.frequencyZ <<"<,"<<    myAmpFreqPhase.amplitude<<std::endl  ;
                             // random phases in radians:
                             myAmpFreqPhase.phaseX = rand() / (double)RAND_MAX * SimTK::Pi * 2.0; // Have to cast (double)RAND_MAX to prevent the result of the division from being cast as int.
                             myAmpFreqPhase.phaseY = rand() / (double)RAND_MAX * SimTK::Pi * 2. ;
@@ -540,9 +531,9 @@ void DensityMap::initializeVectorOfAmplitudeAndRandomPhases(){
                             //myAmpFreqPhase.phaseX = 0.;
                             //myAmpFreqPhase.phaseY = 0.;
                             //myAmpFreqPhase.phaseZ = 0.;
-                            //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" setting vectorOfAmplitudeFrequencyAndRandomPhases"<<zIndex<<","<<   yIndex <<","<<  xIndex<<std::endl;
+                            //MMBLOG_FILE_FUNC_LINE(" setting vectorOfAmplitudeFrequencyAndRandomPhases"<<zIndex<<","<<   yIndex <<","<<  xIndex<<std::endl;
                             vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex][xIndex]=myAmpFreqPhase;  
-                            //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+                            //MMBLOG_FILE_FUNC_LINE(std::endl;
         }}}
         //validateVectorOfAmplitudeFrequencyAndRandomPhasesSize()
 }
@@ -556,13 +547,11 @@ void DensityMap::loadParametersAndDensity(const String densityFileName)
         loadParametersAndDensity_XPLOR(densityFileName);
     else if(extension == ".dx")
         { //loadParametersAndDensity_OpenDX(densityFileName);
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unable to open density map : "<<densityFileName<<" .. DX is not a supported format at the moment."<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open density map : "<<densityFileName<<" .. DX is not a supported format at the moment."<<endl);
         }
     else if(extension == ".situs" || extension == ".sit")
         {//loadParametersAndDensity_Situs(densityFileName);
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unable to open density map : "<<densityFileName<<" .. Situs is nota  supported format at the moment"<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open density map : "<<densityFileName<<" .. Situs is nota  supported format at the moment"<<endl);
         }
     else if (extension == ".map"    || extension == ".ccp4"    || extension == ".mrc"    ||
              extension == ".map.gz" || extension == ".ccp4.gz" || extension == ".mrc.gz" )
@@ -570,14 +559,13 @@ void DensityMap::loadParametersAndDensity(const String densityFileName)
 #ifdef GEMMI_USAGE
         loadParametersAndDensity_CCP4MAP              ( densityFileName );
 #else
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unable to open density map : "<<densityFileName<<" .. CCP4 maps loading feature was not allowed when MMB installation was done on this machine."<<endl;
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open density map : "<<densityFileName<<" .. CCP4 maps loading feature was not allowed when MMB installation was done on this machine."<<endl);
         ErrorManager::instance.treatError();
 #endif
     }
     else
     {
-        ErrorManager::instance << "DensityMap: Extension unknown for " << densityFileName << endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "DensityMap: Extension unknown for " << densityFileName << endl);
     }
 }
 
@@ -702,8 +690,7 @@ void DensityMap::loadParametersAndDensity_XPLOR(const String densityFileName) {
         	String tempString;
         if (! (inFile.is_open())) {
 
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unable to open density map : "<<densityFileName<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open density map : "<<densityFileName<<endl);
         }
         readAndParseLine  (inFile); // line 1. this is expected to be a blank line
         mystring =readAndParseLine  (inFile); // line 2. This should have number of following remark/title lines. then the title itself. We will need the number of blank lines.
@@ -734,23 +721,22 @@ void DensityMap::loadParametersAndDensity_XPLOR(const String densityFileName) {
         unitCellParameters.setAlphaUsingDegrees(atof(mystring[3].c_str()));
         unitCellParameters.setBetaUsingDegrees (atof(mystring[4].c_str()));
         unitCellParameters.setGammaUsingDegrees(atof(mystring[5].c_str()));
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         unitCellParameters.setDeOrthogonalizationMatrix ();
         //unitCellParameters.setOrthogonalizationMatrix ();
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         initializeArrayOfGridPoints();
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         mystring = readAndParseLine  (inFile);
-        if ((mystring[0]).compare("ZYX") != 0    ) {ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"expected ZYX, got :"<<mystring[0]<<endl; ErrorManager::instance.treatError();}
+        if ((mystring[0]).compare("ZYX") != 0    ) {MMBLOG_FILE_FUNC_LINE(CRITICAL, "expected ZYX, got :"<<mystring[0]<<endl);}
 
 
         for ( int zIndex = 0; zIndex < unitCellParameters.getNc(); zIndex ++) {
         	// read z-index
-                //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" unitCellParameters.getNc() " <<unitCellParameters.getNc()<<std::endl;
+                //MMBLOG_FILE_FUNC_LINE(" unitCellParameters.getNc() " <<unitCellParameters.getNc()<<std::endl;
                 mystring = readAndParseLine  (inFile);
         	if (atoi ((mystring[0].c_str())) != zIndex) {
-        			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Something is wrong with the input file reading.  expected to read zIndex "<<zIndex<< " and instead read : "<<mystring[0]<<endl;
-        		ErrorManager::instance.treatError();
+        			MMBLOG_FILE_FUNC_LINE(CRITICAL, "Something is wrong with the input file reading.  expected to read zIndex "<<zIndex<< " and instead read : "<<mystring[0]<<endl);
         	}	
         	
 
@@ -758,11 +744,10 @@ void DensityMap::loadParametersAndDensity_XPLOR(const String densityFileName) {
         	for ( int xIndex = 0; xIndex < unitCellParameters.getNa(); xIndex = xIndex + 0) 
 
         	{
-                        //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+                        //MMBLOG_FILE_FUNC_LINE(std::endl;
         		mystring = readAndParseOnColWidth (inFile,12);
         		if ((int)mystring.size() > densitiesPerLine) {
-        			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Too many densities on this line!  expected "<<densitiesPerLine<< "and found "<<mystring.size()<<endl;
-        			ErrorManager::instance.treatError();
+        			MMBLOG_FILE_FUNC_LINE(CRITICAL, "Too many densities on this line!  expected "<<densitiesPerLine<< "and found "<<mystring.size()<<endl);
         		}
         		//xIndex --;
         		for (int i = 0; i<(int)mystring.size() ;i++) {
@@ -771,19 +756,18 @@ void DensityMap::loadParametersAndDensity_XPLOR(const String densityFileName) {
         			{
         				GridIndices centralGridIndices((xIndex ),  yIndex, zIndex);
         				GridPoint & centralGridPoint = updGridPoint(centralGridIndices);
-                                        //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" For point xIndex, yIndex, zIndex : "<<  xIndex<<", "<< yIndex<<", "<< zIndex<<" setting density to "<<mystring[i].c_str()<<std::endl;
+                                        //MMBLOG_FILE_FUNC_LINE(" For point xIndex, yIndex, zIndex : "<<  xIndex<<", "<< yIndex<<", "<< zIndex<<" setting density to "<<mystring[i].c_str()<<std::endl;
 
         				setDensity(centralGridPoint, atof(mystring[i].c_str()));	
         			} else{ 
-        				ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Something went wrong .. too many densities !  "<<endl;
-        				ErrorManager::instance.treatError();
+        				MMBLOG_FILE_FUNC_LINE(CRITICAL, " Something went wrong .. too many densities !  "<<endl);
         		        }
         			xIndex++;
         		}
         		
         	}
         } // of zIndex
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
         inFile.close();
 }
 
@@ -791,13 +775,12 @@ void incrementer(int & myIndex, const int maxIndex) {
     if (myIndex < maxIndex) myIndex ++;
     if (myIndex == maxIndex) {myIndex = 0;}
     if (myIndex > maxIndex) {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unexplained error! index of  "<<myIndex<<" exceeds maximum of "<<maxIndex<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error! index of  "<<myIndex<<" exceeds maximum of "<<maxIndex<<endl);
     }
 }
 
 void incrementer(int & xIndex, const int maxX, int & yIndex, const int maxY, int & zIndex, const int maxZ, int & counter, const int maxCounter){
-    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex, maxX : "<<xIndex<<", "<<maxX <<" yIndex, maxY : "<<yIndex<<", "<<maxY <<" zIndex, maxZ : "<<zIndex<<", "<<maxZ<<std::endl;
+    //MMBLOG_FILE_FUNC_LINE(" xIndex, maxX : "<<xIndex<<", "<<maxX <<" yIndex, maxY : "<<yIndex<<", "<<maxY <<" zIndex, maxZ : "<<zIndex<<", "<<maxZ<<std::endl;
     incrementer(xIndex, maxX);
     if (xIndex == 0) {incrementer(yIndex,maxY);} // if x rolls over, then increment y
     if ((yIndex == 0) && (xIndex == 0)) {
@@ -813,8 +796,7 @@ void DensityMap::writeDensityMapXplor(const String densityFileName, const bool w
        	stringstream u;
        	String tempString;
         if (! (outFile.is_open())) {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unable to open density map : "<<densityFileName<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open density map : "<<densityFileName<<endl);
         }
         outFile <<std::endl; // write blank line out.
         outFile << "0 !NTITLE"<< std::endl; // Number of lines to skip
@@ -822,7 +804,7 @@ void DensityMap::writeDensityMapXplor(const String densityFileName, const bool w
         outFile <<unitCellParameters.getNa()<<" "<< unitCellParameters. getaMin()<<" "<< unitCellParameters.getaMax()<<" " <<unitCellParameters.getNb()<<" "<< unitCellParameters.getbMin()<<" "<< unitCellParameters.getbMax()<<" " <<unitCellParameters.getNc()<<" "<< unitCellParameters.getcMin()<<" "<< unitCellParameters.getcMax()<<std::endl;
         outFile << 10*unitCellParameters.geta()*(unitCellParameters.getNa() - 1) <<" " << 10*unitCellParameters.getb()*(unitCellParameters.getNb() - 1)<<" " <<10*unitCellParameters.getc()*(unitCellParameters.getNc() - 1) << " " << unitCellParameters.getAlpha() / SimTK::Pi * 180.0  << " " << unitCellParameters.getBeta() / SimTK::Pi * 180.0  << " " << unitCellParameters.getGamma() / SimTK::Pi * 180.0  <<std::endl;
         
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, std::endl);
         outFile << "ZYX"; //<<std::endl;
 
         int xIndex = 0; 
@@ -832,19 +814,19 @@ void DensityMap::writeDensityMapXplor(const String densityFileName, const bool w
                  bool keepGoing = 1;
                  while(keepGoing)
                  {
-                     //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
+                     //MMBLOG_FILE_FUNC_LINE(" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
                      if ((yIndex == 0) && (xIndex == 0)) {
                          if (counter !=0) {outFile <<std::endl; // Carriage return. To terminate the incomplete density line.     .
                              counter = 0;
                          }
-                         std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
+                         MMBLOG_FILE_FUNC_LINE(INFO, "xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<endl);
                          outFile <<std::endl; // Carriage return.
                          outFile <<zIndex<<std::endl;
                      } else if (counter == 0 ){
-                         //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
+                         //MMBLOG_FILE_FUNC_LINE(" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
                          outFile <<std::endl; // Carriage return. but only if we did not just print zIndex above.
                      }
-                     //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
+                     //MMBLOG_FILE_FUNC_LINE(" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
                      // Write a density:
                      GridIndices centralGridIndices((xIndex ),  yIndex, zIndex);
                      GridPoint & centralGridPoint = updGridPoint(centralGridIndices);
@@ -854,7 +836,7 @@ void DensityMap::writeDensityMapXplor(const String densityFileName, const bool w
                       
 
                      if ((zIndex == 0) && (yIndex == 0) && (xIndex == 0)) {
-                         //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
+                         //MMBLOG_FILE_FUNC_LINE(" xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<std::endl;
                          keepGoing = 0;  // All numbers have rolled over.  exit while
                          //zIndex =  unitCellParameters.getNc(); // exit while
                      }
@@ -880,7 +862,7 @@ void DensityMap::loadParametersAndDensity_Situs(const String densityFileName) {
             String tempString;
         if (! (inFile.is_open())) {
 
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Unable to open density map : "<<densityFileName<<endl;
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, " Unable to open density map : "<<densityFileName<<endl;
             ErrorManager::instance.treatError();
         }
         mystring = readAndParseLine  (inFile);
@@ -929,7 +911,7 @@ void DensityMap::loadParametersAndDensity_Situs(const String densityFileName) {
                     mystring = readAndParseLine(inFile);
                     if ((int)mystring.size()-1 > densitiesPerLine) {
                         cout << __FILE__<<":"<<__LINE__<<": " << mystring[0]<< " " << mystring[10] << endl;
-                        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Too many densities on this line!  expected "<<densitiesPerLine<< " and found "<<mystring.size()<<endl;
+                        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Too many densities on this line!  expected "<<densitiesPerLine<< " and found "<<mystring.size()<<endl;
                         ErrorManager::instance.treatError();
                     }
                     //xIndex --;
@@ -944,7 +926,7 @@ void DensityMap::loadParametersAndDensity_Situs(const String densityFileName) {
                             setDensity(centralGridPoint, atof(mystring[i].c_str()));    
                         } else{
                             cout <<  xIndex+1 + (yIndex*totalNumGridX) << " " << totalNumGridX* totalNumGridY << endl;
-                            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Something went wrong .. too many densities !  "<<endl;
+                            MMBLOG_FILE_FUNC_LINE(CRITICAL, " Something went wrong .. too many densities !  "<<endl;
                             ErrorManager::instance.treatError();
                             }
                         xIndex++;
@@ -1066,13 +1048,13 @@ Vec3 DensityMap::fetchGradient(Vec3 position)  {
      			        initialize(myGridPoint);
 				setPositiveXGradient(myGridPoint,(getDensity(updGridPoint(GridIndices(myNearestGridIndices.getXGridIndex() +1,  myNearestGridIndices.getYGridIndex() , myNearestGridIndices.getZGridIndex() ))) - 0.) / unitCellParameters.geta()) ;	
          			
-          			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" this function is obsolete, fetchGradient doesn't work anymore"<<endl;
+          			MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is obsolete, fetchGradient doesn't work anymore"<<endl;
         			ErrorManager::instance.treatError();
                          } else if (hasGridPoint(GridIndices (myNearestGridIndices.getXGridIndex()-1, myNearestGridIndices.getYGridIndex(),myNearestGridIndices.getZGridIndex()))) {
                                 GridPoint myGridPoint; 
      			        initialize(myGridPoint);
 				setNegativeXGradient(myGridPoint,(0. - getDensity(updGridPoint(GridIndices(myNearestGridIndices.getXGridIndex() -1,  myNearestGridIndices.getYGridIndex() , myNearestGridIndices.getZGridIndex() )))) / gridXSpacing) ;	 
-          			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" this function is obsolete, fetchGradient doesn't work anymore"<<endl;
+          			MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is obsolete, fetchGradient doesn't work anymore"<<endl;
         			ErrorManager::instance.treatError();
                          } else if (hasGridPoint(GridIndices (myNearestGridIndices.getXGridIndex(), myNearestGridIndices.getYGridIndex()+1,myNearestGridIndices.getZGridIndex()))) {
                                 GridPoint myGridPoint; 
@@ -1217,7 +1199,7 @@ Quadrant DensityMap::calcQuadrant(GridPoint & gridPoint, Vec3 queryPosition) con
 Vec3 DensityMap::fetchGradient(GridPoint & gridPoint,Vec3 queryPosition) const {
 		Quadrant tempQuadrant = calcQuadrant(gridPoint,queryPosition);
 		Vec3 myGradient;
-          	ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" this function is obsolete, fetchGradient doesn't work anymore"<<endl;
+          	MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is obsolete, fetchGradient doesn't work anymore"<<endl;
         	ErrorManager::instance.treatError();
 		return myGradient;
 
@@ -1236,7 +1218,7 @@ double DensityMap::getDensity( GridPoint & gridPoint, Vec3 queryPosition) const	
                 Vec3 myVectorToGridMap = queryPosition - gridPoint.position;
                 Vec3 myGradient = calcInterpolatedFirstQuadrantGradient(gridPoint,  queryPosition); 
                 double myDensity =  (gridPoint.density + (myGradient[0]* myVectorToGridMap[0])  + (myGradient[1]* myVectorToGridMap[1]) + (myGradient[2]* myVectorToGridMap[2]));
-                //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Returning interpolated density of : "<<myDensity<<std::endl;
+                //MMBLOG_FILE_FUNC_LINE(" Returning interpolated density of : "<<myDensity<<std::endl;
                 return myDensity;
 }
 
@@ -1257,44 +1239,45 @@ void DensityMap::setddyPositiveZGradient(GridPoint & gridPoint,Real value) { gri
 void DensityMap::setddzPositiveZGradient(GridPoint & gridPoint,Real value) { gridPoint.ddzPositiveZGradient = (float)value; }
 
 void DensityMap::printSecondDerivatives(GridPoint & gridPoint) const {
-    std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Printing gridPoint.ddyPositiveXGradient, gridPoint.ddzPositiveXGradient : "
-        <<gridPoint.ddyPositiveXGradient <<" "<<gridPoint.ddzPositiveXGradient<<std::endl;
-    std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Printing gridPoint.ddxPositiveYGradient, gridPoint.ddzPositiveYGradient : "
-        <<gridPoint.ddxPositiveYGradient <<" "<<gridPoint.ddzPositiveYGradient<<std::endl;
-    std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Printing gridPoint.ddxPositiveZGradient, gridPoint.ddyPositiveZGradient : "
-        <<gridPoint.ddxPositiveZGradient <<" "<<gridPoint.ddyPositiveZGradient<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Printing gridPoint.ddyPositiveXGradient, gridPoint.ddzPositiveXGradient : "
+        <<gridPoint.ddyPositiveXGradient <<" "<<gridPoint.ddzPositiveXGradient<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "Printing gridPoint.ddxPositiveYGradient, gridPoint.ddzPositiveYGradient : "
+        <<gridPoint.ddxPositiveYGradient <<" "<<gridPoint.ddzPositiveYGradient<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "Printing gridPoint.ddxPositiveZGradient, gridPoint.ddyPositiveZGradient : "
+        <<gridPoint.ddxPositiveZGradient <<" "<<gridPoint.ddyPositiveZGradient<<endl);
 }
 
 void DensityMap::setNegativeXGradient(GridPoint & gridPoint,Real myNegativeXGradient) { 
-        //ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" this function is only for calculating the gradient in the first quadrant"<<endl;
-        ErrorManager::instance.treatError();}
+        //MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is only for calculating the gradient in the first quadrant"<<endl;
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, ""); //Seriously????
+}
 void DensityMap::setNegativeYGradient(GridPoint & gridPoint,Real myNegativeYGradient) { 
-        //ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" this function is only for calculating the gradient in the first quadrant"<<endl;
-        ErrorManager::instance.treatError();}
+        //MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is only for calculating the gradient in the first quadrant"<<endl;
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, ""); //Seriously????
+}
 void DensityMap::setNegativeZGradient(GridPoint & gridPoint,Real myNegativeZGradient) { 
-        //ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" this function is only for calculating the gradient in the first quadrant"<<endl;
-        ErrorManager::instance.treatError();}
+        //MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is only for calculating the gradient in the first quadrant"<<endl;
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, ""); //Seriously????
+}
 /*void DensityMap::setFirstQuadrantGradient(GridPoint & gridPoint,Vec3 gradient){
         cout<<__FILE__<<":"<<__LINE__<<" Setting firstQuadrantGradient to "<<gradient<<" for grid point at position : "<<gridPoint.position <<endl;
         gridPoint.firstQuadrantGradient = gradient;
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" this function is obsolete!"<<endl;
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is obsolete!"<<endl;
         ErrorManager::instance.treatError();
 
     }*/
 Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint,Vec3 queryPosition) const {
-    //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;
+    //MMBLOG_FILE_FUNC_LINE(std::endl;
     Vec3 dxdydz = unitCellParameters.convertFractionalVectorToFractionFromLowerLeft(unitCellParameters.convertCartesianVectorToFractionalVector(queryPosition)); //queryPosition - gridPoint.position; // the first term is the query position, the second term is the grid point position in cartesian space
     if ((dxdydz[0] < 0) || (dxdydz[1] <0 ) || (dxdydz[2] < 0)) { // see if we can make this trap unnecessary implicitly
 
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" this function is only for calculating the gradient in the first quadrant"<<endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "this function is only for calculating the gradient in the first quadrant"<<endl);
     }
     if ((dxdydz[0] > 1.0) || (dxdydz[1] >1.0 ) || (dxdydz[2] > 1.0)) { // see if we can make this trap unnecessary implicitly
-        std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" dxdydz = "<<dxdydz<<std::endl;
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" this function is only for calculating the gradient in the first quadrant, and only within the cell in question. This value goes outside the voxel."<<endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(INFO, " dxdydz = "<<dxdydz<<endl);
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "this function is only for calculating the gradient in the first quadrant, and only within the cell in question. This value goes outside the voxel."<<endl);
     }
-    //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" dxdydz = "<<dxdydz<<std::endl;
+    //MMBLOG_FILE_FUNC_LINE(" dxdydz = "<<dxdydz<<std::endl;
     //printSecondDerivatives(gridPoint);
     Vec3 myGradient;
     myGradient[0] = fetchFirstQuadrantGradient(gridPoint)[0] ; //                                           + gridPoint.ddyPositiveXGradient*dxdydz[1] + gridPoint.ddzPositiveXGradient*dxdydz[2];

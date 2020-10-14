@@ -21,7 +21,7 @@
 #include <cstddef>
 #include "SimTKsimbody.h"
 #include "SimTKmolmodel.h"
-#include "ErrorManager.h"
+#include "MMBLogger.h"
 #include "RealVec.h"
 #include "ReferenceNeighborList.h"
 #include <seqan/align.h>
@@ -138,7 +138,7 @@ public:
     ResidueID() { ResidueNumber = 0;  InsertionCode = ' ' ;};
     ResidueID(int residueNumber, char insertionCode) { ResidueNumber = residueNumber; InsertionCode = insertionCode;};
     ResidueID( map<const String,double> myUserVariables,  const char* value) { // Allow the user to provide a user-configured variable, starting with '@'
-        std::cout<<__FILE__<<":"<<__LINE__<<""<<std::endl; 
+	MMBLOG_FILE_LINE(DEBUG, std::endl);
         ResidueNumber = myAtoI( myUserVariables, value );
         InsertionCode = ' ';    
     }
@@ -155,9 +155,8 @@ public:
                     
                     ) { // everything is OK!  
                     } else {
-                        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error!  You have an unallowed character \'"<<inputString.substr(i,1).c_str()[0]<< "\' in your residue ID : \'"<<inputString<<endl;
-                        ErrorManager::instance.treatError();
-                }  
+                        MMBLOG_FILE_LINE(CRITICAL, " Error!  You have an unallowed character \'"<<inputString.substr(i,1).c_str()[0]<< "\' in your residue ID : \'"<<inputString<<endl);
+                }
             }
         if (
             isdigit((inputString.substr(stringLength-1, 1)).c_str()[0] )   // if last character in the string is 0-9.
@@ -167,15 +166,13 @@ public:
         }
         else {  // last character is not 0-9, but rather another character.
                 if (stringLength < 2) {  // if the last char is an insertion code, the string should be at least two characters long -- at least one digit for the residue number, even if it's 0.
-                    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : Something is wrong!  The last character looks like an insertion code, but there are no digits preceding it!  Valid ResidueID's look like e.g. 1 , 10B , 121P.  Not 10 B , Y , etc."<<std::endl; 
-                    ErrorManager::instance.treatError();
+                    MMBLOG_FILE_LINE(CRITICAL, " : Something is wrong!  The last character looks like an insertion code, but there are no digits preceding it!  Valid ResidueID's look like e.g. 1 , 10B , 121P.  Not 10 B , Y , etc."<<std::endl);
                 }
 
         if (
             !isdigit((inputString.substr(stringLength-2, 1)).c_str()[0] )   // if last character in the string is NOT 0-9.
             ){
-                    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : Something is wrong!  The last character looks like an insertion code, but the penultimate one is not a digit!  Valid ResidueID's look like e.g. 1 , 10B , 121P.  Not 10 B , Y , etc."<<std::endl; 
-                    ErrorManager::instance.treatError();
+                    MMBLOG_FILE_LINE(CRITICAL, " : Something is wrong!  The last character looks like an insertion code, but the penultimate one is not a digit!  Valid ResidueID's look like e.g. 1 , 10B , 121P.  Not 10 B , Y , etc."<<std::endl);
                 }
             insertionCode =  *(inputString.substr(stringLength-1, 1).c_str());
             residueNumber =   atoi( ((inputString.substr(0, stringLength-1) ).c_str()));
@@ -219,13 +216,11 @@ public:
         // setw only affects the NEXT value (ResidueNumber).  hence the 4 here:
         myStringStream << std::setw(totalWidth-2)<< ResidueNumber<<InsertionCode;
         if ((myStringStream.str()).length() != (totalWidth - 1)) {
-                ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : Something is wrong!  The residue number + insertion code should be padded to be exactly 5 characters long. You have: >"<<myStringStream.str() <<"< " <<std::endl; 
-                ErrorManager::instance.treatError();
+                MMBLOG_FILE_LINE(CRITICAL, " : Something is wrong!  The residue number + insertion code should be padded to be exactly 5 characters long. You have: >"<<myStringStream.str() <<"< " <<std::endl);
         }
         String outString = chainID + myStringStream.str();
         if ((outString).length() != totalWidth) {
-                ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : Something is wrong!  The chain ID + residue number + insertion code string should be padded to be exactly 6 characters long. You have: >"<<outString <<"< " <<std::endl; 
-                ErrorManager::instance.treatError();
+                MMBLOG_FILE_LINE(CRITICAL, " : Something is wrong!  The chain ID + residue number + insertion code string should be padded to be exactly 6 characters long. You have: >"<<outString <<"< " <<std::endl);
         }
         return outString;
         /*else 
@@ -472,20 +467,20 @@ class     NTC_Classes {
                int    meta = 0;
                int    count = 0;
     void print(){
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Printing parameters for NtC:"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" NtC_FirstBPChain = >"<<NtC_FirstBPChain<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" FirstBPResidue = >"<<FirstBPResidue.outString()<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" SecondBPResidue = >"<<SecondBPResidue.outString()<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" NtC_step_ID = >"<<NtC_step_ID<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" NtC_Class_String = >"<<NtC_Class_String<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" NtC_INDEX = >"<<NtC_INDEX<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" rotationCorrection1 = >"<<rotationCorrection1<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" rotationCorrection2 = >"<<rotationCorrection2<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" translationCorrection1 = >"<<translationCorrection1<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" translationCorrection2 = >"<<translationCorrection2<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" NTC_PAR_BondRowIndex = >"<<NTC_PAR_BondRowIndex<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" meta = >"<<meta<<"<"<<std::endl;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" count = >"<<count<<"<"<<std::endl;
+        MMBLOG_PLAIN(INFO, " Printing parameters for NtC:"<<std::endl
+        << " NtC_FirstBPChain = >"<<NtC_FirstBPChain<<"<"<<std::endl
+        << " FirstBPResidue = >"<<FirstBPResidue.outString()<<"<"<<std::endl
+        << " SecondBPResidue = >"<<SecondBPResidue.outString()<<"<"<<std::endl
+        << " NtC_step_ID = >"<<NtC_step_ID<<"<"<<std::endl
+        << " NtC_Class_String = >"<<NtC_Class_String<<"<"<<std::endl
+        << " NtC_INDEX = >"<<NtC_INDEX<<"<"<<std::endl
+        << " rotationCorrection1 = >"<<rotationCorrection1<<"<"<<std::endl
+        << " rotationCorrection2 = >"<<rotationCorrection2<<"<"<<std::endl
+        << " translationCorrection1 = >"<<translationCorrection1<<"<"<<std::endl
+        << " translationCorrection2 = >"<<translationCorrection2<<"<"<<std::endl
+        << " NTC_PAR_BondRowIndex = >"<<NTC_PAR_BondRowIndex<<"<"<<std::endl
+        << " meta = >"<<meta<<"<"<<std::endl
+        << " count = >"<<count<<"<"<<std::endl);
     }
                
 };
@@ -498,7 +493,7 @@ struct IncludeIntraChainInterface {
 
 class Interface {
     public:
-               vector<String> Chains ;
+        vector<String> Chains ;
                vector<String> PartnerChains ;
                double    Depth       ;
                String MobilizerString;
@@ -506,13 +501,16 @@ class Interface {
                vector<String> getPartnerChains() {return PartnerChains;};
                double         getDepth() {return Depth;};
                void print (){
-                   std::cout<<__FILE__<<":"<<__LINE__<<"For interface, printing reference chains : "<<std::endl;
-                   for (int i = 0; i < Chains.size(); i ++) {std::cout<<">"<<Chains[i]<<"<, "<<std::endl; };
-                   std::cout<<__FILE__<<":"<<__LINE__<<"Partner chains : "<<std::endl;
-                   for (int i = 0; i < Chains.size(); i ++) {std::cout<<">"<<PartnerChains[i]<<"<, "<<std::endl; };
-                   std::cout<<__FILE__<<":"<<__LINE__<<"Depth : "<<Depth<<std::endl;
-               }; 
-               
+                   MMBLOG_FILE_LINE(INFO, "For interface, printing reference chains : "<<std::endl);
+                   for (int i = 0; i < Chains.size(); i ++) {
+                        MMBLOG_FILE_LINE(INFO, ">"<<Chains[i]<<"<, "<<std::endl);
+                   };
+                   MMBLOG_FILE_LINE(INFO, " Partner chains : "<<std::endl);
+                   for (int i = 0; i < Chains.size(); i ++) {
+                        MMBLOG_FILE_LINE(INFO, ">" << PartnerChains[i]<<"<, "<<std::endl);
+                   }
+                   MMBLOG_FILE_LINE(INFO, " Depth : "<<Depth<<std::endl);
+               };
 };
 
 /*
@@ -566,7 +564,7 @@ class ResidueStretch   {
                     if (getChain().compare(myResidueStretch.getChain() ) == 0 ) return true;
                     else return false;
                 };
-                void printStretch() {std::cout<<__FILE__<<":"<<__LINE__<<"Stretch chain ="<<getChain()<<", first residue ="<<getStartResidue().outString()<<", last residue ="<<getEndResidue().outString()<<std::endl;  };
+                void printStretch() {MMBLOG_FILE_LINE(INFO, "Stretch chain ="<<getChain()<<", first residue ="<<getStartResidue().outString()<<", last residue ="<<getEndResidue().outString()<<std::endl);  };
                 ResidueStretch () {
                     setStartResidue(ResidueID("-1111" ) );
                     setEndResidue(ResidueID("-1111" ) );
@@ -593,12 +591,10 @@ class ResidueStretch   {
         
         bool operator > (ResidueStretch & a){
             if (this->startResidue > this->endResidue) {
-	       ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The current residue stretch has a start residue : "<<this->startResidue.outString()<< " which is greater than its end residue: "<<this->endResidue.outString()<<std::endl;
-	       ErrorManager::instance.treatError();
+               MMBLOG_FILE_LINE(CRITICAL, " The current residue stretch has a start residue : "<<this->startResidue.outString()<< " which is greater than its end residue: "<<this->endResidue.outString()<<std::endl);
             }
             if (a.startResidue > a.endResidue) {
-	       ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The current residue stretch has a start residue : "<<a.startResidue.outString()<< " which is greater than its end residue: "<<a.endResidue.outString()<<std::endl;
-	       ErrorManager::instance.treatError();
+               MMBLOG_FILE_LINE(CRITICAL, " The current residue stretch has a start residue : "<<a.startResidue.outString()<< " which is greater than its end residue: "<<a.endResidue.outString()<<std::endl);
             }
             if  (this->chain >  a.chain      ) 
                 {return true;}
@@ -613,12 +609,10 @@ class ResidueStretch   {
         }
         bool operator < (ResidueStretch & a){
             if (this->startResidue > this->endResidue) {
-	       ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The current residue stretch has a start residue : "<<this->startResidue.outString()<< " which is greater than its end residue: "<<this->endResidue.outString()<<std::endl;
-	       ErrorManager::instance.treatError();
+	       MMBLOG_FILE_LINE(CRITICAL, " The current residue stretch has a start residue : "<<this->startResidue.outString()<< " which is greater than its end residue: "<<this->endResidue.outString()<<std::endl);
             }
             if (a.startResidue > a.endResidue) {
-	       ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The current residue stretch has a start residue : "<<a.startResidue.outString()<< " which is greater than its end residue: "<<a.endResidue.outString()<<std::endl;
-	       ErrorManager::instance.treatError();
+                MMBLOG_FILE_LINE(CRITICAL, " The current residue stretch has a start residue : "<<a.startResidue.outString()<< " which is greater than its end residue: "<<a.endResidue.outString()<<std::endl);
             }
             if  (this->chain <  a.chain      ) 
                 {return true;}
@@ -635,13 +629,16 @@ class ResidueStretch   {
 
 class SingleResidue : public ResidueStretch  {
         public:
-                ResidueID getEndResidue(){  ErrorManager::instance <<__FILE__<<":"<<__LINE__<< " getEndResidue() is not compatible with SingleResidue! "<<std::endl; ErrorManager::instance.treatError(); return ResidueID(-1111,' ');}
+                ResidueID getEndResidue(){
+                        MMBLOG_FILE_LINE(CRITICAL, " getEndResidue() is not compatible with SingleResidue! "<<std::endl);
+                        return ResidueID(-1111,' ');
+                }
                 ResidueID  getResidue() const // The second const promises that the method will not change 'this' object
                     { return getStartResidue();} 
                 //void setStartResidue(ResidueID myResidue) {startResidue = myResidue; endResidue = myResidue;};
                 void setResidue(ResidueID myResidue) {setStartResidue ( myResidue);setEndResidue ( myResidue); }; // This sets both startResidue and endResidue to myResidue, even though endResidue will never be retrieved.
                 void setResidueNumber(int       myResidueNumber) {   setStartResidueNumber ( myResidueNumber);   setEndResidueNumber ( myResidueNumber); }; // This sets both startResidue and endResidue to myResidue, even though endResidue will never be retrieved.
-                void printStretch() {std::cout<<__FILE__<<":"<<__LINE__<<"Stretch chain ="<<getChain()<<", first (and only) residue ="<<getStartResidue().outString()<<std::endl;  };
+                void printStretch() {MMBLOG_FILE_LINE(INFO, "Stretch chain ="<<getChain()<<", first (and only) residue ="<<getStartResidue().outString()<<std::endl);  };
 		bool operator == (SingleResidue & a){ // operators appear not to be inherited, perhaps related to inability to access private members of ResidueStretch
 		    if ((this->getResidue() == a.getResidue() ) &&
 			(this->getChain().compare(a.getChain()) == 0 ) )
@@ -682,7 +679,7 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                    else {
                        ErrorManager::instance <<__FILE__<<":"<<__LINE__                           <<" At this time only Default, Free,Torsion, and Rigid bondMobilities are supported. You are attempting to apply \""                           << myBondMobilityString <<"\". "<<std::endl;
                        ErrorManager::instance.treatError();} */
-                   std::cout<<__FILE__<<":"<<__LINE__<<" About to set BondMobility to >"<<myBondMobilityString<<"< "<<std::endl;
+                   MMBLOG_FILE_LINE(INFO, " About to set BondMobility to >"<<myBondMobilityString<<"< "<<std::endl);
                    BondMobilityString = myBondMobilityString;
                    BondMobility = stringToBondMobility(myBondMobilityString);
          
@@ -727,7 +724,7 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                 };
 
         void print(){
-            std::cout<<__FILE__<<":"<<__LINE__<<" Printing MobilizerStretch. getBondMobilityString() : >"<<getBondMobilityString()<< "< getBondMobility() >"<<getBondMobilityString()<<"<"<<std::endl;
+            MMBLOG_FILE_LINE(INFO, " Printing MobilizerStretch. getBondMobilityString() : >"<<getBondMobilityString()<< "< getBondMobility() >"<<getBondMobilityString()<<"<"<<std::endl);
             printStretch();
         } 
 
@@ -762,7 +759,7 @@ class MMB_EXPORT AllResiduesWithin: public  SingleResidue {
        };
        void setRadius(double myRadius) {radius = myRadius;}
        double getRadius() const {return radius;}
-        void print () const { std::cout<<__FILE__<<":"<<__LINE__<<" I am an AllResiduesWithin object. chain, residue, radius = "<<getChain()<<", "<<getResidue().outString()<<", "<<getRadius()<<std::endl;};
+        void print () const { MMBLOG_FILE_LINE(INFO, " I am an AllResiduesWithin object. chain, residue, radius = "<<getChain()<<", "<<getResidue().outString()<<", "<<getRadius()<<std::endl);};
 
 };
 
@@ -831,15 +828,15 @@ class TwoAtomClass       {
     const String getChain2() const {return chain2;};
     const double getDistance() const {return distance;}
     void  print() const {
-        std::cout<<__FILE__<<":"<<__LINE__   // to here is fine
-          <<" : Chain ID 1 : "      <<getChain1()
+        MMBLOG_FILE_LINE(INFO,   // to here is fine
+          " : Chain ID 1 : "      <<getChain1()
           <<" Residue    ID 1 : "    <<getResidueID1().outString()
           <<" atom name 1 : "       <<getAtomName1()
           <<" : Chain ID 2 : "     <<getChain2()
           <<" Residue ID 2: "   <<getResidueID2().outString()
           <<" atom name 2 : "      <<getAtomName2()
           <<" distance : " <<getDistance()
-          <<endl;
+          <<endl);
     };
     };
 
@@ -863,15 +860,15 @@ class CovalentBondClass:public  TwoAtomClass       {
         mobility = SimTK::BondMobility::Rigid;
     };
     void  print() const {
-        std::cout<<__FILE__<<":"<<__LINE__   // to here is fine
-          <<" : Chain ID : "      <<getChain1()
+        MMBLOG_FILE_LINE(INFO,   // to here is fine
+          " : Chain ID : "      <<getChain1()
           <<" Residue    ID: "    <<getResidueID1().outString()
           <<" atom name : "       <<getAtomName1()
           <<" : Chain ID2 : "     <<getChain2()
           <<" Residue    ID2: "   <<getResidueID2().outString()
           <<" atom name2 : "      <<getAtomName2()
-          <<" bond mobility : "        <<mobility        
-          <<endl;
+          <<" bond mobility : "        <<mobility
+          <<endl);
     };
     void  setBondCenterName1(String myBondCenterName) {bondCenterName1     = myBondCenterName;}
     void  setBondCenterName2(String myBondCenterName) {bondCenterName2     = myBondCenterName;}
@@ -944,12 +941,11 @@ class SecondaryStructureStretch  : public ResidueStretch  {
             mySecondaryStructureType = ParallelBeta;}
             else if ((inputSecondaryStructureType.compare("AntiParallelBeta")) == 0) { 
             mySecondaryStructureType = AntiParallelBeta;}
-            else { 
-                        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error!  The only permitted secondary structure types are Alpha, ParallelBeta and AntiParallelBeta."<<endl;
-                        ErrorManager::instance.treatError();
+            else {
+                MMBLOG_FILE_LINE(CRITICAL, " Error!  The only permitted secondary structure types are Alpha, ParallelBeta and AntiParallelBeta."<<endl);
             }
-               }    
-               SecondaryStructureType getSecondaryStructureType() {return mySecondaryStructureType ;};
+        }
+    SecondaryStructureType getSecondaryStructureType() {return mySecondaryStructureType ;};
 };
 
 class  DensityStretch : public ResidueStretch   {
@@ -1298,14 +1294,14 @@ class  MMBAtomInfo {
         else return false;
         }
         void print () {
-            std::cout<<__FILE__<<":"<<__LINE__<<" Printing MMBAtomInfo contents:"<<std::endl;
-            std::cout<<__FILE__<<":"<<__LINE__<<" mobilizedBodyIndex : "<<mobilizedBodyIndex;
-            std::cout<<" compoundAtomIndex : "<< compoundAtomIndex;
-            std::cout<<" position : "<< position;
-            std::cout<<" residueID: "<< residueID.outString();
-            std::cout<<" chain: "<<chain;
-            std::cout<<" atomName : "<<atomName;
-            std::cout<<" partial charge: "<<partialCharge<<std::endl;
+            MMBLOG_FILE_LINE(INFO, " Printing MMBAtomInfo contents:"<<std::endl
+                <<" mobilizedBodyIndex : "<<mobilizedBodyIndex
+                <<" compoundAtomIndex : "<< compoundAtomIndex
+                <<" position : "<< position
+                <<" residueID: "<< residueID.outString()
+                <<" chain: "<<chain
+                <<" atomName : "<<atomName
+                <<" partial charge: "<<partialCharge<<std::endl);
             //std::cout<<__FILE__<<":"<<__LINE__<< mobilizedBodyIndex<<","<< compoundAtomIndex<<","<<  position<<","<< residueID.outString()<<","<< chain <<", "<< atomName<<", "<<partialCharge<<std::endl;
             
         }

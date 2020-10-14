@@ -1,4 +1,6 @@
-
+# Homology modeling tutorial.
+# Before starting, please copy protein-template.pdb to last.1.pdb  in the current directory.
+#
 firstStage   2  
 lastStage    2  
 

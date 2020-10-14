@@ -457,7 +457,7 @@ public:
                               bool matchPurineN1AtomLocations,
                               bool guessCoordinates,
                               double initialSeparation, 
-                              const vector<Displacement> displacementVector,
+                              const vector<Displacement> &displacementVector,
                               double matchingMinimizerTolerance,
                               double myPlanarityThreshold,
                               vector<SecondaryStructureStretch> secondaryStructureStretchVector

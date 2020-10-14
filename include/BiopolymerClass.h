@@ -463,13 +463,14 @@ public:
                               vector<SecondaryStructureStretch> secondaryStructureStretchVector
                              );
     String      printOriginalAndRenumberedResidueIDs(const String myPdbId = "XXXX" );
-    void        renumberPdbResidues(ResidueID firstResidueID = ResidueID(std::to_string(1))) ; // This renumbers ALL BiopolymerClass's, to start with firstResidueID and increase by consecutive integers from there. 
+    void        renumberPdbResidues(ResidueID firstResidueID = ResidueID(std::to_string(1))) ; // This renumbers ALL BiopolymerClass's, to start with firstResidueID and increase by consecutive integers from there.
+    void        setRenumberPdbResidues (bool myRenumberPdbResidues);
+
     void        validateAtomInfoVectors();
     BiopolymerClass &   updBiopolymerClass(String myChainID);
     int                 getBiopolymerClassIndex(String myChainID);
     BiopolymerClass &   updBiopolymerClass(int biopolymerClassIndex);
 
-    bool        setRenumberPdbResidues (bool myRenumberPdbResidues);//{ for (auto  biopolymerClassMapIterator = biopolymerClassMap.begin() ; biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) { updBiopolymerClass(biopolymerClassMap.begin()->first).setRenumberPdbResidues(myRenumberPdbResidues);  }}
     void        addMutationToVector(Mutation myMutation);
     //void      setBondMobility  (const MobilizerContainer myMobilizerContainer ); 
     void        setBondMobility  (vector<BasePair> & ); 

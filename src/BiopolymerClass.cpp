@@ -4724,10 +4724,10 @@ void BiopolymerClassContainer::updateMutationResidueTypesFromCurrentSequence() {
 };
 
 
-bool BiopolymerClassContainer::setRenumberPdbResidues (bool myRenumberPdbResidues){ 
-    for (auto  biopolymerClassMapIterator = biopolymerClassMap.begin() ; biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) { 
+void BiopolymerClassContainer::setRenumberPdbResidues (bool myRenumberPdbResidues){
+    for (auto biopolymerClassMapIterator = biopolymerClassMap.begin() ; biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
         MMBLOG_FILE_FUNC_LINE(INFO, "About to setRenumberPdbResidues("<<myRenumberPdbResidues<<") for chain "<<biopolymerClassMapIterator->first <<endl);
-        updBiopolymerClass(biopolymerClassMapIterator->first).setRenumberPdbResidues(myRenumberPdbResidues);  
+        updBiopolymerClass(biopolymerClassMapIterator->first).setRenumberPdbResidues(myRenumberPdbResidues);
     }
 }
 

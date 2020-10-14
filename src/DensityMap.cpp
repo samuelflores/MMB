@@ -1270,12 +1270,15 @@ Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint,Vec
     //MMBLOG_FILE_FUNC_LINE(std::endl;
     Vec3 dxdydz = unitCellParameters.convertFractionalVectorToFractionFromLowerLeft(unitCellParameters.convertCartesianVectorToFractionalVector(queryPosition)); //queryPosition - gridPoint.position; // the first term is the query position, the second term is the grid point position in cartesian space
     if ((dxdydz[0] < 0) || (dxdydz[1] <0 ) || (dxdydz[2] < 0)) { // see if we can make this trap unnecessary implicitly
-
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "this function is only for calculating the gradient in the first quadrant"<<endl);
     }
     if ((dxdydz[0] > 1.0) || (dxdydz[1] >1.0 ) || (dxdydz[2] > 1.0)) { // see if we can make this trap unnecessary implicitly
         MMBLOG_FILE_FUNC_LINE(INFO, " dxdydz = "<<dxdydz<<endl);
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "this function is only for calculating the gradient in the first quadrant, and only within the cell in question. This value goes outside the voxel."<<endl);
+        MMBLOG_FILE_FUNC_LINE(
+            CRITICAL,
+            "this function is only for calculating the gradient in the first quadrant, and only within the cell in question. "
+            "This value goes outside the voxel."<<endl
+        );
     }
     //MMBLOG_FILE_FUNC_LINE(" dxdydz = "<<dxdydz<<std::endl;
     //printSecondDerivatives(gridPoint);
@@ -1286,10 +1289,10 @@ Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint,Vec
 
     // Separated out ther second derivatives for debugging:
     if (0) {
-    myGradient[0] +=  gridPoint.ddxPositiveXGradient*dxdydz[0] + gridPoint.ddyPositiveXGradient*dxdydz[1] + gridPoint.ddzPositiveXGradient*dxdydz[2];
-    myGradient[1] +=  gridPoint.ddxPositiveYGradient*dxdydz[0] + gridPoint.ddyPositiveYGradient*dxdydz[1] + gridPoint.ddzPositiveYGradient*dxdydz[2];
-    myGradient[2] +=  gridPoint.ddxPositiveZGradient*dxdydz[0] + gridPoint.ddyPositiveZGradient*dxdydz[1] + gridPoint.ddzPositiveZGradient*dxdydz[2];
-    return myGradient;
+        myGradient[0] +=  gridPoint.ddxPositiveXGradient*dxdydz[0] + gridPoint.ddyPositiveXGradient*dxdydz[1] + gridPoint.ddzPositiveXGradient*dxdydz[2];
+        myGradient[1] +=  gridPoint.ddxPositiveYGradient*dxdydz[0] + gridPoint.ddyPositiveYGradient*dxdydz[1] + gridPoint.ddzPositiveYGradient*dxdydz[2];
+        myGradient[2] +=  gridPoint.ddxPositiveZGradient*dxdydz[0] + gridPoint.ddyPositiveZGradient*dxdydz[1] + gridPoint.ddzPositiveZGradient*dxdydz[2];
+        return myGradient;
     }
 }
 

@@ -58,8 +58,7 @@ using namespace std;
         cout<<"Now checking for existence of "<<inFileName<<endl;
 
         if (!(inFile.good())) {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : Unable to open parameter file "<<inFileName<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open parameter file "<<inFileName<<endl);
         }
         int q=0;
 	//char * s; 

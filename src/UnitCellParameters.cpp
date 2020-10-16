@@ -1,8 +1,11 @@
 #include<cmath>
 #include "UnitCellParameters.h"
-#include "ErrorManager.h"
+#include "MMBLogger.h"
 //#define RadToDeg 3.14159265/180
 //#define sinDegrees(x) sin((x) * M_PI / 180.0)
+
+using namespace std;
+
 void UnitCellParameters::setDefaultParameters(){
     valid = 0;
     a = 0; b = 0; c=0;
@@ -19,7 +22,7 @@ void UnitCellParameters::setDeOrthogonalizationMatrix (){
     float a = myUnitCellParameters.a;
     float b = myUnitCellParameters.b;
     float c = myUnitCellParameters.c;*/
-    std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     //float returnMatrix[3][3] = {{0,0,0}{0,0,0}{0,0,0}};
     deOrthogonalizationMatrix[0][0] = 1 / a;
     deOrthogonalizationMatrix[1][0] = 0;
@@ -84,8 +87,7 @@ SimTK::Vec3 UnitCellParameters::convertFractionalVectorToFractionFromLowerLeft  
     if ((fractionalPartOfFractionalVector[0] >= 1) || (fractionalPartOfFractionalVector[0] < 0) ||
         (fractionalPartOfFractionalVector[1] >= 1) || (fractionalPartOfFractionalVector[1] < 0) ||
         (fractionalPartOfFractionalVector[2] >= 1) || (fractionalPartOfFractionalVector[2] < 0) ) {
-            ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unexplained error! fractionalPartOfFractionalVector = " << fractionalPartOfFractionalVector <<std::endl; 
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error! fractionalPartOfFractionalVector = " << fractionalPartOfFractionalVector<<endl);
         }
     return fractionalPartOfFractionalVector;
 }
@@ -148,38 +150,32 @@ const double UnitCellParameters::angleInRange  (const double angleInDegrees){
     const double maxAngle = 170.0*SimTK::Pi/180; // we switched to rads // Technically this could be 180 degrees, but why would anyone use such an obtuse angle?
     if (angleInDegrees >= maxAngle) {
         valid = 0;
-        ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" You have provided an angle of : "<<angleInDegrees<< " degrees, which matches or exceeds our maximum of "<< maxAngle <<" degrees. ";
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have provided an angle of : "<<angleInDegrees<< " degrees, which matches or exceeds our maximum of "<< maxAngle <<" degrees.");
     }
     else if (angleInDegrees <= minAngle) {
         valid = 0;
-        ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" You have provided an angle of : "<<angleInDegrees<< " degrees, which matches or is under our minimum of "<< minAngle <<" degrees. ";
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have provided an angle of : "<<angleInDegrees<< " degrees, which matches or is under our minimum of "<< minAngle <<" degrees. ");
     } else {
-        std::cout << __FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" You have provided an angle of : "<<angleInDegrees<< " degrees, which is between our allowed extremes of " << minAngle << " and " << maxAngle << " degrees. Validation passed."<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "You have provided an angle of : "<<angleInDegrees<< " degrees, which is between our allowed extremes of " << minAngle << " and " << maxAngle << " degrees. Validation passed."<<endl);
         return angleInDegrees;
     }
     // no idea how we would ever get to this point, so trip error.
-    ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unexplained error! ";
-    ErrorManager::instance.treatError();
+    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error! ");
  }
 
     
 void UnitCellParameters::validateNnMinnMax(const int n, const int nMin, const int nMax){
         if ( n < 2 ){
             valid = 0;
-            ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" You have provided a number of grid points : "<< n << " which is under our minimum of 2.";
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have provided a number of grid points : "<< n << " which is under our minimum of 2.");
         }
         if ( n > 10000 ){
             valid = 0;
-            ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" You have provided a number of grid points : "<< n << " which exceeds our maximum.";
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have provided a number of grid points : "<< n << " which exceeds our maximum.");
         }
         if ( n != (nMax - nMin +1 ) ){
             valid = 0;
-            ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" You have provided a number of grid points : "<< n << ". Your grid starts at point " << nMin << " and ends at point " << nMax << " These numbers are not consistent.";
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have provided a number of grid points : "<< n << ". Your grid starts at point " << nMin << " and ends at point " << nMax << " These numbers are not consistent.");
         }
         // If we get this far, everything is kosher. Do nothing.
 
@@ -187,7 +183,7 @@ void UnitCellParameters::validateNnMinnMax(const int n, const int nMin, const in
 const int calcMaxFrequencyDoublings (const int numGridPoints) {  
     /* 
     double maxFrequencyDoublings = log2 (numGridPoints -1);
-    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" The Nyquist half-wavelength, set by a grid spacing of "<<gridSpacing<<" is 2^"<<maxFrequencyDoublings<<" times smaller than than the max half-wavelength, set by the unit cell width of "<<unitCellWidth;//<<std::endl;
+    //MMBLOG_FILE_FUNC_LINE(" The Nyquist half-wavelength, set by a grid spacing of "<<gridSpacing<<" is 2^"<<maxFrequencyDoublings<<" times smaller than than the max half-wavelength, set by the unit cell width of "<<unitCellWidth;//<<std::endl;
     maxFrequencyDoublings = floor (maxFrequencyDoublings);
     //std::cout<<" we round down to "<<maxFrequencyDoublings<< " frequency doublings."<<std::endl;
     return maxFrequencyDoublings; // The rounded-down number should be cast as int            
@@ -196,24 +192,24 @@ const int calcMaxFrequencyDoublings (const int numGridPoints) {
 }
 const int calcMaxFrequencyDoublings (const double unitCellWidth,     const double gridSpacing) {
     double maxFrequencyDoublings = log2 (unitCellWidth / gridSpacing);
-    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" The Nyquist half-wavelength, set by a grid spacing of "<<gridSpacing<<" is 2^"<<maxFrequencyDoublings<<" times smaller than than the max half-wavelength, set by the unit cell width of "<<unitCellWidth;//<<std::endl;
+    //MMBLOG_FILE_FUNC_LINE(" The Nyquist half-wavelength, set by a grid spacing of "<<gridSpacing<<" is 2^"<<maxFrequencyDoublings<<" times smaller than than the max half-wavelength, set by the unit cell width of "<<unitCellWidth;//<<std::endl;
     maxFrequencyDoublings = floor (maxFrequencyDoublings);
     //std::cout<<" we round down to "<<maxFrequencyDoublings<< " frequency doublings."<<std::endl;
     return maxFrequencyDoublings; // The rounded-down number should be cast as int            
 }
 
 const int UnitCellParameters::calcMaxFrequencyDoublingsX (){
-    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
-    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" about to return "<<getNa()<<std::endl;
+    //MMBLOG_FILE_FUNC_LINE(std::endl;
+    //MMBLOG_FILE_FUNC_LINE(" about to return "<<getNa()<<std::endl;
     return calcMaxFrequencyDoublings((getNa()));
 }
 const int UnitCellParameters::calcMaxFrequencyDoublingsY (){
-    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+    //MMBLOG_FILE_FUNC_LINE(std::endl;
     //return calcMaxFrequencyDoublings(((getNb()-1)*getb()), getb());
     return calcMaxFrequencyDoublings((getNb()));
 }
 const int UnitCellParameters::calcMaxFrequencyDoublingsZ (){
-    //std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" about to return "<<getNc()<<std::endl;
+    //MMBLOG_FILE_FUNC_LINE(" about to return "<<getNc()<<std::endl;
     //return calcMaxFrequencyDoublings(((getNc()-1)*getc()), getc());
     return calcMaxFrequencyDoublings((getNc()));
 }
@@ -230,59 +226,55 @@ void UnitCellParameters::setGammaUsingDegrees(double inputAngle){
     gamma = angleInRange (inputAngle*M_PI/180);
 }
 void UnitCellParameters::setabc(const double mya, const double myb, const double  myc){
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to set a, b, c to : "<<mya <<", "<<  myb <<", "<< myc<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, " About to set a, b, c to : "<<mya <<", "<<  myb <<", "<< myc<<endl);
     if (mya <= 0.0){
-        ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" You have provided an invalid value for a   : "<< mya <<std::endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have provided an invalid value for a   : "<< mya <<endl);
     }else {a = mya;}
     if (myb <= 0.0){
-        ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" You have provided an  invalid value for b : "<< myb <<std::endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have provided an  invalid value for b : "<< myb <<endl);
     }else {b = myb;}
     if (myc <= 0.0){
-        ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" You have provided an  invalid value for c : "<< myc <<std::endl;
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have provided an  invalid value for c : "<< myc <<endl);
     }else {c = myc;}
 }
 const double UnitCellParameters::getGamma(){ return gamma;}
 
 void UnitCellParameters::setN ( const int myna, const int myaMin,const int myaMax,const int mynb,const int mybMin,const int mybMax,const int mync,const int mycMin,const int mycMax ){
-   std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to set na, aMin, aMax to : "<<myna <<", "<<  myaMin <<", "<< myaMax<<" nm "<<std::endl;
+   MMBLOG_FILE_FUNC_LINE(INFO, "About to set na, aMin, aMax to : "<<myna <<", "<<  myaMin <<", "<< myaMax<<" nm "<<endl);
    validateNnMinnMax(myna,  myaMin, myaMax); // validateNnMinnMax will kill the program if any of its arguments are invalid.
    na = myna; aMin = myaMin; aMax = myaMax;
-   std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Confirming na, aMin, aMax are now : "<<getNa()<<", "<<getaMin()<<", "<<getaMax()<<std::endl;
-   std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to set nb, bMin, bMax to : "<<mynb <<", "<<  mybMin <<", "<< mybMax<<std::endl;
+   MMBLOG_FILE_FUNC_LINE(INFO, "Confirming na, aMin, aMax are now : "<<getNa()<<", "<<getaMin()<<", "<<getaMax()<<endl);
+   MMBLOG_FILE_FUNC_LINE(INFO, "About to set nb, bMin, bMax to : "<<mynb <<", "<<  mybMin <<", "<< mybMax<<endl);
    validateNnMinnMax(mynb,  mybMin, mybMax);
    nb = mynb; bMin = mybMin; bMax = mybMax;
-   std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Confirming nb, bMin, bMax are now : "<<getNb()<<", "<<getbMin()<<", "<<getbMax()<<std::endl;
-   std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to set nc, cMin, cMax to : "<<mync <<", "<<  mycMin <<", "<< mycMax<<std::endl;
+   MMBLOG_FILE_FUNC_LINE(INFO, "Confirming nb, bMin, bMax are now : "<<getNb()<<", "<<getbMin()<<", "<<getbMax()<<endl);
+   MMBLOG_FILE_FUNC_LINE(INFO, "About to set nc, cMin, cMax to : "<<mync <<", "<<  mycMin <<", "<< mycMax<<endl);
    validateNnMinnMax(mync,  mycMin, mycMax);
    nc = mync; cMin = mycMin; cMax = mycMax;
-   std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Confirming nc, cMin, cMax are now : "<<getNc()<<", "<<getcMin()<<", "<<getcMax()<<std::endl;
+   MMBLOG_FILE_FUNC_LINE(INFO, "Confirming nc, cMin, cMax are now : "<<getNc()<<", "<<getcMin()<<", "<<getcMax()<<endl);
 }
 const bool UnitCellParameters::exitIfNotValid() const{
     if (valid) { 
         return true; // All is fine.  
     } else {
-    ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" The variable named \'valid\' is set to " << valid << ". This means your parameters have not been checked. Exiting now. ";
-    ErrorManager::instance.treatError();
+    MMBLOG_FILE_FUNC_LINE(CRITICAL, " The variable named \'valid\' is set to " << valid << ". This means your parameters have not been checked. Exiting now. ");
     }
 }
  void UnitCellParameters::validate (){
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to check your parameters. Currently the variable named \'valid\' is set to " << valid <<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to check your parameters. Currently the variable named \'valid\' is set to " << valid <<endl);
     valid = 0;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" About to check your parameters. The variable named \'valid\' is now deliberately set to " << valid <<std::endl;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Confirming na, aMin, aMax are now : "<<getNa()<<", "<<getaMin()<<", "<<getaMax()<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to check your parameters. The variable named \'valid\' is now deliberately set to " << valid <<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "Confirming na, aMin, aMax are now : "<<getNa()<<", "<<getaMin()<<", "<<getaMax()<<endl);
     validateNnMinnMax(getNa(),getaMin(),getaMax());
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Confirming nb, bMin, bMax are now : "<<getNb()<<", "<<getbMin()<<", "<<getbMax()<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Confirming nb, bMin, bMax are now : "<<getNb()<<", "<<getbMin()<<", "<<getbMax()<<endl);
     validateNnMinnMax(getNb(),getbMin(),getbMax());
     validateNnMinnMax(getNc(),getcMin(),getcMax());
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" getAlpha() = "<<getAlpha()<<std::endl;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" angleInRange(getAlpha() = "<<angleInRange(getAlpha())<<std::endl;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" getBeta() = "<<getBeta()<<std::endl;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" getGamma() = "<<getGamma()<<std::endl;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "getAlpha() = "<<getAlpha()<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "angleInRange(getAlpha() = "<<angleInRange(getAlpha())<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "getBeta() = "<<getBeta()<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "getGamma() = "<<getGamma()<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
 
     angleInRange(getAlpha());
     if (angleInRange(getAlpha()) &&
@@ -290,25 +282,24 @@ const bool UnitCellParameters::exitIfNotValid() const{
         angleInRange(getGamma()) ) 
     {
         //valid = true;
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Your parameters have been checked and found to be kosher. Pending further checks, we still set \'valid\' to "<<valid<<std::endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Your parameters have been checked and found to be kosher. Pending further checks, we still set \'valid\' to "<<valid<<endl);
     } 
     else {
         valid = false;
-        ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" The variable named \'valid\' is set to " << valid << ". This means your parameters have not been checked. Exiting now. ";
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The variable named \'valid\' is set to " << valid << ". This means your parameters have not been checked. Exiting now. ");
     }
-    if (deOrthogonalizationMatrix[0][0] != 1 / geta() ) {valid = 0; ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Found an error in deOrthogonalizationMatrix " ; ErrorManager::instance.treatError();}
-    if (deOrthogonalizationMatrix[1][0] != 0 ) {valid = 0; ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Found an error in deOrthogonalizationMatrix " ; ErrorManager::instance.treatError();}
-    if (deOrthogonalizationMatrix[2][0] != 0) {valid = 0; ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Found an error in deOrthogonalizationMatrix " ; ErrorManager::instance.treatError();}
-    if (deOrthogonalizationMatrix[0][1] != - cos(gamma)/ a / sin (gamma) ) {valid = 0; ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Found an error in deOrthogonalizationMatrix " ; ErrorManager::instance.treatError();}
-    if (deOrthogonalizationMatrix[1][1] !=  1 / b / sin(gamma)) {valid = 0; ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Found an error in deOrthogonalizationMatrix " ; ErrorManager::instance.treatError();}
-    if (deOrthogonalizationMatrix[2][1] != 0) {valid = 0; ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Found an error in deOrthogonalizationMatrix " ; ErrorManager::instance.treatError();}
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"deOrthogonalizationMatrix[0][2] = "<< deOrthogonalizationMatrix[0][2]<<std::endl;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"volume() = "<< volume()<<std::endl;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" b * cos(gamma) * c*( (cos(alpha) - cos(beta)*cos(gamma))/sin(gamma)  -b*c*cos(beta)*sin(gamma)  ) / volume() = " <<b * cos(gamma) * c*( (cos(alpha) - cos(beta)*cos(gamma))/sin(gamma)  -b*c*cos(beta)*sin(gamma)  ) / volume() <<std::endl;
-    if (deOrthogonalizationMatrix[0][2] != b * cos(gamma) * c*( (cos(alpha) - cos(beta)*cos(gamma))/sin(gamma)  -b*c*cos(beta)*sin(gamma)  ) / volume()) {valid = 0; ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Found an error in deOrthogonalizationMatrix " ; ErrorManager::instance.treatError();}
-    if (deOrthogonalizationMatrix[1][2] !=  -a*c*(cos(alpha) - cos(beta)*cos(gamma))/volume()/sin(gamma)) {valid = 0; ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Found an error in deOrthogonalizationMatrix " ; ErrorManager::instance.treatError();}
-    if (deOrthogonalizationMatrix[2][2] != a*b*sin(gamma)/volume()) {valid = 0; ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Found an error in deOrthogonalizationMatrix " ; ErrorManager::instance.treatError();}
+    if (deOrthogonalizationMatrix[0][0] != 1 / geta() ) {valid = 0; MMBLOG_FILE_FUNC_LINE(CRITICAL, "Found an error in deOrthogonalizationMatrix ");}
+    if (deOrthogonalizationMatrix[1][0] != 0 ) {valid = 0; MMBLOG_FILE_FUNC_LINE(CRITICAL, "Found an error in deOrthogonalizationMatrix ");}
+    if (deOrthogonalizationMatrix[2][0] != 0) {valid = 0; MMBLOG_FILE_FUNC_LINE(CRITICAL, "Found an error in deOrthogonalizationMatrix ");}
+    if (deOrthogonalizationMatrix[0][1] != - cos(gamma)/ a / sin (gamma) ) {valid = 0; MMBLOG_FILE_FUNC_LINE(CRITICAL, "Found an error in deOrthogonalizationMatrix ");}
+    if (deOrthogonalizationMatrix[1][1] !=  1 / b / sin(gamma)) {valid = 0; MMBLOG_FILE_FUNC_LINE(CRITICAL, " Found an error in deOrthogonalizationMatrix ");}
+    if (deOrthogonalizationMatrix[2][1] != 0) {valid = 0; MMBLOG_FILE_FUNC_LINE(CRITICAL, "Found an error in deOrthogonalizationMatrix ");}
+    MMBLOG_FILE_FUNC_LINE(INFO, "deOrthogonalizationMatrix[0][2] = "<< deOrthogonalizationMatrix[0][2]<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "volume() = "<< volume()<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, " b * cos(gamma) * c*( (cos(alpha) - cos(beta)*cos(gamma))/sin(gamma)  -b*c*cos(beta)*sin(gamma)  ) / volume() = " <<b * cos(gamma) * c*( (cos(alpha) - cos(beta)*cos(gamma))/sin(gamma)  -b*c*cos(beta)*sin(gamma)  ) / volume() <<endl);
+    if (deOrthogonalizationMatrix[0][2] != b * cos(gamma) * c*( (cos(alpha) - cos(beta)*cos(gamma))/sin(gamma)  -b*c*cos(beta)*sin(gamma)  ) / volume()) {valid = 0; MMBLOG_FILE_FUNC_LINE(CRITICAL, "Found an error in deOrthogonalizationMatrix ");}
+    if (deOrthogonalizationMatrix[1][2] !=  -a*c*(cos(alpha) - cos(beta)*cos(gamma))/volume()/sin(gamma)) {valid = 0; MMBLOG_FILE_FUNC_LINE(CRITICAL, "Found an error in deOrthogonalizationMatrix ");}
+    if (deOrthogonalizationMatrix[2][2] != a*b*sin(gamma)/volume()) {valid = 0; MMBLOG_FILE_FUNC_LINE(CRITICAL, " Found an error in deOrthogonalizationMatrix ");}
     valid = 1; // If we got this far, all is kosher
 }
 
@@ -339,11 +330,11 @@ double UnitCellParameters::totalVolume (){ // volume() is for one voxel. This is
 // From http://www.webmineral.com/help/CellDimensions.shtml#.XWjGX5MzYmJ 
 double UnitCellParameters::volume ()
 {   
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"  ((cos(alpha) * cos(beta) * cos(gamma)) ) = "<<  ((cos(alpha) * cos(beta) * cos(gamma)) )<<std::endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "  ((cos(alpha) * cos(beta) * cos(gamma)) ) = "<<  ((cos(alpha) * cos(beta) * cos(gamma)) )<<endl);
     double arg1 = cos(alpha) * cos(beta) * cos(gamma);
     if ((arg1 < 0.0000001) && (arg1  > -0.0000001)){arg1 = 0.0;} // had trouble with extremely tiny negative values of arg1
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" pow ((cos(alpha) * cos(beta) * cos(gamma)) ,0.5) = "<< pow ((cos(alpha) * cos(beta) * cos(gamma)) ,0.5)<<std::endl;
-    std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" a*b*c = "<<a*b*c<<std::endl; 
+    MMBLOG_FILE_FUNC_LINE(INFO, " pow ((cos(alpha) * cos(beta) * cos(gamma)) ,0.5) = "<< pow ((cos(alpha) * cos(beta) * cos(gamma)) ,0.5)<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, " a*b*c = "<<a*b*c<<endl);
     double returnVolume = a*b*c* (1- pow(cos (alpha),2) - pow(cos (beta) , 2) - pow( cos (gamma) , 2)) + 2 * pow ((arg1) ,0.5);
     return returnVolume; 
 }

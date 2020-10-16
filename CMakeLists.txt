@@ -98,7 +98,7 @@ ENDIF(NOT SimTK_INSTALL_DIR)
 find_package(Simbody CONFIG REQUIRED HINTS "${SimTK_INSTALL_DIR}/lib/cmake")
 
 #molmodel
-SET(SimTKmolmodel ${SimTK_INSTALL_DIR} CACHE PATH
+SET(SimTKmolmodel ${molmodel_INSTALL_DIR} CACHE PATH
     "Directory where SimTK molmodel is installed, e.g. /usr/local/SimTK.")
 
 IF(NOT SimTKmolmodel)
@@ -184,7 +184,7 @@ SET(MMB_LIBRARY_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/DensityForce.cpp
     ${PROJECT_SOURCE_DIR}/src/ElectrostaticPotentialGridForce.cpp
     ${PROJECT_SOURCE_DIR}/src/MoleculeContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/ErrorManager.cpp 
+    ${PROJECT_SOURCE_DIR}/src/MMBLogger.cpp
     ${PROJECT_SOURCE_DIR}/src/PeriodicPdbAndEnergyWriter.cpp
     ${PROJECT_SOURCE_DIR}/src/CifOutput.cpp
     )

@@ -309,9 +309,9 @@ public:
         // 6. residueStretch and residueStretchVector[i] overlap, with residueStretchVector[i] starting before residueStretch.
         //        -> trim  residueStretchVector[i] on right
         //const int ResidueStretchContainer::getNumResidueStretches();
-        cout<<__FILE__<<":"<<__LINE__<<" the Default stretch is :"<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "the Default stretch is :"<<endl);
         residueStretch.printStretch();
-        cout<<__FILE__<<":"<<__LINE__<<" Now checking "<<residueStretchContainer.getNumResidueStretches()<<" stretches: "<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Now checking "<<residueStretchContainer.getNumResidueStretches()<<" stretches: "<<endl);
         for (int i = 0; i < residueStretchContainer.getNumResidueStretches(); i++) 
         {
             residueStretchContainer.residueStretchVector[i].printStretch();   
@@ -322,38 +322,38 @@ public:
                {   //case = 1
                    residueStretchContainer.residueStretchVector.erase(residueStretchContainer.residueStretchVector.begin() + i);
                    i--; // vector has been shortened, so make sure we don't skip the next residueStretchContainer.residueStretchVector[i].
-                   if (i < -1) {ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Unexplained error!"<<endl; ErrorManager::instance.treatError();}
+                   if (i < -1) {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);}
                }
             else if ((residueStretch.getStartResidue() >  residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
                 (residueStretch.getEndResidue() <  residueStretchContainer.residueStretchVector[i].getEndResidue()))
                {   // case = 2 ;
-                   cout<<__FILE__<<":"<<__LINE__<<"  "<<endl;
+                   MMBLOG_FILE_FUNC_LINE(INFO, endl);
                    MobilizerStretch secondResidueStretch = residueStretchContainer.residueStretchVector[i];
                    ResidueID tempStartResidueID = (residueStretch).getStartResidue(); // getStartResidue() returns a temporary, whereas decrementResidueID expects a reference. can't convert a temporary to a reference.  This is because decrementResidueID might (and will!) try to modify ResidueID (as the name of the function suggests!).
                    //residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID((residueStretch).getStartResidue() ));
                    residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//((residueStretch).getStartResidue() )));
-                   cout<<__FILE__<<":"<<__LINE__<<" Just decreased endpoint of stretch "<<i<<".  New stretch is:"<<endl;
+                   MMBLOG_FILE_FUNC_LINE(INFO, "Just decreased endpoint of stretch "<<i<<".  New stretch is:"<<endl);
                    residueStretchContainer.residueStretchVector[i].printStretch();
                    ResidueID tempEndResidueID = (residueStretch).getEndResidue();
                    secondResidueStretch.setStartResidue(incrementResidueID(tempEndResidueID));//  residueStretch.getEndResidue()));
                    residueStretchContainer.addResidueStretchToVector(secondResidueStretch);
-                   cout<<__FILE__<<":"<<__LINE__<<" Just added new  stretch :"<<endl;
+                   MMBLOG_FILE_FUNC_LINE(INFO, "Just added new  stretch :"<<endl);
                    residueStretchContainer.residueStretchVector[residueStretchContainer.getNumResidueStretches()-1].printStretch();
-                   cout<<__FILE__<<":"<<__LINE__<<" Moving on to check next stretch. "<<endl;
+                   MMBLOG_FILE_FUNC_LINE(INFO, "Moving on to check next stretch. "<<endl);
 
 
                }
             else if ((residueStretch.getStartResidue() == residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
                 (residueStretch.getEndResidue() <  residueStretchContainer.residueStretchVector[i].getEndResidue()))
                {   // case = 3;
-                   cout<<__FILE__<<":"<<__LINE__<<"  Case 3"<<endl;
+                   MMBLOG_FILE_FUNC_LINE(INFO, "Case 3"<<endl);
                    ResidueID tempEndResidueID = (residueStretch).getEndResidue();
                    residueStretchContainer.residueStretchVector[i].setStartResidue(incrementResidueID(tempEndResidueID));//residueStretch.getEndResidue() ))  ;
                }
             else if ((residueStretch.getEndResidue() == residueStretchContainer.residueStretchVector[i].getEndResidue()) &&
                 (residueStretch.getStartResidue() >  residueStretchContainer.residueStretchVector[i].getStartResidue()))
                {   // case = 4;
-                   cout<<__FILE__<<":"<<__LINE__<<"  Case 4"<<endl;
+                   MMBLOG_FILE_FUNC_LINE(INFO, "Case 4"<<endl);
                    
                    ResidueID tempStartResidueID = (residueStretch).getStartResidue();
                    residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//residueStretch.getStartResidue()));
@@ -362,7 +362,7 @@ public:
                 (residueStretch.getEndResidue()        >=  residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
                      (residueStretch.getEndResidue()        <   residueStretchContainer.residueStretchVector[i].getEndResidue()))
             {   // case = 5;
-                cout<<__FILE__<<":"<<__LINE__<<"  Case 5"<<endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "Case 5"<<endl);
                 
                 ResidueID tempEndResidueID = (residueStretch).getEndResidue();
                 residueStretchContainer.residueStretchVector[i].setStartResidue(incrementResidueID(tempEndResidueID));//residueStretch.getEndResidue()))  ;
@@ -371,7 +371,7 @@ public:
                      (residueStretch.getStartResidue() >  residueStretchContainer.residueStretchVector[i].getStartResidue())     &&
                      (residueStretch.getStartResidue() <=  residueStretchContainer.residueStretchVector[i].getEndResidue()))
             {    // case = 6;
-                cout<<__FILE__<<":"<<__LINE__<<"  Case 6"<<endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "Case 6"<<endl);
                 
                 ResidueID tempStartResidueID = (residueStretch).getStartResidue();
                 residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//  residueStretch.getStartResidue()));
@@ -380,7 +380,7 @@ public:
             else if (residueStretch.getStartResidue() > residueStretchContainer.residueStretchVector[i].getEndResidue()) {} // do nothing, stretches are disjoint
             else {
                 // this should never happen
-                        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Unexplained error!"<<endl; ErrorManager::instance.treatError();
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);
                 }
         }
     }
@@ -424,8 +424,7 @@ public:
                                   ); // validates and sets the listed properties.        
     void        addBiopolymerClass(String newChainID, BiopolymerClass newBiopolymerClass) {
         if (hasChainID(newChainID)) {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": Error! There is already a biopolymer with chain >"<< newChainID  <<"< !"<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "There is already a biopolymer with chain >"<< newChainID  <<"< !"<<endl);
         }
         biopolymerClassMap[newChainID] = newBiopolymerClass;}
     void        deleteBiopolymerClass(String myChainID);
@@ -443,7 +442,7 @@ public:
                                       bool matchPurineN1AtomLocations,
                                       bool guessCoordinates, 
                                       double initialSeparation,
-                                      const vector<Displacement> displacementVector,
+                                      const vector<Displacement> &displacementVector,
                                       double matchingMinimizerTolerance,
                                       double myPlanarityThreshold
                                      );
@@ -458,19 +457,20 @@ public:
                               bool matchPurineN1AtomLocations,
                               bool guessCoordinates,
                               double initialSeparation, 
-                              const vector<Displacement> displacementVector,
+                              const vector<Displacement> &displacementVector,
                               double matchingMinimizerTolerance,
                               double myPlanarityThreshold,
                               vector<SecondaryStructureStretch> secondaryStructureStretchVector
                              );
     String      printOriginalAndRenumberedResidueIDs(const String myPdbId = "XXXX" );
-    void        renumberPdbResidues(ResidueID firstResidueID = ResidueID(std::to_string(1))) ; // This renumbers ALL BiopolymerClass's, to start with firstResidueID and increase by consecutive integers from there. 
+    void        renumberPdbResidues(ResidueID firstResidueID = ResidueID(std::to_string(1))) ; // This renumbers ALL BiopolymerClass's, to start with firstResidueID and increase by consecutive integers from there.
+    void        setRenumberPdbResidues (bool myRenumberPdbResidues);
+
     void        validateAtomInfoVectors();
     BiopolymerClass &   updBiopolymerClass(String myChainID);
     int                 getBiopolymerClassIndex(String myChainID);
     BiopolymerClass &   updBiopolymerClass(int biopolymerClassIndex);
 
-    bool        setRenumberPdbResidues (bool myRenumberPdbResidues);//{ for (auto  biopolymerClassMapIterator = biopolymerClassMap.begin() ; biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) { updBiopolymerClass(biopolymerClassMap.begin()->first).setRenumberPdbResidues(myRenumberPdbResidues);  }}
     void        addMutationToVector(Mutation myMutation);
     //void      setBondMobility  (const MobilizerContainer myMobilizerContainer ); 
     void        setBondMobility  (vector<BasePair> & ); 
@@ -600,7 +600,7 @@ public:
         // also have to delete and re-add to biopolymerClassMap with the new key
         deleteBiopolymerClass(oldChainID);
         addBiopolymerClass(newChainID,myBiopolymerClass);
-        std::cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<std::endl;         
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
     };
     int checkAllResidueNumbersAndInsertionCodes(){for (int i = 0 ; i < getNumBiopolymers(); i++) {if (updBiopolymerClass(i).checkResidueNumbersAndInsertionCodes()) {return 1;}}; return 0; }
     void printTopLevelTransforms(){for (int i = 0 ; i < getNumBiopolymers(); i++) { updBiopolymerClass(i).printTopLevelTransform(); }};  

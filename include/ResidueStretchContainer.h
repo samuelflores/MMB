@@ -22,19 +22,19 @@ class ResidueStretchContainer{
     void clear(){residueStretchVector.clear();interfaceContainer.clear(); };
     void validateResidueStretch(ResidueStretchType myResidueStretch, BiopolymerClassContainer & myBiopolymerClassContainer) {
 	if (myBiopolymerClassContainer.updBiopolymerClass(myResidueStretch.getChain()).difference(myResidueStretch.getEndResidue() , myResidueStretch.getStartResidue()) < 0) {
-	    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The end residue (currently "<<myResidueStretch.getEndResidue().outString()
-		<<") must be greater than or equal to the start residue (currently "<<myResidueStretch.getStartResidue().outString()<<". "<<endl; ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The end residue (currently "<<myResidueStretch.getEndResidue().outString()
+		<<") must be greater than or equal to the start residue (currently "<<myResidueStretch.getStartResidue().outString()<<". "<<endl);
 	}
 	if ((myResidueStretch.getEndResidue() > myBiopolymerClassContainer.updBiopolymerClass(myResidueStretch.getChain()).getLastResidueID()) ) {
-	    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The end residue (currently "<<myResidueStretch.getEndResidue().outString()
-		<<") is greater than the last residue number of the chain."<<endl; ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The end residue (currently "<<myResidueStretch.getEndResidue().outString()
+		<<") is greater than the last residue number of the chain."<<endl);
 	}
 	if ((myResidueStretch.getStartResidue() < myBiopolymerClassContainer.updBiopolymerClass(myResidueStretch.getChain()).getFirstResidueID()) ) {
-	    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The start residue (currently "<<myResidueStretch.getStartResidue().outString()
-		<<") is lesser than the first residue number of the chain."<<endl; ErrorManager::instance.treatError();
+	    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The start residue (currently "<<myResidueStretch.getStartResidue().outString()
+		<<") is lesser than the first residue number of the chain."<<endl);
 	}
 	if (!(myBiopolymerClassContainer.hasChainID(myResidueStretch.getChain()))){
-	    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Couldn't find chain "<<myResidueStretch.getChain()<<endl; ErrorManager::instance.treatError();
+	    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Couldn't find chain "<<myResidueStretch.getChain()<<endl);
 	}
     }
 
@@ -78,8 +78,8 @@ class ResidueStretchContainer{
                         MobilizerStretch myMobilizerStretch ( residueStretchVector[i], bondMobilityString); 
 			myMobilizerStretchVector.push_back(myMobilizerStretch);
               
-                        cout<<__FILE__<<":"<<__LINE__<<" For chain "<<myMobilizerStretch.getChain()<< " start res "<<myMobilizerStretch.getStartResidue().outString()<<" end res "<< myMobilizerStretch.getEndResidue().outString() <<" mobility " << myMobilizerStretch.getBondMobility()<<endl;//" and chain "<< targetChain<<" residue "<<targetResidue.outString()<<" distance is "<<myDistance<<" nm"<<endl;
-                        cout<< __FILE__<<":"<<__LINE__<<" Note that in prior releases of MMB we took dead lengths in Å.  For consistency with molmodel we are going back to nm, kJ/mol, ps, with apologies for the confusion."<<endl;
+                        MMBLOG_FILE_FUNC_LINE(INFO, "For chain "<<myMobilizerStretch.getChain()<< " start res "<<myMobilizerStretch.getStartResidue().outString()<<" end res "<< myMobilizerStretch.getEndResidue().outString() <<" mobility " << myMobilizerStretch.getBondMobility()<<endl);//" and chain "<< targetChain<<" residue "<<targetResidue.outString()<<" distance is "<<myDistance<<" nm"<<endl;
+                        MMBLOG_FILE_FUNC_LINE(INFO, "Note that in prior releases of MMB we took dead lengths in Å.  For consistency with molmodel we are going back to nm, kJ/mol, ps, with apologies for the confusion."<<endl);
 
 		}
 		return myMobilizerStretchVector;
@@ -121,8 +121,7 @@ class ResidueStretchContainer{
             residueStretchVector.erase(it);
         else
         {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": you tried to delete a non existing ResidueStretch: "<<"Stretch chain ="<< residueStretch.getChain()<<", first residue ="<<residueStretch.getStartResidue().outString()<<", last residue ="<<residueStretch.getEndResidue().outString()<< endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to delete a non existing ResidueStretch: "<<"Stretch chain ="<< residueStretch.getChain()<<", first residue ="<<residueStretch.getStartResidue().outString()<<", last residue ="<<residueStretch.getEndResidue().outString()<< endl);
         }
     }
 
@@ -132,8 +131,7 @@ class ResidueStretchContainer{
             residueStretchVector.erase(residueStretchVector.begin()+id);
         else
         {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": you tried to delete a non existing ResidueStretch." << endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to delete a non existing ResidueStretch." << endl);
         }
     }
 
@@ -155,8 +153,8 @@ class ResidueStretchContainer{
 	                    	targetBiopolymerClass.calcDefaultAtomLocationInGroundFrame  ( targetResidue, targetBiopolymerClass.getRepresentativeAtomName())
                     		- referenceBiopolymerClass.calcDefaultAtomLocationInGroundFrame(referenceResidue, referenceBiopolymerClass.getRepresentativeAtomName())
                     	).norm(); // *10; // convert to Å -- no longer done, now using nm directly
-                cout<<__FILE__<<":"<<__LINE__<<" For chain "<<referenceChain<<" residue "<<referenceResidue.outString()<<" and chain "<< targetChain<<" residue "<<targetResidue.outString()<<" distance is "<<myDistance<<" nm "<<endl;
-                cout<< __FILE__<<":"<<__LINE__<<" Note that in prior releases of MMB we took distances in Å.  For consistency with molmodel we are going back to nm, kJ/mol, ps, with apologies for the confusion."<<endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "For chain "<<referenceChain<<" residue "<<referenceResidue.outString()<<" and chain "<< targetChain<<" residue "<<targetResidue.outString()<<" distance is "<<myDistance<<" nm "<<endl);
+                MMBLOG_FILE_FUNC_LINE(INFO, "Note that in prior releases of MMB we took distances in Å. For consistency with molmodel we are going back to nm, kJ/mol, ps, with apologies for the confusion."<<endl);
                 return myDistance;
 	};
 				
@@ -168,12 +166,11 @@ class ResidueStretchContainer{
                 String referenceChain = referenceBiopolymerClass.getChainID(); 
                 String targetChain = targetBiopolymerClass.getChainID(); 
 		if (referenceBiopolymerClass.getChainID().compare(targetBiopolymerClass.getChainID()) == 0) {
-			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Chain "<<referenceChain<<" can't have an interface with itself!"<<endl;
-			ErrorManager::instance.treatError();
+			MMBLOG_FILE_FUNC_LINE(CRITICAL, "Chain "<<referenceChain<<" can't have an interface with itself!"<<endl);
 		};
 			residueStretchVector.push_back(ResidueStretchType(targetChain, targetResidue, targetResidue));
                 
-		cout<<__FILE__<<":"<<__LINE__<<" Chain "<<targetChain<<" residue "<<targetResidue.outString()<<" added to interface mobility zone. "<<endl;
+		MMBLOG_FILE_FUNC_LINE(INFO, "Chain "<<targetChain<<" residue "<<targetResidue.outString()<<" added to interface mobility zone. "<<endl);
 	};
 
 
@@ -198,7 +195,7 @@ class ResidueStretchContainer{
 		for (int i = 0; i < interfaceContainer.numInterfaces(); i++) {
 			Interface tempInterface = interfaceContainer.getInterface(i);
 			addAllMutualChainResidues(tempInterface.Depth, tempInterface.Chains, tempInterface.PartnerChains, myBiopolymerClassContainer);
-			cout<<__FILE__<<":"<<__LINE__<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, endl);
 		}
 	};
 
@@ -254,12 +251,12 @@ class ResidueStretchContainer{
                     myResidueStretch2.setEndResidue(concatenatedAtomInfoVector[neighborList[j].second].residueID);
                     myResidueStretch2.setChain(concatenatedAtomInfoVector[neighborList[j].second].chain);
                     if (!(vectorHasResidueStretch(myResidueStretch1))) {addResidueStretchToVector(myResidueStretch1);
-			cout<<__FILE__<<":"<<__LINE__<<" Added first residue stretch"<<endl; 
+			        MMBLOG_FILE_FUNC_LINE(INFO, "Added first residue stretch"<<endl);
                         myResidueStretch1.printStretch();
                         //print (myResidueStretch1);
 		    }
                     if (!(vectorHasResidueStretch(myResidueStretch2))) {addResidueStretchToVector(myResidueStretch2);
-			cout<<__FILE__<<":"<<__LINE__<<" Added second residue stretch"<<endl; 
+			            MMBLOG_FILE_FUNC_LINE(INFO, "Added second residue stretch"<<endl);
                         myResidueStretch2.printStretch() ;
                     }
 	  	}
@@ -332,19 +329,19 @@ class ResidueStretchContainer{
 	    ////openmmVecType * boxSize ;
             //*boxSize = openmmVecType(10000,10000,10000);
             openmmVecType boxSize = openmmVecType(10000,10000,10000);
-            cout<<__FILE__<<":"<<__LINE__<<" neighborList size is : "<<neighborList.size()<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "neighborList size is : "<<neighborList.size()<<endl);
 	    computeNeighborListVoxelHash(neighborList, particleList.size() , particleList, exclusions, &boxSize, false, radius  , 0.0);
-            cout<<__FILE__<<":"<<__LINE__<<" in addIntraChainInterfaceResidues. About to add residues to physics zone." <<endl;
-            cout<<__FILE__<<":"<<__LINE__<<" neighborList size is : "<<neighborList.size()<<endl;
-            cout<<__FILE__<<":"<<__LINE__<<" depth = "<< radius <<endl;
-            cout<<__FILE__<<":"<<__LINE__<<" chain = "<< referenceChain <<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "in addIntraChainInterfaceResidues. About to add residues to physics zone." <<endl);
+            MMBLOG_FILE_FUNC_LINE(INFO, "neighborList size is : "<<neighborList.size()<<endl);
+            MMBLOG_FILE_FUNC_LINE(INFO, "depth = "<< radius <<endl);
+            MMBLOG_FILE_FUNC_LINE(INFO, "chain = "<< referenceChain <<endl);
             for ( int j = 0 ; j < neighborList.size(); j++) {
                 if (chainAtomInfoVector[neighborList[j].first].mobilizedBodyIndex < 0) {
-		    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Bad chainAtomInfoVector[neighborList[j].first].mobilizedBodyIndex = " <<chainAtomInfoVector[neighborList[j].first].mobilizedBodyIndex <<endl; 
-		    ErrorManager::instance.treatError(); }
+		            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Bad chainAtomInfoVector[neighborList[j].first].mobilizedBodyIndex = " <<chainAtomInfoVector[neighborList[j].first].mobilizedBodyIndex <<endl);
+		        }
                 if (chainAtomInfoVector[neighborList[j].second].mobilizedBodyIndex < 0) {
-		    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Bad chainAtomInfoVector[neighborList[j].second].mobilizedBodyIndex = " <<chainAtomInfoVector[neighborList[j].second].mobilizedBodyIndex <<endl; 
-		    ErrorManager::instance.treatError(); }
+		            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Bad chainAtomInfoVector[neighborList[j].second].mobilizedBodyIndex = " <<chainAtomInfoVector[neighborList[j].second].mobilizedBodyIndex <<endl);
+		        }
                 if (( chainAtomInfoVector[neighborList[j].first].mobilizedBodyIndex != chainAtomInfoVector[neighborList[j].second].mobilizedBodyIndex )) // &&  // if the two atoms belong to separate bodies, include them in the physics zone
                     //( chainAtomInfoVector[neighborList[j].first].chain.compare( referenceChain ) == 0) &&                                                   // the two atoms should also be in referenceChain
                     //( chainAtomInfoVector[neighborList[j].second].chain.compare( referenceChain ) == 0) ) 
@@ -359,29 +356,29 @@ class ResidueStretchContainer{
                     //myResidueStretch2.setEndResidue(chainAtomInfoVector[neighborList[j].second].residueID);
                     myResidueStretch2.setChain(chainAtomInfoVector[neighborList[j].second].chain);
                     if (!(vectorHasResidueStretch(myResidueStretch1))) {addResidueStretchToVector(myResidueStretch1);
-			cout<<__FILE__<<":"<<__LINE__<<" Added first residue stretch"<<endl; 
+			            MMBLOG_FILE_FUNC_LINE(INFO, "Added first residue stretch"<<endl);
                         myResidueStretch1.printStretch();
-                        cout<<__FILE__<<":"<<__LINE__<<" based on chainAtomInfoVector["<<neighborList[j].first<<"].print() "<<endl; chainAtomInfoVector[neighborList[j].first].print();
-                        cout<<__FILE__<<":"<<__LINE__<<" based on chainAtomInfoVector["<<neighborList[j].second<<"].print() "<<endl; chainAtomInfoVector[neighborList[j].second].print();
+                        MMBLOG_FILE_FUNC_LINE(INFO, "based on chainAtomInfoVector["<<neighborList[j].first<<"].print() "<<endl); chainAtomInfoVector[neighborList[j].first].print();
+                        MMBLOG_FILE_FUNC_LINE(INFO, "based on chainAtomInfoVector["<<neighborList[j].second<<"].print() "<<endl); chainAtomInfoVector[neighborList[j].second].print();
                         if (myResidueStretch1.getChain().compare(referenceChain) != 0) {
-			    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Added undesired chain = "<<myResidueStretch1.getChain()<<endl;
-			    ErrorManager::instance.treatError(); }
+			                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Added undesired chain = "<<myResidueStretch1.getChain()<<endl);
+			            }
 		    } // of if
                     if (!(vectorHasResidueStretch(myResidueStretch2))) {addResidueStretchToVector(myResidueStretch2);
-			cout<<__FILE__<<":"<<__LINE__<<" Added second residue stretch"<<endl; 
-                        cout<<__FILE__<<":"<<__LINE__<<" based on chainAtomInfoVector["<<neighborList[j].first<<"].print() "<<endl; chainAtomInfoVector[neighborList[j].first].print();
-                        cout<<__FILE__<<":"<<__LINE__<<" based on chainAtomInfoVector["<<neighborList[j].second<<"].print() "<<endl; chainAtomInfoVector[neighborList[j].second].print();
+			            MMBLOG_FILE_FUNC_LINE(INFO, "Added second residue stretch"<<endl);
+                        MMBLOG_FILE_FUNC_LINE(INFO, "based on chainAtomInfoVector["<<neighborList[j].first<<"].print() "<<endl); chainAtomInfoVector[neighborList[j].first].print();
+                        MMBLOG_FILE_FUNC_LINE(INFO, "based on chainAtomInfoVector["<<neighborList[j].second<<"].print() "<<endl); chainAtomInfoVector[neighborList[j].second].print();
                         myResidueStretch2.printStretch();
                         if (myResidueStretch2.getChain().compare(referenceChain) != 0) {
-			    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Added undesired chain = "<<myResidueStretch2.getChain()<<endl;
-			    ErrorManager::instance.treatError(); }
+			                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Added undesired chain = "<<myResidueStretch2.getChain()<<endl);
+			            }
                     }
 	  	}
                 else {
                     //  It seems unnecessary to actually delete the neighborList elements.  It should be enough not to call addResidueStretchToVector.
                 }
             }
-            cout<<__FILE__<<":"<<__LINE__<<" done with addIntraChainInterfaceResidues. " <<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "done with addIntraChainInterfaceResidues. " <<endl);
 	};
     #endif
 

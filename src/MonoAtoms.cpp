@@ -14,25 +14,20 @@
 
 int MonoAtoms::validate() {
 	if (chainID.length() >1) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": Please do not use chain ID’s longer than one character."<<endl; 
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Please do not use chain ID’s longer than one character."<<endl);
     }
 	else if (chainID.length() < 1) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": chain ID is less than one character long."<<endl; 
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "chain ID is less than one character long."<<endl);
     }
 
     if (numAtoms <1) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": You must specify more than 0 atoms."<<endl; 
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You must specify more than 0 atoms."<<endl);
     }
 	if (atomName.size() >4) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": Atom name must be <= 4 characters long."<<endl; 
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Atom name must be <= 4 characters long."<<endl);
     }
 	else if (atomName.size() < 1) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": Atom name must be at least 1 character long."<<endl; 
-        ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Atom name must be at least 1 character long."<<endl);
     }
     return 0;
 }
@@ -118,8 +113,7 @@ MonoAtoms::MonoAtoms (String myChainID,ResidueID myFirstResidueNumber, int myNum
 		//compoundVector.push_back(myIon);
 
 	    } else {
- 	        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<": You have requested a monoAtoms of an unsupported type: "<<myAtomName<<". Currently only the following are supported:  Mg+2, Zn+2, Cl-, Na+, K+, Li+, Ca+2, Cs+, Rb+."<<endl << "Corresponding residue types should be MG, ZN, CL, NA, K, LI, CA, CS, RB."<<endl;;
-		ErrorManager::instance.treatError();
+ 	        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have requested a monoAtoms of an unsupported type: "<<myAtomName<<". Currently only the following are supported:  Mg+2, Zn+2, Cl-, Na+, K+, Li+, Ca+2, Cs+, Rb+."<<endl << "Corresponding residue types should be MG, ZN, CL, NA, K, LI, CA, CS, RB."<<endl);
 	    }
             myMolecule.setPdbChainId(chainID);
             myMolecule.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
@@ -148,8 +142,7 @@ const int MonoAtoms::getResidueIndex(ResidueID myResidueID) {
         if (myResidueID == ResidueID(compoundVector[i].getPdbResidueNumber(),' '))//compoundVector[i].getPdbInsertionCode()))
             return i;
     }
-    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error!  Requested ResidueID : " <<myResidueID.outString()<<" is invalid."<<endl;
-    ErrorManager::instance.treatError();
+    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Requested ResidueID : " <<myResidueID.outString()<<" is invalid."<<endl);
 }
 
 const int MonoAtoms::getNumAtoms() {
@@ -162,9 +155,9 @@ const String MonoAtoms::getAtomName() {
 
 void MonoAtoms::validateResidue(  ResidueID residueNumber) {
 	if (residueNumber < getFirstResidueID()) 
-		{ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error!  Requested a residue lower numberd than the first residue!"<<endl; ErrorManager::instance.treatError();}
+		{MMBLOG_FILE_FUNC_LINE(CRITICAL, "Requested a residue lower numberd than the first residue!"<<endl);}
 	else if (residueNumber > getLastResidueID()) 
-		{ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error!  Requested a residue higher numberd than the last residue!"<<endl; ErrorManager::instance.treatError();}
+		{MMBLOG_FILE_FUNC_LINE(CRITICAL, "Requested a residue higher numberd than the last residue!"<<endl);}
 	else { // do nothing
         };
 }
@@ -186,7 +179,7 @@ const Compound::AtomIndex MonoAtoms::getAtomIndex(ResidueID residueNumber)
 {
 	validateResidue (residueNumber ); 
 	if (hasAtom(residueNumber) == false) 
-	    {ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error!  Attempted to get a   MonoAtom member that doesn't exist!"<<endl; ErrorManager::instance.treatError();}
+	    {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Attempted to get a   MonoAtom member that doesn't exist!"<<endl); }
         Compound::AtomIndex myAtomIndex = compoundVector[residueNumber.getResidueNumber() - getFirstResidueID()  .getResidueNumber()].getAtomIndex(Compound::AtomPathName(atomName));
 	return myAtomIndex;
 }
@@ -199,7 +192,7 @@ const Vec3 MonoAtoms::getAtomLocationInMobilizedBodyFrame(ResidueID residueNumbe
 }
 void    MonoAtoms::adoptCompounds(SimTK::CompoundSystem & mySystem, bool readPreviousFrameFile){
 	for (int i =  0 ; i<getNumAtoms(); i++) {
-                //cout<<__FILE__<<":"<<__LINE__<< " X,Y,Z position of monoAtom: "<<0.1*sin((double)i)<<" , "<<0.1*cos((double)i)<<", "<<1.0*i/1<<endl;
+                //MMBLOG_FILE_FUNC_LINE( " X,Y,Z position of monoAtom: "<<0.1*sin((double)i)<<" , "<<0.1*cos((double)i)<<", "<<1.0*i/1<<endl;
                 if (readPreviousFrameFile == 0)
 		    mySystem.adoptCompound(compoundVector[i],Vec3(  0*sin((double)i) ,0*cos((double)i),1.0*i/1));
                 else mySystem.adoptCompound(compoundVector[i]);
@@ -213,15 +206,15 @@ void MonoAtoms::matchDefaultConfiguration(PdbStructure pdbStructure,bool matchEx
 {
 	for (int i = 0; i < (int)compoundVector.size(); i++) {
 		Compound::AtomTargetLocations atomTargets = compoundVector[i].createAtomTargets(pdbStructure);
-                cout<<__FILE__<<":"<<__LINE__<<" contents of atomTargets.size() : "<< atomTargets.size()<<std::endl;
-                //cout<<__FILE__<<":"<<__LINE__<<" contents of atomTargets : "<<std::endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "contents of atomTargets.size() : "<< atomTargets.size()<<endl);
+                //MMBLOG_FILE_FUNC_LINE(" contents of atomTargets : "<<std::endl;
 		if (matchExact)
 			{
 			compoundVector[i].matchDefaultConfiguration(atomTargets,   Compound::Match_Exact );
 			}
 		if (matchIdealized) 
 			{compoundVector[i].matchDefaultConfiguration(atomTargets,   Compound::Match_Idealized );} //planarity tolerance is in Radians, if Sherm's email is to be believed
-                cout<<__FILE__<<":"<<__LINE__<<" position "<<compoundVector[i].calcDefaultAtomLocationInGroundFrame(compoundVector[i].getAtomName(Compound::AtomIndex(0)))<<endl;
+                MMBLOG_FILE_FUNC_LINE(INFO, "position "<<compoundVector[i].calcDefaultAtomLocationInGroundFrame(compoundVector[i].getAtomName(Compound::AtomIndex(0)))<<endl);
 	}
         
 }
@@ -252,7 +245,7 @@ String MonoAtoms::getAtomPathName(ResidueID myResidue) {
 
 void MonoAtoms::includeAllAtoms(DuMMForceFieldSubsystem & dumm){
     for (int i = 0; i < (int)compoundVector.size(); i++) {
-        cout<<__FILE__<<":"<<__LINE__<<" About to get atom named : "<<getAtomName() <<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "About to get atom named : "<<getAtomName() <<endl);
         Compound::AtomIndex myAtomIndex = compoundVector[i].getAtomIndex(getAtomName() );
         DuMM::AtomIndex myDuMMAtomIndex = compoundVector[i].getDuMMAtomIndex(myAtomIndex);
         dumm.includeNonbondAtom(myDuMMAtomIndex);
@@ -273,12 +266,12 @@ MonoAtoms MonoAtomsContainer::getMonoAtoms(String myChainID) {
 		{MonoAtoms myMonoAtoms ( monoAtomsMap[myChainID]);
 		return myMonoAtoms;	
                 }
-	else {ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error!  Attempted to get a SingleAtom that doesn't exist!"<<endl; ErrorManager::instance.treatError();}
+	else {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Attempted to get a SingleAtom that doesn't exist!"<<endl);}
 }
 
 void MonoAtomsContainer::addMonoAtoms(MonoAtoms myMonoAtoms) {
 		if (hasChainID(myMonoAtoms.getChainID()))
- 			{ErrorManager::instance <<__FILE__<<":"<<__LINE__<<"Error!  A SingleAtom with that chainID already exists!"<<endl; ErrorManager::instance.treatError();}
+ 			{MMBLOG_FILE_FUNC_LINE(CRITICAL, "A SingleAtom with that chainID already exists!"<<endl);}
 		else {
 			monoAtomsMap[myMonoAtoms.getChainID()] = myMonoAtoms;
 		}

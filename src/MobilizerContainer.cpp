@@ -33,13 +33,13 @@ bool MobilizerContainer::isEmpty() {
 void MobilizerContainer::validateMobilizerStretch(MobilizerStretch & myMobilizerStretch, BiopolymerClassContainer & myBiopolymerClassContainer){
     
     if (!(myBiopolymerClassContainer.hasChainID(myMobilizerStretch.getChain()))){
-	ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Couldn't find chain "<<myMobilizerStretch.getChain()<<endl; ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Couldn't find chain "<<myMobilizerStretch.getChain()<<endl);
     }
     if ( myBiopolymerClassContainer.updBiopolymerClass(myMobilizerStretch.getChain()).difference(myMobilizerStretch.getEndResidue() , myMobilizerStretch.getStartResidue()) < 0) {
     }
     myBiopolymerClassContainer.updBiopolymerClass(myMobilizerStretch.getChain()).validateResidueID(myMobilizerStretch.getEndResidue());
     if ((myMobilizerStretch.getStartResidue() < myBiopolymerClassContainer.updBiopolymerClass(myMobilizerStretch.getChain()).getFirstResidueID()) ) {
-	ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The start residue (currently "<<myMobilizerStretch.getStartResidue().outString()<<") is lesser than the first residue number of the chain."<<endl; ErrorManager::instance.treatError();
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The start residue (currently "<<myMobilizerStretch.getStartResidue().outString()<<") is lesser than the first residue number of the chain."<<endl);
     }
     validateResidueStretch(myMobilizerStretch,myBiopolymerClassContainer); // This method from the parent class has basic checks, e.g. making sure EndResidue > StartResidue.
 };
@@ -50,8 +50,8 @@ void MobilizerContainer::validateMobilizerStretch(int  mobilizerStretchIndex, Bi
 };
 
 void MobilizerContainer::printMobilizerStretch(int mobilizerStretchIndex){
-        cout<<__FILE__<<":"<<__LINE__<<" Mobilizer stretch "<<mobilizerStretchIndex<<" BondMobility = "<<getResidueStretch(mobilizerStretchIndex ).getBondMobilityString()<<endl;
-        cout<<__FILE__<<":"<<__LINE__<<" chain= "<<getResidueStretch(mobilizerStretchIndex ).getChain()  <<" from residue "<<getResidueStretch(mobilizerStretchIndex ).getStartResidue().outString()<<" to "<<getResidueStretch(mobilizerStretchIndex ).getEndResidue().outString()<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Mobilizer stretch "<<mobilizerStretchIndex<<" BondMobility = "<<getResidueStretch(mobilizerStretchIndex ).getBondMobilityString()<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "chain= "<<getResidueStretch(mobilizerStretchIndex ).getChain()  <<" from residue "<<getResidueStretch(mobilizerStretchIndex ).getStartResidue().outString()<<" to "<<getResidueStretch(mobilizerStretchIndex ).getEndResidue().outString()<<endl);
 };
 
 void MobilizerContainer::printMobilizerStretches(){
@@ -66,7 +66,7 @@ void MobilizerContainer::printMobilizerStretches(){
 
 void MobilizerContainer::addMobilizerStretchToVector(MobilizerStretch myMobilizerStretch, BiopolymerClassContainer & myBiopolymerClassContainer) {
     validateMobilizerStretch(myMobilizerStretch, myBiopolymerClassContainer); 
-    cout<<__FILE__<<":"<<__LINE__<<" Adding mobilizer stretch to vector:"<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "Adding mobilizer stretch to vector:"<<endl);
     myMobilizerStretch.print();
     addResidueStretchToVector(myMobilizerStretch );
     //printMobilizerStretch(getNumResidueStretches()-1);
@@ -258,8 +258,7 @@ void MobilizerContainer::setBiopolymerBondMobility (BiopolymerClassContainer & m
             );
         } 
         else {
-            ErrorManager::instance << __FUNCTION__ << ": biopolymerType " << btype << " unknown" << endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "biopolymerType " << btype << " unknown" << endl);
         }
     }
 };
@@ -269,18 +268,18 @@ void MobilizerContainer::createMobilizersWithin ( BiopolymerClassContainer & myB
      
            
     for (int h = 0 ; h < mobilizerWithinVector.size() ; h++) {
-	vector<SingleResidue> myMobilizerResidueVector = myBiopolymerClassContainer.findBiopolymerResiduesWithinRadius(mobilizerWithinVector,state);
-	for (int i = 0 ; i < myMobilizerResidueVector.size() ; i ++) {
-	    MobilizerStretch myMobilizer;// =myMobilizerResidueVector[i];
-	    myMobilizer.setChain (myMobilizerResidueVector[i].getChain());
-	    myMobilizer.setStartResidue ( myMobilizerResidueVector[i].getResidue() );
-	    myMobilizer.setEndResidue (myMobilizerResidueVector[i].getResidue() );
-	    myMobilizer.setBondMobility(mobilizerWithinVector[h].getBondMobilityString() );
-	    addMobilizerStretchToVector(myMobilizer, myBiopolymerClassContainer);
-            cout<<__FILE__<<":"<<__LINE__<<endl;
-            myMobilizer.printStretch();
-	} 
-    }
+    vector<SingleResidue> myMobilizerResidueVector = myBiopolymerClassContainer.findBiopolymerResiduesWithinRadius(mobilizerWithinVector,state);
+    for (int i = 0 ; i < myMobilizerResidueVector.size() ; i ++) {
+        MobilizerStretch myMobilizer;// =myMobilizerResidueVector[i];
+        myMobilizer.setChain (myMobilizerResidueVector[i].getChain());
+        myMobilizer.setStartResidue ( myMobilizerResidueVector[i].getResidue() );
+        myMobilizer.setEndResidue (myMobilizerResidueVector[i].getResidue() );
+        myMobilizer.setBondMobility(mobilizerWithinVector[h].getBondMobilityString() );
+        addMobilizerStretchToVector(myMobilizer, myBiopolymerClassContainer);
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
+        myMobilizer.printStretch();
+    } 
+}
     
     /*
     for (int h = 0; h < (int)mobilizerWithinVector.size(); h++){
@@ -360,7 +359,7 @@ void MobilizerContainer::addPhiPsiMobility(String chain, ResidueID startResidue,
                         mySingleBondMobility.residue1 = myBiopolymerClassContainer.updBiopolymerClass(mySingleBondMobility.chain1).incrementResidueID(mySingleBondMobility.residue1);
                         mySingleBondMobility.residue2 = myBiopolymerClassContainer.updBiopolymerClass(mySingleBondMobility.chain2).incrementResidueID(mySingleBondMobility.residue2); 
 			if (!(mySingleBondMobility.residue1 == mySingleBondMobility.residue2)) {
-			    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error!  residue1 and  residue2 are not equal ."<<endl; ErrorManager::instance.treatError();}
+			    MMBLOG_FILE_FUNC_LINE(CRITICAL, "residue1 and residue2 are not equal ."<<endl);}
 		}
                 else if (mySingleBondMobility.residue1  == endResidue) {
                         break;
@@ -395,11 +394,11 @@ void MobilizerContainer::updateMobilizerWithin(int id, String myChain, ResidueID
 }
 
 void MobilizerContainer::setMobilizerTypeForAllChains(const String myMobilizerString, BiopolymerClassContainer & myBiopolymerClassContainer){
-    cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" myMobilizerString = >"<<myMobilizerString<<"< "<<endl;
+    MMBLOG_FILE_FUNC_LINE(INFO, "myMobilizerString = >"<<myMobilizerString<<"< "<<endl);
     for (int i = 0 ; i < myBiopolymerClassContainer.getNumBiopolymers(); i++) {
         String myChainID = myBiopolymerClassContainer.updBiopolymerClass(i).getChainID();
         //String myMobilizerString = parameterStringClass.getString(1);
-        cout<<__FILE__<<":"<<__LINE__<<" Adding mobilizer stretch to biopolymer index "<<i<<" , chain "<< myChainID<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Adding mobilizer stretch to biopolymer index "<<i<<" , chain "<< myChainID<<endl);
         addMobilizerStretchToVector(
             myChainID,
             myMobilizerString,

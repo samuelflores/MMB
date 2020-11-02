@@ -223,9 +223,9 @@ int  BiopolymerClass::checkResidueNumbersAndInsertionCodes(){
     
     int myResidueIndex = getResidueIndex(getFirstResidueID());
     ResidueID myResidueID = getFirstResidueID();
-    MMBLOG_FILE_FUNC_LINE(INFO, getChainID() <<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, getChainID() <<endl);
     while (myResidueIndex < getResidueIndex(getLastResidueID())){
-        MMBLOG_FILE_FUNC_LINE(INFO, getResidueID(myResidueIndex).outString()<<"."<<flush <<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, getResidueID(myResidueIndex).outString()<<"."<<flush <<endl);
         // Check that at least the integer part of the ResidueID is nondecreasing
         if ( getResidueID(myResidueIndex).getResidueNumber() <= getResidueID(myResidueIndex + 1).getResidueNumber()) {
             // all is well. Even if insertion codes are wonky, we can deal with that.
@@ -4147,23 +4147,23 @@ ResidueID BiopolymerClassContainer::residueID(map<const String,double> myUserVar
     else if ((plusPosition != String::npos) || (minusPosition != String::npos) ){ // This is the case that there is a +/- operation to do
         size_t leftMostPlusMinus = min(plusPosition,minusPosition) ;
         String myResidueIDString = inputResidueID.substr(0, (leftMostPlusMinus + 0) ); // The part before the first +/- is assumed to be the residue ID.
-        MMBLOG_FILE_FUNC_LINE(INFO, "You have specified an arithmetic operation '+/-' be performed on a residue ID: "<<inputResidueID<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "The starting residue ID is taken to be: "<<myResidueIDString <<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "You have specified an arithmetic operation '+/-' be performed on a residue ID: "<<inputResidueID<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "The starting residue ID is taken to be: "<<myResidueIDString <<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
         // I am NOT adding +1 to leftMostPlusMinus .. this means that the +/1 sign goes with the myResidueIncrementString.
         String myResidueIncrementString = (inputResidueID.substr(leftMostPlusMinus ,1000)); // the second parameter is ridiculously large, but will be truncated at the end of the input String.
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
         stringstream myResidueIncrementStringStream(myResidueIncrementString);
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
         int myResidueIncrement = -1111;
-        MMBLOG_FILE_FUNC_LINE(INFO, "myResidueIncrementString = "<<myResidueIncrementString<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "Note that the above should NOT include any insertion codes."<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "myResidueIncrementString = "<<myResidueIncrementString<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "Note that the above should NOT include any insertion codes."<<endl);
         myResidueIncrement = myAtoI(myUserVariables, myResidueIncrementString ); // This can handle additional +/- as well as user variables in any order or position
-        MMBLOG_FILE_FUNC_LINE(INFO, "myResidueIncrement = >"<<myResidueIncrement<<"<"<<endl);
-	MMBLOG_FILE_FUNC_LINE(INFO, "chain: "<<chain<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "myResidueIDString >"<<myResidueIDString<<"<"<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "myResidueIDString.c_str() >"<<myResidueIDString.c_str()<<"<"<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "You wish to add the following increment : "<<myResidueIncrement<<" to the following residue ID: ");
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "myResidueIncrement = >"<<myResidueIncrement<<"<"<<endl);
+	MMBLOG_FILE_FUNC_LINE(DEBUG, "chain: "<<chain<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "myResidueIDString >"<<myResidueIDString<<"<"<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "myResidueIDString.c_str() >"<<myResidueIDString.c_str()<<"<"<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "You wish to add the following increment : "<<myResidueIncrement<<" to the following residue ID: ");
         //MMBLOG_FILE_FUNC_LINE(endl;
         ResidueID myResidueID = residueID(myUserVariables, myResidueIDString.c_str(), chain); // this is recursive, calls self. Should be able to handle LastResidue, FirstResidue, @ variables, and literal strings.
         cout<<myResidueID.outString()<<endl;

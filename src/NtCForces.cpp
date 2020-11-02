@@ -408,8 +408,8 @@
      double dist_ang = return_dist_ang(angle,myNTC_PAR_BondRow.rotationAngle);  
 
     energy += torqueConstant*cos((dist_ang + 180.0)/57.295779513)*(360.0/57.295779513+1.0)/(1.0+myNTC_PAR_BondRow.CONFALVALUE)/(360.0/57.295779513);//torqueConstant*pow(dist_ang/57.295779513,2);//-torqueConstant*(-cos(dist_ang/57.295779513)+(exp(-(pow(dist_ang,2)/(2.0*pow(l_param,2))))));
-        
-    cout << " NTC sampling - CHAIN ID = " << chainId1 << ", residuenumber " << myResidueNumber.ResidueNumber  << " difference-angle = "<< dist_ang << " , CONFALVALUE = " << myNTC_PAR_BondRow.CONFALVALUE << " , " << angle*57.295779513 << " = angle at time t for atoms  = " << myNTC_PAR_BondRow.residue1Atom[0] << " , " << myNTC_PAR_BondRow.residue1Atom[1] << " , " << myNTC_PAR_BondRow.residue1Atom[2] << " , " << myNTC_PAR_BondRow.residue1Atom[3] << " , "<< myNTC_PAR_BondRow.rotationAngle*57.295779513 << " = angle_0 from  input , " << "energy = " << energy << endl;
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " NTC sampling - CHAIN ID = " << chainId1 << ", residuenumber " << myResidueNumber.ResidueNumber  << " difference-angle = "<< dist_ang << " , CONFALVALUE = " << myNTC_PAR_BondRow.CONFALVALUE << " , " << angle*57.295779513 << " = angle at time t for atoms  = " << myNTC_PAR_BondRow.residue1Atom[0] << " , " << myNTC_PAR_BondRow.residue1Atom[1] << " , " << myNTC_PAR_BondRow.residue1Atom[2] << " , " << myNTC_PAR_BondRow.residue1Atom[3] << " , "<< myNTC_PAR_BondRow.rotationAngle*57.295779513 << " = angle_0 from  input , " << "energy = " << energy << endl);    
+    //cout << " NTC sampling - CHAIN ID = " << chainId1 << ", residuenumber " << myResidueNumber.ResidueNumber  << " difference-angle = "<< dist_ang << " , CONFALVALUE = " << myNTC_PAR_BondRow.CONFALVALUE << " , " << angle*57.295779513 << " = angle at time t for atoms  = " << myNTC_PAR_BondRow.residue1Atom[0] << " , " << myNTC_PAR_BondRow.residue1Atom[1] << " , " << myNTC_PAR_BondRow.residue1Atom[2] << " , " << myNTC_PAR_BondRow.residue1Atom[3] << " , "<< myNTC_PAR_BondRow.rotationAngle*57.295779513 << " = angle_0 from  input , " << "energy = " << energy << endl;
         
     rms   += sqrt(pow(dist_ang,2));    
     rmsTorsionAngleForThisNtCAndDinucleotide += sqrt(pow(dist_ang,2));
@@ -434,7 +434,8 @@
             
             double d = diff.norm();
 
-	      cout << "NN|CC difference: " << (d - myNTC_PAR_BondRow.bondLength[0]) << ", current value: " << d << ", equilibrium value: " << myNTC_PAR_BondRow.bondLength[0] << endl;
+              MMBLOG_FILE_FUNC_LINE(DEBUG, "NN|CC difference: " << (d - myNTC_PAR_BondRow.bondLength[0]) << ", current value: " << d << ", equilibrium value: " << myNTC_PAR_BondRow.bondLength[0] << endl);
+	      //cout << "NN|CC difference: " << (d - myNTC_PAR_BondRow.bondLength[0]) << ", current value: " << d << ", equilibrium value: " << myNTC_PAR_BondRow.bondLength[0] << endl;
 
           energy += myNTC_PAR_BondRow.springConstant[0]*pow(1.0-exp(-(2.0*myNTC_PAR_BondRow.CONFALVALUE)*(d - myNTC_PAR_BondRow.bondLength[0])),2);
           

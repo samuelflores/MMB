@@ -2,7 +2,8 @@
 # You can compare this to the tetraloop found in the large subunit of the yeast mitochondrial ribosome, PDB ID 5MRC, residues 2639 to 2648.
 
 #sequence
-RNA A 2639     UACGUAAGUA
+#       1234567890
+RNA A 1 UACGUAAGUA
 
 # stages
 firstStage 1 
@@ -10,20 +11,20 @@ lastStage 2
 
 #general simulation parameters
 # This is a multiplying factor for the baseInteraction forces:
-baseInteractionScaleFactor     200
+baseInteractionScaleFactor   200
 # Simulation time = reportingInterval * numReportingIntervals :
 reportingInterval 3.0
-numReportingIntervals  7 
+numReportingIntervals 7 
 temperature 10 
 
 # You can impose WatsonCrick/WatsonCrick/Cis base pairing forces pulling residues 2656-2658 towards 2663-2665:
-nucleicAcidDuplex A 2639 2641 A 2648 2646
+nucleicAcidDuplex A 1   3   A 10  8  
 # Note that in the above the first residue stretch is rising, the second is falling. This is because the strands are antiparallel. Respect this syntax!
 
 # Or, equivalently, you can apply the base pairs individually::
 #baseInteraction A 2641 WatsonCrick A 2646 WatsonCrick Cis 
-#baseInteraction A 2640 WatsonCrick  A 2647 WatsonCrick Cis 
-#baseInteraction A 2639 WatsonCrick  A 2648 WatsonCrick Cis
+#baseInteraction A 2640 WatsonCrick A 2647 WatsonCrick Cis 
+#baseInteraction A 2639 WatsonCrick A 2648 WatsonCrick Cis
 
 # Turn on MD forces (incl. electrostatic and Lennard Jones forces)
 setDefaultMDParameters
@@ -33,18 +34,21 @@ setDefaultMDParameters
 
 #Why? Because now we have a better way to make nice helices. And actually many other dinucleotide steps. Thanks to Emmanuel Peter, Bohdan Schneider, and Jiri Cerny, who implemented NtCs in MMB.
 #The following imposes the NtC of type AA00 -- the most typical A-form stacking dinucleotide step -- to the dinucleotide formed by residues 2656 and 2657. The last parameter is a force constant:
-NtC A 2639 2640 AA00 .5
-# There are three stacked bases on this strand. So we impose a second NtC force, overlapping the prior one:
-NtC A 2640 2641 AA00 .5
+NtC A 1   3   AA00 .5
+#NtC A 2640 2641 AA00 .5
 # And now we do the same thing on the other strand:
-NtC A 2646 2647 AA00 .5
-NtC A 2647 2648 AA00 .5
+NtC A 8   10  AA00 .5
+#NtC A 2647 2648 AA00 .5
 
 readAtStage 2
-baseInteraction A 2645 Hoogsteen A 2642 SugarEdge Trans
-NtC A 2641 2642 AA00 1.5
-NtC A 2643 2644 AA00 1.5
-NtC A 2644 2645 AA00 1.5
+numReportingIntervals 4
+# All of the following parameters are taken from the tetraloop in PDB structure 1MRC, residues 2639 to 2648. dnatco.org was used to get the correct NtC classes.
+baseInteraction A 7   Hoogsteen A 4  SugarEdge Trans
+NtC A 3  4  AA00 1.5
+NtC A 4  5  OP03 1.5
+NtC A 5  6  AA08 1.5
+NtC A 6  7  AA00 1.5
+NtC A 7  8  AA05 1.5
 readBlockEnd
 
 

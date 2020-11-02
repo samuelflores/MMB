@@ -371,7 +371,7 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
 
     // a recursive algorithm for reading an integer from a String.  This String may contain ints, user variables (begin with @), +, and -.  No whitespaces or additional characters should be in the String.
     int   myAtoI(  map<const String,double> myUserVariables,  const char* value){
-        MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, ""<<endl);
         size_t plusPosition  = String(value).find_last_of('+');
         size_t minusPosition = String(value).find_last_of('-');
         if ((plusPosition > minusPosition) && (plusPosition  != String::npos) )  minusPosition = String::npos;
@@ -383,29 +383,29 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
         if ((lastPlusOrMinus != String::npos) && (lastPlusOrMinus != 0)) {
             baseIntegerString = String(value).substr(0, (lastPlusOrMinus + 0) ); // Put everything to the left of the last +/- into baseIntegerString
             String incrementString = (String(value).substr(lastPlusOrMinus+0,1000)); //  NOT adding 1 to lastPlusOrMinus means that the sign at lastPlusOrMinus goes with incrementString.
-            MMBLOG_FILE_FUNC_LINE(INFO, " At this stage, we are adding >"<<baseIntegerString<<"< and >"<<incrementString<<"<"<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, " At this stage, we are adding >"<<baseIntegerString<<"< and >"<<incrementString<<"<"<<endl);
             increment = myAtoI(myUserVariables, incrementString.c_str() );
-            MMBLOG_FILE_FUNC_LINE(INFO, incrementString<<" was interpreted as >"<<increment<<"<"<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, incrementString<<" was interpreted as >"<<increment<<"<"<<endl);
         } else if (lastPlusOrMinus == 0) { // There is a leading + or -, and  this is the only +/- in the whole expression.
             baseIntegerString = String(value).substr(1, 1000); // Put everything to from position 1 onwards into baseIntegerString
             if (plusPosition == 0) {
-                MMBLOG_FILE_FUNC_LINE(INFO, " Detected that the base string : >"<<String(value) <<"< has a leading \'+\'. "<<endl);
+                MMBLOG_FILE_FUNC_LINE(DEBUG, " Detected that the base string : >"<<String(value) <<"< has a leading \'+\'. "<<endl);
                 // Trim the leading '+' and return the rest    
                 return myAtoI(myUserVariables, baseIntegerString.c_str() );
                 //cout<<__FILE__<<":"<<__LINE__<<" Interpreted >"<<baseIntegerString<<"< as "<<increment<<endl; 
 	    } else if (minusPosition == 0) {
-                MMBLOG_FILE_FUNC_LINE(INFO, " Detected that the base integer string : >"<<baseIntegerString<<"< has a leading \'-\'.  Inverting sign."<<endl);
+                MMBLOG_FILE_FUNC_LINE(DEBUG, " Detected that the base integer string : >"<<baseIntegerString<<"< has a leading \'-\'.  Inverting sign."<<endl);
                 // Trim the leading '-' and return the negative
                 return -myAtoI(myUserVariables, baseIntegerString.c_str() );
                 //cout<<__FILE__<<":"<<__LINE__<<" Interpreted >"<<baseIntegerString<<"< as "<<increment<<endl; 
             }
         }
         else { // no + or - found.
-            MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, ""<<endl);
             if (!((increment == -1111 ))){// && (decrement == -1111 )  )) {
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, " Unexplained error!"<<endl);
             }
-            MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, ""<<endl);
             baseIntegerString = String(value);
             increment = 0;
             //decrement = 0;
@@ -416,16 +416,16 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
                     {
                         MMBLOG_FILE_FUNC_LINE(CRITICAL, ": Undefined user variable "<<value<<endl);
                     }
-                    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, ""<<endl);
                     double  intCast   = double(int(myUserVariables[baseIntegerString.c_str()]));
-                    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, ""<<endl);
                     double  doubleCast = double(myUserVariables[baseIntegerString.c_str()]);
-                    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
-                    MMBLOG_FILE_FUNC_LINE(INFO, " Read user variable "<<baseIntegerString.c_str()<<"  which is set to : "<<myUserVariables[baseIntegerString.c_str()]<<endl);
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, ""<<endl);
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, " Read user variable "<<baseIntegerString.c_str()<<"  which is set to : "<<myUserVariables[baseIntegerString.c_str()]<<endl);
                     SimTK_ERRCHK_ALWAYS(( (intCast) == doubleCast  ) ,"[ParameterReader.cpp]","Expected an int and got a non-integer");
-                    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, ""<<endl);
                     baseInteger = int(myUserVariables[baseIntegerString.c_str()]);
-                    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, ""<<endl);
                 }
                 else if (isNumber(baseIntegerString.c_str()))
                 {
@@ -622,9 +622,9 @@ vector<String> readAndParseOnColWidth   (ifstream & inFile, int columnWidth) {
         };  
     };  
     void ParameterStringClass::print() const {
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
         for (int i = 0 ; i < size(); i++){
-            MMBLOG_FILE_FUNC_LINE(INFO, stringVector[i]<<" ");
+            MMBLOG_FILE_FUNC_LINE(DEBUG, stringVector[i]<<" ");
             //std::cout<<__FILE__<<":"<<__LINE__<<" "<<i<<" >"<<stringVector[i]<<"< "<<std::endl;
         };
         MMBLOG_FILE_FUNC_LINE(INFO, endl);

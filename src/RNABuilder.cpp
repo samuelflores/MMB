@@ -4,10 +4,13 @@
    -------------------------------------------------------------------------- */
                                                                            
 
+#include <cstdlib>
 #include <fstream>
 #include <ios>
 #include <iostream>
 #include <vector>
+
+#include <getopt.h>
 
  #include "SimTKmolmodel.h"
  //#include "SimTKsimbody_aux.h"
@@ -17,6 +20,13 @@
 //#include "RNANoHydrogens.h"
 //#include "PeriodicPdbAndEnergyWriter.h"
 #define _DEBUG_FLAGS_ON_
+
+static struct option long_opts[] = {
+    {"commands",  required_argument, 0, 'C'},
+    {"directory", required_argument, 0, 'D'},
+    {"HELP",      no_argument,       0, 'H'},
+    {0,           0,                 0, 0  }
+};
 
 void printUsage() {
     std::cout<<std::endl;
@@ -47,38 +57,23 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
 
     bool useCurrentDir = true;
 
-    for( int i=1;i<num_args;i++) {
-
-        arg = String( args[i]);
-        option.resize(arg.length());
-
-        for(int j=0;j<(int)arg.length();j++) {
-            option[j] = toupper(arg[j]);
-        }
-
-        if( (option == "-HELP" )  || (option == "-H") ) {
+    int oc, opt_idx = 0;
+    while ((oc = getopt_long_only(num_args, args, "C:D:H", long_opts, &opt_idx)) != -1) {
+        switch (oc) {
+        case 'C':
+            parameterFile = optarg;
+            break;
+        case 'D':
+            outputDir = optarg;
+            break;
+        case 'H':
             printUsage();
-            // user specified name of input file as a command line argument 
-        } else if ( option == "-C")   {
-            if( num_args < i+2 ) {
-                std::cout << "Error missing name of contacts file "  << std::endl;
-            } else  {
-                parameterFile = args[++i];
-            }
-            // user specified working directory as command line argument 
-        } else if ( option == "-D")  {
-            if( num_args < i+2 ) {
-                std::cout << "Error missing name of output directory "  << std::endl;
-            } else  {
-                outputDir = args[++i];
-                useCurrentDir = false;
-            }
-
-        } else {
-            std::cout << "Error Unrecognized option:" << args[i] << std::endl;
+            return EXIT_SUCCESS;
+        case 0:
+        default:
             printUsage();
-        }
-
+            return EXIT_FAILURE;
+       }
     }
 
     /* determine the directory that the RNABuilder executable is in */

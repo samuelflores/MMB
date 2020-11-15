@@ -70,7 +70,15 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
         case 'H':
             printUsage();
             return EXIT_SUCCESS;
-        case 0:
+        case ':':
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Parameter -" << char(optopt) << " requires an argument" << std::endl);
+            return EXIT_FAILURE;
+        case '?':
+            if (optopt == 0)
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unknown parameter " << args[optind - 1] << std::endl);
+            else
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Parameter -" << char(optopt) << " requires an argument" << std::endl);
+            return EXIT_FAILURE;
         default:
             printUsage();
             return EXIT_FAILURE;

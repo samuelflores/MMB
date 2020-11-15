@@ -28,14 +28,15 @@ static struct option long_opts[] = {
     {0,           0,                 0, 0  }
 };
 
+static
 void printUsage() {
     std::cout<<std::endl;
     std::cout << "Usage: MMB [options] \n" << endl;
     std::cout << ".. your MMB executable name will vary depending on platform and release." << endl;
     std::cout << "Options: " << std::endl;
-    std::cout << " -help                 Display this information " << std::endl;
-    std::cout << " -c  contactsFile      Set name of contacts file " << std::endl;
-    //std::cout << " -d  directory         Set working directory " << std::endl<<std::endl;
+    std::cout << " -H  HELP                 Display this information " << std::endl;
+    std::cout << " -C  commands             Set name of contacts file " << std::endl;
+    //std::cout << " -D  directory         Set working directory " << std::endl<<std::endl;
     std::cout << "Last compiled on "<<__DATE__<<" at "<<__TIME__<< std::endl<<std::endl;
     std::cout << "MMB units are nm, kJ/mol, ps, and daltons (g/mol). In MMB 2.10 and earlier, we took some lengths and ground locations in Å (atomSpring, springToGround, atomTether, applyContactsWithin, applyMobilizersWithin, etc.).  As of MMB 2.11 all such lengths and locations are in nm.  Please update your older scripts if you plan to reuse them in MMB 2.11 and later." <<std::endl <<std::endl;
     //std::cout<<"Debug flag : "<<__DEBUG__<<std::endl;

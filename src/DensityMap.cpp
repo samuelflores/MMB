@@ -131,7 +131,7 @@ GridPoint & DensityMap::updGridPoint(GridIndices myGridIndices){
 		}
   		}
    
-const GridPoint DensityMap::getGridPoint(GridIndices myGridIndices) const  {
+GridPoint DensityMap::getGridPoint(GridIndices myGridIndices) const  {
 		//return & ArrayOfGridPoints[0][0][0];
 		return ArrayOfGridPoints[myGridIndices.getZGridIndex()][myGridIndices.getYGridIndex()][myGridIndices.getXGridIndex()] ;
   		}
@@ -184,7 +184,7 @@ GridIndices DensityMap::calcLowerLeftGridIndices(Vec3 position)
 
                 }
 		
-const GridPoint DensityMap::getGridPoint(Vec3 myPosition)  {
+GridPoint DensityMap::getGridPoint(Vec3 myPosition)  {
 	return getGridPoint(calcNearestGridIndices( myPosition));				
 }
 
@@ -192,7 +192,7 @@ GridPoint & DensityMap::updGridPoint(Vec3 myPosition)  {
 	return updGridPoint(calcNearestGridIndices( myPosition));				
 }
 
-const double DensityMap::getDensity(Vec3 myPosition) {
+double DensityMap::getDensity(Vec3 myPosition) {
         //MMBLOG_FILE_FUNC_LINE("Taking myPosition = "<<myPosition<<std::endl;
         Vec3 myFractionalVector = unitCellParameters.convertCartesianVectorToFractionalVector(myPosition);
         //MMBLOG_FILE_FUNC_LINE( myFractionalVector[0] <<", "<<  myFractionalVector[1]   <<", "<< myFractionalVector[2]   <<" ..preceding should be unitCellParameters.convertCartesianVectorToFractionalVector(myPosition)"<<std::endl;

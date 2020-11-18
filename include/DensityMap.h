@@ -87,15 +87,15 @@ class MMB_EXPORT DensityMap {
         std::vector<std::vector<std::vector<AmplitudeFrequencyAndRandomPhases> > > vectorOfAmplitudeFrequencyAndRandomPhases;     
         bool hasGridPoint(GridIndices);
         GridPoint     & updGridPoint(GridIndices);
-        const GridPoint getGridPoint(GridIndices) const ;
+        GridPoint getGridPoint(GridIndices) const ;
         void validateGridPoint(GridIndices myGridIndices);
         //const bool hasNearbyGridIndices(Vec3 position);
         GridIndices calcNearestGridIndices(Vec3 position);
         GridIndices calcLowerLeftGridIndices(Vec3 position);
-        const GridPoint getGridPoint(Vec3);
+        GridPoint getGridPoint(Vec3);
         GridPoint     & updGridPoint(Vec3);
         //const double getDensity(Vec3);
-        const double getDensity(SimTK::Vec3);
+        double getDensity(SimTK::Vec3);
         void initializeArrayOfGridPoints();
         void setNoiseTemperature(double myTemperature){noiseTemperature=myTemperature;};
         void setNoiseScale(double myNoiseScale){noiseScale = myNoiseScale;};

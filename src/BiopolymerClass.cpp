@@ -356,7 +356,7 @@ void BiopolymerClass::validateAtomInfoVector(){
 
 
 //Return the sequence corresponding to a list of ResidueID's from the current BiopolymerClass
-String BiopolymerClass::getSequence(vector <ResidueID> & residueIDVector){
+String BiopolymerClass::getSequence(const vector <ResidueID> & residueIDVector){
     String mySequence = "";
     for (int i = 0; i < residueIDVector.size(); i++){
         if ((i>0) && (getResidueIndex(residueIDVector[i-1]) > getResidueIndex(residueIDVector[i]))){std::cout <<__FILE__<<":"<<__LINE__<< " Error! Found two consecutive residues : "<< residueIDVector[i-1].outString() <<" and "<< residueIDVector[i].outString()  <<" which are not in increasing order."<<std::endl; exit(1); }
@@ -1353,14 +1353,14 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, D
 } // of initializeAtomInfoVector
 #endif
 
-const vector<MMBAtomInfo>  BiopolymerClass::getAtomInfoVector(){
+vector<MMBAtomInfo>  BiopolymerClass::getAtomInfoVector(){
     validateAtomInfoVector();
     MMBLOG_FILE_FUNC_LINE(INFO, "Inside getAtomInfoVector(). Chain "<<getChainID()<<" has an atomInfoVector of length : "<<atomInfoVector.size()<<endl);
     return atomInfoVector;
 }
 
 
-const vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates ) {
+vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates ) {
 
 
     vector<MMBAtomInfo> returnAtomInfoVector;
@@ -1499,7 +1499,7 @@ void BiopolymerClass::loadResidueIDVectorAscending(ResidueID firstResidueID ){
     // }
 }
 
-const ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID residueID){
+ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID residueID){
     int residueIndex;
     if (residueIDVector.size() >0){
     vector<ResidueID>::iterator residueIDVectorIterator ;
@@ -2356,7 +2356,7 @@ void  BiopolymerClass::setPdbStructure(const PdbStructure myPdbStructure)
 {
     this->pdbStructure = myPdbStructure;
 }
-const PdbStructure BiopolymerClass::getPdbStructure()
+PdbStructure BiopolymerClass::getPdbStructure()
 {
     return this->pdbStructure;
 }
@@ -3808,7 +3808,7 @@ void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem&
 };
 #endif
 
-const bool isRNAtest(const Biopolymer & inputBiopolymer){
+bool isRNAtest(const Biopolymer & inputBiopolymer){
     for (int i = 0; i < inputBiopolymer.getNumResidues(); i++) {
         const ResidueInfo myResidueInfo = inputBiopolymer.getResidue(ResidueInfo::Index(i));
         const char myOneLetterCode = myResidueInfo.getOneLetterCode();
@@ -3825,7 +3825,7 @@ const bool isRNAtest(const Biopolymer & inputBiopolymer){
 }
 
 
-const bool BiopolymerClassContainer::isRNA(const Biopolymer & inputBiopolymer)  {
+bool BiopolymerClassContainer::isRNA(const Biopolymer & inputBiopolymer)  {
    /*
     for (int i = 0; i < inputBiopolymer.getNumResidues(); i++) {
         const ResidueInfo myResidueInfo = inputBiopolymer.getResidue(ResidueInfo::Index(i));
@@ -3843,7 +3843,7 @@ const bool BiopolymerClassContainer::isRNA(const Biopolymer & inputBiopolymer)  
     return isRNAtest(inputBiopolymer);
 };
 
-const bool BiopolymerClass::isRNA()  {
+bool BiopolymerClass::isRNA()  {
     /*
     for (int i = 0; i < this->updBiopolymer().getNumResidues(); i++) {
         const ResidueInfo myResidueInfo = this->updBiopolymer().getResidue(ResidueInfo::Index(i));
@@ -3861,7 +3861,7 @@ const bool BiopolymerClass::isRNA()  {
     return isRNAtest(this->updBiopolymer());
 };
 
-const bool isDNAtest(const Biopolymer & inputBiopolymer)  {
+bool isDNAtest(const Biopolymer & inputBiopolymer)  {
     for (int i = 0; i < inputBiopolymer.getNumResidues(); i++) {
         const ResidueInfo myResidueInfo = inputBiopolymer.getResidue(ResidueInfo::Index(i));
         const char myOneLetterCode = myResidueInfo.getOneLetterCode();
@@ -3876,7 +3876,7 @@ const bool isDNAtest(const Biopolymer & inputBiopolymer)  {
     return true;
 };
 
-const bool BiopolymerClass::isDNA()  {
+bool BiopolymerClass::isDNA()  {
     return isDNAtest(this->updBiopolymer());
     /*
     for (int i = 0; i < this->updBiopolymer().getNumResidues(); i++) {
@@ -3891,8 +3891,8 @@ const bool BiopolymerClass::isDNA()  {
         }
     }
     return true;*/
-};
-const bool BiopolymerClassContainer::isDNA(const Biopolymer & inputBiopolymer)  {
+}
+bool BiopolymerClassContainer::isDNA(const Biopolymer & inputBiopolymer)  {
     return isDNAtest(inputBiopolymer);
     /*
     for (int i = 0; i < inputBiopolymer.getNumResidues(); i++) {
@@ -3908,9 +3908,9 @@ const bool BiopolymerClassContainer::isDNA(const Biopolymer & inputBiopolymer)  
     }
     return true;
     */
-};
+}
 
-const bool BiopolymerClassContainer::isProtein(const Biopolymer & inputBiopolymer, bool endCaps = true)  {
+bool BiopolymerClassContainer::isProtein(const Biopolymer & inputBiopolymer, bool endCaps = true)  {
     
     for (int i = (0+ endCaps) ; i < (inputBiopolymer.getNumResidues() - endCaps ); i++) {
         const ResidueInfo myResidueInfo = inputBiopolymer.getResidue(ResidueInfo::Index(i));
@@ -3925,7 +3925,7 @@ const bool BiopolymerClassContainer::isProtein(const Biopolymer & inputBiopolyme
 
     }
     return true;
-};
+}
 
 void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,const bool proteinCapping, const String & chainsPrefix, const bool tempRenumberPdbResidues, bool useNACappingHydroxyls ){
     //std::MMBLOG_FILE_FUNC_LINE(" >"<< deletedResidueVector.size() <<"<"<<std::endl;
@@ -4485,7 +4485,7 @@ void BiopolymerClassContainer::writeMobilizerWithinMutation(std::ofstream & outp
     }
 }*/
 
-const       vector<MMBAtomInfo> BiopolymerClassContainer::getConcatenatedAtomInfoVector(bool activeChainsOnly) {
+vector<MMBAtomInfo> BiopolymerClassContainer::getConcatenatedAtomInfoVector(bool activeChainsOnly) {
     vector<MMBAtomInfo> myAtomInfoVector;
     vector<MMBAtomInfo> tempAtomInfoVector;
     myAtomInfoVector.clear();
@@ -4502,7 +4502,7 @@ const       vector<MMBAtomInfo> BiopolymerClassContainer::getConcatenatedAtomInf
     return myAtomInfoVector;
 }
 
-const       vector<MMBAtomInfo> BiopolymerClassContainer::getConcatenatedAtomInfoVector(const State & state,bool activeChainsOnly) {
+vector<MMBAtomInfo> BiopolymerClassContainer::getConcatenatedAtomInfoVector(const State & state,bool activeChainsOnly) {
     vector<MMBAtomInfo> myAtomInfoVector;
     vector<MMBAtomInfo> tempAtomInfoVector;
     myAtomInfoVector.clear();

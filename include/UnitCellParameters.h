@@ -16,7 +16,7 @@ class UnitCellParameters{
 		void setDefaultParameters();
 
 		void setDeOrthogonalizationMatrix ();
-                const SimTK::Mat33 getDeOrthogonalizationMatrix () const ;
+                SimTK::Mat33 getDeOrthogonalizationMatrix () const ;
 		//SimTK::Vec3 multiplyMat33TimesVec3  (const SimTK::Mat33 myMat33 , const SimTK::Vec3 myVec3 ) ;
 		// takes a cartesian vector, returns a vector in fractional coordinates
 		SimTK::Vec3 convertCartesianVectorToFractionalVector  (const SimTK::Vec3 cartesianVector) const ;
@@ -29,45 +29,45 @@ class UnitCellParameters{
                 // first calls convertCartesianVectorToFractionalVector, then calls convertFractionalVectorToLowerIndexVector:
 		iVec3 convertCartesianVectorToLowerIndexVector  (const SimTK::Vec3 & cartesianVector) const;
                 // Checks whether the given fractional vector is inside the unit cell.
-		const bool fractionalVectorIsInsideMapBoundaries(const SimTK::Vec3 & fractionalVector);
+		bool fractionalVectorIsInsideMapBoundaries(const SimTK::Vec3 & fractionalVector);
                 // Default constructor. Mainly, just sets valid to false.
 		UnitCellParameters();
-		const double angleInRange (const double angleInDegrees) ;
+		double angleInRange (const double angleInDegrees) ;
                 // makes sure the n is more unity, and that nMax-nMin+1 = n.  Usable on a,b,c dimensions
 		void validateNnMinnMax(const int n, const int nMin, const int nMax);
                 // validates inputAngle, dies if out of reasonable range.
-                const int getNa() const {return na;};
-                const int getNb() const {return nb;};
-                const int getNc() const {return nc;};
-                const double geta() const {return a;};
-                const double getb() const {return b;};
-                const double getc() const {return c;};
-                const double getaMin() const {return aMin;};
-                const double getbMin() const {return bMin;};
-                const double getcMin() const {return cMin;};
-                const double getaMax() const {return aMax;};
-                const double getbMax() const {return bMax;};
-                const double getcMax() const {return cMax;};
-                const int calcMaxFrequencyDoublingsX ();
-                const int calcMaxFrequencyDoublingsY ();
-                const int calcMaxFrequencyDoublingsZ ();
-                const double getMinHalfWavelengthX () ;                   
-                const double getMinHalfWavelengthY () ;                   
-                const double getMinHalfWavelengthZ () ;                   
-                const double getMaxHalfWavelengthX () {return (geta()*(getNa()-1));};// The longest half-wavelength is the width of the unit cell.
-                const double getMaxHalfWavelengthY () {return (getb()*(getNb()-1));};// The longest half-wavelength is the width of the unit cell.
-                const double getMaxHalfWavelengthZ () {return (getc()*(getNc()-1));};// The longest half-wavelength is the width of the unit cell.
+                int getNa() const {return na;};
+                int getNb() const {return nb;};
+                int getNc() const {return nc;};
+                double geta() const {return a;};
+                double getb() const {return b;};
+                double getc() const {return c;};
+                double getaMin() const {return aMin;};
+                double getbMin() const {return bMin;};
+                double getcMin() const {return cMin;};
+                double getaMax() const {return aMax;};
+                double getbMax() const {return bMax;};
+                double getcMax() const {return cMax;};
+                int calcMaxFrequencyDoublingsX ();
+                int calcMaxFrequencyDoublingsY ();
+                int calcMaxFrequencyDoublingsZ ();
+                double getMinHalfWavelengthX () ;                   
+                double getMinHalfWavelengthY () ;                   
+                double getMinHalfWavelengthZ () ;                   
+                double getMaxHalfWavelengthX () {return (geta()*(getNa()-1));};// The longest half-wavelength is the width of the unit cell.
+                double getMaxHalfWavelengthY () {return (getb()*(getNb()-1));};// The longest half-wavelength is the width of the unit cell.
+                double getMaxHalfWavelengthZ () {return (getc()*(getNc()-1));};// The longest half-wavelength is the width of the unit cell.
 		void setAlphaUsingDegrees(double inputAngle);
-		const double getAlpha();
+		double getAlpha();
 		void setBetaUsingDegrees(double inputAngle);
-		const double getBeta();
+		double getBeta();
 		void setGammaUsingDegrees(double inputAngle);
 		void setabc(const double mya, const double myb, const double myc);
-		const double getGamma();
+		double getGamma();
                 // calls validateNnMinnMax three times for validation, then sets the corresponding unit cell parameters:
 		void setN (const int myna, const int myaMin,const int myaMax,const int mynb,const int mybMin,const int mybMax,const int mync,const int mycMin,const int mycMax);
                 // Dies if valid = 0.  This can be called liberally whenever we want to use any parameters.
-		const bool exitIfNotValid() const;
+		bool exitIfNotValid() const;
                 // Runs checks on the parameters:
 		void validate();
 		// This returns the nonorthogonal basis vector va, in orthogonal (cartesian) coordinates. 

@@ -125,9 +125,9 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
         //#endif
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
  
-        #ifdef USE_OPENMM
+        #if defined(USE_OPENMM) && defined(WARN_USE_OPENMM)
         #pragma message ("USE_OPENMM is defined")
-        #else 
+        #elif !defined(USE_OPENMM) && defined(WARN_USE_OPENMM)
         #pragma message ("USE_OPENMM is NOT defined")
         #endif 
         MMBLOG_FILE_FUNC_LINE(INFO, endl);

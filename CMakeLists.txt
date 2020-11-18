@@ -12,6 +12,8 @@ SET( MMB_MAJOR_VERSION 3 )
 SET( MMB_MINOR_VERSION 3 )
 SET( MMB_PATCH_VERSION 0 )
 
+OPTION(DISP_OPENMM_MSGS "Display OpenMM pragma messages" OFF)
+
 SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "This is a Release build by default" )
 #SET(CMAKE_GENERATOR "Xcode" CACHE STRING "Since you on a Mac, we assume you want to use Xcode" FORCE) 
 #SET(CMAKE_GENERATOR "Xcode" CACHE STRING "Since you on a Mac, we assume you want to use Xcode" FORCE) 
@@ -148,6 +150,10 @@ IF(APPLE)
     SET(CMAKE_OSX_ARCHITECTURES "i386" CACHE STRING 
         "The processor architectures to build for")
 ENDIF(APPLE)
+
+IF(DISP_OPENMM_MSGS)
+    ADD_DEFINITIONS("-DWARN_OPENMM_REALVEC -DWARN_USE_OPENMM")
+ENDIF(DISP_OPENMM_MSGS)
 
 # On Mac, use Xcode by default
 IF(APPLE)

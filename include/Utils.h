@@ -27,10 +27,14 @@
 #include <seqan/align.h>
 
 #ifdef USE_OPENMM_REALVEC
-#pragma message ("using OpenMM::RealVec: USE_OPENMM_REALVEC defined")
+#ifdef WARN_OPENMM_REALVEC
+    #pragma message ("using OpenMM::RealVec: USE_OPENMM_REALVEC defined")
+#endif // WARN_OPENMM_REALVEC
 typedef OpenMM::RealVec openmmVecType ;
 #else 
-#pragma message ("using OpenMM::Vec3: USE_OPENMM_REALVEC NOT defined")
+#ifdef WARN_OPENMM_REALVEC
+    #pragma message ("using OpenMM::Vec3: USE_OPENMM_REALVEC NOT defined")
+#endif // WARN_OPENMM_REALVEC
 typedef OpenMM::Vec3    openmmVecType ;
 #endif
 

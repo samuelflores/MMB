@@ -1,4 +1,5 @@
 #include "MMBLogger.h"
+#include "ProgressWriter.h"
 
 #include <iostream>
 
@@ -54,6 +55,8 @@ void MMBLogger::log(const Severity severity, const std::ostringstream& oss) {
 #ifndef MMBLOG_DONT_THROW_ON_CRITICAL
 void MMBLogger::logCritical [[noreturn]] (const std::ostringstream& oss) {
     assert(_output != nullptr);
+
+    GlobalProgressWriter::get().update(ProgressWriter::State::FAILED);
 
     const std::string msg = msgPrefix(Severity::CRITICAL) + oss.str();
 

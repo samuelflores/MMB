@@ -10,6 +10,7 @@
 
 
 #include "Repel.h"
+#include "ProgressWriter.h"
 #include "Utils.h"
 #include <stdio.h>
 #include <string.h>
@@ -1027,6 +1028,7 @@ void ConstrainedDynamics::postDynamics(){
     }
 
     MMBLOG_FILE_FUNC_LINE(INFO, "Stage "<<_parameterReader->currentStage<<" completed successfully! "<<endl);
+    GlobalProgressWriter::get().update(ProgressWriter::State::FINISHED);
 }
 
 void ConstrainedDynamics::runAllSteps() {

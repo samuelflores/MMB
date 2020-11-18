@@ -15,6 +15,7 @@
 #include "PeriodicPdbAndEnergyWriter.h"
 #include "SimTKsimbody.h"
 #include "CifOutput.h"
+#include "ProgressWriter.h"
 
 using namespace std;
 
@@ -215,6 +216,8 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
     //outputStream <<"REMARK ["<< __FILE__<<"]Satisfied contacts : "<<myParameterReader.satisfiedBasePairs<<endl;
     //outputStream <<"REMARK ["<< __FILE__<<"]Unsatisfied contacts : "<<myParameterReader.unSatisfiedBasePairs<<endl;
 
+
+    GlobalProgressWriter::get().update(ProgressWriter::State::RUNNING, modelNumber);
     cout<<"Just wrote structure for reporting interval # "<<modelNumber<<std::endl; 
     //cout <<"Satisfied base pairs : "<<myParameterReader.satisfiedBasePairs<<" out of "<<myParameterReader.satisfiedBasePairs+myParameterReader.unSatisfiedBasePairs<<endl;
     //cout <<"Unsatisfied contacts : "<<myParameterReader.unSatisfiedBasePairs<<endl;

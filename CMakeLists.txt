@@ -187,6 +187,7 @@ SET(MMB_LIBRARY_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/MMBLogger.cpp
     ${PROJECT_SOURCE_DIR}/src/PeriodicPdbAndEnergyWriter.cpp
     ${PROJECT_SOURCE_DIR}/src/CifOutput.cpp
+    ${PROJECT_SOURCE_DIR}/src/ProgressWriter.cpp
     )
 
 IF (Build_NtC)

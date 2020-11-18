@@ -19,13 +19,17 @@
 #include "Utils.h"
 //#include "RNANoHydrogens.h"
 //#include "PeriodicPdbAndEnergyWriter.h"
+#include "ProgressWriter.h"
 #define _DEBUG_FLAGS_ON_
 
+#define PARAM_PROG 256
+
 static struct option long_opts[] = {
-    {"commands",  required_argument, 0, 'C'},
-    {"directory", required_argument, 0, 'D'},
-    {"HELP",      no_argument,       0, 'H'},
-    {0,           0,                 0, 0  }
+    {"commands",  required_argument, 0,        'C'},
+    {"directory", required_argument, 0,        'D'},
+    {"HELP",      no_argument,       0,        'H'},
+    {"progress",  required_argument, 0, PARAM_PROG},
+    {0,           0,                 0,          0}
 };
 
 static
@@ -36,6 +40,7 @@ void printUsage() {
     std::cout << "Options: " << std::endl;
     std::cout << " -H  HELP                 Display this information " << std::endl;
     std::cout << " -C  commands             Set name of contacts file " << std::endl;
+    std::cout << " -progress                Name of progress report file " << std::endl;
     //std::cout << " -D  directory         Set working directory " << std::endl<<std::endl;
     std::cout << "Last compiled on "<<__DATE__<<" at "<<__TIME__<< std::endl<<std::endl;
     std::cout << "MMB units are nm, kJ/mol, ps, and daltons (g/mol). In MMB 2.10 and earlier, we took some lengths and ground locations in Å (atomSpring, springToGround, atomTether, applyContactsWithin, applyMobilizersWithin, etc.).  As of MMB 2.11 all such lengths and locations are in nm.  Please update your older scripts if you plan to reuse them in MMB 2.11 and later." <<std::endl <<std::endl;
@@ -52,6 +57,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
     String arg ="";
     String parameterFile = "commands.dat";
     String outputDir = "./";
+    String progressFile = "";
 
 
     MMBLOG_FILE_FUNC_LINE(INFO, " Current working directory: "<<Pathname::getCurrentWorkingDirectory()<<endl);
@@ -70,6 +76,9 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
         case 'H':
             printUsage();
             return EXIT_SUCCESS;
+        case PARAM_PROG:
+            progressFile = optarg;
+            break;
         case ':':
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Parameter -" << char(optopt) << " requires an argument" << std::endl);
             return EXIT_FAILURE;
@@ -98,6 +107,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
 
     cout << " output directory = " << outputDir << endl;
 
+    GlobalProgressWriter::initialize(progressFile);
 
     try 
     {
@@ -129,7 +139,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             myParameterReader.initializeDefaults();
 
             myParameterReader.currentStage = i;
-            if   (myParameterReader.currentStage<1) {
+            if (myParameterReader.currentStage<1) {
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "stage < 1 error!  "<<endl); //Most likely you have failed to specify the command file, (currently "<< parameterFile<<"), or it was not found"<<endl;
             }
 

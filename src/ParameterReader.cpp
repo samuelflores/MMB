@@ -18,6 +18,7 @@
 #include "SimTKmolmodel.h"
 #include "BaseInteractionParameterReader.h"
 #include "TetherForce.h"
+#include "ProgressWriter.h"
 #include <iostream>
 #include <vector>
 #include <cassert>
@@ -4594,6 +4595,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         MMBLOG_FILE_FUNC_LINE(ALWAYS, "Syntax: numReportingIntervals <number of intervals> " << endl);
         parameterStringClass.validateNumFields(2);
         numReportingIntervals = myAtoI(userVariables,(parameterStringClass.getString(1)).c_str());    
+
+        GlobalProgressWriter::get().setTotalSteps(numReportingIntervals);
         return;
     }
     if ((parameterStringClass.getString(0)).compare("leontisWesthofInFileName") ==0) {

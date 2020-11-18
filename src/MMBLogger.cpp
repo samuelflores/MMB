@@ -26,8 +26,8 @@ std::string msgPrefix(const MMBLogger::Severity severity) {
 MMBLogger * MMBLogger::s_me(nullptr);
 
 MMBLogger::MMBLogger() :
-    _output(nullptr),
-    _loggingSeverity(Severity::INFO)
+    _loggingSeverity(Severity::INFO),
+    _output(nullptr)
 {
 }
 

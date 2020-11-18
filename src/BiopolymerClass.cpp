@@ -20,7 +20,8 @@
 #include <cstdlib>
 //#include <stdlib.h>
 #include "ReferenceNeighborList.h"
-#include  <utility>
+#include <algorithm>
+#include <utility>
 
 // #define  _DEBUG_FLAGS_ON_
 
@@ -4819,17 +4820,11 @@ void BiopolymerClassContainer::loadCysteineAtomInfoVector(vector <MMBAtomInfo> &
 }
 
 void BiopolymerClass::sort( vector <ResidueID> & residueIDVector){
-    // Use an insertion sort
-    for (int i = 1; i < (residueIDVector.size() - 1); i++){
-        int j = i;
-        while ((j > 0) && (getResidueIndex(residueIDVector[j-1]) > getResidueIndex(residueIDVector[j]))){
-            // swap elements j and j-1:
-            swap(residueIDVector[j], residueIDVector[j-1]);
-            //ResidueID tempj =     residueIDVector[j];
-            //residueIDVector[j] = residueIDVector[j-1];
-            //residueIDVector[j-1] = tempj;
-
-            j--;
-        } // of while
-    } // of for
-}; // of method 
+    std::stable_sort(
+        residueIDVector.begin(),
+        residueIDVector.end(),
+        [this] (const auto &left, const auto &right) {
+            return getResidueIndex(left) < getResidueIndex(right);
+        }
+    );
+}

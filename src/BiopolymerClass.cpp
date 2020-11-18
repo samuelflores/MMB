@@ -1413,42 +1413,28 @@ void BiopolymerClass::loadResidueIDVectorAscending(ResidueID firstResidueID ){
 }
 
 ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID residueID){
-    int residueIndex;
-    if (residueIDVector.size() >0){
-    vector<ResidueID>::iterator residueIDVectorIterator ;
-    //ResidueID tempRes =(* (residueIDVector.begin()) );          
-    residueIDVectorIterator = find(residueIDVector.begin(), residueIDVector.end(), residueID);
-    int residueIDVectorPosition = residueIDVectorIterator-residueIDVector.begin();
-        
-        residueIndex = ResidueInfo::Index(residueIDVectorPosition);
+    if (residueIDVector.size() > 0) {
+        auto residueIDVectorIterator = find(residueIDVector.cbegin(), residueIDVector.cend(), residueID);
+        auto residueIndex = ResidueInfo::Index(residueIDVectorIterator-residueIDVector.begin());
+
         //std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Your residue ID: "<<residueID.outString() << " has a corresponding residue index : "<<residueIndex<<std::endl;  
-        if ((residueIndex < 0 ) || (residueIndex >= getChainLength())) {
+        if (residueIndex < 0 || residueIndex >= getChainLength()) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Encountered a problem with residue ID "<<residueID.outString()<<" of chain "<<getChainID() <<" . This returned and index of "<<residueIndex<<". The residue ID should lie in the closed interval "<<getFirstResidueID().outString()<<" , "<<getLastResidueID().outString()<<". If you are performing an arithmetic (+/-) operation on a residue number, the leftmost term correspond to an existing residue number, while the rest of the terms are increments in sequence to be added or subtracted from that residue number. Or, you maybe you issued loadSequencesFromPdb and there is no residue numbered "<<residueID.outString() <<endl
             <<" The computed index : "<<residueIndex<< " is unreasonable and would be expected to be in the range : 0 to "<<(getChainLength()-1)<<endl);
         }
-        return ResidueInfo::Index(residueIndex);
+        return residueIndex;
     } else { // this "else" block is really inefficient .. for when residueIDVector is empty.  Try to avoid going into this!
-        // ResidueInfo myResidueInfo ( myBiopolymer.getResidue(ResidueInfo::Index( 0)));
         for (int i = 0; i < getChainLength(); i++) {
             ResidueInfo myResidueInfo = ResidueInfo ( myBiopolymer.getResidue(ResidueInfo::Index( i)));
             if (
                 (myResidueInfo.getPdbResidueNumber() ==   residueID.getResidueNumber()) &&
-                (myResidueInfo.getPdbInsertionCode() ==   residueID.getInsertionCode()) 
+                (myResidueInfo.getPdbInsertionCode() ==   residueID.getInsertionCode())
                 )
                 {
-                    residueIndex = i;
-                    validateResidueIndex(residueIndex);
-                    return ResidueInfo::Index(residueIndex);
-                    //continue;
+                    validateResidueIndex(i);
+                    return ResidueInfo::Index(i);
                 }
-        }     
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Encountered a problem with residue ID "
-                                      << residueID.outString()
-                                      << " . The residue ID should lie in the closed interval "<<getFirstResidueID().outString()
-                                      << " , "
-                                      << getLastResidueID().outString()<<endl
-                                      << " The computed index : "
-                                      <<residueIndex << " is unreasonable and would be expected to be in the range : 0 to "<<(getChainLength()-1)<<endl);
+        }
     }
     MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error"<<endl);
 }

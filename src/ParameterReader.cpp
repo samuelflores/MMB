@@ -3135,7 +3135,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             i++;
         }
         
-        for (int n = 0; n < chains.size(); n++) for (int m = 0; m < partnerChains.size(); m++) if (chains[n].compare(partnerChains[m])==0) {
+        for (size_t n = 0; n < chains.size(); n++) for (size_t m = 0; m < partnerChains.size(); m++) if (chains[n].compare(partnerChains[m])==0) {
 	    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The reference chain "<<chains[n]<<" is the same as partner chain "<<partnerChains[m]<<". This is not kosher!"<<endl);
         }
         
@@ -4254,7 +4254,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         myIncludeIntraChainInterface.Depth = myAtoF(userVariables,(parameterStringClass.getString(2)).c_str());          
         if (myIncludeIntraChainInterface.Depth < 0.0000001) {MMBLOG_FILE_FUNC_LINE(CRITICAL, "depth must be >0 !"<<endl); }       
         myBiopolymerClassContainer.validateChainID(myIncludeIntraChainInterface.Chain );         
-        for (int i = 0 ; i < includeIntraChainInterfaceVector.size() ; i++) {        
+        for (size_t i = 0 ; i < includeIntraChainInterfaceVector.size() ; i++) {
             if (includeIntraChainInterfaceVector[i].Chain.compare(myIncludeIntraChainInterface.Chain ) == 0) {       
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "The chain "<< myIncludeIntraChainInterface.Chain <<" is already in the includeIntraChainInterfaceVector! Please do not call this twice!"<<endl);
             }        
@@ -4303,7 +4303,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             i++;
         }
         
-        for (int n = 0; n < chains.size(); n++) for (int m = 0; m < partnerChains.size(); m++) if (chains[n].compare(partnerChains[m])==0) {
+        for (size_t n = 0; n < chains.size(); n++) for (size_t m = 0; m < partnerChains.size(); m++) if (chains[n].compare(partnerChains[m])==0) {
 	    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The reference chain "<<chains[n]<<" is the same as partner chain "<<partnerChains[m]<<". This is not kosher!"<<endl);
         }
         physicsContainer.interfaceContainer.addInterface(chains, partnerChains, depth);

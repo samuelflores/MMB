@@ -289,7 +289,7 @@ void DensityMap::resizeVectorOfAmplitudeAndRandomPhases(){
         	if (vectorOfAmplitudeFrequencyAndRandomPhases[zIndex].size() != (unitCellParameters.calcMaxFrequencyDoublingsY()+1) ) {
                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of grid points in Y direction! Found :"<< vectorOfAmplitudeFrequencyAndRandomPhases[zIndex].size()<<" expected : " << unitCellParameters.calcMaxFrequencyDoublingsY() +1            <<endl);
                 }
-        	for ( int yIndex = 0; yIndex < unitCellParameters.calcMaxFrequencyDoublingsY(); yIndex++) {
+	        for ( int yIndex = 0; yIndex < unitCellParameters.calcMaxFrequencyDoublingsY(); yIndex++) {
         	    if (vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].size() != (unitCellParameters.calcMaxFrequencyDoublingsX()+1 )) {
                              MMBLOG_FILE_FUNC_LINE(INFO, endl);
         		     MMBLOG_FILE_FUNC_LINE(CRITICAL, "Check 1. Wrong number of grid points in X direction! Found :"<< vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].size()<<" expected : " <<unitCellParameters.calcMaxFrequencyDoublingsX()+1 <<endl);

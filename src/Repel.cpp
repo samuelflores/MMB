@@ -450,7 +450,7 @@ void ConstrainedDynamics::initializeMoleculesAndBonds(CompoundSystem & system, D
     _parameterReader->waterDropletContainer.adopt (system,_parameterReader->readPreviousFrameFile);
     //MMBLOG_FILE_FUNC_LINE(endl;
     // Moved this from ParameterReader.cpp:
-    for (int i = 0; i < _parameterReader->additionalCovalentBondVector.size(); i++) {
+    for (size_t i = 0; i < _parameterReader->additionalCovalentBondVector.size(); i++) {
         CovalentBondClass myBond = _parameterReader->additionalCovalentBondVector[i];
         if (myBond.getChain1().compare(myBond.getChain2()) != 0 ){
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Chain IDs of both atoms must be the same."<<endl);
@@ -579,7 +579,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     if (_parameterReader->includeIntraChainInterfaceVector.size() >0) 
     {
         //_parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // investigate moving this outside the conditional, so it's available for DensityForce below.
-       for (int i = 0; i < _parameterReader->includeIntraChainInterfaceVector.size() ; i++) 
+       for (size_t i = 0; i < _parameterReader->includeIntraChainInterfaceVector.size() ; i++) 
        {
            MMBLOG_FILE_FUNC_LINE(INFO, endl);
            _parameterReader->myBiopolymerClassContainer.addIntraChainInterfaceResidues(_parameterReader->includeIntraChainInterfaceVector[i].Chain,  
@@ -591,7 +591,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     }
     if (_parameterReader->includeIntraChainInterfaceVector.size() >0) {
         //_parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // investigate moving this outside the conditional, so it's available for DensityForce below.
-    for (int i = 0; i < _parameterReader->includeIntraChainInterfaceVector.size() ; i++) {
+    for (size_t i = 0; i < _parameterReader->includeIntraChainInterfaceVector.size() ; i++) {
         _parameterReader->myBiopolymerClassContainer.addIntraChainInterfaceResidues(_parameterReader->includeIntraChainInterfaceVector[i].Chain,  
 	    _parameterReader->physicsContainer.residueStretchVector , //includeAllNonBondAtomsInResidueVector , 
 	    _parameterReader->includeIntraChainInterfaceVector[i].Depth ,  
@@ -732,7 +732,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     // this doesn't need a check to make sure it contains something. Because if  _parameterReader->includeAllResiduesWithinVector is empty, this call does nothing:
     MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
     #ifdef USE_OPENMM
-    for (int i = 0 ;  i < _parameterReader->includeAllResiduesWithinVector.size() ; i++){_parameterReader->includeAllResiduesWithinVector[i].print(); }
+    for (size_t i = 0 ;  i < _parameterReader->includeAllResiduesWithinVector.size() ; i++){_parameterReader->includeAllResiduesWithinVector[i].print(); }
     // this is where we add residues within a certain radius of a residue of interest:
     _parameterReader->myBiopolymerClassContainer.includeAllResiduesWithin(_parameterReader->includeAllResiduesWithinVector, _parameterReader->physicsContainer.residueStretchVector /*includeAllNonBondAtomsInResidueVector */ , _state); 
     MMBLOG_FILE_FUNC_LINE(INFO, "Just finished adding all residues within the specified radius of of the residues specified in _parameterReader->includeAllResiduesWithinVector. Have not actually added _parameterReader->includeAllResiduesWithinVector atoms to DuMM. Right now DuMM has "<< _dumm.getNumIncludedAtoms () <<" included atoms. "<<endl);

@@ -333,7 +333,7 @@ void BiopolymerClass::validateAtomInfoVector(){
 //Return the sequence corresponding to a list of ResidueID's from the current BiopolymerClass
 String BiopolymerClass::getSequence(const vector <ResidueID> & residueIDVector){
     String mySequence = "";
-    for (int i = 0; i < residueIDVector.size(); i++){
+    for (size_t i = 0; i < residueIDVector.size(); i++){
         if ((i>0) && (getResidueIndex(residueIDVector[i-1]) > getResidueIndex(residueIDVector[i]))){std::cout <<__FILE__<<":"<<__LINE__<< " Error! Found two consecutive residues : "<< residueIDVector[i-1].outString() <<" and "<< residueIDVector[i].outString()  <<" which are not in increasing order."<<std::endl; exit(1); }
         mySequence +=  getResidueSingleLetterCode(residueIDVector[i]);
     }
@@ -511,7 +511,7 @@ void BiopolymerClass::setPdbResidueNumbersFromResidueIDVector() {
     } else {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have tried to renumber a Biopolymer of an unsupported type: "<<   biopolymerType<<endl);
     }
-    for (int i = capping ; i < (residueIDVector.size() + capping) ; i++) {
+    for (size_t i = capping ; i < (residueIDVector.size() + capping) ; i++) {
         MMBLOG_FILE_FUNC_LINE(INFO, "ResidueInfo::Index(i) = "<<ResidueInfo::Index(i)<<" and residueIDVector[i-capping] = "<<residueIDVector[i-capping].outString()<<endl);
 	myBiopolymer.updResidue(ResidueInfo::Index(i)).setPdbResidueNumber(residueIDVector[i-capping].getResidueNumber()); // Remember, residue with index 0 will be the ACE N-terminal cap, if this is a protein and proteinCapping == true
 	myBiopolymer.updResidue(ResidueInfo::Index(i)).setPdbInsertionCode(residueIDVector[i-capping].getInsertionCode()); 
@@ -731,7 +731,7 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
             biopolymerAtomTargets.erase(it);
             continue;
         } 
-        for (int i = 0; i < ignoreAtomPositionVector.size(); i++) {
+        for (size_t i = 0; i < ignoreAtomPositionVector.size(); i++) {
             //MMBAtomInfo myMMBAtomInfo = ignoreAtomPositionVector(i);
             //if (myMMBAtomInfo.getResidueIndex() == myResidueIndex) (
             if (ignoreAtomPositionVector[i].getResidueIndex() == myResidueIndex) {
@@ -910,7 +910,7 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
 
         ////////////////////
         SecondaryStructureStretch mySecondaryStructureStretch  ;
-        for (int i = 0; i <   secondaryStructureStretchVector.size(); i++) 
+        for (size_t i = 0; i <   secondaryStructureStretchVector.size(); i++)
         {
             mySecondaryStructureStretch =   secondaryStructureStretchVector[i]; 
             if (mySecondaryStructureStretch.getChain().compare( getChainID()) == 0) 
@@ -1155,9 +1155,9 @@ MMBAtomInfo BiopolymerClass::mmbAtomInfo(ResidueID myResidueID, ResidueInfo::Ato
 void overrideAtomInfoVectorProperties(BiopolymerClass & myBiopolymerClass, vector<MMBAtomInfo> & subjectAtomInfoVector, const vector<AtomicPropertyOverrideStruct> & myAtomicPropertyOverrideVector){
     //if (myBiopolymerClass.isRNA() || myBiopolymerClass.isDNA() ) {
         // Actually we will change atomicNumber to zero so it is inactive in density map fitting.
-        for (int i = 0; i < subjectAtomInfoVector.size(); i++){
+        for (size_t i = 0; i < subjectAtomInfoVector.size(); i++){
             //MMBLOG_FILE_FUNC_LINE(": About to check "<<subjectAtomInfoVector[i].atomName<<" in subjectAtomInfoVector["<<i<<"] "<<std::endl;
-            for (int overrideVectorIndex = 0; overrideVectorIndex < myAtomicPropertyOverrideVector.size() ; overrideVectorIndex++){
+            for (size_t overrideVectorIndex = 0; overrideVectorIndex < myAtomicPropertyOverrideVector.size() ; overrideVectorIndex++){
                 if (subjectAtomInfoVector[i].atomName == myAtomicPropertyOverrideVector[overrideVectorIndex].atomName){
                     if (myAtomicPropertyOverrideVector[overrideVectorIndex].property == "atomicNumber") {
                         MMBLOG_FILE_FUNC_LINE(INFO, "For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].atomName <<",  property atomicNumber is currently set to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl);
@@ -1394,7 +1394,7 @@ void BiopolymerClass::loadResidueIDVector() {
 void BiopolymerClass::loadResidueIDVectorAscending(ResidueID firstResidueID ){
     if (residueIDVector.size() > 0) {
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
-        for (int i = 0; i < residueIDVector.size() ; i++){
+        for (size_t i = 0; i < residueIDVector.size() ; i++){
             MMBLOG_FILE_FUNC_LINE(INFO, residueIDVector[i].outString()<<endl);
         }
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Why does residueIDVector have something in it already?"<<endl);
@@ -1787,7 +1787,7 @@ void BiopolymerClass::physicsZone(vector<AllResiduesWithin> & myIncludeAllResidu
     MMBLOG_FILE_FUNC_LINE(INFO, "Creating physics zone "<<radius<<" in size about flexible atoms in chain "<<getChainID()<<endl);
     AllResiduesWithin myAllResiduesWithin;
     myAllResiduesWithin.setResidue ( ResidueID(-11111,' '));
-    for (int i = 0; i < atomInfoVector.size() ; i++) {
+    for (size_t i = 0; i < atomInfoVector.size() ; i++) {
             if (atomInfoVector[i].residueID  == myAllResiduesWithin.getResidue()) {continue;} // Each residue needs be added only once, no matter how many flexible atoms it has.
             MobilizedBody myBody = updAtomMobilizedBody(matter,atomInfoVector[i].residueID,atomInfoVector[i].atomName);
             MassProperties myBodyMassProperties = myBody.getBodyMassProperties(state);
@@ -1979,7 +1979,7 @@ void BiopolymerClass::setResidueIDsAndInsertionCodesFromBiopolymer(const Biopoly
             residueIDVector.push_back(myInsertion.getResidue()); 
     }
     MMBLOG_FILE_FUNC_LINE(INFO, "About to list the residue IDs for this chain, having  completed the insertion operation : "<<endl);
-    for (int i = 0; i < residueIDVector.size(); i++) {
+    for (size_t i = 0; i < residueIDVector.size(); i++) {
         MMBLOG_FILE_FUNC_LINE(INFO, "residue ID : "<<residueIDVector[i].outString()<<endl);
     }
     MMBLOG_FILE_FUNC_LINE(INFO, "About to validate residue numbers and insertion codes  "<<endl);
@@ -2025,7 +2025,7 @@ void BiopolymerClass::setResidueIDsAndInsertionCodesFromBiopolymerWithDeletion(c
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error! Did you delete the last residue in the chain?"<<endl);
     }
     MMBLOG_FILE_FUNC_LINE(INFO, "About to list the residue IDs for this chain, having  completed the insertion operation : "<<endl);
-    for (int i = 0; i < residueIDVector.size(); i++) {
+    for (size_t i = 0; i < residueIDVector.size(); i++) {
         MMBLOG_FILE_FUNC_LINE(INFO, "residue ID : "<<residueIDVector[i].outString()<<endl);
     }
     MMBLOG_FILE_FUNC_LINE(INFO, "About to validate residue numbers and insertion codes  "<<endl);
@@ -2595,7 +2595,7 @@ void BiopolymerClassContainer::deleteAllNonMutatedBiopolymerClasses(){
     {
         bool match = false;   
 	it = next;
-	for (int i = 0; i < mutationVector.size(); i++) {
+	for (size_t i = 0; i < mutationVector.size(); i++) {
 		if ((it->second).getChainID().compare( mutationVector[i].getChain()) == 0){
                     match = true;
                     //biopolymerClassMap.erase ((it->second).getChainID());
@@ -3032,7 +3032,7 @@ vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer:
 
     cout << "Going through the neighbors" << endl;
     // Go through the list
-    for ( int j = 0 ; j < neighborList.size(); j++) 
+    for ( size_t j = 0 ; j < neighborList.size(); j++)
     {
         if(j % 1000000 == 0)
             cout << "NeighborList; read " << j << " neighbors" << endl;
@@ -3069,7 +3069,7 @@ OpenMM::NeighborList BiopolymerClassContainer::getNeighborList(const vector<MMBA
 {
     // Generate particle list for OpenMM
     vector<openmmVecType> particleList(concatenatedAtomInfoVector.size());
-    for (int i = 0; i < concatenatedAtomInfoVector.size() ; i++) 
+    for (size_t i = 0; i < concatenatedAtomInfoVector.size() ; i++)
     {
         particleList[i] = concatenatedAtomInfoVector[i].position;
     }
@@ -3087,13 +3087,13 @@ OpenMM::NeighborList BiopolymerClassContainer::getNeighborList(const vector<MMBA
 
 void BiopolymerClassContainer::setNeighborsFromList(vector<MMBAtomInfo>& concatenatedAtomInfoVector, OpenMM::NeighborList& neighborList, double radius)
 {
-    for (int i = 0; i < concatenatedAtomInfoVector.size() ; i++) 
+    for (size_t i = 0; i < concatenatedAtomInfoVector.size() ; i++)
     {
         concatenatedAtomInfoVector[i].clearNeighbors();
     }
     cout << "Going through the neighbors" << endl;
     // Go through the list
-    for ( int j = 0 ; j < neighborList.size(); j++) 
+    for ( size_t j = 0 ; j < neighborList.size(); j++)
     {
         if(j % 1000000 == 0)
             cout << "NeighborList; read " << j << " neighbors" << endl;
@@ -3126,7 +3126,7 @@ void BiopolymerClassContainer::setNeighborsFromList(vector<MMBAtomInfo>& concate
 // Returns only those elements of vector<SingleResidue>  singleResidueVector that belong to the current chain.
 vector<ResidueID> BiopolymerClass::filterSingleResidueVector          (const vector<SingleResidue>  singleResidueVector) {
     vector<ResidueID> myResidueIDVector; myResidueIDVector.clear();
-    for (int i = 0 ; i < singleResidueVector.size(); i++){
+    for (size_t i = 0 ; i < singleResidueVector.size(); i++){
         if (singleResidueVector[i].getChain() == getChainID()){
            myResidueIDVector.push_back(singleResidueVector[i].getResidue()); 
         }
@@ -3176,7 +3176,7 @@ void BiopolymerClassContainer::findBiopolymerResiduesWithinRadius (const type & 
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     vector<MMBAtomInfo> concatenatedAtomInfoVector = getConcatenatedAtomInfoVector(); // Why was this not necessary before?
     vector<openmmVecType> particleList(concatenatedAtomInfoVector.size());
-    for (int i = 0; i < concatenatedAtomInfoVector.size() ; i++) 
+    for (size_t i = 0; i < concatenatedAtomInfoVector.size() ; i++)
     {
         #ifdef NEIGHBORLISTCAONLY
         // This alternate compilation means only CA atoms will be taken into account when figuring out the physics zone from a given radius. 
@@ -3207,7 +3207,7 @@ void BiopolymerClassContainer::findBiopolymerResiduesWithinRadius (const type & 
     MMBLOG_FILE_FUNC_LINE(INFO, "neighborList size is : "<<neighborList.size()<<endl);
 
     // Go through the list
-    for ( int j = 0 ; j < neighborList.size(); j++) 
+    for ( size_t j = 0 ; j < neighborList.size(); j++)
     {
         unsigned int id1 = neighborList[j].first;
         unsigned int id2 = neighborList[j].second;
@@ -3273,7 +3273,7 @@ template <class type2> vector<SingleResidue> BiopolymerClassContainer::findBiopo
     //vector<SingleResidue> neighborVector; neighborVector.clear();
     MMBLOG_FILE_FUNC_LINE(INFO, "allResiduesWithinVector.size() = "<<allResiduesWithinVector.size() <<endl);
     vector<SingleResidue> neighborVector ; neighborVector.clear();
-    for (int i = 0 ; i < allResiduesWithinVector.size() ; i++) {
+    for (size_t i = 0 ; i < allResiduesWithinVector.size() ; i++) {
         // This will progressively extend neighborVector, avoiding duplicates:  
         MMBLOG_FILE_FUNC_LINE(INFO, " i = "<<i<<" "<<endl); // OK to now
         MMBLOG_FILE_FUNC_LINE(INFO, "allResiduesWithinVector["<<i<<"] = "<<endl); allResiduesWithinVector[i].print();   // This is returning correct radius 
@@ -3404,7 +3404,7 @@ void BiopolymerClassContainer::includeAllResiduesWithin (const vector<AllResidue
 #endif
 
 void BiopolymerClassContainer::includeAllNonBondAtomsInResidues(vector<IncludeAllNonBondAtomsInResidue>  myIncludeAllNonBondAtomsInResidueVector, State & state, DuMMForceFieldSubsystem & dumm) {
-    for (int i = 0; i < (int)myIncludeAllNonBondAtomsInResidueVector.size(); i++){
+    for (size_t i = 0; i < myIncludeAllNonBondAtomsInResidueVector.size(); i++){
         // Skip residues in non active chains
         if(updBiopolymerClass(myIncludeAllNonBondAtomsInResidueVector[i].getChain()).getActivePhysics()==false)
             continue;
@@ -3508,7 +3508,7 @@ void BiopolymerClassContainer::includeAllNonBondAtomsInResidues(vector<IncludeAl
 }*/
 
 void BiopolymerClassContainer::includeNonBondAtoms(  vector<IncludeNonBondAtomInBiopolymerStruct> includeNonBondAtomInBiopolymerVector,  State & state, DuMMForceFieldSubsystem & dumm) {
-    for (int i = 0 ; i < (int)includeNonBondAtomInBiopolymerVector.size(); i++) {
+    for (size_t i = 0 ; i < includeNonBondAtomInBiopolymerVector.size(); i++) {
         includeNonBondAtom(includeNonBondAtomInBiopolymerVector[i].chain,  includeNonBondAtomInBiopolymerVector[i].residue, includeNonBondAtomInBiopolymerVector[i].atomName, state,dumm);
     }
 }
@@ -3521,7 +3521,7 @@ void BiopolymerClassContainer::includeNonBondAtom(String chain , ResidueID resid
 }
 
 void BiopolymerClassContainer::waterDropletAboutResidues (const vector <WaterDropletAboutResidueStruct> waterDropletAboutResidueVector,    WaterDropletContainer & waterDropletContainer  )     {
-        for (int i = 0; i < (int)waterDropletAboutResidueVector.size(); i++) {
+        for (size_t i = 0; i < waterDropletAboutResidueVector.size(); i++) {
                  BiopolymerClass  primaryBiopolymerClass = updBiopolymerClass(waterDropletAboutResidueVector[i]. biopolymerChainID );
                  MMBLOG_FILE_FUNC_LINE(INFO, primaryBiopolymerClass.getRepresentativeAtomName()<<endl);
                  Vec3 myLocation = (primaryBiopolymerClass.calcDefaultAtomLocationInGroundFrame(waterDropletAboutResidueVector[i].residue, primaryBiopolymerClass.getRepresentativeAtomName()))*(1.0); // used to convert to Å, now using nm
@@ -4185,7 +4185,7 @@ void BiopolymerClassContainer::loadMutationVectorsFromSequence() {
     map<const String, BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
     for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) 
     {
-	    for (unsigned int i = 0 ; i < (biopolymerClassMapIterator->second).getSequence().size() ; i ++) {
+	    for (int i = 0 ; i < (biopolymerClassMapIterator->second).getSequence().size() ; i ++) {
 		if ((biopolymerClassMapIterator->second).getSequence().substr(i,1).compare((biopolymerClassMapIterator->second).getOriginalSequence().substr(i,1)) != 0 ) { 
 		    std::cout<<"Found a mutation at residue index "<<i<<std::endl; 
 		    Mutation myMutation;
@@ -4211,7 +4211,7 @@ void BiopolymerClassContainer::loadMutationVectorsFromSequence() {
 void BiopolymerClassContainer::writeMutationFlexibilizers(std::ofstream & output, const int offset, const double radius = 0.0 ) {
                 int leftFlexibleOffset = offset;
                 int rightFlexibleOffset = offset;
-                for (int i = 0 ; i <       mutationVector.size(); i++) {
+                for (size_t i = 0 ; i <       mutationVector.size(); i++) {
                         output <<"mobilizer Default "<<mutationVector[i].getChain()<<" " ;
                         output<<updBiopolymerClass(mutationVector[i].getChain()).safeSum(mutationVector[i].getResidue(),(- leftFlexibleOffset)).outString()<<" ";
                         output <<updBiopolymerClass(mutationVector[i].getChain()).safeSum(mutationVector[i].getResidue(),rightFlexibleOffset).outString()<<std::endl;
@@ -4226,7 +4226,7 @@ void BiopolymerClassContainer::writeMutationFlexibilizers(std::ofstream & output
     }
 }*/
 void BiopolymerClassContainer::writeWaterDroplets(std::ofstream & output, const double springConstant = 300, const double radius = 0.0 ) {
-                for (int i = 0 ; i <       mutationVector.size   (); i++) {
+                for (size_t i = 0 ; i <       mutationVector.size   (); i++) {
                         output <<"waterDropletAboutResidue "<<mutationVector[i].getChain()<<" " ;
                         output<<mutationVector[i].getResidue().outString()<<" ";
                         output <<radius<<" ";
@@ -4242,7 +4242,7 @@ void BiopolymerClassContainer::writeWaterDroplets(std::ofstream & output, const 
 }*/
 
 void BiopolymerClassContainer::writeMobilizerWithinMutation(std::ofstream & output,  const double radius = 0.0 ) {
-                for (int i = 0 ; i < mutationVector.size(); i++) {
+                for (size_t i = 0 ; i < mutationVector.size(); i++) {
                         output <<"applyMobilizersWithin Default  "<<radius<<" "<<mutationVector[i].getChain()<<" " ;
                         output <<mutationVector[i].getResidue().outString()<<std::endl;
                 }
@@ -4291,7 +4291,7 @@ vector<MMBAtomInfo> BiopolymerClassContainer::getConcatenatedAtomInfoVector(cons
             continue;
         MMBLOG_FILE_FUNC_LINE(INFO, "Inside getConcatenatedAtomInfoVector(). Doing chain : "<<(biopolymerClassMapIterator->second).getChainID()<<endl);
         tempAtomInfoVector = (biopolymerClassMapIterator->second).getAtomInfoVector();
-        for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) 
+        for (size_t m = 0; m < tempAtomInfoVector.size(); m++)
         {
             MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
             Vec3 v = (biopolymerClassMapIterator->second).myBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
@@ -4321,7 +4321,7 @@ void BiopolymerClassContainer::writeSubstituteResidueCommands(std::ofstream & ou
     }
 }*/
 void BiopolymerClassContainer::writeSubstituteResidueCommands(std::ofstream & output) {
-    for (int i = 0 ; i <       mutationVector.size   (); i++) {
+    for (size_t i = 0 ; i <       mutationVector.size   (); i++) {
     output <<"substituteResidue "<<mutationVector[i].getChain()<<" "<<mutationVector[i].getResidue().outString()<<" "<<mutationVector[i].getSubstitutedResidueType()<<std::endl;
     }
 }
@@ -4471,7 +4471,7 @@ bool BiopolymerClassContainer::allMutationsDifferFromWildType(){
 }*/
 
 bool BiopolymerClassContainer::allMutationsDifferFromWildType() { // This tells us whether any of the proposed mutants actually do not  change the residue type at the specified position.
-    for (unsigned int i = 0 ; i <       mutationVector.size   () ; i ++) {
+    for (size_t i = 0 ; i <       mutationVector.size   () ; i ++) {
     String updatedResidueType = updBiopolymerClass(mutationVector[i].getChain()).getOriginalSequence().substr(updBiopolymerClass(mutationVector[i].getChain()). getResidueIndex(mutationVector[i].getResidue()) ,1);
     if (updatedResidueType.compare(mutationVector[i].getSubstitutedResidueType()) == 0) {
                 MMBLOG_FILE_FUNC_LINE(INFO, "The substituted residue type : >"<<mutationVector[i].getSubstitutedResidueType()<<"< is the same as the existing residue type : >"<<updatedResidueType<<endl);
@@ -4488,7 +4488,7 @@ void BiopolymerClassContainer::updateMutationResidueTypesFromCurrentSequence() {
     }
 }    */
 void BiopolymerClassContainer::updateMutationResidueTypesFromCurrentSequence() {
-    for (unsigned int i = 0 ; i < getNumMutationVectorElements() ; i ++) {
+    for (int i = 0 ; i < getNumMutationVectorElements() ; i ++) {
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         mutationVector[i].print(); 
         String updatedResidueType = updBiopolymerClass(mutationVector[i].getChain()).getSequence().substr(updBiopolymerClass(mutationVector[i].getChain()).getResidueIndex(mutationVector[i].getResidue()) ,1);
@@ -4721,14 +4721,14 @@ void BiopolymerClassContainer::createDisulphideBridges(std::ofstream & output) {
     openmmVecType boxSize = openmmVecType(10000,10000,10000);
     vector<openmmVecType> particleList(cysteineAtomInfoVector.size());
     vector<set<int> > exclusions( particleList.size() );
-    for (int i = 0; i < cysteineAtomInfoVector.size() ; i++) {
+    for (size_t i = 0; i < cysteineAtomInfoVector.size() ; i++) {
 	particleList[i] = cysteineAtomInfoVector[i].position;
     }
     MMBLOG_FILE_FUNC_LINE(INFO, "neighborList size is : "<<neighborList.size()<<endl);
     double         radius = .27;
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     computeNeighborListVoxelHash(neighborList, particleList.size() , particleList, exclusions, &boxSize, false, radius  , 0.0);
-    for ( int j = 0 ; j < neighborList.size(); j++) {
+    for ( size_t j = 0 ; j < neighborList.size(); j++) {
 	    //MMBLOG_FILE_FUNC_LINE(endl;
 	    ResidueID residueID1(cysteineAtomInfoVector[neighborList[j].first].residueID);
 	    String chain1(cysteineAtomInfoVector[neighborList[j].first].chain);
@@ -4762,14 +4762,14 @@ void BiopolymerClassContainer::createDisulphideBridges() {
     openmmVecType boxSize = openmmVecType(10000,10000,10000);
     vector<openmmVecType> particleList(cysteineAtomInfoVector.size());
     vector<set<int> > exclusions( particleList.size() );
-    for (int i = 0; i < cysteineAtomInfoVector.size() ; i++) {
+    for (size_t i = 0; i < cysteineAtomInfoVector.size() ; i++) {
 	particleList[i] = cysteineAtomInfoVector[i].position;
     }
     MMBLOG_FILE_FUNC_LINE(INFO, " neighborList size is : "<<neighborList.size()<<endl);
     double         radius = .27;
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     computeNeighborListVoxelHash(neighborList, particleList.size() , particleList, exclusions, &boxSize, false, radius  , 0.0);
-    for ( int j = 0 ; j < neighborList.size(); j++) {
+    for ( size_t j = 0 ; j < neighborList.size(); j++) {
 	    //MMBLOG_FILE_FUNC_LINE(endl;
 	    ResidueID residueID1(cysteineAtomInfoVector[neighborList[j].first].residueID);
 	    String chain1(cysteineAtomInfoVector[neighborList[j].first].chain);
@@ -4804,7 +4804,7 @@ void BiopolymerClassContainer::loadCysteineAtomInfoVector(vector <MMBAtomInfo> &
       MMBLOG_FILE_FUNC_LINE(CRITICAL, "cysteineAtomInfoVector is not empty!"<<endl);
     }
     //cysteineAtomInfoVector.clear();
-    for  (int i = 0 ; i < myConcatenatedAtomInfoVector.size(); i++){
+    for  (size_t i = 0 ; i < myConcatenatedAtomInfoVector.size(); i++){
         myConcatenatedAtomInfoVector[i].print();
         if(myConcatenatedAtomInfoVector[i].atomName.compare("SG") ==0) {
             MMBLOG_FILE_FUNC_LINE(INFO, "Found an SG.."<<endl); 

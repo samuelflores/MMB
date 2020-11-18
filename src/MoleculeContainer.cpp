@@ -244,9 +244,9 @@ CustomMolecule::CustomMolecule(vector <vector <String> > moleculeBuildCommandVec
     if (moleculeBuildCommandVector.size() < 1) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "setBaseCompound must be the first command you issue!"<<endl);
     }
-    for (int i = 0; i < moleculeBuildCommandVector.size(); i ++) {
+    for (size_t i = 0; i < moleculeBuildCommandVector.size(); i++) {
         MMBLOG_FILE_FUNC_LINE(INFO, "Contents of moleculeBuildCommandVector[i] : ("<<moleculeBuildCommandVector[i].size()<<" elements) " <<endl);
-        for (int j = 0; j < moleculeBuildCommandVector[i].size(); j++) {
+        for (size_t j = 0; j < moleculeBuildCommandVector[i].size(); j++) {
             MMBLOG_FILE_FUNC_LINE(INFO, ">"<<moleculeBuildCommandVector[i][j]<<"< ");
         }
         MMBLOG_FILE_FUNC_LINE(INFO, endl);

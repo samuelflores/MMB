@@ -173,7 +173,7 @@ void MobilizerContainer::addMobilizerDomainsInterfacesToVector(const vector<Mobi
 
     OpenMM::NeighborList neighborList = myBiopolymerClassContainer.getNeighborList(atomInfoVector, maxRange);
     // Go through the list
-    for ( int j = 0 ; j < neighborList.size(); j++) 
+    for ( size_t j = 0 ; j < neighborList.size(); j++)
     {
         unsigned int id1 = neighborList[j].first;
         unsigned int id2 = neighborList[j].second;
@@ -267,9 +267,9 @@ void MobilizerContainer::setBiopolymerBondMobility (BiopolymerClassContainer & m
 void MobilizerContainer::createMobilizersWithin ( BiopolymerClassContainer & myBiopolymerClassContainer, State & state ){
      
            
-    for (int h = 0 ; h < mobilizerWithinVector.size() ; h++) {
+    for (size_t h = 0 ; h < mobilizerWithinVector.size() ; h++) {
     vector<SingleResidue> myMobilizerResidueVector = myBiopolymerClassContainer.findBiopolymerResiduesWithinRadius(mobilizerWithinVector,state);
-    for (int i = 0 ; i < myMobilizerResidueVector.size() ; i ++) {
+    for (size_t i = 0 ; i < myMobilizerResidueVector.size() ; i ++) {
         MobilizerStretch myMobilizer;// =myMobilizerResidueVector[i];
         myMobilizer.setChain (myMobilizerResidueVector[i].getChain());
         myMobilizer.setStartResidue ( myMobilizerResidueVector[i].getResidue() );

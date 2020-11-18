@@ -59,7 +59,7 @@ void WaterDropletContainer::clear   (){
 }
 
 void WaterDropletContainer::printPDB(){
-	for (int i = 0; i< (int)waterDropletVector.size(); i++){
+	for (size_t i = 0; i< waterDropletVector.size(); i++){
 		waterDropletVector[i].printPDB();
 	}
 };
@@ -72,26 +72,26 @@ void WaterDropletContainer::add( WaterDroplet & waterDroplet) {
 
 
 void WaterDropletContainer::multiplySmallGroupInertia(double smallGroupInertiaMultiplier, CompoundSystem & system, SimbodyMatterSubsystem& matter, State & state) {
-	for (int i = 0; i< (int)waterDropletVector.size(); i++){
+	for (size_t i = 0; i< waterDropletVector.size(); i++){
 		waterDropletVector[i].multiplySmallGroupInertia(smallGroupInertiaMultiplier, system,   matter,state);
 	}
 };
 
 void WaterDropletContainer::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSubsystem &dumm,  SimbodyMatterSubsystem& matter, BiopolymerClassContainer & myBiopolymerClassContainer) {
-	for (int i = 0; i< (int)waterDropletVector.size(); i++){
+	for (size_t i = 0; i< waterDropletVector.size(); i++){
 		waterDropletVector[i].addWaterMolecules(  system, dumm,  matter, myBiopolymerClassContainer);
 	}
 };
 
 void WaterDropletContainer::addTethers(AtomSpringContainer & atomSpringContainer) {
-	for (int i = 0; i< (int)waterDropletVector.size(); i++){
+	for (size_t i = 0; i< waterDropletVector.size(); i++){
 		waterDropletVector[i].addTethers(   atomSpringContainer);
 	}
 };
 
 
 WaterDroplet WaterDropletContainer::getWaterDroplet(string chainID){
-    for (int i = 0; i < (int)waterDropletVector.size(); i++) {
+    for (size_t i = 0; i < waterDropletVector.size(); i++) {
         if (waterDropletVector[i].chainID.compare("chainID") == 0){
             return waterDropletVector[i];
         }
@@ -101,7 +101,7 @@ WaterDroplet WaterDropletContainer::getWaterDroplet(string chainID){
 
 
 WaterDroplet & WaterDropletContainer::updWaterDroplet(string chainID){
-    for (int i = 0; i < (int)waterDropletVector.size(); i++) {
+    for (size_t i = 0; i < waterDropletVector.size(); i++) {
         if (waterDropletVector[i].chainID.compare(chainID) == 0){
             waterDropletVector[i].validateWaterVector();
             return waterDropletVector[i];
@@ -112,7 +112,7 @@ WaterDroplet & WaterDropletContainer::updWaterDroplet(string chainID){
 
 bool WaterDropletContainer::hasChainID     (string chainID){
     bool hasChain = false;
-    for (int i = 0; i < (int)waterDropletVector.size(); i++) {
+    for (size_t i = 0; i < waterDropletVector.size(); i++) {
        
         if ((waterDropletVector[i].chainID).compare(chainID) == 0){
             hasChain = true;
@@ -128,7 +128,7 @@ MobilizedBody & WaterDroplet::updAtomMobilizedBody(SimbodyMatterSubsystem & matt
 }
 
 void WaterDroplet::multiplySmallGroupInertia(double smallGroupInertiaMultiplier, CompoundSystem & system, SimbodyMatterSubsystem& matter, State & state) {
-	for (int i = 0; i< (int)waterVector.size(); i++){
+	for (size_t i = 0; i < waterVector.size(); i++){
             MobilizedBody myBody = updAtomMobilizedBody(matter,ResidueID(i+firstResidueNumber.getResidueNumber(),' '),string("OW"));
             MassProperties myBodyMassProperties = myBody.getBodyMassProperties(state);
             if (myBodyMassProperties.getMass() < 40){
@@ -143,7 +143,7 @@ void WaterDroplet::multiplySmallGroupInertia(double smallGroupInertiaMultiplier,
 }; // of multiplySmallGroupInertia method
 
 void WaterDroplet::addTethers(AtomSpringContainer & atomSpringContainer) {
-    if (tetherType.compare("ToGround") == 0) for (int i = 0; i < (int)waterVector.size(); i++) {
+    if (tetherType.compare("ToGround") == 0) for (size_t i = 0; i < waterVector.size(); i++) {
         AtomSpring myAtomSpring;
         myAtomSpring.tether = true ;
 
@@ -196,7 +196,7 @@ Vec3 WaterDroplet::getOxygenLocationInMobilizedBodyFrame(ResidueID residueNumber
 }
 
 void WaterDroplet::includeAllAtoms(DuMMForceFieldSubsystem & dumm){
-    for (int i = 0; i < (int)waterVector.size(); i++) {
+    for (size_t i = 0; i < waterVector.size(); i++) {
         Compound::AtomIndex myAtomIndex = waterVector[i].getAtomIndex("OW");
         DuMM::AtomIndex myDuMMAtomIndex = waterVector[i].getDuMMAtomIndex(myAtomIndex);
         dumm.includeNonbondAtom(myDuMMAtomIndex);
@@ -212,7 +212,7 @@ void WaterDroplet::includeAllAtoms(DuMMForceFieldSubsystem & dumm){
 }
 
 void WaterDroplet::validateWaterVector() {
-    for (int i =0 ; i < (int)waterVector.size() ; i++) {
+    for (size_t i = 0; i < waterVector.size() ; i++) {
         MMBLOG_FILE_FUNC_LINE(INFO, "Validating water #"<<i<<", chain "<<chainID<<" : "<<waterVector[i].hasAtom("OW")<<endl);
         if (! waterVector[i].hasAtom("OW")) {
             MMBLOG_FILE_FUNC_LINE(INFO, "Failed to find atom OW in waterVector element "<<i<<endl);
@@ -221,13 +221,13 @@ void WaterDroplet::validateWaterVector() {
 }
 
 void WaterDropletContainer::includeAllAtoms(DuMMForceFieldSubsystem & dumm){
-    for (int i = 0; i< (int)waterDropletVector.size(); i++){
+    for (size_t i = 0; i< waterDropletVector.size(); i++){
         waterDropletVector[i].includeAllAtoms(dumm);
     }
 }
 
 void WaterDropletContainer::validateWaterVectors(){
-    for (int i = 0; i< (int)waterDropletVector.size(); i++){
+    for (size_t i = 0; i < waterDropletVector.size(); i++){
         waterDropletVector[i].validateWaterVector();
     }
 }
@@ -246,7 +246,6 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
 
         Vec3 dropletCenter = Vec3 (center[0], center[1], center[2]); // used to convert Ångstroms to nanometers
 
-	int totalAtoms =0;
 
         vector< vector < vector<int> > > myWaterVecOccupation( cellsAcross, vector < vector<int> >(cellsAcross, vector<int>(cellsAcross) ) );
 	int numWater =0;//lsAcross*cellsAcross*cellsAcross;
@@ -268,7 +267,8 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
 			}	
 	//Count the atoms in the CompoundSystem
 	
-        for (int i =0 ; i< (int)system.getNumCompounds(); i++)
+	size_t totalAtoms = 0;
+        for (size_t i = 0; i < system.getNumCompounds(); i++)
 	{
 		MMBLOG_FILE_FUNC_LINE(INFO, "counting atoms in compound # "<<i<<endl);
 		totalAtoms += system.updCompound(CompoundSystem::CompoundIndex(i)).getNumAtoms();
@@ -278,9 +278,9 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
 	vector<Vec3> atomLocationArray(totalAtoms);
  
         vector<MMBAtomInfo> myAtomInfoVector = myBiopolymerClassContainer.getConcatenatedAtomInfoVector();
-	for (int i =0 ; i< (int)system.getNumCompounds(); i++)
+	for (size_t i = 0 ; i < system.getNumCompounds(); i++)
 	{
-	    for (int j = 0; j< system.updCompound(CompoundSystem::CompoundIndex(i)).getNumAtoms(); j++) 
+	    for (int j = 0; j < system.updCompound(CompoundSystem::CompoundIndex(i)).getNumAtoms(); j++) 
                 if (! (myBiopolymerClassContainer.hasChainID(system.updCompound(CompoundSystem::CompoundIndex(i)).getPdbChainId())))
 	        {
                         MMBAtomInfo myAtomInfo  ;
@@ -301,7 +301,7 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
 	                <<": Error! wrong number of elements in myAtomInfoVector! "<<endl);
         }
 	//int myAtomIndex = 0;
-        for (int i = 0; i < myAtomInfoVector.size(); i++) 
+        for (size_t i = 0; i < myAtomInfoVector.size(); i++) 
 	//for (int i =0 ; i< (int)system.getNumCompounds(); i++)
 	{
 	    //for (int j = 0; j< system.updCompound(CompoundSystem::CompoundIndex(i)).getNumAtoms(); j++)
@@ -373,7 +373,7 @@ void WaterDroplet::adopt( CompoundSystem & system, bool readPreviousFrameFile) {
             system.adoptCompound(waterVector[i],defaultTransformVector[i]); // This should be moved to its own method
             MMBLOG_FILE_FUNC_LINE(waterVector[i].getTopLevelTransform();}
     } else {*/
-        for (int i = 0 ; i < waterVector.size(); i++){
+        for (size_t i = 0 ; i < waterVector.size(); i++){
             MMBLOG_FILE_FUNC_LINE(INFO, waterVector[i].getTopLevelTransform());
             system.adoptCompound(waterVector[i]); // This should be moved to its own method
             MMBLOG_FILE_FUNC_LINE(INFO, waterVector[i].getTopLevelTransform());}
@@ -456,7 +456,7 @@ void WaterDropletContainer::matchDefaultConfiguration(bool readPreviousFrameFile
         }
         
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
-	for (int i = 0; i< (int)waterDropletVector.size(); i++){
+	for (size_t i = 0; i < waterDropletVector.size(); i++){
   
             ////////////////////////////////////////////////
             // First, look in the structure file .. if there are more waters in there than expected, expand the waterDropletVector[i].waterVector accordingly:
@@ -473,7 +473,7 @@ void WaterDropletContainer::matchDefaultConfiguration(bool readPreviousFrameFile
 		    waterDropletVector[i].waterVector.push_back(myExtraWater);} else keepGoing = false;
             }
             ////////////////////////////////////////////////
-	    for (int j = 0 ; j <   waterDropletVector[i].waterVector.size(); j++) {
+	    for (size_t j = 0 ; j < waterDropletVector[i].waterVector.size(); j++) {
                MMBLOG_FILE_FUNC_LINE(INFO, endl);
 	       Water & myWater = waterDropletVector[i].waterVector[j]; 
 	       MMBLOG_FILE_FUNC_LINE(INFO, "About to create atom targets from file "<<pdbFileName<<endl);
@@ -509,7 +509,7 @@ void WaterDropletContainer::matchDefaultConfiguration(bool readPreviousFrameFile
 }
 
 void WaterDropletContainer::adopt(CompoundSystem & system,bool readPreviousFrameFile) {		      
-    for (int i = 0; i< (int)waterDropletVector.size(); i++){
+    for (size_t i = 0; i < waterDropletVector.size(); i++){
         waterDropletVector[i].adopt(system,readPreviousFrameFile);
     }
 }

@@ -73,7 +73,7 @@ void BasePairContainer::updateBasePair(int index, String ch1, int res1, String e
 
 String BasePairContainer::getBasePairsStrings(){
     stringstream returnStr;
-    for(int i = 0; i < myBasePairVector.size(); i++){
+    for(size_t i = 0; i < myBasePairVector.size(); i++){
         returnStr << i << " " 
                      << myBasePairVector[i].FirstBPChain << " "
                      << myBasePairVector[i].FirstBPResidue.getResidueNumber() << " "
@@ -313,7 +313,7 @@ void BasePairContainer::generateHelicalStackingInteractions(String chainID, Resi
 
 void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass){
     MMBLOG_FILE_FUNC_LINE(INFO, "Running addHelicalStacking  "<<endl);
-    for (int i = 0; i < myBiopolymerClassContainer.getNumBiopolymers(); i++) {
+    for (auto i = 0; i < myBiopolymerClassContainer.getNumBiopolymers(); i++) {
         //MMBLOG_FILE_FUNC_LINE(" So far we have "<<numBasePairs() <<" baseInteraction's.  They are: "<<endl;
         //printBasePairs();
         BiopolymerClass & myBiopolymerClass = myBiopolymerClassContainer.updBiopolymerClass(i);
@@ -359,7 +359,7 @@ void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolym
 
 void BasePairContainer::printBasePairs() {
     MMBLOG_FILE_FUNC_LINE(INFO, "Printing all base pairs:"<<endl);
-    for (int i = 0; i < numBasePairs(); i++) {
+    for (auto i = 0; i < numBasePairs(); i++) {
         MMBLOG_FILE_FUNC_LINE(INFO, getBasePair(i).FirstBPChain<<" "<<getBasePair(i).FirstBPResidue.outString()<<" "<<   getBasePair(i).FirstBPEdge<<" "<<getBasePair(i).SecondBPChain<<" "<<getBasePair(i).SecondBPResidue.outString()<<" "<<   getBasePair(i).SecondBPEdge<<" "<<  getBasePair(i).OrientationBP<<endl);
     }
 }
@@ -370,7 +370,7 @@ void BasePairContainer::setBasePairSatisfied(int basePairIndex ,bool isSatisfied
 
 vector<int> BasePairContainer::getSatisfiedBasePairs(){
     vector<int> bps;
-    for (int i = 0; i < numBasePairs(); i++) {
+    for (auto i = 0; i < numBasePairs(); i++) {
         if(getBasePair(i).basePairSatisfied){
             bps.push_back(i);
         }

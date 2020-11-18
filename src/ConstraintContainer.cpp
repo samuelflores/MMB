@@ -37,7 +37,7 @@ void ConstraintToGroundContainer::validateConstraintClass(const ConstraintClass 
 void ConstraintToGroundContainer::validateConstraintClassVector(BiopolymerClassContainer & myBiopolymerClassContainer){
     //printConstraintClasses();
 	MMBLOG_FILE_FUNC_LINE(INFO, "About to validate constraintClassVector"<<endl);
-	for (int i = 0; i < constraintClassVector.size() ; i++) {
+	for (size_t i = 0; i < constraintClassVector.size() ; i++) {
 		validateConstraintClass( constraintClassVector[i], myBiopolymerClassContainer);
 	}
 };
@@ -60,7 +60,7 @@ void ConstraintToGroundContainer::printConstraintClasses() {
 };
 
 void ConstraintToGroundContainer::applyConstrainChainRigidSegments (BiopolymerClassContainer & biopolymerClassContainer, CompoundSystem & system,  SimbodyMatterSubsystem & matter,State & state){
-	for (int i = 0; i < constrainChainRigidSegmentsVector.size(); i++) {
+	for (size_t i = 0; i < constrainChainRigidSegmentsVector.size(); i++) {
         MMBLOG_FILE_FUNC_LINE(INFO, "constraining rigid segments for chain : "<<constrainChainRigidSegmentsVector[i].chainID<<endl);
 		biopolymerClassContainer.updBiopolymerClass(constrainChainRigidSegmentsVector[i].chainID).constrainRigidSegmentsToGround( system, matter, state,  *this , constrainChainRigidSegmentsVector[i].toGround, constrainChainRigidSegmentsVector[i].residueID);
 	}
@@ -93,7 +93,7 @@ void ConstraintToGroundContainer::addConstraintToVector(String myChain, ResidueI
 }
 
 bool ConstraintToGroundContainer::hasConstraintClass(String myChainID, ResidueID myResidueID) {
-    for (int i = 0; i < numConstraintClasses(); i++) {
+    for (auto i = 0; i < numConstraintClasses(); i++) {
         if ((getConstraintClass(i).getChain1().compare(myChainID) == 0) &&
             (getConstraintClass(i).getResidueID1() == myResidueID)) {
             return bool(true);
@@ -214,7 +214,7 @@ void ConstraintToGroundContainer::addSingleWeldConstraintPerInterfaceChainPair( 
 void ConstraintToGroundContainer::addSingleWeldConstraintPerInterfaceChainPair(   BiopolymerClassContainer & myBiopolymerClassContainer) { // This polymorphism requires that the user specify two sets of chains.  Only residues at the interface between the two sets will be included.  This lets the user leave out other chains (e.g. threading templates) which are in the system but which shouldn't be flexibilized.
         vector<MMBAtomInfo> concatenatedAtomInfoVector = myBiopolymerClassContainer.getConcatenatedAtomInfoVector();
         vector<TwoAtomClass> myTwoAtomClassVector = interfaceContainer.retrieveCloseContactPairs(concatenatedAtomInfoVector);
-        for (int i = 0; i < myTwoAtomClassVector.size(); i++){
+        for (size_t i = 0; i < myTwoAtomClassVector.size(); i++){
                     if (!(hasConstraintClass(myTwoAtomClassVector[i]. getChain1(),myTwoAtomClassVector[i].getChain2()))) {
                     
                         ConstraintClass myConstraintClass(myTwoAtomClassVector[i]. getChain1() ,myTwoAtomClassVector[i]. getResidueID1(),myTwoAtomClassVector[i]. getAtomName1(),

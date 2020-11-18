@@ -125,14 +125,14 @@ SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 SET(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 # for some reason it's not reading the ${OpenMM_INCLUDE_DIR}, so i hard coded the OpenMM directory: 
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include ${Simbody_INCLUDE_DIR} ${SimTKmolmodel}/include ${OpenMM_INCLUDE_DIR} ${OpenMM_INCLUDE_DIR}/openmm ${OpenMM_INCLUDE_DIR}/openmm/reference ${SeqAn_INCLUDE_DIR}  )
+INCLUDE_DIRECTORIES(SYSTEM ${PROJECT_SOURCE_DIR}/include ${Simbody_INCLUDE_DIR} ${SimTKmolmodel}/include ${OpenMM_INCLUDE_DIR} ${OpenMM_INCLUDE_DIR}/openmm ${OpenMM_INCLUDE_DIR}/openmm/reference ${SeqAn_INCLUDE_DIR}  )
 LINK_DIRECTORIES(${Simbody_LIB_DIR}${LIB64} ${SimTKmolmodel}/lib ${CMAKE_BINARY_DIR} ${OpenMM_INSTALL_DIR}/lib   )
 
 ##################
 ### Add Lepton Paths
 ##################
 IF    ( Build_Lepton )
-	INCLUDE_DIRECTORIES ( ${Lepton_INCLUDE_DIR} )
+    INCLUDE_DIRECTORIES ( SYSTEM ${Lepton_INCLUDE_DIR} )
 	#LINK_DIRECTORIES    ( ${Lepton_LIB_DIR}     )
 	ADD_DEFINITIONS     ( -DLepton_USAGE )
 ENDIF ( Build_Lepton )
@@ -141,7 +141,7 @@ ENDIF ( Build_Lepton )
 ### Add Gemmi Paths
 ###################
 IF    ( Build_GEMMI )
-	INCLUDE_DIRECTORIES ( ${GEMMI_INCLUDE_DIR} )
+    INCLUDE_DIRECTORIES ( SYSTEM ${GEMMI_INCLUDE_DIR} )
 	ADD_DEFINITIONS     ( -DGEMMI_USAGE )
 ENDIF ( Build_GEMMI )
 
@@ -279,7 +279,7 @@ IF (BUILD_MMB_SHARED_LIB)
 	##################
 	IF    ( Build_GEMMI )
 		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} z )
-		target_include_directories ( ${SHARED_MMB_TARGET} INTERFACE ${GEMMI_INCLUDE_DIR} )
+        target_include_directories ( ${SHARED_MMB_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
 	ENDIF ( Build_GEMMI )
 
     # Install files
@@ -363,7 +363,7 @@ IF (BUILD_MMB_SHARED_EXEC)
 	##################
 	IF    ( Build_GEMMI )
 		TARGET_LINK_LIBRARIES ( MMB z )
-		target_include_directories (MMB INTERFACE ${GEMMI_INCLUDE_DIR} )
+        target_include_directories (MMB SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
 	ENDIF ( Build_GEMMI )
 
     INSTALL(TARGETS MMB
@@ -404,7 +404,7 @@ IF (BUILD_MMB_STATIC)
 	##################
 	IF    ( Build_GEMMI )
 		TARGET_LINK_LIBRARIES ( ${STATIC_MMB_TARGET} z )
-		target_include_directories ( ${STATIC_MMB_TARGET} INTERFACE ${GEMMI_INCLUDE_DIR} )
+        target_include_directories ( ${STATIC_MMB_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
 	ENDIF ( Build_GEMMI )
 
     # Link with static library
@@ -463,7 +463,7 @@ IF (BUILD_MMB_GUI_TEST)
 	##################
 	IF    ( Build_GEMMI )
 		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} z )
-		target_include_directories ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} INTERFACE ${GEMMI_INCLUDE_DIR} )
+        target_include_directories ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
 	ENDIF ( Build_GEMMI )
 
     # Install files

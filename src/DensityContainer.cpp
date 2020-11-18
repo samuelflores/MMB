@@ -14,12 +14,6 @@ void DensityContainer::clear(){
     densityStretchVector.clear();
 }
 void DensityContainer::validate(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer){
-
-    /*if (!(myDensityStretch.getStartResidue() == myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getFirstResidueID ()) ) {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, " The start residue (currently "<<myDensityStretch.getStartResidue().outString()<<") is not equal to the first residue number of the chain ("<<myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getFirstResidueID().outString()<< "). "<<endl; ErrorManager::instance.treatError();    }
-    if (!(myDensityStretch.getEndResidue() == myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getLastResidueID    ()) ) {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, " The start residue (currently "<<myDensityStretch.getEndResidue().outString()<<") is not equal to the first residue number of the chain ("<<myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getLastResidueID    ()    .outString()     << "). "<<endl; ErrorManager::instance.treatError();    } */
-
     if (myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).difference(myDensityStretch.getEndResidue() , myDensityStretch.getStartResidue()) < 0) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "The end residue (currently "<<myDensityStretch.getEndResidue().outString()<<") must be greater than or equal to the start residue (currently "<<myDensityStretch.getStartResidue().outString()<<". "<<endl);    }
     if ((myDensityStretch.getEndResidue() > myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getLastResidueID    ()) ) {

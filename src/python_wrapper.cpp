@@ -20,18 +20,13 @@
  //#include "SimTKsimbody_aux.h"
 
 #include "ParameterReader.h"
-#include "ErrorManager.h"
+#include "MMBLogger.h"
 #include "Repel.h"
 #include "ParameterReader_wrapper.h"
 
 using namespace std;
 
 extern "C" {
-
-#ifdef _WIN32
-    ErrorManager* ErrorManager::p_instance = new ErrorManager(cerr);
-    ErrorManager & ErrorManager::instance(*ErrorManager::p_instance);
-#endif
 
     /***********************************************************************************/
     /**

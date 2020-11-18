@@ -52,8 +52,6 @@ bool letterIsRNA(String myLetter) {
     else if (myLetter.compare("U") == 0) {return true;}
     else {
 	    MMBLOG_FILE_FUNC_LINE(INFO, ": You have specified a non-RNA residue, single letter code = "<<myLetter<<endl);
-        //ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You have specified a non-RNA residue, single letter code = "<<myLetter<<endl;
-        //ErrorManager::instance.treatError(); 
         return false;}
 }
 
@@ -64,8 +62,6 @@ bool letterIsDNA(String myLetter) {
     else if (myLetter.compare("T") == 0) {return true;}
     else {
         MMBLOG_FILE_FUNC_LINE(INFO, ": You have specified a non-DNA residue, single letter code = "<<myLetter<<endl);
-        //ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": You have specified a non-DNA residue, single letter code = "<<myLetter<<endl;
-        //ErrorManager::instance.treatError(); 
         return false;}
 }
 
@@ -93,9 +89,7 @@ bool letterIsProtein(String   myLetter) {
     else if (myLetter.compare("Q") == 0) {return true;}
     else if (myLetter.compare("K") == 0) {return true;}
     else {
-        //ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<< ": The symbol " << myLetter << " is not in the protein alphabet\n";
         MMBLOG_FILE_FUNC_LINE(INFO, ": The symbol " << myLetter << " is not in the protein alphabet"<<endl);
-                //ErrorManager::instance.treatError();
                 return false;
     } 
 
@@ -232,8 +226,6 @@ int  BiopolymerClass::checkResidueNumbersAndInsertionCodes(){
         } else {
             MMBLOG_FILE_FUNC_LINE(WARNING, "The residue ID's are problematic! Specifically, " <<getResidueID(myResidueIndex).outString() <<" !<= "<<getResidueID(myResidueIndex + 1).outString()<<" . We can tolerate wonky insertion code ordering, but the integer part of the residueID cannot decrease, otherwise our structure matching algorithm pukes. Kindly follow non-bizarre numbering conventions."<<endl);
            return 1; // Non zero return value indicates error
-           //ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": The residue ID's are problematic! Specifically, " <<getResidueID(myResidueIndex).outString() <<" !<= "<<getResidueID(myResidueIndex + 1).outString()<<" . We can tolerate wonky insertion code ordering, but the integer part of the residueID cannot decrease, otherwise our structure matching algorithm pukes. Kindly follow non-bizarre numbering conventions."<<endl;
-           //ErrorManager::instance.treatError();
         }
 
         myResidueIndex ++;
@@ -242,23 +234,6 @@ int  BiopolymerClass::checkResidueNumbersAndInsertionCodes(){
     return 0;
 }
 void BiopolymerClass::validateResidueNumbersAndInsertionCodes(){
-    /*MMBLOG_FILE_FUNC_LINE(" This validation step is currently not active."<<endl;
-    
-    int myResidueIndex = getResidueIndex(getFirstResidueID());
-    ResidueID myResidueID = getFirstResidueID();
-    while (myResidueIndex < getResidueIndex(getLastResidueID())){
-        // cout<<getResidueID(myResidueIndex).outString()<<"."<<flush;
-        // Check that at least the integer part of the ResidueID is nondecreasing
-        if ( getResidueID(myResidueIndex).getResidueNumber() <= getResidueID(myResidueIndex + 1).getResidueNumber()) {
-            // all is well. Even if insertion codes are wonky, we can deal with that.
-        } else {
-           ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": The residue ID's are problematic! Specifically, " <<getResidueID(myResidueIndex).outString() <<" !<= "<<getResidueID(myResidueIndex + 1).outString()<<" . We can tolerate wonky insertion code ordering, but the integer part of the residueID cannot decrease, otherwise our structure matching algorithm pukes. Kindly follow non-bizarre numbering conventions."<<endl;
-           ErrorManager::instance.treatError();
-        }          
-
-        myResidueIndex ++;
-    }
-    MMBLOG_FILE_FUNC_LINE(endl;*/
     if (checkResidueNumbersAndInsertionCodes()) { // returns 1 in case of problems
            MMBLOG_FILE_FUNC_LINE(CRITICAL, "The residue ID's are problematic for chain "<<getChainID()<<" .. see message above."<<std::endl);
     }
@@ -643,7 +618,6 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
                 testOpen.close                        ( );
 #else
                         MMBLOG_FILE_FUNC_LINE           (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl);
-                ErrorManager::instance.treatError     ( );
 #endif
             }
             else if ( inputFileName.length() > 7 )
@@ -876,63 +850,6 @@ void BiopolymerClass::rigidifyTargetedBonds(Compound::AtomTargetLocations & biop
         MMBLOG_FILE_FUNC_LINE(INFO, myAtomElement.getName()<<", "<<  biopolymerAtomTargets[m]  <<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, " "<<m<<","<<myBiopolymer.getAtomName(m)<<endl);
     }
-/*
-    ResidueInfo& residue = updResidue(r);
-
-    // Create a list of all atoms in the residue
-    std::set<Compound::AtomIndex> residueAtoms;
-    for (ResidueInfo::AtomIndex a(0); a < residue.getNumAtoms(); ++a)
-        residueAtoms.insert(residue.getAtomIndex(a));
-
-    // Set mobility on bonds that are within residue
-    // atoms
-    std::set<Compound::AtomIndex>::const_iterator aI;
-    for (aI = residueAtoms.begin(); aI !=residueAtoms.end(); ++aI) {
-        const CompoundAtom& atom = getImpl().getAtom(*aI);
-        // atoms->bondCenters
-        for (CompoundAtom::BondCenterIndex bc(0); bc < atom.getNumBondCenters(); ++bc) {
-            BondCenterInfo::AtomKey key(*aI, bc);
-            const BondCenterInfo& bondCenter = getImpl().getBondCenterInfo(key);
-            if (! bondCenter.isBonded()) continue; // skip unbonded centers
-            const BondCenterInfo& otherBondCenter =
-                getImpl().getBondCenterInfo(bondCenter.getBondPartnerBondCenterIndex());
-            Compound::AtomIndex otherAtomIndex = otherBondCenter.getAtomIndex();
-            // skip bonds that go outside of this residue
-            if (residueAtoms.find(otherAtomIndex) == residueAtoms.end()) continue;
-            BondInfo& bondInfo = updImpl().updBondInfo(bondCenter.getBondIndex());
-            updImpl().updBond(bondInfo).setMobility(mobility);
-        }
-    }
-
-    //return *this;
-
-
-        for (int q=0;q<(int)baseOperationVector.size();q++)  
-
-           if (((baseOperationVector[q]).BasePairIsTwoTransformForce).compare("mobilizer") == 0){
-              MMBLOG_FILE_FUNC_LINE(" Setting mobilizer of type "<<(baseOperationVector[q]).FirstBPEdge<<" for chain "<<(baseOperationVector[q]).FirstBPChain<<" from residue "<<(baseOperationVector[q]).FirstBPResidue.outString()<<" to residue "<<(baseOperationVector[q]).SecondBPResidue.outString()<<endl;
-               MobilizerStretch dummyMobilizerStretch;
-               BondMobility::Mobility myBondMobility = dummyMobilizerStretch.setBondMobility(baseOperationVector[q].FirstBPEdge ) ;
-               BiopolymerClass & myBiopolymerClass ( updBiopolymerClass((baseOperationVector[q]).FirstBPChain));
-                   if (biopolymerClassMap[baseOperationVector[q].FirstBPChain].biopolymerType == BiopolymerType::RNA){
-                        (static_cast<RNA&>( myBiopolymerClass.myBiopolymer)).setRNABondMobility(myBondMobility,
-                            SimTK::ResidueInfo::Index (myBiopolymerClass.getResidueIndex((baseOperationVector[q]).FirstBPResidue)), 
-                            SimTK::ResidueInfo::Index (myBiopolymerClass.getResidueIndex((baseOperationVector[q]).SecondBPResidue))); 
-                   } else if (biopolymerClassMap[baseOperationVector[q].FirstBPChain].biopolymerType == BiopolymerType::DNA){
-                        //ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" At this time DNA is not a supported biopolymer type. "<< baseOperationVector[q].FirstBPEdge <<". "<<endl;
-                        //ErrorManager::instance.treatError();
-                        (static_cast<DNA&>( myBiopolymerClass.myBiopolymer)).setDNABondMobility(myBondMobility,
-                            SimTK::ResidueInfo::Index (myBiopolymerClass.getResidueIndex ((baseOperationVector[q]).FirstBPResidue)), 
-                            SimTK::ResidueInfo::Index (myBiopolymerClass.getResidueIndex ((baseOperationVector[q]).SecondBPResidue))); 
-                   } else if (biopolymerClassMap[(baseOperationVector[q]).FirstBPChain].biopolymerType == BiopolymerType::Protein) {
-                       myBiopolymerClass.setProteinBondMobility(
-                           myBondMobility,
-                           (baseOperationVector[q]).FirstBPResidue,
-                           (baseOperationVector[q]).SecondBPResidue
-                           );
-                   } else exit(1);
-}
-*/
 }
 
 void BiopolymerClass::setSingleBondMobility(ResidueID residueID1,  String atomName1,ResidueID residueID2, String atomName2, String mobilityString ) {
@@ -1319,11 +1236,6 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter,  
 } // of initializeAtomInfoVector
 
 void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const vector<AtomicPropertyOverrideStruct>  & myAtomicPropertyOverrideVector) {
-    // have to allow rerun actually, since the dumm version can't be called much earlier.
-    /*if (atomInfoVector.size() > 0 ) {
-      ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": initializeAtomInfoVector has already been called!"<<endl; 
-      ErrorManager::instance.treatError();
-    }*/
           atomInfoVector.clear();
           ignoreAtomPositionVector.clear();
           PdbChain myPdbChain = PdbChain(myBiopolymer,myBiopolymer.getTopLevelTransform());
@@ -1512,7 +1424,6 @@ ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID residueID){
         if ((residueIndex < 0 ) || (residueIndex >= getChainLength())) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Encountered a problem with residue ID "<<residueID.outString()<<" of chain "<<getChainID() <<" . This returned and index of "<<residueIndex<<". The residue ID should lie in the closed interval "<<getFirstResidueID().outString()<<" , "<<getLastResidueID().outString()<<". If you are performing an arithmetic (+/-) operation on a residue number, the leftmost term correspond to an existing residue number, while the rest of the terms are increments in sequence to be added or subtracted from that residue number. Or, you maybe you issued loadSequencesFromPdb and there is no residue numbered "<<residueID.outString() <<endl
             <<" The computed index : "<<residueIndex<< " is unreasonable and would be expected to be in the range : 0 to "<<(getChainLength()-1)<<endl);
-            //ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Tried to extract residue index corresponding to residue ID "<<residueID.outString()<<" . The residue indices should lie in the closed interval "<<getFirstResidueID().outString()<<" , "<<getLastResidueID().outString()<<" . The resulting index : "<<residueIndex<< " is out of the corresponding range : 0 to "<<(getChainLength()-1)<<endl;
         }
         return ResidueInfo::Index(residueIndex);
     } else { // this "else" block is really inefficient .. for when residueIDVector is empty.  Try to avoid going into this!
@@ -1966,11 +1877,6 @@ void BiopolymerClass::multiplySmallGroupInertia(double multiplier, CompoundSyste
 
 
 void BiopolymerClass::setResidueIDsAndInsertionCodesFromBiopolymer(const Biopolymer & inputBiopolymer, bool endCaps = 0      ) {
-    // if (residueIDVector.size() > 0) 
-    // {
-    //     ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Why does residueIDVector have something in it already?"<<endl; 
-    //     ErrorManager::instance.treatError();
-    // }
     residueIDVector.clear();
     MMBLOG_FILE_FUNC_LINE(INFO, "Setting residue numbers and insertion codes from biopolymer in input structure file, for chain "<<getChainID()<<endl);
     for (int inputResidueIndex = ( 0 + endCaps ); inputResidueIndex < (inputBiopolymer.getNumResidues() - endCaps) ; inputResidueIndex ++) {
@@ -2389,28 +2295,6 @@ bool BiopolymerClass::hasResidueStretch(ResidueStretch & residues)
 }
 
 
-// void BiopolymerClass::AddInactiveResidues(ResidueStretch & residues)
-// {
-
-//     if(!hasResidueStretch(residues))
-//     {
-//         ErrorManager::instance << __FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : AddInactiveResidues : You tried to add an invalid residue stretch." << endl;
-//         ErrorManager::instance.treatError();
-//     }
-//     inactiveResidueStretches.addResidueStretchToVector(residues);
-// }
-
-
-// void BiopolymerClass::RemoveInactiveResidues(ResidueStretch & residues)
-// {
-//     if(!hasResidueStretch(residues))
-//     {
-//         ErrorManager::instance << __FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" : RemoveInactiveResidues : You tried to remove an invalid residue stretch." << endl;
-//         ErrorManager::instance.treatError();
-//     }
-//     inactiveResidueStretches.removeResidueStretchFromVector(residues);
-// }
-
 // vector<ResidueID> BiopolymerClass::getInactiveResiduesVector()
 // {
 //     vector<ResidueID> vec;
@@ -2465,105 +2349,6 @@ vector<ResidueID> BiopolymerClass::getResiduesWithin(Vec3 location, double dista
         }
     }
  */
-
-
-
-
-/*
-template<class ResidueStretchType>
-void BiopolymerClass::selectivelyRemoveResidueStretchFromContainer(ResidueStretch & residueStretch, ResidueStretchContainer <ResidueStretchType> & residueStretchContainer){
-    // This command crops or deletes residue stretches in the range "residueStretch" from residueStretchVector.  This was intended to cancel any modifications to certain resiude stretches.
-    // We treat three cases:
-    // 1. residueStretchVector[i] is a subset of (or is identical to) residueStretch
-    //        -> erase residueStretchVector[i]
-    // 2. residueStretch is a subset of residueStretchVector[i], with neither endpoint in common, splitting residueStretchVector[i] in two
-    //        -> split residueStretchVector[i] into two disjoint residue stretches
-    // 3. residueStretch is a subset of residueStretchVector[i], but the start point of residueStretch coincides with that of residueStretchVector[i] .
-    //        -> trim  residueStretchVector[i] on left
-    // 4. residueStretch is a subset of residueStretchVector[i], but the end point of residueStretch coincides with that of residueStretchVector[i] .
-    //        -> trim  residueStretchVector[i] on right
-    // 5. residueStretch and residueStretchVector[i] overlap, with residueStretch starting before residueStretchVector[i].
-    //        -> trim  residueStretchVector[i] on left
-    // 6. residueStretch and residueStretchVector[i] overlap, with residueStretchVector[i] starting before residueStretch.
-    //        -> trim  residueStretchVector[i] on right
-    //const int ResidueStretchContainer::getNumResidueStretches();
-    MMBLOG_FILE_FUNC_LINE(" the Default stretch is :"<<endl;
-    residueStretch.printStretch();
-    MMBLOG_FILE_FUNC_LINE(" Now checking "<<residueStretchContainer.getNumResidueStretches()<<" stretches: "<<endl;
-    for (int i = 0; i < residueStretchContainer.getNumResidueStretches(); i++)
-    {
-        residueStretchContainer.residueStretchVector[i].printStretch();
-
-        if (residueStretchContainer.residueStretchVector[i].getChain().compare((residueStretch.getChain() )) != 0) {continue;} // in other words, only make modificatiosn to residueStretchContainer if chain ID's match.
-        else if ((residueStretch.getStartResidue() <= residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
-            (residueStretch.getEndResidue() >= residueStretchContainer.residueStretchVector[i].getEndResidue()))
-           {   //case = 1
-               residueStretchContainer.residueStretchVector.erase(residueStretchContainer.residueStretchVector.begin() + i);
-               i--; // vector has been shortened, so make sure we don't skip the next residueStretchContainer.residueStretchVector[i].
-               if (i < -1) {ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"Unexplained error!"<<endl; ErrorManager::instance.treatError();}
-           }
-        else if ((residueStretch.getStartResidue() >  residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
-            (residueStretch.getEndResidue() <  residueStretchContainer.residueStretchVector[i].getEndResidue()))
-           {   // case = 2 ;
-               MMBLOG_FILE_FUNC_LINE("  "<<endl;
-               MobilizerStretch secondResidueStretch = residueStretchContainer.residueStretchVector[i];
-               ResidueID tempStartResidueID = (residueStretch).getStartResidue(); // getStartResidue() returns a temporary, whereas decrementResidueID expects a reference. can't convert a temporary to a reference.  This is because decrementResidueID might (and will!) try to modify ResidueID (as the name of the function suggests!).
-               //residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID((residueStretch).getStartResidue() ));
-               residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//((residueStretch).getStartResidue() )));
-               MMBLOG_FILE_FUNC_LINE(" Just decreased endpoint of stretch "<<i<<".  New stretch is:"<<endl;
-               residueStretchContainer.residueStretchVector[i].printStretch();
-               ResidueID tempEndResidueID = (residueStretch).getEndResidue();
-               secondResidueStretch.setStartResidue(incrementResidueID(tempEndResidueID));//  residueStretch.getEndResidue()));
-               residueStretchContainer.addResidueStretchToVector(secondResidueStretch);
-               MMBLOG_FILE_FUNC_LINE(" Just added new  stretch :"<<endl;
-               residueStretchContainer.residueStretchVector[residueStretchContainer.getNumResidueStretches()-1].printStretch();
-               MMBLOG_FILE_FUNC_LINE(" Moving on to check next stretch. "<<endl;
-
-
-           }
-        else if ((residueStretch.getStartResidue() == residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
-            (residueStretch.getEndResidue() <  residueStretchContainer.residueStretchVector[i].getEndResidue()))
-           {   // case = 3;
-
-               MMBLOG_FILE_FUNC_LINE("  Case 3"<<endl;
-               ResidueID tempEndResidueID = (residueStretch).getEndResidue();
-               residueStretchContainer.residueStretchVector[i].setStartResidue(incrementResidueID(tempEndResidueID));//residueStretch.getEndResidue() ))  ;
-           }
-        else if ((residueStretch.getEndResidue() == residueStretchContainer.residueStretchVector[i].getEndResidue()) &&
-            (residueStretch.getStartResidue() >  residueStretchContainer.residueStretchVector[i].getStartResidue()))
-           {   // case = 4;
-               MMBLOG_FILE_FUNC_LINE("  Case 4"<<endl;
-
-               ResidueID tempStartResidueID = (residueStretch).getStartResidue();
-               residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//residueStretch.getStartResidue()));
-           }
-        else if ((residueStretch.getStartResidue() <   residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
-            (residueStretch.getEndResidue()        >=  residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
-                 (residueStretch.getEndResidue()        <   residueStretchContainer.residueStretchVector[i].getEndResidue()))
-        {   // case = 5;
-            MMBLOG_FILE_FUNC_LINE("  Case 5"<<endl;
-
-            ResidueID tempEndResidueID = (residueStretch).getEndResidue();
-            residueStretchContainer.residueStretchVector[i].setStartResidue(incrementResidueID(tempEndResidueID));//residueStretch.getEndResidue()))  ;
-        }
-        else if ((residueStretch.getEndResidue() >  residueStretchContainer.residueStretchVector[i].getEndResidue()) &&
-                 (residueStretch.getStartResidue() >  residueStretchContainer.residueStretchVector[i].getStartResidue())     &&
-                 (residueStretch.getStartResidue() <=  residueStretchContainer.residueStretchVector[i].getEndResidue()))
-        {    // case = 6;
-            MMBLOG_FILE_FUNC_LINE("  Case 6"<<endl;
-
-            ResidueID tempStartResidueID = (residueStretch).getStartResidue();
-            residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//  residueStretch.getStartResidue()));
-        }
-        else if (residueStretch.getEndResidue() < residueStretchContainer.residueStretchVector[i].getStartResidue()) {} // do nothing, stretches are disjoint
-        else if (residueStretch.getStartResidue() > residueStretchContainer.residueStretchVector[i].getEndResidue()) {} // do nothing, stretches are disjoint
-        else {
-            // this should never happen
-                    ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"Unexplained error!"<<endl; ErrorManager::instance.treatError();
-            }
-    }
-}*/
-
 
 TAlign BiopolymerClass::createGappedAlignment(BiopolymerClass otherBiopolymerClass, double alignmentForcesGapPenalty ){ // Set a default value of -1 for the gap penalty to allow gaps. For ungapped, do a big value e.g. -1000
     //String chainA = thread.chainID1;
@@ -2652,8 +2437,6 @@ int  BiopolymerClass::getCorrespondingResidueInCurrentBiopolymer(BiopolymerClass
         // If we got this far, we failed to find a match.
         MMBLOG_FILE_FUNC_LINE(WARNING, "Failed to find a residue in the current biopolymer, corresponding to the other biopolymer's residue :"<< residueIdInOtherBiopolymerClass.outString()<< endl);
         return 1;
-         //ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Failed to find a  residue in the current biopolymer, corresponding to the other biopolymer's residue :"<< residueIdInOtherBiopolymerClass.outString()<< endl;
-         //ErrorManager::instance.treatError();
 }
 
 //template <class ResidueStretchType>
@@ -2898,8 +2681,6 @@ void BiopolymerClassContainer::setBondMobility ( vector<BasePair> & baseOperatio
                     SimTK::ResidueInfo::Index (myBiopolymerClass.getResidueIndex((baseOperationVector[q]).SecondBPResidue))); 
             } 
             else if (btype == BiopolymerType::DNA){
-                //ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" At this time DNA is not a supported biopolymer type. "<< baseOperationVector[q].FirstBPEdge <<". "<<endl;
-                //ErrorManager::instance.treatError();
                 (static_cast<DNA&>( myBiopolymerClass.myBiopolymer)).setDNABondMobility(myBondMobility,
                     SimTK::ResidueInfo::Index (myBiopolymerClass.getResidueIndex ((baseOperationVector[q]).FirstBPResidue)), 
                     SimTK::ResidueInfo::Index (myBiopolymerClass.getResidueIndex ((baseOperationVector[q]).SecondBPResidue))); 
@@ -3386,9 +3167,7 @@ void BiopolymerClassContainer::findBiopolymerResiduesWithinRadius (const type & 
     if(allResiduesWithin.getRadius() <= 1E-14)
     {
         if (neighboringResidueVector.size() > 1) {
-            //ErrorManager::instance 
             MMBLOG_FILE_FUNC_LINE(WARNING, "neighboringResidueVector should have size <= 1, instead size = "<<neighboringResidueVector.size() <<" If this corresponds to the accumulated number of residues given in allResiduesWithin over several calls to this function, these are self-matches, this is probably fine. "<<endl);
-            //ErrorManager::instance.treatError();
         }
         //return neighboringResidueVector;
     }
@@ -4825,44 +4604,6 @@ void BiopolymerClassContainer::insertResidue(Mutation myInsertion,   bool protei
     replaceBiopolymerWithMutatedBiopolymerClass(myOldBiopolymerClass, myNewSequence);
     updBiopolymerClass(myChain).setResidueIDsAndInsertionCodesFromBiopolymer(tempBiopolymer, myInsertion, proteinCapping);  
 }
-
-/*void        BiopolymerClassContainer::deleteResidue(String chainID, Residue startResidue, Residue endResidue) {
-
-            String myChain = myMutation.getChainID();
-
-            if (safeParameters) if  (myOldBiopolymerClass.getBiopolymerType() != BiopolymerType::Protein ) if (matchPurineN1AtomLocations) {
-                ErrorManager::instance<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": In order to substitute a nucleic acid residue, you must first set matchPurineN1AtomLocations FALSE.  Otherwise you might mutate a purine to pyrmidine, and the N1 atom of the watson-crick edge would be taken as the glycosidic nitrogen of the pyrimidine, generating a physically irrational structure in the mutant."<<endl;
-                ErrorManager::instance.treatError();
-            }
-
-            for (ResidueID myResidue = startResidue; myResidue <= endResidue;  updBiopolymerClass(chainID).incrementResidue(myResidue)) {
-                BiopolymerClass myOldBiopolymerClass = updBiopolymerClass(myChain);
-        String myOldSequence = myOldBiopolymerClass.getSequence();
-        String myOriginalSequence = myOldBiopolymerClass.getOriginalSequence();
-        String myNewSequence = myOldSequence;
-                myNewSequence[myOldBiopolymerClass.getResidueIndex( myResidue) ] = *(mySubstitution.c_str()); // careful! getResidueIndex would potentially be wrong .. here we want the first letter of the sequence to correspond to position zero, with no regard to proteinCapping.
-        MMBLOG_FILE_FUNC_LINE(": old sequence = "<<myOldSequence<<endl;
-        MMBLOG_FILE_FUNC_LINE(": new sequence = "<<myNewSequence<<endl;
-            
-        }
-
-            ResidueID myFirstResidueNumber = myOldBiopolymerClass.getFirstResidueID();
-            Biopolymer tempBiopolymer = myOldBiopolymerClass. myBiopolymer;
-            String oldBiopolymerClassBiopolymerType = myOldBiopolymerClass.getBiopolymerTypeAsString();
-            deleteBiopolymerClass(myChain);
-            if (hasChainID(myChain)){
-                ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<": Unexplained error!"<<endl;
-                ErrorManager::instance.treatError();
-            }
-            addBiopolymerClass(myNewSequence,myChain, myFirstResidueNumber ,oldBiopolymerClassBiopolymerType  ,proteinCapping);
-            setOriginalSequence(myChain,myOriginalSequence);
-            MMBLOG_FILE_FUNC_LINE(": Restoring residue numbers and insertion codes after mutating.. "<<endl;
-            updBiopolymerClass(myChain).setResidueIDsAndInsertionCodesFromBiopolymer(tempBiopolymer, proteinCapping);
-            updBiopolymerClass(myChain).setMutationVector(myOldBiopolymerClass.getMutationVector());
-            if (updBiopolymerClass(myChain).getNumMutationVectorElements() != myOldBiopolymerClass.getNumMutationVectorElements()){
-            MMBLOG_FILE_FUNC_LINE(" Unexplained error!"<<std::endl;
-        }       
-}*/
 
 /*vector<Mutation> BiopolymerClassContainer::getCompositeMutationVector() {
     std::MMBLOG_FILE_FUNC_LINE(" This is obsolete! Just call getMutationVector(). It will return a const vector <Mutation> ."<<std::endl;

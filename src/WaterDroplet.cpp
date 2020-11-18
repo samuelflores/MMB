@@ -50,10 +50,6 @@ int WaterDroplet::validate(){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "z-component "<<center[2] <<" of Vec3 "<<center <<" is invalid. "<<endl);
     }
 
-    /*if (chainID.length() > 1){
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, " The droplet chain ID must be a single character in length. You have specified: "<<chainID<<endl;
-        ErrorManager::instance.treatError();
-    }*/
     validateWaterVector();
     return 0;
 };

@@ -476,30 +476,16 @@ Vec3 ValidateVec3(Vec3 myVec3){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, " This Vec3 vector is infinite or not a number : "<<myVec3<<endl);
     }
     return myVec3;
-    /*if      (std::isnan(myVec3[0])) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" x-component "<<myVec3[0] <<" of Vec3 "<<myVec3 <<" is invalid. "<<endl; ErrorManager::instance.treatError();}
-    else if (std::isnan(myVec3[1])) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" y-component "<<myVec3[1] <<" of Vec3 "<<myVec3 <<" is invalid. "<<endl; ErrorManager::instance.treatError();}
-    else if (std::isnan(myVec3[2])) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" z-component "<<myVec3[2] <<" of Vec3 "<<myVec3 <<" is invalid. "<<endl; ErrorManager::instance.treatError();}
-    else return myVec3;
-*/
-
 }
 
 
 
 int ValidateInt (const int myInt) {
-	
-                /*if      (std::isnan(myInt))      {
-			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The integer is not valid : "<<myInt<<endl;
-			ErrorManager::instance.treatError();
-		}
-                else if      (std::isinf(myInt)) {
-			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The integer is not valid : "<<myInt<<endl;
-			ErrorManager::instance.treatError();
-		}
-		else*/ return myInt;
+    /* WARNING: There used to be some validation code which was
+     * apparently commented out at some point. Review git history
+     * if you want to see the original (disabled) code.
+     */
+    return myInt;
 }
 
 

@@ -125,19 +125,6 @@ bool isFixed (const String putativeFixedFloat) ; // This checks that the string 
 
 BondMobility::Mobility stringToBondMobility(const String bondMobilityString);
 
-/*BondMobility::Mobility stringToBondMobility(String bondMobilityString) {
-       String myBondMobilityString =   bondMobilityString.toUpper();
-       BondMobility::Mobility myBondMobility;
-       if ((myBondMobilityString).compare("RIGID") == 0)       	      {myBondMobility = SimTK::BondMobility::Rigid;}
-       else if ((myBondMobilityString).compare("TORSION") == 0)       {myBondMobility = SimTK::BondMobility::Torsion;}
-       else if ((myBondMobilityString).compare("DEFAULT") == 0)       {myBondMobility = SimTK::BondMobility::Default;}
-       else if ((myBondMobilityString).compare("FREE")  == 0)         {myBondMobility = SimTK::BondMobility::Free ;}
-       else {
-	   ErrorManager::instance <<__FILE__<<":"<<__LINE__                           <<" At this time only Default, Free,Torsion, and Rigid bondMobilities are supported. You are attempting to apply \""                           << myBondMobilityString <<"\". "<<std::endl;
-	   ErrorManager::instance.treatError();}
-       return myBondMobility;
-}*/
-
 class ConstraintFunction : public Function {
      Real calcValue(const Vector& x) const {
          return x[0]-x[1];
@@ -234,10 +221,6 @@ public:
     // This polymorphism of outString takes a chain ID (expected to be 1 character long) and concatenates it with the ResidueID to create a 6-character string suitable to be fed into columns 22-27 (chain ID, residue number, insertion code) of a PDB atom record 
     const String chainIDResidueID(String chainID ) const {
         stringstream  myStringStream; myStringStream.clear();
-        /*if ((InsertionCode ).length != 1) {
-                ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : Something is wrong!  The insertion code is expected to be exactly one character long, even if that character is a space. You insertion code is: >"<<InsertionCode<<"< " <<std::endl; 
-                ErrorManager::instance.treatError();
-        } */ 
         int totalWidth = 6;
         // Columns 23-26 are for the residue number, 27 is for the insertion code.  So 5 characters.
         // setw only affects the NEXT value (ResidueNumber).  hence the 4 here:
@@ -695,14 +678,6 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                    return BondMobility;
                };
                SimTK::BondMobility::Mobility setBondMobility(SimTK::String myBondMobilityString) { /*
-                   BondMobilityString = myBondMobilityString;
-                   if ((myBondMobilityString).compare("Rigid") == 0)       {BondMobility = SimTK::BondMobility::Rigid;}
-                   else if ((myBondMobilityString).compare("Torsion") == 0)       {BondMobility = SimTK::BondMobility::Torsion;}
-                   else if ((myBondMobilityString).compare("Default") == 0)       {BondMobility = SimTK::BondMobility::Default;}
-                   else if ((myBondMobilityString).compare("Free")  == 0)  {BondMobility = SimTK::BondMobility::Free ;}
-                   else {
-                       ErrorManager::instance <<__FILE__<<":"<<__LINE__                           <<" At this time only Default, Free,Torsion, and Rigid bondMobilities are supported. You are attempting to apply \""                           << myBondMobilityString <<"\". "<<std::endl;
-                       ErrorManager::instance.treatError();} */
                    MMBLOG_FILE_LINE(INFO, " About to set BondMobility to >"<<myBondMobilityString<<"< "<<std::endl);
                    BondMobilityString = myBondMobilityString;
                    BondMobility = stringToBondMobility(myBondMobilityString);

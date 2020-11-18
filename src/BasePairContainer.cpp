@@ -345,20 +345,10 @@ void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolym
                 myResidue = myBiopolymerClass.incrementResidueID(myResidue); // increment myResidue
                 if (myResidue ==  myBiopolymerClass.getLastResidueID()) break ; // If we've just incremented to the end of the chain, we're done here.
             } 
-            // inequalities no longer supported for ResidueID
-            /*else { // shouldn't happen!  myResidue >  myBiopolymerClass.getLastResidueID()
-                ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unexplained error!"<<endl;
-                ErrorManager::instance.treatError();
-            }*/
 
             if ( myResidue ==  myBiopolymerClass.getLastResidueID()) { // this should have been caught above.
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);
             }
-            // Inequalities no longer supported for ResidueID
-            /*if ( myResidue >   myBiopolymerClass.getLastResidueID()) { // this should have been caught above.
-                ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unexplained error!"<<endl;
-                ErrorManager::instance.treatError();
-            }*/
             
         } // of for myResidue
     } // of for i

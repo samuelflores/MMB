@@ -261,13 +261,6 @@ using namespace std;
         iter = NTC_PAR_Map.find(NTC_PAR_BondKey(myPdbResidueName1, myPdbResidueName2, myBondingEdge1,  myBondingEdge2,  dihedraltype,  myBasePairIsTwoTransformForce));
        
         NTC_PAR_BondRow myReturnNTC_PAR_BondRow;
-        
-      /*  if (iter != NTC_PAR_Map.end() ) 
-            myReturnNTC_PAR_BondRow =  iter->second ;
-        else {
-            ErrorManager::instance<< __FILE__<<":"<<__LINE__<<" : Unable to find parameters for interaction : "<< myBasePairIsTwoTransformForce<<" between residue type: \""<<myPdbResidueName1 <<"\" , and residue type \""<<myPdbResidueName2<<"\", parameter "<<myBondingEdge1<<", "<<myBondingEdge2<<", orientation "<<dihedraltype<<" between residue numbers "<<myResidueNumber1.getResidueNumber()<<" and "<<myResidueNumber2.getResidueNumber()<<endl; 
-            ErrorManager::instance.treatError();
-        } */
 
 
         if 

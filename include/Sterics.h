@@ -193,8 +193,7 @@ static int AddHuntCrossleySpheres(Biopolymer & myMolecule,GeneralContactSubsyste
                            cout<<"[AddHuntCrossleySpheres.h] Warning:  You are attempting to place a contact sphere on an atom that doesn't exist, in this case an omitted 5' Phosphate; this is pretty harmless.                 "<<endl;
                            
                        } else {
-                           ErrorManager::instance <<"["<<__FILE__<<":"<<__LINE__<<"] : Trying to add hard sphere to non-existent atom :"<<ss3.str()<<"."<<endl;
-                           ErrorManager::instance.treatError(); 
+                           // LOG AND CRASH HERE
                        }
                         //hc.setBodyParameters(contacts.getNumBodies(contactSet)-1,huntCrossleyStiffness ,huntCrossleyDissipation, 0., 0., 0.); 
      

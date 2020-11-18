@@ -12,6 +12,7 @@
 #include <iostream>
 #include <iomanip>
 
+#include "MMBLogger.h"
 #include "PeriodicPdbAndEnergyWriter.h"
 #include "SimTKsimbody.h"
 #include "CifOutput.h"
@@ -67,8 +68,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
     if ( myParameterReader.useCIFFileFormat )
     {
 #ifndef GEMMI_USAGE
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file output, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl;
-        ErrorManager::instance.treatError             ( );
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Error! Requested mmCIF file output, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl);
 #endif
     }
     else

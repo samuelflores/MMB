@@ -563,10 +563,6 @@ double   ParameterReader::myAtoF(  map<const String,double> myUserVariables,  co
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);
         }
         baseDoubleString = String(value);        
-        //if (!(isNumber(baseDoubleString))) {
-	//    MMBLOG_FILE_FUNC_LINE(CRITICAL, " Error! Expected a number, got >"<<baseDoubleString<<"< "<<endl;
-   	//    ErrorManager::instance.treatError();
-        //};
         increment = 0;
         decrement = 0;
         double baseDouble;
@@ -588,7 +584,6 @@ double   ParameterReader::myAtoF(  map<const String,double> myUserVariables,  co
                     baseDouble = (atof(baseDoubleString.c_str()));
                         MMBLOG_FILE_FUNC_LINE(INFO, "We appear to be in a leaf of the recursion tree for myAtoF. Parsed >"<<baseDoubleString<< "< as : "<<baseDouble<<endl);
         } else {
-            // Actually we should not get to this point. isFixed itself has plenty of ErrorManager calls for funky errors.
                         MMBLOG_FILE_FUNC_LINE(CRITICAL, "There was an error processing a putative floating point number."<<endl);
         }
             }
@@ -939,10 +934,6 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
 
 
 void ParameterReader::removeNonPriorityBasePairs (int priorityLevel) {  
-    // this method deletes all base pairs haveing priority number higher than priorityLevel.
-    // don't forget to call initialize before calling this method, if using more than once.
-    //MMBLOG_FILE_FUNC_LINE(CRITICAL, " : base pair priorities are being phased out!"<<endl;
-    //ErrorManager::instance.treatError();
     int oldDutyCyclePriority=0;             
     priority = priorityLevel; //not sure if this is such a great place to set this parameter.
 
@@ -1179,7 +1170,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
 
             //MMBLOG_FILE_FUNC_LINE(CRITICAL, ": Unsupported sequence type: DNA"<<endl;  
-            //ErrorManager::instance.treatError();
             myBiopolymerClassContainer.addBiopolymerClass(parameterStringClass.getString(3),parameterStringClass.getString(1), 
                     //ResidueID( userVariables,(parameterStringClass.getString(2)).c_str()),
                     ResidueID(parameterStringClass.getString(2)) ,
@@ -1293,7 +1283,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         MoleculeClass myMoleculeClass(myCommandVector);
         moleculeClassContainer.add(myChain,myResidueName,myMoleculeClass);
             //MMBLOG_FILE_FUNC_LINE(CRITICAL, ":  this command is not ready yet."<<endl;
-            //ErrorManager::instance.treatError();
         return;
          
     }
@@ -1318,12 +1307,10 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
         if (parameterStringClass.getString(1).length() != 0)  { 
             MMBLOG_FILE_FUNC_LINE(INFO, "  "<<endl);
-            //MMBLOG_FILE_FUNC_LINE(CRITICAL, " : Too many parameters for this command."<<endl; ErrorManager::instance.treatError();
         }
         if (parameterStringClass.getString(1).length() == 0) //  
         // This is the case that no parameters have been specified. We interpret this to mean that the user wants to renumber all biopolymer chains, to start with residue number 1.
         {
-            //MMBLOG_FILE_FUNC_LINE(CRITICAL, " : Not enough parameters for this command."<<endl; ErrorManager::instance.treatError();
             MMBLOG_FILE_FUNC_LINE(INFO, "You have called renumberBiopolymerResidues with no parameters. We interpret this to mean that you want to renumber all biopolymers to start with 1."<<endl);
             myBiopolymerClassContainer.setRenumberPdbResidues(1);
         } else if (parameterStringClass.getString(2).length() == 0) 
@@ -1333,7 +1320,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                                            <<"You have called renumberBiopolymerResidues with one parameter. We interpret this to mean that you want to renumber all biopolymers to start with the residue number : "
                                            << parameterStringClass.getString(1)  <<endl);
              myBiopolymerClassContainer.renumberPdbResidues(ResidueID((parameterStringClass.getString(1) )  )); 
-            //{ MMBLOG_FILE_FUNC_LINE(CRITICAL, " : Not enough parameters for this command."<<endl; ErrorManager::instance.treatError();}
         }      
         else if ((parameterStringClass.getString(3).length() == 0) ) // This is the case that the user has specified only a first
         {
@@ -1437,7 +1423,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             MMBLOG_FILE_FUNC_LINE(INFO, "It appears you wish to delete ALL chains "<<endl);
             myBiopolymerClassContainer.deleteAllBiopolymerClasses(); 
             //MMBLOG_FILE_FUNC_LINE(CRITICAL, ": You have not specified enough parameters for this command."<<endl;
-            //ErrorManager::instance.treatError();
             return;
         }
         else if ((parameterStringClass.getString(1).size() != 0) && (parameterStringClass.getString(2).size() == 0)) { // only a chain ID was provided.  User wants to delete entire chain.
@@ -1605,11 +1590,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
             //myAtomSpring.atom1Residue = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2),parameterStringClass.getString(1));
             myAtomSpring.atom1Name    = parameterStringClass.getString(3);
-            /*if ((!(myBiopolymerClassContainer.hasChainID(myAtomSpring.atom1Chain))) &&
-                    (!(myMonoAtomsContainer.hasChainID(myAtomSpring.atom1Chain))) &&
-                    (!(waterDropletContainer.hasChainID(myAtomSpring.atom1Chain)))) {
-                ErrorManager::instance << __FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Could not find chain "<<myAtomSpring.atom1Chain<<endl; ErrorManager::instance.treatError();
-            }*/
             myAtomSpring.atom2Chain   = parameterStringClass.getString(4);
 
             if (myBiopolymerClassContainer.hasChainID(myAtomSpring.atom2Chain)) {
@@ -1625,12 +1605,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
 
             myAtomSpring.atom2Name    = parameterStringClass.getString(6);
-
-            /*if ((!(myBiopolymerClassContainer.hasChainID(myAtomSpring.atom2Chain))) &&
-                    (!(myMonoAtomsContainer.hasChainID(myAtomSpring.atom2Chain))) &&
-                    (!(waterDropletContainer.hasChainID(myAtomSpring.atom2Chain)))) {
-                ErrorManager::instance << __FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Could not find chain "<<myAtomSpring.atom2Chain<<endl; ErrorManager::instance.treatError();
-            }*/
             myAtomSpring.groundLocation[0]    = 0.0;
             myAtomSpring.groundLocation[1]    = 0.0;
             myAtomSpring.groundLocation[2]    = 0.0;
@@ -2210,7 +2184,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
             if (( NTC.weight > 20.0 ) && ( safeParameters )){ // Empirically found that a weight greater than 20 or so leads to strange jumpy nonconvergent behavior.
                  MMBLOG_FILE_FUNC_LINE(WARNING, "You have specified an NtC weight of " << NTC.weight <<" . The current NtC parameters are overconstrained, and unless these have been updated you may need to decrease the weight so as to avoid instability.  "<<endl);
-                 //ErrorManager::instance.treatError();
              }
  
             NTC.meta            = 0;
@@ -2237,32 +2210,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             NTC.print();
             //currentFirstResidueIndex++;
         } 
-            // Was:
-            /*NTC.weight          = stod(parameterStringClass.getString(5));
-            NTC.meta            = 0;
-            int metaPosition = 6;        
-            if (parameterStringClass.getString(metaPosition).length() != 0){
-                if (parameterStringClass.getString(metaPosition + 1).length() == 0){
-                    MMBLOG_FILE_FUNC_LINE(CRITICAL, " : Syntax error! Expected parameter at position "<<metaPosition + 1<<" since you have a parameter at position "<<metaPosition<<"."<<endl ;
-                    ErrorManager::instance.treatError();
-                }
-                if((parameterStringClass.getString(metaPosition)).compare("meta") == 0){
-                    NTC.meta = 1;
-                    NTC.weight2     = stod(parameterStringClass.getString(metaPosition + 1));
-                    NTC.count = myBiopolymerClassContainer.count;
-                    myBiopolymerClassContainer.count++;
-                    cout << NTC.count << " number of NTC meta input lines " << endl;
-                } else {
-                    MMBLOG_FILE_FUNC_LINE(CRITICAL, " : Syntax error! Expected parameter \"meta\", or nothing at all, position "<<metaPosition<<"."<<endl ;
-                    ErrorManager::instance.treatError();
-                }
-            } // of if
-            NTC.rotationCorrection1 = Rotation(0.0,UnitVec3(0,0,1));
-            NTC.rotationCorrection2 = Rotation(0.0,UnitVec3(0,0,1));
-            bool set_ntc_class = true;
-            ntc_class_container.add_NTC_Class(myBiopolymerClassContainer,ntc_par_class,NTC,set_ntc_class);
-            */
-    //    cout << NTC.NtC_FirstBPChain << " " << NTC.NtC_step_ID << " " << NTC.NtC_Class_String << endl;
         
         return;
     };
@@ -2477,8 +2424,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         if (parameterStringClass.getString(2).length() > 0){
-            //MMBLOG_FILE_FUNC_LINE(CRITICAL, " You have not provided enough parameters for this command."<<endl; ErrorManager::instance.treatError();
-
             ChainResidueToGround myChainResidue;
             myChainResidue.chainID = parameterStringClass.getString(1);
             myBiopolymerClassContainer.validateChainID(myChainResidue.chainID);
@@ -2488,8 +2433,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             } else {
                 myChainResidue.toGround = true;
             }
-
-            //MMBLOG_FILE_FUNC_LINE(CRITICAL, " : complete this later.."<<endl; ErrorManager::instance.treatError();
 
             constraintToGroundContainer.queueConstrainChainRigidSegments (myChainResidue );
         } else if (parameterStringClass.getString(1).length() == 0) {  
@@ -3017,7 +2960,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             myContactStretch.setChain ( parameterStringClass.getString(2));
             myContactStretch.setStartResidue (myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3),myContactStretch.getChain()));
             myContactStretch.setEndResidue ( myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3),myContactStretch.getChain() ));
-            //MMBLOG_FILE_FUNC_LINE(CRITICAL, " : You have specified the wrong number of parameters for this command. "<<endl; ErrorManager::instance.treatError();
         } else if ((parameterStringClass.getString(2).length() >0 ))   
         {
             ContactStretch myContactStretch;
@@ -3411,15 +3353,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     if  (((parameterStringClass.getString(0)).compare( "twoTransformForceMultiplier") == 0) ||((parameterStringClass.getString(0)).compare( "forceMultiplier") == 0) || ((parameterStringClass.getString(0)).compare( "baseInteractionScaleFactor") == 0) || ((parameterStringClass.getString(0)).compare( "baseInteractionForceMultiplier") == 0) )  {
         parameterStringClass.validateNumFields(2);
         twoTransformForceMultiplier = myAtoF(userVariables,(parameterStringClass.getString(1)).c_str()); 
-        // if ( (baseOperationVector.size() >0)  ) {
-        //     MMBLOG_FILE_FUNC_LINE(CRITICAL, " The forceMultiplier (aliases: twoTransformForceMultiplier, baseInteractionScaleFactor, baseInteractionForceMultiplier) must be set before specifying any restraint, constraint, mobilizer, contact, constrainToGround, or restrainToGround command."<<endl;
-        //     ErrorManager::instance.treatError();
-        // }
-
-        // if (  (basePairContainer.numBasePairs() >0)) {
-        //     MMBLOG_FILE_FUNC_LINE(CRITICAL, " The forceMultiplier (aliases: twoTransformForceMultiplier, baseInteractionScaleFactor, baseInteractionForceMultiplier) must be set before issuing any baseInteraction command."<<endl;
-        //     ErrorManager::instance.treatError();
-        // }     
         return;
     }
     if  (((parameterStringClass.getString(0)).compare( "tinkerParameterFileName") == 0))  {
@@ -3831,20 +3764,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     }
     if (((parameterStringClass.getString(0)).compare("densityMapActivate") ==0)  )  {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "This parameter is no longer supported.  You should now just use the fitToDensity command.. see the reference guide."<<endl);
-        /*parameterStringClass.validateNumFields(2);
-          if ((densityContainer.numDensityStretches()>0)) {
-          MMBLOG_FILE_FUNC_LINE(CRITICAL, " : You must specify all fitToDensity commands AFTER setting the densityMapActivate parameter."<<endl;
-          ErrorManager::instance.treatError();
-          }
-          if ((removeRigidBodyMomentum)) {
-          MMBLOG_FILE_FUNC_LINE(CRITICAL, " : If you want to activate the density based force field, you must first set \"removeRigidBodyMomentum FALSE\".  The order in which these parameters appear in the input file matters."<<endl; ErrorManager::instance.treatError();
-          }
-          densityMapActivate = aToBool( parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str()); 
-
-          if (densityMapActivate && setForceAndStericScrubber){
-          MMBLOG_FILE_FUNC_LINE(CRITICAL, ": You must set setForceAndStericScrubber FALSE before setting densityMapActivate TRUE.  "<<parameterFileName<<endl;
-          ErrorManager::instance.treatError();
-          }*/
         return;
     }
     if (((parameterStringClass.getString(0)).compare("electroDensityFileName") ==0)  )  {
@@ -4173,12 +4092,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     if ((parameterStringClass.getString(0)).compare("loadTinkerParameterFile") ==0) {
 	MMBLOG_FILE_FUNC_LINE(CRITICAL, "The loadTinkerParameterFile parameter is false by default, but is set to TRUE upon setting tinkerParameterFileName . You are no longer permitted to set loadTinkerParameterFile directly!. "<<endl);
         
-        /*parameterStringClass.validateNumFields(2);
-        if (myBiopolymerClassContainer.getNumBiopolymers() > 0){
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, " : The loadTinkerParameterFile parameter can only be set prior to instantiating the first biopolymer. "<<endl;
-            ErrorManager::instance.treatError();
-        } 
-        loadTinkerParameterFile = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    */
         return;
     }
 
@@ -4298,11 +4211,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         /*MMBLOG_FILE_FUNC_LINE(" : Syntax: constrainRigidSegments <True | False>"<<endl; 
 
         parameterStringClass.validateNumFields(2);
-
-        if (removeRigidBodyMomentum) {
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, " : You must first set removeRigidBodyMomentum False before constraining anything to ground ! "<<endl;
-            ErrorManager::instance.treatError();
-        }
 
         constrainRigidSegments  = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    */
         return;
@@ -4668,7 +4576,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         return;
     }
     if ((parameterStringClass.getString(0)).compare("matchingMinimizerTolerance") ==0) {
-        //MMBLOG_FILE_FUNC_LINE(CRITICAL, " : This parameter is obsolete!"<<endl; ErrorManager::instance.treatError();
         parameterStringClass.validateNumFields(2);
         matchingMinimizerTolerance = myAtoF(userVariables,(parameterStringClass.getString(1)).c_str());
         return;
@@ -4700,10 +4607,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }
         parameterStringClass.validateNumFields(2);
         matchExact      =  aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    
-        /*if (parameterStringClass.getString(2).length() >0){
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, " : You have provided too many parameters! "<<endl;
-            ErrorManager::instance.treatError();
-        }*/
+
         if (! (matchExact || matchIdealized)) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "You must set matchExact and/or matchIdealized to true. Right now both are false. "<<endl);
         }
@@ -4719,10 +4623,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }
         parameterStringClass.validateNumFields(2);
         matchIdealized      =  aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    
-        /*if (parameterStringClass.getString(2).length() >0){
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, " : You have provided too many parameters! "<<endl;
-            ErrorManager::instance.treatError();
-        }*/
+
         if (! (matchExact || matchIdealized)) 
         {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "You must set matchExact and/or matchIdealized to true. Right now both are false. "<<endl);
@@ -4755,7 +4656,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     }
     if ((parameterStringClass.getString(0)).compare("matchGapped") ==0) 
     {
-        //if (safeParameters) {MMBLOG_FILE_FUNC_LINE(CRITICAL, " : This macro is not currently supported! You should use matchFast, which is every bit as effective and a heck of a lot faster.  That said, matchGapped actually does work, so you can override this by setting safeParameters FALSE "<<endl; ErrorManager::instance.treatError();}
         parameterStringClass.validateNumFields(1);
         MMBLOG_FILE_FUNC_LINE(ALWAYS, "This is a macro which sets matchExact, matchIdealized, matchOptimize, and guessCoordinates to true.  This will fit to all atoms provided in the input structure file, and will guess atom positions for all fragments missing from that file, consistent with default bond lengths and angles.  You should generally use this macro when you have atoms missing along the backbone. The missing atoms can be in the middle of a chain, although unnatural bond geometries may occur as MMB does its darnedest to achieve loop closure and match all it can.   "<<endl);
 
@@ -4797,7 +4697,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     if ((parameterStringClass.getString(0)).compare("minimize") ==0) {
         parameterStringClass.validateNumFields(2);
         //MMBLOG_FILE_FUNC_LINE(CRITICAL, " minimize is obsolete."<<endl;
-        //ErrorManager::instance.treatError();
         minimize = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str()); //aToBool(userVariables,(parameterStringClass.getString(1)).c_str());    
         return;
     }
@@ -4977,12 +4876,6 @@ void ParameterReader::initializeFromFileOnly(const char * parameterFileName ) {
 
 void ParameterReader::loadSequencesFromPdb(const char * pdbFileName, const string & chainsPrefix, const bool tempRenumberPdbResidues ) { //, vector<std::string> deletedResidueVector ){
     MMBLOG_FILE_FUNC_LINE(INFO, "This command will now extract all DNA, RNA, and protein sequences found in the input structure file, "<<pdbFileName<<" and instantiate the corresponding biopolymers. "<<endl);
-
-    // The folowing commented part is not valid since loadSequencesFromPdb takes pdb files as parameters
-    // if ((myBiopolymerClassContainer.getNumBiopolymers() >0) ) {
-    //     MMBLOG_FILE_FUNC_LINE(CRITICAL, " : This command may be called only once, and there can be no other biopolymer-instantiating commands preceding it. "<<endl;
-    //     ErrorManager::instance.treatError();
-    // }
 
     if (densityContainer.numDensityStretches() > 0) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have already declared "<<densityContainer.numDensityStretches()<<" biopolymer stretches to be fitted to the density map.  Please do this after you have created ALL biopolymer chains."<<endl);

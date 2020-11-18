@@ -255,7 +255,6 @@ CustomMolecule::CustomMolecule(vector <vector <String> > moleculeBuildCommandVec
             compoundObjectMapContainer.printCompoundMap();
 	    if (i > 0) {MMBLOG_FILE_FUNC_LINE(CRITICAL, "setBaseCompound must be the first command you issue!"<<endl); }
 	    if ((moleculeBuildCommandVector[i]).size() != 2) {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of parameters!"<<endl);}
-	    //if ((moleculeBuildCommandVector[i]).size() > 2) {ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Too many parameters!"<<endl; ErrorManager::instance.treatError();}
             MMBLOG_FILE_FUNC_LINE(INFO, "About to fetchCompound ("<<moleculeBuildCommandVector[i][1]<<") "<<endl);
 	    Compound myCompound = compoundObjectMapContainer.fetchCompound(moleculeBuildCommandVector[i][1]);
 	    setBaseCompound(moleculeBuildCommandVector[i][1],                                    // name of the Compound (e.g. "MethyleneGroup") is element [1] of moleculeBuildCommand
@@ -485,9 +484,6 @@ CustomMolecule::CustomMolecule(vector <vector <String> > moleculeBuildCommandVec
 	else if ((moleculeBuildCommandVector[i])[0].compare("setBiotypeChargedAtomType") == 0 ) {
                 MMBLOG_FILE_FUNC_LINE(INFO, "Syntax: setBiotypeChargedAtomType <residue name> <generic atom name> <ordinality> <FF atom class index> <charge>"<<endl);
                 MMBLOG_FILE_FUNC_LINE(INFO, "Or    : setBiotypeChargedAtomType <(DuMM) chargedAtomTypeIndex> <biotypeIndex>"<<endl);
-                /*if ((moleculeBuildCommandVector[i]).size() != 6) {
-	            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Incorrect number of parameters!"<<endl; ErrorManager::instance.treatError();
-                }*/
                 DuMM::ChargedAtomTypeIndex      myChargedAtomTypeIndex;
                 MMBLOG_FILE_FUNC_LINE(INFO, "myChargedAtomTypeIndex = >"<<myChargedAtomTypeIndex<<"< "<<endl);
                 BiotypeIndex myBiotypeIndex;
@@ -633,9 +629,6 @@ MoleculeClass &   MoleculeClassContainer::updMoleculeClass(String myChainID) {
     //if (moleculeClassMap.count(myChainID) == 1) {
     it = moleculeClassMap.find(myChainID);
     return it->second;
-    //} else {
-    //    ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! "<<moleculeClassMap.count(myChainID) <<" MoleculeClass's found with chain ID "<<myChainID <<endl; ErrorManager::instance.treatError();
-    //}
 };
 
 void  MoleculeClassContainer::validateChainID(String myChainID){
@@ -694,7 +687,6 @@ void MoleculeClassContainer::matchDefaultConfiguration(bool readPreviousFrameFil
                 testOpen.close                        ( );
 #else
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << endl);
-                ErrorManager::instance.treatError     ( );
 #endif
             }
             else if ( pdbFileName.length() > 7 )

@@ -81,7 +81,6 @@ void DensityMap::validateGridParameters() {
         ( abs(((maxZ-minZ)/gridZSpacing +1) - totalNumGridZ) > 1E-7  ) 
        ) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL,  " There is a problem with the max- , min- (XYZ) or totalNumGrid (XYZ) or grid (XYZ) Spacing parameters "<< ((maxX-minX)/gridXSpacing +1) - totalNumGridX <<endl;	
-        ErrorManager::instance.treatError();
     }*/
 }
 		
@@ -560,7 +559,6 @@ void DensityMap::loadParametersAndDensity(const String densityFileName)
         loadParametersAndDensity_CCP4MAP              ( densityFileName );
 #else
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open density map : "<<densityFileName<<" .. CCP4 maps loading feature was not allowed when MMB installation was done on this machine."<<endl);
-        ErrorManager::instance.treatError();
 #endif
     }
     else
@@ -863,7 +861,6 @@ void DensityMap::loadParametersAndDensity_Situs(const String densityFileName) {
         if (! (inFile.is_open())) {
 
             MMBLOG_FILE_FUNC_LINE(CRITICAL, " Unable to open density map : "<<densityFileName<<endl;
-            ErrorManager::instance.treatError();
         }
         mystring = readAndParseLine  (inFile);
         gridXSpacing = atof(mystring[0].c_str())/10.0;
@@ -912,7 +909,6 @@ void DensityMap::loadParametersAndDensity_Situs(const String densityFileName) {
                     if ((int)mystring.size()-1 > densitiesPerLine) {
                         cout << __FILE__<<":"<<__LINE__<<": " << mystring[0]<< " " << mystring[10] << endl;
                         MMBLOG_FILE_FUNC_LINE(CRITICAL, " Too many densities on this line!  expected "<<densitiesPerLine<< " and found "<<mystring.size()<<endl;
-                        ErrorManager::instance.treatError();
                     }
                     //xIndex --;
                     for (int i = 0; i<(int)mystring.size()-1 ;i++) {
@@ -927,7 +923,6 @@ void DensityMap::loadParametersAndDensity_Situs(const String densityFileName) {
                         } else{
                             cout <<  xIndex+1 + (yIndex*totalNumGridX) << " " << totalNumGridX* totalNumGridY << endl;
                             MMBLOG_FILE_FUNC_LINE(CRITICAL, " Something went wrong .. too many densities !  "<<endl;
-                            ErrorManager::instance.treatError();
                             }
                         xIndex++;
                     }
@@ -1049,13 +1044,11 @@ Vec3 DensityMap::fetchGradient(Vec3 position)  {
 				setPositiveXGradient(myGridPoint,(getDensity(updGridPoint(GridIndices(myNearestGridIndices.getXGridIndex() +1,  myNearestGridIndices.getYGridIndex() , myNearestGridIndices.getZGridIndex() ))) - 0.) / unitCellParameters.geta()) ;	
          			
           			MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is obsolete, fetchGradient doesn't work anymore"<<endl;
-        			ErrorManager::instance.treatError();
                          } else if (hasGridPoint(GridIndices (myNearestGridIndices.getXGridIndex()-1, myNearestGridIndices.getYGridIndex(),myNearestGridIndices.getZGridIndex()))) {
                                 GridPoint myGridPoint; 
      			        initialize(myGridPoint);
 				setNegativeXGradient(myGridPoint,(0. - getDensity(updGridPoint(GridIndices(myNearestGridIndices.getXGridIndex() -1,  myNearestGridIndices.getYGridIndex() , myNearestGridIndices.getZGridIndex() )))) / gridXSpacing) ;	 
           			MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is obsolete, fetchGradient doesn't work anymore"<<endl;
-        			ErrorManager::instance.treatError();
                          } else if (hasGridPoint(GridIndices (myNearestGridIndices.getXGridIndex(), myNearestGridIndices.getYGridIndex()+1,myNearestGridIndices.getZGridIndex()))) {
                                 GridPoint myGridPoint; 
      			        initialize(myGridPoint);
@@ -1200,7 +1193,6 @@ Vec3 DensityMap::fetchGradient(GridPoint & gridPoint,Vec3 queryPosition) const {
 		Quadrant tempQuadrant = calcQuadrant(gridPoint,queryPosition);
 		Vec3 myGradient;
           	MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is obsolete, fetchGradient doesn't work anymore"<<endl;
-        	ErrorManager::instance.treatError();
 		return myGradient;
 
 	}
@@ -1263,7 +1255,6 @@ void DensityMap::setNegativeZGradient(GridPoint & gridPoint,Real myNegativeZGrad
         cout<<__FILE__<<":"<<__LINE__<<" Setting firstQuadrantGradient to "<<gradient<<" for grid point at position : "<<gridPoint.position <<endl;
         gridPoint.firstQuadrantGradient = gradient;
         MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is obsolete!"<<endl;
-        ErrorManager::instance.treatError();
 
     }*/
 Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint,Vec3 queryPosition) const {
@@ -1295,225 +1286,3 @@ Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint,Vec
         return myGradient;
     }
 }
-
-/*Vec3 DensityMap::getFirstQuadrantGradient(GridPoint & gridPoint){
-    return fetchFirstQuadrantGradient(gridPoint);
-}*/
-
-// Expects OpenDX dx density maps with Angstrom as spatial unit.
-// Adapted from BioSpring http://sourceforge.net/projects/biospring/
-/*
-void DensityMap::loadParametersAndDensity_OpenDX(const String densityFileName)
-{   
-    FILE * fdx = NULL;
-    int totalsize = 0;
-    char inbuf[LINESIZE];
-    unsigned  gx = 0;
-    unsigned gy = 0;
-    unsigned gz = 0;
-
-    unsigned sizei=0,sizej=0,sizek=0;
-    double offsetx=0.0,offsety=0.0,offsetz=0.0;
-
-
-    double grid[3]={0.0};
-    double delta[3][3];
-    
-    if ((fdx=fopen(densityFileName,"r"))==0)
-    {
-        ErrorManager::instance << "Can't open file " <<  densityFileName << endl;
-        ErrorManager::instance.treatError();
-    }
-
-    // Jumping comments in the .dx file
-    do
-    {
-        if(dxGets(inbuf, LINESIZE, fdx) == NULL)
-        {
-            ErrorManager::instance << "Error while jumping comments in " <<  densityFileName << endl;
-            ErrorManager::instance.treatError();
-        }
-    }
-    while (inbuf[0]=='#');
-
-
-    //Get number of grid points
-    if (sscanf(inbuf, "object 1 class gridpositions counts %d %d %d", &sizei,&sizej,&sizek)!=3)
-    {
-            ErrorManager::instance << "Error while reading dimensions in " <<  densityFileName << endl;
-            ErrorManager::instance.treatError();
-    }
-    else
-    {
-        totalNumGridX = sizei;
-        unitCellParameters.getNb() = sizej;
-        unitCellParameters.getNc() = sizek;
-    }
-    //Grid origin
-    if (dxGets(inbuf, LINESIZE, fdx) == NULL) 
-    {
-        fprintf(stderr, "dxGets -> Erreur de lecture origine de la grille!\n");
-    }
-    else if (sscanf(inbuf, "origin %lf %lf %lf", &(offsetx), &(offsety), &(offsetz))!=3)
-    {   
-        ErrorManager::instance << "Error while reading origin coordinates in " <<  densityFileName << endl;
-        ErrorManager::instance.treatError();
-    }
-    else
-    {
-        minX = offsetx/10.0;
-        minY = offsety/10.0;
-        minZ = offsetz/10.0;
-        // cout.precision(5);
-        cout << "Grid Origin " << minX << " " << minY << " " << minZ << endl;
-    }
-
-    // Grid size
-    // dimension X
-    if (dxGets(inbuf, LINESIZE, fdx) == NULL)
-    {
-        ErrorManager::instance << "Error while reading grid size X in " <<  densityFileName << endl;
-        ErrorManager::instance.treatError();
-    }
-    //cout<<"inbuff:"<<inbuf<<endl;
-    else if (sscanf(inbuf, "delta %lf %lf %lf", &(delta[0][0]),&(delta[0][1]),&(delta[0][2]))!=3)
-    {
-        ErrorManager::instance << "Error while reading grid size X in " <<  densityFileName << endl;
-        ErrorManager::instance.treatError();
-    }
-    // dimension Y
-    else if (dxGets(inbuf, LINESIZE, fdx) == NULL)
-    {
-        ErrorManager::instance << "Error while reading grid size Y in " <<  densityFileName << endl;
-        ErrorManager::instance.treatError();
-    }
-    else if (sscanf(inbuf, "delta %lf %lf %lf", &(delta[1][0]), &(delta[1][1]), &(delta[1][2]))!=3)
-    {
-        ErrorManager::instance << "Error while reading grid size Y in " <<  densityFileName << endl;
-        ErrorManager::instance.treatError();
-    }
-    // dimension Z
-    else if (dxGets(inbuf, LINESIZE, fdx) == NULL)
-    {
-        ErrorManager::instance << "Error while reading grid size Z in " <<  densityFileName << endl;
-        ErrorManager::instance.treatError();
-    }
-
-    else if (sscanf(inbuf, "delta %lf %lf %lf", &(delta[2][0]), &(delta[2][1]), &(delta[2][2]))!=3)
-    {
-        ErrorManager::instance << "Error while reading grid size Z in " <<  densityFileName << endl;
-        ErrorManager::instance.treatError();
-    }
-    else 
-    {
-        unitCellParameters.geta() = delta[0][0]/10.0;
-        gridYSpacing = delta[1][1]/10.0;
-        gridZSpacing = delta[2][2]/10.0;
-    }
-    //cout<<"delta "<<_deltax<<" "<<_deltay<<" "<<_deltaz<<endl;
-    // skipping "object 2 class gridconnections counts xn yn zn"
-    if (dxGets(inbuf, LINESIZE, fdx) == NULL)
-    {
-        ErrorManager::instance << "Error while reading " <<  densityFileName << endl;
-        ErrorManager::instance.treatError();
-    }
-    // skipping "object 3 class array type double rank 0 items xn*yn*zn [binary] data follows
-    if (dxGets(inbuf, LINESIZE, fdx) == NULL)
-    {   
-        ErrorManager::instance << "Error while reading " <<  densityFileName << endl;
-        ErrorManager::instance.treatError();
-    }
-
-
-    totalsize = sizei*sizej * sizek;
-    cout << "Grid Spacing " << unitCellParameters.geta() << " " << gridYSpacing << " " << gridZSpacing << endl;
-
-    maxX = minX + ( (totalNumGridX-1) * unitCellParameters.geta());
-    maxY = minY + ( (unitCellParameters.getNb()-1) * gridYSpacing);
-    maxZ = minZ + ( (unitCellParameters.getNc()-1) * gridZSpacing);
-    initializeArrayOfGridPoints();
-    
-    float unityconvert=1.0;
-    for (int count =0; count<(totalsize/3); count++)
-    {
-        if (dxGets(inbuf,LINESIZE,fdx)==NULL)
-        {
-            ErrorManager::instance << "Error while reading value in " <<  densityFileName << endl;
-            ErrorManager::instance.treatError();
-        }
-        if (sscanf(inbuf,"%lf %lf %lf", &grid[0], &grid[1], &grid[2]) != 3)
-        {
-            ErrorManager::instance << "Error while reading value in " <<  densityFileName << endl;
-            ErrorManager::instance.treatError();
-        }
-        
-        for (int i=0;i<3;i++)
-        {
-            GridIndices centralGridIndices(gx, gy, gz);
-            GridPoint & centralGridPoint = updGridPoint(centralGridIndices);
-            setDensity(centralGridPoint, grid[i]*unityconvert);
-            // cout<<"Potential "<<gx<<" "<<gy<<" "<<gz<<" "<<grid[i]<<endl;
-            gz++;
-            if(gz>=sizek)
-            {
-                gz=0;
-                gy++;
-                if(gy>=sizej)
-                {
-                    gy=0;
-                    gx++;
-                }
-            }
-        }
-    }
-
-    if((totalsize%3)!=0)
-    {   
-        //printf("dans total\n");
-        if(dxGets(inbuf,LINESIZE,fdx)==NULL)
-        {
-            ErrorManager::instance << "Error while reading values in " <<  densityFileName << endl;
-            ErrorManager::instance.treatError();
-        }
-        int count = sscanf(inbuf,"%lf %lf %lf", &grid[0], &grid[1], &grid[2]);
-        if(count!=(totalsize%3))
-        {
-            ErrorManager::instance << "Error, too many data point in " <<  densityFileName << endl;
-            ErrorManager::instance.treatError();
-        }
-        for(int i=0;i<count;i++)
-        {
-            GridIndices centralGridIndices(gx, gy, gz);
-            GridPoint & centralGridPoint = updGridPoint(centralGridIndices);
-            setDensity(centralGridPoint, grid[i]*unityconvert);
-            gz++;
-        }
-    }
-    fclose(fdx);  
-}
-
-char * DensityMap::dxGets( char *s, int n, FILE *stream)
-{
-    char *resdxGets;
-
-    if (feof(stream)) 
-    {
-        ErrorManager::instance << __FILE__<<":"<<__FILE__<< " Error: unexpected End of File" << endl;
-        ErrorManager::instance.treatError();
-    }
-    else if (ferror(stream)) 
-    {
-        ErrorManager::instance << __FILE__<<":"<<__FILE__<<  " Error while reading dx file" << endl;
-        ErrorManager::instance.treatError();
-    }
-    else    
-    {
-        resdxGets = fgets(s,n,stream);
-        if (resdxGets == NULL)
-        {
-            ErrorManager::instance << __FILE__<<":"<<__FILE__<< "Error while reading dx file " <<  endl;
-            ErrorManager::instance.treatError();
-        }
-    }
-    return resdxGets;
-}*/

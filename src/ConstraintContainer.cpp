@@ -20,11 +20,6 @@ void ConstraintToGroundContainer::validateConstraintClass(const ConstraintClass 
     }
 	if (myConstraintClass.getConstraintType() != WeldToGround) 
     {	
-        // AT: I think this is an erroneous validation
-		// if (myConstraintClass.getChain1().compare(myConstraintClass.getChain2()) != 0) {
-		// 	MMBLOG_FILE_FUNC_LINE(CRITICAL, " Chain 1: "<<myConstraintClass.getChain1()<<" is different from chain 2: "<<myConstraintClass.getChain2()<<endl; 
-		// 	ErrorManager::instance.treatError();
-		// }
 		if (! myBiopolymerClassContainer.hasChainID(myConstraintClass.getChain2())) { 
 			MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to find chain 2 : "<<myConstraintClass.getChain1()<<endl);
 		}

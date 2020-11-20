@@ -1302,12 +1302,12 @@ Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint,Vec
     MMBLOG_FILE_FUNC_LINE(DEBUG, " myGradient = "<<myGradient <<endl);
 
     // Separated out ther second derivatives for debugging:
-    if (0) {
+    /*if (0) {
         myGradient[0] +=  gridPoint.ddxPositiveXGradient*dxdydz[0] + gridPoint.ddyPositiveXGradient*dxdydz[1] + gridPoint.ddzPositiveXGradient*dxdydz[2];
         myGradient[1] +=  gridPoint.ddxPositiveYGradient*dxdydz[0] + gridPoint.ddyPositiveYGradient*dxdydz[1] + gridPoint.ddzPositiveYGradient*dxdydz[2];
         myGradient[2] +=  gridPoint.ddxPositiveZGradient*dxdydz[0] + gridPoint.ddyPositiveZGradient*dxdydz[1] + gridPoint.ddzPositiveZGradient*dxdydz[2];
         //return myGradient;
-    }
+    }*/
     MMBLOG_FILE_FUNC_LINE(DEBUG, " myGradient = "<<myGradient <<endl);
     return myGradient;
 }

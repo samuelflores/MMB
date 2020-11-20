@@ -110,7 +110,7 @@ std::string   trim(const std::string& str,
 bool vectorCompare(String myString, vector<String> & comparisonStringVector) {
     if (comparisonStringVector.size() == 0) { //cout<<", returning TRUE "<<endl ;
         return true;} // If we are comparing to an empty vector, return true.  This is in case no partner chains have been specified, in which case any chain will pass.
-    for (int i = 0; i < comparisonStringVector.size(); i++) {
+    for (size_t i = 0; i < comparisonStringVector.size(); i++) {
         //cout<<__FILE__<<":"<<__LINE__<<" comparing "<<myString<< " to comparisonStringVector["<<i<<"] : "<<comparisonStringVector[i];
         if (comparisonStringVector[i].compare(myString ) == 0) { //cout<<", returning TRUE "<<endl ;  
             return true; } else {//cout<<", returning FALSE";
@@ -149,8 +149,8 @@ BondMobility::Mobility stringToBondMobility(String bondMobilityString) {
 void InterfaceContainer::addInterface(vector<String> myChains,vector<String> partnerChains,  double myDepth ,  String myMobilizerString ){
     Interface myInterface; 
     myInterface.Chains.clear(); myInterface.PartnerChains.clear();
-    for (int i = 0; i < myChains.size(); i++) {myInterface.Chains.push_back( myChains[i]);}
-    for (int i = 0; i < partnerChains.size(); i++) {myInterface.PartnerChains.push_back( partnerChains[i]);}
+    for (size_t i = 0; i < myChains.size(); i++) {myInterface.Chains.push_back( myChains[i]);}
+    for (size_t i = 0; i < partnerChains.size(); i++) {myInterface.PartnerChains.push_back( partnerChains[i]);}
     myInterface.Depth = myDepth; 
     if (! (myMobilizerString.compare("NONE")==0) ||
 	  (myMobilizerString.compare("Rigid")==0) ||
@@ -175,7 +175,7 @@ vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAto
         contactingAtomInfoPairVector.clear();
         vector<openmmVecType> particleList(concatenatedAtomInfoVector.size());
         vector<set<int> > exclusions( particleList.size() );
-        for (int i = 0; i < concatenatedAtomInfoVector.size() ; i++) {
+        for (size_t i = 0; i < concatenatedAtomInfoVector.size() ; i++) {
             particleList[i] = concatenatedAtomInfoVector[i].position;
         }
 
@@ -188,7 +188,7 @@ vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAto
             getInterface(h).print(); 
             cout<<__FILE__<<":"<<__LINE__<<endl;
             computeNeighborListVoxelHash(neighborList, particleList.size() , particleList, exclusions, &boxSize, false, radius  , 0.0);
-            for ( int j = 0 ; j < neighborList.size(); j++) {
+            for ( size_t j = 0 ; j < neighborList.size(); j++) {
                 if ((((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].chain , (referenceChains))) == 1) &&
                      (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].chain ,(  partnerChains))) == 1))  || 
 //Use an XOR here. This means if the 'partnerChains' evaluation is later set to return 1 when partnerChains is empty, this will still work.
@@ -334,7 +334,7 @@ bool isNumber(string      line)
 
 bool isFixed (const String putativeFixedFloat) { // This checks that the string represents a floating point number in fixed format .. no scientific notation or other stray characters.
 	int dotCount = 0;
-	for (size_t i = 0 ; i < putativeFixedFloat.length() ; i ++) {
+	for (int i = 0 ; i < putativeFixedFloat.length() ; i ++) {
                 //std::cout<<__FILE__<<":"<<__LINE__<<" putativeFixedFloat[i] = >"<<putativeFixedFloat[i]<<"< "<<std::endl;
 		if (!((String(putativeFixedFloat[i]).compare("0") == 0) || 
 		   (String(putativeFixedFloat[i]).compare("1") == 0) || 
@@ -476,30 +476,16 @@ Vec3 ValidateVec3(Vec3 myVec3){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, " This Vec3 vector is infinite or not a number : "<<myVec3<<endl);
     }
     return myVec3;
-    /*if      (std::isnan(myVec3[0])) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" x-component "<<myVec3[0] <<" of Vec3 "<<myVec3 <<" is invalid. "<<endl; ErrorManager::instance.treatError();}
-    else if (std::isnan(myVec3[1])) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" y-component "<<myVec3[1] <<" of Vec3 "<<myVec3 <<" is invalid. "<<endl; ErrorManager::instance.treatError();}
-    else if (std::isnan(myVec3[2])) {
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" z-component "<<myVec3[2] <<" of Vec3 "<<myVec3 <<" is invalid. "<<endl; ErrorManager::instance.treatError();}
-    else return myVec3;
-*/
-
 }
 
 
 
 int ValidateInt (const int myInt) {
-	
-                /*if      (std::isnan(myInt))      {
-			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The integer is not valid : "<<myInt<<endl;
-			ErrorManager::instance.treatError();
-		}
-                else if      (std::isinf(myInt)) {
-			ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" The integer is not valid : "<<myInt<<endl;
-			ErrorManager::instance.treatError();
-		}
-		else*/ return myInt;
+    /* WARNING: There used to be some validation code which was
+     * apparently commented out at some point. Review git history
+     * if you want to see the original (disabled) code.
+     */
+    return myInt;
 }
 
 

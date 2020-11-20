@@ -65,7 +65,7 @@ double AtomSpringContainer::calcRmsd(State & state, BiopolymerClassContainer & b
     double sumSquareExtension = 0.0;
     double myExtension = 0.0;
     int numSprings = 0;
-    for (int i = 0; i <  atomSpringVector.size() ; i++) { // Count over all AtomSpring's
+    for (size_t i = 0; i <  atomSpringVector.size() ; i++) { // Count over all AtomSpring's
         Vec3 myDisplacementVec = (getDisplacementVec(state, biopolymerClassContainer, atomSpringVector[i]));
         sumSquareExtension += DotProduct(myDisplacementVec,myDisplacementVec)   ; // Dot product of myDisplacementVec is the square of the extension
         numSprings++;
@@ -82,7 +82,7 @@ float AtomSpringContainer::calcKabschRmsd(State & state, BiopolymerClassContaine
     //for (int left = 0 ; left < atomSpringVector.size() ; left ++)
     Kabsch78::VectorSet myVectorSet; myVectorSet.clear();
     double totalExtension = 0.;
-    for (int i = 0; i <  atomSpringVector.size() ; i++) { // Count over all AtomSpring's
+    for (size_t i = 0; i <  atomSpringVector.size() ; i++) { // Count over all AtomSpring's
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         // getLeftAtomLocationFromAtomSpring, getRightAtomLocationFromAtomSpring both return Vec3 but we need vector<float>
         Vec3 leftVec3  = getLeftAtomLocationFromAtomSpring (state , biopolymerClassContainer , atomSpringVector[i] )  ;

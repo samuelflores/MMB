@@ -12,9 +12,11 @@
 #include <iostream>
 #include <iomanip>
 
+#include "MMBLogger.h"
 #include "PeriodicPdbAndEnergyWriter.h"
 #include "SimTKsimbody.h"
 #include "CifOutput.h"
+#include "ProgressWriter.h"
 
 using namespace std;
 
@@ -66,8 +68,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
     if ( myParameterReader.useCIFFileFormat )
     {
 #ifndef GEMMI_USAGE
-        ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" Error! Requested mmCIF file output, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl;
-        ErrorManager::instance.treatError             ( );
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Error! Requested mmCIF file output, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl);
 #endif
     }
     else
@@ -215,6 +216,8 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
     //outputStream <<"REMARK ["<< __FILE__<<"]Satisfied contacts : "<<myParameterReader.satisfiedBasePairs<<endl;
     //outputStream <<"REMARK ["<< __FILE__<<"]Unsatisfied contacts : "<<myParameterReader.unSatisfiedBasePairs<<endl;
 
+
+    GlobalProgressWriter::get().update(ProgressWriter::State::RUNNING, modelNumber);
     cout<<"Just wrote structure for reporting interval # "<<modelNumber<<std::endl; 
     //cout <<"Satisfied base pairs : "<<myParameterReader.satisfiedBasePairs<<" out of "<<myParameterReader.satisfiedBasePairs+myParameterReader.unSatisfiedBasePairs<<endl;
     //cout <<"Unsatisfied contacts : "<<myParameterReader.unSatisfiedBasePairs<<endl;

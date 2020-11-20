@@ -37,6 +37,7 @@
 
 #include "molmodel/internal/common.h"
 #include "molmodel/internal/Compound.h"
+#include "MMBLogger.h"
 #include <iostream>
 #include <fstream>
 //#include "/Users/samuelflores/rna-dynamics/Water.h"
@@ -142,8 +143,7 @@ class LigandDroplet : public Compound { public:
 				{
 					myWaterIndex++;
 					if (myWaterIndex > numWater) {
-						ErrorManager::instance << "Attempted to adopt more water than exists in array"<<endl; 
-						ErrorManager::instance.treatError();
+						MMBBLOG_FILE_FUNC_LINE(CRITICAL, "Attempted to adopt more water than exists in array"<<endl);
 					}
 				  	cout<<"adopting water at "<< xi*arista-dropletRadius+dropletCenter[0]<<","<<yi*arista-dropletRadius+dropletCenter[1]<<"=,"<<zi*arista-dropletRadius+dropletCenter[2]<<endl;
 					Rotation myRotation(45.*Deg2Rad, YAxis);

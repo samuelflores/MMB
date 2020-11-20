@@ -73,7 +73,7 @@ void BasePairContainer::updateBasePair(int index, String ch1, int res1, String e
 
 String BasePairContainer::getBasePairsStrings(){
     stringstream returnStr;
-    for(int i = 0; i < myBasePairVector.size(); i++){
+    for(size_t i = 0; i < myBasePairVector.size(); i++){
         returnStr << i << " " 
                      << myBasePairVector[i].FirstBPChain << " "
                      << myBasePairVector[i].FirstBPResidue.getResidueNumber() << " "
@@ -313,7 +313,7 @@ void BasePairContainer::generateHelicalStackingInteractions(String chainID, Resi
 
 void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass){
     MMBLOG_FILE_FUNC_LINE(INFO, "Running addHelicalStacking  "<<endl);
-    for (int i = 0; i < myBiopolymerClassContainer.getNumBiopolymers(); i++) {
+    for (auto i = 0; i < myBiopolymerClassContainer.getNumBiopolymers(); i++) {
         //MMBLOG_FILE_FUNC_LINE(" So far we have "<<numBasePairs() <<" baseInteraction's.  They are: "<<endl;
         //printBasePairs();
         BiopolymerClass & myBiopolymerClass = myBiopolymerClassContainer.updBiopolymerClass(i);
@@ -345,20 +345,10 @@ void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolym
                 myResidue = myBiopolymerClass.incrementResidueID(myResidue); // increment myResidue
                 if (myResidue ==  myBiopolymerClass.getLastResidueID()) break ; // If we've just incremented to the end of the chain, we're done here.
             } 
-            // inequalities no longer supported for ResidueID
-            /*else { // shouldn't happen!  myResidue >  myBiopolymerClass.getLastResidueID()
-                ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unexplained error!"<<endl;
-                ErrorManager::instance.treatError();
-            }*/
 
             if ( myResidue ==  myBiopolymerClass.getLastResidueID()) { // this should have been caught above.
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);
             }
-            // Inequalities no longer supported for ResidueID
-            /*if ( myResidue >   myBiopolymerClass.getLastResidueID()) { // this should have been caught above.
-                ErrorManager::instance <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Unexplained error!"<<endl;
-                ErrorManager::instance.treatError();
-            }*/
             
         } // of for myResidue
     } // of for i
@@ -369,7 +359,7 @@ void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolym
 
 void BasePairContainer::printBasePairs() {
     MMBLOG_FILE_FUNC_LINE(INFO, "Printing all base pairs:"<<endl);
-    for (int i = 0; i < numBasePairs(); i++) {
+    for (auto i = 0; i < numBasePairs(); i++) {
         MMBLOG_FILE_FUNC_LINE(INFO, getBasePair(i).FirstBPChain<<" "<<getBasePair(i).FirstBPResidue.outString()<<" "<<   getBasePair(i).FirstBPEdge<<" "<<getBasePair(i).SecondBPChain<<" "<<getBasePair(i).SecondBPResidue.outString()<<" "<<   getBasePair(i).SecondBPEdge<<" "<<  getBasePair(i).OrientationBP<<endl);
     }
 }
@@ -380,7 +370,7 @@ void BasePairContainer::setBasePairSatisfied(int basePairIndex ,bool isSatisfied
 
 vector<int> BasePairContainer::getSatisfiedBasePairs(){
     vector<int> bps;
-    for (int i = 0; i < numBasePairs(); i++) {
+    for (auto i = 0; i < numBasePairs(); i++) {
         if(getBasePair(i).basePairSatisfied){
             bps.push_back(i);
         }

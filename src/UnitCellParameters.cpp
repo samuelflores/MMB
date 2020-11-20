@@ -34,7 +34,7 @@ void UnitCellParameters::setDeOrthogonalizationMatrix (){
     deOrthogonalizationMatrix[1][2] =  -a*c*(cos(alpha) - cos(beta)*cos(gamma))/volume()/sin(gamma);
     deOrthogonalizationMatrix[2][2] = a*b*sin(gamma)/volume();
 }
-const SimTK::Mat33 UnitCellParameters::getDeOrthogonalizationMatrix () const{
+SimTK::Mat33 UnitCellParameters::getDeOrthogonalizationMatrix () const{
     exitIfNotValid();
     return deOrthogonalizationMatrix;
 }
@@ -127,7 +127,7 @@ iVec3 UnitCellParameters::convertCartesianVectorToLowerIndexVector  (const SimTK
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" .. and finally to truncated index vector "<< indexVector[0] <<","<< indexVector[1]<<","<<  indexVector[2]  <<std::endl;
     return indexVector;
 }
-const bool UnitCellParameters::fractionalVectorIsInsideMapBoundaries(const SimTK::Vec3 & fractionalVector){
+bool UnitCellParameters::fractionalVectorIsInsideMapBoundaries(const SimTK::Vec3 & fractionalVector){
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;
     exitIfNotValid();
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;
@@ -145,7 +145,7 @@ const bool UnitCellParameters::fractionalVectorIsInsideMapBoundaries(const SimTK
 // default constructor. mainly here to set valid to false.
 UnitCellParameters::UnitCellParameters(){  setDefaultParameters();valid = 0;}
         
-const double UnitCellParameters::angleInRange  (const double angleInDegrees){
+double UnitCellParameters::angleInRange  (const double angleInDegrees){
     const double minAngle = 4.0*SimTK::Pi/180; // we switched to rads // by setting the minimum angle to a little over pi, I intend to prevent people from providing input in rads. 4 degrees is quite acute anyway.
     const double maxAngle = 170.0*SimTK::Pi/180; // we switched to rads // Technically this could be 180 degrees, but why would anyone use such an obtuse angle?
     if (angleInDegrees >= maxAngle) {
@@ -180,7 +180,7 @@ void UnitCellParameters::validateNnMinnMax(const int n, const int nMin, const in
         // If we get this far, everything is kosher. Do nothing.
 
     }
-const int calcMaxFrequencyDoublings (const int numGridPoints) {  
+int calcMaxFrequencyDoublings (const int numGridPoints) {  
     /* 
     double maxFrequencyDoublings = log2 (numGridPoints -1);
     //MMBLOG_FILE_FUNC_LINE(" The Nyquist half-wavelength, set by a grid spacing of "<<gridSpacing<<" is 2^"<<maxFrequencyDoublings<<" times smaller than than the max half-wavelength, set by the unit cell width of "<<unitCellWidth;//<<std::endl;
@@ -190,7 +190,7 @@ const int calcMaxFrequencyDoublings (const int numGridPoints) {
     */
     return (numGridPoints-1);
 }
-const int calcMaxFrequencyDoublings (const double unitCellWidth,     const double gridSpacing) {
+int calcMaxFrequencyDoublings (const double unitCellWidth,     const double gridSpacing) {
     double maxFrequencyDoublings = log2 (unitCellWidth / gridSpacing);
     //MMBLOG_FILE_FUNC_LINE(" The Nyquist half-wavelength, set by a grid spacing of "<<gridSpacing<<" is 2^"<<maxFrequencyDoublings<<" times smaller than than the max half-wavelength, set by the unit cell width of "<<unitCellWidth;//<<std::endl;
     maxFrequencyDoublings = floor (maxFrequencyDoublings);
@@ -198,17 +198,17 @@ const int calcMaxFrequencyDoublings (const double unitCellWidth,     const doubl
     return maxFrequencyDoublings; // The rounded-down number should be cast as int            
 }
 
-const int UnitCellParameters::calcMaxFrequencyDoublingsX (){
+int UnitCellParameters::calcMaxFrequencyDoublingsX (){
     //MMBLOG_FILE_FUNC_LINE(std::endl;
     //MMBLOG_FILE_FUNC_LINE(" about to return "<<getNa()<<std::endl;
     return calcMaxFrequencyDoublings((getNa()));
 }
-const int UnitCellParameters::calcMaxFrequencyDoublingsY (){
+int UnitCellParameters::calcMaxFrequencyDoublingsY (){
     //MMBLOG_FILE_FUNC_LINE(std::endl;
     //return calcMaxFrequencyDoublings(((getNb()-1)*getb()), getb());
     return calcMaxFrequencyDoublings((getNb()));
 }
-const int UnitCellParameters::calcMaxFrequencyDoublingsZ (){
+int UnitCellParameters::calcMaxFrequencyDoublingsZ (){
     //MMBLOG_FILE_FUNC_LINE(" about to return "<<getNc()<<std::endl;
     //return calcMaxFrequencyDoublings(((getNc()-1)*getc()), getc());
     return calcMaxFrequencyDoublings((getNc()));
@@ -217,11 +217,11 @@ const int UnitCellParameters::calcMaxFrequencyDoublingsZ (){
 void UnitCellParameters::setAlphaUsingDegrees(double inputAngle){
     alpha = angleInRange (inputAngle*M_PI/180);
 }
-const double UnitCellParameters::getAlpha(){ return alpha;}
+double UnitCellParameters::getAlpha(){ return alpha;}
 void UnitCellParameters::setBetaUsingDegrees(double inputAngle){
     beta = angleInRange (inputAngle*M_PI/180);
 }
-const double UnitCellParameters::getBeta(){ return beta;}
+double UnitCellParameters::getBeta(){ return beta;}
 void UnitCellParameters::setGammaUsingDegrees(double inputAngle){
     gamma = angleInRange (inputAngle*M_PI/180);
 }
@@ -237,7 +237,7 @@ void UnitCellParameters::setabc(const double mya, const double myb, const double
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have provided an  invalid value for c : "<< myc <<endl);
     }else {c = myc;}
 }
-const double UnitCellParameters::getGamma(){ return gamma;}
+double UnitCellParameters::getGamma(){ return gamma;}
 
 void UnitCellParameters::setN ( const int myna, const int myaMin,const int myaMax,const int mynb,const int mybMin,const int mybMax,const int mync,const int mycMin,const int mycMax ){
    MMBLOG_FILE_FUNC_LINE(INFO, "About to set na, aMin, aMax to : "<<myna <<", "<<  myaMin <<", "<< myaMax<<" nm "<<endl);
@@ -253,7 +253,7 @@ void UnitCellParameters::setN ( const int myna, const int myaMin,const int myaMa
    nc = mync; cMin = mycMin; cMax = mycMax;
    MMBLOG_FILE_FUNC_LINE(INFO, "Confirming nc, cMin, cMax are now : "<<getNc()<<", "<<getcMin()<<", "<<getcMax()<<endl);
 }
-const bool UnitCellParameters::exitIfNotValid() const{
+bool UnitCellParameters::exitIfNotValid() const{
     if (valid) { 
         return true; // All is fine.  
     } else {

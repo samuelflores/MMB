@@ -14,12 +14,6 @@ void DensityContainer::clear(){
     densityStretchVector.clear();
 }
 void DensityContainer::validate(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer){
-
-    /*if (!(myDensityStretch.getStartResidue() == myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getFirstResidueID ()) ) {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, " The start residue (currently "<<myDensityStretch.getStartResidue().outString()<<") is not equal to the first residue number of the chain ("<<myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getFirstResidueID().outString()<< "). "<<endl; ErrorManager::instance.treatError();    }
-    if (!(myDensityStretch.getEndResidue() == myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getLastResidueID    ()) ) {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, " The start residue (currently "<<myDensityStretch.getEndResidue().outString()<<") is not equal to the first residue number of the chain ("<<myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getLastResidueID    ()    .outString()     << "). "<<endl; ErrorManager::instance.treatError();    } */
-
     if (myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).difference(myDensityStretch.getEndResidue() , myDensityStretch.getStartResidue()) < 0) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "The end residue (currently "<<myDensityStretch.getEndResidue().outString()<<") must be greater than or equal to the start residue (currently "<<myDensityStretch.getStartResidue().outString()<<". "<<endl);    }
     if ((myDensityStretch.getEndResidue() > myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getLastResidueID    ()) ) {
@@ -62,7 +56,7 @@ int DensityContainer::numDensityStretches(){
 void DensityContainer::stuffDensityStretchVector( BiopolymerClassContainer & myBiopolymerClassContainer){
 	if (numDensityStretches() == 0) {
         MMBLOG_FILE_FUNC_LINE(INFO, "All residues in all available biopolymer chains be fitted to the map. "<<endl);
-		for (int i = 0 ; i < myBiopolymerClassContainer.getNumBiopolymers(); i++){
+		for (auto i = 0 ; i < myBiopolymerClassContainer.getNumBiopolymers(); i++){
 			DensityStretch myDensityStretch;
 			myDensityStretch.setChain( myBiopolymerClassContainer.updBiopolymerClass(i).getChainID());
 			myDensityStretch.setStartResidue( myBiopolymerClassContainer.updBiopolymerClass(i).getFirstResidueID    ());
@@ -76,7 +70,7 @@ void DensityContainer::stuffDensityStretchVector( BiopolymerClassContainer & myB
 
 void DensityContainer::printDensityStretches(){
     MMBLOG_FILE_FUNC_LINE(INFO, "About to print all "<< numDensityStretches()<<" density stretches "<<endl);
-    for (int i = 0 ; i < numDensityStretches(); i++) {
+    for (auto i = 0 ; i < numDensityStretches(); i++) {
         DensityStretch myDensityStretch = getDensityStretch(i);
         MMBLOG_FILE_FUNC_LINE(INFO, "Density Stretch "<<i<<" : chain "<< myDensityStretch.getChain()<<" from residue "<<myDensityStretch.getStartResidue().outString()<<" to "<< myDensityStretch.getEndResidue().outString()<<endl);
     }

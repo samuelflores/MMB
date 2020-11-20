@@ -14,6 +14,7 @@
 #include <fstream>
 #include "SimTKsimbody.h"
 #include "NtCInteractionParameterReader.h"
+#include "MMBLogger.h"
 const int numLeontisWesthofBondMatrixRows=(26*16+4*4);  // yes, global constants are bad.  Couldn't think of an elegant way around this one though.  This number should be exactly equal to the number of rows in the leontisWesthofBondMatrix
 //const int maxParallelTorques = 1000; //max number of parallel torques to be applied.  This can be huge, minimal cost for doing that.
 
@@ -55,8 +56,7 @@ using namespace std;
         cout<<"Now checking for existence of "<<inFileName<<endl;
 
         if (!(inFile.good())) {
-            ErrorManager::instance <<__FILE__<<":"<<__LINE__<<" : Unable to open parameter file "<<inFileName<<endl;
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open parameter file "<<inFileName<<endl);
         }
         int q=0;
 	//char * s; 
@@ -240,8 +240,7 @@ using namespace std;
         if (iter != leontisWesthofMap.end() ) 
             myReturnLeontisWesthofBondRow =  iter->second ;
         else {
-            ErrorManager::instance<< __FILE__<<":"<<__LINE__<<" : Unable to find parameters for interaction : "<< myBasePairIsTwoTransformForce<<" between residue type: \""<<myPdbResidueName1 <<"\" , and residue type \""<<myPdbResidueName2<<"\", parameter "<<myBondingEdge1<<", "<<myBondingEdge2<<", orientation "<<myGlycosidicBondOrientation<<" between residue numbers "<<myResidueNumber1.getResidueNumber()<<" and "<<myResidueNumber2.getResidueNumber()<<endl; 
-            ErrorManager::instance.treatError();
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to find parameters for interaction : "<< myBasePairIsTwoTransformForce<<" between residue type: \""<<myPdbResidueName1 <<"\" , and residue type \""<<myPdbResidueName2<<"\", parameter "<<myBondingEdge1<<", "<<myBondingEdge2<<", orientation "<<myGlycosidicBondOrientation<<" between residue numbers "<<myResidueNumber1.getResidueNumber()<<" and "<<myResidueNumber2.getResidueNumber()<<endl);
         }
 
 

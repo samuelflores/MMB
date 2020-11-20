@@ -3,7 +3,6 @@ typedef struct ParameterReader_wrapper{
 	// ParameterReader(const ParameterReader &);
 	// ParameterReader & operator = (const ParameterReader &);
 	//// ParameterReader & operator = (const ParameterReader &);
-	//ErrorManager & _errorManager;
 	// ParameterReader();
 	//// ParameterReader();
 	//vector<CovalentBondClass> additionalCovalentBondVector;
@@ -314,7 +313,6 @@ void updateParameterReader_wrapper(ParameterReader & _struct_, ParameterReader_w
 	// ParameterReader(const ParameterReader &);
 	// ParameterReader & operator = (const ParameterReader &);
 //	_wrap_->&) = _struct_.&); ////// ParameterReader & operator = (const ParameterReader
-//	_wrap_->_errorManager = _struct_._errorManager; ////ErrorManager &
 	// ParameterReader();
 //	_wrap_->ParameterReader() = _struct_.ParameterReader(); //////
 //	_wrap_->additionalCovalentBondVector = _struct_.additionalCovalentBondVector; ////vector<CovalentBondClass>
@@ -625,7 +623,6 @@ void updateParameterReader(ParameterReader_wrapper * _wrap_, ParameterReader & _
 	// ParameterReader(const ParameterReader &);
 	// ParameterReader & operator = (const ParameterReader &);
 //	_struct_.&) = _wrap_->&); ////// ParameterReader & operator = (const ParameterReader
-//	_struct_._errorManager = _wrap_->_errorManager; ////ErrorManager &
 	// ParameterReader();
 //	_struct_.ParameterReader() = _wrap_->ParameterReader(); //////
 //	_struct_.additionalCovalentBondVector = _wrap_->additionalCovalentBondVector; ////vector<CovalentBondClass>

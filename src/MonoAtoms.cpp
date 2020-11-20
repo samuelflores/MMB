@@ -124,20 +124,20 @@ MonoAtoms::MonoAtoms (String myChainID,ResidueID myFirstResidueNumber, int myNum
         renumberPdbResidues(myFirstResidueNumber);
 }
 
-const String MonoAtoms::getChainID() {
+String MonoAtoms::getChainID() {
 	return chainID;
 } 
 
-const ResidueID MonoAtoms::getFirstResidueID() {
+ResidueID MonoAtoms::getFirstResidueID() {
         return firstResidueID;
 	//return ResidueID(compoundVector[0].getPdbResidueNumber(),' ');// compoundVector[0].getPdbInsertionCode());
 } 
 
-const ResidueID MonoAtoms::getLastResidueID() {
+ResidueID MonoAtoms::getLastResidueID() {
 	return ResidueID(compoundVector[compoundVector.size()-1].getPdbResidueNumber(),' ');
 } 
 
-const int MonoAtoms::getResidueIndex(ResidueID myResidueID) {
+int MonoAtoms::getResidueIndex(ResidueID myResidueID) {
     for (int i = 0; i < getNumAtoms(); i++) {  
         if (myResidueID == ResidueID(compoundVector[i].getPdbResidueNumber(),' '))//compoundVector[i].getPdbInsertionCode()))
             return i;
@@ -145,11 +145,11 @@ const int MonoAtoms::getResidueIndex(ResidueID myResidueID) {
     MMBLOG_FILE_FUNC_LINE(CRITICAL, "Requested ResidueID : " <<myResidueID.outString()<<" is invalid."<<endl);
 }
 
-const int MonoAtoms::getNumAtoms() {
+int MonoAtoms::getNumAtoms() {
 	return numAtoms;
 } 
 
-const String MonoAtoms::getAtomName() {
+String MonoAtoms::getAtomName() {
 	return atomName;
 } 
 
@@ -162,20 +162,20 @@ void MonoAtoms::validateResidue(  ResidueID residueNumber) {
         };
 }
 
- Compound MonoAtoms::getSingleCompound(ResidueID residueNumber){
+Compound MonoAtoms::getSingleCompound(ResidueID residueNumber){
 	validateResidue (residueNumber ); 
 	return compoundVector[residueNumber.getResidueNumber() - getFirstResidueID    ().getResidueNumber()];
 } 
 
 
-const bool MonoAtoms::hasAtom(ResidueID residueNumber)
+bool MonoAtoms::hasAtom(ResidueID residueNumber)
 {
 	validateResidue (residueNumber ); 
         bool myHasAtom = compoundVector[residueNumber.getResidueNumber() - getFirstResidueID()  .getResidueNumber()].hasAtom(Compound::AtomPathName(atomName));
 	return myHasAtom;
 }
 
-const Compound::AtomIndex MonoAtoms::getAtomIndex(ResidueID residueNumber)
+Compound::AtomIndex MonoAtoms::getAtomIndex(ResidueID residueNumber)
 {
 	validateResidue (residueNumber ); 
 	if (hasAtom(residueNumber) == false) 
@@ -184,7 +184,7 @@ const Compound::AtomIndex MonoAtoms::getAtomIndex(ResidueID residueNumber)
 	return myAtomIndex;
 }
 
-const Vec3 MonoAtoms::getAtomLocationInMobilizedBodyFrame(ResidueID residueNumber){
+Vec3 MonoAtoms::getAtomLocationInMobilizedBodyFrame(ResidueID residueNumber){
 	validateResidue (residueNumber ); 
 	// it should always be (0,0,0) .. unless someday we figure out how to rigidify the MonoAtoms.
         return compoundVector[residueNumber.getResidueNumber() - getFirstResidueID().getResidueNumber()].getAtomLocationInMobilizedBodyFrame(getAtomIndex(residueNumber));
@@ -227,7 +227,7 @@ MobilizedBodyIndex MonoAtoms::getMobilizedBodyIndex(ResidueID residueNumber) {
  			 //atom index should always be zero, but just to be sure I'm getting it explicitly.  
 }
 
-MobilizedBody MonoAtoms::updMobilizedBody(ResidueID residueNumber, SimbodyMatterSubsystem & myMatter) {
+const MobilizedBody MonoAtoms::updMobilizedBody(ResidueID residueNumber, SimbodyMatterSubsystem & myMatter) {
 	validateResidue (residueNumber ); 
 	MobilizedBodyIndex myMobilizedBodyIndex = getMobilizedBodyIndex(residueNumber);
 	return myMatter.updMobilizedBody(myMobilizedBodyIndex);
@@ -254,7 +254,7 @@ void MonoAtoms::includeAllAtoms(DuMMForceFieldSubsystem & dumm){
 
 MonoAtomsContainer::MonoAtomsContainer() {}
 
-const bool MonoAtomsContainer::hasChainID(String myChainID ) {
+bool MonoAtomsContainer::hasChainID(String myChainID ) {
 	if (monoAtomsMap.find(myChainID) == monoAtomsMap.end())
 	 	{return false;}
 	else

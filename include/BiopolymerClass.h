@@ -83,8 +83,8 @@ public:
     Biopolymer  myBiopolymer;
 
     BiopolymerType::BiopolymerTypeEnum biopolymerType;
-    const bool  isDNA    () ;
-    const bool  isRNA    () ;
+    bool    isDNA    () ;
+    bool    isRNA    () ;
     String  printOriginalAndRenumberedResidueIDs(const String myPdbId = "XXXX" );
     vector<ResidueID> filterSingleResidueVector (const vector<SingleResidue>  singleResidueVector); // Takes a  vector<SingleResidue> and returns only those ResidueID's belonging to the current BiopolymerClass
     String  getResidueSingleLetterCode( ResidueID myResidueID){stringstream ss; ss << (myBiopolymer.getResidue(getResidueIndex(myResidueID)).getOneLetterCode ()); return ss.str();} ;
@@ -95,7 +95,7 @@ public:
     vector<ResidueID>   getResidueIdVector    (  )  {return residueIDVector;};
     void    modifyResidue(const BiopolymerModification myBiopolymerModification,Compound  compoundToAdd,  DuMMForceFieldSubsystem & dumm); 
     String  getSequence(){return sequence;}; // gets the sequence
-    String  getSequence(vector <ResidueID> & residueIDVector); // gets the sequence
+    String  getSequence(const vector <ResidueID> & residueIDVector); // gets the sequence
     String  getSubSequence(const ResidueID startResidue, const ResidueID endResidue); 
     String  getChainID() {return chainID;} 
     void    setChainID(String myChainID ) {chainID = myChainID;cout<<__FILE__<<":"<<__LINE__<<" set chainID to : >"<<getChainID()<<"<"<<endl; } 
@@ -115,7 +115,7 @@ public:
     String  getPdbFileName();
 
     void    setPdbStructure( PdbStructure );
-    const   PdbStructure getPdbStructure();
+    PdbStructure getPdbStructure();
     
     void    setLoadFromPdb(bool yesno);
     bool    getLoadFromPdb();
@@ -199,7 +199,7 @@ public:
     Vec3        calcDefaultAtomLocationInGroundFrame(   ResidueID residueID,   String atomName);
     void        loadResidueIDVector();
     void        loadResidueIDVectorAscending(ResidueID firstResidueID);
-    const   ResidueInfo::Index   getResidueIndex(   ResidueID residueID  ); // called by getPdbResidueName 
+    ResidueInfo::Index   getResidueIndex(   ResidueID residueID  ); // called by getPdbResidueName 
     String  getPdbResidueName(   ResidueID residueID);
     String      getRepresentativeAtomName(); // returns the name of an atom which is typically used to represent the entire residue, e.g. CA or C4*.
     double      getRepresentativeAtomMassThreshold(); // gets a number slightly larger than the maximum expected mass of the representative atom's mobilized body.
@@ -226,9 +226,9 @@ public:
     void        initializeAtomInfoVector(SimbodyMatterSubsystem & matter,DuMMForceFieldSubsystem & dumm, const vector<AtomicPropertyOverrideStruct> & atomicPropertyOverrideVector);
     #endif
 
-    const       vector<MMBAtomInfo> getAtomInfoVector();
-    const       void printAtomInfoVector(){for (int i = 0 ; i < atomInfoVector.size(); i++) atomInfoVector[i].print(); };
-    const       vector<MMBAtomInfo>  calcAtomInfoVector(ResidueStretch myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates = 1);
+    vector<MMBAtomInfo> getAtomInfoVector();
+    void printAtomInfoVector(){for (int i = 0 ; i < atomInfoVector.size(); i++) atomInfoVector[i].print(); };
+    vector<MMBAtomInfo>  calcAtomInfoVector(ResidueStretch myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates = 1);
     void        addRingClosingBond(CovalentBondClass myCovalentBondClass); 
     void        addRingClosingBond( ResidueID residueID1, String atomName1, String bondCenterName1,  ResidueID residueID2, String atomName2,String bondCenterName2, SimTK::BondMobility::Mobility bondMobility) ; 
  
@@ -514,9 +514,9 @@ public:
     void        initializeAtomInfoVectors(SimbodyMatterSubsystem & matter);
     void        initializeAtomInfoVectors(SimbodyMatterSubsystem & matter,DuMMForceFieldSubsystem & dumm);
     String      extractSequenceFromBiopolymer(const Biopolymer & myBiopolymer, bool endCaps);
-    const bool  isRNA    (const Biopolymer & inputBiopolymer) ;
-    const bool  isDNA    (const Biopolymer & inputBiopolymer) ;
-    const bool  isProtein(const Biopolymer & inputBiopolymer, bool endCaps) ;
+    bool        isRNA    (const Biopolymer & inputBiopolymer) ;
+    bool        isDNA    (const Biopolymer & inputBiopolymer) ;
+    bool        isProtein(const Biopolymer & inputBiopolymer, bool endCaps) ;
     void        loadSequencesFromPdb(String inPDBFilename,bool proteinCapping, const String & chainsPrefix , const bool tempRenumberPdbResidues  , const bool useNACappingHydroxyls); 
     const PdbStructure & getPdbStructure(String fileName);
     void        printBiopolymerInfo() ;
@@ -564,14 +564,14 @@ public:
     void        substituteResidue(String myChain , ResidueID myResidue, String mySubstitution, bool proteinCapping) ;
     void        insertResidue(Mutation myInsertion,  bool proteinCapping) ;
     vector <Mutation> &     updMutationVector(){return mutationVector;}
-    const vector <Mutation> getMutationVector(){return mutationVector;}
+    vector <Mutation>       getMutationVector(){return mutationVector;}
     void        loadMutationVectorsFromSequence(); 
     void        loadMutationVectorsFromString(String myMutationString); 
     void        writeMutationFlexibilizers(std::ofstream & output, const int offset, const double radius);
     void        writeWaterDroplets(std::ofstream & output, const double springConstant, const double radius );
     void        writeMobilizerWithinMutation(std::ofstream & output,  const double radius  );
-    const       vector<MMBAtomInfo> getConcatenatedAtomInfoVector(bool activeChainsOnly=false);
-    const       vector<MMBAtomInfo> getConcatenatedAtomInfoVector(const State & state,bool activeChainsOnly=false);
+    vector<MMBAtomInfo> getConcatenatedAtomInfoVector(bool activeChainsOnly=false);
+    vector<MMBAtomInfo> getConcatenatedAtomInfoVector(const State & state,bool activeChainsOnly=false);
     void        printAtomInfoVector();
     void        writeSubstituteResidueCommands(std::ofstream & output);
     int         getNumMutationVectorElements(); 

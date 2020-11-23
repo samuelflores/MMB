@@ -11,6 +11,9 @@
 #include "PeriodicPdbAndEnergyWriter.h"
 #include "SimTKsimbody.h"
 
+#ifdef GEMMI_USAGE
+    #include <gemmi/align.hpp>
+#endif
 
 namespace SimTK
 {

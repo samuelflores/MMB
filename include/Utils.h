@@ -677,11 +677,11 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                SimTK::BondMobility::Mobility getBondMobility() const {
                    return BondMobility;
                };
-               SimTK::BondMobility::Mobility setBondMobility(SimTK::String myBondMobilityString) { /*
+               SimTK::BondMobility::Mobility setBondMobility(SimTK::String myBondMobilityString) {
                    MMBLOG_FILE_LINE(INFO, " About to set BondMobility to >"<<myBondMobilityString<<"< "<<std::endl);
                    BondMobilityString = myBondMobilityString;
                    BondMobility = stringToBondMobility(myBondMobilityString);
-         
+
                    /*std::cout<<__FILE__<<":"<<__LINE__<<" stringToBondMobility(myBondMobilityString) : >"<<stringToBondMobility(myBondMobilityString)<<"< "<< std::endl;
                    std::cout<<__FILE__<<":"<<__LINE__<<" BondMobility: >"<<BondMobility <<"< "<< std::endl;
                    std::cout<<__FILE__<<":"<<__LINE__<<" Done. getBondMobilityString() : >"<<getBondMobilityString()<< "< "<<std::endl;

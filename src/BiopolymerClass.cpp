@@ -2516,10 +2516,9 @@ int  BiopolymerClassContainer::initializeBiopolymer(String chainID, CompoundSyst
                              matchingMinimizerTolerance,
                              myPlanarityThreshold,
                              secondaryStructureStretchVector)) {
-            MMBLOG_FILE_FUNC_LINE(WARNING, "Returned an error from initializeBiopolymer"<<endl);
-            return 1;
-    };
-
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Returned an error from initializeBiopolymer"<<endl);
+    }
+    return 0;
 }
 
 String BiopolymerClassContainer::printOriginalAndRenumberedResidueIDs(const String myPdbId) {

@@ -158,7 +158,7 @@ void	    DensityMap::validateGridPoint(GridIndices myGridIndices){
 		}
 		
 */
-GridIndices DensityMap::calcNearestGridIndices(Vec3 position)
+GridIndices DensityMap::calcNearestGridIndices(const Vec3 &position)
 		{
                         iVec3 tempIndexVector = {0,0,0};
                         tempIndexVector = unitCellParameters.convertCartesianVectorToNearestIndexVector(position);
@@ -172,7 +172,7 @@ GridIndices DensityMap::calcNearestGridIndices(Vec3 position)
 			return tempGridIndices;
 		}
 		
-GridIndices DensityMap::calcLowerLeftGridIndices(Vec3 position)
+GridIndices DensityMap::calcLowerLeftGridIndices(const Vec3 &position)
                 {
                         iVec3 tempIndexVector = unitCellParameters.convertCartesianVectorToLowerIndexVector(position); //convertFractionalVectorToLowerIndexVector(position);
                         //int tempXIndex  = int (floor(((position[0]-minX) )/gridXSpacing));
@@ -183,15 +183,15 @@ GridIndices DensityMap::calcLowerLeftGridIndices(Vec3 position)
 
                 }
 		
-GridPoint DensityMap::getGridPoint(Vec3 myPosition)  {
+GridPoint DensityMap::getGridPoint(const Vec3 &myPosition)  {
 	return getGridPoint(calcNearestGridIndices( myPosition));				
 }
 
-GridPoint & DensityMap::updGridPoint(Vec3 myPosition)  {
+GridPoint & DensityMap::updGridPoint(const Vec3 &myPosition)  {
 	return updGridPoint(calcNearestGridIndices( myPosition));				
 }
 
-double DensityMap::getDensity(Vec3 myPosition) {
+double DensityMap::getDensity(const Vec3 &myPosition) {
         //MMBLOG_FILE_FUNC_LINE("Taking myPosition = "<<myPosition<<std::endl;
         Vec3 myFractionalVector = unitCellParameters.convertCartesianVectorToFractionalVector(myPosition);
         //MMBLOG_FILE_FUNC_LINE( myFractionalVector[0] <<", "<<  myFractionalVector[1]   <<", "<< myFractionalVector[2]   <<" ..preceding should be unitCellParameters.convertCartesianVectorToFractionalVector(myPosition)"<<std::endl;
@@ -539,7 +539,7 @@ void DensityMap::initializeVectorOfAmplitudeAndRandomPhases(){
 }
 
 
-void DensityMap::loadParametersAndDensity(const String densityFileName)
+void DensityMap::loadParametersAndDensity(const String &densityFileName)
 {
     unsigned int extIndex = densityFileName.rfind(".");
     String extension = densityFileName.substr(extIndex);
@@ -579,7 +579,7 @@ void DensityMap::loadParametersAndDensity(const String densityFileName)
 
     \param[in] densityFileName String containing the path to the density file which should read in.
 */
-void DensityMap::loadParametersAndDensity_CCP4MAP(const String densityFileName)
+void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
 {
     //================================================ Open the file using Gammi
     gemmi::Ccp4<float> map;
@@ -678,7 +678,7 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String densityFileName)
 // Expects .xplor density maps to be in the following format:
 // http://psb11.snv.jussieu.fr/doc-logiciels/msi/xplor981/formats.html -- not accessible anymore
 // http://chem5.nchc.org.tw/software/document2007/insightII/doc/xplor/formats.html
-void DensityMap::loadParametersAndDensity_XPLOR(const String densityFileName) {
+void DensityMap::loadParametersAndDensity_XPLOR(const String &densityFileName) {
 
         ifstream inFile(densityFileName.c_str(),ifstream::in);
         int densitiesPerLine = 6;	
@@ -788,7 +788,7 @@ void incrementer(int & xIndex, const int maxX, int & yIndex, const int maxY, int
     incrementer(counter, maxCounter); // Always increment counter
 }
 
-void DensityMap::writeDensityMapXplor(const String densityFileName, const bool writeDensity, const bool writeNoise ) {
+void DensityMap::writeDensityMapXplor(const String &densityFileName, const bool writeDensity, const bool writeNoise ) {
         ofstream outFile(densityFileName.c_str(),ofstream::out);
         int densitiesPerLine = 6;	
         vector<String> mystring;
@@ -1083,7 +1083,7 @@ Vec3 DensityMap::fetchGradient(Vec3 position)  {
 
 */
 
-Vec3 DensityMap::fetchFirstQuadrantGradient(Vec3 position)  {
+Vec3 DensityMap::fetchFirstQuadrantGradient(const Vec3 &position)  {
 
                         GridIndices myLowerLeftGridIndex = calcLowerLeftGridIndices(   position);
                          if (hasGridPoint(myLowerLeftGridIndex)) {
@@ -1118,7 +1118,7 @@ Vec3 DensityMap::fetchFirstQuadrantGradient(Vec3 position)  {
 
 }
 
-Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(Vec3 position)  {
+Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(const Vec3 &position)  {
 
                         GridIndices myLowerLeftGridIndex = calcLowerLeftGridIndices(   position);
                          if (hasGridPoint(myLowerLeftGridIndex)) {
@@ -1164,7 +1164,7 @@ void DensityMap::initialize(GridPoint & gridPoint){
                 //cout<<__FILE__<<":"<<__LINE__<<" Set firstQuadrantGradient =  "<<fetchFirstQuadrantGradient(gridPoint)<<"  position = "<<gridPoint.position <<" density = "<<gridPoint.density <<endl;
 	}
 
-void DensityMap::validatePosition(GridPoint & gridPoint, Vec3 myPosition) const{
+void DensityMap::validatePosition(GridPoint & gridPoint, const Vec3 &myPosition) const{
                
           	//cout<<__FILE__<<":"<<__LINE__<<" about to validate position = "<<myPosition<<endl;
                 //ValidateVec3( myPosition);
@@ -1187,7 +1187,7 @@ void DensityMap::setDensity(GridPoint & gridPoint,double myDensity)	{
     //cout<<__FILE__<<":"<<__LINE__<<":"<<__FUNCTION__<<" Just set density to "<<gridPoint.density<<" for grid point at position "<<gridPoint.position<<endl;
 }
 
-void DensityMap::setPosition(GridPoint & gridPoint, Vec3 myPosition)	{
+void DensityMap::setPosition(GridPoint & gridPoint, const Vec3 &myPosition)	{
  		validatePosition(gridPoint,myPosition);
 		gridPoint.position = myPosition;	
 	}
@@ -1269,7 +1269,7 @@ void DensityMap::setNegativeZGradient(GridPoint & gridPoint,Real myNegativeZGrad
         MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is obsolete!"<<endl;
 
     }*/
-Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint,Vec3 queryPosition) const {
+Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint, const Vec3 &queryPosition) const {
     //MMBLOG_FILE_FUNC_LINE(std::endl;
     MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
     Vec3 dxdydz = unitCellParameters.convertFractionalVectorToFractionFromLowerLeft(unitCellParameters.convertCartesianVectorToFractionalVector(queryPosition)); //queryPosition - gridPoint.position; // the first term is the query position, the second term is the grid point position in cartesian space
@@ -1299,6 +1299,5 @@ Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint,Vec
         myGradient[2] +=  gridPoint.ddxPositiveZGradient*dxdydz[0] + gridPoint.ddyPositiveZGradient*dxdydz[1] + gridPoint.ddzPositiveZGradient*dxdydz[2];
         //return myGradient;
     }*/
-    MMBLOG_FILE_FUNC_LINE(DEBUG, " myGradient = "<<myGradient <<endl);
     return myGradient;
 }

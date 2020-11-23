@@ -40,7 +40,7 @@ class MonoAtoms {
 		String      getAtomName();  
 		Compound 	getSingleCompound(ResidueID); 
 		MobilizedBodyIndex getMobilizedBodyIndex(ResidueID);
-		const MobilizedBody 	updMobilizedBody(ResidueID, SimbodyMatterSubsystem &) ;
+		MobilizedBody &	updMobilizedBody(ResidueID, SimbodyMatterSubsystem &) ;
 		bool        hasAtom(ResidueID residueNumber);
 		Compound::AtomIndex getAtomIndex(ResidueID residueNumber);
 		Vec3	    getAtomLocationInMobilizedBodyFrame(ResidueID residueNumber);

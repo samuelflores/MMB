@@ -55,6 +55,7 @@ class GlobalProgressWriter {
 public:
     static void initialize(const std::string &path);
     static AbstractProgressWriter & get();
+    static bool isInitialized();
 
 private:
     static std::unique_ptr<AbstractProgressWriter> _writer;

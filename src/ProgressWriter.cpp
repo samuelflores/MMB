@@ -163,3 +163,7 @@ void GlobalProgressWriter::initialize(const std::string &path) {
 AbstractProgressWriter & GlobalProgressWriter::get() {
     return *_writer;
 }
+
+bool GlobalProgressWriter::isInitialized() {
+    return _writer != nullptr;
+}

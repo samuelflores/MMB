@@ -110,7 +110,6 @@ ProgressWriter::~ProgressWriter() {
     write(true);
 }
 
-
 void ProgressWriter::setTotalSteps(const int total) {
     _totalSteps = total;
 }

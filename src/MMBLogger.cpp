@@ -27,7 +27,8 @@ MMBLogger * MMBLogger::s_me(nullptr);
 
 MMBLogger::MMBLogger() :
     _loggingSeverity(Severity::INFO),
-    _output(nullptr)
+    _output(nullptr),
+    _newlinesSinceFlush(0)
 {
 }
 
@@ -49,6 +50,7 @@ void MMBLogger::log(const Severity severity, const std::ostringstream& oss, cons
     if (severity >= _loggingSeverity) {
         std::lock_guard<std::mutex> lk{_writeMutex};
         (*_output) << msg;
+        maybeFlush(msg);
     }
 }
 
@@ -67,6 +69,16 @@ void MMBLogger::logCritical [[noreturn]] (const std::ostringstream& oss) {
     throw MMBException(msg);
 }
 #endif // MMBLOG_DONT_THROW_ON_CRITICAL
+
+void MMBLogger::maybeFlush(const std::string &msg) {
+    for (const auto &ch : msg)
+        _newlinesSinceFlush += size_t(ch == '\n');
+
+    if (_newlinesSinceFlush > 5) {
+        _output->flush();
+        _newlinesSinceFlush = 0;
+    }
+}
 
 void MMBLogger::setLoggingSeverity(const Severity severity)
 {

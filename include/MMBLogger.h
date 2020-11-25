@@ -36,10 +36,12 @@ public:
 
 private:
     MMBLogger();
+    void maybeFlush(const std::string &msg);
 
     Severity _loggingSeverity;
     std::ostream * _output;
     std::mutex _writeMutex;
+    size_t _newlinesSinceFlush;
 
     static MMBLogger *s_me;
 };

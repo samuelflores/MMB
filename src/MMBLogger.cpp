@@ -41,10 +41,10 @@ MMBLogger & MMBLogger::instance() {
     return *s_me;
 }
 
-void MMBLogger::log(const Severity severity, const std::ostringstream& oss) {
+void MMBLogger::log(const Severity severity, const std::ostringstream& oss, const bool printSeverity) {
     assert(_output != nullptr);
 
-    const std::string msg = msgPrefix(severity) + oss.str();
+    const std::string msg = (printSeverity ? msgPrefix(severity) : "") + oss.str();
 
     if (severity >= _loggingSeverity) {
         std::lock_guard<std::mutex> lk{_writeMutex};

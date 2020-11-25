@@ -8,6 +8,7 @@
  * See RNABuilder.cpp for the copyright and usage agreement.                  *
  * -------------------------------------------------------------------------- */
 #include "BiopolymerClassTwoTransformForces.h"  
+#include "MMBLogger.h"
 
     AllTwoTransformLinearSprings::AllTwoTransformLinearSprings (SimbodyMatterSubsystem& matter,ParameterReader& myParameterReader,  LeontisWesthofClass& myLeontisWesthofClass, BiopolymerClassContainer & myBiopolymerClassContainer, std::ostream& outputStream ) : matter(matter),myParameterReader(myParameterReader), myLeontisWesthofClass (myLeontisWesthofClass), myBiopolymerClassContainer(myBiopolymerClassContainer), outputStream(outputStream)
         { 
@@ -477,8 +478,8 @@
                 }
             }    
         }
-            
-        cout << __FILE__<<":"<<__LINE__<<"  Satisfied baseInteraction's:   : "<<myParameterReader.satisfiedBasePairs<< " out of : "<<myParameterReader.satisfiedBasePairs+ myParameterReader.unSatisfiedBasePairs<<endl;    
+
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "Satisfied baseInteraction's:   : "<<myParameterReader.satisfiedBasePairs<< " out of : "<<myParameterReader.satisfiedBasePairs+ myParameterReader.unSatisfiedBasePairs<<endl);
         outputStream << "REMARK [TwoTransformForces.cpp] Satisfied base interactions   : "<<myParameterReader.satisfiedBasePairs<< " out of : "<<myParameterReader.satisfiedBasePairs+ myParameterReader.unSatisfiedBasePairs<<endl;    
         outputStream <<"REMARK RMSD for interacting frames = "<<  pow((interactingBaseRMSD / interactingBaseRMSDCount), double(0.5))<<endl;
         return energy; 

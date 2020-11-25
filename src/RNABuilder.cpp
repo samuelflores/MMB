@@ -12,6 +12,7 @@
 
 #include <getopt.h>
 
+#include "MMBLogger.h"
  #include "SimTKmolmodel.h"
  //#include "SimTKsimbody_aux.h"
 #include "ParameterReader.h"
@@ -22,12 +23,14 @@
 #include "ProgressWriter.h"
 #define _DEBUG_FLAGS_ON_
 
+#define PARAM_DOUT 257
 #define PARAM_PROG 256
 
 static struct option long_opts[] = {
     {"commands",  required_argument, 0,        'C'},
     {"directory", required_argument, 0,        'D'},
     {"HELP",      no_argument,       0,        'H'},
+    {"output",    required_argument, 0, PARAM_DOUT},
     {"progress",  required_argument, 0, PARAM_PROG},
     {0,           0,                 0,          0}
 };
@@ -40,6 +43,7 @@ void printUsage() {
     std::cout << "Options: " << std::endl;
     std::cout << " -H  HELP                 Display this information " << std::endl;
     std::cout << " -C  commands             Set name of contacts file " << std::endl;
+    std::cout << " -output                  Name of diagnostic output file (stdout of not specified)" << std::endl;
     std::cout << " -progress                Name of progress report file " << std::endl;
     //std::cout << " -D  directory         Set working directory " << std::endl<<std::endl;
     std::cout << "Last compiled on "<<__DATE__<<" at "<<__TIME__<< std::endl<<std::endl;
@@ -58,6 +62,8 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
     String parameterFile = "commands.dat";
     String outputDir = "./";
     String progressFile = "";
+    String diagOutputFile = "";
+    std::ofstream diagOutputStm;
 
 
     MMBLOG_FILE_FUNC_LINE(INFO, " Current working directory: "<<Pathname::getCurrentWorkingDirectory()<<endl);
@@ -76,6 +82,9 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
         case 'H':
             printUsage();
             return EXIT_SUCCESS;
+        case PARAM_DOUT:
+            diagOutputFile = optarg;
+            break;
         case PARAM_PROG:
             progressFile = optarg;
             break;
@@ -120,6 +129,13 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
         stringstream ss2b;
         stringstream ss3;
         map<const char*, int, strCmp> firstResidueNumbers;
+
+        if (diagOutputFile != "") {
+            diagOutputStm.open(diagOutputFile, std::ios_base::out | std::ios_base::trunc);
+            if (!diagOutputStm.is_open())
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot open diagnostic output file");
+            MMBLogger::instance().setOutput(&diagOutputStm);
+        }
 
         ParameterReader myParameterReader;
         

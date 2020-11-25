@@ -11,6 +11,7 @@
 #include <string.h>
 #include <sstream>
 #include <Utils.h>
+#include "MMBLogger.h"
 #include "ParameterReader.h"
 
     NTC_Torque::NTC_Torque (SimbodyMatterSubsystem& matter,ParameterReader& myParameterReader,  NTC_PAR_Class& myNTC_PAR_Class, BiopolymerClassContainer & myBiopolymerClassContainer, std::ostream& outputStream ) : matter(matter),myParameterReader(myParameterReader), myNTC_PAR_Class (myNTC_PAR_Class), myBiopolymerClassContainer(myBiopolymerClassContainer), outputStream(outputStream)
@@ -446,8 +447,8 @@
                cout <<  " = RMSD Angle sum for NtC of type "<<(myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_step_ID <<" NtC Index: "<<  (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_INDEX <<" "  <<   (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_Class_String<<" is "  <<rmsTorsionAngleForThisNtCAndDinucleotide << endl;}
 	   oldNtCClassString = (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_Class_String;
        };
-       
-       cout << rms << " = RMSD Angle sum " << endl;
+
+       MMBLOG_PLAIN_NOSEV(ALWAYS, rms << " = RMSD Angle sum " << endl);
        
        return energy;   
           

@@ -1,16 +1,10 @@
 #include "MMBLogger.h"
+#include "Impossible.h"
 #include "ProgressWriter.h"
 
-#include <cstdlib>
 #include <iostream>
 
 static std::mutex initMutex;
-
-#ifdef NDEBUG
-    #define __IMPOSSIBLE__ std::abort()
-#else
-    #define __IMPOSSIBLE__ assert(false)
-#endif // NDEBUG
 
 inline
 constexpr

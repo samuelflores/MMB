@@ -1,12 +1,20 @@
 #include "MMBLogger.h"
 #include "ProgressWriter.h"
 
+#include <cstdlib>
 #include <iostream>
 
 static std::mutex initMutex;
 
+#ifdef NDEBUG
+    #define __IMPOSSIBLE__ std::abort()
+#else
+    #define __IMPOSSIBLE__ assert(false)
+#endif // NDEBUG
+
 inline
-std::string msgPrefix(const MMBLogger::Severity severity) {
+constexpr
+const char * msgPrefix(const MMBLogger::Severity severity) {
     switch (severity) {
     case MMBLogger::Severity::DEBUG:
         return "DEBUG: ";
@@ -20,7 +28,7 @@ std::string msgPrefix(const MMBLogger::Severity severity) {
         return "CRITICAL: ";
     }
 
-    assert("Invalid Severity level");
+    __IMPOSSIBLE__;
 }
 
 MMBLogger * MMBLogger::s_me(nullptr);

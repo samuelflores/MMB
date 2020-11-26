@@ -524,10 +524,16 @@ public:
     ResidueID   residueID(map<const String,double> myUserVariables, const char* value , const String chain); // just like that below, except it can handle user-defined integer variables
     //ResidueID residueID(String inputResidueID, String chain); // this method of converting String to ResidueID has the advantage that it validates against the corresponding biopolymer.  Deprecated!  To be supplanted by the above.
     void constrainAllChainsToEachOther(ConstraintToGroundContainer & constraintToGroundContainer);
-    void addConstraintToGround(map<const String,double> myUserVariables, 
-                               const String inputResidueString, 
-                               const String chain, 
+    void addConstraintToGround(map<const String,double> myUserVariables,
+                               const String inputResidueString,
+                               const String chain,
+                               const String atomName,
                                ConstraintToGroundContainer & constraintToGroundContainer);
+    void addConstraintToGround(map<const String,double> myUserVariables,
+                               const String inputResidueString,
+                               const String chain,
+                               ConstraintToGroundContainer & constraintToGroundContainer);
+
     void addConstraintToGroundRange(map<const String,double> myUserVariables, const String inputResidueString1, const String inputResidueString2, const String chain, ConstraintToGroundContainer & constraintToGroundContainer);
     void addConstraint(map<const String,double> myUserVariables,
                        const String inputResidueString, const String chain, 

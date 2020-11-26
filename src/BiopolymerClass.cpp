@@ -3958,15 +3958,30 @@ void BiopolymerClassContainer::constrainAllChainsToEachOther(ConstraintToGroundC
     }
 }
 
-void BiopolymerClassContainer::addConstraintToGround(map<const String,double> myUserVariables, const String inputResidueString, const String chain, ConstraintToGroundContainer & constraintToGroundContainer){
-    constraintToGroundContainer.addConstraintClassToVector( 
+
+void BiopolymerClassContainer::addConstraintToGround(map<const String,double> myUserVariables, const String inputResidueString, const String chain, const String atomName, ConstraintToGroundContainer & constraintToGroundContainer){
+    constraintToGroundContainer.addConstraintClassToVector(
         chain,
         residueID(myUserVariables,
                   inputResidueString,
                   chain),
-        updBiopolymerClass(chain).getRepresentativeAtomName() 
-        ); 
+        atomName //lymerClass(chain).getRepresentativeAtomName()
+        );
 }
+
+void BiopolymerClassContainer::addConstraintToGround(map<const String,double> myUserVariables, const String inputResidueString, const String chain, ConstraintToGroundContainer & constraintToGroundContainer){
+    addConstraintToGround(myUserVariables,inputResidueString,chain, updBiopolymerClass(chain).getRepresentativeAtomName(),constraintToGroundContainer);
+    /*
+    constraintToGroundContainer.addConstraintClassToVector(
+        chain,
+        residueID(myUserVariables,
+                  inputResidueString,
+                  chain),
+        updBiopolymerClass(chain).getRepresentativeAtomName()
+        );
+    */
+}
+
 
 void BiopolymerClassContainer::addConstraint(map<const String,double> myUserVariables,
                    const String inputResidueString, const String chain1, 

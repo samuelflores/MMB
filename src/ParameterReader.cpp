@@ -2510,6 +2510,24 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 		    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Chain "<<myChain1<<" is neither a biopolymer nor a custom molecule!"<<endl);
 		}
 	    } // End Weld Ground syntax
+            else if ( (parameterStringClass.getString(4) == "Weld") &&
+                 (parameterStringClass.getString(5) == "Ground") &&
+                 (!(parameterStringClass.getString(6).length() > 0))
+               ){  // This means syntax:  constraint <chain ID> <residue ID> <atom name> Weld Ground 
+                MMBLOG_FILE_FUNC_LINE(INFO, "detected syntax for biopolymers:  constraint <chain 1> <residue ID 1> Weld Ground "<<endl);
+                String myChain1 = parameterStringClass.getString(1);
+                String myResidue1String = parameterStringClass.getString(2);
+                String myAtomNameString = parameterStringClass.getString(3);
+                myBiopolymerClassContainer.validateChainID(myChain1);
+                myBiopolymerClassContainer.updBiopolymerClass(myChain1).validateResidueID(ResidueID(myResidue1String)  );
+                if (!(myBiopolymerClassContainer.updBiopolymerClass(myChain1).hasAtom(ResidueID(myResidue1String), myAtomNameString ))){
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, " atom name "<< myAtomNameString << " not found for this chain "<< myChain1<<" and residues ID "<< myResidue1String<<endl);
+                }
+                myBiopolymerClassContainer.addConstraintToGround(userVariables, myResidue1String,myChain1,myAtomNameString, constraintToGroundContainer);
+                MMBLOG_FILE_FUNC_LINE(INFO, "You now successfully added a constraint for atom name "<<myAtomNameString<<endl);
+
+            }
+
 	    else if (!(parameterStringClass.getString(5).length()>0)) { 
 		MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of parameters!"<<endl);
 	    }

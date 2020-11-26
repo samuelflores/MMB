@@ -227,7 +227,7 @@ MobilizedBodyIndex MonoAtoms::getMobilizedBodyIndex(ResidueID residueNumber) {
  			 //atom index should always be zero, but just to be sure I'm getting it explicitly.  
 }
 
-const MobilizedBody MonoAtoms::updMobilizedBody(ResidueID residueNumber, SimbodyMatterSubsystem & myMatter) {
+MobilizedBody & MonoAtoms::updMobilizedBody(ResidueID residueNumber, SimbodyMatterSubsystem & myMatter) {
 	validateResidue (residueNumber ); 
 	MobilizedBodyIndex myMobilizedBodyIndex = getMobilizedBodyIndex(residueNumber);
 	return myMatter.updMobilizedBody(myMobilizedBodyIndex);

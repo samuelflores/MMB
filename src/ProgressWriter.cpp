@@ -1,12 +1,13 @@
 #include "ProgressWriter.h"
+#include "Impossible.h"
 #include "MMBLogger.h"
 
-#include <cassert>
 #include <unistd.h>
 #include <fcntl.h>
 
 static
-constexpr const char * stateToStr(const ProgressWriter::State s) {
+constexpr
+const char * stateToStr(const ProgressWriter::State s) {
     switch (s) {
     case ProgressWriter::State::NOT_STARTED:
         return "NotStarted";
@@ -19,6 +20,8 @@ constexpr const char * stateToStr(const ProgressWriter::State s) {
     case ProgressWriter::State::FAILED:
         return "Failed";
     }
+
+    __IMPOSSIBLE__;
 }
 
 class Locker {
@@ -107,7 +110,6 @@ ProgressWriter::~ProgressWriter() {
     write(true);
 }
 
-
 void ProgressWriter::setTotalSteps(const int total) {
     _totalSteps = total;
 }
@@ -162,4 +164,8 @@ void GlobalProgressWriter::initialize(const std::string &path) {
 
 AbstractProgressWriter & GlobalProgressWriter::get() {
     return *_writer;
+}
+
+bool GlobalProgressWriter::isInitialized() {
+    return _writer != nullptr;
 }

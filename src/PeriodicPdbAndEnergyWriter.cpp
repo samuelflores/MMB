@@ -156,11 +156,11 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
             myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": DuMM Molecular Dynamics Potential Energy = " + std::to_string ( dummPotentialEnergy ) + " kJ/mol, " + std::to_string( dummPotentialEnergy / 4.184 ) + " kcal/mol" ) );
             myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Kinetic Energy                           = " + std::to_string ( myKineticEnergy ) + " kJ/mol, " + std::to_string( myKineticEnergy / 4.184 ) + " kcal/mol" ) );
             myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Energy                                   = " + std::to_string ( myEnergy ) + " kJ/mol" ) );
-            
-            cout <<"Total Potential Energy =                   "<<myPotentialEnergy <<" kJ/mol, "<<myPotentialEnergy/4.184<<" kcal/mol"<<std::endl;
-            cout <<"DuMM Molecular Dynamics Potential Energy = "<<dummPotentialEnergy <<" kJ/mol, "<<dummPotentialEnergy/4.184<<" kcal/mol"<<std::endl;
-            cout <<"Kinetic Energy = "<< myKineticEnergy <<" kJ/mol, "<<myKineticEnergy/4.184<<" kcal/mol"<<std::endl;
-            cout <<"REMARK Energy = "<< myEnergy <<" kJ/mol "<<std::endl;
+
+            MMBLOG_PLAIN_NOSEV(ALWAYS, "Total Potential Energy =                   " << myPotentialEnergy << " kJ/mol, " << myPotentialEnergy/4.184 << " kcal/mol" << std::endl);
+            MMBLOG_PLAIN_NOSEV(ALWAYS, "DuMM Molecular Dynamics Potential Energy = " << dummPotentialEnergy << " kJ/mol, " << dummPotentialEnergy/4.184 << " kcal/mol"<<std::endl);
+            MMBLOG_PLAIN_NOSEV(ALWAYS, "Kinetic Energy =  " << myKineticEnergy << " kJ/mol, " << myKineticEnergy/4.184 << " kcal/mol" << std::endl);
+            MMBLOG_PLAIN_NOSEV(ALWAYS, "REMARK Energy = " << myEnergy << " kJ/mol " << std::endl);
         }
         
         std::stringstream alMomHlp; alMomHlp << system.calcSystemRigidBodyMomentum(state);
@@ -187,18 +187,18 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
             Real dummPotentialEnergy =     dumm.calcPotentialEnergy(state);
             outputStream <<"REMARK Total Potential Energy = "<<myPotentialEnergy <<" kJ/mol, "<<myPotentialEnergy/4.184<<" kcal/mol"<<std::endl;
             outputStream <<"REMARK DuMM Molecular Dynamics Potential Energy = "<<dummPotentialEnergy <<" kJ/mol, "<<dummPotentialEnergy/4.184<<" kcal/mol"<<std::endl;
-            cout <<"Total Potential Energy =                   "<<myPotentialEnergy <<" kJ/mol, "<<myPotentialEnergy/4.184<<" kcal/mol"<<std::endl;
-            cout <<"DuMM Molecular Dynamics Potential Energy = "<<dummPotentialEnergy <<" kJ/mol, "<<dummPotentialEnergy/4.184<<" kcal/mol"<<std::endl;
+            MMBLOG_PLAIN_NOSEV(ALWAYS, "Total Potential Energy =                   " << myPotentialEnergy << " kJ/mol, " << myPotentialEnergy/4.184 << " kcal/mol" << std::endl);
+            MMBLOG_PLAIN_NOSEV(ALWAYS, "DuMM Molecular Dynamics Potential Energy = " << dummPotentialEnergy << " kJ/mol, " << dummPotentialEnergy/4.184<<" kcal/mol"<<std::endl);
 
             double myKineticEnergy = system.calcKineticEnergy(state);
             myParameterReader.kineticEnergy = myKineticEnergy;
             outputStream <<"REMARK Kinetic Energy = "<< myKineticEnergy <<" kJ/mol, "<<myKineticEnergy/4.184<<" kcal/mol"<<std::endl;
-            cout <<"Kinetic Energy = "<< myKineticEnergy <<" kJ/mol, "<<myKineticEnergy/4.184<<" kcal/mol"<<std::endl;
+            MMBLOG_PLAIN_NOSEV(ALWAYS, "Kinetic Energy = " << myKineticEnergy << " kJ/mol, " << myKineticEnergy/4.184 << " kcal/mol" << std::endl);
 
             double myEnergy = system.calcEnergy(state);
             myParameterReader.totalEnergy = myEnergy;
             outputStream <<"REMARK Energy = "<< myEnergy <<" kJ/mol "<<std::endl;
-            cout <<"REMARK Energy = "<< myEnergy <<" kJ/mol "<<std::endl;
+            MMBLOG_PLAIN_NOSEV(ALWAYS, "REMARK Energy = " << myEnergy << " kJ/mol " << std::endl);
             myEnergies.push_back(myEnergy);
         }
         outputStream <<"REMARK Angular, Linear Momentum = "<<system.calcSystemRigidBodyMomentum(state)<<endl;
@@ -218,7 +218,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
 
 
     GlobalProgressWriter::get().update(ProgressWriter::State::RUNNING, modelNumber);
-    cout<<"Just wrote structure for reporting interval # "<<modelNumber<<std::endl; 
+    MMBLOG_PLAIN_NOSEV(ALWAYS, "Just wrote structure for reporting interval # " << modelNumber << std::endl);
     //cout <<"Satisfied base pairs : "<<myParameterReader.satisfiedBasePairs<<" out of "<<myParameterReader.satisfiedBasePairs+myParameterReader.unSatisfiedBasePairs<<endl;
     //cout <<"Unsatisfied contacts : "<<myParameterReader.unSatisfiedBasePairs<<endl;
     ++modelNumber;
@@ -240,7 +240,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
             if(energyDiffMean < myParameterReader.convergenceEpsilon)
             {
                 myParameterReader.converged = true;   
-                cout << "Converged! Energy difference between two reporting intervals has been less than "<< myParameterReader.convergenceEpsilon << " kJ/mol for the last " << myParameterReader.convergenceTimeout << " frames." << endl;
+                MMBLOG_PLAIN_NOSEV(ALWAYS, "Converged! Energy difference between two reporting intervals has been less than "<< myParameterReader.convergenceEpsilon << " kJ/mol for the last " << myParameterReader.convergenceTimeout << " frames." << endl);
             }
         }
     }

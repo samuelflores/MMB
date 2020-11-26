@@ -1,4 +1,5 @@
 #include "MMBLogger.h"
+#include "Impossible.h"
 #include "ProgressWriter.h"
 
 #include <iostream>
@@ -6,7 +7,8 @@
 static std::mutex initMutex;
 
 inline
-std::string msgPrefix(const MMBLogger::Severity severity) {
+constexpr
+const char * msgPrefix(const MMBLogger::Severity severity) {
     switch (severity) {
     case MMBLogger::Severity::DEBUG:
         return "DEBUG: ";
@@ -20,15 +22,15 @@ std::string msgPrefix(const MMBLogger::Severity severity) {
         return "CRITICAL: ";
     }
 
-    assert("Invalid Severity level");
+    __IMPOSSIBLE__;
 }
 
 MMBLogger * MMBLogger::s_me(nullptr);
 
 MMBLogger::MMBLogger() :
     _loggingSeverity(Severity::INFO),
-    _output(nullptr)
-{
+    _output(nullptr),
+    _newlinesSinceFlush(0) {
 }
 
 MMBLogger & MMBLogger::instance() {
@@ -41,14 +43,15 @@ MMBLogger & MMBLogger::instance() {
     return *s_me;
 }
 
-void MMBLogger::log(const Severity severity, const std::ostringstream& oss) {
+void MMBLogger::log(const Severity severity, const std::ostringstream& oss, const bool printSeverity) {
     assert(_output != nullptr);
 
-    const std::string msg = msgPrefix(severity) + oss.str();
+    const std::string msg = (printSeverity ? msgPrefix(severity) : "") + oss.str();
 
     if (severity >= _loggingSeverity) {
         std::lock_guard<std::mutex> lk{_writeMutex};
         (*_output) << msg;
+        maybeFlush(msg);
     }
 }
 
@@ -56,7 +59,8 @@ void MMBLogger::log(const Severity severity, const std::ostringstream& oss) {
 void MMBLogger::logCritical [[noreturn]] (const std::ostringstream& oss) {
     assert(_output != nullptr);
 
-    GlobalProgressWriter::get().update(ProgressWriter::State::FAILED);
+    if (GlobalProgressWriter::isInitialized())
+        GlobalProgressWriter::get().update(ProgressWriter::State::FAILED);
 
     const std::string msg = msgPrefix(Severity::CRITICAL) + oss.str();
 
@@ -67,13 +71,21 @@ void MMBLogger::logCritical [[noreturn]] (const std::ostringstream& oss) {
 }
 #endif // MMBLOG_DONT_THROW_ON_CRITICAL
 
-void MMBLogger::setLoggingSeverity(const Severity severity)
-{
+void MMBLogger::maybeFlush(const std::string &msg) {
+    for (const auto &ch : msg)
+        _newlinesSinceFlush += size_t(ch == '\n');
+
+    if (_newlinesSinceFlush > 5) {
+        _output->flush();
+        _newlinesSinceFlush = 0;
+    }
+}
+
+void MMBLogger::setLoggingSeverity(const Severity severity) {
     _loggingSeverity = severity < Severity::ALWAYS ? severity : Severity::ALWAYS;
 }
 
-void MMBLogger::setOutput(std::ostream *output)
-{
+void MMBLogger::setOutput(std::ostream *output) {
     std::lock_guard<std::mutex> lk(_writeMutex);
 
     if (_output != nullptr)

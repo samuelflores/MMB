@@ -33,14 +33,15 @@ using namespace std;
  *
  */
 
-    NTC_PAR_BondKey::NTC_PAR_BondKey(String myPdbResidueName1, String myPdbResidueName2,String myBondingEdge1, String myBondingEdge2, String dihedraltype, String myIsTwoTransformForce) {
-        pdbResidueName1 = myPdbResidueName1;
-        pdbResidueName2 = myPdbResidueName2;
-        bondingEdge1 = myBondingEdge1;
-        bondingEdge2 = myBondingEdge2;
-        dihedraltype = dihedraltype;
-        isTwoTransformForce = myIsTwoTransformForce; 
-    };	
+    NTC_PAR_BondKey::NTC_PAR_BondKey(String myPdbResidueName1, String myPdbResidueName2,String myBondingEdge1, String myBondingEdge2, String dihedraltype, String myIsTwoTransformForce) :
+        pdbResidueName1(std::move(myPdbResidueName1)),
+        pdbResidueName2(std::move(myPdbResidueName2)),
+        bondingEdge1(std::move(myBondingEdge1)),
+        bondingEdge2(std::move(myBondingEdge2)),
+        dihedraltype(std::move(dihedraltype)),
+        isTwoTransformForce(std::move(myIsTwoTransformForce)) {
+    }
+
     NTC_PAR_BondKey::NTC_PAR_BondKey(NTC_PAR_BondRow myNTC_PAR_BondRow) {
         pdbResidueName1 = myNTC_PAR_BondRow.pdbResidueName1;
         pdbResidueName2 = myNTC_PAR_BondRow.pdbResidueName2;

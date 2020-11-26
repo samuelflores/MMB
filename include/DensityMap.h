@@ -90,12 +90,12 @@ class MMB_EXPORT DensityMap {
         GridPoint getGridPoint(GridIndices) const ;
         void validateGridPoint(GridIndices myGridIndices);
         //const bool hasNearbyGridIndices(Vec3 position);
-        GridIndices calcNearestGridIndices(Vec3 position);
-        GridIndices calcLowerLeftGridIndices(Vec3 position);
-        GridPoint getGridPoint(Vec3);
-        GridPoint     & updGridPoint(Vec3);
+        GridIndices calcNearestGridIndices(const Vec3 &position);
+        GridIndices calcLowerLeftGridIndices(const Vec3 &position);
+        GridPoint getGridPoint(const Vec3 &);
+        GridPoint     & updGridPoint(const Vec3 &);
         //const double getDensity(Vec3);
-        double getDensity(SimTK::Vec3);
+        double getDensity(const SimTK::Vec3 &);
         void initializeArrayOfGridPoints();
         void setNoiseTemperature(double myTemperature){noiseTemperature=myTemperature;};
         void setNoiseScale(double myNoiseScale){noiseScale = myNoiseScale;};
@@ -107,28 +107,28 @@ class MMB_EXPORT DensityMap {
         void normalizeNoiseMap(const double totalNoiseEverywhere);
         void densityAutocorrelation(const bool computeNoiseAutocorrelation, const bool computeDensityAutocorrelation ) const;
         void populateNoiseMap();
-        void loadParametersAndDensity(const String densityFileName) ;
-        void loadParametersAndDensity_XPLOR(const String densityFileName) ;
+        void loadParametersAndDensity(const String &densityFileName) ;
+        void loadParametersAndDensity_XPLOR(const String &densityFileName) ;
 #ifdef GEMMI_USAGE
-        void loadParametersAndDensity_CCP4MAP(const String densityFileName) ;
+        void loadParametersAndDensity_CCP4MAP(const String &densityFileName) ;
 #endif
-        void writeDensityMapXplor(const String densityFileName,  const bool writeDensity = 1, const bool writeNoise =1);
+        void writeDensityMapXplor(const String &densityFileName,  const bool writeDensity = 1, const bool writeNoise =1);
         //void loadParametersAndDensity_OpenDX(const String densityFileName) ;
         //void loadParametersAndDensity_Situs(const String densityFileName) ;
         void precomputeGradient();
         void precomputeGradientDerivatives();
-        Vec3 fetchGradient(Vec3 position);
-        Vec3 fetchFirstQuadrantGradient(Vec3 position);
+        Vec3 fetchGradient(const Vec3 &position);
+        Vec3 fetchFirstQuadrantGradient(const Vec3 &position);
         //Vec3 calcInterpolatedFirstQuadrantGradient(Vec3 position);
-        SimTK::Vec3 calcInterpolatedFirstQuadrantGradient(SimTK::Vec3 position) ;
+        SimTK::Vec3 calcInterpolatedFirstQuadrantGradient(const SimTK::Vec3 &position) ;
         // Functions which were moved from GridPoint to DensityMap for memory savings
         void initializeGradient(GridPoint & gridPoint );
         void initialize(GridPoint & gridPoint );
-        void validatePosition(GridPoint & gridPoint, Vec3 myPosition)const ;
+        void validatePosition(GridPoint & gridPoint, const Vec3 &myPosition)const ;
         void validateDensity (GridPoint & gridPoint, double          ) const;
         void validate(GridPoint & gridPoint) const;
         void setDensity(GridPoint & gridPoint, Real myDensity);
-        void setPosition(GridPoint & gridPoint, Vec3 myPosition);
+        void setPosition(GridPoint & gridPoint, const Vec3 &myPosition);
         //Quadrant calcQuadrant(GridPoint & gridPoint, Vec3 queryPosition) const;
         //Vec3  fetchGradient(GridPoint & gridPoint, Vec3 queryPosition) const;
         Vec3 fetchFirstQuadrantGradient(GridPoint & gridPoint) const ;
@@ -150,7 +150,7 @@ class MMB_EXPORT DensityMap {
         void setNegativeYGradient(GridPoint & gridPoint, Real);
         void setNegativeZGradient(GridPoint & gridPoint, Real);
         void printSecondDerivatives(GridPoint & gridPoint) const;
-        Vec3 calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint, Vec3 queryPosition) const;
+        Vec3 calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint, const Vec3 &queryPosition) const;
 };
 
 // #define LINESIZE 1024

@@ -25,6 +25,7 @@ public:
 
     static MMBLogger & instance();
 
+    void flush();
     void log(const Severity severity, const std::ostringstream& oss, const bool printSeverity = true);
 
     #ifndef MMBLOG_DONT_THROW_ON_CRITICAL

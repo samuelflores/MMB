@@ -244,4 +244,6 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
             }
         }
     }
+
+    MMBLogger::instance().flush();
 }

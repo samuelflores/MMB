@@ -28,6 +28,9 @@ class WaterDroplet; // forward declaration
 typedef char TChar;                             // character type
 typedef seqan::String<TChar> TSequence;                // sequence type
 typedef seqan::Align<TSequence, seqan::ArrayGaps> TAlign;
+typedef pair <const String, PdbStructure> pdbStructurePairType;
+//typedef map pdbStructurePairType PdbStructureMapType ;
+typedef map <const String, PdbStructure> PdbStructureMapType ;
 
 
 void         printBiopolymerSequenceInfo(const Biopolymer & myBiopolymer) ;
@@ -52,6 +55,7 @@ private:
     String      sequence;
     String      originalSequence;
     String      chainID;
+    String      chainPrefix; // This is only used with loadSequencesFromPdb. We have to remember this value for later, when we match coordinates and may need to reopen the input structure file. chainPrefix has to be initialized to "" (we do this in BiopolymerClass::clear()), because loadSequencesFromPdb may never be called.
     String      firstResidueMobilizerType;
     bool        myRenumberPdbResidues;
     bool        proteinCapping;
@@ -99,6 +103,9 @@ public:
     String  getSubSequence(const ResidueID startResidue, const ResidueID endResidue); 
     String  getChainID() {return chainID;} 
     void    setChainID(String myChainID ) {chainID = myChainID;cout<<__FILE__<<":"<<__LINE__<<" set chainID to : >"<<getChainID()<<"<"<<endl; } 
+    String  getChainPrefix() {return chainPrefix;} 
+    void    setChainPrefix(String myChainPrefix ) {chainPrefix = myChainPrefix;} 
+
     //void    setMutationVector(vector<Mutation> myMutationVector ) { mutationVector = myMutationVector; }
     void    validateMutation( Mutation myMutation);
     void    setOriginalSequence(String); // sets the original sequence
@@ -141,7 +148,8 @@ public:
                               const vector<Displacement> displacementVector,
                               double matchingMinimizerTolerance, 
                               double myPlanarityThreshold,
-                              vector<SecondaryStructureStretch> secondaryStructureStretchVector 
+                              vector<SecondaryStructureStretch> secondaryStructureStretchVector ,
+                              PdbStructureMapType & pdbStructureMap
                              ) ; //    Should  everything currently done by ConstrainedDynamics::initializeMolecules.  the latter should stop treating biopolymers altogether.  it really should stop treating MonoAtoms as well.
 
     int     matchCoordinates(String inputFileName, 
@@ -151,7 +159,9 @@ public:
                              bool matchPurineN1AtomLocations,
                              bool guessCoordinates ,  
                              double matchingMinimizerTolerance, 
-                             double myPlanarityThreshold);   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
+                             double myPlanarityThreshold,
+			     PdbStructureMapType & pdbStructureMap
+			     );   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
     int     matchCoordinates(istream & inputFile, 
                              bool matchExact, bool matchIdealized,
                              const bool matchOptimize ,  
@@ -395,7 +405,8 @@ class MMB_EXPORT BiopolymerClassContainer {
 private :
     map <const String, BiopolymerClass> biopolymerClassMap   ;
     vector<Mutation> mutationVector; // this manages the vector of substitution mutations.  Not used for MMB, but breeder uses it extensively.
-    map <const String, PdbStructure> pdbStructureMap;
+    PdbStructureMapType  pdbStructureMap;
+    //map <const String, PdbStructure> pdbStructureMap;
 
 public:
     #ifdef BuildNtC

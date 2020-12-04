@@ -549,31 +549,24 @@ void BiopolymerClass::renumberPdbResidues(ResidueID firstResidueID ) {
 }
 
 ResidueID BiopolymerClass::getResidueID(const int residueIndex)  {
-    if (residueIDVector.size() > 0) {
-        return residueIDVector[residueIndex];
-    }
+    
     //else
-    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Why are you even contemplating this ridiculous means of getting a residueID?  Just use the residueIDVector!"<<endl);
+    if (residueIDVector.size() == 0) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Why are you even contemplating this ridiculous means of getting a residueID?  Just use the residueIDVector!"<<endl);
+    }
+    return residueIDVector[residueIndex];
 
-    ResidueID myResidueID;
-    myResidueID.setResidueNumber(myBiopolymer.getResidue(ResidueInfo::Index(residueIndex)).getPdbResidueNumber());
-    myResidueID.setInsertionCode(myBiopolymer.getResidue(ResidueInfo::Index(residueIndex)).getPdbInsertionCode());
-    return myResidueID;
+    //ResidueID myResidueID;
+    //myResidueID.setResidueNumber(myBiopolymer.getResidue(ResidueInfo::Index(residueIndex)).getPdbResidueNumber());
+    //myResidueID.setInsertionCode(myBiopolymer.getResidue(ResidueInfo::Index(residueIndex)).getPdbInsertionCode());
+    //return myResidueID;
 }
 
-int  BiopolymerClass::matchCoordinates(String inputFileName, 
-                                       bool matchExact, bool matchIdealized,
-                                       const bool matchOptimize ,  
-                                       bool matchHydrogenAtomLocations, 
-                                       bool matchPurineN1AtomLocations,
-                                       bool guessCoordinates ,  
-                                       double matchingMinimizerTolerance, 
-                                       double myPlanarityThreshold   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
 
-    ) {
-        MMBLOG_FILE_FUNC_LINE(INFO, "about to match chain \""<< getChainID()<<"\" to file name : "<<inputFileName<<endl);
-    //if(pdbStructure == NULL)
-    {
+PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, PdbStructureMapType & pdbStructureMap ){
+        if (pdbStructureMap.find(inputFileName) != pdbStructureMap.end()) {
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
+	}
         PdbStructure myPdbStructure;
         
         //============================================ Read in PDB or CIF
@@ -589,7 +582,134 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
                 }
                 else
                 {
+                    // SCF this could be where the structure matching with prefix problem arises. Why not use the pdbStructureMap?			 
+                    //myPdbStructure                    = PdbStructure (inputFile); // Replaced with the below, borrowed from loadSequencesFromPdb:
+                    ifstream pdbfile                              ( inputFileName.c_str()) ;
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
+                    myPdbStructure                                = PdbStructure ( pdbfile, chainsPrefix );
+                    pdbfile.close                                 ( );
+                    // pdbSTructureMap was loaded as: pdbStructureMap.insert(pair<String, PdbStructure>(inPDBFileName, myPdbStructure) );
+		    // So could be retrieved with inputFileName
+                }
+            }
+            else if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".cif" )
+            {
+#ifdef GEMMI_USAGE
+                std::ifstream testOpen                ( inputFileName.c_str() );
+                if ( testOpen.good() )
+                {
+                    //myPdbStructure                    = PdbStructure (inputFileName);
+                    ifstream pdbfile                              ( inputFileName.c_str()) ;
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
+                    myPdbStructure                                = PdbStructure ( pdbfile, chainsPrefix );
+                    pdbfile.close                                 ( );
+                }
+                else
+                {
+                    std::string pdbFileHlp            = inputFileName;
+                    pdbFileHlp.append                 ( ".gz" );
+                    
+                    std::ifstream testOpen2           ( pdbFileHlp.c_str() );
+                    if ( testOpen2.good() )
+                    {
+                        //myPdbStructure                = PdbStructure ( pdbFileHlp );
+                        ifstream pdbfile                              ( pdbFileHlp.c_str()) ;
+                        myPdbStructure                                = PdbStructure ( pdbfile, chainsPrefix );
+                        pdbfile.close                                 ( );
+                    }
+                    else
+                    {
+                        MMBLOG_FILE_FUNC_LINE           (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
+                    }
+                    testOpen2.close                   ( );
+                }
+                testOpen.close                        ( );
+#else
+                        MMBLOG_FILE_FUNC_LINE           (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl);
+#endif
+            }
+            else if ( inputFileName.length() > 7 )
+            {
+                if ( inputFileName.substr ( inputFileName.length() - 7, inputFileName.length() - 1) == ".cif.gz" )
+                {
+#ifdef GEMMI_USAGE
+                //myPdbStructure                        = PdbStructure (inputFileName);
+                ifstream pdbfile                              ( inputFileName.c_str()) ;
+                MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
+                myPdbStructure                                = PdbStructure ( pdbfile, chainsPrefix );
+                pdbfile.close                                 ( );
+#else
+                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl);
+#endif
+                }
+                else
+                {
+                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
+                }
+            }
+            else
+            {
+                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
+            }
+        }
+        else
+        {
+            MMBLOG_FILE_FUNC_LINE                       (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
+        }
+    // have to add this to the map..	
+    //
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being linked to a PdbStructure"   << std::endl);
+    pdbStructureMap.insert(pdbStructurePairType(inputFileName, myPdbStructure) );
+    //pdbStructureMap.insert(pir<String, PdbStructure>(inPDBFileName, myPdbStructure) );
+    return myPdbStructure;
+}
+
+PdbStructure generateOrFetchPdbStructure(String inputFileName, String chainsPrefix, PdbStructureMapType & pdbStructureMap ){
+    PdbStructure myPdbStructure;
+    if (pdbStructureMap.find(inputFileName) != pdbStructureMap.end()) {
+        MMBLOG_FILE_FUNC_LINE(DEBUG   , " The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
+	myPdbStructure = pdbStructureMap.find(inputFileName)->second ;
+    } else { 
+        MMBLOG_FILE_FUNC_LINE(DEBUG   , " The pdbStructureMap does NOT have a PdbStructure linked to inputFileName "<<inputFileName<<" .. generating one now.."<<endl);
+        myPdbStructure = generatePdbStructure(inputFileName, chainsPrefix, pdbStructureMap);	    
+    }
+    return myPdbStructure;
+}
+
+int  BiopolymerClass::matchCoordinates(String inputFileName, 
+                                       bool matchExact, bool matchIdealized,
+                                       const bool matchOptimize ,  
+                                       bool matchHydrogenAtomLocations, 
+                                       bool matchPurineN1AtomLocations,
+                                       bool guessCoordinates ,  
+                                       double matchingMinimizerTolerance, 
+                                       double myPlanarityThreshold,   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
+				       PdbStructureMapType & pdbStructureMap
+
+    ) {
+    MMBLOG_FILE_FUNC_LINE(INFO, "about to match chain \""<< getChainID()<<"\" having prefix \""<< getChainPrefix()<<"\" to file name : "<<inputFileName<<" using generateOrFetchPdbStructure " <<endl);
+    PdbStructure myPdbStructure = generateOrFetchPdbStructure(inputFileName, getChainPrefix(), pdbStructureMap);
+    //if(pdbStructure == NULL)
+    //{
+
+        /*
+        //============================================ Read in PDB or CIF
+        if ( inputFileName.length() > 4 )
+        {
+            if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
+            {
+                std::ifstream inputFile               ( inputFileName.c_str(), ifstream::in );
+                
+                if ( !inputFile.good() )
+                {
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
+                }
+                else
+                {
+                    // SCF this could be where the structure matching with prefix problem arises. Why not use the pdbStructureMap?			 
                     myPdbStructure                    = PdbStructure (inputFile);
+                    // pdbSTructureMap was loaded as: pdbStructureMap.insert(pair<String, PdbStructure>(inPDBFileName, myPdbStructure) );
+		    // So could be retrieved with inputFileName
                 }
             }
             else if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".cif" )
@@ -645,11 +765,11 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
         {
             MMBLOG_FILE_FUNC_LINE                       (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
         }
-        
-        return matchCoordinates( myPdbStructure, matchExact, matchIdealized, matchOptimize,
+        */
+    return matchCoordinates( myPdbStructure, matchExact, matchIdealized, matchOptimize,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                          guessCoordinates, matchingMinimizerTolerance, myPlanarityThreshold);
-    }
+    //}
     /*
     else
     {
@@ -876,7 +996,8 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
                                            const vector<Displacement> displacementVector,
                                            double matchingMinimizerTolerance, 
                                            double myPlanarityThreshold,
-                                           vector<SecondaryStructureStretch> secondaryStructureStretchVector  
+                                           vector<SecondaryStructureStretch> secondaryStructureStretchVector  ,
+					   PdbStructureMapType & pdbStructureMap
                                           ) 
 {
     //int returnValue = 0;
@@ -904,7 +1025,7 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
     }
     if (this->loadFromPdb) {
         //returnValue = 
-        if (matchCoordinates(this->pdbFileName, matchExact, matchIdealized,matchOptimize ,matchHydrogenAtomLocations,matchPurineN1AtomLocations, guessCoordinates, matchingMinimizerTolerance,myPlanarityThreshold )) {
+        if (matchCoordinates(this->pdbFileName, matchExact, matchIdealized,matchOptimize ,matchHydrogenAtomLocations,matchPurineN1AtomLocations, guessCoordinates, matchingMinimizerTolerance,myPlanarityThreshold,   pdbStructureMap )) {
             cout<<__FILE__<<":"<<__LINE__<<" Warning: Returned an error from matchCoordinates"<<std::endl;
             //return 1;
         }
@@ -2483,7 +2604,8 @@ int  BiopolymerClassContainer::initializeBiopolymers(CompoundSystem & system,
                                                                   displacementVector,
                                                                   matchingMinimizerTolerance,
                                                                   myPlanarityThreshold,
-                                                                  secondaryStructureStretchVector
+                                                                  secondaryStructureStretchVector,
+								  pdbStructureMap
                                                                   );  
         if (returnValue){
             MMBLOG_FILE_FUNC_LINE(WARNING, "Returned an error from initializeBiopolymer"<<endl);
@@ -2515,7 +2637,8 @@ int  BiopolymerClassContainer::initializeBiopolymer(String chainID, CompoundSyst
                              initialSeparation, displacementVector,
                              matchingMinimizerTolerance,
                              myPlanarityThreshold,
-                             secondaryStructureStretchVector)) {
+                             secondaryStructureStretchVector,
+			     pdbStructureMap)) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Returned an error from initializeBiopolymer"<<endl);
     }
     return 0;
@@ -3722,17 +3845,19 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     GeneralForceSubsystem forces(system);
     DuMMForceFieldSubsystem dumm(system);
     dumm.loadAmber99Parameters();
-    MMBLOG_FILE_FUNC_LINE(INFO, "About to issue myPDBReader.createCompounds( system)"<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to issue myPDBReader.createCompounds( system,chainsPrefix)"<<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "Prefix = "<< chainsPrefix                           <<endl);
     myPDBReader.createCompounds( system, chainsPrefix );
     MMBLOG_FILE_FUNC_LINE(INFO, "Done with myPDBReader.createCompounds( system)"<<endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "system.getNumCompounds() = "<<system.getNumCompounds() <<endl);
-    
+    PdbStructure myPdbStructure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap);
+    /* 
     //================================================ Use PDB reader or CIF reader depending on the extension.
     PdbStructure myPdbStructure;
     if ( inPDBFileName.substr ( inPDBFileName.length() - 4, inPDBFileName.length() - 1) == ".pdb" )
     {
         //============================================ No problem, continue as usual
-        MMBLOG_FILE_FUNC_LINE(INFO, "Filename " << inPDBFileName << " suggests PDB file. Using the PDB file reader ... " << endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, "Filename " << inPDBFileName << " suggests PDB file. Using the PDB file reader ... reading in with prefix of >" << chainsPrefix <<"< " << endl);
         ifstream pdbfile                              ( inPDBFileName.c_str()) ;
         myPdbStructure                                = PdbStructure ( pdbfile, chainsPrefix );
         pdbfile.close                                 ( );
@@ -3746,6 +3871,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     pdbStructureMap.insert(pair<String, PdbStructure>(inPDBFileName, myPdbStructure) );
+    */
     MMBLOG_FILE_FUNC_LINE(INFO, "myPdbStructure.getNumModels() "<<myPdbStructure.getNumModels()<<endl);
     int myNumChains =  myPdbStructure.getModel(Pdb::ModelIndex(0)).getNumChains();
     // PdbStructure can sometimes come up with a higher chain count. Maybe it puts in some HETATOM's or HOH's as extra chains. So we will use this one which we get more from CompoundSystem:

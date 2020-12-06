@@ -33,7 +33,7 @@ void SimTK::CIFOut::writeOutCif ( gemmi::Structure outStruct, std::string fileNa
     //================================================ Update all blocks
     for ( unsigned int blIter = 0; blIter < static_cast<unsigned int> ( outDocument.blocks.size() ); blIter++ )
     {
-        gemmi::update_cif_block                       ( outStruct, outDocument.blocks.at(blIter), true );
+        gemmi::update_mmcif_block                       ( outStruct, outDocument.blocks.at(blIter), true );
     }
     
     //================================================ Open output stream

@@ -55,7 +55,13 @@ SET(OpenMM_SHARED_LIBS
 SET(OpenMM_SHARED_LIBS_D
         debug OpenMM_d)
 
-SET(SimTK_SHARED_LIBS 
+SET(OpenMM_STATIC_LIBS
+        optimized OpenMM_static)
+
+SET(OpenMM_STATIC_LIBS_D
+        debug OpenMM_static_d)
+
+    SET(SimTK_SHARED_LIBS
         optimized SimTKmolmodel 
         optimized SimTKsimbody 
         optimized SimTKmath
@@ -395,8 +401,8 @@ IF (BUILD_MMB_STATIC)
     TARGET_LINK_LIBRARIES(${STATIC_MMB_TARGET}
               ${SimTK_STATIC_LIBS_D}
               ${SimTK_STATIC_LIBS}
-              ${OpenMM_SHARED_LIBS_D}
-              ${OpenMM_SHARED_LIBS}
+              ${OpenMM_STATIC_LIBS_D}
+              ${OpenMM_STATIC_LIBS}
               ${SimTK_GENERAL_LIBS})
               
     ##################
@@ -418,8 +424,8 @@ IF (BUILD_MMB_STATIC)
               optimized MMBlib_static
               ${SimTK_STATIC_LIBS_D}
               ${SimTK_STATIC_LIBS}
-              ${OpenMM_SHARED_LIBS_D}
-              ${OpenMM_SHARED_LIBS}
+              ${OpenMM_STATIC_LIBS_D}
+              ${OpenMM_STATIC_LIBS}
               ${SimTK_GENERAL_LIBS})
               
     ##################

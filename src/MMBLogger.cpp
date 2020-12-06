@@ -43,6 +43,13 @@ MMBLogger & MMBLogger::instance() {
     return *s_me;
 }
 
+void MMBLogger::flush() {
+    std::lock_guard<std::mutex> lk{_writeMutex};
+
+    _output->flush();
+    _newlinesSinceFlush = 0;
+}
+
 void MMBLogger::log(const Severity severity, const std::ostringstream& oss, const bool printSeverity) {
     assert(_output != nullptr);
 
@@ -75,7 +82,7 @@ void MMBLogger::maybeFlush(const std::string &msg) {
     for (const auto &ch : msg)
         _newlinesSinceFlush += size_t(ch == '\n');
 
-    if (_newlinesSinceFlush > 5) {
+    if (_newlinesSinceFlush > 20) {
         _output->flush();
         _newlinesSinceFlush = 0;
     }

@@ -41,7 +41,7 @@ RUN mkdir /github/simbody/build
 WORKDIR  /github/simbody/build
 RUN cmake ..
 #install prefix is /usr/local
-RUN make install 
+RUN make install
 
 # MMB part
 RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
@@ -50,7 +50,7 @@ RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
 RUN mkdir /github/MMB/3rdparty/openmm/build
 WORKDIR /github/MMB/3rdparty/openmm/build
 RUN cmake ..
-RUN make install 
+RUN make install
 # default install directory is /usr/local/openmm
 
 #WORKDIR /github/MMB
@@ -78,7 +78,19 @@ RUN make install
 RUN mkdir /github/MMB/build
 WORKDIR /github/MMB/build
 RUN git pull --all
-RUN cmake -DBuild_GEMMI=TRUE -DGEMMI_INCLUDE_DIR=/github/gemmi/include -DLepton_INCLUDE_DIR=/github/MMB/3rdparty/Lepton1.3/include -DOpenMM_INSTALL_DIR=//usr/local/openmm  -DOpenMM_INCLUDE_DIR="/usr/local/openmm/include/openmm/reference/;/usr/local/openmm/include/openmm/;/usr/local/openmm/include"  -DCMAKE_BUILD_TYPE=Release -DSeqAn_INCLUDE_DIR=/github/seqan/include -DCMAKE_CXX_FLAGS="-std=c++14 -D BuildNtC -D USE_OPENMM" -DSimTK_INSTALL_DIR=/usr/local -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_PREFIX_PATH=/usr/local -DCMAKE_INSTALL_PREFIX=/usr/local  ..
+RUN cmake .. \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_INSTALL_PREFIX="/usr/local" \
+	-DBuild_GEMMI=TRUE \
+	-DGEMMI_INCLUDE_DIR="/github/gemmi/include" \
+	-DLepton_INCLUDE_DIR="/github/MMB/3rdparty/Lepton1.3/include" \
+	-DOpenMM_INSTALL_DIR="/usr/local/openmm" \
+	-DOpenMM_INCLUDE_DIR="/usr/local/openmm/include" \
+	-DSeqAn_INCLUDE_DIR="/github/seqan/include" \
+	-DSimTK_INSTALL_DIR="/usr/local/simbody" \
+	-DSimbody_DIR="/usr/local/lib/cmake/simbody" \
+	-Dmolmodel_INSTALL_DIR="/usr/local/molmodel" \
+	-DCMAKE_CXX_FLAGS="-std=c++14 -D BuildNtC -D USE_OPENMM"
 #RUN cmake -DBuild_GEMMI=FALSE -DLepton_INCLUDE_DIR=/github/MMB/3rdparty/Lepton1.3/include -DOpenMM_INSTALL_DIR=//usr/local/openmm  -DOpenMM_INCLUDE_DIR="/usr/local/openmm/include/openmm/reference/;/usr/local/openmm/include/openmm/;/usr/local/openmm/include"  -DCMAKE_BUILD_TYPE=Release -DSeqAn_INCLUDE_DIR=/github/seqan/include -DCMAKE_CXX_FLAGS="-std=c++14 -D BuildNtC -D USE_OPENMM" -DSimTK_INSTALL_DIR=/usr/local -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_PREFIX_PATH=/usr/local -DCMAKE_INSTALL_PREFIX=/usr/local  ..
 
 

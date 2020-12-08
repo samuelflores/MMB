@@ -53,6 +53,7 @@ private:
 
 class GlobalProgressWriter {
 public:
+    static void close();
     static void initialize(const std::string &path);
     static AbstractProgressWriter & get();
     static bool isInitialized();

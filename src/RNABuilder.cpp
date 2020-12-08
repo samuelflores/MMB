@@ -34,8 +34,10 @@ void sig_handler(int signum) {
         return;
 
     GlobalProgressWriter::get().update(ProgressWriter::State::FINISHED);
+    GlobalProgressWriter::close();
 
-    std::exit(EXIT_SUCCESS);
+    std::cerr << "SIGTERM-ing" << signum << std::endl;
+    std::quick_exit(EXIT_SUCCESS);
 }
 
 static struct option long_opts[] = {

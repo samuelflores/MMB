@@ -5118,7 +5118,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     //halfSpaceMaxX=100;
     hardSphereStiffnessMultiplier= 1. ;
     inQVectorFileName = "NOT-SET";
-    initialSeparation = 1; // nm
+    initialSeparation = 2; // nm
     integratorAccuracy =.0001;      
     integratorStepSize= .001;      
     integratorType= "RungeKuttaMerson";

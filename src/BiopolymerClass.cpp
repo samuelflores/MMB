@@ -822,6 +822,13 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
     map<Compound::AtomIndex, Vec3>::iterator it;
     map<Compound::AtomIndex, Vec3>::iterator next;
     next = biopolymerAtomTargets.begin();
+    if (biopolymerAtomTargets.size() == 0 )  {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " biopolymerAtomTargets.size() = "<<biopolymerAtomTargets.size()<<" so we are setting loadPdb to False for chain "<<getChainID()<<endl);
+        setLoadFromPdb(0);
+    } else {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " biopolymerAtomTargets.size() = "<<biopolymerAtomTargets.size()<<" and  getLoadFromPdb() = " << getLoadFromPdb() <<" for chain "<<getChainID()<<endl);
+    }
+    
     while (next != biopolymerAtomTargets.end())
     {
         it = next;
@@ -1069,12 +1076,15 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
  //896         setProteinCapping (myProteinCapping);
 
 
-    if (this->loadFromPdb) {
+    if (this->getLoadFromPdb()){
         MMBLOG_FILE_FUNC_LINE(INFO, firstResidueID.getResidueNumber() << endl);
         MMBLOG_FILE_FUNC_LINE(INFO, "Adopting chain "<<getChainID()<<" with displacement from input structure file of : "<<initialDisplacementVec3<<" Å "<<getSequence()<<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, "Current rotation : "<<myRotation<<endl);
-        system.adoptCompound(myBiopolymer ,Transform(myRotation, (initialDisplacementVec3/1)) );} // used to convert to nm, now using nm directly. 
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "  getLoadFromPdb() = " << getLoadFromPdb() <<" for chain "<<getChainID()<<endl);
+        system.adoptCompound(myBiopolymer ,Transform(myRotation, (initialDisplacementVec3/1)) );
+    } // used to convert to nm, now using nm directly. 
     else {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "  getLoadFromPdb() = " << getLoadFromPdb() <<" for chain "<<getChainID()<<endl);
         system.adoptCompound(myBiopolymer ,Vec3(biopolymerClassIndex,biopolymerClassIndex,biopolymerClassIndex  )*initialSeparation/1);  // used to convert to nm, now using nm directly
 
     }

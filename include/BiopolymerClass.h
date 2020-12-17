@@ -28,9 +28,9 @@ class WaterDroplet; // forward declaration
 typedef char TChar;                             // character type
 typedef seqan::String<TChar> TSequence;                // sequence type
 typedef seqan::Align<TSequence, seqan::ArrayGaps> TAlign;
-typedef pair <const String, PdbStructure> pdbStructurePairType;
+typedef pair <const string, PdbStructure> pdbStructurePairType;
 //typedef map pdbStructurePairType PdbStructureMapType ;
-typedef map <const String, PdbStructure> PdbStructureMapType ;
+typedef map <const string, PdbStructure> PdbStructureMapType ;
 
 
 void         printBiopolymerSequenceInfo(const Biopolymer & myBiopolymer) ;
@@ -62,23 +62,23 @@ private:
     vector<MMBAtomInfo> atomInfoVector;
     vector<MMBAtomInfo> ignoreAtomPositionVector;
     vector<ResidueID> residueIDVector; // the element index should match the residue index for fast retrieval
-    String  pdbFileName;
+    String      pdbFileName;
     PdbStructure pdbStructure;
-    bool    loadFromPdb;
-    void    clear(); // sets all methods to empty values
-    void    validateChainID();
-    void    validateResidueNumbersAndInsertionCodes(); // Calls checkResidueNumbersAndInsertionCodes, dies if it finds a problem.
-    bool    residueIsPurine (int residueIndex, String mySequence);
-    bool    residueIsPurine (int residueIndex);
-    int     validateSequence() ;  
-    int     validateBiopolymerType() const;  
-    int     validateProteinCapping();
+    bool        loadFromPdb;
+    void        clear(); // sets all methods to empty values
+    void        validateChainID();
+    void        validateResidueNumbersAndInsertionCodes(); // Calls checkResidueNumbersAndInsertionCodes, dies if it finds a problem.
+    bool        residueIsPurine (int residueIndex, String mySequence);
+    bool        residueIsPurine (int residueIndex);
+    int         validateSequence() ;  
+    int         validateBiopolymerType() const;  
+    int         validateProteinCapping();
 
     // Does not work because of incomplete template class decleration (forward declaration)
     // ResidueStretchContainer<ResidueStretch> inactiveResidueStretches;
 
     //Temporary
-    bool activePhysics;
+    bool    activePhysics;
     // There is a reason this method is private.  It does not handle the FirstResidue and LastResidue keywords.  Use the BiopolymerClassContainer method, which requires a chain ID.
     ResidueID   residueID(map<const String,double> myUserVariables, const   char* value);
                                        
@@ -419,10 +419,15 @@ public:
     #endif
     int     count = 0;
 
-    BiopolymerClassContainer(){};
+    BiopolymerClassContainer(); //{clear();}; // best to define in .cpp
     map <const String, BiopolymerClass> getBiopolymerClassMap () const {return biopolymerClassMap;};
     vector<AtomicPropertyOverrideStruct> atomicPropertyOverrideVector;
     void        clear(); //: deletes all BiopolymerClass's in biopolymerClassMap, as well as other linked lists
+    void        writePdbStructureMapDiagnostics(){
+        MMBLOG_FILE_FUNC_LINE(INFO,"pdbStructureMap.size() = "<<pdbStructureMap.size()<<std::endl);
+        MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
+        MMBLOG_FILE_FUNC_LINE(INFO,"pdbStructureMap.empty() = "<<pdbStructureMap.empty()<<std::endl);
+    }
     int         getNumBiopolymers(){return biopolymerClassMap.size();}
     size_t      getTotalNumAtoms();
     vector<SecondaryStructureStretch> secondaryStructureStretchVector;

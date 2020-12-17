@@ -295,6 +295,9 @@ ChainResidueIndex::ChainResidueIndex(int myChainIndex,  int myResidueIndex) {
     chainIndex = myChainIndex;
 };
 ParameterReader::ParameterReader() {
+    clearContainers();
+    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+    myBiopolymerClassContainer.writePdbStructureMapDiagnostics(); //This is just a debug flag
 };
 
 void ParameterReader::addC1pSprings (LeontisWesthofClass myLeontisWesthofClass) {
@@ -5010,9 +5013,11 @@ void ParameterReader::clearContainers(){
     clearForces();
     clearBiopolymers();
     moleculeClassContainer.clear();
-    myBiopolymerClassContainer.secondaryStructureStretchVector.clear();
+    // secondaryStructureStretchVector.clear() is now included in :
+    myBiopolymerClassContainer.clear(); //secondaryStructureStretchVector.clear();
+    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+    myBiopolymerClassContainer.writePdbStructureMapDiagnostics(); //This is just a debug flag
     displacementContainer.clear();
-
     atomSpringContainer.clear();
 }
 

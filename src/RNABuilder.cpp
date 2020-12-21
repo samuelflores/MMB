@@ -28,7 +28,6 @@
 
 static struct option long_opts[] = {
     {"commands",  required_argument, 0,        'C'},
-    {"directory", required_argument, 0,        'D'},
     {"HELP",      no_argument,       0,        'H'},
     {"output",    required_argument, 0, PARAM_DOUT},
     {"progress",  required_argument, 0, PARAM_PROG},
@@ -60,24 +59,17 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
     String option ="";
     String arg ="";
     String parameterFile = "commands.dat";
-    String outputDir = "./";
     String progressFile = "";
     String diagOutputFile = "";
     std::ofstream diagOutputStm;
 
-
     MMBLOG_FILE_FUNC_LINE(INFO, " Current working directory: "<<Pathname::getCurrentWorkingDirectory()<<endl);
-
-    bool useCurrentDir = true;
 
     int oc, opt_idx = 0;
     while ((oc = getopt_long_only(num_args, args, "C:D:H", long_opts, &opt_idx)) != -1) {
         switch (oc) {
         case 'C':
             parameterFile = optarg;
-            break;
-        case 'D':
-            outputDir = optarg;
             break;
         case 'H':
             printUsage();
@@ -103,29 +95,10 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
        }
     }
 
-    /* determine the directory that the RNABuilder executable is in */
-    if( useCurrentDir ) {
-        String dir = args[0];
-        int slashPos = dir.find_last_of("/");
-        if( slashPos < 0 ) {
-            outputDir = "./";
-        } else {
-            outputDir  = dir.substr(0,slashPos+1 );
-        }
-    }
-
-    cout << " output directory = " << outputDir << endl;
-
     GlobalProgressWriter::initialize(progressFile);
 
     try 
     {
-
-        //int stdReportingIntervals = 20000;
-        //int stdReportingIntervals =  50;
-        //int startHere = 0;
-        //int firsti = 1;
-        //int lasti  = 3;
         stringstream ss2b;
         stringstream ss3;
         map<const char*, int, strCmp> firstResidueNumbers;

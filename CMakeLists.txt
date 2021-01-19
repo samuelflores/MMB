@@ -168,6 +168,16 @@ ELSEIF(UNIX)
     SET(CMAKE_GENERATOR "Unix Makefiles" CACHE STRING "Since you on Unix, we assume you want to use a Makefile" ) 
 ENDIF()
 
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 9.0.0)
+        ADD_DEFINITIONS("-DUSE_MMB_CONSTEXPR")
+    endif ()
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.4)
+        ADD_DEFINITIONS("-DUSE_MMB_CONSTEXPR")
+    endif ()
+endif ()
+
 # List source files explicitly here since there is junk in the src
 # directory that we don't want to include here.
 SET(MMB_LIBRARY_SOURCE_FILES
@@ -484,5 +494,3 @@ IF (BUILD_MMB_GUI_TEST)
     )
 
 ENDIF (BUILD_MMB_GUI_TEST)
-
-

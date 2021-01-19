@@ -8,6 +8,6 @@
     #define __IMPOSSIBLE__ std::abort()
 #else
     #define __IMPOSSIBLE__ assert(false)
-#endif // NDEBUB
+#endif // NDEBUG
 
 #endif // Impossible_H_

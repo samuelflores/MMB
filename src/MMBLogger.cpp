@@ -1,4 +1,5 @@
 #include "MMBLogger.h"
+#include "Constexpr.h"
 #include "Impossible.h"
 #include "ProgressWriter.h"
 
@@ -7,8 +8,8 @@
 static std::mutex initMutex;
 
 inline
-constexpr
-const char * msgPrefix(const MMBLogger::Severity severity) {
+MMB_CONSTEXPR
+const char * msgPrefix(const MMBLogger::Severity severity) noexcept {
     switch (severity) {
     case MMBLogger::Severity::DEBUG:
         return "DEBUG: ";

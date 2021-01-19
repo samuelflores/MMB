@@ -224,6 +224,7 @@ IF (Build_NtC)
         ${PROJECT_SOURCE_DIR}/src/NtCClassContainer.cpp
         ${PROJECT_SOURCE_DIR}/src/NtCForces.cpp
         )
+    ADD_DEFINITIONS("-DBuildNtC")
 ENDIF(Build_NtC)
 # If Build_Lepton
 IF (Build_Lepton)

@@ -1,3 +1,4 @@
+/* vim: set ts=4 sw=4 sts=4 expandtab */
 
 /* -------------------------------------------------------------------------- *
                           MMB (MacroMoleculeBuilder)                       
@@ -11,9 +12,10 @@
 #include <vector>
 
 #include <getopt.h>
+#include <signal.h>
 
 #include "MMBLogger.h"
- #include "SimTKmolmodel.h"
+#include "SimTKmolmodel.h"
  //#include "SimTKsimbody_aux.h"
 #include "ParameterReader.h"
 #include "Repel.h"
@@ -25,6 +27,18 @@
 
 #define PARAM_DOUT 257
 #define PARAM_PROG 256
+
+static
+void sig_handler(int signum) {
+    if (signum != SIGTERM)
+        return;
+
+    GlobalProgressWriter::get().update(ProgressWriter::State::FINISHED);
+    GlobalProgressWriter::close();
+
+    std::cerr << "SIGTERM-ing" << signum << std::endl;
+    std::quick_exit(EXIT_SUCCESS);
+}
 
 static struct option long_opts[] = {
     {"commands",  required_argument, 0,        'C'},
@@ -96,6 +110,8 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
     }
 
     GlobalProgressWriter::initialize(progressFile);
+    if (signal(SIGTERM, sig_handler) == SIG_ERR)
+	    MMBLOG_PLAIN(CRITICAL, "Failed to install SIGTERM handler");
 
     try 
     {

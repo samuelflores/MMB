@@ -156,6 +156,10 @@ void ProgressWriter::write(const bool wait) {
 
 std::unique_ptr<AbstractProgressWriter> GlobalProgressWriter::_writer{nullptr};
 
+void GlobalProgressWriter::close() {
+    _writer = nullptr;
+}
+
 void GlobalProgressWriter::initialize(const std::string &path) {
     if (path.length() == 0)
         _writer = std::make_unique<DummyProgressWriter>();
@@ -164,6 +168,7 @@ void GlobalProgressWriter::initialize(const std::string &path) {
 }
 
 AbstractProgressWriter & GlobalProgressWriter::get() {
+    assert(_writer != nullptr);
     return *_writer;
 }
 

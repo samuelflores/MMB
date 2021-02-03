@@ -574,20 +574,16 @@ PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, Pdb
         {
             if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
             {
-                std::ifstream inputFile               ( inputFileName.c_str(), ifstream::in );
-                
+                std::ifstream inputFile               ( inputFileName );
+
                 if ( !inputFile.good() )
                 {
                     MMBLOG_FILE_FUNC_LINE(CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
                 }
                 else
                 {
-                    // SCF this could be where the structure matching with prefix problem arises. Why not use the pdbStructureMap?			 
-                    //myPdbStructure                    = PdbStructure (inputFile); // Replaced with the below, borrowed from loadSequencesFromPdb:
-                    ifstream pdbfile                              ( inputFileName.c_str()) ;
                     MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
-                    myPdbStructure                                = PdbStructure ( pdbfile, chainsPrefix );
-                    pdbfile.close                                 ( );
+                    myPdbStructure                                = PdbStructure ( inputFile, chainsPrefix );
                     // pdbSTructureMap was loaded as: pdbStructureMap.insert(pair<String, PdbStructure>(inPDBFileName, myPdbStructure) );
 		    // So could be retrieved with inputFileName
                 }
@@ -595,37 +591,10 @@ PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, Pdb
             else if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".cif" )
             {
 #ifdef GEMMI_USAGE
-                std::ifstream testOpen                ( inputFileName.c_str() );
-                if ( testOpen.good() )
-                {
-                    //myPdbStructure                    = PdbStructure (inputFileName);
-                    ifstream pdbfile                              ( inputFileName.c_str()) ;
-                    MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
-                    myPdbStructure                                = PdbStructure ( pdbfile, chainsPrefix );
-                    pdbfile.close                                 ( );
-                }
-                else
-                {
-                    std::string pdbFileHlp            = inputFileName;
-                    pdbFileHlp.append                 ( ".gz" );
-                    
-                    std::ifstream testOpen2           ( pdbFileHlp.c_str() );
-                    if ( testOpen2.good() )
-                    {
-                        //myPdbStructure                = PdbStructure ( pdbFileHlp );
-                        ifstream pdbfile                              ( pdbFileHlp.c_str()) ;
-                        myPdbStructure                                = PdbStructure ( pdbfile, chainsPrefix );
-                        pdbfile.close                                 ( );
-                    }
-                    else
-                    {
-                        MMBLOG_FILE_FUNC_LINE           (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
-                    }
-                    testOpen2.close                   ( );
-                }
-                testOpen.close                        ( );
+                MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
+                myPdbStructure                                = PdbStructure ( inputFileName, chainsPrefix );
 #else
-                        MMBLOG_FILE_FUNC_LINE           (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl);
+                MMBLOG_FILE_FUNC_LINE           (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl);
 #endif
             }
             else if ( inputFileName.length() > 7 )
@@ -633,11 +602,8 @@ PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, Pdb
                 if ( inputFileName.substr ( inputFileName.length() - 7, inputFileName.length() - 1) == ".cif.gz" )
                 {
 #ifdef GEMMI_USAGE
-                //myPdbStructure                        = PdbStructure (inputFileName);
-                ifstream pdbfile                              ( inputFileName.c_str()) ;
                 MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
-                myPdbStructure                                = PdbStructure ( pdbfile, chainsPrefix );
-                pdbfile.close                                 ( );
+                myPdbStructure                                = PdbStructure ( inputFileName, chainsPrefix );
 #else
                 MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl);
 #endif

@@ -6,7 +6,11 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
-PROJECT(MMB)
+PROJECT(MMB LANGUAGES CXX)
+
+SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_EXTENSIONS OFF)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 SET( MMB_MAJOR_VERSION 3 )
 SET( MMB_MINOR_VERSION 3 )
@@ -157,6 +161,7 @@ IF(APPLE)
         "The processor architectures to build for")
 ENDIF(APPLE)
 
+ADD_DEFINITIONS("-DUSE_OPENMM")
 IF(DISP_OPENMM_MSGS)
     ADD_DEFINITIONS("-DWARN_OPENMM_REALVEC -DWARN_USE_OPENMM")
 ENDIF(DISP_OPENMM_MSGS)
@@ -167,6 +172,16 @@ IF(APPLE)
 ELSEIF(UNIX)
     SET(CMAKE_GENERATOR "Unix Makefiles" CACHE STRING "Since you on Unix, we assume you want to use a Makefile" ) 
 ENDIF()
+
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 9.0.0)
+        ADD_DEFINITIONS("-DUSE_MMB_CONSTEXPR")
+    endif ()
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.4)
+        ADD_DEFINITIONS("-DUSE_MMB_CONSTEXPR")
+    endif ()
+endif ()
 
 # List source files explicitly here since there is junk in the src
 # directory that we don't want to include here.
@@ -210,6 +225,7 @@ IF (Build_NtC)
         ${PROJECT_SOURCE_DIR}/src/NtCClassContainer.cpp
         ${PROJECT_SOURCE_DIR}/src/NtCForces.cpp
         )
+    ADD_DEFINITIONS("-DBuildNtC")
 ENDIF(Build_NtC)
 # If Build_Lepton
 IF (Build_Lepton)
@@ -484,5 +500,3 @@ IF (BUILD_MMB_GUI_TEST)
     )
 
 ENDIF (BUILD_MMB_GUI_TEST)
-
-

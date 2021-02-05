@@ -20,8 +20,8 @@ namespace SimTK
     namespace CIFOut
     {
 #ifdef GEMMI_USAGE
-        void writeOutCif   ( gemmi::Structure outStruct, std::string fileName, std::vector < std::pair < std::string, std::string > > remarks );
-        void reWriteOutCif ( gemmi::Model gModel, std::string modelName, std::string fileName, ParameterReader& myParameterReader, const CompoundSystem& system, bool firstInStage );
+        void writeOutCif   ( const gemmi::Structure& outStruct, const std::string& fileName, const std::vector < std::pair < std::string, std::string > >& remarks );
+        void reWriteOutCif ( const gemmi::Model& gModel, const std::string& modelName, const std::string& fileName, ParameterReader& myParameterReader, const CompoundSystem& system, bool firstInStage );
 #endif
     }                                                 // End namespace CIFOut
 }                                                     // End namespace SimTK

@@ -57,7 +57,7 @@ SET(OpenMM_SHARED_LIBS
         optimized OpenMM)
 
 SET(OpenMM_SHARED_LIBS_D
-        debug OpenMM_d)
+        debug OpenMM)
 
 SET(OpenMM_STATIC_LIBS
         optimized OpenMM_static)
@@ -126,7 +126,7 @@ ENDIF(NOT SimTKmolmodel)
 # older system you might have to set it manually.
 SET(LIB64)
 IF( UNIX AND NOT APPLE AND ${CMAKE_SIZEOF_VOID_P} EQUAL 8 )
-    SET(LIB64 64) # LIB64 is just blank, in keeping with new molmodel practice
+    #SET(LIB64 64) # LIB64 is just blank, in keeping with new molmodel practice
 ENDIF()
 
 # Make everything go in the same binary directory. (These are CMake-defined

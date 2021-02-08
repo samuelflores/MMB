@@ -34,8 +34,10 @@ void SimTK::CIFOut::assignEntities ( gemmi::Structure &outStruct, const map <con
     }
 }
 
-void SimTK::CIFOut::buildModel ( const State& state, gemmi::Model& gModel, const map<const String, BiopolymerClass>& biopolymers, const CompoundSystem& system )
+void SimTK::CIFOut::buildModel ( const State& state, gemmi::Model& gModel, const map<const String, BiopolymerClass>& biopolymers, const CompoundSystem& system, int precision )
 {
+    assert(precision > 0);
+
     for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c)
     {
         const auto& sysCompound                    = system.getCompound(c);
@@ -51,7 +53,7 @@ void SimTK::CIFOut::buildModel ( const State& state, gemmi::Model& gModel, const
         bool isPolymer                             = ( bioType == BiopolymerType::RNA ) || ( bioType == BiopolymerType::DNA ) || ( bioType == BiopolymerType::Protein );
 
         //======================================== Build the Gemmi model from molmodel data
-        sysCompound.buildCif                       ( state, &gModel, isPolymer, 3, Transform( Vec3 ( 0 ) ) );
+        sysCompound.buildCif                       ( state, &gModel, isPolymer, precision, Transform( Vec3 ( 0 ) ) );
     }
 }
 

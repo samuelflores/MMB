@@ -90,7 +90,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
     {
 #ifdef GEMMI_USAGE
         const auto &biopolymers = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
-        CIFOut::buildModel( state, gModel, biopolymers, system );
+        CIFOut::buildModel( state, gModel, biopolymers, system, 3 );
 #else
         MMBLOG_FILE_FUNC_LINE(CRITICAL, " Error! Requested mmCIF file output, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl);
 #endif

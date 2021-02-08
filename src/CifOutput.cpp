@@ -76,7 +76,7 @@ void SimTK::CIFOut::reWriteOutCif ( const gemmi::Model& gModel, const std::strin
         //============================================ Add sequence to entities
         int compoundNumber                            = 1;
 
-	auto biopolymerMap                            = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
+        auto biopolymerMap                            = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
         for ( SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c )
         {
             //======================================== Print log
@@ -90,7 +90,7 @@ void SimTK::CIFOut::reWriteOutCif ( const gemmi::Model& gModel, const std::strin
             //======================================== For each structure entity
             for ( decltype(myTrajectoryOutputFile.entities)::size_type enIt = 0; enIt < myTrajectoryOutputFile.entities.size(); enIt++ )
             {
-		auto& entity = myTrajectoryOutputFile.entities[enIt];
+                auto& entity = myTrajectoryOutputFile.entities[enIt];
                 //==================================== If entity name = MMB chain ID
                 if ( entity.name == chainID )
                 {
@@ -99,8 +99,8 @@ void SimTK::CIFOut::reWriteOutCif ( const gemmi::Model& gModel, const std::strin
                     for ( size_t idx = 0; idx < residues.size(); idx++ )
                     {
                         entity.full_sequence[idx] = compound.getPdbResidueName(residues[idx]);
-		    }
-		    break;
+                    }
+                    break;
                 }
             }
             

@@ -424,9 +424,6 @@ public:
     //vector<AtomicPropertyOverrideStruct> atomicPropertyOverrideVector;
     //void        clear(); //: deletes all BiopolymerClass's in biopolymerClassMap, as well as other linked lists
     BiopolymerClassContainer(); //{clear();}; // best to define in .cpp
-    //map <const String, BiopolymerClass> getBiopolymerClassMap () const {return biopolymerClassMap;};
-    // from HEAD (believe Michal Maly):
-    map <const String, BiopolymerClass> getBiopolymerClassMap () {return biopolymerClassMap;};
     const map <const String, BiopolymerClass>& getBiopolymerClassMap () const {return biopolymerClassMap;};
     vector<AtomicPropertyOverrideStruct> atomicPropertyOverrideVector;
     void        clear(); //: deletes all BiopolymerClass's in biopolymerClassMap, as well as other linked lists

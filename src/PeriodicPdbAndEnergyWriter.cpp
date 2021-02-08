@@ -12,6 +12,8 @@
 #include <iostream>
 #include <iomanip>
 
+#include <cassert>
+
 #include "MMBLogger.h"
 #include "PeriodicPdbAndEnergyWriter.h"
 #include "SimTKsimbody.h"
@@ -84,27 +86,18 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
 #endif
     }
 
-    for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c)
+    if ( myParameterReader.useCIFFileFormat )
     {
-        if ( myParameterReader.useCIFFileFormat )
-        {
 #ifdef GEMMI_USAGE
-            //======================================== Print log
-            std::cout <<__FILE__<<":"<<__LINE__<<" c = "<<c<< " compoundNumber = "<<compoundNumber <<std::endl;
-
-            //==================================== Figure out the compound type
-            BiopolymerType::BiopolymerTypeEnum bioType = (myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap ())[myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(compoundNumber-1).getChainID()].getBiopolymerType();
-            bool isPolymer                        = false;
-            if ( ( bioType == BiopolymerType::RNA ) || ( bioType == BiopolymerType::DNA ) || ( bioType == BiopolymerType::Protein ) ) { isPolymer = true; }
-            
-            //======================================== Build the Gemmi model from molmodel data
-            (system.getCompound(c)).buildCif          ( state, &gModel, isPolymer, 3, Transform( Vec3 ( 0 ) ) );
-            
-            //======================================== Update compound number
-            compoundNumber++;
+        const auto &biopolymers = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
+        CIFOut::buildModel( state, gModel, biopolymers, system );
+#else
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Error! Requested mmCIF file output, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl);
 #endif
-        }
-        else
+    }
+    else
+    {
+        for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c)
         {
             (system.getCompound(c)).writePdb(state, outputStream,Transform(Vec3(0)));//, nextAtomSerialNumber);
         }

@@ -580,8 +580,6 @@ PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, Pdb
                 std::ifstream inputFile               ( inputFileName );
 
                 MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
-                std::ifstream inputFile               ( inputFileName );
-                
                 if ( !inputFile.good() )
                 {
                     MMBLOG_FILE_FUNC_LINE(CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);

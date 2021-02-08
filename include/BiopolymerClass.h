@@ -420,7 +420,6 @@ public:
     int     count = 0;
 
     BiopolymerClassContainer(){};
-    map <const String, BiopolymerClass> getBiopolymerClassMap () {return biopolymerClassMap;};
     const map <const String, BiopolymerClass>& getBiopolymerClassMap () const {return biopolymerClassMap;};
     vector<AtomicPropertyOverrideStruct> atomicPropertyOverrideVector;
     void        clear(); //: deletes all BiopolymerClass's in biopolymerClassMap, as well as other linked lists

@@ -1,4 +1,9 @@
 #include "CifOutput.h"
+#include "molmodel/internal/CompoundSystem.h"
+#include <BiopolymerClass.h>
+#include <gemmi/model.hpp>
+
+#include <cassert>
 
 #ifdef GEMMI_USAGE
     #define GEMMI_WRITE_IMPLEMENTATION
@@ -6,7 +11,51 @@
     #include <gemmi/to_cif.hpp>
     #include <gemmi/gz.hpp>
 
-void SimTK::CIFOut::writeOutCif ( const gemmi::Structure &outStruct, const std::string &fileName, const std::vector < std::pair < std::string, std::string > > &remarks )
+void SimTK::CIFOut::assignEntities ( gemmi::Structure &outStruct, const map <const String, BiopolymerClass>& biopolymers, const CompoundSystem& system )
+{
+    //======================================== For each structure entity
+    for ( auto &entity : outStruct.entities )
+    {
+        const auto &chainID = entity.name;
+        const auto cpIt = biopolymers.find(chainID);
+        assert( cpIt != biopolymers.cend() );
+
+        //======================================== Print log
+        std::cout <<__FILE__<<":"<<__LINE__<<" Processing compound with chainID "<<chainID<< std::endl;
+
+        const auto &polymer = cpIt->second.myBiopolymer;
+        //================================ Copy sequence
+        const auto numResidues = polymer.getNumResidues();
+        entity.full_sequence.resize( numResidues );
+        for ( auto idx = 0; idx < numResidues; idx++ )
+        {
+            entity.full_sequence[idx] = polymer.getResidue(ResidueInfo::Index(idx)).getPdbResidueName();
+        }
+    }
+}
+
+void SimTK::CIFOut::buildModel ( const State& state, gemmi::Model& gModel, const map<const String, BiopolymerClass>& biopolymers, const CompoundSystem& system )
+{
+    for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c)
+    {
+        const auto& sysCompound                    = system.getCompound(c);
+        const auto& chainID                        = sysCompound.getPdbChainId();
+
+        const auto cpIt = biopolymers.find(chainID);
+        assert( cpIt != biopolymers.cend() );
+        //======================================== Print log
+        std::cout <<__FILE__<<":"<<__LINE__<<" Processing compound with chainID "<<chainID<<std::endl;
+
+        //==================================== Figure out the compound type
+        BiopolymerType::BiopolymerTypeEnum bioType = cpIt->second.getBiopolymerType();
+        bool isPolymer                             = ( bioType == BiopolymerType::RNA ) || ( bioType == BiopolymerType::DNA ) || ( bioType == BiopolymerType::Protein );
+
+        //======================================== Build the Gemmi model from molmodel data
+        sysCompound.buildCif                       ( state, &gModel, isPolymer, 3, Transform( Vec3 ( 0 ) ) );
+    }
+}
+
+void SimTK::CIFOut::writeOutCif ( const gemmi::Structure& outStruct, const std::string& fileName, const std::vector < std::pair < std::string, std::string > >& remarks )
 {
     //================================================ Create document from the structure with models
     gemmi::cif::Document outDocument                  = gemmi::make_mmcif_document ( outStruct );
@@ -74,42 +123,11 @@ void SimTK::CIFOut::reWriteOutCif ( const gemmi::Model& gModel, const std::strin
         gemmi::assign_subchains                       ( myTrajectoryOutputFile, true );
         
         //============================================ Add sequence to entities
-        int compoundNumber                            = 1;
 
-        const auto& biopolymerMap                     = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
-        for ( SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c )
-        {
-            //======================================== Print log
-            std::cout <<__FILE__<<":"<<__LINE__<<" c = "<<c<< " compoundNumber = "<<compoundNumber <<std::endl;
-            
-            //======================================== Get sequence for compound
-            const auto& chainID                       = myParameterReader.myBiopolymerClassContainer.getBiopolymerClass(compoundNumber-1).getChainID();
-            const auto& compound                      = biopolymerMap.at(chainID);
-            const auto& residues                      = compound.getResidueIdVector();
-
-            //======================================== For each structure entity
-            for ( decltype(myTrajectoryOutputFile.entities)::size_type enIt = 0; enIt < myTrajectoryOutputFile.entities.size(); enIt++ )
-            {
-                auto& entity = myTrajectoryOutputFile.entities[enIt];
-                //==================================== If entity name = MMB chain ID
-                if ( entity.name == chainID )
-                {
-                    //================================ Copy sequence
-                    entity.full_sequence.resize( residues.size() );
-                    for ( size_t idx = 0; idx < residues.size(); idx++ )
-                    {
-                        entity.full_sequence[idx] = compound.getPdbResidueName(residues[idx]);
-                    }
-                    break;
-                }
-            }
-            
-            //======================================== Update compound number
-            compoundNumber++;
-        }
-        
+        const auto& biopolymers                       = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
+        assignEntities                                (myTrajectoryOutputFile, biopolymers, system);
         //============================================ Write out the file
-        writeOutCif ( myTrajectoryOutputFile, fileName, myParameterReader.trajectoryFileRemarks );
+        writeOutCif                                   ( myTrajectoryOutputFile, fileName, myParameterReader.trajectoryFileRemarks );
         
     }
     else

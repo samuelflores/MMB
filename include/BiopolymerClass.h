@@ -66,7 +66,7 @@ private:
     PdbStructure pdbStructure;
     bool    loadFromPdb;
     void    clear(); // sets all methods to empty values
-    void    validateChainID();
+    void    validateChainID() const;
     void    validateResidueNumbersAndInsertionCodes(); // Calls checkResidueNumbersAndInsertionCodes, dies if it finds a problem.
     bool    residueIsPurine (int residueIndex, String mySequence);
     bool    residueIsPurine (int residueIndex);
@@ -95,15 +95,16 @@ public:
     void    printTopLevelTransform(){cout<<__FILE__<<":"<<__LINE__<<" Top level transform for chain "<< getChainID() <<" = "<<myBiopolymer.getTopLevelTransform()<<std::endl; }
     int         checkResidueNumbersAndInsertionCodes(); // Same as validateResidueNumbersAndInsertionCodes but if a problem is found it returns 1 rather than dying.
     void    addAtomPositionToIgnore(MMBAtomInfo myAtom){ignoreAtomPositionVector.push_back(myAtom);}
-    ResidueID   getResidueID    (  int residueIndex)  ;
+    const ResidueID&   getResidueID    (  int residueIndex) const;
     vector<ResidueID>   getResidueIdVector    (  )  {return residueIDVector;};
+    const vector<ResidueID>&   getResidueIdVector (  ) const {return residueIDVector;};
     void    modifyResidue(const BiopolymerModification myBiopolymerModification,Compound  compoundToAdd,  DuMMForceFieldSubsystem & dumm); 
     String  getSequence(){return sequence;}; // gets the sequence
     String  getSequence(const vector <ResidueID> & residueIDVector); // gets the sequence
     String  getSubSequence(const ResidueID startResidue, const ResidueID endResidue); 
-    String  getChainID() {return chainID;} 
+    const String&  getChainID() const {return chainID;}
     void    setChainID(String myChainID ) {chainID = myChainID;cout<<__FILE__<<":"<<__LINE__<<" set chainID to : >"<<getChainID()<<"<"<<endl; } 
-    String  getChainPrefix() {return chainPrefix;} 
+    const String&  getChainPrefix() const {return chainPrefix;}
     void    setChainPrefix(String myChainPrefix ) {chainPrefix = myChainPrefix;} 
 
     //void    setMutationVector(vector<Mutation> myMutationVector ) { mutationVector = myMutationVector; }
@@ -122,7 +123,7 @@ public:
     String  getPdbFileName();
 
     void    setPdbStructure( PdbStructure );
-    PdbStructure getPdbStructure();
+    const PdbStructure& getPdbStructure() const;
     
     void    setLoadFromPdb(bool yesno);
     bool    getLoadFromPdb();
@@ -179,11 +180,10 @@ public:
                              double matchingMinimizerTolerance, 
                              double myPlanarityThreshold);   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
 
-    int         getChainLength();
+    int         getChainLength() const;
     size_t      getNumAtoms();
-    String      getChainID() const{ return chainID;};
-    ResidueID   getFirstResidueID   ();
-    ResidueID   getLastResidueID   ();
+    ResidueID getFirstResidueID   () const;
+    ResidueID getLastResidueID   () const;
     BiopolymerType::BiopolymerTypeEnum  getBiopolymerType() const;
     String  getBiopolymerTypeAsString();
     bool getRenumberPdbResidues (){return myRenumberPdbResidues;}
@@ -195,7 +195,7 @@ public:
     //ResidueID   residueID(map<const String,double> myUserVariables, const   char* value);
     ResidueID   residueID(String inputString);  // this method of converting string to ResidueID has the advantage that it validates against the corresponding biopolymer
     void        validateResidueID(ResidueID myResidueID    );
-    void        validateResidueIndex(int myResidueIndex);
+    void        validateResidueIndex(int myResidueIndex) const;
     void        validateAtomInfoVector();
     bool        hasAtom(  ResidueID myResidueID,   String myAtomName);
     int         validateAtomPathName(  Compound::AtomPathName);
@@ -209,8 +209,8 @@ public:
     Vec3        calcDefaultAtomLocationInGroundFrame(   ResidueID residueID,   String atomName);
     void        loadResidueIDVector();
     void        loadResidueIDVectorAscending(ResidueID firstResidueID);
-    ResidueInfo::Index   getResidueIndex(   ResidueID residueID  ); // called by getPdbResidueName 
-    String  getPdbResidueName(   ResidueID residueID);
+    ResidueInfo::Index   getResidueIndex(const ResidueID& residueID) const; // called by getPdbResidueName 
+    const String&  getPdbResidueName(const ResidueID& residueID) const;
     String      getRepresentativeAtomName(); // returns the name of an atom which is typically used to represent the entire residue, e.g. CA or C4*.
     double      getRepresentativeAtomMassThreshold(); // gets a number slightly larger than the maximum expected mass of the representative atom's mobilized body.
     void        setContactParameters(GeneralContactSubsystem & contacts, HuntCrossleyForce & hc, double excludedVolumeStiffness, bool active );
@@ -420,10 +420,11 @@ public:
     int     count = 0;
 
     BiopolymerClassContainer(){};
-    map <const String, BiopolymerClass> getBiopolymerClassMap () const {return biopolymerClassMap;};
+    map <const String, BiopolymerClass> getBiopolymerClassMap () {return biopolymerClassMap;};
+    const map <const String, BiopolymerClass>& getBiopolymerClassMap () const {return biopolymerClassMap;};
     vector<AtomicPropertyOverrideStruct> atomicPropertyOverrideVector;
     void        clear(); //: deletes all BiopolymerClass's in biopolymerClassMap, as well as other linked lists
-    int         getNumBiopolymers(){return biopolymerClassMap.size();}
+    int         getNumBiopolymers() const {return biopolymerClassMap.size();}
     size_t      getTotalNumAtoms();
     vector<SecondaryStructureStretch> secondaryStructureStretchVector;
     void        addBiopolymerClass(String mySequence, 
@@ -478,9 +479,11 @@ public:
     void        setRenumberPdbResidues (bool myRenumberPdbResidues);
 
     void        validateAtomInfoVectors();
-    BiopolymerClass &   updBiopolymerClass(String myChainID);
-    int                 getBiopolymerClassIndex(String myChainID);
+    const BiopolymerClass &   getBiopolymerClass(const String& myChainID) const;
+    BiopolymerClass &   updBiopolymerClass(const String& myChainID);
+    const BiopolymerClass &   getBiopolymerClass(int biopolymerClassIndex) const;
     BiopolymerClass &   updBiopolymerClass(int biopolymerClassIndex);
+    int                 getBiopolymerClassIndex(String myChainID);
 
     void        addMutationToVector(Mutation myMutation);
     //void      setBondMobility  (const MobilizerContainer myMobilizerContainer ); 
@@ -491,12 +494,12 @@ public:
     //void      addContacts(ContactContainer myContactContainer , GeneralContactSubsystem &,GeneralForceSubsystem &, SimbodyMatterSubsystem &,CompoundSystem & , LeontisWesthofClass & myLeontisWesthofClass ,double excludedVolumeRadius,double excludedVolumeStiffness );
     void        writeDefaultPdb(std::ostream& outputStream);
     void        writePdb(State & state, CompoundSystem & system, std::ostream& outputStream, int modelNumber=1, bool calcEnergy=false, int satisfiedBasePairs=0, int unSatisfiedBasePairs=0);
-    bool        hasChainID(String);
-    int         validateChainID(String);
+    bool        hasChainID(const String& chainID) const;
+    int         validateChainID(const String& chainID) const;
     Vec3        calcAtomLocationInGroundFrame(const State & , String chainID, ResidueID , String );   
     void        newCalcAxes(const State& state,  LeontisWesthofBondRow myLeontisWesthofBondRow,ResidueID residueID1,ResidueID residueID2,String chain1 , String chain2,Vec3 & xAxisVector1,Vec3 & yAxisVector1, Vec3 & zAxisVector1,Vec3 & xAxisVector2,Vec3 & yAxisVector2 , Vec3 & zAxisVector2,Vec3 & glycosidicNitrogenAtom1LocationInGround,Vec3 & glycosidicNitrogenAtom2LocationInGround, Vec3 & ring1CenterLocationInGround, Vec3 & ring2CenterLocationInGround) ; 
     void        computeCorrection(LeontisWesthofClass &,vector<BaseInteraction> &,State &,SimbodyMatterSubsystem &);
-    String      getPdbResidueName( const String chainID, ResidueID resID);
+    const String&      getPdbResidueName( const String &chainID, const ResidueID& resID) const;
     void        setSingleBondMobility(const String chainID,const  ResidueID residueID1,const String atomName1,const ResidueID residueID2,const  String atomName2,const String mobilityString ); // sets BondMobility for a single bond in the chain.
     void        setSingleBondMobility(vector<SingleBondMobility>);  
     void        printAllIncludedResidues (vector<IncludeAllNonBondAtomsInResidue> & includeAllNonBondAtomsInResidueVector );

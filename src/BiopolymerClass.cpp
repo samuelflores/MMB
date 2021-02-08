@@ -197,7 +197,7 @@ void BiopolymerClass::clear() {
     //pdbStructure = NULL;
 }
 
-void  BiopolymerClass::validateChainID(){
+void  BiopolymerClass::validateChainID() const {
     //if (chainID.length() == 1) {
     //    return 1;
     MMBLOG_FILE_FUNC_LINE(INFO, "validating chain ID >"<<chainID<<"<"<<endl);
@@ -548,7 +548,7 @@ void BiopolymerClass::renumberPdbResidues(ResidueID firstResidueID ) {
     //setResidueIDsAndInsertionCodesFromBiopolymer(myBiopolymer,proteinCapping);//loadResidueIDVector();
 }
 
-ResidueID BiopolymerClass::getResidueID(const int residueIndex)  {
+const ResidueID& BiopolymerClass::getResidueID(const int residueIndex) const {
     
     //else
     if (residueIDVector.size() == 0) {
@@ -1061,7 +1061,7 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     return 0;//returnValue;
 }
-int BiopolymerClass::getChainLength() {
+int BiopolymerClass::getChainLength() const {
     return sequence.length();
 };
 
@@ -1069,16 +1069,18 @@ size_t BiopolymerClass::getNumAtoms() {
     return myBiopolymer.getNumAtoms();
 }
 
-ResidueID BiopolymerClass::getFirstResidueID(){
-    int myResidueNumber = myBiopolymer.getResidue(ResidueInfo::Index(int(proteinCapping))).getPdbResidueNumber();    
-    int myInsertionCode = myBiopolymer.getResidue(ResidueInfo::Index(int(proteinCapping))).getPdbInsertionCode();    
+ResidueID BiopolymerClass::getFirstResidueID() const {
+    int myResidueNumber = myBiopolymer.getResidue(ResidueInfo::Index(int(proteinCapping))).getPdbResidueNumber();
+    int myInsertionCode = myBiopolymer.getResidue(ResidueInfo::Index(int(proteinCapping))).getPdbInsertionCode();
     return ResidueID(myResidueNumber, myInsertionCode);
-};
-ResidueID BiopolymerClass::getLastResidueID(){
-    int myResidueNumber = myBiopolymer.getResidue(ResidueInfo::Index(myBiopolymer.getNumResidues() - int(proteinCapping) -1)).getPdbResidueNumber();    
-    int myInsertionCode = myBiopolymer.getResidue  ( ResidueInfo::Index( myBiopolymer.getNumResidues() - int(proteinCapping) -1)).getPdbInsertionCode();    
+}
+
+ResidueID BiopolymerClass::getLastResidueID() const {
+    int myResidueNumber = myBiopolymer.getResidue(ResidueInfo::Index(myBiopolymer.getNumResidues() - int(proteinCapping) -1)).getPdbResidueNumber();
+    int myInsertionCode = myBiopolymer.getResidue  ( ResidueInfo::Index( myBiopolymer.getNumResidues() - int(proteinCapping) -1)).getPdbInsertionCode();
     return ResidueID(myResidueNumber, myInsertionCode);
-};
+}
+
 BiopolymerType::BiopolymerTypeEnum BiopolymerClass::getBiopolymerType() const {
     validateBiopolymerType();
     return biopolymerType;
@@ -1134,7 +1136,7 @@ void BiopolymerClass::validateResidueID(ResidueID myResidueID){
 }
 
 
-void BiopolymerClass::validateResidueIndex(int myResidueIndex){
+void BiopolymerClass::validateResidueIndex(int myResidueIndex) const {
     if (myResidueIndex < 0) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Error! Residue index  "<<myResidueIndex<<" for chain "<<getChainID()<<" is less than zero"<<endl);
     }
@@ -1509,7 +1511,7 @@ void BiopolymerClass::loadResidueIDVectorAscending(ResidueID firstResidueID ){
     // }
 }
 
-ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID residueID){
+ResidueInfo::Index BiopolymerClass::getResidueIndex(const ResidueID& residueID) const {
     if (residueIDVector.size() > 0) {
         auto residueIDVectorIterator = find(residueIDVector.cbegin(), residueIDVector.cend(), residueID);
         auto residueIndex = ResidueInfo::Index(residueIDVectorIterator-residueIDVector.begin());
@@ -1539,7 +1541,7 @@ ResidueInfo::Index BiopolymerClass::getResidueIndex(ResidueID residueID){
 /////////////////////////////////////////////////////////////////////////////
 /// calls getResidueIndex, which validates residue number. returns name.  ///
 /////////////////////////////////////////////////////////////////////////////
-String  BiopolymerClass::getPdbResidueName( ResidueID residueID){
+const String&  BiopolymerClass::getPdbResidueName(const ResidueID& residueID) const {
     return myBiopolymer.getResidue(getResidueIndex(residueID)).getPdbResidueName(); 
 }
 
@@ -2346,7 +2348,8 @@ void  BiopolymerClass::setPdbStructure(const PdbStructure myPdbStructure)
 {
     this->pdbStructure = myPdbStructure;
 }
-PdbStructure BiopolymerClass::getPdbStructure()
+
+const PdbStructure& BiopolymerClass::getPdbStructure() const
 {
     return this->pdbStructure;
 }
@@ -2695,10 +2698,15 @@ void BiopolymerClassContainer::deleteAllNonMutatedBiopolymerClasses(){
 }
 
 
+const BiopolymerClass & BiopolymerClassContainer::getBiopolymerClass(const String& myChainID) const {
+    validateChainID(myChainID);
+    return biopolymerClassMap.at(myChainID);
+}
+
 ////////////////////////////////////////////
 /// Fetches a non-const BiopolymerClass  ///
 ////////////////////////////////////////////
-BiopolymerClass &   BiopolymerClassContainer::updBiopolymerClass(String myChainID) {
+BiopolymerClass & BiopolymerClassContainer::updBiopolymerClass(const String& myChainID) {
     validateChainID(myChainID);
     return biopolymerClassMap[myChainID];
 }
@@ -2718,6 +2726,20 @@ int   BiopolymerClassContainer::getBiopolymerClassIndex(String myChainID){
     }
     MMBLOG_FILE_FUNC_LINE(CRITICAL, "["<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<"] : unable to retrieve index for requested chain ID: "<<  myChainID   <<endl);
                 
+}
+
+const BiopolymerClass & BiopolymerClassContainer::getBiopolymerClass(int biopolymerClassIndex) const {
+    if ((biopolymerClassIndex <0) || (biopolymerClassIndex >= getNumBiopolymers())) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "] : biopolymerClassIndex out of range:"<<biopolymerClassIndex<<endl);
+    }
+    auto biopolymerClassMapIterator = biopolymerClassMap.cbegin();
+    int i = 0;
+    for (i = 0; i<= biopolymerClassIndex; i++) {
+        if (i == biopolymerClassIndex)
+            return biopolymerClassMapIterator->second;
+        else biopolymerClassMapIterator++;
+    }
+    MMBLOG_FILE_FUNC_LINE(CRITICAL, "] : unable to retrieve BiopolymerClass for requested index : "<<  biopolymerClassIndex   <<endl);
 }
 
 BiopolymerClass &   BiopolymerClassContainer::updBiopolymerClass(int biopolymerClassIndex){
@@ -2885,7 +2907,7 @@ void BiopolymerClassContainer::writePdb(State & state, CompoundSystem & system, 
     // ++modelNumber;
 }
 
-bool BiopolymerClassContainer::hasChainID(String chainID){
+bool BiopolymerClassContainer::hasChainID(const String& chainID) const {
         if (biopolymerClassMap.find(chainID) == biopolymerClassMap.end())
                 {return false;}
         else
@@ -2893,7 +2915,7 @@ bool BiopolymerClassContainer::hasChainID(String chainID){
 }
 
 
-int  BiopolymerClassContainer::validateChainID(String chainID){
+int  BiopolymerClassContainer::validateChainID(const String& chainID) const {
     if   (! hasChainID(chainID))
     {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have requested a chain ID which does not correspond to any instantiated Biopolymer: "<<chainID<<endl);
@@ -3050,9 +3072,9 @@ void BiopolymerClassContainer::computeCorrection(LeontisWesthofClass & myLeontis
 } // of for i
 }
 
-String BiopolymerClassContainer::getPdbResidueName( String chainID, ResidueID residueNumber){
+const String& BiopolymerClassContainer::getPdbResidueName(const String& chainID, const ResidueID& residueNumber) const {
     validateChainID(chainID);
-    return updBiopolymerClass(chainID).getPdbResidueName(residueNumber);
+    return getBiopolymerClass(chainID).getPdbResidueName(residueNumber);
 }
 
 

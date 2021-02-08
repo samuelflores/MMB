@@ -203,11 +203,11 @@ public:
         InsertionCode = myInsertionCode;
     };
 
-    const int getResidueNumber() const{
+    int getResidueNumber() const{
         return ResidueNumber;
     };
 
-    char getInsertionCode(){
+    char getInsertionCode() const {
         return InsertionCode;
     };
     const String outString( ) const {
@@ -219,7 +219,7 @@ public:
         return myStringStream.str();
     };
     // This polymorphism of outString takes a chain ID (expected to be 1 character long) and concatenates it with the ResidueID to create a 6-character string suitable to be fed into columns 22-27 (chain ID, residue number, insertion code) of a PDB atom record 
-    const String chainIDResidueID(String chainID ) const {
+    const String chainIDResidueID(const String &chainID) const {
         stringstream  myStringStream; myStringStream.clear();
         int totalWidth = 6;
         // Columns 23-26 are for the residue number, 27 is for the insertion code.  So 5 characters.

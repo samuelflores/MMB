@@ -76,16 +76,16 @@ void SimTK::CIFOut::reWriteOutCif ( const gemmi::Model& gModel, const std::strin
         //============================================ Add sequence to entities
         int compoundNumber                            = 1;
 
-        auto biopolymerMap                            = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
+        const auto& biopolymerMap                     = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
         for ( SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c )
         {
             //======================================== Print log
             std::cout <<__FILE__<<":"<<__LINE__<<" c = "<<c<< " compoundNumber = "<<compoundNumber <<std::endl;
             
             //======================================== Get sequence for compound
-            const auto chainID                        = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(compoundNumber-1).getChainID();
-            auto& compound                            = biopolymerMap.at(chainID);
-            const auto residues                       = compound.getResidueIdVector();
+            const auto& chainID                       = myParameterReader.myBiopolymerClassContainer.getBiopolymerClass(compoundNumber-1).getChainID();
+            const auto& compound                      = biopolymerMap.at(chainID);
+            const auto& residues                      = compound.getResidueIdVector();
 
             //======================================== For each structure entity
             for ( decltype(myTrajectoryOutputFile.entities)::size_type enIt = 0; enIt < myTrajectoryOutputFile.entities.size(); enIt++ )

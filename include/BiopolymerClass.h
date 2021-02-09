@@ -512,7 +512,6 @@ public:
     void        setNeighborsFromList(vector<MMBAtomInfo>& concatenatedAtomInfoVector, OpenMM::NeighborList& neighborList, double radius);
     template <class type > void findBiopolymerResiduesWithinRadius (const type           & allResiduesWithin      , const State state, vector<SingleResidue> & neighboringResidueVector);
     template <class type2> vector<SingleResidue> findBiopolymerResiduesWithinRadius (const  vector<type2> & allResiduesWithinVector, const State state);
-    vector<SingleResidue> findBiopolymerResiduesWithinRadius (const  vector<Mutation> & allResiduesWithinVector, const State state){return findBiopolymerResiduesWithinRadius( allResiduesWithinVector, state); };
     // Template functions have to be defined in the same compilation unit in which it is used, under many circumstances. Hence the following pass-through or wrapper function:
     vector<SingleResidue>  findBiopolymerResiduesWithinRadius  (const  vector<MobilizerWithin> & allResiduesWithinVector,  const State state);
     void        includeAllResiduesWithin (const vector<AllResiduesWithin> & includeAllResiduesWithinVector,    vector<IncludeAllNonBondAtomsInResidue> & includeAllNonBondAtomsInResidueVector, const State state);

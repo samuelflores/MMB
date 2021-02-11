@@ -71,6 +71,24 @@ CheckFile::CheckFile(const String myFileName){
     fileName = myFileName;
     //struct stat st;
     stat(  fileName.c_str(), &st);
+    MMBLOG_FILE_FUNC_LINE(INFO, " stat .st_mode= "<<st.st_mode <<std::endl);
+}
+bool CheckFile::isDirectory(){
+    MMBLOG_FILE_FUNC_LINE(INFO, " stat S_IFDIR = "<<S_IFDIR <<std::endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, " stat .st_mode= "<<st.st_mode <<std::endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, " st.st_mode & S_IFMT "<< (st.st_mode & S_IFMT)  <<std::endl);
+    //return (st.st_mode == S_IFDIR);	
+    return ((st.st_mode & S_IFMT) == S_IFDIR);
+}
+bool CheckFile::ownerCanRead(){
+    MMBLOG_FILE_FUNC_LINE(INFO, " st.st_mode & S_IRUSR"<< (st.st_mode & S_IRUSR) <<std::endl);
+    //return (st.st_mode == S_IFDIR);	
+    return ((st.st_mode ) & S_IRUSR);
+}
+bool CheckFile::ownerCanWrite(){
+    MMBLOG_FILE_FUNC_LINE(INFO, " st.st_mode & S_IWUSR"<< (st.st_mode & S_IWUSR) <<std::endl);
+    //return (st.st_mode == S_IFDIR);	
+    return ((st.st_mode ) & S_IWUSR);
 }
 
 void CheckFile::validateNonZeroSize(){

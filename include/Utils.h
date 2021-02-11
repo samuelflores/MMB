@@ -64,13 +64,17 @@ struct GreaterThanComparator {
     }
 };
 
-
+// Usage: instantiate with CheckFile (fileName)
+// Retrieve file info with accessors
 class CheckFile {
 private: 
     String fileName;
     struct stat st;
 public:
     CheckFile(const String myFileName);
+    bool isDirectory();
+    bool ownerCanRead();
+    bool ownerCanWrite();
     void validateNonZeroSize();
     void validateExists();
     //void validateReadable();

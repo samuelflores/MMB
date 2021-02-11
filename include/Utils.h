@@ -64,13 +64,17 @@ struct GreaterThanComparator {
     }
 };
 
-
+// Usage: instantiate with CheckFile (fileName)
+// Retrieve file info with accessors
 class CheckFile {
 private: 
     String fileName;
     struct stat st;
 public:
     CheckFile(const String myFileName);
+    bool isDirectory();
+    bool ownerCanRead();
+    bool ownerCanWrite();
     void validateNonZeroSize();
     void validateExists();
     //void validateReadable();
@@ -935,11 +939,11 @@ class SecondaryStructureStretch  : public ResidueStretch  {
     public:
            void setSecondaryStructureType(String inputSecondaryStructureType) {
             if ((inputSecondaryStructureType.compare("Alpha")) == 0) { 
-            mySecondaryStructureType = Alpha;}
+                mySecondaryStructureType = Alpha;}
             else if ((inputSecondaryStructureType.compare("ParallelBeta")) == 0) { 
-            mySecondaryStructureType = ParallelBeta;}
+                mySecondaryStructureType = ParallelBeta;}
             else if ((inputSecondaryStructureType.compare("AntiParallelBeta")) == 0) { 
-            mySecondaryStructureType = AntiParallelBeta;}
+                mySecondaryStructureType = AntiParallelBeta;}
             else {
                 MMBLOG_FILE_LINE(CRITICAL, " Error!  The only permitted secondary structure types are Alpha, ParallelBeta and AntiParallelBeta."<<endl);
             }

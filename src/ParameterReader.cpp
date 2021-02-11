@@ -295,6 +295,9 @@ ChainResidueIndex::ChainResidueIndex(int myChainIndex,  int myResidueIndex) {
     chainIndex = myChainIndex;
 };
 ParameterReader::ParameterReader() {
+    clearContainers();
+    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+    myBiopolymerClassContainer.writePdbStructureMapDiagnostics(); //This is just a debug flag
 };
 
 void ParameterReader::addC1pSprings (LeontisWesthofClass myLeontisWesthofClass) {
@@ -4147,7 +4150,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }
         if(parameterStringClass.getString(3).length() > 0) 
         {
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "loadSequencesFromPdb takes only two optional parameter which is a pdb file name and a chains prefix."<<endl);
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "loadSequencesFromPdb takes only two  parameters at most,  a pdb file name and (optionally) a chains prefix."<<endl);
         }
         if ((currentStage > firstStage) && (myBiopolymerClassContainer.getNumBiopolymers() >0) )
         {
@@ -5010,9 +5013,11 @@ void ParameterReader::clearContainers(){
     clearForces();
     clearBiopolymers();
     moleculeClassContainer.clear();
-    myBiopolymerClassContainer.secondaryStructureStretchVector.clear();
+    // secondaryStructureStretchVector.clear() is now included in :
+    myBiopolymerClassContainer.clear(); //secondaryStructureStretchVector.clear();
+    MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
+    myBiopolymerClassContainer.writePdbStructureMapDiagnostics(); //This is just a debug flag
     displacementContainer.clear();
-
     atomSpringContainer.clear();
 }
 

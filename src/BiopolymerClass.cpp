@@ -564,41 +564,50 @@ const ResidueID& BiopolymerClass::getResidueID(const int residueIndex) const {
 
 
 PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, PdbStructureMapType & pdbStructureMap ){
-        if (pdbStructureMap.find(inputFileName) != pdbStructureMap.end()) {
+        MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
+        if (!pdbStructureMap.empty()) if (pdbStructureMap.find(inputFileName) != pdbStructureMap.end()) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
 	}
+        MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
         PdbStructure myPdbStructure;
         
         //============================================ Read in PDB or CIF
         if ( inputFileName.length() > 4 )
         {
+            MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
             if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
             {
                 std::ifstream inputFile               ( inputFileName );
 
+                MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
+                std::ifstream inputFile               ( inputFileName );
+                
                 if ( !inputFile.good() )
                 {
                     MMBLOG_FILE_FUNC_LINE(CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
                 }
                 else
                 {
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
                     MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
                     myPdbStructure                                = PdbStructure ( inputFile, chainsPrefix );
                     // pdbSTructureMap was loaded as: pdbStructureMap.insert(pair<String, PdbStructure>(inPDBFileName, myPdbStructure) );
 		    // So could be retrieved with inputFileName
                 }
-            }
-            else if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".cif" )
+            } // end if PDB
+            else if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".cif" ) // If mmCIF
             {
 #ifdef GEMMI_USAGE
-                MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
-                myPdbStructure                                = PdbStructure ( inputFileName, chainsPrefix );
+                MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
+		MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
+		myPdbStructure                                = PdbStructure ( inputFileName, chainsPrefix );
 #else
                 MMBLOG_FILE_FUNC_LINE           (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl);
 #endif
             }
             else if ( inputFileName.length() > 7 )
             {
+                MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
                 if ( inputFileName.substr ( inputFileName.length() - 7, inputFileName.length() - 1) == ".cif.gz" )
                 {
 #ifdef GEMMI_USAGE
@@ -624,14 +633,17 @@ PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, Pdb
         }
     // have to add this to the map..	
     //
+    MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
     MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being linked to a PdbStructure"   << std::endl);
     pdbStructureMap.insert(pdbStructurePairType(inputFileName, myPdbStructure) );
+    MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
     //pdbStructureMap.insert(pir<String, PdbStructure>(inPDBFileName, myPdbStructure) );
     return myPdbStructure;
 }
 
 PdbStructure generateOrFetchPdbStructure(String inputFileName, String chainsPrefix, PdbStructureMapType & pdbStructureMap ){
     PdbStructure myPdbStructure;
+    MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
     if (pdbStructureMap.find(inputFileName) != pdbStructureMap.end()) {
         MMBLOG_FILE_FUNC_LINE(DEBUG   , " The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
 	myPdbStructure = pdbStructureMap.find(inputFileName)->second ;
@@ -654,6 +666,7 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
 
     ) {
     MMBLOG_FILE_FUNC_LINE(INFO, "about to match chain \""<< getChainID()<<"\" having prefix \""<< getChainPrefix()<<"\" to file name : "<<inputFileName<<" using generateOrFetchPdbStructure " <<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
     PdbStructure myPdbStructure = generateOrFetchPdbStructure(inputFileName, getChainPrefix(), pdbStructureMap);
     //if(pdbStructure == NULL)
     //{
@@ -997,6 +1010,7 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
         initialDisplacementVec3 = Vec3(0); // this is redundant 
     }
     if (this->loadFromPdb) {
+        MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
         //returnValue = 
         if (matchCoordinates(this->pdbFileName, matchExact, matchIdealized,matchOptimize ,matchHydrogenAtomLocations,matchPurineN1AtomLocations, guessCoordinates, matchingMinimizerTolerance,myPlanarityThreshold,   pdbStructureMap )) {
             cout<<__FILE__<<":"<<__LINE__<<" Warning: Returned an error from matchCoordinates"<<std::endl;
@@ -2526,15 +2540,9 @@ int  BiopolymerClass::getCorrespondingResidueInCurrentBiopolymer(BiopolymerClass
         return 1;
 }
 
-//template <class ResidueStretchType>
-
-//template<class ResidueStretchType> 
-//void BiopolymerClass::selectivelyRemoveResidueStretchFromContainer(ResidueStretch & residueStretch, ResidueStretchContainer <ResidueStretch> & residueStretchContainer){}
-
-
-
-
-
+BiopolymerClassContainer::BiopolymerClassContainer(){
+    clear();
+};
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -2542,8 +2550,15 @@ int  BiopolymerClass::getCorrespondingResidueInCurrentBiopolymer(BiopolymerClass
 /////////////////////////////////////////////////////////////////////////////
 
 void BiopolymerClassContainer::clear(){
+    MMBLOG_FILE_FUNC_LINE(INFO," secondaryStructureStretchVector.clear() .."      <<std::endl);
+    secondaryStructureStretchVector.clear();
+    MMBLOG_FILE_FUNC_LINE(INFO," mutationVector.clear()                   .."      <<std::endl);
     mutationVector.clear();
+    MMBLOG_FILE_FUNC_LINE(INFO," pdbStructureMap.clear()                 .."      <<std::endl);
     pdbStructureMap.clear();
+    MMBLOG_FILE_FUNC_LINE(INFO,"pdbStructureMap.size() = "<<pdbStructureMap.size()<<std::endl);
+    MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
+    MMBLOG_FILE_FUNC_LINE(INFO,"pdbStructureMap.empty() = "<<pdbStructureMap.empty()<<std::endl);
     biopolymerClassMap.clear();
     atomicPropertyOverrideVector.clear();
 }
@@ -2586,6 +2601,7 @@ int  BiopolymerClassContainer::initializeBiopolymers(CompoundSystem & system,
                                                                   secondaryStructureStretchVector,
 								  pdbStructureMap
                                                                   );  
+        MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
         if (returnValue){
             MMBLOG_FILE_FUNC_LINE(WARNING, "Returned an error from initializeBiopolymer"<<endl);
             //returnValue = 1;
@@ -2620,6 +2636,7 @@ int  BiopolymerClassContainer::initializeBiopolymer(String chainID, CompoundSyst
 			     pdbStructureMap)) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Returned an error from initializeBiopolymer"<<endl);
     }
+    MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
     return 0;
 }
 
@@ -3847,7 +3864,20 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     MMBLOG_FILE_FUNC_LINE(DEBUG, "Prefix = "<< chainsPrefix                           <<endl);
     myPDBReader.createCompounds( system, chainsPrefix );
     MMBLOG_FILE_FUNC_LINE(INFO, "Done with myPDBReader.createCompounds( system)"<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO,std::endl);
+    auto  pdbStructureMapIterator = pdbStructureMap.begin();
+    MMBLOG_FILE_FUNC_LINE(INFO,std::endl);
+    MMBLOG_FILE_FUNC_LINE(INFO,"pdbStructureMap.size() = "<<pdbStructureMap.size()<<std::endl);
+    MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
+    MMBLOG_FILE_FUNC_LINE(INFO,"pdbStructureMap.empty() = "<<pdbStructureMap.empty()<<std::endl);
+    //while ( pdbStructureMapIterator != pdbStructureMap.end()) {
+    //    MMBLOG_FILE_FUNC_LINE(INFO,std::endl);
+        //MMBLOG_FILE_FUNC_LINE(INFO,pdbStructureMapIterator->first);
+    //	pdbStructureMapIterator++;
+    //}
+    MMBLOG_FILE_FUNC_LINE(INFO,endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "system.getNumCompounds() = "<<system.getNumCompounds() <<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO,endl);
     PdbStructure myPdbStructure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap);
     /* 
     //================================================ Use PDB reader or CIF reader depending on the extension.
@@ -3994,6 +4024,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "loadSequencesFromPdb can only be used with Protein, RNA and DNA.  You have one or more atoms in the file "<< inPDBFileName<< " which belong to none of these. Please get rid of these atoms and try again."<<endl);
                 }
                 BiopolymerClass & myBiopolymerClass = updBiopolymerClass(myChainIdString);
+                MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
                 myBiopolymerClass.setPdbStructure((pdbStructureMap.at(inPDBFileName)));
             } // of if Biopolymer
         } // of if Molecule

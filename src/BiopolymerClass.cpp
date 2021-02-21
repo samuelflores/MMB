@@ -577,6 +577,8 @@ PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, Pdb
             MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
             if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
             {
+                std::ifstream inputFile               ( inputFileName );
+
                 MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
                 if ( !inputFile.good() )
                 {

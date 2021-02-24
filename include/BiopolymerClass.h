@@ -100,7 +100,7 @@ public:
     vector<ResidueID>   getResidueIdVector    (  )  {return residueIDVector;};
     const vector<ResidueID>&   getResidueIdVector (  ) const {return residueIDVector;};
     void    modifyResidue(const BiopolymerModification myBiopolymerModification,Compound  compoundToAdd,  DuMMForceFieldSubsystem & dumm); 
-    String  getSequence(){return sequence;}; // gets the sequence
+    String  getSequence() const {return sequence;}; // gets the sequence //SCF made const 24 Feb 2021
     String  getSequence(const vector <ResidueID> & residueIDVector); // gets the sequence
     String  getSubSequence(const ResidueID startResidue, const ResidueID endResidue); 
     const String&  getChainID() const {return chainID;}

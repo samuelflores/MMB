@@ -971,7 +971,11 @@ void ConstrainedDynamics::postDynamics(){
 		*/
                 
                 //==================================== Figure out the compound type
-                BiopolymerType::BiopolymerTypeEnum bioType = (_parameterReader->myBiopolymerClassContainer.getBiopolymerClassMap ())[_parameterReader->myBiopolymerClassContainer.updBiopolymerClass(compoundNumber-1).getChainID()].getBiopolymerType();
+		//const String myChainId = _parameterReader->myBiopolymerClassContainer.getBiopolymerClass(compoundNumber-1).getChainID();
+		//map <const String, BiopolymerClass>  myBiopolymerClassMap = (_parameterReader->myBiopolymerClassContainer.getBiopolymerClassMap ());
+		//const BiopolymerClass myBiopolymerClass = myBiopolymerClassMap[myChainId];
+			
+                BiopolymerType::BiopolymerTypeEnum bioType = (_parameterReader->myBiopolymerClassContainer.getBiopolymerClassMap ()).at(_parameterReader->myBiopolymerClassContainer.getBiopolymerClass(compoundNumber-1).getChainID()).getBiopolymerType();
                 bool isPolymer                        = false;
                 if ( ( bioType == BiopolymerType::RNA ) || ( bioType == BiopolymerType::DNA ) || ( bioType == BiopolymerType::Protein ) ) { isPolymer = true; }
                 
@@ -989,7 +993,7 @@ void ConstrainedDynamics::postDynamics(){
                 gemmi::assign_subchains               ( outStruct, true );
                 
                 //==================================== Add sequence to entities
-                std::string compSeq                   = (_parameterReader->myBiopolymerClassContainer.getBiopolymerClassMap ())[_parameterReader->myBiopolymerClassContainer.updBiopolymerClass(compoundNumber-1).getChainID()].getSequence();
+                std::string compSeq                   = (_parameterReader->myBiopolymerClassContainer.getBiopolymerClassMap ()).at(_parameterReader->myBiopolymerClassContainer.updBiopolymerClass(compoundNumber-1).getChainID()).getSequence();
                 
                 //===================================== For each structure entity
                 for ( unsigned int enIt = 0; enIt < static_cast<unsigned int> ( outStruct.entities.size() ); enIt++ )

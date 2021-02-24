@@ -40,6 +40,24 @@ void DensityForce::calcForce(const State& state, Vector_<SpatialVec>& bodyForces
         } // of for biopolymer
         };
 
+Real DensityForce::calcPotentialEnergy(const State& state) const
+        {
+        double totalPotentialEnergy = 0;
+        for (int i = 0; i < myParameterReader.densityContainer.numDensityStretches(); i++) {
+                String myChainID = myParameterReader.densityContainer.getDensityStretch(i).getChain();
+                BiopolymerClass & tempBiopolymerClass = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID );
+                Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
+                vector<MMBAtomInfo> tempAtomInfoVector = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm, myParameterReader.densityFitPhosphates );   
+                for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) {
+                    MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
+                    Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
+                    // changed to atomic number on FEB 24 2021, earlier was atomic mass:
+                    totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * tempAtomInfo.atomicNumber;
+                } // of for m
+        } // of for biopolymer
+	return totalPotentialEnergy;
+        };
+/*
 Real DensityForce::calcPotentialEnergy(const State& state) const {
 
         Real totalPotentialEnergy = 0;
@@ -65,10 +83,10 @@ Real DensityForce::calcPotentialEnergy(const State& state) const {
                 }
 
         } 
-
+        MMBLOG_FILE_FUNC_LINE(INFO, " Total potential energy due to density fitting potential = "<<totalPotentialEnergy <<std::endl);
         return totalPotentialEnergy;
     };
-
+*/
 bool DensityForce::dependsOnlyOnPositions() const  { 
         return true; 
     };    

@@ -862,6 +862,9 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "lastStage                              int     "<<lastStage     <<endl;
     myOstream << remarkString << "leontisWesthofInFileName               String  "<<leontisWesthofInFileName     <<endl;
     myOstream << remarkString << "loadTinkerParameterFile                bool    "<<loadTinkerParameterFile     <<endl;
+    //myOstream << remarkString << "loggingSeverity                        string  "; 
+	     //MMBLogger::instance().writeLoggingSeverity()
+	     //myOstream<<" This sets how verbose your output will be. Options are DEBUG, INFO, WARNING, ALWAYS, CRITICAL. These are in order of decreasing verbosity. "<<endl;
     myOstream << remarkString << "outQVectorFileName                     String  "<<outQVectorFileName     <<endl;
     myOstream << remarkString << "magnesiumIonChainId                    String  "<<magnesiumIonChainId     <<endl;
     myOstream << remarkString << "magnesiumIonRadius                     String  "<<magnesiumIonRadius      <<endl;
@@ -4486,7 +4489,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         return;
 
     } //else  SCF
-    //{ // KLUDGE -- should use the if-continue method for all above
+    // KLUDGE -- should use the if-continue method for all above
     if ((parameterStringClass.getString(0)).compare("smallGroupInertiaMultiplier") ==0) {
         parameterStringClass.validateNumFields(2);
         smallGroupInertiaMultiplier = myAtoF   (userVariables,(parameterStringClass.getString(1)).c_str());    

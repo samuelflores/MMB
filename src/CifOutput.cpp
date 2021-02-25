@@ -10,7 +10,7 @@
 #include <gemmi/to_cif.hpp>
 #include <gemmi/gz.hpp>
 
-void SimTK::CIFOut::assignEntities ( gemmi::Structure &outStruct, const map <const String, BiopolymerClass>& biopolymers, const CompoundSystem& system )
+void SimTK::CIFOut::assignEntities ( gemmi::Structure &outStruct, const map <const String, BiopolymerClass>& biopolymers )
 {
     //======================================== For each structure entity
     for ( auto &entity : outStruct.entities )
@@ -126,7 +126,7 @@ void SimTK::CIFOut::reWriteOutCif ( const gemmi::Model& gModel, const std::strin
         //============================================ Add sequence to entities
 
         const auto& biopolymers                       = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
-        assignEntities                                (myTrajectoryOutputFile, biopolymers, system);
+        assignEntities                                ( myTrajectoryOutputFile, biopolymers );
         //============================================ Write out the file
         writeOutCif                                   ( myTrajectoryOutputFile, fileName, myParameterReader.trajectoryFileRemarks );
         

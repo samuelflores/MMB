@@ -938,8 +938,8 @@ void ConstrainedDynamics::postDynamics(){
         {
             //======================================== Initialise internal variables
             gemmi::Structure outStruct;
-            int compoundNumber                        = 1;
-            
+            const auto& biopolymers                   = _parameterReader->myBiopolymerClassContainer.getBiopolymerClassMap();
+
             //======================================== Determine structure name and save it
             std::string strName                       = _parameterReader->lastFrameFileName;
             istringstream iss                         ( strName );
@@ -949,73 +949,22 @@ void ConstrainedDynamics::postDynamics(){
             else                                      { strName = "LASTX"; }
             if ( strName[0] == '/' ) { strName.erase(0, 1); }
             outStruct.name                            = strName;
-            
+
             //======================================== Set output structure cell
             outStruct.spacegroup_hm                   = "P1";
 
             //==================================== Create new gemmi model for this compound
-	    //moved up
-            gemmi::Model gModel                   ( std::to_string( compoundNumber ) );
-            
-            
-            //======================================== For each compound
-            for (SimTK::CompoundSystem::CompoundIndex c(0); c < _system.getNumCompounds(); ++c)
-            {
-                //==================================== Print log
-                MMBLOG_FILE_FUNC_LINE(INFO, "c = "<<c<< " compoundNumber = "<<compoundNumber <<endl);
-                
-                //==================================== Create new gemmi model for this compound
-		/*move up
-                gemmi::Model gModel                   ( std::to_string( compoundNumber ) );
-		*/
-                
-                //==================================== Figure out the compound type
-		//const String myChainId = _parameterReader->myBiopolymerClassContainer.getBiopolymerClass(compoundNumber-1).getChainID();
-		//map <const String, BiopolymerClass>  myBiopolymerClassMap = (_parameterReader->myBiopolymerClassContainer.getBiopolymerClassMap ());
-		//const BiopolymerClass myBiopolymerClass = myBiopolymerClassMap[myChainId];
-			
-                BiopolymerType::BiopolymerTypeEnum bioType = (_parameterReader->myBiopolymerClassContainer.getBiopolymerClassMap ()).at(_parameterReader->myBiopolymerClassContainer.getBiopolymerClass(compoundNumber-1).getChainID()).getBiopolymerType();
-                bool isPolymer                        = false;
-                if ( ( bioType == BiopolymerType::RNA ) || ( bioType == BiopolymerType::DNA ) || ( bioType == BiopolymerType::Protein ) ) { isPolymer = true; }
-                
-                //==================================== Build the Gemmi model from molmodel data
-                (_system.getCompound(c)).buildCif     ( _state, &gModel, isPolymer, 17, Transform( Vec3 ( 0 ) ) );
-                
-                //==================================== Save model to structure
-		/* move this up as well
-                outStruct.models.push_back            ( gModel );
-		*/
-                
-                //==================================== Set Gemmi structure internal values based on loaded information
-                gemmi::setup_entities                 ( outStruct );
-                gemmi::assign_label_seq_id            ( outStruct, true );
-                gemmi::assign_subchains               ( outStruct, true );
-                
-                //==================================== Add sequence to entities
-                std::string compSeq                   = (_parameterReader->myBiopolymerClassContainer.getBiopolymerClassMap ()).at(_parameterReader->myBiopolymerClassContainer.updBiopolymerClass(compoundNumber-1).getChainID()).getSequence();
-                
-                //===================================== For each structure entity
-                for ( unsigned int enIt = 0; enIt < static_cast<unsigned int> ( outStruct.entities.size() ); enIt++ )
-                {
-                    //==================================== If entity name = MMB chain ID
-                    if ( outStruct.entities.at(enIt).name == _parameterReader->myBiopolymerClassContainer.updBiopolymerClass(compoundNumber-1).getChainID() )
-                    {
-                        //================================ Copy sequence
-                        outStruct.entities.at(enIt).full_sequence.clear();
-                        for ( unsigned int sqIt = 0; sqIt < static_cast<unsigned int> ( compSeq.length() ); sqIt++ )
-                        {
-                            outStruct.entities.at(enIt).full_sequence.emplace_back ( std::to_string ( compSeq[sqIt] ) );
-                        }
-                    }
-                }
-                
-                //==================================== Prepare for next compound
-                compoundNumber++;
-            }
-            //==================================== Save model to structure
-	    // moved this down           
-            outStruct.models.push_back            ( gModel );
-        
+            gemmi::Model gModel                       ( "1" );
+
+            SimTK::CIFOut::buildModel                 ( _state, gModel, biopolymers, _system, 17 );
+            outStruct.models.emplace_back             ( std::move( gModel ) );
+
+            gemmi::setup_entities                     ( outStruct );
+            gemmi::assign_label_seq_id                ( outStruct, true );
+            gemmi::assign_subchains                   ( outStruct, true );
+
+            SimTK::CIFOut::assignEntities             ( outStruct, biopolymers );
+
             //======================================== Write out CIF
             SimTK::CIFOut::writeOutCif                ( outStruct, _parameterReader->lastFrameFileName, _parameterReader->lastFileRemarks );
         }

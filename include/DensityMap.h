@@ -109,9 +109,7 @@ class MMB_EXPORT DensityMap {
         void populateNoiseMap();
         void loadParametersAndDensity(const String &densityFileName) ;
         void loadParametersAndDensity_XPLOR(const String &densityFileName) ;
-#ifdef GEMMI_USAGE
         void loadParametersAndDensity_CCP4MAP(const String &densityFileName) ;
-#endif
         void writeDensityMapXplor(const String &densityFileName,  const bool writeDensity = 1, const bool writeNoise =1);
         //void loadParametersAndDensity_OpenDX(const String densityFileName) ;
         //void loadParametersAndDensity_Situs(const String densityFileName) ;

@@ -19,11 +19,9 @@
 #include "UnitCellParameters.h"
 #include <time.h>       /* time */
 
-#ifdef GEMMI_USAGE
-    //================================================ Include Gemmi headers
-    #include <gemmi/ccp4.hpp>
-    #include <gemmi/gz.hpp>
-#endif
+//================================================ Include Gemmi headers
+#include <gemmi/ccp4.hpp>
+#include <gemmi/gz.hpp>
 
 using namespace std;
 using namespace SimTK;
@@ -556,11 +554,7 @@ void DensityMap::loadParametersAndDensity(const String &densityFileName)
     else if (extension == ".map"    || extension == ".ccp4"    || extension == ".mrc"    ||
              extension == ".map.gz" || extension == ".ccp4.gz" || extension == ".mrc.gz" )
     {
-#ifdef GEMMI_USAGE
         loadParametersAndDensity_CCP4MAP              ( densityFileName );
-#else
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open density map : "<<densityFileName<<" .. CCP4 maps loading feature was not allowed when MMB installation was done on this machine."<<endl);
-#endif
     }
     else
     {
@@ -568,7 +562,6 @@ void DensityMap::loadParametersAndDensity(const String &densityFileName)
     }
 }
 
-#ifdef GEMMI_USAGE
 /*! \brief Function responsible for reading in the CCP4's MAP format.
 
     This function uses the Gemmi library to read in the CCP4 formatted map data. It makes use of the setup function from
@@ -673,7 +666,6 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
     //======================================== DONE!
     return ;
 }
-#endif
 
 // Expects .xplor density maps to be in the following format:
 // http://psb11.snv.jussieu.fr/doc-logiciels/msi/xplor981/formats.html -- not accessible anymore

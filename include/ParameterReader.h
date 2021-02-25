@@ -77,11 +77,9 @@ public:
     bool   addSelectedAtoms;          
     bool   addTestSpring;
     bool   useCIFFileFormat;
-#ifdef GEMMI_USAGE
     std::vector< std::pair < std::string, std::string > > trajectoryFileRemarks;
     std::vector< std::pair < std::string, std::string > > lastFileRemarks;
     bool gemmi_isFirstInStage;
-#endif
     bool   alignmentForcesIsGapped;
     double alignmentForcesGapPenalty;
     double alignmentForcesDeadLengthFraction;
@@ -326,10 +324,7 @@ public:
     void removeBasePairsInRigidStretch ();
 
     void printAllSettings (   ostream  & myOstream = std::cout, String remarkString = "") ;
-#ifdef GEMMI_USAGE
     void printAllSettingsToMMCIF ( std::vector< std::pair < std::string, std::string > > &remarksVec ) ;
-#endif
- 
 
     void removeNonPriorityBasePairs (int priorityLevel);
     //int getFirstResidueNumbers(const String myChainId) const ; 

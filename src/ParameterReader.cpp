@@ -687,7 +687,6 @@ void ParameterReader::removeBasePairsInRigidStretch () {
     } 
 };
 
-#ifdef GEMMI_USAGE
 void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::string, std::string > > &remarksVec ) {
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addAllAtomSterics                      bool    " + std::to_string ( addAllAtomSterics ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addAllHeavyAtomSterics                 bool    " + std::to_string ( addProteinBackboneSterics ) ) );
@@ -810,7 +809,6 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "overallBondMobility                    BondMobility::Mobility " + std::to_string ( overallBondMobility ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "chiBondMobility                        BondMobility::Mobility " + std::to_string ( chiBondMobility ) ) );
 };
-#endif
 
 void ParameterReader::printAllSettings (ostream & myOstream, String remarkString ) { 
     myOstream << remarkString << "addAllAtomSterics                      bool    "<<addAllAtomSterics         <<endl;

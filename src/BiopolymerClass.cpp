@@ -595,25 +595,17 @@ PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, Pdb
             } // end if PDB
             else if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".cif" ) // If mmCIF
             {
-#ifdef GEMMI_USAGE
                 MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
 		MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
 		myPdbStructure                                = PdbStructure ( inputFileName, chainsPrefix );
-#else
-                MMBLOG_FILE_FUNC_LINE           (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl);
-#endif
             }
             else if ( inputFileName.length() > 7 )
             {
                 MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
                 if ( inputFileName.substr ( inputFileName.length() - 7, inputFileName.length() - 1) == ".cif.gz" )
                 {
-#ifdef GEMMI_USAGE
                 MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
                 myPdbStructure                                = PdbStructure ( inputFileName, chainsPrefix );
-#else
-                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl);
-#endif
                 }
                 else
                 {
@@ -666,95 +658,9 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
     MMBLOG_FILE_FUNC_LINE(INFO, "about to match chain \""<< getChainID()<<"\" having prefix \""<< getChainPrefix()<<"\" to file name : "<<inputFileName<<" using generateOrFetchPdbStructure " <<endl);
     MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
     PdbStructure myPdbStructure = generateOrFetchPdbStructure(inputFileName, getChainPrefix(), pdbStructureMap);
-    //if(pdbStructure == NULL)
-    //{
-
-        /*
-        //============================================ Read in PDB or CIF
-        if ( inputFileName.length() > 4 )
-        {
-            if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
-            {
-                std::ifstream inputFile               ( inputFileName.c_str(), ifstream::in );
-                
-                if ( !inputFile.good() )
-                {
-                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
-                }
-                else
-                {
-                    // SCF this could be where the structure matching with prefix problem arises. Why not use the pdbStructureMap?			 
-                    myPdbStructure                    = PdbStructure (inputFile);
-                    // pdbSTructureMap was loaded as: pdbStructureMap.insert(pair<String, PdbStructure>(inPDBFileName, myPdbStructure) );
-		    // So could be retrieved with inputFileName
-                }
-            }
-            else if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".cif" )
-            {
-#ifdef GEMMI_USAGE
-                std::ifstream testOpen                ( inputFileName.c_str() );
-                if ( testOpen.good() )
-                {
-                    myPdbStructure                    = PdbStructure (inputFileName);
-                }
-                else
-                {
-                    std::string pdbFileHlp            = inputFileName;
-                    pdbFileHlp.append                 ( ".gz" );
-                    
-                    std::ifstream testOpen2           ( pdbFileHlp.c_str() );
-                    if ( testOpen2.good() )
-                    {
-                        myPdbStructure                = PdbStructure ( pdbFileHlp );
-                    }
-                    else
-                    {
-                        MMBLOG_FILE_FUNC_LINE           (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
-                    }
-                    testOpen2.close                   ( );
-                }
-                testOpen.close                        ( );
-#else
-                        MMBLOG_FILE_FUNC_LINE           (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl);
-#endif
-            }
-            else if ( inputFileName.length() > 7 )
-            {
-                if ( inputFileName.substr ( inputFileName.length() - 7, inputFileName.length() - 1) == ".cif.gz" )
-                {
-#ifdef GEMMI_USAGE
-                myPdbStructure                        = PdbStructure (inputFileName);
-#else
-                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << std::endl);
-#endif
-                }
-                else
-                {
-                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
-                }
-            }
-            else
-            {
-                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
-            }
-        }
-        else
-        {
-            MMBLOG_FILE_FUNC_LINE                       (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
-        }
-        */
     return matchCoordinates( myPdbStructure, matchExact, matchIdealized, matchOptimize,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                          guessCoordinates, matchingMinimizerTolerance, myPlanarityThreshold);
-    //}
-    /*
-    else
-    {
-        cout << "using cached PdbStructure" << endl;
-        return matchCoordinates(*pdbStructure, matchExact, matchIdealized, matchOptimize,
-                         matchHydrogenAtomLocations, matchPurineN1AtomLocations,
-                         guessCoordinates, matchingMinimizerTolerance, myPlanarityThreshold);
-    }*/
 }
 
 int  BiopolymerClass::matchCoordinates(istream & inputFile,

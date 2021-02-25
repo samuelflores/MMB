@@ -26,8 +26,6 @@ SET(Build_NtC            TRUE  CACHE BOOL
         "Build NtC features of MMB. This greatly increases the size of the BiopolymerClassContainer object in memory")
 SET(Build_Lepton         TRUE  CACHE BOOL 
 	"Build SimTK Lepton math parser?           ")
-SET(Build_GEMMI          FALSE CACHE BOOL 
-        "Build Gemmi maps and mmCIF support features for MMB?")
 SET(BUILD_MMB_SHARED_LIB TRUE CACHE BOOL 
         "Build MMB dynamic library")
 SET(BUILD_MMB_SHARED_EXEC TRUE CACHE BOOL 
@@ -150,10 +148,7 @@ ENDIF ( Build_Lepton )
 ###################
 ### Add Gemmi Paths
 ###################
-IF    ( Build_GEMMI )
-    INCLUDE_DIRECTORIES ( SYSTEM ${GEMMI_INCLUDE_DIR} )
-	ADD_DEFINITIONS     ( -DGEMMI_USAGE )
-ENDIF ( Build_GEMMI )
+INCLUDE_DIRECTORIES ( SYSTEM ${GEMMI_INCLUDE_DIR} )
 
 # On Mac, build 32 bit binaries.
 IF(APPLE)
@@ -299,10 +294,8 @@ IF (BUILD_MMB_SHARED_LIB)
     ##################
 	### Add Gemmi Libs
 	##################
-	IF    ( Build_GEMMI )
-		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} z )
-        target_include_directories ( ${SHARED_MMB_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
-	ENDIF ( Build_GEMMI )
+    TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} z )
+    target_include_directories ( ${SHARED_MMB_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
 
     # Install files
     INSTALL(TARGETS ${SHARED_MMB_TARGET}
@@ -383,10 +376,8 @@ IF (BUILD_MMB_SHARED_EXEC)
     ##################
 	### Add Gemmi Libs
 	##################
-	IF    ( Build_GEMMI )
-		TARGET_LINK_LIBRARIES ( MMB z )
-        target_include_directories (MMB SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
-	ENDIF ( Build_GEMMI )
+    TARGET_LINK_LIBRARIES ( MMB z )
+    target_include_directories (MMB SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
 
     INSTALL(TARGETS MMB
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
@@ -424,10 +415,8 @@ IF (BUILD_MMB_STATIC)
     ##################
 	### Add Gemmi Libs
 	##################
-	IF    ( Build_GEMMI )
-		TARGET_LINK_LIBRARIES ( ${STATIC_MMB_TARGET} z )
-        target_include_directories ( ${STATIC_MMB_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
-	ENDIF ( Build_GEMMI )
+    TARGET_LINK_LIBRARIES ( ${STATIC_MMB_TARGET} z )
+    target_include_directories ( ${STATIC_MMB_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
 
     # Link with static library
     ADD_EXECUTABLE(MMB_static ${MMB_HEADER_FILES} ${MMB_SOURCE_FILES})
@@ -447,9 +436,7 @@ IF (BUILD_MMB_STATIC)
     ##################
 	### Add Gemmi Libs
 	##################
-	IF    ( Build_GEMMI )
-		TARGET_LINK_LIBRARIES ( MMB_static z )
-	ENDIF ( Build_GEMMI )
+    TARGET_LINK_LIBRARIES ( MMB_static z )
 
     # Install files
     INSTALL(TARGETS MMB_static ${STATIC_MMB_TARGET}
@@ -483,10 +470,8 @@ IF (BUILD_MMB_GUI_TEST)
     ##################
 	### Add Gemmi Libs
 	##################
-	IF    ( Build_GEMMI )
-		TARGET_LINK_LIBRARIES ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} z )
-        target_include_directories ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
-	ENDIF ( Build_GEMMI )
+    TARGET_LINK_LIBRARIES ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} z )
+    target_include_directories ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
 
     # Install files
     INSTALL(TARGETS ${SHARED_MMB_PYTHON_WRAPPER_TARGET}

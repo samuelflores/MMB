@@ -936,7 +936,6 @@ void ConstrainedDynamics::postDynamics(){
     {
         if ( _parameterReader->useCIFFileFormat )
         {
-#ifdef GEMMI_USAGE
             //======================================== Initialise internal variables
             gemmi::Structure outStruct;
             int compoundNumber                        = 1;
@@ -1019,9 +1018,6 @@ void ConstrainedDynamics::postDynamics(){
         
             //======================================== Write out CIF
             SimTK::CIFOut::writeOutCif                ( outStruct, _parameterReader->lastFrameFileName, _parameterReader->lastFileRemarks );
-#else
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Requested mmCIF file output, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl);
-#endif
         }
         else
         {

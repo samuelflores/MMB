@@ -662,7 +662,6 @@ void MoleculeClassContainer::matchDefaultConfiguration(bool readPreviousFrameFil
             }
             else if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".cif" )
             {
-#ifdef GEMMI_USAGE
                 std::ifstream testOpen                ( pdbFileName.c_str() );
                 if ( testOpen.good() )
                 {
@@ -685,19 +684,12 @@ void MoleculeClassContainer::matchDefaultConfiguration(bool readPreviousFrameFil
                     testOpen2.close                   ( );
                 }
                 testOpen.close                        ( );
-#else
-                MMBLOG_FILE_FUNC_LINE(CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << endl);
-#endif
             }
             else if ( pdbFileName.length() > 7 )
             {
                 if ( pdbFileName.substr ( pdbFileName.length() - 7, pdbFileName.length() - 1) == ".cif.gz" )
                 {
-#ifdef GEMMI_USAGE
                 pdbStructure                          = PdbStructure (pdbFileName);
-#else
-                MMBLOG_FILE_FUNC_LINE(CRITICAL, "MMB was not compiled with the Gemmi library required for mmCIF support. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." << endl);
-#endif
                 }
                 else
                 {

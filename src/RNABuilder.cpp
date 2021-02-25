@@ -254,7 +254,6 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             ofstream output;
             if ( myParameterReader.useCIFFileFormat )
             {
-#ifdef GEMMI_USAGE
                 myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Contents of user input file " + std::string( parameterFile ) + " :" ) );
                 ifstream inFile                       = ifstream ( parameterFile.c_str(),ios_base::in );
                 while ( inFile.good() )
@@ -264,7 +263,6 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
                     myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", tempString ) );
                 }
                 myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "End of user input file." ) );
-#endif
             }
             else
             {
@@ -296,11 +294,9 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             myParameterReader.printAllSettings(std::cout,String("") );
             if ( myParameterReader.useCIFFileFormat )
             {
-#ifdef GEMMI_USAGE
                 myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "About to call myParameterReader.printAllSettings." ) );
                 myParameterReader.printAllSettingsToMMCIF ( myParameterReader.lastFileRemarks );
                 myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Done with call to myParameterReader.printAllSettings." ) );
-#endif
             }
             else
             {

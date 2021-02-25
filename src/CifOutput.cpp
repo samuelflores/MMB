@@ -5,11 +5,10 @@
 
 #include <cassert>
 
-#ifdef GEMMI_USAGE
-    #define GEMMI_WRITE_IMPLEMENTATION
-    #include <gemmi/to_mmcif.hpp>
-    #include <gemmi/to_cif.hpp>
-    #include <gemmi/gz.hpp>
+#define GEMMI_WRITE_IMPLEMENTATION
+#include <gemmi/to_mmcif.hpp>
+#include <gemmi/to_cif.hpp>
+#include <gemmi/gz.hpp>
 
 void SimTK::CIFOut::assignEntities ( gemmi::Structure &outStruct, const map <const String, BiopolymerClass>& biopolymers, const CompoundSystem& system )
 {
@@ -154,5 +153,3 @@ void SimTK::CIFOut::reWriteOutCif ( const gemmi::Model& gModel, const std::strin
     return ;
     
 }
-
-#endif

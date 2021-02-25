@@ -39,10 +39,8 @@ SimTK::PeriodicPdbAndEnergyWriter::PeriodicPdbAndEnergyWriter( 	const CompoundSy
                                                                                                                                  myBiopolymerClassContainer(myBiopolymerClassContainer)
 																 //myMagnesiumIonVec(myMagnesiumIonVec)
 {
-#ifdef GEMMI_USAGE
     myParameterReader.trajectoryFileRemarks.clear     ( );
     myParameterReader.gemmi_isFirstInStage            = true;
-#endif
 }
 
 void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy, bool& shouldTerminate) const  {
@@ -53,7 +51,6 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
     
     system.realize(state, Stage::Dynamics);
 
-#ifdef GEMMI_USAGE
     //================================================ Create new gemmi model for this position
     gemmi::Model gModel                               ( std::to_string( modelNumber ) );
     
@@ -65,15 +62,8 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
     if ( tokens.size() > 2 )                          { strName = std::string ( tokens.at(tokens.size()-3) + tokens.at(tokens.size()-2) ); }
     else                                              { strName = "TRAJECTORYX"; }
     if ( strName[0] == '/' )                          { strName.erase(0, 1); }
-#endif
     
-    if ( myParameterReader.useCIFFileFormat )
-    {
-#ifndef GEMMI_USAGE
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Error! Requested mmCIF file output, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl);
-#endif
-    }
-    else
+    if (! myParameterReader.useCIFFileFormat )
     {
         outputStream << "MODEL     " << std::setw(4) << modelNumber << std::endl;
     }
@@ -88,12 +78,8 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
 
     if ( myParameterReader.useCIFFileFormat )
     {
-#ifdef GEMMI_USAGE
         const auto &biopolymers = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
         CIFOut::buildModel( state, gModel, biopolymers, system, 3 );
-#else
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Error! Requested mmCIF file output, but did not compile with the Gemmi library. Cannot proceed, if you want to use mmCIF files, please re-compile with the Gemmi library option allowed." <<endl);
-#endif
     }
     else
     {
@@ -105,9 +91,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
 
     if ( myParameterReader.useCIFFileFormat )
     {
-#ifdef GEMMI_USAGE
         SimTK::CIFOut::reWriteOutCif                  ( gModel, strName, "frame.cif", myParameterReader, system, true );
-#endif
     }
     else
     {
@@ -127,7 +111,6 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
 
     if ( myParameterReader.useCIFFileFormat )
     {
-#ifdef GEMMI_USAGE
         //============================================ Generate trajectory remarks
         myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Seconds since January 1st 1970           : " + std::to_string ( time ( NULL ) ) ) );
         std::string curTimeHlp                        ( asctime (timeinfo) );
@@ -165,7 +148,6 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
         //============================================ Write out CIF
         SimTK::CIFOut::reWriteOutCif                  ( gModel, strName, myParameterReader.outTrajectoryFileName, myParameterReader, system, myParameterReader.gemmi_isFirstInStage );
         if ( myParameterReader.gemmi_isFirstInStage ) { myParameterReader.gemmi_isFirstInStage = false; }
-#endif
     }
     else
     {

@@ -270,10 +270,10 @@ double plancksLaw(double temperature, double frequency){
 void DensityMap::resizeVectorOfAmplitudeAndRandomPhases(){ 
         MMBLOG_FILE_FUNC_LINE(INFO, "resizing Z component vectorOfAmplitudeFrequencyAndRandomPhases to "<<(unitCellParameters.calcMaxFrequencyDoublingsZ () +1)<<endl);
         vectorOfAmplitudeFrequencyAndRandomPhases.resize(unitCellParameters.calcMaxFrequencyDoublingsZ () +1);                                         
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
         for ( int zIndex = 0; zIndex <= unitCellParameters.calcMaxFrequencyDoublingsZ(); zIndex++) {
-                MMBLOG_FILE_FUNC_LINE(INFO, endl);
-                MMBLOG_FILE_FUNC_LINE(INFO, "resizing  vectorOfAmplitudeFrequencyAndRandomPhases["<<zIndex <<"] to "<<(unitCellParameters.calcMaxFrequencyDoublingsZ () +1)<<endl);
+                MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+                MMBLOG_FILE_FUNC_LINE(DEBUG, "resizing  vectorOfAmplitudeFrequencyAndRandomPhases["<<zIndex <<"] to "<<(unitCellParameters.calcMaxFrequencyDoublingsZ () +1)<<endl);
         	vectorOfAmplitudeFrequencyAndRandomPhases[zIndex].resize(unitCellParameters.calcMaxFrequencyDoublingsY () +1);
         	for ( int yIndex = 0; yIndex <=  unitCellParameters.calcMaxFrequencyDoublingsY(); yIndex++) {
                     //MMBLOG_FILE_FUNC_LINE(std::endl;
@@ -292,7 +292,7 @@ void DensityMap::resizeVectorOfAmplitudeAndRandomPhases(){
                 }
 	        for ( int yIndex = 0; yIndex < unitCellParameters.calcMaxFrequencyDoublingsY(); yIndex++) {
         	    if (vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].size() != (unitCellParameters.calcMaxFrequencyDoublingsX()+1 )) {
-                             MMBLOG_FILE_FUNC_LINE(INFO, endl);
+                             MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
         		     MMBLOG_FILE_FUNC_LINE(CRITICAL, "Check 1. Wrong number of grid points in X direction! Found :"<< vectorOfAmplitudeFrequencyAndRandomPhases[zIndex][yIndex].size()<<" expected : " <<unitCellParameters.calcMaxFrequencyDoublingsX()+1 <<endl);
                     }
         	}
@@ -818,7 +818,7 @@ void DensityMap::writeDensityMapXplor(const String &densityFileName, const bool 
                          if (counter !=0) {outFile <<std::endl; // Carriage return. To terminate the incomplete density line.     .
                              counter = 0;
                          }
-                         MMBLOG_FILE_FUNC_LINE(INFO, "xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<endl);
+                         MMBLOG_FILE_FUNC_LINE(DEBUG, "xIndex = "<<xIndex<<" yIndex = "<<yIndex<<" zIndex = "<<zIndex<<endl);
                          outFile <<std::endl; // Carriage return.
                          outFile <<zIndex<<std::endl;
                      } else if (counter == 0 ){

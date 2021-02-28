@@ -634,6 +634,7 @@ bool ParameterReader::compareUpper( const String& param, const char* symbol ) {
 
     if( upperParam.length() != upperSym.length() ) return false; 
 
+
     for(int i=0;i<(int)upperParam.length();i++)  {
         upperParam[i] = toupper(param[i]);
         upperSym[i] = toupper(symbol[i]);
@@ -645,14 +646,43 @@ bool ParameterReader::compareUpper( const String& param, const char* symbol ) {
         return false;
 }    
 
+// determines whether the provided residue is in any Rigid stretch in the base operation vector.
+bool isInRigidStretch(const ResidueID & myResidueID, const String myChainID, const MobilizerContainer & mobilizerContainer    ){
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Testing residueID "<<myResidueID.outString()<<endl);
+    //vector <MobilizerStretch> myMobilizerStretchVector = mobilizerContainer.updResidueStretchVector()	    ;
+    for (int i = 0 ; i< mobilizerContainer.getNumResidueStretches()           ; i++) {
+	if (mobilizerContainer.updResidueStretchVector()[i].getBondMobility() == SimTK::BondMobility::Rigid){
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer start residue = "<< mobilizerContainer.updResidueStretchVector()[i].getStartResidue().outString()<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer end residue = "<< mobilizerContainer.updResidueStretchVector()[i].getEndResidue().outString()<<endl);
+            if (mobilizerContainer.updResidueStretchVector()[i].getChain()        == myChainID){
+            if (mobilizerContainer.updResidueStretchVector()[i].getStartResidue() <= myResidueID){
+                if (mobilizerContainer.updResidueStretchVector()[i].getEndResidue() >= myResidueID){
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, " In a rigid stretch. return "<<1<<endl);
+                    return true;}
+	    }}
+	}
+    }
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Not In a rigid stretch. return "<<0<<endl);
+    return false; // If you got this far, you are not in any rigid stretch
+}
 
+// This function removes base pairs when both residues of the base pair are in ANY rigid stretch. That means the two residues could be in DIFFERENT rigid stretches, or in the SAME rigid stretch.
+void ParameterReader::removeBasePairsAcrossRigidStretches () { 
+    //for (int j = 0 ; j< (int)mobilizerContainer.numMobilizerStretches()          ; j++) {
+    for (int j = 0 ; j< (int)basePairContainer.numBasePairs() ; j++) {
+        // baseOperationVector holds the endpoints of the rigid segment, while myBasePairVector holds the residues involved in the base pairing interaction.
+        if ( isInRigidStretch(basePairContainer.getBasePair(j).FirstBPResidue, basePairContainer.getBasePair(j).FirstBPChain , mobilizerContainer) ) {
+            if (isInRigidStretch(basePairContainer.getBasePair(j).SecondBPResidue, basePairContainer.getBasePair(j).SecondBPChain ,mobilizerContainer)){
+                basePairContainer.deleteBasePair(j);
+                j--; 
+	    } // of if Second	
+	} // of if First 
+    } // of for j
+}; // of function
 
-
-
-
-
-
+// This function only removes base pairs if both residues are in the SAME rigid stretch.
 void ParameterReader::removeBasePairsInRigidStretch () { 
+    MMBLOG_FILE_FUNC_LINE(CRITICAL, " This function probably does not work anymore."<<endl);
     for (int i = 0; i<(int)baseOperationVector.size(); i++) {
         //scf
         if (((baseOperationVector[i].BasePairIsTwoTransformForce).compare("mobilizer") == 0) && 
@@ -662,6 +692,7 @@ void ParameterReader::removeBasePairsInRigidStretch () {
             SimTK_ERRCHK_ALWAYS(
                     (baseOperationVector[i].FirstBPResidue <=baseOperationVector[i].SecondBPResidue), 
                     "[ParameterReader.cpp]","To use removeBasePairsInRigidStretch() you must have the start residue be lower-numbered than the end residue, for all mobilizer commands with the Rigid keyword. " );
+            //MMBLOG_FILE_FUNC_LINE(DEBUG, " Will now delete all pairs where both members are in chain "<< baseOperationVector[i].FirstBPChain  <<" and "<<endl);
 
             for (int j = 0 ; j< (int)basePairContainer.numBasePairs() ; j++) {
                 // baseOperationVector holds the endpoints of the rigid segment, while myBasePairVector holds the residues involved in the base pairing interaction.
@@ -907,6 +938,7 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "setForceScrubber                       bool    "<<setForceScrubber     <<endl;
     myOstream << remarkString << "setHelicalStacking                     bool    "<<setHelicalStacking     <<endl;
     myOstream << remarkString << "setRemoveBasePairsInRigidStretch       bool    "<<setRemoveBasePairsInRigidStretch     <<endl;
+    myOstream << remarkString << "setRemoveBasePairsAcrossRigidStretches bool    "<<setRemoveBasePairsAcrossRigidStretches     <<endl;
     myOstream << remarkString << "setTemperature                         bool    "<<setTemperature     <<endl;
     myOstream << remarkString << "smallGroupInertiaMultiplier            double   "<<smallGroupInertiaMultiplier <<endl;
     myOstream << remarkString << "sphericalHelixCenter                   double   "<<sphericalHelixCenter        <<endl;
@@ -915,7 +947,7 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "sphericalHelixPhiOffset                double   "<<sphericalHelixPhiOffset         <<endl;
     myOstream << remarkString << "sphericalHelixInterStrandDistance      double   "<<sphericalHelixInterStrandDistance<<endl;
     myOstream << remarkString << "stackAllHelicalResidues                bool    "<<stackAllHelicalResidues     <<endl;
-    myOstream << remarkString << "temperature                            bool    "<<temperature                 <<endl;
+    myOstream << remarkString << "temperature                            double  "<<temperature                 <<endl;
     myOstream << remarkString << "thermostatType                         String  "<<thermostatType              <<endl;
     myOstream << remarkString << "tinkerParameterFileName                String  "<<tinkerParameterFileName     <<endl;
     myOstream << remarkString << "useFixedStepSize                       bool    "<<useFixedStepSize                <<endl;
@@ -2143,6 +2175,16 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         String myChain = parameterStringClass.getString(1);
         ResidueID firstNtCResidueInStretch = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2).c_str(), myChain);
         ResidueID lastNtCResidueInStretch  = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3).c_str(), myChain);
+	String myNtCClassString = parameterStringClass.getString(4) ;
+        double myNtCWeight = myAtoF(userVariables,parameterStringClass.getString(5).c_str());
+	bool myMeta = 0;
+	double myNtCWeight2=0.;
+        if (parameterStringClass.getString(6).length() != 0){
+            myMeta=1;
+            myNtCWeight2= myAtoF(userVariables,parameterStringClass.getString(7).c_str());
+	}
+        ntc_class_container.add_NTC_Class(myBiopolymerClassContainer,ntc_par_class,myChain,firstNtCResidueInStretch,lastNtCResidueInStretch,myNtCClassString,myNtCWeight,myMeta,myNtCWeight2);
+	/*
         if ( myBiopolymerClassContainer.updBiopolymerClass( myChain ).difference (firstNtCResidueInStretch, lastNtCResidueInStretch ) != -1) {
             MMBLOG_FILE_FUNC_LINE(DEBUG, "NtCs could previously only be applied between consecutive residues. "<<endl);
             //MMBLOG_FILE_FUNC_LINE(DEBUG, "Syntax error! NtCs can currently only be applied between consecutive residues. "<<endl);
@@ -2216,7 +2258,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             NTC.print();
             //currentFirstResidueIndex++;
         } 
-        
+        */
         return;
     };
 
@@ -4483,6 +4525,11 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         setRemoveBasePairsInRigidStretch = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    
         return;
     }
+    if ((parameterStringClass.getString(0)).compare("setRemoveBasePairsAcrossRigidStretches") ==0) {
+        parameterStringClass.validateNumFields(2);
+        setRemoveBasePairsAcrossRigidStretches = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    
+        return;
+    }
     if ((parameterStringClass.getString(0)).compare("setTemperature") ==0) {
         parameterStringClass.validateNumFields(2);
         setTemperature = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    
@@ -5190,7 +5237,8 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     setInitialVelocities=false;
     setLoopBondMobility = false;//minimize;
     setOverallBondMobility = false;
-    setRemoveBasePairsInRigidStretch = true;
+    setRemoveBasePairsInRigidStretch = false; // This should be set to default to true, as soon as we can confirm this feature is working again.
+    setRemoveBasePairsAcrossRigidStretches = false;
     setRepulsiveForce =false;
     setTemperature=true;
     smallGroupInertiaMultiplier = 1.0;

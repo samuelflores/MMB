@@ -686,12 +686,6 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                    BondMobilityString = myBondMobilityString;
                    BondMobility = stringToBondMobility(myBondMobilityString);
 
-                   /*std::cout<<__FILE__<<":"<<__LINE__<<" stringToBondMobility(myBondMobilityString) : >"<<stringToBondMobility(myBondMobilityString)<<"< "<< std::endl;
-                   std::cout<<__FILE__<<":"<<__LINE__<<" BondMobility: >"<<BondMobility <<"< "<< std::endl;
-                   std::cout<<__FILE__<<":"<<__LINE__<<" Done. getBondMobilityString() : >"<<getBondMobilityString()<< "< "<<std::endl;
-                   std::cout<<__FILE__<<":"<<__LINE__<<" getBondMobility() >"<<getBondMobility()<<"<"<<std::endl;
-                   std::cout<<__FILE__<<":"<<__LINE__<<" Done. getBondMobilityString() : >"<<getBondMobilityString()<< "< getBondMobility() >"<<getBondMobilityString()<<"<"<<std::endl;
-                   */
                    return BondMobility;
                };
                MobilizerStretch(){setStartResidue ( ResidueID()); setEndResidue ( ResidueID()); setChain ( ""); setBondMobility ("Default");};
@@ -762,7 +756,7 @@ class MMB_EXPORT AllResiduesWithin: public  SingleResidue {
        };
        void setRadius(double myRadius) {radius = myRadius;}
        double getRadius() const {return radius;}
-        void print () const { MMBLOG_FILE_LINE(INFO, " I am an AllResiduesWithin object. chain, residue, radius = "<<getChain()<<", "<<getResidue().outString()<<", "<<getRadius()<<std::endl);};
+        void print () const { MMBLOG_FILE_LINE(DEBUG, " I am an AllResiduesWithin object. chain, residue, radius = "<<getChain()<<", "<<getResidue().outString()<<", "<<getRadius()<<std::endl);};
 
 };
 

@@ -491,7 +491,7 @@ void ConstrainedDynamics::setInterfaceMobilizers(CompoundSystem & system, Simbod
 #endif
 void ConstrainedDynamics::setMobilizers()
 {
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
     #ifdef USE_OPENMM
     _parameterReader->mobilizerContainer.createMobilizersWithin(_parameterReader->myBiopolymerClassContainer,_state);
     #endif
@@ -1095,6 +1095,7 @@ void ConstrainedDynamics::initializeBodies(){
     setInterfaceMobilizers();
     #endif
     setMobilizers();
+    _parameterReader->removeBasePairsAcrossRigidStretches(); //SCF
     createMultibodyTree();
 }
 

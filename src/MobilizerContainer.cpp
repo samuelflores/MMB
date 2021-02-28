@@ -265,52 +265,28 @@ void MobilizerContainer::setBiopolymerBondMobility (BiopolymerClassContainer & m
 
 #ifdef USE_OPENMM
 void MobilizerContainer::createMobilizersWithin ( BiopolymerClassContainer & myBiopolymerClassContainer, State & state ){
-     
-           
-    for (size_t h = 0 ; h < mobilizerWithinVector.size() ; h++) {
-    vector<SingleResidue> myMobilizerResidueVector = myBiopolymerClassContainer.findBiopolymerResiduesWithinRadius(mobilizerWithinVector,state);
-    for (size_t i = 0 ; i < myMobilizerResidueVector.size() ; i ++) {
-        MobilizerStretch myMobilizer;// =myMobilizerResidueVector[i];
-        myMobilizer.setChain (myMobilizerResidueVector[i].getChain());
-        myMobilizer.setStartResidue ( myMobilizerResidueVector[i].getResidue() );
-        myMobilizer.setEndResidue (myMobilizerResidueVector[i].getResidue() );
-        myMobilizer.setBondMobility(mobilizerWithinVector[h].getBondMobilityString() );
-        addMobilizerStretchToVector(myMobilizer, myBiopolymerClassContainer);
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
-        myMobilizer.printStretch();
-    } 
-}
-    
-    /*
-    for (int h = 0; h < (int)mobilizerWithinVector.size(); h++){
-        BiopolymerClass  primaryBiopolymerClass = myBiopolymerClassContainer.updBiopolymerClass(mobilizerWithinVector[h].getChain());
-        for (int i = 0; i < myBiopolymerClassContainer.getNumBiopolymers(); i++) {
-            BiopolymerClass  partnerBiopolymerClass = myBiopolymerClassContainer.updBiopolymerClass(i);
-            ResidueID j(partnerBiopolymerClass.getFirstResidueID()); 
-            for ( j = partnerBiopolymerClass.getFirstResidueID(); j <= partnerBiopolymerClass.getLastResidueID();partnerBiopolymerClass.incrementResidueID( j) ) {
-                double myDistance = (double)(
-
-                    partnerBiopolymerClass.calcDefaultAtomLocationInGroundFrame  ( j, partnerBiopolymerClass.getRepresentativeAtomName())
-                    - primaryBiopolymerClass.calcDefaultAtomLocationInGroundFrame(mobilizerWithinVector[h].getResidue() , primaryBiopolymerClass.getRepresentativeAtomName())
-                    ).norm();
-                    //partnerBiopolymerClass.calcAtomLocationInGroundFrame  (state, j, partnerBiopolymerClass.getRepresentativeAtomName())
-                    //- primaryBiopolymerClass.calcAtomLocationInGroundFrame(state,mobilizerWithinVector[h].getResidue() , primaryBiopolymerClass.getRepresentativeAtomName())
-                    //).norm();
-                if (myDistance <= (mobilizerWithinVector[h].getRadius())){ // used to div by 10 to convert Å to nm .. now just using nm directly.
-                    MobilizerStretch myMobilizer;
-                    myMobilizer.setChain ( partnerBiopolymerClass.getChainID());
-                    myMobilizer.setStartResidue (j);
-                    myMobilizer.setEndResidue (j);
-                    myMobilizer.setBondMobility(mobilizerWithinVector[h].getBondMobilityString() );
-                    addMobilizerStretchToVector(myMobilizer, myBiopolymerClassContainer);
-                } // of if
-                if (j == partnerBiopolymerClass.getLastResidueID() ) break;
-            } // of for j
-        } // of for i
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " calling f for mobilizerWithinVector  of size  "<<mobilizerWithinVector.size()<< endl);
+    vector <MobilizerWithin> tempSingleMobilizerWithin; 
+    for (size_t h = 0 ; h < mobilizerWithinVector.size() ; h++) { 
+         //  it is possible to pass the entire vector and let findBiopolymerResiduesWithinRadius loop over it. however we might then be unable to control the mobilizer types separately
+        tempSingleMobilizerWithin.clear(); tempSingleMobilizerWithin.push_back(mobilizerWithinVector[h]);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " calling f for mobilizerWithinVector  of size  "<<mobilizerWithinVector.size()<< endl);
+        vector<SingleResidue> myMobilizerResidueVector = myBiopolymerClassContainer.findBiopolymerResiduesWithinRadius(tempSingleMobilizerWithin ,state);
+        for (size_t i = 0 ; i < myMobilizerResidueVector.size() ; i ++) 
+         {
+            MobilizerStretch myMobilizer;// =myMobilizerResidueVector[i];
+            myMobilizer.setChain (myMobilizerResidueVector[i].getChain());
+            myMobilizer.setStartResidue ( myMobilizerResidueVector[i].getResidue() );
+            myMobilizer.setEndResidue (myMobilizerResidueVector[i].getResidue() );
+            myMobilizer.setBondMobility(tempSingleMobilizerWithin[0].getBondMobilityString() );
+            addMobilizerStretchToVector(myMobilizer, myBiopolymerClassContainer);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+            myMobilizer.printStretch();
+         } 
     } // of for h
-    */
 }; // of method
 #endif
+
 void MobilizerContainer::pushMobilizerWithin ( MobilizerWithin mobilizerWithin, BiopolymerClassContainer & myBiopolymerClassContainer){
     validateMobilizerWithin(mobilizerWithin,myBiopolymerClassContainer);
     mobilizerWithinVector.push_back(mobilizerWithin);

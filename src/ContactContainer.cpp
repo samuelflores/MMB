@@ -128,8 +128,8 @@ void ContactContainer::createContactsWithin ( BiopolymerClassContainer & myBiopo
     myBiopolymerClassContainer.setNeighborsFromList(concatenatedAtomInfoVector, neighborList, maxRadius);
     for (int h = 0; h < (int)contactWithinVector.size(); h++)
     {
-        MMBLOG_FILE_FUNC_LINE(INFO, "Starting to apply contacts within "<<contactWithinVector[h].Radius<<" nm of chain "<<contactWithinVector[h].Chain<<" residue "<<contactWithinVector[h].Residue.outString()<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "Note that in MMB 2.10 and earlier, we took this radius in Å.  We are going back to nm for consistency, with apologies for the confusion."<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "Starting to apply contacts within "<<contactWithinVector[h].Radius<<" nm of chain "<<contactWithinVector[h].Chain<<" residue "<<contactWithinVector[h].Residue.outString()<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "Note that in MMB 2.10 and earlier, we took this radius in Å.  We are going back to nm for consistency, with apologies for the confusion."<<endl);
         // vector< pair<const BiopolymerClass*, const ResidueID*> > residuesWithin = myBiopolymerClassContainer.getResiduesWithin(contactWithinVector[h].Chain, contactWithinVector[h].Residue, contactWithinVector[h].Radius, state, &neighborList);
 
         // vector< pair<const BiopolymerClass*, const ResidueID*> >::iterator it;
@@ -148,24 +148,24 @@ void ContactContainer::createContactsWithin ( BiopolymerClassContainer & myBiopo
                     // Skip residues in unactive chains
                     if(myBiopolymerClass.getActivePhysics() == false)
                         continue;
-                    MMBLOG_FILE_FUNC_LINE(INFO, "distance is less than "<<contactWithinVector[h].Radius<<", checking if contact already exists : ");
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, "distance is less than "<<contactWithinVector[h].Radius<<", checking if contact already exists : ");
                     ContactStretch myContact;
                     myContact.setChain (myBiopolymerClass.getChainID());
                     myContact.setStartResidue((*itAtomPointer)->residueID);
                     myContact.setEndResidue ((*itAtomPointer)->residueID);
                     myContact.ContactScheme = contactWithinVector[h].ContactScheme;
-                    MMBLOG_FILE_FUNC_LINE(INFO, "result : "<<hasSharedContact(myContact)<<endl);
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, "result : "<<hasSharedContact(myContact)<<endl);
                     if (! (hasSharedContact(myContact))) {
-                        MMBLOG_FILE_FUNC_LINE(INFO, "Adding contact : ");
+                        MMBLOG_FILE_FUNC_LINE(DEBUG, "Adding contact : ");
                         printContact(myContact);
                         addContactToVector(myContact, myBiopolymerClassContainer);
                     } else if (hasSharedContact(myContact) ) {
-                        MMBLOG_FILE_FUNC_LINE(INFO, "Not adding contact : ");
+                        MMBLOG_FILE_FUNC_LINE(DEBUG, "Not adding contact : ");
                         printContact(myContact);
                     } else {  
                         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);
                     }
-                    MMBLOG_FILE_FUNC_LINE(INFO, endl);//" result : "<<hasSharedContact(myContact)<<endl;
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, endl);//" result : "<<hasSharedContact(myContact)<<endl;
                 }
             }
         }
@@ -315,12 +315,12 @@ bool  ContactContainer::hasSharedContact(String chainID, ResidueID startResidueI
             ((tempContactStretch.getStartResidue() <= endResidueID)   && (tempContactStretch.getEndResidue() >= endResidueID) ||   // the supplied end residue is in the range of this ContactStretch (with index $i).
              (tempContactStretch.getStartResidue() <= startResidueID) && (tempContactStretch.getEndResidue() >= startResidueID)) // the supplied start residue is in the range of this ContactStretch (with index $i).
             ) {
-            MMBLOG_FILE_FUNC_LINE(INFO, "The stretch of residues you proposed (chain "<<chainID<<" residues "<<startResidueID.outString()<<" to "<< endResidueID.outString()<<" overlaps with an existing stretch, from "<<tempContactStretch.getStartResidue().outString()<<" to "<<tempContactStretch.getEndResidue().outString()<<". "<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "The stretch of residues you proposed (chain "<<chainID<<" residues "<<startResidueID.outString()<<" to "<< endResidueID.outString()<<" overlaps with an existing stretch, from "<<tempContactStretch.getStartResidue().outString()<<" to "<<tempContactStretch.getEndResidue().outString()<<". "<<endl);
             return true  ;
             MMBLOG_FILE_FUNC_LINE(CRITICAL, " Unexplained error!"<<endl);
         }
     }
-    MMBLOG_FILE_FUNC_LINE(INFO, "The stretch of residues you proposed (chain "<<chainID<<" residues "<<startResidueID.outString()<<" to "<< endResidueID.outString()<<" does not overlap with any existing stretch"<<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "The stretch of residues you proposed (chain "<<chainID<<" residues "<<startResidueID.outString()<<" to "<< endResidueID.outString()<<" does not overlap with any existing stretch"<<endl);
     return (false);
     MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);
 };

@@ -287,7 +287,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             myParameterReader.removeNonPriorityBasePairs(myParameterReader.currentStage);//i);
             MMBLOG_FILE_FUNC_LINE(INFO, "BASE PAIRS before removing from rigid stretches:"<<endl);
             myParameterReader.basePairContainer.printBasePairs();
-            if (myParameterReader.setRemoveBasePairsInRigidStretch) myParameterReader.removeBasePairsInRigidStretch();
+            //if (myParameterReader.setRemoveBasePairsInRigidStretch) myParameterReader.removeBasePairsInRigidStretch();
             //if (myParameterReader.setRemoveBasePairsAcrossRigidStretches) myParameterReader.removeBasePairsAcrossRigidStretches();
             MMBLOG_FILE_FUNC_LINE(INFO, "BASE PAIRS AFTER removing from rigid stretches:"<<endl);
             myParameterReader.basePairContainer.printBasePairs();

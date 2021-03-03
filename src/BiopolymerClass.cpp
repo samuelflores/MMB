@@ -2268,7 +2268,7 @@ void        BiopolymerClass::setAntiParallelBetaSheetDefaultBackboneAngles(Resid
     }
 };
 
-int BiopolymerClass::difference(ResidueID  residueA, ResidueID  residueB ){
+const int BiopolymerClass::difference(ResidueID  residueA, ResidueID  residueB )const {
     return (getResidueIndex(residueA) - getResidueIndex(residueB));
 };
 

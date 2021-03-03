@@ -11,7 +11,7 @@
 #include "BasePairContainer.h"
 #include "BiopolymerClass.h"
 #include "Utils.h"          
-
+#include "NtC_Class_Container.h"
 #include <sstream>
 
 void BasePairContainer::clear(){
@@ -315,7 +315,7 @@ void BasePairContainer::generateHelicalStackingInteractions(String chainID, Resi
 
 // Add helical stacking interactions for all runs of Watson-Crick base pairs, beyond some minimum lenght
 
-void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass){
+void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass, const  NTC_PAR_Class & ntc_par_class , NTC_Class_Container  & my_ntc_class_container){
     MMBLOG_FILE_FUNC_LINE(INFO, "Running addHelicalStacking  "<<endl);
     for (auto i = 0; i < myBiopolymerClassContainer.getNumBiopolymers(); i++) {
         //MMBLOG_FILE_FUNC_LINE(" So far we have "<<numBasePairs() <<" baseInteraction's.  They are: "<<endl;
@@ -331,6 +331,7 @@ void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolym
                 MMBLOG_FILE_FUNC_LINE(INFO, "Generating stacking interactions from "<<myResidue.outString()<<" to "<<lastPairingResidue.outString()<<endl);
                 if ( myBiopolymerClass.difference (lastPairingResidue , myResidue) > 1){ // if we have at least 3BP in the helix.  increase this if you wish, but minimum is zero.
                     generateHelicalStackingInteractions(myChainID,myResidue,lastPairingResidue,myBiopolymerClassContainer, lhClass) ;
+                    my_ntc_class_container.generateAorBFormNtCs( myBiopolymerClassContainer, myChainID, myResidue, lastPairingResidue, 0.5 , ntc_par_class);
                 }
                 if (lastPairingResidue <  myBiopolymerClass.getLastResidueID()) {
                     myResidue = myBiopolymerClass.incrementResidueID(lastPairingResidue) ; // continue the outer loop after the just-discovered stacking run.

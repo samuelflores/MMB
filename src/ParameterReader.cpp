@@ -673,11 +673,16 @@ void ParameterReader::removeBasePairsAcrossRigidStretches () {
         // baseOperationVector holds the endpoints of the rigid segment, while myBasePairVector holds the residues involved in the base pairing interaction.
         if ( isInRigidStretch(basePairContainer.getBasePair(j).FirstBPResidue, basePairContainer.getBasePair(j).FirstBPChain , mobilizerContainer) ) {
             if (isInRigidStretch(basePairContainer.getBasePair(j).SecondBPResidue, basePairContainer.getBasePair(j).SecondBPChain ,mobilizerContainer)){
+                MMBLOG_FILE_FUNC_LINE(DEBUG, " Deleting base pair."<< basePairContainer.getBasePair(j).FirstBPResidue.outString()<<" "<<basePairContainer.getBasePair(j).SecondBPResidue.outString() <<endl);
                 basePairContainer.deleteBasePair(j);
                 j--; 
 	    } // of if Second	
 	} // of if First 
     } // of for j
+    MMBLOG_FILE_FUNC_LINE(INFO    , " Printing all base interactions   ,at the end of removeBasePairsAcrossRigidStretches."<<endl);
+    basePairContainer.printBasePairs();
+    MMBLOG_FILE_FUNC_LINE(INFO    , " Printing all mobilizer stretches, at the end of removeBasePairsAcrossRigidStretches."<<endl);
+    mobilizerContainer.printMobilizerStretches();
 }; // of function
 
 // This function only removes base pairs if both residues are in the SAME rigid stretch.
@@ -4870,6 +4875,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
 
 void ParameterReader::initializeFromFileOnly(const char * parameterFileName ) {
+    basePairContainer.printBasePairs();
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     ifstream inFile(parameterFileName,ifstream::in);
     if (!(inFile.good())){
@@ -4936,7 +4942,8 @@ void ParameterReader::initializeFromFileOnly(const char * parameterFileName ) {
     }
 
     MMBLOG_FILE_FUNC_LINE(DEBUG, "base pairs just after reading from commands.dat:"<<endl);
-    if (verbose) basePairContainer.printBasePairs();
+    //if (verbose) 
+    basePairContainer.printBasePairs();
     MMBLOG_FILE_FUNC_LINE(INFO, "After reading command file, here is the list of atom springs: "<<endl);
     atomSpringContainer.printAtomSprings();
     MMBLOG_FILE_FUNC_LINE(INFO, "Done printing atom springs. "<<endl);
@@ -5052,8 +5059,16 @@ void ParameterReader::postInitialize(){
     if (lastStage == 0) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "For some reason lastStage is set to 0."<<endl);
     }//lastStage = calcHighestPriority();
-    if (setHelicalStacking) 
-        basePairContainer.addHelicalStacking(myBiopolymerClassContainer, _leontisWesthofClass);
+    //MMBLOG_FILE_FUNC_LINE(DEBUG, "All base pairs, before removeBasePairsAcrossRigidStretches"<<endl);
+    //if (setRemoveBasePairsAcrossRigidStretches) {removeBasePairsAcrossRigidStretches();}
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "All base pairs, before addHelicalStacking"<<endl);
+    basePairContainer.printBasePairs();
+    //if (setHelicalStacking){ 
+    //    MMBLOG_FILE_FUNC_LINE(DEBUG, "check 17"<<endl);
+    //    basePairContainer.addHelicalStacking(myBiopolymerClassContainer, _leontisWesthofClass, ntc_par_class,ntc_class_container);
+    //}
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "All base pairs, before addHelicalStacking"<<endl);
+    basePairContainer.printBasePairs();
     MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
 }
 

@@ -16,10 +16,13 @@
 #include "ResidueStretchContainer.h"
 #include "NTC_PARAMETER_READER.h"
 
+// Forward declaration:
+class NTC_PAR_Class;
 class MMB_EXPORT NTC_Class_Container {
 
 public:
     void clear() ;
+    void generateAorBFormNtCs(BiopolymerClassContainer & myBiopolymerClassContainer, String chainID, ResidueID firstResidue, ResidueID lastResidue,double myNTCWeight, const  NTC_PAR_Class & ntc_par_class);
     void add_NTC_Class(BiopolymerClassContainer & myBiopolymerClassContainer,
         const NTC_PAR_Class & ntc_par_class,const String myChain, 
         const ResidueID firstNtCResidueInStretch, const ResidueID lastNtCResidueInStretch, 

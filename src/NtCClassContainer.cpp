@@ -21,6 +21,26 @@ void NTC_Class_Container::clear(){
     myNTC_Class_Vector.clear();
 };
 
+void NTC_Class_Container::generateAorBFormNtCs(BiopolymerClassContainer & myBiopolymerClassContainer, String chainID, ResidueID firstResidue, ResidueID lastResidue,double myNTCWeight, const  NTC_PAR_Class & ntc_par_class){
+
+    if ( myBiopolymerClassContainer.getBiopolymerClass(chainID).difference(lastResidue , firstResidue) <1) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "It's not possible to apply helical stacking interactions to a run of fewer than 2 residues! "<<endl);
+    }
+    String myNtCClassString = "XXXXZZZZ";   
+    if      (myBiopolymerClassContainer.getBiopolymerClass(chainID).getBiopolymerType() == BiopolymerType::RNA) 
+    {   
+	myNtCClassString = "AA00";    
+    } else if (myBiopolymerClassContainer.getBiopolymerClass(chainID).getBiopolymerType() == BiopolymerType::DNA )
+    {   
+	myNtCClassString = "BB00";    
+    } else {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid biopolymerType: "<< myBiopolymerClassContainer.getBiopolymerClass(chainID).getBiopolymerType() <<endl);
+    }
+    add_NTC_Class( myBiopolymerClassContainer,ntc_par_class, chainID, firstResidue, lastResidue,myNtCClassString, myNTCWeight, 0,0);
+        
+}
+
+
 void NTC_Class_Container::add_NTC_Class(BiopolymerClassContainer & myBiopolymerClassContainer,const NTC_PAR_Class & ntc_par_class,const String myChain, const ResidueID firstNtCResidueInStretch, const ResidueID lastNtCResidueInStretch, const String NtCClassString, const double myNtCWeight, const bool myMeta, const double myNtCWeight2){ 
 
 
@@ -29,11 +49,11 @@ void NTC_Class_Container::add_NTC_Class(BiopolymerClassContainer & myBiopolymerC
                 <<"For example, if (DNA) chain A, residues 1 and 2 are in a B-form helix helix, and you want a force constant of 1.5, you can specify :  "<<endl
                 <<"     NtC A 1 2 AA00 1.5  "<<endl);
 
-        if ( myBiopolymerClassContainer.updBiopolymerClass( myChain ).difference (firstNtCResidueInStretch, lastNtCResidueInStretch ) != -1) {
+        if ( myBiopolymerClassContainer.getBiopolymerClass( myChain ).difference (firstNtCResidueInStretch, lastNtCResidueInStretch ) != -1) {
             MMBLOG_FILE_FUNC_LINE(DEBUG, "NtCs could previously only be applied between consecutive residues. "<<endl);
         }
-        int firstNtCResidueIndexInStretch = myBiopolymerClassContainer.updBiopolymerClass( myChain ).getResidueIndex(firstNtCResidueInStretch);
-        int lastNtCResidueIndexInStretch  = myBiopolymerClassContainer.updBiopolymerClass( myChain ).getResidueIndex(lastNtCResidueInStretch);
+        int firstNtCResidueIndexInStretch = myBiopolymerClassContainer.getBiopolymerClass( myChain ).getResidueIndex(firstNtCResidueInStretch);
+        int lastNtCResidueIndexInStretch  = myBiopolymerClassContainer.getBiopolymerClass( myChain ).getResidueIndex(lastNtCResidueInStretch);
         for (int currentFirstResidueIndex = firstNtCResidueIndexInStretch; currentFirstResidueIndex <  lastNtCResidueIndexInStretch; currentFirstResidueIndex += 1 )
         {
             //// The below was above "for":
@@ -63,8 +83,8 @@ void NTC_Class_Container::add_NTC_Class(BiopolymerClassContainer & myBiopolymerC
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error! The index: "<<(currentFirstResidueIndex + 1 )<<" of the second residue in this NtC, is too high! "<<endl);
             }
 
-            NTC.FirstBPResidue  = myBiopolymerClassContainer.updBiopolymerClass(NTC.NtC_FirstBPChain).getResidueID(currentFirstResidueIndex     );
-            NTC.SecondBPResidue = myBiopolymerClassContainer.updBiopolymerClass(NTC.NtC_FirstBPChain).getResidueID(currentFirstResidueIndex + 1 );
+            NTC.FirstBPResidue  = myBiopolymerClassContainer.getBiopolymerClass(NTC.NtC_FirstBPChain).getResidueID(currentFirstResidueIndex     );
+            NTC.SecondBPResidue = myBiopolymerClassContainer.getBiopolymerClass(NTC.NtC_FirstBPChain).getResidueID(currentFirstResidueIndex + 1 );
             NTC.NtC_step_ID = (NTC.FirstBPResidue.outString());
             MMBLOG_FILE_FUNC_LINE(INFO, "Starting NtC loop. Overall residue stretch is from "<<firstNtCResidueInStretch.outString()<< " to "<< lastNtCResidueInStretch.outString()<<" . In this round, NTC.FirstBPResidue = "<< NTC.FirstBPResidue.outString() << " , NTC.SecondBPResidue = "<< NTC.SecondBPResidue.outString() <<" . "<<endl);
             MMBLOG_FILE_FUNC_LINE(INFO, "NTC.FirstBPResidue = "<<NTC.FirstBPResidue.outString()<<endl);

@@ -270,7 +270,7 @@ public:
     void        setParallelBetaSheetDefaultBackboneAngles(ResidueID startResidue, ResidueID endResidue); 
     void        setAntiParallelBetaSheetDefaultBackboneAngles(ResidueID startResidue, ResidueID endResidue); 
     
-    int difference(ResidueID  residueA, ResidueID  residueB );
+    const int difference(ResidueID  residueA, ResidueID  residueB ) const;
     //ResidueID testSum(ResidueID  oldResidueID, int  increment );
     bool safeSum(ResidueID  inputResidueID, int  increment, ResidueID outputResidueID);
     ResidueID safeSum(ResidueID  inputResidueID, int  increment );

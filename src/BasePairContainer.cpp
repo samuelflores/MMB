@@ -11,7 +11,7 @@
 #include "BasePairContainer.h"
 #include "BiopolymerClass.h"
 #include "Utils.h"          
-
+#include "NtC_Class_Container.h"
 #include <sstream>
 
 void BasePairContainer::clear(){
@@ -275,52 +275,54 @@ const ResidueID  BasePairContainer::getLastWatsonCrickCisPairingResidueOfRun(Str
     MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error! "<<endl);
 } // of getLastWatsonCrickCisPairingResidueOfRun
 
+//void BasePairContainer::     addHelicalStackingInteractions(String chainID, ResidueID firstResidue, ResidueID lastResidue,BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass){
+/*void BasePairContainer::generateAorBFormNtCs(String chainID, ResidueID firstResidue, ResidueID lastResidue,BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass){
+    if ( myBiopolymerClassContainer.updBiopolymerClass(chainID).difference(lastResidue , firstResidue) <1) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "It's not possible to apply helical stacking interactions to a run of fewer than 2 residues! "<<endl);
+    }
+}*/
+
 void BasePairContainer::generateHelicalStackingInteractions(String chainID, ResidueID firstResidue, ResidueID lastResidue,BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass){
 
     if ( myBiopolymerClassContainer.updBiopolymerClass(chainID).difference(lastResidue , firstResidue) <1) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "It's not possible to apply helical stacking interactions to a run of fewer than 2 residues! "<<endl);
     }
     for (ResidueID i = firstResidue; i < lastResidue;myBiopolymerClassContainer.updBiopolymerClass(chainID).incrementResidueID( i) ) {
-           BaseInteraction myBasePair;
-           myBasePair.rotationCorrection1 = Rotation(0.0,UnitVec3(0,0,1));
-           myBasePair.rotationCorrection2 = Rotation(0.0,UnitVec3(0,0,1));
-           //myBasePair.BasePairIsTwoTransformForce = String("baseInteraction");
-           myBasePair.FirstBPChain    = chainID;
-           myBasePair.SecondBPChain   = chainID;
-           myBasePair.FirstBPResidue  =  i;
-           myBasePair.SecondBPResidue =  myBiopolymerClassContainer.updBiopolymerClass(chainID).incrementResidueID( i);
-           myBiopolymerClassContainer.updBiopolymerClass(chainID).decrementResidueID( i);
-           if      (myBiopolymerClassContainer.updBiopolymerClass(chainID).getBiopolymerType() == BiopolymerType::RNA) 
-           {
-               myBasePair.FirstBPEdge     = "HelicalStackingA3";
-               myBasePair.SecondBPEdge    = "HelicalStackingA5";
-           } else if (myBiopolymerClassContainer.updBiopolymerClass(chainID).getBiopolymerType() == BiopolymerType::DNA )
-           {
-               myBasePair.FirstBPEdge     = "HelicalStackingB3";
-               myBasePair.SecondBPEdge    = "HelicalStackingB5";
-           } else {
-               MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid biopolymerType: "<< myBiopolymerClassContainer.updBiopolymerClass(chainID).getBiopolymerType() <<endl);
-           }
-           myBasePair.OrientationBP = "Cis";
-           //myBasePair.BasePairPriority = 1;
-
-           addBasePair( myBiopolymerClassContainer,lhClass,myBasePair, true); 
+        BaseInteraction myBasePair;
+        myBasePair.rotationCorrection1 = Rotation(0.0,UnitVec3(0,0,1));
+        myBasePair.rotationCorrection2 = Rotation(0.0,UnitVec3(0,0,1));
+        myBasePair.FirstBPChain    = chainID;
+        myBasePair.SecondBPChain   = chainID;
+        myBasePair.FirstBPResidue  =  i;
+        myBasePair.SecondBPResidue =  myBiopolymerClassContainer.updBiopolymerClass(chainID).incrementResidueID( i);
+        myBiopolymerClassContainer.updBiopolymerClass(chainID).decrementResidueID( i);
+        if      (myBiopolymerClassContainer.updBiopolymerClass(chainID).getBiopolymerType() == BiopolymerType::RNA) 
+        {
+            myBasePair.FirstBPEdge     = "HelicalStackingA3";
+            myBasePair.SecondBPEdge    = "HelicalStackingA5";
+        } else if (myBiopolymerClassContainer.updBiopolymerClass(chainID).getBiopolymerType() == BiopolymerType::DNA )
+        {
+            myBasePair.FirstBPEdge     = "HelicalStackingB3";
+            myBasePair.SecondBPEdge    = "HelicalStackingB5";
+        } else {
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid biopolymerType: "<< myBiopolymerClassContainer.updBiopolymerClass(chainID).getBiopolymerType() <<endl);
+        }
+        myBasePair.OrientationBP = "Cis";
+        addBasePair( myBiopolymerClassContainer,lhClass,myBasePair, true); 
     }
     
 }
 
 // Add helical stacking interactions for all runs of Watson-Crick base pairs, beyond some minimum lenght
 
-void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass){
+void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass, const  NTC_PAR_Class & ntc_par_class , NTC_Class_Container  & my_ntc_class_container){
     MMBLOG_FILE_FUNC_LINE(INFO, "Running addHelicalStacking  "<<endl);
     for (auto i = 0; i < myBiopolymerClassContainer.getNumBiopolymers(); i++) {
         //MMBLOG_FILE_FUNC_LINE(" So far we have "<<numBasePairs() <<" baseInteraction's.  They are: "<<endl;
-        //printBasePairs();
         BiopolymerClass & myBiopolymerClass = myBiopolymerClassContainer.updBiopolymerClass(i);
         String myChainID = myBiopolymerClass.getChainID();
         MMBLOG_FILE_FUNC_LINE(INFO, "Running addHelicalStacking for chain "<<myChainID<<endl);
         //myResidueNumber counts down chain i from the first to last residue number, looking for stretches of chain i to which it can apply helical stacking runs.  at the end of each stacking run, it increments to one residue after the last residue of the run.
-        //for (ResidueID myResidue = myBiopolymerClass.getFirstResidueID(); myResidue <=  myBiopolymerClass.getLastResidueID(); myBiopolymerClass.incrementResidueID(myResidue)){
         ResidueID myResidue = myBiopolymerClass.getFirstResidueID(); 
         while  ( myResidue !=  myBiopolymerClass.getLastResidueID()){
             MMBLOG_FILE_FUNC_LINE(INFO, "Checking myResidue "<<myResidue.outString()<<" vs. myBiopolymerClass.getLastResidueID() = "<<myBiopolymerClass.getLastResidueID().outString()<<endl);
@@ -329,6 +331,7 @@ void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolym
                 MMBLOG_FILE_FUNC_LINE(INFO, "Generating stacking interactions from "<<myResidue.outString()<<" to "<<lastPairingResidue.outString()<<endl);
                 if ( myBiopolymerClass.difference (lastPairingResidue , myResidue) > 1){ // if we have at least 3BP in the helix.  increase this if you wish, but minimum is zero.
                     generateHelicalStackingInteractions(myChainID,myResidue,lastPairingResidue,myBiopolymerClassContainer, lhClass) ;
+                    my_ntc_class_container.generateAorBFormNtCs( myBiopolymerClassContainer, myChainID, myResidue, lastPairingResidue, 0.5 , ntc_par_class);
                 }
                 if (lastPairingResidue <  myBiopolymerClass.getLastResidueID()) {
                     myResidue = myBiopolymerClass.incrementResidueID(lastPairingResidue) ; // continue the outer loop after the just-discovered stacking run.

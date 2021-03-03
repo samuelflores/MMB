@@ -37,7 +37,7 @@ public:
 
     void printMobilizerStretch(int mobilizerStretchIndex);
     void printMobilizerStretches();
-    int numMobilizerStretches();
+    int numMobilizerStretches() ;
     String getChain(int mobilizerStretchIndex);
     ResidueID getStartResidue(int mobilizerStretchIndex);
     ResidueID getEndResidue(int mobilizerStretchIndex);

@@ -15,6 +15,7 @@
 #include "Utils.h"          
 #include "ResidueStretchContainer.h"
 #include "BaseInteractionParameterReader.h"
+#include "NTC_PARAMETER_READER.h"
 
 class MMB_EXPORT BasePairContainer {
 
@@ -38,7 +39,7 @@ public:
 	const BaseInteraction & getBasePair(int basePairIndex) ;
 	//BaseInteraction & 	updBasePair(int);
 	int 		numBasePairs() ;
-	void		addHelicalStacking(BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass);
+	void		addHelicalStacking(BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass,const  NTC_PAR_Class & ntc_par_class, NTC_Class_Container  & my_ntc_class_container);
     vector<BaseInteraction>	myBasePairVector;	    
     void 		printBasePairs();
     void		setBasePairSatisfied(int,bool);

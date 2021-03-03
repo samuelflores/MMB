@@ -175,9 +175,7 @@ public:
     int unSatisfiedBasePairs ;
     double scrubberPeriod  ;
     bool safeParameters;
-    //int setChiBondAnti;
     int setChiBondMobility;
-    //int setDefaultMDParameters;
     int setDefaultStructurePredictionParameters;
     int setDefaultThreadingParameters;
 
@@ -188,6 +186,7 @@ public:
     bool setLoopBondMobility;//minimize;
     bool setOverallBondMobility;
     bool setRemoveBasePairsInRigidStretch;
+    bool setRemoveBasePairsAcrossRigidStretches;
     bool setRepulsiveForce ;
     bool setTemperature;
     double smallGroupInertiaMultiplier;
@@ -244,7 +243,6 @@ public:
     String sequence;
     String proteinSequence;
     String coarseNucleicAcidSequence;
-    //int numChains;
     int numFirstResidues ;
     int numResetBases    ;
     int numProteinFirstResidues ;
@@ -252,24 +250,13 @@ public:
     int numTemperatures;      
     int numGlobalCoulombScaleFactors;
     int numGlobalVdwScaleFactors;
-    //int numDutyCycles;    
-    double temperature ; //ok to here scf
+    double temperature ; 
     double dutyCycle   ; 
     int periodicallyUpdateParameters;
     int currentStage;
     int priority;
-    //vector<Biopolymer> biopolymerVector;
-    //vector<String> chainId;
     vector<int> residueNumber;
     map<const ChainResidueIndex, int,twoIndexCmp> residueNumberTwo;  
-    //vector<double> temperatureArray;
-    //vector<int> temperaturePriority;
-    //vector<double> dutyCycleArray;
-    //vector<int> dutyCyclePriority;
-    /*vector<double> globalCoulombScaleFactorArray;
-    vector<int> globalCoulombScaleFactorPriority;
-    vector<double> globalVdwScaleFactorArray;
-    vector<int> globalVdwScaleFactorPriority;*/
 
     LeontisWesthofClass     _leontisWesthofClass;  
     //#ifdef BuildNtC 
@@ -322,6 +309,7 @@ public:
 
 
     void removeBasePairsInRigidStretch ();
+    void removeBasePairsAcrossRigidStretches ();
 
     void printAllSettings (   ostream  & myOstream = std::cout, String remarkString = "") ;
     void printAllSettingsToMMCIF ( std::vector< std::pair < std::string, std::string > > &remarksVec ) ;

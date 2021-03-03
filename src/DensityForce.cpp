@@ -55,6 +55,7 @@ Real DensityForce::calcPotentialEnergy(const State& state) const
                     totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * tempAtomInfo.atomicNumber;
                 } // of for m
         } // of for biopolymer
+        MMBLOG_FILE_FUNC_LINE(INFO, " Total potential energy due to density fitting potential = "<<totalPotentialEnergy <<std::endl);
 	return totalPotentialEnergy;
         };
 /*

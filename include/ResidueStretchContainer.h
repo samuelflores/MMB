@@ -43,6 +43,7 @@ class ResidueStretchContainer{
     }    
 
     vector<ResidueStretchType> getResidueStretchVector() {return residueStretchVector;};
+    const vector<ResidueStretchType> & updResidueStretchVector() const {return  residueStretchVector;};
 
     void printResidueStretchVector() {
         for (int i = 0 ; i <residueStretchVector.size(); i++) {
@@ -67,7 +68,7 @@ class ResidueStretchContainer{
         return residueStretchVector[residueStretchIndex];
     };
 
-    const int getNumResidueStretches() { 
+    const int getNumResidueStretches() const { 
         //cout<<__FILE__<<":"<<__LINE__<<" residueStretchVector.size() = "<<residueStretchVector.size()<<endl;
         return residueStretchVector.size();
     }

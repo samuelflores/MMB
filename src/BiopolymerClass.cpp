@@ -1178,31 +1178,15 @@ void overrideAtomInfoVectorProperties(BiopolymerClass & myBiopolymerClass, vecto
             for (size_t overrideVectorIndex = 0; overrideVectorIndex < myAtomicPropertyOverrideVector.size() ; overrideVectorIndex++){
                 if (subjectAtomInfoVector[i].atomName == myAtomicPropertyOverrideVector[overrideVectorIndex].atomName){
                     if (myAtomicPropertyOverrideVector[overrideVectorIndex].property == "atomicNumber") {
-                        MMBLOG_FILE_FUNC_LINE(INFO, "For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].atomName <<",  property atomicNumber is currently set to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl);
+                        MMBLOG_FILE_FUNC_LINE(DEBUG, "For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].atomName <<",  property atomicNumber is currently set to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl);
                         // NOte we are casting double as int:
                         subjectAtomInfoVector[i].atomicNumber = myAtomicPropertyOverrideVector[overrideVectorIndex].value;
-                        MMBLOG_FILE_FUNC_LINE(INFO, "For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].atomName <<", just overrode property atomicNumber to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl);
+                        MMBLOG_FILE_FUNC_LINE(DEBUG, "For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].atomName <<", just overrode property atomicNumber to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl);
                     } else {
 	                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have tried to change the property : >" <<myAtomicPropertyOverrideVector[overrideVectorIndex].property << "< for atoms of name : >"<<  myAtomicPropertyOverrideVector[overrideVectorIndex].atomName <<"< .  This is not supported!"<<endl);
                     } // of if atomicNumber
                 } // of if atomName match
             } // of for overrideVectorIndex
-            /*
-            if ((subjectAtomInfoVector[i].atomName == "P") ||
-               (subjectAtomInfoVector[i].atomName == "OP1") ||
-               (subjectAtomInfoVector[i].atomName == "OP2") ||
-               (subjectAtomInfoVector[i].atomName == "O5*") ||
-               (subjectAtomInfoVector[i].atomName == "O5'") ||
-               (subjectAtomInfoVector[i].atomName == "O3*") ||
-               (subjectAtomInfoVector[i].atomName == "O3'") ) {
-                MMBLOG_FILE_FUNC_LINE(": About to change atomicNumber  from "<<subjectAtomInfoVector[i].atomicNumber <<" in subjectAtomInfoVector["<<i<<"] "<<std::endl;
-                subjectAtomInfoVector[i].atomicNumber = 0; // Artificially set the atomic number to zero so it becomes inactive in density map fitting.
-                MMBLOG_FILE_FUNC_LINE(":  atomicNumber  is now  "<<subjectAtomInfoVector[i].atomicNumber <<" in subjectAtomInfoVector["<<i<<"] "<<std::endl;
-                //MMBLOG_FILE_FUNC_LINE(": About to delete "<<subjectAtomInfoVector[i].atomName<<" in subjectAtomInfoVector["<<i<<"] "<<std::endl;
-                //subjectAtomInfoVector.erase(subjectAtomInfoVector.begin() + i);
-                //i--; // Now we will need to revisit the current i, since the vector has been shortened at this position.
-            } // of if atomName
-            */
         } // of for i
     //} // of if RNA/DNA
     //else { 
@@ -1234,10 +1218,6 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter,  
             Vec3 myPositionVec3 = myPdbAtom.getCoordinates();
             //MMBLOG_FILE_FUNC_LINE(endl;
             myAtomInfo.position =openmmVecType (myPositionVec3[0],myPositionVec3[1], myPositionVec3[2]);
-            //myAtomInfo.position =OpenMM::Vec3(myPositionVec3[0],myPositionVec3[1], myPositionVec3[2]);
-            //MMBLOG_FILE_FUNC_LINE(endl;
-            //myAtomInfo.print();
-            //MMBLOG_FILE_FUNC_LINE(endl;
             atomInfoVector.push_back(myAtomInfo);   
             //MMBLOG_FILE_FUNC_LINE(endl;
         } // of for k
@@ -1900,9 +1880,9 @@ void BiopolymerClass::setResidueIDsAndInsertionCodesFromBiopolymer(const Biopoly
         myResidueID.setResidueNumber  (myResidueInfo.getPdbResidueNumber());
         myResidueID.setInsertionCode  (myResidueInfo.getPdbInsertionCode());
         residueIDVector.push_back(myResidueID);
-        MMBLOG_FILE_FUNC_LINE(INFO, "myResidueIndex "<<myResidueIndex<<" inputResidueNumber "<<inputResidueNumber<<" inputInsertionCode "<< inputInsertionCode << " myResidueID " <<myResidueID.outString()<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, " myBiopolymer.updResidue(ResidueInfo::Index( myResidueIndex )) : "<< myBiopolymer.updResidue(ResidueInfo::Index( myResidueIndex )).getPdbResidueNumber()<< myBiopolymer.updResidue(ResidueInfo::Index( myResidueIndex )).getPdbInsertionCode()<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "getResidueID(myResidueIndex) = >"<<getResidueID(myResidueIndex).outString()<<"< "<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "myResidueIndex "<<myResidueIndex<<" inputResidueNumber "<<inputResidueNumber<<" inputInsertionCode "<< inputInsertionCode << " myResidueID " <<myResidueID.outString()<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " myBiopolymer.updResidue(ResidueInfo::Index( myResidueIndex )) : "<< myBiopolymer.updResidue(ResidueInfo::Index( myResidueIndex )).getPdbResidueNumber()<< myBiopolymer.updResidue(ResidueInfo::Index( myResidueIndex )).getPdbInsertionCode()<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "getResidueID(myResidueIndex) = >"<<getResidueID(myResidueIndex).outString()<<"< "<<endl);
     }
 
     //MMBLOG_FILE_FUNC_LINE(" About to validate residue numbers and insertion codes  "<<endl;
@@ -2194,7 +2174,7 @@ void        BiopolymerClass::setAntiParallelBetaSheetDefaultBackboneAngles(Resid
     }
 };
 
-int BiopolymerClass::difference(ResidueID  residueA, ResidueID  residueB ){
+const int BiopolymerClass::difference(ResidueID  residueA, ResidueID  residueB )const {
     return (getResidueIndex(residueA) - getResidueIndex(residueB));
 };
 
@@ -3113,6 +3093,7 @@ OpenMM::NeighborList BiopolymerClassContainer::getNeighborList(const vector<MMBA
     return neighborList;
 }
 
+// This is called with a full concatenatedAtomInfoVector (all atoms in all BiopolymerClass's) and a full neighborList.
 void BiopolymerClassContainer::setNeighborsFromList(vector<MMBAtomInfo>& concatenatedAtomInfoVector, OpenMM::NeighborList& neighborList, double radius)
 {
     for (size_t i = 0; i < concatenatedAtomInfoVector.size() ; i++)
@@ -3132,6 +3113,7 @@ void BiopolymerClassContainer::setNeighborsFromList(vector<MMBAtomInfo>& concate
         MMBAtomInfo & atom2 = concatenatedAtomInfoVector[id2];
 
         double dist = atom1.distance(atom2);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " Found a neighbor distance of "<<dist<<" comaring to  cutoff of "<<radius << endl);
         if(dist <= radius)
         {
             atom1.addNeighbor(&atom2);
@@ -3140,7 +3122,9 @@ void BiopolymerClassContainer::setNeighborsFromList(vector<MMBAtomInfo>& concate
             //MMBLOG_FILE_FUNC_LINE(" Added neighbor atom 1 = "<<atom1.getChain()<<atom1.getResidueIndex()<<atom1.getAtomName() << " , atom 2 = "<<atom2.getChain()<<atom2.getResidueIndex()<<atom2.getAtomName()<<std::endl;
             //MMBLOG_FILE_FUNC_LINE(" Added neighbor atom 2 = "<<atom2.getChain()<<atom2.getResidueIndex()<<atom2.getAtomName() << " , atom 1 = "<<atom1.getChain()<<atom1.getResidueIndex()<<atom1.getAtomName()<<std::endl;
 	     
-        }
+        } else {
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, " Found a neighbor distance of "<<dist<<" whereas the cutoff is "<<radius << endl);
+	}
     }    
 }
 

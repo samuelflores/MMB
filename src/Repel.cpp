@@ -491,7 +491,7 @@ void ConstrainedDynamics::setInterfaceMobilizers(CompoundSystem & system, Simbod
 #endif
 void ConstrainedDynamics::setMobilizers()
 {
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
     #ifdef USE_OPENMM
     _parameterReader->mobilizerContainer.createMobilizersWithin(_parameterReader->myBiopolymerClassContainer,_state);
     #endif
@@ -1040,6 +1040,7 @@ void ConstrainedDynamics::initializeBodies(){
     setInterfaceMobilizers();
     #endif
     setMobilizers();
+    _parameterReader->removeBasePairsAcrossRigidStretches(); //SCF
     createMultibodyTree();
 }
 
@@ -1086,7 +1087,9 @@ void ConstrainedDynamics::runDynamics() {
      
     //MMBLOG_FILE_FUNC_LINE(endl;
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); //  Looks fine at this point ..
-
+    // This should be done after initializeBodies() because that is when we are reverting residues back to Default BondMobility
+    if (_parameterReader->setRemoveBasePairsAcrossRigidStretches) {_parameterReader->removeBasePairsAcrossRigidStretches();}    
+    if (_parameterReader->setHelicalStacking){_parameterReader->basePairContainer.addHelicalStacking(_parameterReader->myBiopolymerClassContainer, _parameterReader->_leontisWesthofClass, _parameterReader->ntc_par_class,_parameterReader->ntc_class_container);}
     initializeDynamics();
 
     runAllSteps();

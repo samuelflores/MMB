@@ -569,58 +569,8 @@ PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, Pdb
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
 	}
         MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
-        PdbStructure myPdbStructure;
-        
-        //============================================ Read in PDB or CIF
-        if ( inputFileName.length() > 4 )
-        {
-            MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
-            if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".pdb" )
-            {
-                std::ifstream inputFile               ( inputFileName );
+        PdbStructure myPdbStructure{inputFileName};
 
-                MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
-                if ( !inputFile.good() )
-                {
-                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
-                }
-                else
-                {
-                    MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
-                    MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
-                    myPdbStructure                                = PdbStructure ( inputFile, chainsPrefix );
-                    // pdbSTructureMap was loaded as: pdbStructureMap.insert(pair<String, PdbStructure>(inPDBFileName, myPdbStructure) );
-		    // So could be retrieved with inputFileName
-                }
-            } // end if PDB
-            else if ( inputFileName.substr ( inputFileName.length() - 4, inputFileName.length() - 1) == ".cif" ) // If mmCIF
-            {
-                MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
-		MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
-		myPdbStructure                                = PdbStructure ( inputFileName, chainsPrefix );
-            }
-            else if ( inputFileName.length() > 7 )
-            {
-                MMBLOG_FILE_FUNC_LINE(DEBUG, " "<<endl);
-                if ( inputFileName.substr ( inputFileName.length() - 7, inputFileName.length() - 1) == ".cif.gz" )
-                {
-                MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being read to generate a PdbStructure"   << std::endl);
-                myPdbStructure                                = PdbStructure ( inputFileName, chainsPrefix );
-                }
-                else
-                {
-                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
-                }
-            }
-            else
-            {
-                MMBLOG_FILE_FUNC_LINE                   (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
-            }
-        }
-        else
-        {
-            MMBLOG_FILE_FUNC_LINE                       (CRITICAL, "The file " << inputFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << std::endl);
-        }
     // have to add this to the map..	
     //
     MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
@@ -664,6 +614,7 @@ int  BiopolymerClass::matchCoordinates(String inputFileName,
 }
 
 int  BiopolymerClass::matchCoordinates(istream & inputFile,
+                                       PdbStructure::InputType iType,
                                        bool matchExact, bool matchIdealized,
                                        const bool matchOptimize ,  
                                        bool matchHydrogenAtomLocations, 
@@ -673,7 +624,7 @@ int  BiopolymerClass::matchCoordinates(istream & inputFile,
                                        double myPlanarityThreshold   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
 
     ) {
-    PdbStructure myPdbStructure(inputFile);
+    PdbStructure myPdbStructure(inputFile, iType);
     // inputFile.close();
     MMBLOG_FILE_FUNC_LINE(INFO, "PdbStructure done for chain " << getChainID() << endl);
     return matchCoordinates(myPdbStructure, matchExact, matchIdealized, matchOptimize,

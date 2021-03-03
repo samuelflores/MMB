@@ -164,7 +164,8 @@ public:
                              double myPlanarityThreshold,
 			     PdbStructureMapType & pdbStructureMap
 			     );   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
-    int     matchCoordinates(istream & inputFile, 
+    int     matchCoordinates(istream & inputFile,
+		             PdbStructure::InputType iType,
                              bool matchExact, bool matchIdealized,
                              const bool matchOptimize ,  
                              bool matchHydrogenAtomLocations, 

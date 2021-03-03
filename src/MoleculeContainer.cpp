@@ -642,70 +642,8 @@ void MoleculeClassContainer::matchDefaultConfiguration(bool readPreviousFrameFil
     MMBLOG_FILE_FUNC_LINE(INFO, "readPreviousFrameFile = "<<readPreviousFrameFile<<", pdbFileName = >"<<pdbFileName<<"< "<<endl);
     if (readPreviousFrameFile)
     {
-        PdbStructure pdbStructure;
-        
-        //============================================ Read in PDB or CIF
-        if ( pdbFileName.length() > 4 )
-        {
-            if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".pdb" )
-            {
-                std::ifstream inputFile               ( pdbFileName.c_str(), ifstream::in );
-                
-                if ( !inputFile.good() )
-                {
-                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << endl);
-                }
-                else
-                {
-                    pdbStructure                      = PdbStructure (inputFile);
-                }
-            }
-            else if ( pdbFileName.substr ( pdbFileName.length() - 4, pdbFileName.length() - 1) == ".cif" )
-            {
-                std::ifstream testOpen                ( pdbFileName.c_str() );
-                if ( testOpen.good() )
-                {
-                    pdbStructure                      = PdbStructure (pdbFileName);
-                }
-                else
-                {
-                    std::string pdbFileHlp            = pdbFileName;
-                    pdbFileHlp.append                 ( ".gz" );
-                    
-                    std::ifstream testOpen2           ( pdbFileHlp.c_str() );
-                    if ( testOpen2.good() )
-                    {
-                        pdbStructure                  = PdbStructure ( pdbFileHlp );
-                    }
-                    else
-                    {
-                        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << endl);
-                    }
-                    testOpen2.close                   ( );
-                }
-                testOpen.close                        ( );
-            }
-            else if ( pdbFileName.length() > 7 )
-            {
-                if ( pdbFileName.substr ( pdbFileName.length() - 7, pdbFileName.length() - 1) == ".cif.gz" )
-                {
-                pdbStructure                          = PdbStructure (pdbFileName);
-                }
-                else
-                {
-                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << endl);
-                }
-            }
-            else
-            {
-                MMBLOG_FILE_FUNC_LINE(CRITICAL, "The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << endl);
-            }
-        }
-        else
-        {
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "The file " << pdbFileName << " could not be opened. If this is not the file you wanted to open, please supply the requested file name after the loadSequencesFromPdb command. Note that the supported file extensions currently are \".pdb\", \".cif\" and \".cif.gz\"." << endl);
-        }
-        
+        PdbStructure pdbStructure{pdbFileName};
+
 	    map<const String, MoleculeClass>::iterator it;
 	    map<const String, MoleculeClass>::iterator next;
 	    //int i = 0;

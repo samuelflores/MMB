@@ -644,7 +644,7 @@ bool ParameterReader::compareUpper( const String& param, const char* symbol ) {
         return true;
     else 
         return false;
-}    
+} 
 
 // determines whether the provided residue is in any Rigid stretch in the base operation vector.
 bool isInRigidStretch(const ResidueID & myResidueID, const String myChainID, const MobilizerContainer & mobilizerContainer    ){
@@ -666,13 +666,35 @@ bool isInRigidStretch(const ResidueID & myResidueID, const String myChainID, con
     return false; // If you got this far, you are not in any rigid stretch
 }
 
+// determines whether the provided residue is DEEPLY in any Rigid stretch in the base operation vector.
+// This differs from isInRigidStretch, in that it will not delete base pairs that are in the rigid segment, but directly bordering a non-rigid segment.
+// The idea is we may want to keep the first base pair inside the rigid segment, so we later get helicalStacking and NtCs applied at the boundary between rigid and non-rigid. This should lead to better structural quality in the viral DNA fitting project, at (hopefully minimal) cost in additional forces.
+bool isDeepInRigidStretch(const ResidueID & myResidueID, const String myChainID, const MobilizerContainer & mobilizerContainer    ){
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Testing residueID "<<myResidueID.outString()<<endl);
+    //vector <MobilizerStretch> myMobilizerStretchVector = mobilizerContainer.updResidueStretchVector()	    ;
+    for (int i = 0 ; i< mobilizerContainer.getNumResidueStretches()           ; i++) {
+	if (mobilizerContainer.updResidueStretchVector()[i].getBondMobility() == SimTK::BondMobility::Rigid){
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer start residue = "<< mobilizerContainer.updResidueStretchVector()[i].getStartResidue().outString()<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer end residue = "<< mobilizerContainer.updResidueStretchVector()[i].getEndResidue().outString()<<endl);
+            if (mobilizerContainer.updResidueStretchVector()[i].getChain()        == myChainID){
+            if (mobilizerContainer.updResidueStretchVector()[i].getStartResidue() < myResidueID){ // woudl be <= in the case of isInRigidStretch
+                if (mobilizerContainer.updResidueStretchVector()[i].getEndResidue() > myResidueID){// woudl be >= in the case of isInRigidStretch
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, " In a rigid stretch. return "<<1<<endl);
+                    return true;}
+	    }}
+	}
+    }
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Not In a rigid stretch. return "<<0<<endl);
+    return false; // If you got this far, you are not in any rigid stretch
+}
+
 // This function removes base pairs when both residues of the base pair are in ANY rigid stretch. That means the two residues could be in DIFFERENT rigid stretches, or in the SAME rigid stretch.
 void ParameterReader::removeBasePairsAcrossRigidStretches () { 
     //for (int j = 0 ; j< (int)mobilizerContainer.numMobilizerStretches()          ; j++) {
     for (int j = 0 ; j< (int)basePairContainer.numBasePairs() ; j++) {
         // baseOperationVector holds the endpoints of the rigid segment, while myBasePairVector holds the residues involved in the base pairing interaction.
-        if ( isInRigidStretch(basePairContainer.getBasePair(j).FirstBPResidue, basePairContainer.getBasePair(j).FirstBPChain , mobilizerContainer) ) {
-            if (isInRigidStretch(basePairContainer.getBasePair(j).SecondBPResidue, basePairContainer.getBasePair(j).SecondBPChain ,mobilizerContainer)){
+        if ( isDeepInRigidStretch(basePairContainer.getBasePair(j).FirstBPResidue, basePairContainer.getBasePair(j).FirstBPChain , mobilizerContainer) ) {
+            if (isDeepInRigidStretch(basePairContainer.getBasePair(j).SecondBPResidue, basePairContainer.getBasePair(j).SecondBPChain ,mobilizerContainer)){
                 MMBLOG_FILE_FUNC_LINE(DEBUG, " Deleting base pair."<< basePairContainer.getBasePair(j).FirstBPResidue.outString()<<" "<<basePairContainer.getBasePair(j).SecondBPResidue.outString() <<endl);
                 basePairContainer.deleteBasePair(j);
                 j--; 
@@ -2403,8 +2425,11 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         if       ((myAxis == "X") || (myAxis == "x")){myCoordinateAxis = CoordinateAxis(0);}
         else if  ((myAxis == "Y") || (myAxis == "y")){myCoordinateAxis = CoordinateAxis(1);}
         else if  ((myAxis == "Z") || (myAxis == "z")){myCoordinateAxis = CoordinateAxis(2);}
-        double myAngle = myAtoF(userVariables,parameterStringClass.getString(3).c_str());
-        Rotation myRotation(myAngle, (myCoordinateAxis));
+        float  myAngle = myAtoF(userVariables,parameterStringClass.getString(3).c_str());
+        Rotation myRotation;
+        //Rotation myRotation(myAngle, myCoordinateAxis);
+	myRotation.setRotationToIdentityMatrix();
+        myRotation.setRotationFromAngleAboutAxis(myAngle, (myCoordinateAxis));
         MMBLOG_FILE_FUNC_LINE(INFO, " Current rotation : "<<displacementContainer.updDisplacement(myChain).rotation<<endl);
         displacementContainer.updDisplacement(myChain).rotation = myRotation*displacementContainer.updDisplacement(myChain).rotation; // updDisplacement will spit out an error if the displacement has not been created. Here, I am multiplying on the left by the user-supplied rotation. This means I can keep applying rotations and they will always be progressively multiplied from the left.
         MMBLOG_FILE_FUNC_LINE(INFO, " Just set rotation to : "<<displacementContainer.updDisplacement(myChain).rotation<<endl);
@@ -3045,6 +3070,19 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }
         return;
     } //End  contact
+
+
+
+    if  (((parameterStringClass.getString(0)).compare("removeDensityForcesFromRigidStretches") == 0))  {
+        MMBLOG_FILE_FUNC_LINE(ALWAYS,
+            "When invoked (no parameters needed), specifies that all residue stretches of Rigid   bond mobility, should NOT be subject to density forces. "<<endl);
+        parameterStringClass.validateNumFields(1);
+	removeDensityForcesFromRigidStretches=1;
+        return;
+    }
+
+
+
 
     if  (((parameterStringClass.getString(0)).compare("fitToDensity") == 0))  {
 
@@ -5058,7 +5096,6 @@ void ParameterReader::postInitialize(){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "For some reason lastStage is set to 0."<<endl);
     }//lastStage = calcHighestPriority();
     //MMBLOG_FILE_FUNC_LINE(DEBUG, "All base pairs, before removeBasePairsAcrossRigidStretches"<<endl);
-    //if (setRemoveBasePairsAcrossRigidStretches) {removeBasePairsAcrossRigidStretches();}
     MMBLOG_FILE_FUNC_LINE(DEBUG, "All base pairs, before addHelicalStacking"<<endl);
     basePairContainer.printBasePairs();
     //if (setHelicalStacking){ 
@@ -5159,6 +5196,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     constraintTolerance = .00005;
     cutoffRadius  = .1; // in nm, of course
     cutoffAngle = 0    ;
+    removeDensityForcesFromRigidStretches=0;
     densityAtomFraction = 1.0;
     densityFileName = "densityFileName-NOT-SET";
     densityForceConstant = 1.;

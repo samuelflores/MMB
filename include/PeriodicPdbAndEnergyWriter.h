@@ -13,6 +13,7 @@
 #include "ParameterReader.h"
 #include "molmodel/internal/Compound.h"
 #include "BiopolymerClass.h"
+#include "DensityForce.h"
 //#include "DistanceMatrix.h"
 #include <vector>
 
@@ -26,6 +27,7 @@ public:
     PeriodicPdbAndEnergyWriter(
         const CompoundSystem& system, 
         const DuMMForceFieldSubsystem& dumm  , 
+        const DensityForce           & densityForce,
         std::ostream& outputStream,
         double interval,
         ParameterReader & myParameterReader,
@@ -38,7 +40,8 @@ public:
 
 private:
     const CompoundSystem& system;
-    const DuMMForceFieldSubsystem& dumm  ; 
+    const DuMMForceFieldSubsystem& dumm        ; 
+    const DensityForce           & densityForce; 
     std::ostream& outputStream;
     ParameterReader & myParameterReader;
     BiopolymerClassContainer & myBiopolymerClassContainer;

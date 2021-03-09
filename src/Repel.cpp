@@ -350,7 +350,10 @@ ConstrainedDynamics::ConstrainedDynamics(ParameterReader * myParameterReader) : 
                                                                                 _matter(    _system),
                                                                                 _forces(    _system),
                                                                                 _contacts(  _system),
-                                                                                _dumm(_system) {
+                                                                                _dumm(_system)// ,
+                                                                                //_densityForce(_system) 
+	                                                                       
+{
     _study = NULL;
     _ts = NULL;
     _nextFrame = 1;
@@ -651,14 +654,14 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
         // This needs to be re-done here, with the "dumm" version of initializeAtomInfoVectors, which sets atomic numbers, masses, etc. Consider making a cheaper version of initializeAtomInfoVectors that only updates the existing MMBAtomInfo's, though I'm not sure this would save much.
         //_parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // SCF I'm not sure this is ready to be moved up .. trying dumm version earlier causes a crash
         _parameterReader->myBiopolymerClassContainer.validateAtomInfoVectors();
-        DensityForce * myDensityForce = new DensityForce( _matter, 
+        & _densityForce = new DensityForce( _matter, 
                                                           *_parameterReader,  
                                                           _parameterReader->myDensityMap, 
                                                           _dumm, 
                                                           _parameterReader->myBiopolymerClassContainer, 
                                                           _output
                                                          );
-        Force::Custom(_forces, myDensityForce);
+        Force::Custom(_forces, & _densityForce);
     }
     if (_parameterReader->electroDensityContainer.numDensityStretches() > 0) 
     {
@@ -842,7 +845,7 @@ void ConstrainedDynamics::createEventHandlers(){
     //        PdbAtom::setWriteFullPrecisionLocation(true);// write trajectory file with full precision (REMARK-SIMTK-COORDS lines added).
     //}
 
-    PeriodicPdbAndEnergyWriter * myPeriodicPdbWriter = new PeriodicPdbAndEnergyWriter(_system,_dumm,_output,  _parameterReader->reportingInterval, (*_parameterReader),_parameterReader->myBiopolymerClassContainer );
+    PeriodicPdbAndEnergyWriter * myPeriodicPdbWriter = new PeriodicPdbAndEnergyWriter(_system,_dumm, _densityForce,_output,  _parameterReader->reportingInterval, (*_parameterReader),_parameterReader->myBiopolymerClassContainer );
     _system.updDefaultSubsystem().addEventHandler(myPeriodicPdbWriter);
 
     if (_parameterReader->setForceAndStericScrubber) {
@@ -1040,7 +1043,7 @@ void ConstrainedDynamics::initializeBodies(){
     setInterfaceMobilizers();
     #endif
     setMobilizers();
-    _parameterReader->removeBasePairsAcrossRigidStretches(); //SCF
+    //_parameterReader->removeBasePairsAcrossRigidStretches(); //SCF
     createMultibodyTree();
 }
 
@@ -1075,6 +1078,37 @@ void ConstrainedDynamics::writeMMBPDB(std::ofstream & filestream){
     _parameterReader->myBiopolymerClassContainer.writePdb(state, system, filestream);
 }
 
+void ConstrainedDynamics::removeDensityForcesFromRigidStretches() {
+    // This did not work. Because apparently initializeBodies removes the Default bond mobility stretches, after erasing any non-default bond moblizers. I think it will work better if we apply density forces everywhere, and then remove them where we find rigid stretches. Sort of like we did with the helicalStacking baseInteractoins and NtCs.
+    if (_parameterReader->removeDensityForcesFromRigidStretches){
+    // Go through all MobilizerStretch's that are at BondMobility = "Default". For these, apply density forces.
+        for (int i = 0; i < _parameterReader->mobilizerContainer.getNumResidueStretches(); i++) {
+            MMBLOG_FILE_FUNC_LINE(INFO, "Examining mobilizer stretch "<<i<<" to see if it has bondMobility Rigid :"<<endl);
+            _parameterReader->mobilizerContainer.residueStretchVector[i].printStretch();
+            if (_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString().compare("Rigid") == 0){
+                //ResidueStretch tempResidueStretch = _parameterReader->mobilizerContainer.getResidueStretch(i);
+                DensityStretch myResidueStretch = DensityStretch(_parameterReader->mobilizerContainer.getResidueStretch(i));
+                //myDensityStretch.setChain        (tempResidueStretch.getChain());
+                //myDensityStretch.setStartResidue (tempResidueStretch.getStartResidue());
+                //myDensityStretch.setEndResidue   (tempResidueStretch.getEndResidue()  );
+                MMBLOG_FILE_FUNC_LINE(INFO, "Detected that BondMobility : >"<<i<<", with chain "<<myResidueStretch.getChain()<<" residue "<< myResidueStretch.getStartResidue().outString()<<" to "<< myResidueStretch.getEndResidue().outString() << " is "<<_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString()<<" . This strech of residues will NOT have density forces applied."<<endl);
+		_parameterReader->myBiopolymerClassContainer.updBiopolymerClass(myResidueStretch.getChain() ).selectivelyRemoveResidueStretchFromContainer(myResidueStretch,_parameterReader->densityContainer); // make sure this is being done in a smart way, e.g. in the case of overlapping residue stretches.
+                //_parameterReader->densityContainer.add(myDensityStretch,_parameterReader->myBiopolymerClassContainer );
+            } else {
+                MMBLOG_FILE_FUNC_LINE(DEBUG, "Detected that BondMobility : >"<<_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString()<<"< is NOT Default."<<endl);
+            }    
+        } // of for i  
+        MMBLOG_FILE_FUNC_LINE(INFO, " Just finished   removeDensityForcesFromRigidStretches "<<endl);
+        _parameterReader->densityContainer.printDensityStretches    (); // need to confirm that no density stretch is redundant.
+    } //of if removeDensityForcesFromRigidStretchesondMobility
+    // Done dealing with "Default" mobilizer stretches
+}	
+void ConstrainedDynamics::applyForcesRequiringFinalMobilizers() {
+
+    if (_parameterReader->setRemoveBasePairsAcrossRigidStretches) {_parameterReader->removeBasePairsAcrossRigidStretches();}    
+    if (_parameterReader->setHelicalStacking){_parameterReader->basePairContainer.addHelicalStacking(_parameterReader->myBiopolymerClassContainer, _parameterReader->_leontisWesthofClass, _parameterReader->ntc_par_class,_parameterReader->ntc_class_container);}
+}	
+
 void ConstrainedDynamics::runDynamics() {
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     if (initializeBiopolymersAndCustomMolecules()){
@@ -1082,14 +1116,12 @@ void ConstrainedDynamics::runDynamics() {
         //exit(1) ;
     }
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    initializeBodies();
-    //MMBLOG_FILE_FUNC_LINE(endl;
-     
+    initializeBodies(); // here we issue setMobilizers, which in turn calls createMobilizersWithin, and also sweesp through all the Default bond mobilizers and uses those to override any other residue-level bond mobilities.
+    applyForcesRequiringFinalMobilizers();
+    removeDensityForcesFromRigidStretches() ; // initializeBodies removes the Rigid mobilizers where they have been overriden by Default mobilizers, which we want. That's why we do this AFTER initializeBodies.
     //MMBLOG_FILE_FUNC_LINE(endl;
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); //  Looks fine at this point ..
     // This should be done after initializeBodies() because that is when we are reverting residues back to Default BondMobility
-    if (_parameterReader->setRemoveBasePairsAcrossRigidStretches) {_parameterReader->removeBasePairsAcrossRigidStretches();}    
-    if (_parameterReader->setHelicalStacking){_parameterReader->basePairContainer.addHelicalStacking(_parameterReader->myBiopolymerClassContainer, _parameterReader->_leontisWesthofClass, _parameterReader->ntc_par_class,_parameterReader->ntc_class_container);}
     initializeDynamics();
 
     runAllSteps();

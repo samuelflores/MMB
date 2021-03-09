@@ -566,14 +566,15 @@ class ResidueStretch   {
                 ResidueID    startResidue        ;
                 ResidueID    endResidue       ;
     public:
+		ResidueStretch(const ResidueStretch & residueStretchToCopyFrom){setChain ( residueStretchToCopyFrom.getChain()); setStartResidue( residueStretchToCopyFrom.getStartResidue()); setEndResidue(residueStretchToCopyFrom.getEndResidue());} // An explicit copy constructor. Should work to copy e.g. a MobilizerStretch to a DensityStretch, though obviously without the descendent specific members.
                 SimTK::String getChain() const {return chain;};
                 ResidueID getStartResidue()const {return startResidue;};
                 ResidueID getEndResidue()const {return endResidue;};
-                void setChain(SimTK::String myChain) {chain = myChain;};
-                void setStartResidue(ResidueID myStartResidue) {startResidue = myStartResidue;};
+                void setChain(const SimTK::String myChain) {chain = myChain;};
+                void setStartResidue(const ResidueID myStartResidue) {startResidue = myStartResidue;};
                 void setStartResidueNumber(int myStartResidueNumber){startResidue.setResidueNumber(myStartResidueNumber); }
                 void setEndResidueNumber  (int myEndResidueNumber)  {  endResidue.setResidueNumber(  myEndResidueNumber); }
-                void setEndResidue(ResidueID myEndResidue){endResidue = myEndResidue;};
+                void setEndResidue(const ResidueID myEndResidue){endResidue = myEndResidue;};
                 bool sameParameters(ResidueStretch myResidueStretch) { // compares all parameters except startResidue and startResidue, returns False if any differ.  This should be overridden by daughter classes, particularly if they have additional parameters which may differ.
                     if (getChain().compare(myResidueStretch.getChain() ) == 0 ) return true;
                     else return false;
@@ -946,6 +947,10 @@ class SecondaryStructureStretch  : public ResidueStretch  {
 };
 
 class  DensityStretch : public ResidueStretch   {
+    public:
+        DensityStretch(const ResidueStretch & residueStretchToCopyFrom) : ResidueStretch(residueStretchToCopyFrom){};//{setChain ( residueStretchToCopyFrom.getChain()); setStartResidue( residueStretchToCopyFrom.getStartResidue()); setEndResidue(residueStretchToCopyFrom.getEndResidue());} // An explicit copy constructor. Should work to copy e.g. a MobilizerStretch to a DensityStretch, though obviously without the descendent specific members.
+        //DensityStretch(const ResidueStretch & residueStretchToCopyFrom){setChain ( residueStretchToCopyFrom.getChain()); setStartResidue( residueStretchToCopyFrom.getStartResidue()); setEndResidue(residueStretchToCopyFrom.getEndResidue());} // An explicit copy constructor. Should work to copy e.g. a MobilizerStretch to a DensityStretch, though obviously without the descendent specific members.
+        DensityStretch():ResidueStretch(){};
     };
 
 struct ContactWithin {

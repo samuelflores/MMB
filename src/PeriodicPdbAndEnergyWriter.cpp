@@ -25,19 +25,21 @@ using namespace std;
 std::vector<double> PeriodicPdbAndEnergyWriter::myEnergies;
 
 SimTK::PeriodicPdbAndEnergyWriter::PeriodicPdbAndEnergyWriter( 	const CompoundSystem& system,
-    															const DuMMForceFieldSubsystem& dumm  , 
-    															std::ostream& outputStream,
-    															double interval,
-    															ParameterReader & myParameterReader,
-    															BiopolymerClassContainer & myBiopolymerClassContainer
-    															//vector<MagnesiumIon> myMagnesiumIonVec
-    														 ) : PeriodicEventHandler(interval),
-																 system(system), 
-																 dumm(dumm), // the second dumm comes from the parameters fed to the constructor.  the first is the private member.
-																 outputStream(outputStream) ,
-																 myParameterReader(myParameterReader),
-                                                                                                                                 myBiopolymerClassContainer(myBiopolymerClassContainer)
-																 //myMagnesiumIonVec(myMagnesiumIonVec)
+    const DuMMForceFieldSubsystem& dumm  , 
+    const DensityForce           & densityForce  , 
+    std::ostream& outputStream,
+    double interval,
+    ParameterReader & myParameterReader,
+    BiopolymerClassContainer & myBiopolymerClassContainer
+    //vector<MagnesiumIon> myMagnesiumIonVec
+    ) : PeriodicEventHandler(interval),
+    system(system), 
+    dumm(dumm), // the second dumm comes from the parameters fed to the constructor.  the first is the private member.
+    densityForce(densityForce), // the second  comes from the parameters fed to the constructor.  the first is the private member.
+    outputStream(outputStream) ,
+    myParameterReader(myParameterReader),
+    myBiopolymerClassContainer(myBiopolymerClassContainer)
+    //myMagnesiumIonVec(myMagnesiumIonVec)
 {
     myParameterReader.trajectoryFileRemarks.clear     ( );
     myParameterReader.gemmi_isFirstInStage            = true;
@@ -122,6 +124,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
         {
             double myPotentialEnergy                  = system.calcPotentialEnergy(state);
             Real dummPotentialEnergy                  = dumm.calcPotentialEnergy(state);
+            double densityForcePotentialEnergy        = densityForce.calcPotentialEnergy(state);
             double myKineticEnergy                    = system.calcKineticEnergy(state);
             double myEnergy                           = system.calcEnergy(state);
             myParameterReader.kineticEnergy           = myKineticEnergy;
@@ -130,6 +133,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
             
             myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Total Potential Energy                   = " + std::to_string ( myPotentialEnergy ) + " kJ/mol, " + std::to_string( myPotentialEnergy / 4.184 ) + " kcal/mol" ) );
             myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": DuMM Molecular Dynamics Potential Energy = " + std::to_string ( dummPotentialEnergy ) + " kJ/mol, " + std::to_string( dummPotentialEnergy / 4.184 ) + " kcal/mol" ) );
+            myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Density Fitting Potential Energy = " + std::to_string ( densityForcePotentialEnergy ) + " kJ/mol, " + std::to_string( densityForcePotentialEnergy / 4.184 ) + " kcal/mol" ) );
             myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Kinetic Energy                           = " + std::to_string ( myKineticEnergy ) + " kJ/mol, " + std::to_string( myKineticEnergy / 4.184 ) + " kcal/mol" ) );
             myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Energy                                   = " + std::to_string ( myEnergy ) + " kJ/mol" ) );
 

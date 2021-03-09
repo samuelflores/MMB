@@ -12,10 +12,12 @@
 #define DensityContainer_H_
 
 #include "BiopolymerClass.h"
+#include "ResidueStretchContainer.h"
 
-class DensityContainer {
+//class MMB_EXPORT MobilizerContainer : public ResidueStretchContainer <MobilizerStretch> 
+class MMB_EXPORT DensityContainer : public ResidueStretchContainer <DensityStretch> {
 private :
-	std::vector <DensityStretch> densityStretchVector;
+	//std::vector <DensityStretch> residueStretchVector; // should override 
 public:
 	void clear();
 	void validate(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer);
@@ -25,7 +27,7 @@ public:
 	void stuffDensityStretchVector(BiopolymerClassContainer & myBiopolymerClassContainer );
     void printDensityStretches();
 
-    std::vector <DensityStretch> getDensityStretchVector() { return densityStretchVector; }
+    std::vector <DensityStretch> getDensityStretchVector() { return residueStretchVector; }
 
     void updateDensityStretch(int id, const DensityStretch & stretch, BiopolymerClassContainer & myBiopolymerClassContainer);
     void deleteDensityStretch(int id);

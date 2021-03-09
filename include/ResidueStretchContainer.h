@@ -110,7 +110,7 @@ class ResidueStretchContainer{
         return residueStretchVector.end();
     }
 
-	void addResidueStretchToVector(ResidueStretchType & residueStretch)
+	void addResidueStretchToVector(ResidueStretchType residueStretch)
     {
         residueStretchVector.push_back(residueStretch);
     }

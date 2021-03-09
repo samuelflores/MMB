@@ -320,7 +320,7 @@ public:
         // 6. residueStretch and residueStretchVector[i] overlap, with residueStretchVector[i] starting before residueStretch.
         //        -> trim  residueStretchVector[i] on right
         //const int ResidueStretchContainer::getNumResidueStretches();
-        MMBLOG_FILE_FUNC_LINE(INFO, "the Default stretch is :"<<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, "the stretch is :"<<endl);
         residueStretch.printStretch();
         MMBLOG_FILE_FUNC_LINE(INFO, "Now checking "<<residueStretchContainer.getNumResidueStretches()<<" stretches: "<<endl);
         for (int i = 0; i < residueStretchContainer.getNumResidueStretches(); i++) 

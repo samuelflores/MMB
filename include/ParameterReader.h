@@ -99,6 +99,7 @@ public:
     bool   guessCoordinates;
     double cutoffRadius    ;
     double cutoffAngle     ;
+    bool   removeDensityForcesFromRigidStretches;
     double densityAtomFraction;
     double densityNoiseTemperature;
     double densityNoiseScale  ;

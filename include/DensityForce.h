@@ -37,6 +37,7 @@ protected:
    ParameterReader& myParameterReader;   
    DensityMap     & myDensityMap     ;
    DuMMForceFieldSubsystem & dumm;   
+   //DensityForce & densityForce;
     //LeontisWesthofClass& myLeontisWesthofClass;
     BiopolymerClassContainer & myBiopolymerClassContainer;
     //Biopolymer myChain;

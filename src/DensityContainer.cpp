@@ -11,7 +11,7 @@
 #include "DensityContainer.h"
 
 void DensityContainer::clear(){
-    densityStretchVector.clear();
+    residueStretchVector.clear();
 }
 void DensityContainer::validate(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer){
     if (myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).difference(myDensityStretch.getEndResidue() , myDensityStretch.getStartResidue()) < 0) {
@@ -27,30 +27,30 @@ void DensityContainer::validate(const DensityStretch & myDensityStretch,Biopolym
 
 void	DensityContainer::add(const DensityStretch & myDensityStretch,  BiopolymerClassContainer & myBiopolymerClassContainer){
 	validate(myDensityStretch,  myBiopolymerClassContainer);
-	densityStretchVector.push_back(myDensityStretch);
+	residueStretchVector.push_back(myDensityStretch);
 }
 
 void DensityContainer::updateDensityStretch(int id, const DensityStretch & stretch, BiopolymerClassContainer & myBiopolymerClassContainer){
-    if(id < 0 || id >= densityStretchVector.size()){
+    if(id < 0 || id >= residueStretchVector.size()){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to delete a non existing Contact." << endl);
     }
     validate(stretch, myBiopolymerClassContainer);
-    densityStretchVector[id] = stretch;
+    residueStretchVector[id] = stretch;
 }
 
 void DensityContainer::deleteDensityStretch(int id){
-    if(id < 0 || id >= densityStretchVector.size()){
+    if(id < 0 || id >= residueStretchVector.size()){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to delete a non existing Contact." << endl);
     }
-    densityStretchVector.erase(densityStretchVector.begin()+id);    
+    residueStretchVector.erase(residueStretchVector.begin()+id);    
 }
 
 DensityStretch DensityContainer::getDensityStretch(int densityStretchIndex){
-	return densityStretchVector[densityStretchIndex];
+	return residueStretchVector[densityStretchIndex];
 }
 
 int DensityContainer::numDensityStretches(){
-	return densityStretchVector.size();
+	return residueStretchVector.size();
 }
 
 void DensityContainer::stuffDensityStretchVector( BiopolymerClassContainer & myBiopolymerClassContainer){

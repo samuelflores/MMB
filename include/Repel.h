@@ -123,6 +123,8 @@ public:
     // void setBondMobilities(ParameterReader & myParameterReader,vector<Biopolymer> & myMolecule );
     // void addContacts(ParameterReader & myParameterReader,vector<Biopolymer> & myMolecule, GeneralContactSubsystem & contacts, GeneralForceSubsystem & forces, SimbodyMatterSubsystem & matter,CompoundSystem & system );
      
+    void applyForcesRequiringFinalMobilizers();
+    void removeDensityForcesFromRigidStretches();
     void runDynamics();
 
     /**
@@ -258,6 +260,7 @@ private:
     GeneralForceSubsystem   _forces;
     GeneralContactSubsystem _contacts;
     DuMMForceFieldSubsystem _dumm;
+    DensityForce            _densityForce;
     State                   _state;
     Integrator *            _study;
     TimeStepper*            _ts;

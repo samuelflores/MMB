@@ -317,8 +317,7 @@ void MonoAtoms::initialize (CompoundSystem & system,  bool readPreviousFrameFile
     //renumberPdbResidues();
     setPdbChainId(chainID);    
     if (readPreviousFrameFile) { 
-        std::ifstream inputFile(previousFrameFileName.c_str(), ifstream::in);
-        PdbStructure pdbStructure(inputFile);
+        PdbStructure pdbStructure{previousFrameFileName};
         matchDefaultConfiguration(  pdbStructure, matchExact, matchIdealized);
     }
     adoptCompounds(system,readPreviousFrameFile );

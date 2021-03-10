@@ -7,6 +7,7 @@
 #include "RealVec.h"
 #include "ReferenceNeighborList.h"
 
+//class BiopolymerClass; // Forward declaration
 using namespace SimTK;
 
 template <class ResidueStretchType>
@@ -42,7 +43,7 @@ class ResidueStretchContainer{
         validateResidueStretch(myResidueStretch,myBiopolymerClassContainer);
 	addStretch(myResidueStretch);
     }
-    void addStretch(ResidueStretchType newStretch) {
+    void addStretch(const ResidueStretchType newStretch) {
         residueStretchVector.push_back(newStretch);
     }    
 
@@ -114,9 +115,10 @@ class ResidueStretchContainer{
         return residueStretchVector.end();
     }
 
-	void addResidueStretchToVector(ResidueStretchType & residueStretch)
+    // Really this member should just be deleted in favor of addStretch
+    void addResidueStretchToVector(ResidueStretchType & residueStretch)
     {
-        residueStretchVector.push_back(residueStretch);
+        addStretch(residueStretch);
     }
 
     void removeResidueStretchFromVector(ResidueStretchType & residueStretch)
@@ -255,12 +257,12 @@ class ResidueStretchContainer{
                     myResidueStretch2.setStartResidue(concatenatedAtomInfoVector[neighborList[j].second].residueID);
                     myResidueStretch2.setEndResidue(concatenatedAtomInfoVector[neighborList[j].second].residueID);
                     myResidueStretch2.setChain(concatenatedAtomInfoVector[neighborList[j].second].chain);
-                    if (!(vectorHasResidueStretch(myResidueStretch1))) {addResidueStretchToVector(myResidueStretch1);
+                    if (!(vectorHasResidueStretch(myResidueStretch1))) {addStretch(myResidueStretch1);
 			        MMBLOG_FILE_FUNC_LINE(INFO, "Added first residue stretch"<<endl);
                         myResidueStretch1.printStretch();
                         //print (myResidueStretch1);
 		    }
-                    if (!(vectorHasResidueStretch(myResidueStretch2))) {addResidueStretchToVector(myResidueStretch2);
+                    if (!(vectorHasResidueStretch(myResidueStretch2))) {addStretch(myResidueStretch2);
 			            MMBLOG_FILE_FUNC_LINE(INFO, "Added second residue stretch"<<endl);
                         myResidueStretch2.printStretch() ;
                     }

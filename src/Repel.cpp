@@ -508,7 +508,7 @@ void ConstrainedDynamics::setMobilizers()
         if (_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString().compare("Default") == 0){
             ResidueStretch tempResidueStretch = _parameterReader->mobilizerContainer.getResidueStretch(i);
             MMBLOG_FILE_FUNC_LINE(INFO, "Detected that BondMobility : >"<<_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString()<<"< is Default."<<endl);
-            _parameterReader->myBiopolymerClassContainer.updBiopolymerClass(tempResidueStretch.getChain() ).selectivelyRemoveResidueStretchFromContainer(tempResidueStretch,_parameterReader->mobilizerContainer);
+            _parameterReader->myBiopolymerClassContainer.updBiopolymerClass(tempResidueStretch.getChain()) .selectivelyRemoveResidueStretchFromContainer(tempResidueStretch,_parameterReader->mobilizerContainer);
             i--; // Compensating for the fact that the Default stretch i has been deleted.
             
         } else {
@@ -1040,7 +1040,7 @@ void ConstrainedDynamics::initializeBodies(){
     setInterfaceMobilizers();
     #endif
     setMobilizers();
-    _parameterReader->removeBasePairsAcrossRigidStretches(); //SCF
+    //_parameterReader->removeBasePairsAcrossRigidStretches(); //SCF
     createMultibodyTree();
 }
 
@@ -1075,6 +1075,12 @@ void ConstrainedDynamics::writeMMBPDB(std::ofstream & filestream){
     _parameterReader->myBiopolymerClassContainer.writePdb(state, system, filestream);
 }
 
+void ConstrainedDynamics::forceAdjustmentsWithFinalMobilizers(){
+    if (_parameterReader->removeDensityForcesFromRigidStretches) {_parameterReader->myBiopolymerClassContainer.selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer(_parameterReader->mobilizerContainer, _parameterReader->densityContainer);}    
+    if (_parameterReader->setRemoveBasePairsAcrossRigidStretches) {_parameterReader->removeBasePairsAcrossRigidStretches();}    
+    if (_parameterReader->setHelicalStacking){_parameterReader->basePairContainer.addHelicalStacking(_parameterReader->myBiopolymerClassContainer, _parameterReader->_leontisWesthofClass, _parameterReader->ntc_par_class,_parameterReader->ntc_class_container);}
+}
+
 void ConstrainedDynamics::runDynamics() {
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     if (initializeBiopolymersAndCustomMolecules()){
@@ -1088,8 +1094,7 @@ void ConstrainedDynamics::runDynamics() {
     //MMBLOG_FILE_FUNC_LINE(endl;
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); //  Looks fine at this point ..
     // This should be done after initializeBodies() because that is when we are reverting residues back to Default BondMobility
-    if (_parameterReader->setRemoveBasePairsAcrossRigidStretches) {_parameterReader->removeBasePairsAcrossRigidStretches();}    
-    if (_parameterReader->setHelicalStacking){_parameterReader->basePairContainer.addHelicalStacking(_parameterReader->myBiopolymerClassContainer, _parameterReader->_leontisWesthofClass, _parameterReader->ntc_par_class,_parameterReader->ntc_class_container);}
+    forceAdjustmentsWithFinalMobilizers();
     initializeDynamics();
 
     runAllSteps();

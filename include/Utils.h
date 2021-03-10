@@ -681,6 +681,9 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                SimTK::BondMobility::Mobility getBondMobility() const {
                    return BondMobility;
                };
+	       bool bondMobilityIsRigid(){
+                   if (getBondMobility() == stringToBondMobility("Rigid")) {return 1;} else {return 0;}
+	       }
                SimTK::BondMobility::Mobility setBondMobility(SimTK::String myBondMobilityString) {
                    MMBLOG_FILE_LINE(INFO, " About to set BondMobility to >"<<myBondMobilityString<<"< "<<std::endl);
                    BondMobilityString = myBondMobilityString;
@@ -946,6 +949,13 @@ class SecondaryStructureStretch  : public ResidueStretch  {
 };
 
 class  DensityStretch : public ResidueStretch   {
+    public:	
+	DensityStretch() : ResidueStretch{}{} // Derived class default constructor calls base class default constructor with (obviously) no arguments. Really it should not be necessary to specify this.
+        DensityStretch(const ResidueStretch myResidueStretch){
+            setChain(myResidueStretch.getChain());
+            setStartResidue(myResidueStretch.getStartResidue());	
+            setEndResidue(myResidueStretch.getEndResidue());	
+        }	
     };
 
 struct ContactWithin {

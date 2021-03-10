@@ -688,12 +688,11 @@ bool isDeepInRigidStretch(const ResidueID & myResidueID, const String myChainID,
 }
 
 // This function removes density forces from all residues in Rigid stretches.             
+// replaced with selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer , from BiopolymerClassContainer
 /*
 void ParameterReader::removeDensityForcesFromRigidStretches () { 
-    //for (int j = 0 ; j< (int)mobilizerContainer.numMobilizerStretches()          ; j++) {
-    for (int j = 0 ; j< (int)basePairContainer.numBasePairs() ; j++) {
-        // baseOperationVector holds the endpoints of the rigid segment, while myBasePairVector holds the residues involved in the base pairing interaction.
-        if ( isDeepInRigidStretch(basePairContainer.getBasePair(j).FirstBPResidue, basePairContainer.getBasePair(j).FirstBPChain , mobilizerContainer) ) {
+    for (int j = 0 ; j< (int)densityContainer.numDensityStretches() ; j++) {
+        if ( isInRigidStretch(basePairContainer.getBasePair(j).FirstBPResidue, basePairContainer.getBasePair(j).FirstBPChain , mobilizerContainer) ) {
             if (isDeepInRigidStretch(basePairContainer.getBasePair(j).SecondBPResidue, basePairContainer.getBasePair(j).SecondBPChain ,mobilizerContainer)){
                 MMBLOG_FILE_FUNC_LINE(DEBUG, " Deleting base pair."<< basePairContainer.getBasePair(j).FirstBPResidue.outString()<<" "<<basePairContainer.getBasePair(j).SecondBPResidue.outString() <<endl);
                 basePairContainer.deleteBasePair(j);
@@ -4071,6 +4070,14 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         workingDirectory     = get_and_set_working_path (parameterStringClass.getString(1)); // So now we have set workingDirectory, and cd'd into it.   
         return;
     }
+    if ((parameterStringClass.getString(0)).compare("removeDensityForcesFromRigidStretches"  ) ==0) {
+        MMBLOG_FILE_FUNC_LINE(INFO, " when set to True, this tells MMB to remove all residues in mobilizer stretches with BondMobility::Rigid, from the densityContainer. That is to say, any residues that have been rigidified will not have density gradient forces applied  .  "<<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, " Syntax : "<<endl); 
+        MMBLOG_FILE_FUNC_LINE(INFO, " removeDensityForcesFromRigidStretches <bool>  "<<endl); 
+        parameterStringClass.validateNumFields(2);
+        removeDensityForcesFromRigidStretches   = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    
+        return;
+    }
     if ((parameterStringClass.getString(0)).compare("removeRigidBodyMomentum"  ) ==0) {
         parameterStringClass.validateNumFields(2);
         removeRigidBodyMomentum   = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    
@@ -5270,6 +5277,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     readPreviousFrameFile = true;
     readMagnesiumPositionsFromFile = true;
     removeRigidBodyMomentum = false; // caused us integration errors too many times ..
+    removeDensityForcesFromRigidStretches = false; // Default is to allow density forces on rigid segments.
     removeMomentumPeriod =1;
     reportingInterval = 1.;// ps
     restrainingForceConstant  = 1000000;

@@ -164,6 +164,7 @@ public:
     int readInQVector ;
     bool readPreviousFrameFile ;
     int readMagnesiumPositionsFromFile;
+    bool removeDensityForcesFromRigidStretches;
     bool removeRigidBodyMomentum;
     double removeMomentumPeriod;
     double reportingInterval  ;

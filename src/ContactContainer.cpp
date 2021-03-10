@@ -257,7 +257,7 @@ for (int q=0;q<numContacts();q++)
 
 void ContactContainer::addContactToVector(ContactStretch myContactStretch, BiopolymerClassContainer & myBiopolymerClassContainer) {
     validateContact(myContactStretch, myBiopolymerClassContainer); 
-    ResidueStretchContainer<ContactStretch>::addResidueStretchToVector  (myContactStretch );
+    ResidueStretchContainer<ContactStretch>::addStretch  (myContactStretch );
     printContact(myContactStretch);
  //    getNumResidueStretches();
  //    MMBLOG_FILE_FUNC_LINE(" Just added a contact to the residue stretch vector.  Now have "<<numContacts()<<" contacts "<<endl;

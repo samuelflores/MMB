@@ -998,7 +998,7 @@ ResidueID BiopolymerClass::residueID(String inputString){
         return myResidueID;
 };
 
-void BiopolymerClass::validateResidueID(ResidueID myResidueID){
+void BiopolymerClass::validateResidueID(const ResidueID myResidueID) const{
         //MMBLOG_FILE_FUNC_LINE(" Validating requested residue ID "<<myResidueID.outString()<<endl;
         int myResidueIndex = getResidueIndex(myResidueID);
         validateResidueIndex(myResidueIndex);
@@ -2027,7 +2027,7 @@ bool BiopolymerClass::residueIDGreaterThanOrEqualTo(ResidueID  residueA, Residue
     return (getResidueIndex(residueA) >= getResidueIndex(residueB));
 };
 
-ResidueID BiopolymerClass::incrementResidueID(ResidueID  & residueID){
+ResidueID BiopolymerClass::incrementResidueID(ResidueID  & residueID) const{
     if (residueID == getLastResidueID()) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "You cannot increment the last residue ID!"<<endl);
     }
@@ -2036,7 +2036,7 @@ ResidueID BiopolymerClass::incrementResidueID(ResidueID  & residueID){
     return residueID;
 };
 
-ResidueID BiopolymerClass::decrementResidueID(ResidueID & residueID){
+ResidueID BiopolymerClass::decrementResidueID(ResidueID & residueID) const{
 
     if (residueID == getFirstResidueID()) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "You cannot decrement the first residue ID!"<<endl);

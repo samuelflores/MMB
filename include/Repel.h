@@ -217,6 +217,7 @@ public:
     * the Mutltibody tree and create the state
     */
     void initializeBodies ();
+    void forceAdjustmentsWithFinalMobilizers(); // Some adjustments are made here to forces depending on mobilizers,  the mobilizers in turn are set in initializeBodies().
 
     /**
     * Initialize everything

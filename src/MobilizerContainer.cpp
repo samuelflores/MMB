@@ -68,7 +68,7 @@ void MobilizerContainer::addMobilizerStretchToVector(MobilizerStretch myMobilize
     validateMobilizerStretch(myMobilizerStretch, myBiopolymerClassContainer); 
     MMBLOG_FILE_FUNC_LINE(INFO, "Adding mobilizer stretch to vector:"<<endl);
     myMobilizerStretch.print();
-    addResidueStretchToVector(myMobilizerStretch );
+    addStretch(myMobilizerStretch );
     //printMobilizerStretch(getNumResidueStretches()-1);
 };
 

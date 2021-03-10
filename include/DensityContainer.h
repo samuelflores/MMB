@@ -12,23 +12,23 @@
 #define DensityContainer_H_
 
 #include "BiopolymerClass.h"
+#include "ResidueStretchContainer.h"
 
-class DensityContainer {
+class DensityContainer : public ResidueStretchContainer <DensityStretch>{
 private :
-	std::vector <DensityStretch> densityStretchVector;
+    std::vector <DensityStretch> & densityStretchVector = ResidueStretchContainer::residueStretchVector; // alias -- use parent's residueStretchVector member.Since this is private, alias may be unnecessary..
 public:
-	void clear();
-	void validate(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer);
-	void	add(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer);
-	DensityStretch getDensityStretch(int densityStretchIndex);
-	int numDensityStretches();
-	void stuffDensityStretchVector(BiopolymerClassContainer & myBiopolymerClassContainer );
-    void printDensityStretches();
-
-    std::vector <DensityStretch> getDensityStretchVector() { return densityStretchVector; }
-
+    void clear();
+    //void validate(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer); // Already defined in parent.
+    //void	add(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer){addStretch(}; // just use parent's addStretch(ResidueStretchType newStretch) 
+    //void add(const DensityStretch myDensityStretch){addStretch(myDensityStretch);}; // just use parent's addStretch(ResidueStretchType newStretch) 
+    DensityStretch getDensityStretch(int densityStretchIndex){return getResidueStretch(densityStretchIndex);}; // just use parent's getResidueStretch
+    int numDensityStretches(){return getNumResidueStretches();}; // use parent member
+    void stuffDensityStretchVector(BiopolymerClassContainer & myBiopolymerClassContainer );
+    void printDensityStretches(){printResidueStretchVector();}; // just use printResidueStretchVector()
+    std::vector <DensityStretch> getDensityStretchVector() { return getResidueStretchVector();} //residueStretchVector;}//densityStretchVector; } // just use parent's getResidueStretchVector
     void updateDensityStretch(int id, const DensityStretch & stretch, BiopolymerClassContainer & myBiopolymerClassContainer);
-    void deleteDensityStretch(int id);
+    void deleteDensityStretch(int id){deleteResidueStretch(id);}; // just use parent's deleteResidueStretch(int id)
 };
 #endif
 

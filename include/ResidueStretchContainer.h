@@ -20,16 +20,16 @@ class ResidueStretchContainer{
     ResidueStretchContainer() {};
 
     void clear(){residueStretchVector.clear();interfaceContainer.clear(); };
-    void validateResidueStretch(ResidueStretchType myResidueStretch, BiopolymerClassContainer & myBiopolymerClassContainer) {
-	if (myBiopolymerClassContainer.updBiopolymerClass(myResidueStretch.getChain()).difference(myResidueStretch.getEndResidue() , myResidueStretch.getStartResidue()) < 0) {
+    void validateResidueStretch(const ResidueStretchType & myResidueStretch, const BiopolymerClassContainer & myBiopolymerClassContainer) {
+	if (myBiopolymerClassContainer.getBiopolymerClass(myResidueStretch.getChain()).difference(myResidueStretch.getEndResidue() , myResidueStretch.getStartResidue()) < 0) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "The end residue (currently "<<myResidueStretch.getEndResidue().outString()
 		<<") must be greater than or equal to the start residue (currently "<<myResidueStretch.getStartResidue().outString()<<". "<<endl);
 	}
-	if ((myResidueStretch.getEndResidue() > myBiopolymerClassContainer.updBiopolymerClass(myResidueStretch.getChain()).getLastResidueID()) ) {
+	if ((myResidueStretch.getEndResidue() > myBiopolymerClassContainer.getBiopolymerClass(myResidueStretch.getChain()).getLastResidueID()) ) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "The end residue (currently "<<myResidueStretch.getEndResidue().outString()
 		<<") is greater than the last residue number of the chain."<<endl);
 	}
-	if ((myResidueStretch.getStartResidue() < myBiopolymerClassContainer.updBiopolymerClass(myResidueStretch.getChain()).getFirstResidueID()) ) {
+	if ((myResidueStretch.getStartResidue() < myBiopolymerClassContainer.getBiopolymerClass(myResidueStretch.getChain()).getFirstResidueID()) ) {
 	    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The start residue (currently "<<myResidueStretch.getStartResidue().outString()
 		<<") is lesser than the first residue number of the chain."<<endl);
 	}
@@ -38,6 +38,10 @@ class ResidueStretchContainer{
 	}
     }
 
+    void add(const ResidueStretchType myResidueStretch, BiopolymerClassContainer & myBiopolymerClassContainer) {
+        validateResidueStretch(myResidueStretch,myBiopolymerClassContainer);
+	addStretch(myResidueStretch);
+    }
     void addStretch(ResidueStretchType newStretch) {
         residueStretchVector.push_back(newStretch);
     }    

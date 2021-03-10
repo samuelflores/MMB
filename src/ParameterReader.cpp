@@ -688,6 +688,7 @@ bool isDeepInRigidStretch(const ResidueID & myResidueID, const String myChainID,
 }
 
 // This function removes density forces from all residues in Rigid stretches.             
+/*
 void ParameterReader::removeDensityForcesFromRigidStretches () { 
     //for (int j = 0 ; j< (int)mobilizerContainer.numMobilizerStretches()          ; j++) {
     for (int j = 0 ; j< (int)basePairContainer.numBasePairs() ; j++) {
@@ -705,6 +706,8 @@ void ParameterReader::removeDensityForcesFromRigidStretches () {
     MMBLOG_FILE_FUNC_LINE(INFO    , " Printing all mobilizer stretches, at the end of removeBasePairsAcrossRigidStretches."<<endl);
     mobilizerContainer.printMobilizerStretches();
 }; // of function
+*/
+
 
 // This function removes base pairs when both residues of the base pair are in ANY rigid stretch. That means the two residues could be in DIFFERENT rigid stretches, or in the SAME rigid stretch.
 void ParameterReader::removeBasePairsAcrossRigidStretches () { 

@@ -665,14 +665,54 @@ bool isInRigidStretch(const ResidueID & myResidueID, const String myChainID, con
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Not In a rigid stretch. return "<<0<<endl);
     return false; // If you got this far, you are not in any rigid stretch
 }
+// determines whether the provided residue is DEEP in any Rigid stretch in the base operation vector.
+// The idea is that we do not want to remove base pairs that are in a rigid stretch , but bordering a flexible one.
+// This way we can later add the helicalStacking and NtC forces across the rigid-flexible boundary. This should improve structural quality.
+bool isDeepInRigidStretch(const ResidueID & myResidueID, const String myChainID, const MobilizerContainer & mobilizerContainer    ){
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Testing residueID "<<myResidueID.outString()<<endl);
+    //vector <MobilizerStretch> myMobilizerStretchVector = mobilizerContainer.updResidueStretchVector()	    ;
+    for (int i = 0 ; i< mobilizerContainer.getNumResidueStretches()           ; i++) {
+	if (mobilizerContainer.updResidueStretchVector()[i].getBondMobility() == SimTK::BondMobility::Rigid){
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer start residue = "<< mobilizerContainer.updResidueStretchVector()[i].getStartResidue().outString()<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer end residue = "<< mobilizerContainer.updResidueStretchVector()[i].getEndResidue().outString()<<endl);
+            if (mobilizerContainer.updResidueStretchVector()[i].getChain()        == myChainID){
+            if (mobilizerContainer.updResidueStretchVector()[i].getStartResidue() < myResidueID){  // would be <= in isInRigidStretch
+                if (mobilizerContainer.updResidueStretchVector()[i].getEndResidue() > myResidueID){// would be >= in isInRigidStretch
+                    MMBLOG_FILE_FUNC_LINE(DEBUG, " In a rigid stretch. return "<<1<<endl);
+                    return true;}
+	    }}
+	}
+    }
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Not In a rigid stretch. return "<<0<<endl);
+    return false; // If you got this far, you are not in any rigid stretch
+}
+
+// This function removes density forces from all residues in Rigid stretches.             
+void ParameterReader::removeDensityForcesFromRigidStretches () { 
+    //for (int j = 0 ; j< (int)mobilizerContainer.numMobilizerStretches()          ; j++) {
+    for (int j = 0 ; j< (int)basePairContainer.numBasePairs() ; j++) {
+        // baseOperationVector holds the endpoints of the rigid segment, while myBasePairVector holds the residues involved in the base pairing interaction.
+        if ( isDeepInRigidStretch(basePairContainer.getBasePair(j).FirstBPResidue, basePairContainer.getBasePair(j).FirstBPChain , mobilizerContainer) ) {
+            if (isDeepInRigidStretch(basePairContainer.getBasePair(j).SecondBPResidue, basePairContainer.getBasePair(j).SecondBPChain ,mobilizerContainer)){
+                MMBLOG_FILE_FUNC_LINE(DEBUG, " Deleting base pair."<< basePairContainer.getBasePair(j).FirstBPResidue.outString()<<" "<<basePairContainer.getBasePair(j).SecondBPResidue.outString() <<endl);
+                basePairContainer.deleteBasePair(j);
+                j--; 
+	    } // of if Second	
+	} // of if First 
+    } // of for j
+    MMBLOG_FILE_FUNC_LINE(INFO    , " Printing all base interactions   ,at the end of removeBasePairsAcrossRigidStretches."<<endl);
+    basePairContainer.printBasePairs();
+    MMBLOG_FILE_FUNC_LINE(INFO    , " Printing all mobilizer stretches, at the end of removeBasePairsAcrossRigidStretches."<<endl);
+    mobilizerContainer.printMobilizerStretches();
+}; // of function
 
 // This function removes base pairs when both residues of the base pair are in ANY rigid stretch. That means the two residues could be in DIFFERENT rigid stretches, or in the SAME rigid stretch.
 void ParameterReader::removeBasePairsAcrossRigidStretches () { 
     //for (int j = 0 ; j< (int)mobilizerContainer.numMobilizerStretches()          ; j++) {
     for (int j = 0 ; j< (int)basePairContainer.numBasePairs() ; j++) {
         // baseOperationVector holds the endpoints of the rigid segment, while myBasePairVector holds the residues involved in the base pairing interaction.
-        if ( isInRigidStretch(basePairContainer.getBasePair(j).FirstBPResidue, basePairContainer.getBasePair(j).FirstBPChain , mobilizerContainer) ) {
-            if (isInRigidStretch(basePairContainer.getBasePair(j).SecondBPResidue, basePairContainer.getBasePair(j).SecondBPChain ,mobilizerContainer)){
+        if ( isDeepInRigidStretch(basePairContainer.getBasePair(j).FirstBPResidue, basePairContainer.getBasePair(j).FirstBPChain , mobilizerContainer) ) {
+            if (isDeepInRigidStretch(basePairContainer.getBasePair(j).SecondBPResidue, basePairContainer.getBasePair(j).SecondBPChain ,mobilizerContainer)){
                 MMBLOG_FILE_FUNC_LINE(DEBUG, " Deleting base pair."<< basePairContainer.getBasePair(j).FirstBPResidue.outString()<<" "<<basePairContainer.getBasePair(j).SecondBPResidue.outString() <<endl);
                 basePairContainer.deleteBasePair(j);
                 j--; 

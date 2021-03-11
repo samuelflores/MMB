@@ -44,7 +44,9 @@ class ResidueStretchContainer{
 	addStretch(myResidueStretch);
     }
     void addStretch(const ResidueStretchType newStretch) {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " About to add a new stretch to the residueStretchVector, which currently has "<< getNumResidueStretches() << " elements."<<endl);
         residueStretchVector.push_back(newStretch);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " Done adding  a new stretch to the residueStretchVector, which now has "<< getNumResidueStretches() << " elements."<<endl);
     }    
 
     vector<ResidueStretchType> getResidueStretchVector() {return residueStretchVector;};

@@ -62,6 +62,8 @@ void DensityContainer::stuffDensityStretchVector( BiopolymerClassContainer & myB
 			myDensityStretch.setChain( myBiopolymerClassContainer.updBiopolymerClass(i).getChainID());
 			myDensityStretch.setStartResidue( myBiopolymerClassContainer.updBiopolymerClass(i).getFirstResidueID    ());
 			myDensityStretch.setEndResidue( myBiopolymerClassContainer.updBiopolymerClass(i).getLastResidueID    ());
+			myDensityStretch.printStretch();
+                        //MMBLOG_FILE_FUNC_LINE(DEBUG, "Density Stretch  chain "<< myDensityStretch.getChain()<<" from residue "<<myDensityStretch.getStartResidue().outString()<<" to "<< myDensityStretch.getEndResidue().outString()<<endl);
 			addStretch(myDensityStretch);//,myBiopolymerClassContainer);
 		}
 	} else {

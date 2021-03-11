@@ -589,7 +589,9 @@ class ResidueStretch   {
 
                 ResidueStretch( SimTK::String myChain,  ResidueID    myResidue        )
                     { 
-                    chain = myChain; startResidue = myResidue; endResidue= myResidue; }; // This constructor sets endResidue = startResidue
+                    chain = myChain; 
+		    startResidue = myResidue; 
+		    endResidue= myResidue; }; // This constructor sets endResidue = startResidue
                 bool contains(SimTK::String myChain, ResidueID resID) const
                 {
                     return chain == myChain && resID >= startResidue && resID <= endResidue;

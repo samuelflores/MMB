@@ -1076,8 +1076,11 @@ void ConstrainedDynamics::writeMMBPDB(std::ofstream & filestream){
 }
 
 void ConstrainedDynamics::forceAdjustmentsWithFinalMobilizers(){
+    MMBLOG_FILE_FUNC_LINE(INFO, " About to start myBiopolymerClassContainer.selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer"<<endl);
     if (_parameterReader->removeDensityForcesFromRigidStretches) {_parameterReader->myBiopolymerClassContainer.selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer(_parameterReader->mobilizerContainer, _parameterReader->densityContainer);}    
+    MMBLOG_FILE_FUNC_LINE(INFO, " About to start removeBasePairsAcrossRigidStretches"<<endl);
     if (_parameterReader->setRemoveBasePairsAcrossRigidStretches) {_parameterReader->removeBasePairsAcrossRigidStretches();}    
+    MMBLOG_FILE_FUNC_LINE(INFO, " About to start basePairContainer.addHelicalStacking"<<endl);
     if (_parameterReader->setHelicalStacking){_parameterReader->basePairContainer.addHelicalStacking(_parameterReader->myBiopolymerClassContainer, _parameterReader->_leontisWesthofClass, _parameterReader->ntc_par_class,_parameterReader->ntc_class_container);}
 }
 

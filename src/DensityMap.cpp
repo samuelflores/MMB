@@ -937,29 +937,29 @@ void DensityMap::precomputeGradient() {
 				initializeGradient(centralGridPoint); // sets gradient to zero; if the if statements below are false that component of the gradient remains zero.
 
 				if (xIndex < (unitCellParameters.getNa()-1)) {// if grid point is not at the +X boundary
-                                        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+                                        //MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
 					setPositiveXGradient (centralGridPoint,(getDensity(updGridPoint(GridIndices(xIndex+1,  yIndex, zIndex))) -getDensity(centralGridPoint))/ unitCellParameters.geta());
 				} else if (xIndex == (unitCellParameters.getNa()-1)) { // if grid point is at the +X boundary
-                                        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+                                        //MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
 					setPositiveXGradient (centralGridPoint,(0. -getDensity(centralGridPoint)) / unitCellParameters.geta() );
                                 }
 
 				if (yIndex < (unitCellParameters.getNb()-1)) {// if grid point is not at the +Y boundary
-                                        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+                                        //MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
 					setPositiveYGradient (centralGridPoint,(getDensity(updGridPoint(GridIndices(xIndex,  yIndex+1, zIndex))) -getDensity(centralGridPoint))/ unitCellParameters.getb());
 				} else if (yIndex == (unitCellParameters.getNb()-1)) {
-                                        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+                                        //MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
 					setPositiveYGradient (centralGridPoint,(0. -getDensity(centralGridPoint)) / unitCellParameters.getb() );
                                 }
 
 
 
 				if (zIndex < (unitCellParameters.getNc()-1)) {// if grid point is not at the +Z boundary:
-                                        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+                                        //MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
 					setPositiveZGradient (centralGridPoint,(getDensity(updGridPoint(GridIndices(xIndex,  yIndex, zIndex+1))) -getDensity(centralGridPoint))/ unitCellParameters.getc());
 				
 				} else if (zIndex == (unitCellParameters.getNc()-1)) {
-                                        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+                                        //MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
 					setPositiveZGradient (centralGridPoint,(0. -getDensity(centralGridPoint)) / unitCellParameters.getc() );
                                 }
 				//ValidateVec3((fetchFirstQuadrantGradient(centralGridPoint)));
@@ -1114,7 +1114,7 @@ Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(const Vec3 &position)  {
 
                         GridIndices myLowerLeftGridIndex = calcLowerLeftGridIndices(   position);
                          if (hasGridPoint(myLowerLeftGridIndex)) {
-                                 MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+                                 //MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
                                  Vec3 tempVec3 = calcInterpolatedFirstQuadrantGradient(ArrayOfGridPoints[myLowerLeftGridIndex.getZGridIndex()][myLowerLeftGridIndex.getYGridIndex()][myLowerLeftGridIndex.getXGridIndex()],position);
                                  //cout<<__FILE__<<":"<<__LINE__<<":"<<__FUNCTION__<<" Returning NON-ZERO force "<< tempVec3 <<" for grid point at position "<<position<<", lower left indices "<<myLowerLeftGridIndex.getXGridIndex() <<", "<< myLowerLeftGridIndex.getYGridIndex()   <<", "<< myLowerLeftGridIndex.getZGridIndex()  <<  endl;
                                  return tempVec3; //calcInterpolatedFirstQuadrantGradient(ArrayOfGridPoints[myLowerLeftGridIndex.getZGridIndex()][myLowerLeftGridIndex.getYGridIndex()][myLowerLeftGridIndex.getXGridIndex()],position);
@@ -1263,7 +1263,7 @@ void DensityMap::setNegativeZGradient(GridPoint & gridPoint,Real myNegativeZGrad
     }*/
 Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint, const Vec3 &queryPosition) const {
     //MMBLOG_FILE_FUNC_LINE(std::endl;
-    MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+    //MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
     Vec3 dxdydz = unitCellParameters.convertFractionalVectorToFractionFromLowerLeft(unitCellParameters.convertCartesianVectorToFractionalVector(queryPosition)); //queryPosition - gridPoint.position; // the first term is the query position, the second term is the grid point position in cartesian space
     if ((dxdydz[0] < 0) || (dxdydz[1] <0 ) || (dxdydz[2] < 0)) { // see if we can make this trap unnecessary implicitly
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "this function is only for calculating the gradient in the first quadrant"<<endl);
@@ -1282,7 +1282,7 @@ Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint, co
     myGradient[0] = fetchFirstQuadrantGradient(gridPoint)[0] ; //                                           + gridPoint.ddyPositiveXGradient*dxdydz[1] + gridPoint.ddzPositiveXGradient*dxdydz[2];
     myGradient[1] = fetchFirstQuadrantGradient(gridPoint)[1] ; // + gridPoint.ddxPositiveYGradient*dxdydz[0]                                           + gridPoint.ddzPositiveYGradient*dxdydz[2];
     myGradient[2] = fetchFirstQuadrantGradient(gridPoint)[2] ; // + gridPoint.ddxPositiveZGradient*dxdydz[0] + gridPoint.ddyPositiveZGradient*dxdydz[1];
-    MMBLOG_FILE_FUNC_LINE(DEBUG, " myGradient = "<<myGradient <<endl);
+    //MMBLOG_FILE_FUNC_LINE(DEBUG, " myGradient = "<<myGradient <<endl);
 
     // Separated out ther second derivatives for debugging:
     /*if (0) {

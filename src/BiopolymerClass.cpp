@@ -3064,7 +3064,7 @@ void BiopolymerClassContainer::setNeighborsFromList(vector<MMBAtomInfo>& concate
         MMBAtomInfo & atom2 = concatenatedAtomInfoVector[id2];
 
         double dist = atom1.distance(atom2);
-        MMBLOG_FILE_FUNC_LINE(DEBUG, " Found a neighbor distance of "<<dist<<" comaring to  cutoff of "<<radius << endl);
+        //MMBLOG_FILE_FUNC_LINE(DEBUG, " Found a neighbor distance of "<<dist<<" comaring to  cutoff of "<<radius << endl);
         if(dist <= radius)
         {
             atom1.addNeighbor(&atom2);

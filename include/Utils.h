@@ -984,20 +984,35 @@ struct AtomSpring {
        String  atom2Chain;
        bool    toGround;
        bool    tether;
+       bool    groundLocationIsRelativeToAtom1Location;
        Vec3    groundLocation;
        //AtomSpecification AtomLocationInGround; // This is the chain ID, residue number, and name of an atom. Once the system has been realized to the position stage, we will be able to query that atom and put its location in groundLocation.
        double  forceConstant ;
        double  deadLength    ;
        bool    deadLengthIsFractionOfInitialLength; 
        double  deadLengthFraction;
-
+       void print(){
+            MMBLOG_FILE_LINE(INFO, " Printing AtomSpring  contents:"<<std::endl
+                <<" atom1Chain    : "<<atom1Chain                <<std::endl  
+                <<" atom2Chain    : "<<atom2Chain                <<std::endl  
+                <<" atom1Residue  : "<<atom1Residue.outString()  <<std::endl  
+                <<" atom2Residue  : "<<atom2Residue.outString()  <<std::endl  
+                <<" atom1Name     : "<<atom1Name                 <<std::endl  
+                <<" atom2Name     : "<<atom2Name                 <<std::endl  
+                <<" toGround      : "<< toGround                 <<std::endl     
+                <<" tether        : "<< tether                   <<std::endl
+                <<" groundLocationIsRelativeToAtom1Location : "<< groundLocationIsRelativeToAtom1Location <<std::endl
+                <<" groundLocation: "<< groundLocation           <<std::endl
+                <<""<<std::endl);
+       }
        AtomSpring(String chain1, ResidueID res1, String name1,
                   String chain2, ResidueID res2, String name2,
                   double constant,
                   Vec3 location = Vec3(0),
                   bool toGround = false,
                   bool tether = false,
-                  double deadLength = 0.0
+                  double deadLength = 0.0,
+		  bool   groundLocationIsRelativeToAtom1Location = 0
                  )
        {
             atom1Chain = chain1;
@@ -1009,20 +1024,22 @@ struct AtomSpring {
             forceConstant = constant;
             this->toGround = toGround;
             this->tether = tether;
+            this->groundLocationIsRelativeToAtom1Location = groundLocationIsRelativeToAtom1Location;
             this->groundLocation = location;
             this->deadLength = deadLength;
        }
 
        AtomSpring()
        {
-            atom1Name = ""           ;   
-            atom2Name = ""           ;   
-            atom1Residue =  ResidueID(0, ' ')        ;   
-            atom2Residue =  ResidueID(0, ' ')        ;   
-            atom1Chain = "";
-            atom2Chain = "";
+            atom1Name = "XXXX"           ;   
+            atom2Name = "XXXX"           ;   
+            atom1Residue =  ResidueID(-1111, ' ')        ;   
+            atom2Residue =  ResidueID(-1111, ' ')        ;   
+            atom1Chain = "XXXX";
+            atom2Chain = "XXXX";
             toGround   = false;
             tether     = false;
+	    groundLocationIsRelativeToAtom1Location = false;
             groundLocation = Vec3(0);
             forceConstant  = 0.0 ;
             deadLength     = 0.0 ; 

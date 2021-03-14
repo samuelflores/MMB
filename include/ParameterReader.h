@@ -276,6 +276,7 @@ public:
     ConstraintToGroundContainer constraintToGroundContainer;
     DisplacementContainer displacementContainer;
     AtomSpringContainer atomSpringContainer;
+    AtomSpring          dummyAtomSpring; // This is a temporary atomSpring which keeps getting its properties modified by the user prior to being added to AtomSpringContainer. The atomSpringContainer version is not a dummy, it is a real  AtomSpring which will be applied. AtomSpring has a default constructor, so it should not be necessary to initialize.
     BiopolymerClassContainer myBiopolymerClassContainer;
     MoleculeClassContainer   moleculeClassContainer;
     WaterDropletContainer waterDropletContainer;
@@ -290,6 +291,7 @@ public:
     void applyAtomSprings (SimbodyMatterSubsystem & matter, GeneralForceSubsystem & forces, State & state);
     void configureDumm( DuMMForceFieldSubsystem & dumm);
     static double myAtoF(map<const String,double> myUserVariables,const char* value ); 
+    static bool aToBool( const char* value ); 
     static bool aToBool( const String& name, const char* value ); 
     static bool compareUpper( const String& param, const char* symbol );
 

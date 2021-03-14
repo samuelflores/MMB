@@ -394,6 +394,11 @@ void ParameterReader::applyAtomSprings(SimbodyMatterSubsystem & matter, GeneralF
         //get atom 2 location and mobilizedBody:
         if (myAtomSpring.toGround) {
             myMobilizedBody2 = matter.Ground();
+	    /*
+	    if (myAtomSpring.relativeToAtom){
+	        location2=myAtomSpring.groundLocation += groundLocation1 ; // If the ground location is RELATIVE to the atom, then add the atom's ground location.
+	    }
+	     * */
             location2 =  myAtomSpring.groundLocation;
         }  else if (myBiopolymerClassContainer.hasChainID(myAtomSpring.atom2Chain ))
         {
@@ -604,9 +609,32 @@ double   ParameterReader::myAtoF(  map<const String,double> myUserVariables,  co
 }
 
 
+bool ParameterReader::aToBool(  const char* value ) {
+
+    String upperValue(value);
+    for(int i=0;i<(int)upperValue.length();i++)  {
+        upperValue[i] = toupper(value[i]);
+    }    
+
+    if (( upperValue ==  "TRUE" ) ||( upperValue ==  "1")) {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "TRUE"<<endl);
+        return true;
+    }
+    else if (( upperValue ==  "FALSE" ) ||( upperValue ==  "0")){
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "FALSE"<<endl);
+        return false;
+    }
+    else {
+        MMBLOG_FILE_FUNC_LINE(INFO, "Error -- you have specified"<<value<<endl);
+        SimTK_ERRCHK_ALWAYS((upperValue == "TRUE" || upperValue == "FALSE" || upperValue == "1"  || upperValue == "0") ,"[ParameterReader.cpp]"," requires either True or False but was set to something else"); 
+        return false;
+    }    
+
+}    
 
 bool ParameterReader::aToBool( const String& name, const char* value ) {
-
+    return aToBool(value);
+    /*
     String upperValue(value);
     for(int i=0;i<(int)upperValue.length();i++)  {
         upperValue[i] = toupper(value[i]);
@@ -624,8 +652,7 @@ bool ParameterReader::aToBool( const String& name, const char* value ) {
         MMBLOG_FILE_FUNC_LINE(INFO, "Err"<<endl);
         SimTK_ERRCHK2_ALWAYS((upperValue == "TRUE" || upperValue == "FALSE" || upperValue == "1"  || upperValue == "0") ,"[ParameterReader.cpp]","%s requires either True or False but was set to %s",name.c_str(), value); 
         return false;
-    }    
-
+    } */   
 }    
 bool ParameterReader::compareUpper( const String& param, const char* symbol ) {
 
@@ -1625,7 +1652,115 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         myBiopolymerClassContainer.deleteBiopolymerClass(parameterStringClass.getString(1));
         return;
     }
+    if ((parameterStringClass.getString(0)).compare("atomSpring")      == 0) 
+    {
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "You have called the atomSpring command. This applies springs or tethers , either between two atoms, or between one atom and ground. There is a 'deadLength' parameter which specifies the zero-force distance for springs, or the radius of the zero-force sphere for tethers. there is a toGround parameter, which specifies that there is no atom 2, only atom 1 and a ground location.There is a 'groundLocationIsRelative' parameter, which specifies that -- in the case of a spring or tether to ground -- the coordinates given are relative to the first (and only) atom's location in the structure. "<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "Usage: ");
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "The command file is read top to bottom. So first consider any parameters you wish to change, and set those. Then you will create the spring. Then change any paramters, create again, and so on.  : "<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring  atom1Chain [chain ID, string] : Chain ID of atom 1."<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring  atom1Residue [residue ID, string] : Residue ID of atom 1. If there is an insertion code, put it right after the residue number, with no spaces, like this: 123C "<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring  atom1Name  [name, string] : Name of atom 1."<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring  [atom2Chain | atom2Residue | atom2Name ] : Just like the above, except for atom 2. These are ignored if toGround is true."<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring tether [true | false] : Defaults to false. If false, behaves as a spring. If true, it is a tether, meaning the potential is flat bottomed, and becomes non-flat at deadLength."<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring forceConstant [spring constant] : The spring constant, in kJ/mol/nm/nm. Applies to both spring and tether. For reference, the spring constant of a carbon-carbon single bond is 129790.8 kJ/mol/nm/n"<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring deadLengthFraction <fraction> : This sets the dead length of the springs to <fraction> * (initial length). Original applicatoin was progressive morphing.  "<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring deadLengthIsFractionOfInitialLength [true | false] : If true, the dead length of the springs is <deadLengthFraction> * (initial length). Original applicatoin was progressive morphing.  "<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring groundLocationIsRelativeToAtom1Location [true | false] : If true, the groundLocation is relative to atom 1 locatoin. So if groundLocation is 0 0 1, one end of the spring will be fixed 1nm above atom 1's initial location. The other end will be fixed to atom1.  "<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring deadLength  [length] : Defaults to 0. In the case of a spring, it is the length at which force is zero. In the case of a tether, the MAXIMUM length at which force is zero. Ignored if deadLengthIsFractionOfInitialLength is true."<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring groundLocation  [X, Y, Z] : Location on ground to which one end of the spring will be fixed. The other end of the spring will be fixed to atom 1. Applies if toGround is true. Ignored if toGround is false."<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring add  :  Once you have set the parameters, somewhere above this command in the file, issue this to create a spring with those parameters. Technically, you are adding an AtomSpring to atomSpringContainer.  You can then change one or more parameters, and issue the command again to create another spring with the new parameters. And so on. "<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, endl);
+        //AtomSpring dummyAtomSpring is the default temporary AtomSpring, should have been declared in ParameterReader.h. No initialization necessary, it has a default constructor. Becomes and adult AtomSpring once it is added to atomSpringContainer.
+        if ((parameterStringClass.getString(1)).compare("atom1Chain")==0){            
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.
+            dummyAtomSpring.atom1Chain = (parameterStringClass.getString(2));
+        }
+        if ((parameterStringClass.getString(1)).compare("atom2Chain")==0){            
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.
+            dummyAtomSpring.atom2Chain = (parameterStringClass.getString(2));
+        }
+        if ((parameterStringClass.getString(1)).compare("atom1Name" )==0){            
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.
+            dummyAtomSpring.atom1Name  = (parameterStringClass.getString(2));
+        }
+        if ((parameterStringClass.getString(1)).compare("atom2Name" )==0){            
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.
+            dummyAtomSpring.atom2Name  = (parameterStringClass.getString(2));
+        }
+        if ((parameterStringClass.getString(1)).compare("atom1Residue" )==0){            
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.
+            dummyAtomSpring.atom1Residue = ResidueID (parameterStringClass.getString(2));
+        }
+        if ((parameterStringClass.getString(1)).compare("atom2Residue" )==0){            
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.
+            dummyAtomSpring.atom2Residue = ResidueID (parameterStringClass.getString(2));
+        }
+        if ((parameterStringClass.getString(1)).compare("tether")==0){            
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.
+            dummyAtomSpring.tether = aToBool(parameterStringClass.getString(2));
+        }
+        else if ((parameterStringClass.getString(1)).compare("toGround")==0){         
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.      
+            dummyAtomSpring.toGround = aToBool(parameterStringClass.getString(2));
+        }
+        else if ((parameterStringClass.getString(1)).compare("groundLocationIsRelativeToAtom1Location")==0){         
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.      
+            dummyAtomSpring.groundLocationIsRelativeToAtom1Location = aToBool(parameterStringClass.getString(2));
+        }
+        else if  ((parameterStringClass.getString(1)).compare("deadLengthIsFractionOfInitialLength")==0){               
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.
+            dummyAtomSpring.deadLengthIsFractionOfInitialLength = aToBool(parameterStringClass.getString(2));
+        }
+        else if  ((parameterStringClass.getString(1)).compare("forceConstant")==0){        
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.       
+            dummyAtomSpring.forceConstant = myAtoF(userVariables,parameterStringClass.getString(2));
+        }
+        else if  ((parameterStringClass.getString(1)).compare("deadLengthFraction")==0){               
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.
+            dummyAtomSpring.deadLengthFraction = myAtoF(userVariables,parameterStringClass.getString(2));
+        }
+        else if  ((parameterStringClass.getString(1)).compare("deadLength")==0){            
+            parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.   
+            dummyAtomSpring.deadLength = myAtoF(userVariables,parameterStringClass.getString(2));
+        }
 
+        else if  ((parameterStringClass.getString(1)).compare("groundLocation")==0){            
+            parameterStringClass.validateNumFields(5);   // expecting atomSpring, the parameter name, and parameter value.   
+            dummyAtomSpring.groundLocation = Vec3(
+                  myAtoF(userVariables,parameterStringClass.getString(2)),
+                  myAtoF(userVariables,parameterStringClass.getString(3)),
+                  myAtoF(userVariables,parameterStringClass.getString(4))
+            );
+        }   
+        else if  ((parameterStringClass.getString(1)).compare("add")==0){            
+            parameterStringClass.validateNumFields(2);   // expecting atomSpring, the command.   
+	    dummyAtomSpring.print();
+            atomSpringContainer.add(dummyAtomSpring);
+        } else {
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Error! You have specified a parameter or command that is not related to atomSpring.  "<<endl);
+        }  
+        return;
+    }  // of if atomSpring
+       
+    if ((parameterStringClass.getString(0)).compare("springToGround")      == 0) 
+         {
+                 MMBLOG_FILE_FUNC_LINE(CRITICAL, " This command is obsolete. Please use atomSpring, with toGround set to True.  "<<endl);
+    }
+     
+    if ((parameterStringClass.getString(0)).compare("tetherToGround")      == 0) 
+         {
+                 MMBLOG_FILE_FUNC_LINE(CRITICAL, " This command is obsolete. Please use atomSpring, with toGround and tether set to True.  "<<endl);
+    }
+    if ((parameterStringClass.getString(0)).compare("atomTether")      == 0) 
+         {
+                 MMBLOG_FILE_FUNC_LINE(CRITICAL, " This command is obsolete. Please use atomSpring, with  tether set to True.  "<<endl);
+    }
+     
+    // comment out the old atomTether,springToGround, etc case
+     
+     
+     
+        /*
     if ( ((parameterStringClass.getString(0)).compare("atomSpring")      == 0) ||
             ((parameterStringClass.getString(0)).compare("springToGround") == 0) ||
             ((parameterStringClass.getString(0)).compare("tetherToGround") == 0) ||
@@ -1782,7 +1917,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
         return;
     } // End Springs and Tethers
-
+*/
     if ( ((parameterStringClass.getString(0)).compare("nucleicAcidDuplex")      == 0) ) 
     {
 

@@ -976,6 +976,9 @@ struct ContactWithin {
 //  ResidueID residueID;
 
 struct AtomSpring {
+    private:	
+    public:	
+       // Really the parameters should be private.
        String  atom1Name             ;
        String  atom2Name             ;
        ResidueID    atom1Residue          ;
@@ -991,8 +994,9 @@ struct AtomSpring {
        double  deadLength    ;
        bool    deadLengthIsFractionOfInitialLength; 
        double  deadLengthFraction;
+       /*template <MMBLogger::Severity S>
        void print(){
-            MMBLOG_FILE_LINE(INFO, " Printing AtomSpring  contents:"<<std::endl
+            MMBLOG_FILE_LINE(S, " Printing AtomSpring  contents:"<<std::endl
                 <<" atom1Chain    : "<<atom1Chain                <<std::endl  
                 <<" atom2Chain    : "<<atom2Chain                <<std::endl  
                 <<" atom1Residue  : "<<atom1Residue.outString()  <<std::endl  
@@ -1004,7 +1008,22 @@ struct AtomSpring {
                 <<" groundLocationIsRelativeToAtom1Location : "<< groundLocationIsRelativeToAtom1Location <<std::endl
                 <<" groundLocation: "<< groundLocation           <<std::endl
                 <<""<<std::endl);
-       }
+       }*/
+       void print(){//enum MMBLogger::Severity severity = MMBLogger::Severity::INFO){
+            MMBLOG_FILE_LINE(INFO, " Printing AtomSpring  contents:"<<std::endl
+                <<" atom1Chain    : "<<atom1Chain                <<std::endl  
+                <<" atom2Chain    : "<<atom2Chain                <<std::endl  
+                <<" atom1Residue  : "<<atom1Residue.outString()  <<std::endl  
+                <<" atom2Residue  : "<<atom2Residue.outString()  <<std::endl  
+                <<" atom1Name     : "<<atom1Name                 <<std::endl  
+                <<" atom2Name     : "<<atom2Name                 <<std::endl  
+                <<" toGround      : "<< toGround                 <<std::endl     
+                <<" tether        : "<< tether                   <<std::endl
+                <<" deadLength    : "<< deadLength               <<std::endl
+                <<" groundLocationIsRelativeToAtom1Location : "<< groundLocationIsRelativeToAtom1Location <<std::endl
+                <<" groundLocation: "<< groundLocation           <<std::endl
+                <<""<<std::endl);
+       } 
        void printDebug(){
             MMBLOG_FILE_LINE(DEBUG, " Printing AtomSpring  contents:"<<std::endl
                 <<" atom1Chain    : "<<atom1Chain                <<std::endl  
@@ -1015,6 +1034,7 @@ struct AtomSpring {
                 <<" atom2Name     : "<<atom2Name                 <<std::endl  
                 <<" toGround      : "<< toGround                 <<std::endl     
                 <<" tether        : "<< tether                   <<std::endl
+                <<" deadLength    : "<< deadLength               <<std::endl
                 <<" groundLocationIsRelativeToAtom1Location : "<< groundLocationIsRelativeToAtom1Location <<std::endl
                 <<" groundLocation: "<< groundLocation           <<std::endl
                 <<""<<std::endl);
@@ -1023,6 +1043,8 @@ struct AtomSpring {
                   String chain2, ResidueID res2, String name2,
                   double constant,
                   double deadLength = 0.0,
+                  double deadLengthFraction = 0.0,
+		  bool deadLengthIsFractionOfInitialLength = 0,
                   Vec3 location = Vec3(0),
                   bool toGround = false,
                   bool tether = false,
@@ -1041,6 +1063,8 @@ struct AtomSpring {
             this->groundLocationIsRelativeToAtom1Location = groundLocationIsRelativeToAtom1Location;
             this->groundLocation = location;
             this->deadLength = deadLength;
+            this->deadLengthFraction = deadLengthFraction;
+	    this->deadLengthIsFractionOfInitialLength = deadLengthIsFractionOfInitialLength;
        }
 
        AtomSpring()

@@ -801,6 +801,7 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useCIFFileFormat                       bool    " + std::to_string ( useCIFFileFormat ) + " : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesIsGapped                bool    " + std::to_string ( alignmentForcesIsGapped ) + " : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesGapPenalty              double  " + std::to_string ( alignmentForcesGapPenalty ) + " : The penalty applied to gaps. The noGaps condition is enforced with a high value of this parameter. Can vary through the course of the input commands file. This is only the final value." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesDeadLength              double  " + std::to_string ( alignmentForcesDeadLengthFraction ) + " : The final length to which the alignmentSprings equilibrate. Defaults to 0.             " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesDeadLengthFraction      double  " + std::to_string ( alignmentForcesDeadLengthFraction ) + " : The fraction of the initial length to which the alignmentSprings equilibrate. Should be in the interval (0,1]. A nonzero value enables e.g. progressive morphing.  Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesForceConstant           double  " + std::to_string ( alignmentForcesForceConstant ) + " : Force constant for the  alignmentForces springs. Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "applyC1pSprings                        bool    " + std::to_string ( applyC1pSprings ) ) );
@@ -2076,6 +2077,13 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                         return;
                      }
         } 
+        else if ((parameterStringClass.getString(1)).compare("deadLength")==0){
+            alignmentForcesDeadLength         = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
+            if (alignmentForcesDeadLength    <= 0.0) {
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "deadLength    must be greater than zero! You have specified : "<< alignmentForcesDeadLength  <<endl);
+            }
+            return;
+        }
         else if ((parameterStringClass.getString(1)).compare("forceConstant")==0){
             alignmentForcesForceConstant      = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
             if (alignmentForcesForceConstant <= 0.0) {
@@ -2153,6 +2161,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             thread.isGapped   = alignmentForcesIsGapped;
             thread.deadLengthIsFractionOfInitialLength = alignmentForcesDeadLengthIsFractionOfInitialLength;
             thread.deadLengthFraction = alignmentForcesDeadLengthFraction;
+            thread.deadLength         = alignmentForcesDeadLength        ;
 
          } else if ((parameterStringClass.getString(7)).length()>0 )   { // In case the user u    sed the syntax  <alignmentForces> <Chain A>  <start residue A> <end residue A>  <Chain-B>  <start residue B> <end residue B>   [forceConstant]
 		MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of parameters for this command! This command no longer takes an optional <force constant> parameter, if that is what you were trying to provide. Instead set the force constant using syntax:  alignmentForces forceConstant <force constant (double)> "<<endl);
@@ -5338,6 +5347,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     alignmentForcesIsGapped = true;
     alignmentForcesGapPenalty = -1;
     alignmentForcesDeadLengthFraction = 0;
+    alignmentForcesDeadLength = 0;
     alignmentForcesDeadLengthIsFractionOfInitialLength = false;
     alignmentForcesForceConstant = 30.0;
     applyC1pSprings = true;

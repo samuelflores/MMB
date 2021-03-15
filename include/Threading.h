@@ -31,6 +31,7 @@ class ThreadingStruct {
         ThreadingPartner & updThreadingPartner (int index){return threadingPartners[index];}
         ThreadingPartner  getThreadingPartner (int index) const {return threadingPartners[index];}
         std::string getChain(int index){return threadingPartners[index].biopolymerClass.getChainID();};
+        //void print(){}
         void setDefaultStartEndResidues(){
             updThreadingPartner(0).startResidue = updThreadingPartner(0).biopolymerClass.getFirstResidueID();
             updThreadingPartner(0).  endResidue = updThreadingPartner(0).biopolymerClass. getLastResidueID();
@@ -41,6 +42,7 @@ class ThreadingStruct {
         bool backboneOnly;
         bool isGapped; //if False, then alignment is being provided explicitly. if True, precise alignment will be determined by MMB/SeqAn
         bool deadLengthIsFractionOfInitialLength; //If True, then dead length of each spring will be set to deadLengthFraction * <initial spring extension>. It makes sense that 1 > deadLengthFraction > 0.
+        double deadLength; // This is an absolute dead length for the alignment springs. For default homology modeling behavior, should be 0.
         double deadLengthFraction;
         seqan::AlignmentStats getAlignmentStats(){return alignmentStats;}
         void   setAlignmentStats(seqan::AlignmentStats myAlignmentStats){ alignmentStats = myAlignmentStats;}

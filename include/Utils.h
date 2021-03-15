@@ -1005,13 +1005,27 @@ struct AtomSpring {
                 <<" groundLocation: "<< groundLocation           <<std::endl
                 <<""<<std::endl);
        }
+       void printDebug(){
+            MMBLOG_FILE_LINE(DEBUG, " Printing AtomSpring  contents:"<<std::endl
+                <<" atom1Chain    : "<<atom1Chain                <<std::endl  
+                <<" atom2Chain    : "<<atom2Chain                <<std::endl  
+                <<" atom1Residue  : "<<atom1Residue.outString()  <<std::endl  
+                <<" atom2Residue  : "<<atom2Residue.outString()  <<std::endl  
+                <<" atom1Name     : "<<atom1Name                 <<std::endl  
+                <<" atom2Name     : "<<atom2Name                 <<std::endl  
+                <<" toGround      : "<< toGround                 <<std::endl     
+                <<" tether        : "<< tether                   <<std::endl
+                <<" groundLocationIsRelativeToAtom1Location : "<< groundLocationIsRelativeToAtom1Location <<std::endl
+                <<" groundLocation: "<< groundLocation           <<std::endl
+                <<""<<std::endl);
+       }
        AtomSpring(String chain1, ResidueID res1, String name1,
                   String chain2, ResidueID res2, String name2,
                   double constant,
+                  double deadLength = 0.0,
                   Vec3 location = Vec3(0),
                   bool toGround = false,
                   bool tether = false,
-                  double deadLength = 0.0,
 		  bool   groundLocationIsRelativeToAtom1Location = 0
                  )
        {

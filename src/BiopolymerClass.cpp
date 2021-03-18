@@ -41,14 +41,16 @@ void printBiopolymerSequenceInfo(const Biopolymer & myBiopolymer) {
     } 
 };
 
-bool letterIsPurine(String myLetter) {
-    if ((myLetter.compare("A") == 0 ) ||  
-        (myLetter.compare("G") == 0 ))    
+static
+bool letterIsPurine(const String & myLetter) {
+    if ((myLetter.compare("A") == 0 ) ||
+        (myLetter.compare("G") == 0 ))
             {return true; }
     else return false;
 }
 
-bool letterIsRNA(String myLetter) {
+static
+bool letterIsRNA(const String & myLetter) {
     if (myLetter.compare("A") == 0)  {return true; }
     else if (myLetter.compare("C") == 0) {return true;}
     else if (myLetter.compare("G") == 0) {return true;}
@@ -58,7 +60,8 @@ bool letterIsRNA(String myLetter) {
         return false;}
 }
 
-bool letterIsDNA(String myLetter) {
+static
+bool letterIsDNA(const String & myLetter) {
     if (myLetter.compare("A") == 0)  {return true; }
     else if (myLetter.compare("C") == 0) {return true;}
     else if (myLetter.compare("G") == 0) {return true;}
@@ -68,8 +71,8 @@ bool letterIsDNA(String myLetter) {
         return false;}
 }
 
-
-bool letterIsProtein(String   myLetter) {
+static
+bool letterIsProtein(const String & myLetter) {
     if      (myLetter.compare("C") == 0) {return true;}
     else if (myLetter.compare("X") == 0) {return true;}
     else if (myLetter.compare("H") == 0) {return true;}
@@ -94,8 +97,7 @@ bool letterIsProtein(String   myLetter) {
     else {
         MMBLOG_FILE_FUNC_LINE(INFO, ": The symbol " << myLetter << " is not in the protein alphabet"<<endl);
                 return false;
-    } 
-
+    }
 }
 
 
@@ -354,7 +356,7 @@ void BiopolymerClass::validateMutation( Mutation myMutation) {
 
 
 
-void BiopolymerClass::setSequence(String mySequence) {
+void BiopolymerClass::setSequence(const String & mySequence) {
     //MMBLOG_FILE_FUNC_LINE(endl;
     this->sequence = mySequence; 
     //MMBLOG_FILE_FUNC_LINE(endl;
@@ -375,7 +377,7 @@ void BiopolymerClass::setSequence(String mySequence) {
 }
 
 
-void BiopolymerClass::changeSequence(String myNewSequence) {
+void BiopolymerClass::changeSequence(const String & myNewSequence) {
     String myOldSequence = getSequence();
     //String myNewSequence = myOldSequence;
     if (myNewSequence.length() != myOldSequence.length()) {
@@ -596,13 +598,13 @@ PdbStructure generateOrFetchPdbStructure(String inputFileName, String chainsPref
     return myPdbStructure;
 }
 
-int  BiopolymerClass::matchCoordinates(String inputFileName, 
+int  BiopolymerClass::matchCoordinates(const String & inputFileName,
                                        bool matchExact, bool matchIdealized,
-                                       const bool matchOptimize ,  
-                                       bool matchHydrogenAtomLocations, 
+                                       const bool matchOptimize,
+                                       bool matchHydrogenAtomLocations,
                                        bool matchPurineN1AtomLocations,
-                                       bool guessCoordinates ,  
-                                       double matchingMinimizerTolerance, 
+                                       bool guessCoordinates,
+                                       double matchingMinimizerTolerance,
                                        double myPlanarityThreshold,   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
 				       PdbStructureMapType & pdbStructureMap
 
@@ -828,20 +830,20 @@ void BiopolymerClass::setSingleBondMobility(ResidueID residueID1,  String atomNa
      * \brief Set chain ID, renumber residues, match coordinates, and adopt the compound.
      *
      */
-int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system, 
-                                           bool myProteinCapping, 
-                                           bool matchExact, bool matchIdealized , 
+int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
+                                           bool myProteinCapping,
+                                           bool matchExact, bool matchIdealized,
                                            const bool matchOptimize,
-                                           bool matchHydrogenAtomLocations, 
-                                           bool matchPurineN1AtomLocations, 
+                                           bool matchHydrogenAtomLocations,
+                                           bool matchPurineN1AtomLocations,
                                            bool guessCoordinates,
-                                           int biopolymerClassIndex, double initialSeparation, 
-                                           const vector<Displacement> displacementVector,
-                                           double matchingMinimizerTolerance, 
+                                           int biopolymerClassIndex, double initialSeparation,
+                                           const vector<Displacement> & displacementVector,
+                                           double matchingMinimizerTolerance,
                                            double myPlanarityThreshold,
                                            vector<SecondaryStructureStretch> secondaryStructureStretchVector  ,
 					   PdbStructureMapType & pdbStructureMap
-                                          ) 
+                                          )
 {
     //int returnValue = 0;
     if (biopolymerType == BiopolymerType::Protein) {

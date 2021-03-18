@@ -37,9 +37,6 @@ typedef map <const string, PdbStructure> PdbStructureMapType ;
 
 
 void         printBiopolymerSequenceInfo(const Biopolymer & myBiopolymer) ;
-bool         letterIsRNA    (String);
-bool         letterIsDNA    (String);
-bool         letterIsProtein(String);
 template <class ResidueStretchType>
 class ResidueStretchContainer; // Don't you just love forward declarations?
 
@@ -132,8 +129,8 @@ public:
     void    setLoadFromPdb(bool yesno);
     bool    getLoadFromPdb();
 
-    void    setSequence(String); // sets and validates the sequence
-    void    changeSequence(String myNewSequence);
+    void    setSequence(const String &); // sets and validates the sequence
+    void    changeSequence(const String & myNewSequence);
     /*void    renameChain(String newChainID) {
         setChainID(newChainID); myBiopolymer.setPdbChainId(newChainID); 
                
@@ -150,14 +147,14 @@ public:
                               bool matchPurineN1AtomLocations, 
                               bool guessCoordinates,
                               int biopolymerClassIndex, double initialSeparation, 
-                              const vector<Displacement> displacementVector,
+                              const vector<Displacement> & displacementVector,
                               double matchingMinimizerTolerance, 
                               double myPlanarityThreshold,
                               vector<SecondaryStructureStretch> secondaryStructureStretchVector ,
                               PdbStructureMapType & pdbStructureMap
                              ) ; //    Should  everything currently done by ConstrainedDynamics::initializeMolecules.  the latter should stop treating biopolymers altogether.  it really should stop treating MonoAtoms as well.
 
-    int     matchCoordinates(String inputFileName, 
+    int     matchCoordinates(const String & inputFileName, 
                              bool matchExact, bool matchIdealized,
                              const bool matchOptimize ,  
                              bool matchHydrogenAtomLocations, 

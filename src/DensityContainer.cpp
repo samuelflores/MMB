@@ -11,7 +11,7 @@
 #include "DensityContainer.h"
 
 void DensityContainer::clear(){
-    densityStretchVector.clear();
+    residueStretchVector.clear();
 }
 /*
 void DensityContainer::validate(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer){
@@ -32,11 +32,11 @@ void DensityContainer::validate(const DensityStretch & myDensityStretch,Biopolym
 }*/
 
 void DensityContainer::updateDensityStretch(int id, const DensityStretch & stretch, BiopolymerClassContainer & myBiopolymerClassContainer){
-    if(id < 0 || id >= densityStretchVector.size()){
+    if(id < 0 || id >= residueStretchVector.size()){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to delete a non existing Contact." << endl);
     }
     validateResidueStretch(stretch, myBiopolymerClassContainer);
-    densityStretchVector[id] = stretch;
+    residueStretchVector[id] = stretch;
 }
 /*
 void DensityContainer::deleteDensityStretch(int id){

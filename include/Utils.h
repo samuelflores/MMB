@@ -578,7 +578,9 @@ class ResidueStretch   {
                     if (getChain().compare(myResidueStretch.getChain() ) == 0 ) return true;
                     else return false;
                 };
-                void printStretch() {MMBLOG_FILE_LINE(INFO, "Stretch chain ="<<getChain()<<", first residue ="<<getStartResidue().outString()<<", last residue ="<<getEndResidue().outString()<<std::endl);  };
+                void printStretch() const {
+                    MMBLOG_FILE_LINE(INFO, "Stretch chain ="<<getChain()<<", first residue ="<<getStartResidue().outString()<<", last residue ="<<getEndResidue().outString()<<std::endl);
+                }
                 ResidueStretch () {
                     setStartResidue(ResidueID("-1111" ) );
                     setEndResidue(ResidueID("-1111" ) );
@@ -721,11 +723,11 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                    (this->getBondMobility() == a.getBondMobility() ) &&
                    (this->getChain().compare(a.getChain()) == 0 ) );
             }
-        String getBondMobilityString() {
-                    return BondMobilityString;
-                };
+        const String & getBondMobilityString() const {
+            return BondMobilityString;
+        };
 
-        void print(){
+        void print() const {
             MMBLOG_FILE_LINE(INFO, " Printing MobilizerStretch. getBondMobilityString() : >"<<getBondMobilityString()<< "< getBondMobility() >"<<getBondMobilityString()<<"<"<<std::endl);
             printStretch();
         } 

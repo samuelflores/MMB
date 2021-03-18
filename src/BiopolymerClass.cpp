@@ -2951,9 +2951,9 @@ void BiopolymerClassContainer::setSingleBondMobility( vector<SingleBondMobility>
     }
 }
 
-void BiopolymerClassContainer::printAllIncludedResidues (vector<IncludeAllNonBondAtomsInResidue> & includeAllNonBondAtomsInResidueVector ) {
+void BiopolymerClassContainer::printAllIncludedResidues (const vector<IncludeAllNonBondAtomsInResidue> & includeAllNonBondAtomsInResidueVector ) {
     MMBLOG_FILE_FUNC_LINE(INFO, "Listing all residues to be included in physics zone:"<<endl);
-    for (int i = 0 ; i < (int)includeAllNonBondAtomsInResidueVector.size(); i++) {
+    for (size_t i = 0 ; i < includeAllNonBondAtomsInResidueVector.size(); i++) {
         IncludeAllNonBondAtomsInResidue myIncludeAllNonBondAtomsInResidue = includeAllNonBondAtomsInResidueVector[i];
         MMBLOG_FILE_FUNC_LINE(INFO, myIncludeAllNonBondAtomsInResidue.getChain()<<", residue = "<<myIncludeAllNonBondAtomsInResidue.getResidue().outString()<<endl);
     }

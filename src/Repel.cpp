@@ -504,15 +504,17 @@ void ConstrainedDynamics::setMobilizers()
     // removing all MobilizerStretch's that modify residues specified to be at BondMobility = "Default"
     for (int i = 0; i < _parameterReader->mobilizerContainer.getNumResidueStretches(); i++) {
         MMBLOG_FILE_FUNC_LINE(INFO, "Examining mobilizer stretch "<<i<<" to see if it has bondMobility Default :"<<endl);
-        _parameterReader->mobilizerContainer.residueStretchVector[i].printStretch();
-        if (_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString().compare("Default") == 0){
+
+        const auto & residueStretchVector = _parameterReader->mobilizerContainer.getResidueStretchVector();
+        residueStretchVector[i].printStretch();
+        if (residueStretchVector[i].getBondMobilityString().compare("Default") == 0){
             ResidueStretch tempResidueStretch = _parameterReader->mobilizerContainer.getResidueStretch(i);
-            MMBLOG_FILE_FUNC_LINE(INFO, "Detected that BondMobility : >"<<_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString()<<"< is Default."<<endl);
-            _parameterReader->myBiopolymerClassContainer.updBiopolymerClass(tempResidueStretch.getChain()) .selectivelyRemoveResidueStretchFromContainer(tempResidueStretch,_parameterReader->mobilizerContainer);
+            MMBLOG_FILE_FUNC_LINE(INFO, "Detected that BondMobility : >"<<residueStretchVector[i].getBondMobilityString()<<"< is Default."<<endl);
+            _parameterReader->myBiopolymerClassContainer.updBiopolymerClass(tempResidueStretch.getChain()).selectivelyRemoveResidueStretchFromContainer(tempResidueStretch,_parameterReader->mobilizerContainer);
             i--; // Compensating for the fact that the Default stretch i has been deleted.
             
         } else {
-            MMBLOG_FILE_FUNC_LINE(WARNING, "Detected that BondMobility : >"<<_parameterReader->mobilizerContainer.residueStretchVector[i].getBondMobilityString()<<"< is NOT Default."<<endl);
+            MMBLOG_FILE_FUNC_LINE(WARNING, "Detected that BondMobility : >"<<residueStretchVector[i].getBondMobilityString()<<"< is NOT Default."<<endl);
         }    
     }  
     // Done dealing with "Default" mobilizer stretches
@@ -583,7 +585,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
        {
            MMBLOG_FILE_FUNC_LINE(INFO, endl);
            _parameterReader->myBiopolymerClassContainer.addIntraChainInterfaceResidues(_parameterReader->includeIntraChainInterfaceVector[i].Chain,  
-               _parameterReader->physicsContainer.residueStretchVector //includeAllNonBondAtomsInResidueVector 
+               _parameterReader->physicsContainer.updResidueStretchVector() //includeAllNonBondAtomsInResidueVector
                , _parameterReader->includeIntraChainInterfaceVector[i].Depth ,  
 	       _matter,_state) ;
            MMBLOG_FILE_FUNC_LINE(INFO, endl);
@@ -593,7 +595,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
         //_parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // investigate moving this outside the conditional, so it's available for DensityForce below.
     for (size_t i = 0; i < _parameterReader->includeIntraChainInterfaceVector.size() ; i++) {
         _parameterReader->myBiopolymerClassContainer.addIntraChainInterfaceResidues(_parameterReader->includeIntraChainInterfaceVector[i].Chain,  
-	    _parameterReader->physicsContainer.residueStretchVector , //includeAllNonBondAtomsInResidueVector , 
+	    _parameterReader->physicsContainer.updResidueStretchVector() , //includeAllNonBondAtomsInResidueVector ,
 	    _parameterReader->includeIntraChainInterfaceVector[i].Depth ,  
             _matter,_state) ;
     }
@@ -734,7 +736,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     #ifdef USE_OPENMM
     for (size_t i = 0 ;  i < _parameterReader->includeAllResiduesWithinVector.size() ; i++){_parameterReader->includeAllResiduesWithinVector[i].print(); }
     // this is where we add residues within a certain radius of a residue of interest:
-    _parameterReader->myBiopolymerClassContainer.includeAllResiduesWithin(_parameterReader->includeAllResiduesWithinVector, _parameterReader->physicsContainer.residueStretchVector /*includeAllNonBondAtomsInResidueVector */ , _state); 
+    _parameterReader->myBiopolymerClassContainer.includeAllResiduesWithin(_parameterReader->includeAllResiduesWithinVector, _parameterReader->physicsContainer.updResidueStretchVector() /*includeAllNonBondAtomsInResidueVector */ , _state);
     MMBLOG_FILE_FUNC_LINE(INFO, "Just finished adding all residues within the specified radius of of the residues specified in _parameterReader->includeAllResiduesWithinVector. Have not actually added _parameterReader->includeAllResiduesWithinVector atoms to DuMM. Right now DuMM has "<< _dumm.getNumIncludedAtoms () <<" included atoms. "<<endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
     #endif
@@ -742,13 +744,13 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
 
     if ((_parameterReader->physicsContainer.getNumResidueStretches() /* includeAllNonBondAtomsInResidueVector.size()*/  >  0)) 
     {
-        _parameterReader->myBiopolymerClassContainer.includeAllNonBondAtomsInResidues(_parameterReader->physicsContainer.residueStretchVector /*includeAllNonBondAtomsInResidueVector*/ , _state, _dumm);
+        _parameterReader->myBiopolymerClassContainer.includeAllNonBondAtomsInResidues(_parameterReader->physicsContainer.updResidueStretchVector() /*includeAllNonBondAtomsInResidueVector*/ , _state, _dumm);
         // Made a change that affected topology. DuMM can't count atoms unless I update the topology:
         MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
         _state = _system.realizeTopology();
         //_system.realize(_state,Stage::Position);
         MMBLOG_FILE_FUNC_LINE(INFO, "Turned on Physics Where You Want It, for the following residues: "<<endl);
-        _parameterReader->myBiopolymerClassContainer.printAllIncludedResidues ( _parameterReader->physicsContainer.residueStretchVector);   //includeAllNonBondAtomsInResidueVector);
+        _parameterReader->myBiopolymerClassContainer.printAllIncludedResidues ( _parameterReader->physicsContainer.getResidueStretchVector());   //includeAllNonBondAtomsInResidueVector);
     }
     MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
     bool myNonBondedOn = 

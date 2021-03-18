@@ -12,9 +12,10 @@ using namespace SimTK;
 template <class ResidueStretchType>
 
 class ResidueStretchContainer{
-    //private:
-    public:
+    protected:
     vector<ResidueStretchType> residueStretchVector;
+
+    public:
     InterfaceContainer interfaceContainer;
 
     ResidueStretchContainer() {};
@@ -53,8 +54,8 @@ class ResidueStretchContainer{
         MMBLOG_FILE_FUNC_LINE(DEBUG, " Done adding  a new stretch to the residueStretchVector, which now has "<< getNumResidueStretches() << " elements."<<endl);
     }
 
-    vector<ResidueStretchType> getResidueStretchVector() {return residueStretchVector;};
-    const vector<ResidueStretchType> & updResidueStretchVector() const {return  residueStretchVector;};
+    const vector<ResidueStretchType> & getResidueStretchVector() const { return residueStretchVector; }
+          vector<ResidueStretchType> & updResidueStretchVector()       { return residueStretchVector; }
 
     void printResidueStretchVector() {
         for (int i = 0 ; i <residueStretchVector.size(); i++) {

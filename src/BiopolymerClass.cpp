@@ -998,9 +998,9 @@ ResidueID BiopolymerClass::residueID(String inputString){
         ResidueID myResidueID(inputString/*, false*/); // set validate=false, because BiopolymerClass has its own validation.
         validateResidueID(myResidueID );
         return myResidueID;
-};
+}
 
-void BiopolymerClass::validateResidueID(const ResidueID myResidueID) const{
+void BiopolymerClass::validateResidueID(const ResidueID & myResidueID) const{
         //MMBLOG_FILE_FUNC_LINE(" Validating requested residue ID "<<myResidueID.outString()<<endl;
         int myResidueIndex = getResidueIndex(myResidueID);
         validateResidueIndex(myResidueIndex);

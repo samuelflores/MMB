@@ -199,7 +199,7 @@ public:
     bool  getProteinCapping(){return proteinCapping;}
     //ResidueID   residueID(map<const String,double> myUserVariables, const   char* value);
     ResidueID   residueID(String inputString);  // this method of converting string to ResidueID has the advantage that it validates against the corresponding biopolymer
-    void        validateResidueID(const ResidueID myResidueID    ) const;
+    void        validateResidueID(const ResidueID & myResidueID) const;
     void        validateResidueIndex(int myResidueIndex) const;
     void        validateAtomInfoVector();
     bool        hasAtom(  ResidueID myResidueID,   String myAtomName);

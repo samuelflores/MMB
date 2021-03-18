@@ -12,18 +12,20 @@
 #define BiopolymerClass_H_
 #define MUTATIONMINORSEPARATOR "-"
 #define MUTATIONMAJORSEPARATOR "."
-#include <string>
 
-#include <array>
-#include <utility>
-#include <vector>
 #include "Mutation.h"
 #include "SimTKmolmodel.h"
 #include <seqan/align.h>
 #include "BaseInteractionParameterReader.h"
 #include "ConstraintContainer.h"
 #include "ReferenceNeighborList.h"
-class MobilizerContainer;    // forward declaration
+
+#include <string>
+#include <array>
+#include <utility>
+#include <vector>
+
+class MobilizerContainer;
 class WaterDropletContainer; // forward declaration
 class WaterDroplet; // forward declaration
 typedef char TChar;                             // character type
@@ -511,21 +513,7 @@ public:
     //template<class ResidueStretchTypeA> 
     // This loops through all the MobilzerStretch's in mobilizerContainer, and if these are rigid,  selectively removes them from residueStretchContainer. For example,  residueStretchContainer could be a DensityContainer. If we don't want to apply density forces to Rigid segments, we call this function.
     template<class ResidueStretchType> 
-    void selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer(MobilizerContainer  & mobilizerContainer, ResidueStretchContainer <ResidueStretchType> & residueStretchContainer)
-    { 
-        MMBLOG_FILE_FUNC_LINE(INFO, " At the start of selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer. Printing the mobilizerContainer residue stretch vector. these are the stretches to be removed from residueStretchContainer :"<<endl);
-	mobilizerContainer.printResidueStretchVector();
-        MMBLOG_FILE_FUNC_LINE(INFO, " End of print."<<endl);
-        for (int i = 0; i < mobilizerContainer.getNumResidueStretches(); i++){
-            if (mobilizerContainer.getResidueStretch(i).bondMobilityIsRigid()){
-                MMBLOG_FILE_FUNC_LINE(INFO, " Printing Rigid mobilizerContainer.getResidueStretch("<<i<<"). This will be selectively removed from the ResidueStretchContainer: "<<endl);
-		mobilizerContainer.getResidueStretch(i).printStretch();    
-                updBiopolymerClass(mobilizerContainer.getResidueStretch(i).getChain()).selectivelyRemoveResidueStretchFromContainer(mobilizerContainer.getResidueStretch(i), residueStretchContainer);
-	    }
-	}
-        MMBLOG_FILE_FUNC_LINE(INFO, " At the end of selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer. Printing the residue stretch vector :"<<endl);
-	residueStretchContainer.printResidueStretchVector();
-    };
+    void selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer(MobilizerContainer  & mobilizerContainer, ResidueStretchContainer <ResidueStretchType> & residueStretchContainer);
 
     String      printOriginalAndRenumberedResidueIDs(const String myPdbId = "XXXX" );
     void        renumberPdbResidues(ResidueID firstResidueID = ResidueID(std::to_string(1))) ; // This renumbers ALL BiopolymerClass's, to start with firstResidueID and increase by consecutive integers from there.

@@ -23,6 +23,8 @@
 #include <algorithm>
 #include <utility>
 
+#include "MobilizerContainer.h"
+
 // #define  _DEBUG_FLAGS_ON_
 
 using namespace std;
@@ -4822,3 +4824,23 @@ void BiopolymerClass::sort( vector <ResidueID> & residueIDVector){
         }
     );
 }
+
+template<class ResidueStretchType>
+void BiopolymerClassContainer::selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer(MobilizerContainer & mobilizerContainer, ResidueStretchContainer <ResidueStretchType> & residueStretchContainer)
+{
+    MMBLOG_FILE_FUNC_LINE(INFO, " At the start of selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer. Printing the mobilizerContainer residue stretch vector. these are the stretches to be removed from residueStretchContainer :"<<endl);
+    mobilizerContainer.printResidueStretchVector();
+    MMBLOG_FILE_FUNC_LINE(INFO, " End of print."<<endl);
+    for (int i = 0; i < mobilizerContainer.getNumResidueStretches(); i++){
+        if (mobilizerContainer.getResidueStretch(i).bondMobilityIsRigid()){
+        MMBLOG_FILE_FUNC_LINE(INFO, " Printing Rigid mobilizerContainer.getResidueStretch("<<i<<"). This will be selectively removed from the ResidueStretchContainer: "<<endl);
+        mobilizerContainer.getResidueStretch(i).printStretch();
+        updBiopolymerClass(mobilizerContainer.getResidueStretch(i).getChain()).selectivelyRemoveResidueStretchFromContainer(mobilizerContainer.getResidueStretch(i), residueStretchContainer);
+        }
+    }
+    MMBLOG_FILE_FUNC_LINE(INFO, " At the end of selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer. Printing the residue stretch vector :"<<endl);
+    residueStretchContainer.printResidueStretchVector();
+}
+
+template void BiopolymerClassContainer::selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer(MobilizerContainer &mobilizerContainer, ResidueStretchContainer<DensityStretch> &residueStretchContainer);
+

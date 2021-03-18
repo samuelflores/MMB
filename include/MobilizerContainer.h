@@ -11,9 +11,10 @@
 #ifndef MobilizerContainer_H_
 #define MobilizerContainer_H_
 
-#include "BiopolymerClass.h"
 #include "ResidueStretchContainer.h"
- 
+
+class BiopolymerClassContainer;
+
 class MMB_EXPORT MobilizerContainer : public ResidueStretchContainer <MobilizerStretch> {
 private:
     vector <MobilizerWithin> mobilizerWithinVector;

@@ -7,7 +7,6 @@
 #include "RealVec.h"
 #include "ReferenceNeighborList.h"
 
-//class BiopolymerClass; // Forward declaration
 using namespace SimTK;
 
 template <class ResidueStretchType>

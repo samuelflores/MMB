@@ -69,7 +69,7 @@ private:
     //void        validateChainID();
     void        validateChainID() const;
     void        validateResidueNumbersAndInsertionCodes(); // Calls checkResidueNumbersAndInsertionCodes, dies if it finds a problem.
-    bool        residueIsPurine (int residueIndex, String mySequence);
+    bool        residueIsPurine (int residueIndex, const String & mySequence);
     bool        residueIsPurine (int residueIndex);
     int         validateSequence() ;  
     int         validateBiopolymerType() const;  

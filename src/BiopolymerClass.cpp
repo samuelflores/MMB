@@ -42,62 +42,77 @@ void printBiopolymerSequenceInfo(const Biopolymer & myBiopolymer) {
 };
 
 static
-bool letterIsPurine(const String & myLetter) {
-    if ((myLetter.compare("A") == 0 ) ||
-        (myLetter.compare("G") == 0 ))
-            {return true; }
-    else return false;
+bool letterIsPurine(const char c) {
+    return c == 'A' | c == 'G';
 }
 
 static
-bool letterIsRNA(const String & myLetter) {
-    if (myLetter.compare("A") == 0)  {return true; }
-    else if (myLetter.compare("C") == 0) {return true;}
-    else if (myLetter.compare("G") == 0) {return true;}
-    else if (myLetter.compare("U") == 0) {return true;}
-    else {
-	    MMBLOG_FILE_FUNC_LINE(INFO, ": You have specified a non-RNA residue, single letter code = "<<myLetter<<endl);
-        return false;}
+bool letterIsRNA(const char c) {
+    return (
+        c == 'A' |
+        c == 'C' |
+        c == 'G' |
+        c == 'U'
+    );
 }
 
 static
-bool letterIsDNA(const String & myLetter) {
-    if (myLetter.compare("A") == 0)  {return true; }
-    else if (myLetter.compare("C") == 0) {return true;}
-    else if (myLetter.compare("G") == 0) {return true;}
-    else if (myLetter.compare("T") == 0) {return true;}
-    else {
-        MMBLOG_FILE_FUNC_LINE(INFO, ": You have specified a non-DNA residue, single letter code = "<<myLetter<<endl);
-        return false;}
+bool letterIsDNA(const char c) {
+    return (
+        c == 'A' |
+        c == 'C' |
+        c == 'G' |
+        c == 'T'
+    );
 }
 
 static
-bool letterIsProtein(const String & myLetter) {
-    if      (myLetter.compare("C") == 0) {return true;}
-    else if (myLetter.compare("X") == 0) {return true;}
-    else if (myLetter.compare("H") == 0) {return true;}
-    else if (myLetter.compare("I") == 0) {return true;}
-    else if (myLetter.compare("M") == 0) {return true;}
-    else if (myLetter.compare("S") == 0) {return true;}
-    else if (myLetter.compare("V") == 0) {return true;}
-    else if (myLetter.compare("A") == 0) {return true;}
-    else if (myLetter.compare("G") == 0) {return true;}
-    else if (myLetter.compare("L") == 0) {return true;}
-    else if (myLetter.compare("P") == 0) {return true;}
-    else if (myLetter.compare("T") == 0) {return true;}
-    else if (myLetter.compare("R") == 0) {return true;}
-    else if (myLetter.compare("F") == 0) {return true;}
-    else if (myLetter.compare("Y") == 0) {return true;}
-    else if (myLetter.compare("W") == 0) {return true;}
-    else if (myLetter.compare("D") == 0) {return true;}
-    else if (myLetter.compare("N") == 0) {return true;}
-    else if (myLetter.compare("E") == 0) {return true;}
-    else if (myLetter.compare("Q") == 0) {return true;}
-    else if (myLetter.compare("K") == 0) {return true;}
-    else {
-        MMBLOG_FILE_FUNC_LINE(INFO, ": The symbol " << myLetter << " is not in the protein alphabet"<<endl);
-                return false;
-    }
+bool letterIsProtein(const char c) {
+    bool chk = (
+        c == 'C' |
+        c == 'X' |
+        c == 'H' |
+        c == 'I'
+    );
+    if (chk)
+        return true;
+
+    chk = (
+        c == 'M' |
+        c == 'S' |
+        c == 'V' |
+        c == 'A'
+    );
+    if (chk)
+        return true;
+
+    chk = (
+        c == 'G' |
+        c == 'L' |
+        c == 'P' |
+        c == 'T'
+    );
+    if (chk)
+        return true;
+
+    chk = (
+        c == 'R' |
+        c == 'F' |
+        c == 'Y' |
+        c == 'W'
+    );
+    if (chk)
+        return true;
+
+    chk = (
+        c == 'D' |
+        c == 'N' |
+        c == 'E' |
+        c == 'Q' |
+        c == 'K'
+    );
+
+    return chk;
 }
 
 
@@ -244,13 +259,13 @@ void BiopolymerClass::validateResidueNumbersAndInsertionCodes(){
     }
     
 }
-bool BiopolymerClass::residueIsPurine (int residueIndex, String mySequence) {
+bool BiopolymerClass::residueIsPurine (int residueIndex, const String & mySequence) {
     //MMBLOG_FILE_FUNC_LINE(endl;
     if ((biopolymerType == BiopolymerType::RNA)  || (biopolymerType == BiopolymerType::DNA))
         {
         //cout<<residueIndex<<":"<<mySequence.substr(residueIndex,1)<<":"<<letterIsPurine(mySequence.substr(residueIndex,1))<<"."<<flush;     
-        return letterIsPurine(mySequence.substr(residueIndex,1)) ;       
-        } 
+        return letterIsPurine(mySequence[residueIndex]);
+        }
     else {MMBLOG_FILE_FUNC_LINE(CRITICAL, "This function is intended only for nucleic acids!"<<endl);
     }
 }
@@ -271,7 +286,7 @@ int BiopolymerClass::validateSequence() {
        }
        for (int i = 0; i < (int)sequence.length(); i++) {
            if (!
-               letterIsRNA((sequence.substr(i,1)))
+               letterIsRNA(sequence[i])
               ) {
                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The provided sequence contains a residue : "<<sequence.substr(i,1)<< " which is not a canonical RNA residue type." <<endl);
                }
@@ -283,7 +298,7 @@ int BiopolymerClass::validateSequence() {
        }
        for (int i = 0; i < (int)sequence.length(); i++) {
            if (!
-               letterIsDNA((sequence.substr(i,1)))
+               letterIsDNA(sequence[i])
               ) {
                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The provided sequence contains a residue : "<<sequence.substr(i,1)<< " which is not a canonical DNA residue type." <<endl);
                }
@@ -296,7 +311,7 @@ int BiopolymerClass::validateSequence() {
        }
        for (int i = 0; i < (int)sequence.length(); i++) {
            if (!
-               letterIsProtein((sequence.substr(i,1)))
+               letterIsProtein(sequence[i])
               ) {
                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The provided sequence contains a residue : "<<sequence.substr(i,1)<< " which is not a canonical Protein residue type." <<endl);
                }
@@ -3558,7 +3573,7 @@ bool isRNAtest(const Biopolymer & inputBiopolymer){
     for (int i = 0; i < inputBiopolymer.getNumResidues(); i++) {
         const ResidueInfo myResidueInfo = inputBiopolymer.getResidue(ResidueInfo::Index(i));
         const char myOneLetterCode = myResidueInfo.getOneLetterCode();
-        if (! letterIsRNA(String(myOneLetterCode))) {
+        if (! letterIsRNA(myOneLetterCode)) {
             return false;    
         }
         if (! inputBiopolymer.hasAtom("0/O2*")) {
@@ -3611,7 +3626,7 @@ bool isDNAtest(const Biopolymer & inputBiopolymer)  {
     for (int i = 0; i < inputBiopolymer.getNumResidues(); i++) {
         const ResidueInfo myResidueInfo = inputBiopolymer.getResidue(ResidueInfo::Index(i));
         const char myOneLetterCode = myResidueInfo.getOneLetterCode();
-        if (! letterIsDNA(String(myOneLetterCode))) {
+        if (! letterIsDNA(myOneLetterCode)) {
             return false;    
         }
         if ( inputBiopolymer.hasAtom("0/O2*")) {
@@ -3661,7 +3676,7 @@ bool BiopolymerClassContainer::isProtein(const Biopolymer & inputBiopolymer, boo
     for (int i = (0+ endCaps) ; i < (inputBiopolymer.getNumResidues() - endCaps ); i++) {
         const ResidueInfo myResidueInfo = inputBiopolymer.getResidue(ResidueInfo::Index(i));
         const char myOneLetterCode = myResidueInfo.getOneLetterCode();
-        if (! letterIsProtein(String(myOneLetterCode))) {
+        if (! letterIsProtein(myOneLetterCode)) {
             return false;    
         }
 

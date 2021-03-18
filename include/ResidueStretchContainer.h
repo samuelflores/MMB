@@ -87,12 +87,12 @@ class ResidueStretchContainer{
 
     vector <MobilizerStretch> getMobilizerStretchVector(String bondMobilityString)  {
 		vector <MobilizerStretch> myMobilizerStretchVector;
-		for (int i = 0; i < (int)residueStretchVector.size(); i++){
-                        MobilizerStretch myMobilizerStretch ( residueStretchVector[i], bondMobilityString); 
-			myMobilizerStretchVector.push_back(myMobilizerStretch);
-              
-                        MMBLOG_FILE_FUNC_LINE(INFO, "For chain "<<myMobilizerStretch.getChain()<< " start res "<<myMobilizerStretch.getStartResidue().outString()<<" end res "<< myMobilizerStretch.getEndResidue().outString() <<" mobility " << myMobilizerStretch.getBondMobility()<<endl);//" and chain "<< targetChain<<" residue "<<targetResidue.outString()<<" distance is "<<myDistance<<" nm"<<endl;
-                        MMBLOG_FILE_FUNC_LINE(INFO, "Note that in prior releases of MMB we took dead lengths in Å.  For consistency with molmodel we are going back to nm, kJ/mol, ps, with apologies for the confusion."<<endl);
+		for (size_t i = 0; i < residueStretchVector.size(); i++) {
+			myMobilizerStretchVector.emplace_back(residueStretchVector[i], bondMobilityString);
+
+            const auto &back = myMobilizerStretchVector.back();
+            MMBLOG_FILE_FUNC_LINE(INFO, "For chain "<<back.getChain()<< " start res "<<back.getStartResidue().outString()<<" end res "<<back.getEndResidue().outString() <<" mobility " <<back.getBondMobility()<<endl);//" and chain "<< targetChain<<" residue "<<targetResidue.outString()<<" distance is "<<myDistance<<" nm"<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Note that in prior releases of MMB we took dead lengths in Å.  For consistency with molmodel we are going back to nm, kJ/mol, ps, with apologies for the confusion."<<endl);
 
 		}
 		return myMobilizerStretchVector;

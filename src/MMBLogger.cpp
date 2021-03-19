@@ -51,12 +51,12 @@ void MMBLogger::flush() {
     _newlinesSinceFlush = 0;
 }
 
-void MMBLogger::log(const Severity severity, const std::ostringstream& oss, const bool printSeverity) {
+void MMBLogger::log(const Severity severity, const LogFunc &logFunc, const bool printSeverity) {
     assert(_output != nullptr);
 
-    const std::string msg = (printSeverity ? msgPrefix(severity) : "") + oss.str();
-
     if (severity >= _loggingSeverity) {
+        const std::string msg = (printSeverity ? msgPrefix(severity) : "") + logFunc().str();
+
         std::lock_guard<std::mutex> lk{_writeMutex};
         (*_output) << msg;
         maybeFlush(msg);
@@ -64,13 +64,13 @@ void MMBLogger::log(const Severity severity, const std::ostringstream& oss, cons
 }
 
 #ifndef MMBLOG_DONT_THROW_ON_CRITICAL
-void MMBLogger::logCritical [[noreturn]] (const std::ostringstream& oss) {
+void MMBLogger::logCritical [[noreturn]] (const LogFunc &logFunc) {
     assert(_output != nullptr);
 
     if (GlobalProgressWriter::isInitialized())
         GlobalProgressWriter::get().update(ProgressWriter::State::FAILED);
 
-    const std::string msg = msgPrefix(Severity::CRITICAL) + oss.str();
+    const std::string msg = msgPrefix(Severity::CRITICAL) + logFunc().str();
 
     std::lock_guard<std::mutex> lk{_writeMutex};
     (*_output) << msg;

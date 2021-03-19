@@ -12,6 +12,7 @@
 #define Utils_H_                 
 
 //#include <string>
+#include <SimTKcommon/internal/common.h>
 #include <cstring>
 #include <fstream>
 #include <sstream>
@@ -686,7 +687,7 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                    return BondMobility;
                };
 	       bool bondMobilityIsRigid() const {
-                   if (getBondMobility() == stringToBondMobility("Rigid")) {return 1;} else {return 0;}
+                   return BondMobility == SimTK::BondMobility::Mobility::Rigid;
 	       }
                SimTK::BondMobility::Mobility setBondMobility(SimTK::String myBondMobilityString) {
                    MMBLOG_FILE_LINE(INFO, " About to set BondMobility to >"<<myBondMobilityString<<"< "<<std::endl);

@@ -685,7 +685,7 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                SimTK::BondMobility::Mobility getBondMobility() const {
                    return BondMobility;
                };
-	       bool bondMobilityIsRigid(){
+	       bool bondMobilityIsRigid() const {
                    if (getBondMobility() == stringToBondMobility("Rigid")) {return 1;} else {return 0;}
 	       }
                SimTK::BondMobility::Mobility setBondMobility(SimTK::String myBondMobilityString) {

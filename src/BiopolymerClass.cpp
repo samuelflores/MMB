@@ -4849,10 +4849,12 @@ void BiopolymerClassContainer::selectivelyRemoveRigidMobilizerStretchesFromResid
     mobilizerContainer.printResidueStretchVector();
     MMBLOG_FILE_FUNC_LINE(INFO, " End of print."<<endl);
     for (int i = 0; i < mobilizerContainer.getNumResidueStretches(); i++){
-        if (mobilizerContainer.getResidueStretch(i).bondMobilityIsRigid()){
-        MMBLOG_FILE_FUNC_LINE(INFO, " Printing Rigid mobilizerContainer.getResidueStretch("<<i<<"). This will be selectively removed from the ResidueStretchContainer: "<<endl);
-        mobilizerContainer.getResidueStretch(i).printStretch();
-        updBiopolymerClass(mobilizerContainer.getResidueStretch(i).getChain()).selectivelyRemoveResidueStretchFromContainer(mobilizerContainer.getResidueStretch(i), residueStretchContainer);
+        const auto & residueStretch = mobilizerContainer.getResidueStretch(i);
+
+        if (residueStretch.bondMobilityIsRigid()){
+            MMBLOG_FILE_FUNC_LINE(INFO, " Printing Rigid mobilizerContainer.getResidueStretch("<<i<<"). This will be selectively removed from the ResidueStretchContainer: "<<endl);
+            residueStretch.printStretch();
+            updBiopolymerClass(residueStretch.getChain()).selectivelyRemoveResidueStretchFromContainer(residueStretch, residueStretchContainer);
         }
     }
     MMBLOG_FILE_FUNC_LINE(INFO, " At the end of selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer. Printing the residue stretch vector :"<<endl);

@@ -2518,7 +2518,121 @@ void BiopolymerClassContainer::validateAtomInfoVectors(){
     }
 }
 
+template<class ResidueStretchType>
+void BiopolymerClass::selectivelyRemoveResidueStretchFromContainer(const ResidueStretch & residueStretch, ResidueStretchContainer <ResidueStretchType> & residueStretchContainer)
+{
+    // This command crops or deletes residue stretches in the range "residueStretch" from residueStretchVector.  This was intended to cancel any modifications to certain resiude stretches.
+    // We treat three cases:
+    // 1. residueStretchVector[i] is a subset of (or is identical to) residueStretch
+    //        -> erase residueStretchVector[i]
+    // 2. residueStretch is a subset of residueStretchVector[i], with neither endpoint in common, splitting residueStretchVector[i] in two
+    //        -> split residueStretchVector[i] into two disjoint residue stretches
+    // 3. residueStretch is a subset of residueStretchVector[i], but the start point of residueStretch coincides with that of residueStretchVector[i] .
+    //        -> trim  residueStretchVector[i] on left
+    // 4. residueStretch is a subset of residueStretchVector[i], but the end point of residueStretch coincides with that of residueStretchVector[i] .
+    //        -> trim  residueStretchVector[i] on right
+    // 5. residueStretch and residueStretchVector[i] overlap, with residueStretch starting before residueStretchVector[i].
+    //        -> trim  residueStretchVector[i] on left
+    // 6. residueStretch and residueStretchVector[i] overlap, with residueStretchVector[i] starting before residueStretch.
+    //        -> trim  residueStretchVector[i] on right
+    // 7. residueStretch and residueStretchVector[i] are disjoint.
+    //        -> do nothing.
+    //const int ResidueStretchContainer::getNumResidueStretches();
+    MMBLOG_FILE_FUNC_LINE(INFO, "the stretch to be removed is :"<<endl);
+    residueStretch.printStretch();
+    MMBLOG_FILE_FUNC_LINE(INFO, "Now checking "<<residueStretchContainer.getNumResidueStretches()<<" stretches: "<<endl);
 
+    auto & residueStretchVector = residueStretchContainer.updResidueStretchVector();
+    for (int i = 0; i < residueStretchContainer.getNumResidueStretches(); i++)
+    {
+        residueStretchVector[i].printStretch();
+
+        if (residueStretchVector[i].getChain().compare((residueStretch.getChain() )) != 0) {
+           MMBLOG_FILE_FUNC_LINE(INFO, " Chains don't match, ignoring this one."<<endl);
+           continue;} // in other words, only make modificatiosn to residueStretchContainer if chain ID's match.
+        else if ((residueStretch.getStartResidue() <= residueStretchVector[i].getStartResidue()) &&
+                 (residueStretch.getEndResidue() >= residueStretchVector[i].getEndResidue())) {
+            //case = 1
+            residueStretchVector.erase(residueStretchVector.begin() + i);
+            i--; // vector has been shortened, so make sure we don't skip the next residueStretchContainer.residueStretchVector[i].
+            if (i < -1) {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);}
+        }
+        else if ((residueStretch.getStartResidue() > residueStretchVector[i].getStartResidue()) &&
+                 (residueStretch.getEndResidue() < residueStretchVector[i].getEndResidue())) {
+            // case = 2 ;
+            MMBLOG_FILE_FUNC_LINE(INFO, endl);
+            ResidueStretchType & secondResidueStretch = residueStretchVector[i];
+            ResidueID tempStartResidueID = (residueStretch).getStartResidue(); // getStartResidue() returns a temporary, whereas decrementResidueID expects a reference. can't convert a temporary to a reference.  This is because decrementResidueID might (and will!) try to modify ResidueID (as the name of the function suggests!).
+            //residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID((residueStretch).getStartResidue() ));
+            residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//((residueStretch).getStartResidue() )));
+            MMBLOG_FILE_FUNC_LINE(INFO, "Just decreased endpoint of stretch "<<i<<".  New stretch is:"<<endl);
+            residueStretchVector[i].printStretch();
+            ResidueID tempEndResidueID = (residueStretch).getEndResidue();
+            secondResidueStretch.setStartResidue(incrementResidueID(tempEndResidueID));//  residueStretch.getEndResidue()));
+            residueStretchContainer.addStretch(secondResidueStretch);
+            MMBLOG_FILE_FUNC_LINE(INFO, "Just added new  stretch :"<<endl);
+            residueStretchVector[residueStretchContainer.getNumResidueStretches()-1].printStretch();
+            MMBLOG_FILE_FUNC_LINE(INFO, "Moving on to check next stretch. "<<endl);
+        }
+        else if ((residueStretch.getStartResidue() == residueStretchVector[i].getStartResidue()) &&
+                 (residueStretch.getEndResidue() < residueStretchVector[i].getEndResidue())) {
+               // case = 3;
+           MMBLOG_FILE_FUNC_LINE(INFO, "Case 3"<<endl);
+           ResidueID tempEndResidueID = (residueStretch).getEndResidue();
+           residueStretchVector[i].setStartResidue(incrementResidueID(tempEndResidueID));//residueStretch.getEndResidue() ))  ;
+           residueStretchVector[i].printStretch();
+           MMBLOG_FILE_FUNC_LINE(INFO, "Done with Case 3"<<endl);
+        }
+        else if ((residueStretch.getEndResidue() == residueStretchVector[i].getEndResidue()) &&
+                 (residueStretch.getStartResidue() > residueStretchVector[i].getStartResidue())) {
+            // case = 4;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Case 4"<<endl);
+
+            ResidueID tempStartResidueID = (residueStretch).getStartResidue();
+            residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//residueStretch.getStartResidue()));
+            residueStretchVector[i].printStretch();
+            MMBLOG_FILE_FUNC_LINE(INFO, "Done with Case 4"<<endl);
+        }
+        else if ((residueStretch.getStartResidue() <  residueStretchVector[i].getStartResidue()) &&
+                 (residueStretch.getEndResidue()   >= residueStretchVector[i].getStartResidue()) &&
+                 (residueStretch.getEndResidue()   <  residueStretchVector[i].getEndResidue())) {
+            // case = 5;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Case 5"<<endl);
+
+            ResidueID tempEndResidueID = (residueStretch).getEndResidue();
+            residueStretchVector[i].setStartResidue(incrementResidueID(tempEndResidueID));//residueStretch.getEndResidue()))  ;
+            residueStretchVector[i].printStretch();
+            MMBLOG_FILE_FUNC_LINE(INFO, "Done with Case 5"<<endl);
+        }
+        else if ((residueStretch.getEndResidue() > residueStretchVector[i].getEndResidue()) &&
+                 (residueStretch.getStartResidue() > residueStretchVector[i].getStartResidue()) &&
+                 (residueStretch.getStartResidue() <= residueStretchVector[i].getEndResidue())) {
+            // case = 6;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Case 6"<<endl);
+
+            ResidueID tempStartResidueID = (residueStretch).getStartResidue();
+            residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//  residueStretch.getStartResidue()));
+            residueStretchVector[i].printStretch();
+            MMBLOG_FILE_FUNC_LINE(INFO, "Done with Case 6"<<endl);
+        }
+        else if (residueStretch.getEndResidue() < residueStretchVector[i].getStartResidue()) {
+            MMBLOG_FILE_FUNC_LINE(INFO, "Case 7A: The query ResidueStretch has an endpoint: "<<residueStretch.getEndResidue().outString() << " which is lower than the start point of residueStretchContainer.residueStretchVector["<<i<<"] :"<<residueStretchVector[i].getStartResidue().outString()<<". Doing nothing. "<<endl);
+        } // do nothing, stretches are disjoint
+        else if (residueStretch.getStartResidue() > residueStretchVector[i].getEndResidue()) {
+            MMBLOG_FILE_FUNC_LINE(INFO, "Case 7B: The query ResidueStretch has a start point: "<<residueStretch.getStartResidue().outString() << " which is higher than the  end  point of residueStretchContainer.residueStretchVector["<<i<<"] :"<<residueStretchVector[i].getEndResidue().outString()<<". Doing nothing. "<<endl);
+        } // do nothing, stretches are disjoint
+        else {
+            // this should never happen
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);
+        }
+    }
+
+    MMBLOG_FILE_FUNC_LINE(INFO, " At the end of selectivelyRemoveResidueStretchFromContainer. Now printing updated residueStretchContainer: "<<endl);
+    residueStretchContainer.printResidueStretchVector();
+    MMBLOG_FILE_FUNC_LINE(INFO, " Returning. "<<endl);
+}
+
+template void BiopolymerClass::selectivelyRemoveResidueStretchFromContainer(const ResidueStretch &residueStretch, ResidueStretchContainer<MobilizerStretch> &residueStretchContainer);
 
 ////////////////////////////////////////////////////
 /// Accessor method to add a new BiopolymerClass ///

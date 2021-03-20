@@ -115,7 +115,7 @@ SET(SimTK_SHARED_LIBS_D
     debug SimTKcommon_d${Simbody_VERTAG}
 )
 
-SET(SimTK_STATIC_LIBS 
+SET(SimTK_STATIC_LIBS
     optimized SimTKmolmodel_static${molmodel_VERTAG}
     optimized SimTKsimbody_static${Simbody_VERTAG}
     optimized SimTKmath_static${Simbody_VERTAG}
@@ -321,18 +321,18 @@ IF (BUILD_MMB_SHARED_LIB)
     ADD_LIBRARY(${SHARED_MMB_TARGET} SHARED
         ${MMB_LIBRARY_SOURCE_FILES}
         ${MMB_HEADER_FILES})
-    SET_TARGET_PROPERTIES(${SHARED_MMB_TARGET} 
+    SET_TARGET_PROPERTIES(${SHARED_MMB_TARGET}
         PROPERTIES
         COMPILE_FLAGS "-DMMB_BUILDING_SHARED_LIBRARY"
         PROJECT_LABEL "MMBlib (dynamic)"
         SOVERSION "${MMB_MAJOR_VERSION}.${MMB_MINOR_VERSION}")
     TARGET_LINK_LIBRARIES(${SHARED_MMB_TARGET}
-                          PRIVATE ${SimTK_SHARED_LIBS_D}
-                          PRIVATE ${SimTK_SHARED_LIBS}
-                          PRIVATE ${OpenMM_SHARED_LIBS_D}
-                          PRIVATE ${OpenMM_SHARED_LIBS}
-                          PRIVATE ${SimTK_GENERAL_LIBS}
-                          PRIVATE ${ZLIB_LIB_SHARED})
+                          ${SimTK_SHARED_LIBS_D}
+                          ${SimTK_SHARED_LIBS}
+                          ${OpenMM_SHARED_LIBS_D}
+                          ${OpenMM_SHARED_LIBS}
+                          ${SimTK_GENERAL_LIBS}
+                          ${ZLIB_LIB_SHARED})
 
     # Install files
     INSTALL(TARGETS ${SHARED_MMB_TARGET}
@@ -402,9 +402,7 @@ IF (BUILD_MMB_SHARED_EXEC)
         PROPERTIES 
         PROJECT_LABEL "MMB - Dynamic")
     TARGET_LINK_LIBRARIES(MMB 
-                          PRIVATE ${SHARED_MMB_TARGET}
-						  PRIVATE debug SimTKcommon_d${Simbody_VERTAG}
-						  PRIVATE optimized SimTKcommon${Simbody_VERTAG})
+                          PRIVATE ${SHARED_MMB_TARGET})
 
     INSTALL(TARGETS MMB
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
@@ -433,12 +431,12 @@ IF (BUILD_MMB_STATIC)
         COMPILE_FLAGS "-DMMB_BUILDING_STATIC_LIBRARY -DSimTK_USE_STATIC_LIBRARIES"
         PROJECT_LABEL "MMBlib (static)")
     TARGET_LINK_LIBRARIES(${STATIC_MMB_TARGET}
-                          PRIVATE ${SimTK_STATIC_LIBS_D}
-                          PRIVATE ${SimTK_STATIC_LIBS}
-                          PRIVATE ${OpenMM_STATIC_LIBS_D}
-                          PRIVATE ${OpenMM_STATIC_LIBS}
-                          PRIVATE ${SimTK_GENERAL_LIBS}
-                          PRIVATE ${ZLIB_LIB_STATIC})
+                          ${SimTK_STATIC_LIBS_D}
+                          ${SimTK_STATIC_LIBS}
+                          ${OpenMM_STATIC_LIBS_D}
+                          ${OpenMM_STATIC_LIBS}
+                          ${SimTK_GENERAL_LIBS}
+                          ${ZLIB_LIB_STATIC})
 
     # Link with static library
     ADD_EXECUTABLE(MMB_static ${MMB_HEADER_FILES} ${MMB_SOURCE_FILES})
@@ -447,9 +445,7 @@ IF (BUILD_MMB_STATIC)
         COMPILE_FLAGS "-DSimTK_USE_STATIC_LIBRARIES -DMMB_USE_STATIC_LIBRARIES"
         PROJECT_LABEL "MMB - Static")
     TARGET_LINK_LIBRARIES(MMB_static
-                          PRIVATE ${STATIC_MMB_TARGET}
-				          PRIVATE debug SimTKcommon_static_d${Simbody_VERTAG}
-						  PRIVATE optimized SimTKcommon_static${Simbody_VERTAG})
+                          PRIVATE ${STATIC_MMB_TARGET})
 
     # Install files
     INSTALL(TARGETS MMB_static ${STATIC_MMB_TARGET}

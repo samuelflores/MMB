@@ -12,13 +12,112 @@
 
 //#include <boost/lexical_cast.hpp>
 
+#ifdef _WINDOWS
+#include <windows.h>
+#include <memory>
+
+class SecurityDescriptorWrapper {
+public:
+    SecurityDescriptorWrapper(DWORD bufSize) {
+        if (bufSize == 0)
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid security descriptor buffer size");
+
+        m_buffer = std::make_unique<char *>(new char[bufSize]);
+    }
+
+    PSECURITY_DESCRIPTOR get() {
+        return static_cast<PSECURITY_DESCRIPTOR>(m_buffer.get());
+    }
+
+private:
+    std::unique_ptr<char *> m_buffer;
+};
+
+inline
+bool hasAccessRight(LPCSTR path, DWORD genericAccessRights) {
+    SECURITY_DESCRIPTOR secDesc;
+
+    DWORD len = 0;
+    if (GetFileSecurityA(path, OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION, NULL, NULL, &len) == FALSE) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+    }
+
+    SecurityDescriptorWrapper sd{ len };
+    if (GetFileSecurityA(path, OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION, sd.get(), len, &len) == FALSE) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+    }
+
+    HANDLE hToken = NULL;
+    HANDLE hImpersonatedToken = NULL;
+    if (OpenProcessToken(GetCurrentProcess(), TOKEN_IMPERSONATE | TOKEN_QUERY | TOKEN_DUPLICATE | STANDARD_RIGHTS_READ, &hToken) == FALSE) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+    }
+
+    if (DuplicateToken(hToken, SecurityImpersonation, &hImpersonatedToken) == FALSE) {
+        CloseHandle(hToken);
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+    }
+
+    GENERIC_MAPPING mapping = { 0xFFFFFFFF };
+    PRIVILEGE_SET privileges = { 0 };
+    DWORD grantedAccess = 0;
+    DWORD privilegesLen = sizeof(privileges);
+
+    mapping.GenericRead = FILE_GENERIC_READ;
+    mapping.GenericWrite = FILE_GENERIC_WRITE;
+    mapping.GenericExecute = FILE_GENERIC_EXECUTE;
+    mapping.GenericAll = FILE_ALL_ACCESS;
+    BOOL result = FALSE;
+
+    MapGenericMask(&genericAccessRights, &mapping);
+    auto success = AccessCheck(sd.get(), hImpersonatedToken, genericAccessRights, &mapping, &privileges, &privilegesLen, &grantedAccess, &result);
+    CloseHandle(hImpersonatedToken);
+    CloseHandle(hToken);
+
+    if (success == FALSE)
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+
+    return result == TRUE;
+}
+
+inline
+bool hasReadAccess(LPCSTR path) {
+    return hasAccessRight(path, GENERIC_READ);
+}
+
+inline
+bool hasWriteAccess(LPCSTR path) {
+    return hasAccessRight(path, GENERIC_READ | GENERIC_WRITE);
+}
+
+#endif // _WINDOWS
 
 #include  <sstream> 
 using namespace std;
 using namespace SimTK;
 
 
-int myMkdir(std::string directoryPath){
+int myMkdir(const std::string & directoryPath) {
+#ifdef _WINDOWS
+    MMBLOG_FILE_FUNC_LINE(INFO, " You are asking to create the directory  " << directoryPath << std::endl);
+
+    WIN32_FIND_DATA fData;
+    HANDLE hDir = FindFirstFileA(directoryPath.c_str(), &fData);
+    if (hDir == INVALID_HANDLE_VALUE) {
+        if (CreateDirectoryA(directoryPath.c_str(), NULL) == FALSE) {
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, " Failed to create directory " << directoryPath << ", error " << GetLastError() << std::endl);
+        }
+    }
+    hDir = FindFirstFileA(directoryPath.c_str(), &fData);
+
+    if (!hasWriteAccess(directoryPath.c_str())) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Heads up! Found that we do NOT have write access to a directory called " << directoryPath << "  " << std::endl);
+        CloseHandle(hDir);
+        return 1;
+    }
+
+    return 0;
+#else
     MMBLOG_FILE_FUNC_LINE(INFO, " You are asking to create the directory  "<<directoryPath<<std::endl);
     if (!(opendir(directoryPath.c_str()))){
         MMBLOG_FILE_FUNC_LINE(INFO, " opendir failed to open directory "<<directoryPath<<" . Will now create this directory.  " <<std::endl);
@@ -42,10 +141,18 @@ int myMkdir(std::string directoryPath){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, " Heads up! Found that we do NOT have read access to a directory called "<<  directoryPath  <<"  "<<std::endl);
         return 1;
     }
+#endif // _WINDOWS
 }
 
-int myChdir(std::string directoryPath){
-    MMBLOG_FILE_FUNC_LINE(INFO, " About to attempt changing directory to "<<directoryPath<<" . "<<std::endl);
+int myChdir(const std::string & directoryPath) {
+    MMBLOG_FILE_FUNC_LINE(INFO, " About to attempt changing directory to " << directoryPath << " . " << std::endl);
+#ifdef _WINDOWS
+    if (SetCurrentDirectoryA(directoryPath.c_str()) == FALSE) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Unable to change directory to " << directoryPath << " . Exiting now." << std::endl);
+    }
+    MMBLOG_FILE_FUNC_LINE(INFO, " Was able to successfully change directory to " << directoryPath << " . " << std::endl);
+    return 0;
+#else
     if (chdir(directoryPath.c_str())){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, " Unable to change directory to "<<directoryPath<<" . Exiting now."<<std::endl);
         return 1;
@@ -53,6 +160,7 @@ int myChdir(std::string directoryPath){
         MMBLOG_FILE_FUNC_LINE(INFO, " Was able to successfully change directory to "<<directoryPath<<" . "<<std::endl);
         return 0;
     }
+#endif // _WINDOWS
 }
 
 void closingMessage() {
@@ -67,11 +175,12 @@ void closingMessage() {
     std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
 };
 
-CheckFile::CheckFile(const String myFileName){
+CheckFile::CheckFile(const String & myFileName){
     fileName = myFileName;
-    //struct stat st;
+#ifndef _WINDOWS
     stat(  fileName.c_str(), &st);
     MMBLOG_FILE_FUNC_LINE(INFO, " stat .st_mode= "<<st.st_mode <<std::endl);
+#endif // _WINDOWS
 }
 bool CheckFile::isDirectory(){
     MMBLOG_FILE_FUNC_LINE(INFO, " stat S_IFDIR = "<<S_IFDIR <<std::endl);
@@ -80,15 +189,23 @@ bool CheckFile::isDirectory(){
     //return (st.st_mode == S_IFDIR);	
     return ((st.st_mode & S_IFMT) == S_IFDIR);
 }
-bool CheckFile::ownerCanRead(){
+bool CheckFile::ownerCanRead() {
+#ifdef _WINDOWS
+    return hasReadAccess(fileName.c_str());
+#else
     MMBLOG_FILE_FUNC_LINE(INFO, " st.st_mode & S_IRUSR"<< (st.st_mode & S_IRUSR) <<std::endl);
     //return (st.st_mode == S_IFDIR);	
     return ((st.st_mode ) & S_IRUSR);
+#endif // _WINDOWS
 }
-bool CheckFile::ownerCanWrite(){
+bool CheckFile::ownerCanWrite() {
+#ifdef _WINDOWS
+    return hasWriteAccess(fileName.c_str());
+#else
     MMBLOG_FILE_FUNC_LINE(INFO, " st.st_mode & S_IWUSR"<< (st.st_mode & S_IWUSR) <<std::endl);
     //return (st.st_mode == S_IFDIR);	
     return ((st.st_mode ) & S_IWUSR);
+#endif // _WINDOWS
 }
 
 void CheckFile::validateNonZeroSize(){

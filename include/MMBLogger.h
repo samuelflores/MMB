@@ -1,6 +1,7 @@
 #ifndef MMBLOGGER_H_
 #define MMBLOGGER_H_
 
+#include "ExportMacros.h"
 #include <cassert>
 #include <functional>
 #include <mutex>
@@ -10,13 +11,13 @@
 
 using LogFunc = std::function<std::ostringstream ()>;
 
-class MMBException : public std::runtime_error {
+class MMB_EXPORT MMBException : public std::runtime_error {
 public:
     using std::runtime_error::runtime_error;
     using std::runtime_error::what;
 };
 
-class MMBLogger {
+class MMB_EXPORT MMBLogger {
 public:
     enum class Severity : uint8_t {
         DEBUG,

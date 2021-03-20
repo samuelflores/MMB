@@ -72,7 +72,7 @@ private:
     String fileName;
     struct stat st;
 public:
-    CheckFile(const String myFileName);
+    CheckFile(const String & myFileName);
     bool isDirectory();
     bool ownerCanRead();
     bool ownerCanWrite();
@@ -80,11 +80,11 @@ public:
     void validateExists();
     //void validateReadable();
 };
-int myMkdir(std::string directoryPath);
+int myMkdir(const std::string & directoryPath);
 
-int myChdir(std::string directoryPath);
+int myChdir(const std::string & directoryPath);
 
-void closingMessage() ;
+void MMB_EXPORT closingMessage() ;
 
 
           String intToString(int i) ;
@@ -582,15 +582,17 @@ class ResidueStretch   {
                 void printStretch() const {
                     MMBLOG_FILE_LINE(INFO, "Stretch chain ="<<getChain()<<", first residue ="<<getStartResidue().outString()<<", last residue ="<<getEndResidue().outString()<<std::endl);
                 }
-                ResidueStretch () {
+                ResidueStretch() {
                     setStartResidue(ResidueID("-1111" ) );
                     setEndResidue(ResidueID("-1111" ) );
                     setChain( SimTK::String (" ") );
-                };
-                ResidueStretch( SimTK::String myChain,  ResidueID    myStartResidue ,  ResidueID    myEndResidue       ){ 
-                    chain = myChain; startResidue = myStartResidue; endResidue= myEndResidue; };
+                }
 
-                ResidueStretch( SimTK::String myChain,  ResidueID    myResidue        )
+                ResidueStretch(const SimTK::String & myChain, const ResidueID & myStartResidue, const ResidueID & myEndResidue) { 
+                    chain = myChain; startResidue = myStartResidue; endResidue= myEndResidue;
+                }
+
+                ResidueStretch(const SimTK::String & myChain, const ResidueID & myResidue)
                     { 
                     chain = myChain; 
 		    startResidue = myResidue; 
@@ -678,9 +680,9 @@ class SingleResidue : public ResidueStretch  {
 
 
 
-class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
+class MMB_EXPORT MobilizerStretch : public ResidueStretch {
         private:
-               SimTK::BondMobility::Mobility BondMobility           ;
+               SimTK::BondMobility::Mobility BondMobility;
                String BondMobilityString;
         public:
                SimTK::BondMobility::Mobility getBondMobility() const {
@@ -705,7 +707,7 @@ class  MMB_EXPORT MobilizerStretch : public ResidueStretch  {
                    setBondMobility( myBondMobilityString);
                };
 
-               MobilizerStretch(SimTK::String myChain, ResidueID    myStartResidue,ResidueID    myEndResidue, SimTK::String myBondMobilityString) {
+               MobilizerStretch(const SimTK::String & myChain, const ResidueID & myStartResidue, const ResidueID & myEndResidue, const SimTK::String & myBondMobilityString = "") {
                         setChain ( myChain); setStartResidue ( myStartResidue), setEndResidue  (myEndResidue);
                         setBondMobility(myBondMobilityString);
 
@@ -922,6 +924,8 @@ class ConstraintClass : public  TwoAtomClass       {
 
 class MMB_EXPORT ContactStretch  : public ResidueStretch  {
     public:
+        using ResidueStretch::ResidueStretch;
+
                SimTK::String ContactScheme           ;
                SimTK::String getContactScheme() {return ContactScheme;};
                //SimTK::String Chain          ;

@@ -11,7 +11,9 @@
 #include <iostream>
 #include <vector>
 
+#ifndef _WINDOWS
 #include <getopt.h>
+#endif // _WINDOWS
 #include <signal.h>
 
 #include "MMBLogger.h"
@@ -40,6 +42,7 @@ void sig_handler(int signum) {
     std::quick_exit(EXIT_SUCCESS);
 }
 
+#ifndef _WINDOWS
 static struct option long_opts[] = {
     {"commands",  required_argument, 0,        'C'},
     {"HELP",      no_argument,       0,        'H'},
@@ -47,6 +50,7 @@ static struct option long_opts[] = {
     {"progress",  required_argument, 0, PARAM_PROG},
     {0,           0,                 0,          0}
 };
+#endif // _WINDOWS
 
 static
 void printUsage() {
@@ -66,19 +70,54 @@ void printUsage() {
 
 }
 
-int main(int num_args, char *args[]){  //int argc, char *argv[]) {
+int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
 
     printUsage();
 
-    String option ="";
-    String arg ="";
+    String option = "";
+    String arg = "";
     String parameterFile = "commands.dat";
     String progressFile = "";
     String diagOutputFile = "";
     std::ofstream diagOutputStm;
 
-    MMBLOG_FILE_FUNC_LINE(INFO, " Current working directory: "<<Pathname::getCurrentWorkingDirectory()<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, " Current working directory: " << Pathname::getCurrentWorkingDirectory() << endl);
 
+#ifdef _WINDOWS
+    int narg = 1;
+    while (narg < num_args) {
+        if (!std::strcmp(args[narg], "-C") || !std::strcmp(args[narg], "-commands")) {
+            narg++;
+            if (narg >= num_args)
+                MMBLOG_PLAIN(CRITICAL, "Command line parameter is missing an argument");
+
+            parameterFile = args[narg];
+        }
+        else if (!std::strcmp(args[narg], "-C") || !std::strcmp(args[narg], "-commands")) {
+            printUsage();
+            return EXIT_SUCCESS;
+        }
+        else if (!std::strcmp(args[narg], "-output")) {
+            narg++;
+            if (narg >= num_args)
+                MMBLOG_PLAIN(CRITICAL, "Command line parameter is missing an argument");
+
+            diagOutputFile = args[narg];
+        }
+        else if (!std::strcmp(args[narg], "-progress")) {
+            narg++;
+            if (narg >= num_args)
+                MMBLOG_PLAIN(CRITICAL, "Command line parameter is missing an argument");
+
+            progressFile = args[narg];
+        }
+        else {
+            printUsage();
+            return EXIT_SUCCESS;
+        }
+        narg++;
+    }
+#else
     int oc, opt_idx = 0;
     while ((oc = getopt_long_only(num_args, args, "C:D:H", long_opts, &opt_idx)) != -1) {
         switch (oc) {
@@ -108,6 +147,7 @@ int main(int num_args, char *args[]){  //int argc, char *argv[]) {
             return EXIT_FAILURE;
        }
     }
+#endif // _WINDOWS
 
     GlobalProgressWriter::initialize(progressFile);
     if (signal(SIGTERM, sig_handler) == SIG_ERR)

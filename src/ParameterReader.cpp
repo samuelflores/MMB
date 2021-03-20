@@ -43,6 +43,12 @@
 #include "Lepton.h"
 #endif
 
+#ifdef _WINDOWS
+#include <windows.h>
+
+#define PATH_MAX MAX_PATH
+#endif // _WINDOWS
+
 using namespace SimTK;
 using namespace std  ;
 

@@ -40,7 +40,7 @@
 //#endif
 
 // Here is where we define GetCurrentDir , an OS dependent function to retrieve the current working directory.
-#ifdef WINDOWS
+#ifdef _WINDOWS
     #include <direct.h>
     #define GetCurrentDir _getcwd
 #else

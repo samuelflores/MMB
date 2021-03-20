@@ -10,7 +10,6 @@
 using namespace SimTK;
 
 template <class ResidueStretchType>
-
 class ResidueStretchContainer{
     protected:
     vector<ResidueStretchType> residueStretchVector;
@@ -182,7 +181,7 @@ class ResidueStretchContainer{
 		if (referenceBiopolymerClass.getChainID().compare(targetBiopolymerClass.getChainID()) == 0) {
 			MMBLOG_FILE_FUNC_LINE(CRITICAL, "Chain "<<referenceChain<<" can't have an interface with itself!"<<endl);
 		};
-			residueStretchVector.push_back(ResidueStretchType(targetChain, targetResidue, targetResidue));
+                residueStretchVector.emplace_back(targetChain, targetResidue, targetResidue);
                 
 		MMBLOG_FILE_FUNC_LINE(INFO, "Chain "<<targetChain<<" residue "<<targetResidue.outString()<<" added to interface mobility zone. "<<endl);
 	};

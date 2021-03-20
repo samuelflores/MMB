@@ -935,11 +935,11 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
         MMBLOG_FILE_FUNC_LINE(INFO, "Adopting chain "<<getChainID()<<" with displacement from input structure file of : "<<initialDisplacementVec3<<" Å "<<getSequence()<<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, "Current rotation : "<<myRotation<<endl);
         MMBLOG_FILE_FUNC_LINE(DEBUG, "  getLoadFromPdb() = " << getLoadFromPdb() <<" for chain "<<getChainID()<<endl);
-        system.adoptCompound(myBiopolymer ,Transform(myRotation, (initialDisplacementVec3/1)) );
+        system.adoptCompound(myBiopolymer ,Transform(myRotation, (initialDisplacementVec3/1.0)) );
     } // used to convert to nm, now using nm directly. 
     else {
         MMBLOG_FILE_FUNC_LINE(DEBUG, "  getLoadFromPdb() = " << getLoadFromPdb() <<" for chain "<<getChainID()<<endl);
-        system.adoptCompound(myBiopolymer ,Vec3(biopolymerClassIndex,biopolymerClassIndex,biopolymerClassIndex  )*initialSeparation/1);  // used to convert to nm, now using nm directly
+        system.adoptCompound(myBiopolymer ,Vec3(biopolymerClassIndex,biopolymerClassIndex,biopolymerClassIndex  )*initialSeparation/1.0);  // used to convert to nm, now using nm directly
 
     }
 
@@ -2931,19 +2931,19 @@ void BiopolymerClassContainer::newCalcAxes(const State& state,  LeontisWesthofBo
 
                 xAxisVector1 =  -5.88327 * firstRingAtomvector1 - 6.13617 * secondRingAtomvector1;
                 ring1CenterLocationInGround = (calcAtomLocationInGroundFrame(state,chain1,residueID1,String("N3")) 
-                                              +calcAtomLocationInGroundFrame(state,chain1,residueID1, String("C6")))/2; 
+                                              +calcAtomLocationInGroundFrame(state,chain1,residueID1, String("C6")))/2.0; 
             }
             else if ((resName1.compare("C  ") == 0) || (resName1.compare("DC ") == 0)) 
             {
                 xAxisVector1 = -7.83435 * firstRingAtomvector1 -6.99265          *secondRingAtomvector1;
                 ring1CenterLocationInGround = (calcAtomLocationInGroundFrame(state,chain1,residueID1,String("N1")) 
-                                              +calcAtomLocationInGroundFrame(state,chain1,residueID1, String("C4")))/2; 
+                                              +calcAtomLocationInGroundFrame(state,chain1,residueID1, String("C4")))/2.0; 
             }
             else if ((resName1.compare("U  ") == 0) || (resName1.compare("DT ") == 0)) 
             {
                 xAxisVector1 = -7.3491 * firstRingAtomvector1 -6.47606 *secondRingAtomvector1;    
                 ring1CenterLocationInGround = (calcAtomLocationInGroundFrame(state,chain1,residueID1,String("N1")) 
-                                              +calcAtomLocationInGroundFrame(state,chain1,residueID1, String("C4")))/2; 
+                                              +calcAtomLocationInGroundFrame(state,chain1,residueID1, String("C4")))/2.0; 
 
             } else 
             {
@@ -2956,19 +2956,19 @@ void BiopolymerClassContainer::newCalcAxes(const State& state,  LeontisWesthofBo
             { //if purine
                 xAxisVector2 = -5.88327 * firstRingAtomvector2 -6.13617 *secondRingAtomvector2;
                 ring2CenterLocationInGround = (calcAtomLocationInGroundFrame(state,chain2,residueID2,String("N3")) 
-                                              +calcAtomLocationInGroundFrame(state,chain2,residueID2, String("C6")))/2; 
+                                              +calcAtomLocationInGroundFrame(state,chain2,residueID2, String("C6")))/2.0; 
             }  
             else if ((resName2.compare("C  ") == 0) || (resName2.compare("DC ") == 0))
             {
                 ring2CenterLocationInGround = (calcAtomLocationInGroundFrame(state,chain2,residueID2,String("N1")) 
-                                              +calcAtomLocationInGroundFrame(state,chain2,residueID2, String("C4")))/2; 
+                                              +calcAtomLocationInGroundFrame(state,chain2,residueID2, String("C4")))/2.0; 
                 xAxisVector2 = -7.83435 * firstRingAtomvector2 -6.99265 *secondRingAtomvector2;
             }
             else if ((resName2.compare("U  ") == 0) || (resName2.compare("DT ") == 0)) 
             {
                 xAxisVector2 = -7.3491  * firstRingAtomvector2 -6.47606 *secondRingAtomvector2;
                 ring2CenterLocationInGround = (calcAtomLocationInGroundFrame(state,chain2,residueID2,String("N1")) 
-                                              +calcAtomLocationInGroundFrame(state,chain2,residueID2, String("C4")))/2; 
+                                              +calcAtomLocationInGroundFrame(state,chain2,residueID2, String("C4")))/2.0; 
             }
             else { 
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unrecognized residue type : >"<< resName2<<"<"<< endl);

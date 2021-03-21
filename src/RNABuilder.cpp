@@ -49,7 +49,8 @@ void changeWorkingDirectory(const String &dir)
 	if (!SetCurrentDirectoryA(dir.c_str()))
 		MMBLOG_PLAIN(CRITICAL, "Failed to change working directory");
 #else
-	// TODO
+	if (chdir(dir.c_str()) != 0)
+		MMBLOG_PLAIN(CRITICAL, "Failed to change working directory");
 #endif // _WINDOWS
 }
 
@@ -59,7 +60,7 @@ static struct option long_opts[] = {
     {"HELP",      no_argument,       0,        'H'},
     {"output",    required_argument, 0, PARAM_DOUT},
     {"progress",  required_argument, 0, PARAM_PROG},
-    {"workdir",   required%argument, 0,        'W'},
+    {"workdir",   required_argument, 0,        'W'},
     {0,           0,                 0,          0}
 };
 #endif // _WINDOWS
@@ -94,18 +95,6 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
     String diagOutputFile = "";
     String orideWorkingDirectory;
     std::ofstream diagOutputStm;
-
-    // DEBUG:
-    {
-	    std::string s{};
-	    for (int idx = 1; idx < num_args; idx++) {
-		    s += args[idx];
-		    s += ' ';
-	    }
-	    MMBLOG_PLAIN(ALWAYS, "CMDLINE:\n" << s << std::endl);
-    }
-
-    MMBLOG_FILE_FUNC_LINE(INFO, " Current working directory: " << Pathname::getCurrentWorkingDirectory() << endl);
 
 #ifdef _WINDOWS
     int narg = 1;
@@ -150,7 +139,7 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
     }
 #else
     int oc, opt_idx = 0;
-    while ((oc = getopt_long_only(num_args, args, "C:D:H", long_opts, &opt_idx)) != -1) {
+    while ((oc = getopt_long_only(num_args, args, "C:D:HW:", long_opts, &opt_idx)) != -1) {
         switch (oc) {
         case 'C':
             parameterFile = optarg;
@@ -160,6 +149,7 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
             return EXIT_SUCCESS;
 	case 'W':
 	    orideWorkingDirectory = optarg;
+	    break;
         case PARAM_DOUT:
             diagOutputFile = optarg;
             break;

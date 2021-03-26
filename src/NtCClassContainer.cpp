@@ -10,11 +10,12 @@
 
 #include "SimTKmolmodel.h"
 #include "BiopolymerClass.h"
-#include "Utils.h"          
+#include "Utils.h"
 #include "ResidueStretchContainer.h"
 #include "NtC_Class_Container.h"
 #include "NTC_PARAMETER_READER.h"
 
+#include <MMBLogger.h>
 #include <sstream>
 
 void NTC_Class_Container::clear(){
@@ -252,11 +253,8 @@ void NTC_Class_Container::validate_NTC_Class(BiopolymerClassContainer & myBiopol
     NTC_PAR_BondRow br = ntc_par_class.getNTC_PAR_BondRow(NTC.NtC_step_ID,ntc2,resName1,NTC.NtC_Class_String,resName2,NTC.NtC_Class_String,dihedraltype,"ntcstep");
  
     NTC.NTC_PAR_BondRowIndex  = ntc_par_class.getNTC_PAR_BondRowIndex(resName1,resName2,NTC.NtC_Class_String,dihedraltype,"ntcstep",NTC ); 
-    
-    cout << NTC.NTC_PAR_BondRowIndex << " BOND ROW ";
-   
- //   NTC.NtC_INDEX = ntc_par_class.getNTC_PAR_BondRow
-    
+
+    MMBLOG_FILE_FUNC_LINE(INFO, NTC.NTC_PAR_BondRowIndex << " BOND ROW\n");
 }
 
 int NTC_Class_Container::numNTC_Torsions() {

@@ -672,6 +672,8 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
 // http://chem5.nchc.org.tw/software/document2007/insightII/doc/xplor/formats.html
 void DensityMap::loadParametersAndDensity_XPLOR(const String &densityFileName) {
 
+	std::cout << " >>>>>> Loading XPLOR density map <<<<<<" << std::endl;
+
         ifstream inFile(densityFileName.c_str(),ifstream::in);
         int densitiesPerLine = 6;	
         	//const int numFields = 10 ;

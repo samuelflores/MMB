@@ -18,11 +18,13 @@
 #include "NTC_FORCE_CLASS.h"
 #include "NTC_PARAMETER_READER.h"
 
-const int numNTC_PAR_BondMatrixRows=(39600);  // yes, global constants are bad.  Couldn't think of an elegant way around this one though.  This number should be exactly equal to the number of rows in the leontisWesthofBondMatrix
+static const int numNTC_PAR_BondMatrixRows=(39600);  // yes, global constants are bad.  Couldn't think of an elegant way around this one though.  This number should be exactly equal to the number of rows in the leontisWesthofBondMatrix
 //const int maxParallelTorques = 1000; //max number of parallel torques to be applied.  This can be huge, minimal cost for doing that.
 
 using namespace SimTK;
 using namespace std;
+
+static map<NTC_PAR_BondKey, NTC_PAR_BondRow, NTC_PAR_BondKeyCmp> NTC_PAR_Map;
 
 /**
  * 
@@ -43,7 +45,7 @@ using namespace std;
         isTwoTransformForce(std::move(myIsTwoTransformForce)) {
     }
 
-    NTC_PAR_BondKey::NTC_PAR_BondKey(NTC_PAR_BondRow myNTC_PAR_BondRow) {
+    NTC_PAR_BondKey::NTC_PAR_BondKey(const NTC_PAR_BondRow &myNTC_PAR_BondRow) {
         pdbResidueName1 = myNTC_PAR_BondRow.pdbResidueName1;
         pdbResidueName2 = myNTC_PAR_BondRow.pdbResidueName2;
         bondingEdge1 = myNTC_PAR_BondRow.bondingEdge1;
@@ -53,7 +55,7 @@ using namespace std;
     }; 	
 //};
 
-    int  NTC_PAR_Class::initialize( String inFileName) {
+    int NTC_PAR_Class::initialize(const String &inFileName) {
         NTC_PAR_Map.clear();
         myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.clear();
         ifstream inFile(inFileName.c_str(),ifstream::in);
@@ -157,11 +159,10 @@ using namespace std;
         MMBLOG_FILE_FUNC_LINE(DEBUG, "done initializing myNTC_PAR_BondMatrix"<<endl);
 
         return(0);
-        };
-
+    }
 
     void NTC_PAR_Class::printNTC_PAR_BondRows () {
-        for (int q =0; q< (int)myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.size(); q++) {
+        for (size_t q =0; q < myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.size(); q++) {
             MMBLOG_FILE_FUNC_LINE(
                 INFO,
                 (myNTC_PAR_BondMatrix.myNTC_PAR_BondRow[q]).pdbResidueName1
@@ -174,7 +175,13 @@ using namespace std;
     }
 
 
-    int  NTC_PAR_Class::getNTC_PAR_BondRowIndex(String myPdbResidueName1, String myPdbResidueName2,String Classtype,String dihedraltype,String myBasePairIsTwoTransformForce, NTC_Classes NTC) const {
+    int NTC_PAR_Class::getNTC_PAR_BondRowIndex(
+        const String &myPdbResidueName1,
+        const String &myPdbResidueName2,
+        const String &Classtype,
+        const String &dihedraltype,
+        const String &myBasePairIsTwoTransformForce,
+        /*const*/ NTC_Classes /*&*/NTC) const {
         //if (0) { //!((myBasePairIsTwoTransformForce.compare("aromatic") == 0) || (myBasePairIsTwoTransformForce.compare("baseInteraction") == 0))) {
         //    return -11111;
         //} else  {
@@ -183,7 +190,7 @@ using namespace std;
             myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.size() << " br size " << " " << Classtype << " " << dihedraltype << " " << myPdbResidueName1 << " "<< myPdbResidueName2 << endl
         );
         
-        for   (int q =0; q< (int)myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.size(); q++) {
+        for (size_t q =0; q < myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.size(); q++) {
             
             
             if (
@@ -257,11 +264,19 @@ using namespace std;
             SimTK_ERRCHK_ALWAYS(0,"[BaseInteractionParameterReader.cpp]","Found no match for the above user-specified interaction.  Either add this interaction type to the parameter file, or check your spelling, syntax, or semantics.");
 
     //}
-    };
+    }
 
 
     
-    NTC_PAR_BondRow NTC_PAR_Class::getNTC_PAR_BondRow(ResidueID myResidueNumber1,ResidueID myResidueNumber2, String myPdbResidueName1, String myBondingEdge1, String myPdbResidueName2,String myBondingEdge2, String dihedraltype,String myBasePairIsTwoTransformForce) const {
+    NTC_PAR_BondRow NTC_PAR_Class::getNTC_PAR_BondRow(
+        const ResidueID &myResidueNumber1,
+        const ResidueID &myResidueNumber2,
+        const String &myPdbResidueName1,
+        const String &myBondingEdge1,
+        const String &myPdbResidueName2,
+        const String &myBondingEdge2,
+        const String &dihedraltype,
+        const String &myBasePairIsTwoTransformForce) const {
 
         static map <const NTC_PAR_BondKey, NTC_PAR_BondRow, NTC_PAR_BondKeyCmp>::iterator iter = NTC_PAR_Map.begin();
 
@@ -270,12 +285,12 @@ using namespace std;
         NTC_PAR_BondRow myReturnNTC_PAR_BondRow;
 
 
-        if 
-            (!((myPdbResidueName1.compare(myReturnNTC_PAR_BondRow.pdbResidueName1) == 0) &&
-            ( myPdbResidueName2.compare(myReturnNTC_PAR_BondRow.pdbResidueName2) == 0) &&            (myBondingEdge1.compare(myReturnNTC_PAR_BondRow.bondingEdge1) == 0)        &&
-            (myBondingEdge2.compare(myReturnNTC_PAR_BondRow.bondingEdge2) == 0)        &&            (dihedraltype.compare(myReturnNTC_PAR_BondRow.dihedraltype) == 0) &&
-            (myBasePairIsTwoTransformForce.compare(myReturnNTC_PAR_BondRow.isTwoTransformForce) == 0)))
-                {
+        if (!((myPdbResidueName1.compare(myReturnNTC_PAR_BondRow.pdbResidueName1) == 0) &&
+              (myPdbResidueName2.compare(myReturnNTC_PAR_BondRow.pdbResidueName2) == 0) &&
+              (myBondingEdge1.compare(myReturnNTC_PAR_BondRow.bondingEdge1) == 0)       &&
+              (myBondingEdge2.compare(myReturnNTC_PAR_BondRow.bondingEdge2) == 0)       &&
+              (dihedraltype.compare(myReturnNTC_PAR_BondRow.dihedraltype) == 0)         &&
+              (myBasePairIsTwoTransformForce.compare(myReturnNTC_PAR_BondRow.isTwoTransformForce) == 0))) {
                 MMBLOG_FILE_FUNC_LINE(
                     INFO,
                     "[BaseInteractionParameterReader.cpp] for interaction between residues "<<myResidueNumber1.getResidueNumber()<< " and "<<myResidueNumber2.getResidueNumber() <<endl<<"trying to match :"<<endl<<
@@ -286,8 +301,7 @@ using namespace std;
                     ", myBondingEdge2 "<<(myBondingEdge2)<<
                     ", dihedraltype "<<(dihedraltype)<<endl
                 );
-                } 
+        }
 
         return myReturnNTC_PAR_BondRow;
-        if (0) cout<<"Inside getNTC_PAR_BondRow.  about to search for :"<<myPdbResidueName1<<","<<myBondingEdge1<<","<< myPdbResidueName2   <<","<<  myBondingEdge2    <<","<<    dihedraltype <<"myBasePairIsTwoTransformForce"<<myBasePairIsTwoTransformForce<<endl;
-    }; 
+    }

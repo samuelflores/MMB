@@ -7,15 +7,14 @@
 #include "RealVec.h"
 #include "ReferenceNeighborList.h"
 
-//class BiopolymerClass; // Forward declaration
 using namespace SimTK;
 
 template <class ResidueStretchType>
-
 class ResidueStretchContainer{
-    //private:
-    public:
+    protected:
     vector<ResidueStretchType> residueStretchVector;
+
+    public:
     InterfaceContainer interfaceContainer;
 
     ResidueStretchContainer() {};
@@ -43,14 +42,19 @@ class ResidueStretchContainer{
         validateResidueStretch(myResidueStretch,myBiopolymerClassContainer);
 	addStretch(myResidueStretch);
     }
-    void addStretch(const ResidueStretchType newStretch) {
+    void addStretch(const ResidueStretchType & newStretch) {
         MMBLOG_FILE_FUNC_LINE(DEBUG, " About to add a new stretch to the residueStretchVector, which currently has "<< getNumResidueStretches() << " elements."<<endl);
-        residueStretchVector.push_back(newStretch);
+        residueStretchVector.emplace_back(newStretch);
         MMBLOG_FILE_FUNC_LINE(DEBUG, " Done adding  a new stretch to the residueStretchVector, which now has "<< getNumResidueStretches() << " elements."<<endl);
-    }    
+    }
+    void addStretch(ResidueStretchType && newStretch) {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " About to add a new stretch to the residueStretchVector, which currently has "<< getNumResidueStretches() << " elements."<<endl);
+        residueStretchVector.emplace_back(std::move(newStretch));
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " Done adding  a new stretch to the residueStretchVector, which now has "<< getNumResidueStretches() << " elements."<<endl);
+    }
 
-    vector<ResidueStretchType> getResidueStretchVector() {return residueStretchVector;};
-    const vector<ResidueStretchType> & updResidueStretchVector() const {return  residueStretchVector;};
+    const vector<ResidueStretchType> & getResidueStretchVector() const { return residueStretchVector; }
+          vector<ResidueStretchType> & updResidueStretchVector()       { return residueStretchVector; }
 
     void printResidueStretchVector() {
         for (int i = 0 ; i <residueStretchVector.size(); i++) {
@@ -82,12 +86,12 @@ class ResidueStretchContainer{
 
     vector <MobilizerStretch> getMobilizerStretchVector(String bondMobilityString)  {
 		vector <MobilizerStretch> myMobilizerStretchVector;
-		for (int i = 0; i < (int)residueStretchVector.size(); i++){
-                        MobilizerStretch myMobilizerStretch ( residueStretchVector[i], bondMobilityString); 
-			myMobilizerStretchVector.push_back(myMobilizerStretch);
-              
-                        MMBLOG_FILE_FUNC_LINE(INFO, "For chain "<<myMobilizerStretch.getChain()<< " start res "<<myMobilizerStretch.getStartResidue().outString()<<" end res "<< myMobilizerStretch.getEndResidue().outString() <<" mobility " << myMobilizerStretch.getBondMobility()<<endl);//" and chain "<< targetChain<<" residue "<<targetResidue.outString()<<" distance is "<<myDistance<<" nm"<<endl;
-                        MMBLOG_FILE_FUNC_LINE(INFO, "Note that in prior releases of MMB we took dead lengths in Å.  For consistency with molmodel we are going back to nm, kJ/mol, ps, with apologies for the confusion."<<endl);
+		for (size_t i = 0; i < residueStretchVector.size(); i++) {
+			myMobilizerStretchVector.emplace_back(residueStretchVector[i], bondMobilityString);
+
+            const auto &back = myMobilizerStretchVector.back();
+            MMBLOG_FILE_FUNC_LINE(INFO, "For chain "<<back.getChain()<< " start res "<<back.getStartResidue().outString()<<" end res "<<back.getEndResidue().outString() <<" mobility " <<back.getBondMobility()<<endl);//" and chain "<< targetChain<<" residue "<<targetResidue.outString()<<" distance is "<<myDistance<<" nm"<<endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "Note that in prior releases of MMB we took dead lengths in Å.  For consistency with molmodel we are going back to nm, kJ/mol, ps, with apologies for the confusion."<<endl);
 
 		}
 		return myMobilizerStretchVector;
@@ -177,7 +181,7 @@ class ResidueStretchContainer{
 		if (referenceBiopolymerClass.getChainID().compare(targetBiopolymerClass.getChainID()) == 0) {
 			MMBLOG_FILE_FUNC_LINE(CRITICAL, "Chain "<<referenceChain<<" can't have an interface with itself!"<<endl);
 		};
-			residueStretchVector.push_back(ResidueStretchType(targetChain, targetResidue, targetResidue));
+                residueStretchVector.emplace_back(targetChain, targetResidue, targetResidue);
                 
 		MMBLOG_FILE_FUNC_LINE(INFO, "Chain "<<targetChain<<" residue "<<targetResidue.outString()<<" added to interface mobility zone. "<<endl);
 	};

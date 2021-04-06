@@ -11,12 +11,9 @@
 #ifndef DensityContainer_H_
 #define DensityContainer_H_
 
-#include "BiopolymerClass.h"
 #include "ResidueStretchContainer.h"
 
 class DensityContainer : public ResidueStretchContainer <DensityStretch>{
-private :
-    std::vector <DensityStretch> & densityStretchVector = ResidueStretchContainer::residueStretchVector; // alias -- use parent's residueStretchVector member.Since this is private, alias may be unnecessary..
 public:
     void clear();
     //void validate(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer); // Already defined in parent.

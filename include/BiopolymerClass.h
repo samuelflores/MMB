@@ -12,18 +12,20 @@
 #define BiopolymerClass_H_
 #define MUTATIONMINORSEPARATOR "-"
 #define MUTATIONMAJORSEPARATOR "."
-#include <string>
 
-#include <array>
-#include <utility>
-#include <vector>
 #include "Mutation.h"
 #include "SimTKmolmodel.h"
 #include <seqan/align.h>
 #include "BaseInteractionParameterReader.h"
 #include "ConstraintContainer.h"
 #include "ReferenceNeighborList.h"
-class MobilizerContainer;    // forward declaration
+
+#include <string>
+#include <array>
+#include <utility>
+#include <vector>
+
+class MobilizerContainer;
 class WaterDropletContainer; // forward declaration
 class WaterDroplet; // forward declaration
 typedef char TChar;                             // character type
@@ -35,9 +37,6 @@ typedef map <const string, PdbStructure> PdbStructureMapType ;
 
 
 void         printBiopolymerSequenceInfo(const Biopolymer & myBiopolymer) ;
-bool         letterIsRNA    (String);
-bool         letterIsDNA    (String);
-bool         letterIsProtein(String);
 template <class ResidueStretchType>
 class ResidueStretchContainer; // Don't you just love forward declarations?
 
@@ -70,7 +69,7 @@ private:
     //void        validateChainID();
     void        validateChainID() const;
     void        validateResidueNumbersAndInsertionCodes(); // Calls checkResidueNumbersAndInsertionCodes, dies if it finds a problem.
-    bool        residueIsPurine (int residueIndex, String mySequence);
+    bool        residueIsPurine (int residueIndex, const String & mySequence);
     bool        residueIsPurine (int residueIndex);
     int         validateSequence() ;  
     int         validateBiopolymerType() const;  
@@ -130,8 +129,8 @@ public:
     void    setLoadFromPdb(bool yesno);
     bool    getLoadFromPdb();
 
-    void    setSequence(String); // sets and validates the sequence
-    void    changeSequence(String myNewSequence);
+    void    setSequence(const String &); // sets and validates the sequence
+    void    changeSequence(const String & myNewSequence);
     /*void    renameChain(String newChainID) {
         setChainID(newChainID); myBiopolymer.setPdbChainId(newChainID); 
                
@@ -148,14 +147,14 @@ public:
                               bool matchPurineN1AtomLocations, 
                               bool guessCoordinates,
                               int biopolymerClassIndex, double initialSeparation, 
-                              const vector<Displacement> displacementVector,
+                              const vector<Displacement> & displacementVector,
                               double matchingMinimizerTolerance, 
                               double myPlanarityThreshold,
                               vector<SecondaryStructureStretch> secondaryStructureStretchVector ,
                               PdbStructureMapType & pdbStructureMap
                              ) ; //    Should  everything currently done by ConstrainedDynamics::initializeMolecules.  the latter should stop treating biopolymers altogether.  it really should stop treating MonoAtoms as well.
 
-    int     matchCoordinates(String inputFileName, 
+    int     matchCoordinates(const String & inputFileName, 
                              bool matchExact, bool matchIdealized,
                              const bool matchOptimize ,  
                              bool matchHydrogenAtomLocations, 
@@ -197,7 +196,7 @@ public:
     bool  getProteinCapping(){return proteinCapping;}
     //ResidueID   residueID(map<const String,double> myUserVariables, const   char* value);
     ResidueID   residueID(String inputString);  // this method of converting string to ResidueID has the advantage that it validates against the corresponding biopolymer
-    void        validateResidueID(const ResidueID myResidueID    ) const;
+    void        validateResidueID(const ResidueID & myResidueID) const;
     void        validateResidueIndex(int myResidueIndex) const;
     void        validateAtomInfoVector();
     bool        hasAtom(  ResidueID myResidueID,   String myAtomName);
@@ -303,122 +302,9 @@ public:
     void setActivePhysics(bool yesno);
     bool getActivePhysics() const;
 
+    template<class ResidueStretchType>
+    void selectivelyRemoveResidueStretchFromContainer(const ResidueStretch & residueStretch, ResidueStretchContainer <ResidueStretchType> & residueStretchContainer);
 
-    template<class ResidueStretchType> 
-    void selectivelyRemoveResidueStretchFromContainer(ResidueStretch & residueStretch, ResidueStretchContainer <ResidueStretchType> & residueStretchContainer) 
-    {    
-        // This command crops or deletes residue stretches in the range "residueStretch" from residueStretchVector.  This was intended to cancel any modifications to certain resiude stretches.    
-        // We treat three cases:
-        // 1. residueStretchVector[i] is a subset of (or is identical to) residueStretch
-        //        -> erase residueStretchVector[i]
-        // 2. residueStretch is a subset of residueStretchVector[i], with neither endpoint in common, splitting residueStretchVector[i] in two
-        //        -> split residueStretchVector[i] into two disjoint residue stretches
-        // 3. residueStretch is a subset of residueStretchVector[i], but the start point of residueStretch coincides with that of residueStretchVector[i] .
-        //        -> trim  residueStretchVector[i] on left 
-        // 4. residueStretch is a subset of residueStretchVector[i], but the end point of residueStretch coincides with that of residueStretchVector[i] .
-        //        -> trim  residueStretchVector[i] on right
-        // 5. residueStretch and residueStretchVector[i] overlap, with residueStretch starting before residueStretchVector[i].
-        //        -> trim  residueStretchVector[i] on left 
-        // 6. residueStretch and residueStretchVector[i] overlap, with residueStretchVector[i] starting before residueStretch.
-        //        -> trim  residueStretchVector[i] on right
-        // 7. residueStretch and residueStretchVector[i] are disjoint. 
-        //        -> do nothing.                               
-        //const int ResidueStretchContainer::getNumResidueStretches();
-        MMBLOG_FILE_FUNC_LINE(INFO, "the stretch to be removed is :"<<endl);
-        residueStretch.printStretch();
-        MMBLOG_FILE_FUNC_LINE(INFO, "Now checking "<<residueStretchContainer.getNumResidueStretches()<<" stretches: "<<endl);
-        for (int i = 0; i < residueStretchContainer.getNumResidueStretches(); i++) 
-        {
-            residueStretchContainer.residueStretchVector[i].printStretch();   
-
-            if (residueStretchContainer.residueStretchVector[i].getChain().compare((residueStretch.getChain() )) != 0) {
-                   MMBLOG_FILE_FUNC_LINE(INFO, " Chains don't match, ignoring this one."<<endl);
-		   continue;} // in other words, only make modificatiosn to residueStretchContainer if chain ID's match.
-            else if ((residueStretch.getStartResidue() <= residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
-                (residueStretch.getEndResidue() >= residueStretchContainer.residueStretchVector[i].getEndResidue()))
-               {   //case = 1
-                   residueStretchContainer.residueStretchVector.erase(residueStretchContainer.residueStretchVector.begin() + i);
-                   i--; // vector has been shortened, so make sure we don't skip the next residueStretchContainer.residueStretchVector[i].
-                   if (i < -1) {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);}
-               }
-            else if ((residueStretch.getStartResidue() >  residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
-                (residueStretch.getEndResidue() <  residueStretchContainer.residueStretchVector[i].getEndResidue()))
-               {   // case = 2 ;
-                   MMBLOG_FILE_FUNC_LINE(INFO, endl);
-                   ResidueStretchType secondResidueStretch = residueStretchContainer.residueStretchVector[i];
-                   ResidueID tempStartResidueID = (residueStretch).getStartResidue(); // getStartResidue() returns a temporary, whereas decrementResidueID expects a reference. can't convert a temporary to a reference.  This is because decrementResidueID might (and will!) try to modify ResidueID (as the name of the function suggests!).
-                   //residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID((residueStretch).getStartResidue() ));
-                   residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//((residueStretch).getStartResidue() )));
-                   MMBLOG_FILE_FUNC_LINE(INFO, "Just decreased endpoint of stretch "<<i<<".  New stretch is:"<<endl);
-                   residueStretchContainer.residueStretchVector[i].printStretch();
-                   ResidueID tempEndResidueID = (residueStretch).getEndResidue();
-                   secondResidueStretch.setStartResidue(incrementResidueID(tempEndResidueID));//  residueStretch.getEndResidue()));
-                   residueStretchContainer.addStretch(secondResidueStretch);
-                   MMBLOG_FILE_FUNC_LINE(INFO, "Just added new  stretch :"<<endl);
-                   residueStretchContainer.residueStretchVector[residueStretchContainer.getNumResidueStretches()-1].printStretch();
-                   MMBLOG_FILE_FUNC_LINE(INFO, "Moving on to check next stretch. "<<endl);
-
-
-               }
-            else if ((residueStretch.getStartResidue() == residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
-                (residueStretch.getEndResidue() <  residueStretchContainer.residueStretchVector[i].getEndResidue()))
-               {   // case = 3;
-                   MMBLOG_FILE_FUNC_LINE(INFO, "Case 3"<<endl);
-                   ResidueID tempEndResidueID = (residueStretch).getEndResidue();
-                   residueStretchContainer.residueStretchVector[i].setStartResidue(incrementResidueID(tempEndResidueID));//residueStretch.getEndResidue() ))  ;
-		   residueStretchContainer.residueStretchVector[i].printStretch();
-                   MMBLOG_FILE_FUNC_LINE(INFO, "Done with Case 3"<<endl);
-               }
-            else if ((residueStretch.getEndResidue() == residueStretchContainer.residueStretchVector[i].getEndResidue()) &&
-                (residueStretch.getStartResidue() >  residueStretchContainer.residueStretchVector[i].getStartResidue()))
-               {   // case = 4;
-                   MMBLOG_FILE_FUNC_LINE(INFO, "Case 4"<<endl);
-                   
-                   ResidueID tempStartResidueID = (residueStretch).getStartResidue();
-                   residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//residueStretch.getStartResidue()));
-		   residueStretchContainer.residueStretchVector[i].printStretch();
-                   MMBLOG_FILE_FUNC_LINE(INFO, "Done with Case 4"<<endl);
-               }
-            else if ((residueStretch.getStartResidue() <   residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
-                (residueStretch.getEndResidue()        >=  residueStretchContainer.residueStretchVector[i].getStartResidue()) &&
-                     (residueStretch.getEndResidue()        <   residueStretchContainer.residueStretchVector[i].getEndResidue()))
-            {   // case = 5;
-                MMBLOG_FILE_FUNC_LINE(INFO, "Case 5"<<endl);
-                
-                ResidueID tempEndResidueID = (residueStretch).getEndResidue();
-                residueStretchContainer.residueStretchVector[i].setStartResidue(incrementResidueID(tempEndResidueID));//residueStretch.getEndResidue()))  ;
-		residueStretchContainer.residueStretchVector[i].printStretch();
-                MMBLOG_FILE_FUNC_LINE(INFO, "Done with Case 5"<<endl);
-            }
-            else if ((residueStretch.getEndResidue() >  residueStretchContainer.residueStretchVector[i].getEndResidue()) &&
-                     (residueStretch.getStartResidue() >  residueStretchContainer.residueStretchVector[i].getStartResidue())     &&
-                     (residueStretch.getStartResidue() <=  residueStretchContainer.residueStretchVector[i].getEndResidue()))
-            {    // case = 6;
-                MMBLOG_FILE_FUNC_LINE(INFO, "Case 6"<<endl);
-                
-                ResidueID tempStartResidueID = (residueStretch).getStartResidue();
-                residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//  residueStretch.getStartResidue()));
-		residueStretchContainer.residueStretchVector[i].printStretch();
-                MMBLOG_FILE_FUNC_LINE(INFO, "Done with Case 6"<<endl);
-            }
-            else if (residueStretch.getEndResidue() < residueStretchContainer.residueStretchVector[i].getStartResidue()) {
-                MMBLOG_FILE_FUNC_LINE(INFO, "Case 7A: The query ResidueStretch has an endpoint: "<<residueStretch.getEndResidue().outString() << " which is lower than the start point of residueStretchContainer.residueStretchVector["<<i<<"] :"<<residueStretchContainer.residueStretchVector[i].getStartResidue().outString()<<". Doing nothing. "<<endl);
-	    
-	    } // do nothing, stretches are disjoint
-            else if (residueStretch.getStartResidue() > residueStretchContainer.residueStretchVector[i].getEndResidue()) {
-                MMBLOG_FILE_FUNC_LINE(INFO, "Case 7B: The query ResidueStretch has a start point: "<<residueStretch.getStartResidue().outString() << " which is higher than the  end  point of residueStretchContainer.residueStretchVector["<<i<<"] :"<<residueStretchContainer.residueStretchVector[i].getEndResidue().outString()<<". Doing nothing. "<<endl);
-	    
-	    } // do nothing, stretches are disjoint
-            else {
-                // this should never happen
-                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);
-                }
-        }
-        MMBLOG_FILE_FUNC_LINE(INFO, " At the end of selectivelyRemoveResidueStretchFromContainer. Now printing updated residueStretchContainer: "<<endl);
-        residueStretchContainer.printResidueStretchVector();
-        MMBLOG_FILE_FUNC_LINE(INFO, " Returning. "<<endl);
-    }
-    
     TAlign    createGappedAlignment(BiopolymerClass otherBiopolymerClass,  double alignmentForcesGapPenalty = -1 );
     int getCorrespondingMutationInCurrentBiopolymer(BiopolymerClass otherBiopolymerClass, TAlign align,Mutation mutationInOtherBiopolymer, Mutation & mutationInCurrentBiopolymer);
     int getCorrespondingResidueInCurrentBiopolymer(BiopolymerClass otherBiopolymerClass, TAlign align, ResidueID residueIdInOtherBiopolymerClass, ResidueID & correspondingResidueInOtherBiopolymerClass); 
@@ -511,21 +397,7 @@ public:
     //template<class ResidueStretchTypeA> 
     // This loops through all the MobilzerStretch's in mobilizerContainer, and if these are rigid,  selectively removes them from residueStretchContainer. For example,  residueStretchContainer could be a DensityContainer. If we don't want to apply density forces to Rigid segments, we call this function.
     template<class ResidueStretchType> 
-    void selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer(MobilizerContainer  & mobilizerContainer, ResidueStretchContainer <ResidueStretchType> & residueStretchContainer)
-    { 
-        MMBLOG_FILE_FUNC_LINE(INFO, " At the start of selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer. Printing the mobilizerContainer residue stretch vector. these are the stretches to be removed from residueStretchContainer :"<<endl);
-	mobilizerContainer.printResidueStretchVector();
-        MMBLOG_FILE_FUNC_LINE(INFO, " End of print."<<endl);
-        for (int i = 0; i < mobilizerContainer.getNumResidueStretches(); i++){
-            if (mobilizerContainer.getResidueStretch(i).bondMobilityIsRigid()){
-                MMBLOG_FILE_FUNC_LINE(INFO, " Printing Rigid mobilizerContainer.getResidueStretch("<<i<<"). This will be selectively removed from the ResidueStretchContainer: "<<endl);
-		mobilizerContainer.getResidueStretch(i).printStretch();    
-                updBiopolymerClass(mobilizerContainer.getResidueStretch(i).getChain()).selectivelyRemoveResidueStretchFromContainer(mobilizerContainer.getResidueStretch(i), residueStretchContainer);
-	    }
-	}
-        MMBLOG_FILE_FUNC_LINE(INFO, " At the end of selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer. Printing the residue stretch vector :"<<endl);
-	residueStretchContainer.printResidueStretchVector();
-    };
+    void selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer(MobilizerContainer  & mobilizerContainer, ResidueStretchContainer <ResidueStretchType> & residueStretchContainer);
 
     String      printOriginalAndRenumberedResidueIDs(const String myPdbId = "XXXX" );
     void        renumberPdbResidues(ResidueID firstResidueID = ResidueID(std::to_string(1))) ; // This renumbers ALL BiopolymerClass's, to start with firstResidueID and increase by consecutive integers from there.
@@ -555,7 +427,7 @@ public:
     const String&      getPdbResidueName( const String &chainID, const ResidueID& resID) const;
     void        setSingleBondMobility(const String chainID,const  ResidueID residueID1,const String atomName1,const ResidueID residueID2,const  String atomName2,const String mobilityString ); // sets BondMobility for a single bond in the chain.
     void        setSingleBondMobility(vector<SingleBondMobility>);  
-    void        printAllIncludedResidues (vector<IncludeAllNonBondAtomsInResidue> & includeAllNonBondAtomsInResidueVector );
+    void        printAllIncludedResidues (const vector<IncludeAllNonBondAtomsInResidue> & includeAllNonBondAtomsInResidueVector);
 
     #ifdef USE_OPENMM
     std::vector< std::pair<const BiopolymerClass, const ResidueID> > getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, const State & state, OpenMM::NeighborList &  neighborList);

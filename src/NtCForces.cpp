@@ -337,12 +337,18 @@
         { 
            // If we have changed our NtC class type, meaning we are computing a new NtC Class, not just an additional torsion in the same class:		
 	   if (!((myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_Class_String == oldNtCClassString)) {
-               if (r > 0) cout << __LINE__<< "  RMSD Angle sum for NtC of type "<<(myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_step_ID <<" NtC Index: "<<  (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_INDEX <<" "  <<   oldNtCClassString <<" is "  <<rmsTorsionAngleForThisNtCAndDinucleotide << endl;
+               if (r > 0) {
+                   MMBLOG_FILE_FUNC_LINE(
+                       INFO,
+		       "RMSD Angle sum for NtC of type "<<(myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_step_ID <<" NtC Index: "<<  (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_INDEX <<" "  <<   oldNtCClassString <<" is "  <<rmsTorsionAngleForThisNtCAndDinucleotide << endl
+                   );
+               }
+
 	       rmsTorsionAngleForThisNtCAndDinucleotide = 0.; 
 
 	   }
             //rmsTorsionAngleForThisNtCAndDinucleotide = 0;		
-	    if (myParameterReader.verbose) cout<<__FILE__<<":"<<__LINE__<<"  doing base pair #"<<r<<endl;	
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "doing base pair #"<<r<<endl);
         
             String chainId1=(myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_FirstBPChain;            
             NTC_PAR_BondRow myNTC_PAR_BondRow = myNTC_PAR_Class.myNTC_PAR_BondMatrix.myNTC_PAR_BondRow[(myParameterReader.ntc_class_container.getNTC_Class(r)).NTC_PAR_BondRowIndex];
@@ -444,11 +450,12 @@
            //cout << __LINE__<< "  RMSD Angle sum for NtC of type "<<(myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_step_ID <<" NtC Index: "<<  (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_INDEX <<" "  <<   (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_Class_String<<" is "  <<rmsTorsionAngleForThisNtCAndDinucleotide << endl;
 	   // If this is the last torsion:
 	   if (r == (myParameterReader.ntc_class_container.numNTC_Torsions()-1)){
-               cout <<  " = RMSD Angle sum for NtC of type "<<(myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_step_ID <<" NtC Index: "<<  (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_INDEX <<" "  <<   (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_Class_String<<" is "  <<rmsTorsionAngleForThisNtCAndDinucleotide << endl;}
+               MMBLOG_FILE_FUNC_LINE(INFO, "RMSD Angle sum for NtC of type "<<(myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_step_ID <<" NtC Index: "<<  (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_INDEX <<" "  <<   (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_Class_String<<" is "  <<rmsTorsionAngleForThisNtCAndDinucleotide << endl);
+           }
 	   oldNtCClassString = (myParameterReader.ntc_class_container.getNTC_Class(r)).NtC_Class_String;
-       };
+       }
 
-       MMBLOG_PLAIN_NOSEV(ALWAYS, rms << " = RMSD Angle sum " << endl);
+       MMBLOG_PLAIN_NOSEV(INFO, rms << " = RMSD Angle sum " << endl);
        
        return energy;   
           

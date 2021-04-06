@@ -50,6 +50,44 @@ SET(Lepton_INCLUDE_DIR "/3rdparty/Lepton1.3/include/" CACHE PATH
 #Add the Gemmi library path
 SET(GEMMI_INCLUDE_DIR "" CACHE PATH
         "Where to find Gemmi includes")
+SET(USE_VERSIONED_LIBRARIES FALSE CACHE BOOL
+    "Link against versioned Simbody and molmodel")
+
+IF(USE_VERSIONED_LIBRARIES)
+    SET(molmodel_VERSION "" CACHE STRING "molmodel major.minor version")
+ENDIF()
+
+IF(WIN32)
+    SET(zlib_INSTALL_DIR "" CACHE PATH
+	    "Where to find zlib files")
+ENDIF()
+
+#simbody
+SET(SimTK_INSTALL_DIR $ENV{SimTK_INSTALL_DIR} CACHE PATH
+    "Directory where SimTK simbody is installed, e.g. /usr/local/SimTK.")
+
+IF(NOT SimTK_INSTALL_DIR)
+    MESSAGE(FATAL_ERROR "Expected SimTK_INSTALL_DIR environment var to be set, or set SimTK in CMake")
+ENDIF(NOT SimTK_INSTALL_DIR)
+
+find_package(Simbody CONFIG REQUIRED HINTS "${SimTK_INSTALL_DIR}/lib/cmake")
+
+IF(USE_VERSIONED_LIBRARIES)
+    IF(molmodel_VERSION STREQUAL "")
+	    MESSAGE(FATAL_ERROR "molmodel_VERSION is not set")
+    ENDIF()
+
+    SET(molmodel_VERTAG "_${molmodel_VERSION}")
+    SET(Simbody_VERTAG "_${Simbody_VERSION}")
+ENDIF()
+
+IF(WIN32)
+    SET(ZLIB_LIB_SHARED zdll)
+	SET(ZLIB_LIB_STATIC zlib)
+ELSE()
+    SET(ZLIB_LIB_SHARED z)
+	SET(ZLIB_LIB_STATIC z)
+ENDIF()
 
 SET(OpenMM_SHARED_LIBS
         optimized OpenMM)
@@ -63,57 +101,50 @@ SET(OpenMM_STATIC_LIBS
 SET(OpenMM_STATIC_LIBS_D
         debug OpenMM_static_d)
 
-    SET(SimTK_SHARED_LIBS
-        optimized SimTKmolmodel 
-        optimized SimTKsimbody 
-        optimized SimTKmath
-        optimized SimTKcommon
-    )
-SET(SimTK_SHARED_LIBS_D
-        debug SimTKmolmodel_d 
-        debug SimTKsimbody_d 
-        debug SimTKmath_d
-        debug SimTKcommon_d)
+SET(SimTK_SHARED_LIBS
+    optimized SimTKmolmodel${molmodel_VERTAG}
+    optimized SimTKsimbody${Simbody_VERTAG}
+    optimized SimTKmath${Simbody_VERTAG}
+    optimized SimTKcommon${Simbody_VERTAG}
+)
 
-SET(SimTK_STATIC_LIBS 
-        optimized SimTKmolmodel_static 
-        optimized SimTKsimbody_static 
-        optimized SimTKmath_static
-        optimized SimTKcommon_static)
+SET(SimTK_SHARED_LIBS_D
+    debug SimTKmolmodel_d${molmodel_VERTAG}
+    debug SimTKsimbody_d${Simbody_VERTAG}
+    debug SimTKmath_d${Simbody_VERTAG}
+    debug SimTKcommon_d${Simbody_VERTAG}
+)
+
+SET(SimTK_STATIC_LIBS
+    optimized SimTKmolmodel_static${molmodel_VERTAG}
+    optimized SimTKsimbody_static${Simbody_VERTAG}
+    optimized SimTKmath_static${Simbody_VERTAG}
+    optimized SimTKcommon_static${Simbody_VERTAG}
+)
+
 SET(SimTK_STATIC_LIBS_D
-        debug SimTKmolmodel_static_d 
-        debug SimTKsimbody_static_d 
-        debug SimTKmath_static_d
-        debug SimTKcommon_static_d)
+    debug SimTKmolmodel_static_d${molmodel_VERTAG}
+    debug SimTKsimbody_static_d${Simbody_VERTAG}
+    debug SimTKmath_static_d${Simbody_VERTAG}
+    debug SimTKcommon_static_d${Simbody_VERTAG}
+)
 
 
 # These extra libraries are only available as a shared, optimized.
 IF(WIN32)
-    SET(SimTK_GENERAL_LIBS SimTKlapack pthreadVC2 ws2_32)
+    SET(SimTK_GENERAL_LIBS)
 ELSEIF(APPLE)
     SET(SimTK_GENERAL_LIBS lapack blas)
 ELSE() #Linux
     SET(SimTK_GENERAL_LIBS lapack blas dl rt)
 ENDIF()
 
-#simbody
-SET(SimTK_INSTALL_DIR $ENV{SimTK_INSTALL_DIR} CACHE PATH
-    "Directory where SimTK simbody is installed, e.g. /usr/local/SimTK.")
-
-IF(NOT SimTK_INSTALL_DIR)
-    MESSAGE(FATAL_ERROR 
-"Expected SimTK_INSTALL_DIR environment var to be set, or set SimTK in CMake")
-ENDIF(NOT SimTK_INSTALL_DIR)
-
-find_package(Simbody CONFIG REQUIRED HINTS "${SimTK_INSTALL_DIR}/lib/cmake")
-
 #molmodel
 SET(SimTKmolmodel ${molmodel_INSTALL_DIR} CACHE PATH
     "Directory where SimTK molmodel is installed, e.g. /usr/local/SimTK.")
 
 IF(NOT SimTKmolmodel)
-    MESSAGE(FATAL_ERROR 
-"Expected SimTK_INSTALL_DIR environment var to be set, or set SimTKmolmodel in CMake")
+    MESSAGE(FATAL_ERROR "Expected SimTK_INSTALL_DIR environment var to be set, or set SimTKmolmodel in CMake")
 ENDIF(NOT SimTKmolmodel)
 
 # If we're building on a 64 bit Linux machine, look in the lib64 directory
@@ -127,14 +158,37 @@ IF( UNIX AND NOT APPLE AND ${CMAKE_SIZEOF_VOID_P} EQUAL 8 )
     #SET(LIB64 64) # LIB64 is just blank, in keeping with new molmodel practice
 ENDIF()
 
+IF(WIN32)
+    ADD_DEFINITIONS(-DNOMINMAX -D_USE_MATH_DEFINES -DWIN32_LEAN_AND_MEAN -D_WIN32_WINNT=0x0501)
+
+    IF(MSVC)
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /MP")
+    ENDIF()
+ENDIF()
+
 # Make everything go in the same binary directory. (These are CMake-defined
 # variables.)
 SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 SET(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 # for some reason it's not reading the ${OpenMM_INCLUDE_DIR}, so i hard coded the OpenMM directory: 
-INCLUDE_DIRECTORIES(SYSTEM ${PROJECT_SOURCE_DIR}/include ${Simbody_INCLUDE_DIR} ${SimTKmolmodel}/include ${OpenMM_INCLUDE_DIR} ${OpenMM_INCLUDE_DIR}/openmm ${OpenMM_INCLUDE_DIR}/openmm/reference ${SeqAn_INCLUDE_DIR}  )
+INCLUDE_DIRECTORIES(
+    SYSTEM ${PROJECT_SOURCE_DIR}/include
+	${Simbody_INCLUDE_DIR} ${SimTKmolmodel}/include
+	${OpenMM_INCLUDE_DIR} ${OpenMM_INCLUDE_DIR}/openmm
+	${OpenMM_INCLUDE_DIR}/openmm/reference
+	${SeqAn_INCLUDE_DIR}/include
+	${GEMMI_INCLUDE_DIR})
 LINK_DIRECTORIES(${Simbody_LIB_DIR}${LIB64} ${SimTKmolmodel}/lib ${CMAKE_BINARY_DIR} ${OpenMM_INSTALL_DIR}/lib   )
+
+IF(WIN32)
+    IF (zlib_INSTALL_DIR STREQUAL "")
+        MESSAGE(FATAL_ERROR "Path to zlib is not set")
+    ENDIF()
+
+    INCLUDE_DIRECTORIES(${zlib_INSTALL_DIR}/include)
+    LINK_DIRECTORIES(${zlib_INSTALL_DIR}/lib)
+ENDIF()
 
 ##################
 ### Add Lepton Paths
@@ -142,13 +196,8 @@ LINK_DIRECTORIES(${Simbody_LIB_DIR}${LIB64} ${SimTKmolmodel}/lib ${CMAKE_BINARY_
 IF    ( Build_Lepton )
     INCLUDE_DIRECTORIES ( SYSTEM ${Lepton_INCLUDE_DIR} )
 	#LINK_DIRECTORIES    ( ${Lepton_LIB_DIR}     )
-	ADD_DEFINITIONS     ( -DLepton_USAGE )
+	ADD_DEFINITIONS     ( -DLepton_USAGE -DLEPTON_BUILDING_STATIC_LIBRARY )
 ENDIF ( Build_Lepton )
-
-###################
-### Add Gemmi Paths
-###################
-INCLUDE_DIRECTORIES ( SYSTEM ${GEMMI_INCLUDE_DIR} )
 
 # On Mac, build 32 bit binaries.
 IF(APPLE)
@@ -272,30 +321,18 @@ IF (BUILD_MMB_SHARED_LIB)
     ADD_LIBRARY(${SHARED_MMB_TARGET} SHARED
         ${MMB_LIBRARY_SOURCE_FILES}
         ${MMB_HEADER_FILES})
-    SET_TARGET_PROPERTIES(${SHARED_MMB_TARGET} 
+    SET_TARGET_PROPERTIES(${SHARED_MMB_TARGET}
         PROPERTIES
         COMPILE_FLAGS "-DMMB_BUILDING_SHARED_LIBRARY"
         PROJECT_LABEL "MMBlib (dynamic)"
         SOVERSION "${MMB_MAJOR_VERSION}.${MMB_MINOR_VERSION}")
     TARGET_LINK_LIBRARIES(${SHARED_MMB_TARGET}
-              ${SimTK_SHARED_LIBS_D}
-              ${SimTK_SHARED_LIBS}
-              ${OpenMM_SHARED_LIBS_D}
-              ${OpenMM_SHARED_LIBS}
-              ${SimTK_GENERAL_LIBS})
-    #################
-    ### Add Lepton Libs
-	#################
-	# actually this part should not be needed as we are not compiling a full library
-	#IF    ( Build_Lepton )
-		#	TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} lepton      )
-		#ENDIF ( Build_Lepton )
-
-    ##################
-	### Add Gemmi Libs
-	##################
-    TARGET_LINK_LIBRARIES ( ${SHARED_MMB_TARGET} z )
-    target_include_directories ( ${SHARED_MMB_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
+                          ${SimTK_SHARED_LIBS_D}
+                          ${SimTK_SHARED_LIBS}
+                          ${OpenMM_SHARED_LIBS_D}
+                          ${OpenMM_SHARED_LIBS}
+                          ${SimTK_GENERAL_LIBS}
+                          ${ZLIB_LIB_SHARED})
 
     # Install files
     INSTALL(TARGETS ${SHARED_MMB_TARGET}
@@ -365,19 +402,7 @@ IF (BUILD_MMB_SHARED_EXEC)
         PROPERTIES 
         PROJECT_LABEL "MMB - Dynamic")
     TARGET_LINK_LIBRARIES(MMB 
-              debug     MMBlib_d
-              optimized MMBlib
-              ${SimTK_SHARED_LIBS_D}
-              ${SimTK_SHARED_LIBS}
-              ${OpenMM_SHARED_LIBS_D}
-              ${OpenMM_SHARED_LIBS}
-              ${SimTK_GENERAL_LIBS})
-              
-    ##################
-	### Add Gemmi Libs
-	##################
-    TARGET_LINK_LIBRARIES ( MMB z )
-    target_include_directories (MMB SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
+                          PRIVATE ${SHARED_MMB_TARGET})
 
     INSTALL(TARGETS MMB
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
@@ -406,17 +431,12 @@ IF (BUILD_MMB_STATIC)
         COMPILE_FLAGS "-DMMB_BUILDING_STATIC_LIBRARY -DSimTK_USE_STATIC_LIBRARIES"
         PROJECT_LABEL "MMBlib (static)")
     TARGET_LINK_LIBRARIES(${STATIC_MMB_TARGET}
-              ${SimTK_STATIC_LIBS_D}
-              ${SimTK_STATIC_LIBS}
-              ${OpenMM_STATIC_LIBS_D}
-              ${OpenMM_STATIC_LIBS}
-              ${SimTK_GENERAL_LIBS})
-              
-    ##################
-	### Add Gemmi Libs
-	##################
-    TARGET_LINK_LIBRARIES ( ${STATIC_MMB_TARGET} z )
-    target_include_directories ( ${STATIC_MMB_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
+                          ${SimTK_STATIC_LIBS_D}
+                          ${SimTK_STATIC_LIBS}
+                          ${OpenMM_STATIC_LIBS_D}
+                          ${OpenMM_STATIC_LIBS}
+                          ${SimTK_GENERAL_LIBS}
+                          ${ZLIB_LIB_STATIC})
 
     # Link with static library
     ADD_EXECUTABLE(MMB_static ${MMB_HEADER_FILES} ${MMB_SOURCE_FILES})
@@ -425,18 +445,7 @@ IF (BUILD_MMB_STATIC)
         COMPILE_FLAGS "-DSimTK_USE_STATIC_LIBRARIES -DMMB_USE_STATIC_LIBRARIES"
         PROJECT_LABEL "MMB - Static")
     TARGET_LINK_LIBRARIES(MMB_static
-              debug     MMBlib_static_d
-              optimized MMBlib_static
-              ${SimTK_STATIC_LIBS_D}
-              ${SimTK_STATIC_LIBS}
-              ${OpenMM_STATIC_LIBS_D}
-              ${OpenMM_STATIC_LIBS}
-              ${SimTK_GENERAL_LIBS})
-              
-    ##################
-	### Add Gemmi Libs
-	##################
-    TARGET_LINK_LIBRARIES ( MMB_static z )
+                          PRIVATE ${STATIC_MMB_TARGET})
 
     # Install files
     INSTALL(TARGETS MMB_static ${STATIC_MMB_TARGET}
@@ -460,18 +469,7 @@ IF (BUILD_MMB_GUI_TEST)
         COMPILE_FLAGS "-DMMB_BUILDING_SHARED_LIBRARY"
         PROJECT_LABEL "MMB_Python_wrapper (dynamic)")
     TARGET_LINK_LIBRARIES(${SHARED_MMB_PYTHON_WRAPPER_TARGET}
-              ${SHARED_MMB_TARGET}
-              ${SimTK_SHARED_LIBS_D}
-              ${SimTK_SHARED_LIBS}
-              ${OpenMM_SHARED_LIBS_D}
-              ${OpenMM_SHARED_LIBS}
-              ${SimTK_GENERAL_LIBS})
-              
-    ##################
-	### Add Gemmi Libs
-	##################
-    TARGET_LINK_LIBRARIES ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} z )
-    target_include_directories ( ${SHARED_MMB_PYTHON_WRAPPER_TARGET} SYSTEM INTERFACE ${GEMMI_INCLUDE_DIR} )
+              ${SHARED_MMB_TARGET})
 
     # Install files
     INSTALL(TARGETS ${SHARED_MMB_PYTHON_WRAPPER_TARGET}

@@ -40,7 +40,7 @@
 //#endif
 
 // Here is where we define GetCurrentDir , an OS dependent function to retrieve the current working directory.
-#ifdef WINDOWS
+#ifdef _WINDOWS
     #include <direct.h>
     #define GetCurrentDir _getcwd
 #else
@@ -340,7 +340,7 @@ public:
     void updateAllResiduesWithin(int index, String chainID, int resID, double radius);
     void deleteAllResiduesWithin(int index);
 
-    void updateIncludeAllNonBondAtomsInResidue(int index, String chainID, int resID);
+    void updateIncludeAllNonBondAtomsInResidue(int index, const String & chainID, int resID);
     void deleteIncludeAllNonBondAtomsInResidue(int index);
 
     //int calcHighestPriority();

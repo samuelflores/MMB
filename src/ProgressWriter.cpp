@@ -3,8 +3,10 @@
 #include "Impossible.h"
 #include "MMBLogger.h"
 
+#ifndef _WINDOWS
 #include <unistd.h>
 #include <fcntl.h>
+#endif // _WINDOWS
 
 static
 MMB_CONSTEXPR
@@ -25,6 +27,7 @@ const char * stateToStr(const ProgressWriter::State s) noexcept {
     __IMPOSSIBLE__;
 }
 
+#ifndef _WINDOWS
 class Locker {
 public:
     Locker(const int fd, const bool wait) :
@@ -83,6 +86,7 @@ private:
     const int _fd;
     bool _haveLock;
 };
+#endif // _WINDOWS
 
 AbstractProgressWriter::~AbstractProgressWriter() {}
 
@@ -100,9 +104,17 @@ void DummyProgressWriter::update(const State s, const int step) {
 
 ProgressWriter::ProgressWriter(const std::string &path) :
     _totalSteps(0) {
+#ifdef _WINDOWS
+    _path = path;
+    HANDLE hOutput = CreateFileA(_path.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (hOutput == INVALID_HANDLE_VALUE)
+        MMBLOG_PLAIN(CRITICAL, "Cannot open progress file for writing");
+    CloseHandle(hOutput);
+#else
     _output = creat(path.c_str(), S_IRUSR | S_IWUSR);
     if (_output < 1)
         MMBLOG_PLAIN(CRITICAL, "Cannot open progress file for writing");
+#endif // _WINDOWS
 
     ProgressWriter::update(State::NOT_STARTED, 0);
 }
@@ -130,6 +142,46 @@ void ProgressWriter::update(const State s, const int step) {
 }
 
 void ProgressWriter::write(const bool wait) {
+#ifdef _WINDOWS
+    int len = snprintf(
+        nullptr,
+        0,
+        "{\"state\":\"%s\",\"step\": %d,\"total_steps\":%d}\n",
+        stateToStr(_state),
+        _step,
+        _totalSteps
+    );
+    if (len < 1) {
+        MMBLOG_PLAIN(WARNING, "Failed to count progress report data length\n");
+        return;
+    }
+
+    auto text = std::unique_ptr<char[]>(new char[len + 1]);
+    int len2 = snprintf(
+        text.get(),
+        len + 1,
+        "{\"state\":\"%s\",\"step\": %d,\"total_steps\":%d}\n",
+        stateToStr(_state),
+        _step,
+        _totalSteps
+    );
+
+    if (len2 < 1 || len2 >= len + 1) {
+        MMBLOG_PLAIN(WARNING, "Failed to create progress report data\n");
+        return;
+    }
+
+    HANDLE hOutput = CreateFileA(_path.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (hOutput == INVALID_HANDLE_VALUE) {
+        MMBLOG_PLAIN(WARNING, "Cannot open progress file for writing");
+        return;
+    }
+
+    DWORD written;
+    if (WriteFile(hOutput, text.get(), len, &written, NULL) == FALSE)
+        MMBLOG_PLAIN(WARNING, "Cannot write progress to file");
+    CloseHandle(hOutput);
+#else
     char *text = nullptr;
     int ret = asprintf(
         &text,
@@ -151,7 +203,9 @@ void ProgressWriter::write(const bool wait) {
         if (::write(_output, text, ret) != ret)
             MMBLOG_PLAIN(WARNING, "Failed to write progress report\n");
     }
+
     free(text);
+#endif // _WINDOWS
 }
 
 std::unique_ptr<AbstractProgressWriter> GlobalProgressWriter::_writer{nullptr};

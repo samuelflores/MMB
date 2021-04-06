@@ -43,6 +43,12 @@
 #include "Lepton.h"
 #endif
 
+#ifdef _WINDOWS
+#include <windows.h>
+
+#define PATH_MAX MAX_PATH
+#endif // _WINDOWS
+
 using namespace SimTK;
 using namespace std  ;
 
@@ -676,14 +682,15 @@ bool ParameterReader::compareUpper( const String& param, const char* symbol ) {
 // determines whether the provided residue is in any Rigid stretch in the base operation vector.
 bool isInRigidStretch(const ResidueID & myResidueID, const String myChainID, const MobilizerContainer & mobilizerContainer    ){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Testing residueID "<<myResidueID.outString()<<endl);
-    //vector <MobilizerStretch> myMobilizerStretchVector = mobilizerContainer.updResidueStretchVector()	    ;
+
+    auto & residueStretchVector = mobilizerContainer.getResidueStretchVector();
     for (int i = 0 ; i< mobilizerContainer.getNumResidueStretches()           ; i++) {
-	if (mobilizerContainer.updResidueStretchVector()[i].getBondMobility() == SimTK::BondMobility::Rigid){
-            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer start residue = "<< mobilizerContainer.updResidueStretchVector()[i].getStartResidue().outString()<<endl);
-            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer end residue = "<< mobilizerContainer.updResidueStretchVector()[i].getEndResidue().outString()<<endl);
-            if (mobilizerContainer.updResidueStretchVector()[i].getChain()        == myChainID){
-            if (mobilizerContainer.updResidueStretchVector()[i].getStartResidue() <= myResidueID){
-                if (mobilizerContainer.updResidueStretchVector()[i].getEndResidue() >= myResidueID){
+	    if (residueStretchVector[i].getBondMobility() == SimTK::BondMobility::Rigid){
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer start residue = "<< residueStretchVector[i].getStartResidue().outString()<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer end residue = "<< residueStretchVector[i].getEndResidue().outString()<<endl);
+            if (residueStretchVector[i].getChain()        == myChainID){
+            if (residueStretchVector[i].getStartResidue() <= myResidueID){
+                if (residueStretchVector[i].getEndResidue() >= myResidueID){
                     MMBLOG_FILE_FUNC_LINE(DEBUG, " In a rigid stretch. return "<<1<<endl);
                     return true;}
 	    }}
@@ -697,14 +704,15 @@ bool isInRigidStretch(const ResidueID & myResidueID, const String myChainID, con
 // This way we can later add the helicalStacking and NtC forces across the rigid-flexible boundary. This should improve structural quality.
 bool isDeepInRigidStretch(const ResidueID & myResidueID, const String myChainID, const MobilizerContainer & mobilizerContainer    ){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Testing residueID "<<myResidueID.outString()<<endl);
-    //vector <MobilizerStretch> myMobilizerStretchVector = mobilizerContainer.updResidueStretchVector()	    ;
+
+    auto & residueStretchVector = mobilizerContainer.getResidueStretchVector();
     for (int i = 0 ; i< mobilizerContainer.getNumResidueStretches()           ; i++) {
-	if (mobilizerContainer.updResidueStretchVector()[i].getBondMobility() == SimTK::BondMobility::Rigid){
-            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer start residue = "<< mobilizerContainer.updResidueStretchVector()[i].getStartResidue().outString()<<endl);
-            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer end residue = "<< mobilizerContainer.updResidueStretchVector()[i].getEndResidue().outString()<<endl);
-            if (mobilizerContainer.updResidueStretchVector()[i].getChain()        == myChainID){
-            if (mobilizerContainer.updResidueStretchVector()[i].getStartResidue() < myResidueID){  // would be <= in isInRigidStretch
-                if (mobilizerContainer.updResidueStretchVector()[i].getEndResidue() > myResidueID){// would be >= in isInRigidStretch
+	    if (residueStretchVector[i].getBondMobility() == SimTK::BondMobility::Rigid){
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer start residue = "<< residueStretchVector[i].getStartResidue().outString()<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "  mobilizer end residue = "<< residueStretchVector[i].getEndResidue().outString()<<endl);
+            if (residueStretchVector[i].getChain()        == myChainID){
+            if (residueStretchVector[i].getStartResidue() < myResidueID){  // would be <= in isInRigidStretch
+                if (residueStretchVector[i].getEndResidue() > myResidueID){// would be >= in isInRigidStretch
                     MMBLOG_FILE_FUNC_LINE(DEBUG, " In a rigid stretch. return "<<1<<endl);
                     return true;}
 	    }}
@@ -1112,8 +1120,8 @@ void ParameterReader::deleteAllResiduesWithin(int index){
 }
 
 
-void ParameterReader::updateIncludeAllNonBondAtomsInResidue(int index, 
-                                                            String chainID, 
+void ParameterReader::updateIncludeAllNonBondAtomsInResidue(int index,
+                                                            const String & chainID,
                                                             int resID)
 {
     BiopolymerClass & poly = myBiopolymerClassContainer.updBiopolymerClass(chainID);
@@ -1122,8 +1130,10 @@ void ParameterReader::updateIncludeAllNonBondAtomsInResidue(int index,
     if(index < 0 || index >=  physicsContainer.getNumResidueStretches()){  // includeAllNonBondAtomsInResidueVector.size()){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to update a non existing includeAllNonBondAtomsInResidue command." << endl);
     }
-    physicsContainer.residueStretchVector[index].setChain(chainID); //includeAllNonBondAtomsInResidueVector[index].setChain ( chainID);
-    physicsContainer.residueStretchVector[index].setResidue(res);   //includeAllNonBondAtomsInResidueVector[index].setStartResidue ( res);
+
+    auto & residueStretchVector = physicsContainer.updResidueStretchVector();
+    residueStretchVector[index].setChain(chainID); //includeAllNonBondAtomsInResidueVector[index].setChain ( chainID);
+    residueStretchVector[index].setResidue(res);   //includeAllNonBondAtomsInResidueVector[index].setStartResidue ( res);
 }
 
 void ParameterReader::deleteIncludeAllNonBondAtomsInResidue(int index)

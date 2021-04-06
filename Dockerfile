@@ -86,7 +86,7 @@ RUN cmake .. \
 	-DLepton_INCLUDE_DIR="/github/MMB/3rdparty/Lepton1.3/include" \
 	-DOpenMM_INSTALL_DIR="/usr/local/openmm" \
 	-DOpenMM_INCLUDE_DIR="/usr/local/openmm/include" \
-	-DSeqAn_INCLUDE_DIR="/github/seqan/include" \
+	-DSeqAn_INCLUDE_DIR="/github/seqan/" \
 	-DSimTK_INSTALL_DIR="/usr/local/simbody" \
 	-DSimbody_DIR="/usr/local/lib/cmake/simbody" \
 	-Dmolmodel_INSTALL_DIR="/usr/local/molmodel" \

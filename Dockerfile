@@ -82,6 +82,7 @@ RUN cmake .. \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_INSTALL_PREFIX="/usr/local" \
 	-DBuild_GEMMI=TRUE \
+	-DBUILD_MMB_GUI_TEST=TRUE \
 	-DGEMMI_INCLUDE_DIR="/github/gemmi/include" \
 	-DLepton_INCLUDE_DIR="/github/MMB/3rdparty/Lepton1.3/include" \
 	-DOpenMM_INSTALL_DIR="/usr/local/openmm" \

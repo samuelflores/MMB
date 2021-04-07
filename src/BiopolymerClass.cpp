@@ -787,6 +787,8 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
     }
 
     if (matchIdealized) {
+	//if (safeParameters)    {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Working on  chain "<<getChainID()<<". You have specified (directly or indirectly) matchIdealized True. matchIdealized is not supported at the moment. Please set this to false, and matchExact to True. "<< endl); //}
         rigidifyTargetedBonds(biopolymerAtomTargets);
         PdbAtom::setWriteFullPrecisionLocation(true); // PDB stucts are used to set the default coordinates in the final steps of this method.  Let's use higher precision.
         MMBLOG_FILE_FUNC_LINE(INFO, "About to optimize chain "<<getChainID()<<" using ObservedPointFitter, with matchingMinimizerTolerance = "<<matchingMinimizerTolerance<<".  If this fails to converge, try increasing this parameter. If it converges but is not sufficiently close to your input structure file, try decreasing the parameter."<< endl);
@@ -798,6 +800,8 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
     // std::ofstream tempStream6(String("match.416.pdb").c_str(),ios_base::out);
     // myBiopolymer.writeDefaultPdb(tempStream6,Transform(Vec3(0)));
     if (matchOptimize){
+	//if (safeParameters)    {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Working on  chain "<<getChainID()<<". You have specified (directly or indirectly) matchOptimize  True. matchOptimized is not supported at the moment. Please set this to false. matchOptimize is producing unphysical structures. "<< endl);//}
  // found that the following is redundant:
         bool myUseObservedPointFitter = false;
         myUseObservedPointFitter = true ;

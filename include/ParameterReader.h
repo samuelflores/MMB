@@ -33,6 +33,7 @@
 #include "Utils.h"
 #include "DensityContainer.h"
 #include "MoleculeContainer.h"
+#include "Spiral.h"               
 //#ifdef BuildNtC
 #include "NtC_Class_Container.h"
 #include "NTC_FORCE_CLASS.h"
@@ -53,6 +54,7 @@
 
 //using namespace SimTK;
 //using namespace std  ;
+//static double myAtoF(map<const String,double> myUserVariables,const char* value ); 
 class MMB_EXPORT ParameterReader { 
 private:
 
@@ -191,7 +193,7 @@ public:
     bool setRepulsiveForce ;
     bool setTemperature;
     double smallGroupInertiaMultiplier;
-
+    Spiral spiral; // This is the helical spiral object, used to fit DNA to icosahedral virus capsids. Defined in Spiral.h
     Vec3   sphericalHelixCenter    ; 
     double sphericalHelixRadius    ; 
     double sphericalHelixStartTheta; 
@@ -290,10 +292,11 @@ public:
     void addC1pSprings (LeontisWesthofClass myLeontisWesthofClass);
     void applyAtomSprings (SimbodyMatterSubsystem & matter, GeneralForceSubsystem & forces, State & state);
     void configureDumm( DuMMForceFieldSubsystem & dumm);
-    static double myAtoF(map<const String,double> myUserVariables,const char* value ); 
+    /*
     static bool aToBool( const char* value ); 
     static bool aToBool( const String& name, const char* value ); 
-    static bool compareUpper( const String& param, const char* symbol );
+    */
+    //static bool compareUpper( const String& param, const char* symbol );
 
     vector<BasePair> baseOperationVector;
     ContactContainer contactContainer;

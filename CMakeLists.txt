@@ -246,6 +246,7 @@ SET(MMB_LIBRARY_SOURCE_FILES
     ${PROJECT_SOURCE_DIR}/src/ConstraintContainer.cpp  
     ${PROJECT_SOURCE_DIR}/src/Repel.cpp  
     ${PROJECT_SOURCE_DIR}/src/MonoAtoms.cpp  
+    ${PROJECT_SOURCE_DIR}/src/Spiral.cpp  
     ${PROJECT_SOURCE_DIR}/src/ParameterReader.cpp  
     ${PROJECT_SOURCE_DIR}/src/BaseInteractionParameterReader.cpp  
     ${PROJECT_SOURCE_DIR}/src/TetherForce.cpp  

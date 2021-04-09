@@ -30,6 +30,7 @@
 #include "NtC_Class_Container.h"
 #include "NTC_FORCE_CLASS.h"
 #include "NTC_PARAMETER_READER.h"
+#include "Utils.h"
 //#include "elliptic_integral.h"
 // #define _DEBUG_FLAGS_ON_
 #include <cerrno>
@@ -51,7 +52,7 @@
 
 using namespace SimTK;
 using namespace std  ;
-
+/*
         double   phiFromXYZ( const Vec3 myPoint, const  Vec3 sphericalCenter) {
             double xDist = myPoint[0]-sphericalCenter[0];
             double yDist = myPoint[1]-sphericalCenter[1];
@@ -94,15 +95,16 @@ using namespace std  ;
         double phiFromTheta(const double theta,const double myInterHelicalDistance, const double mySphericalRadius, const double myPhiOffset){
             return theta * (2*SimTK::Pi/myInterHelicalDistance*mySphericalRadius) + myPhiOffset ;            
         }
-       
+       */
 
 
-        std::string commonSpiralCommands = R"(
-            numReportingIntervals 1
-            reportingInterval .00001
-            firstStage 2
-            lastStage ZZZZ )";
-            /* R"(
+        /*std::string commonSpiralCommands = "(\n"
+            "numReportingIntervals 1 \n"
+            "reportingInterval .00001 \n"
+            "firstStage 2 \n"
+            "lastStage ZZZZ ) \n";
+
+             R"(
             # The following command should have been issued in a prior step, to generate this file.
             # Here we specify a spherical spiral with radius 16.3 and inter-DNA-helix ditance 2.0 nm. staring theta (measured from north pole) is 1.5708 (pi/2), and starting phi is 0.0 rads (directly on the x-axis).
             # sphericalSpiral 16.3 2.0 1.5708 0      
@@ -518,9 +520,9 @@ bool checkForDouble(String const& s) {
 
 
 
-
 // a recursive algorithm for reading a double from a String.  This String may contain ints, user variables (begin with @), +, and -.  No whitespaces or additional characters should be in the String.
-double   ParameterReader::myAtoF(  map<const String,double> myUserVariables,  const char* value){
+/*
+double   myAtoF(  map<const String,double> myUserVariables,  const char* value){
     MMBLOG_FILE_FUNC_LINE(INFO, "inside myAtoF. converting string : >"<<value<<"<"<<endl);
     
 #ifdef Lepton_USAGE
@@ -612,9 +614,8 @@ double   ParameterReader::myAtoF(  map<const String,double> myUserVariables,  co
     double finalDouble = baseDouble + increment - decrement;
     MMBLOG_FILE_FUNC_LINE(INFO, "Result of >"<< value  <<"< is : " << finalDouble <<endl);
     return finalDouble;
-}
-
-
+}*/
+/*
 bool ParameterReader::aToBool(  const char* value ) {
 
     String upperValue(value);
@@ -640,25 +641,6 @@ bool ParameterReader::aToBool(  const char* value ) {
 
 bool ParameterReader::aToBool( const String& name, const char* value ) {
     return aToBool(value);
-    /*
-    String upperValue(value);
-    for(int i=0;i<(int)upperValue.length();i++)  {
-        upperValue[i] = toupper(value[i]);
-    }    
-
-    if (( upperValue ==  "TRUE" ) ||( upperValue ==  "1")) {
-        MMBLOG_FILE_FUNC_LINE(DEBUG, "TRUE"<<endl);
-        return true;
-    }
-    else if (( upperValue ==  "FALSE" ) ||( upperValue ==  "0")){
-        MMBLOG_FILE_FUNC_LINE(DEBUG, "FALSE"<<endl);
-        return false;
-    }
-    else {
-        MMBLOG_FILE_FUNC_LINE(INFO, "Err"<<endl);
-        SimTK_ERRCHK2_ALWAYS((upperValue == "TRUE" || upperValue == "FALSE" || upperValue == "1"  || upperValue == "0") ,"[ParameterReader.cpp]","%s requires either True or False but was set to %s",name.c_str(), value); 
-        return false;
-    } */   
 }    
 bool ParameterReader::compareUpper( const String& param, const char* symbol ) {
 
@@ -679,6 +661,7 @@ bool ParameterReader::compareUpper( const String& param, const char* symbol ) {
         return false;
 }    
 
+*/
 // determines whether the provided residue is in any Rigid stretch in the base operation vector.
 bool isInRigidStretch(const ResidueID & myResidueID, const String myChainID, const MobilizerContainer & mobilizerContainer    ){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Testing residueID "<<myResidueID.outString()<<endl);
@@ -721,7 +704,6 @@ bool isDeepInRigidStretch(const ResidueID & myResidueID, const String myChainID,
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Not In a rigid stretch. return "<<0<<endl);
     return false; // If you got this far, you are not in any rigid stretch
 }
-
 // This function removes density forces from all residues in Rigid stretches.             
 // replaced with selectivelyRemoveRigidMobilizerStretchesFromResidueStretchContainer , from BiopolymerClassContainer
 /*
@@ -3762,6 +3744,9 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
 
     if (((parameterStringClass.getString(0)).compare("sphericalHelix") ==0)  )  {
+	spiral.writeSyntax();    
+	spiral.parseInput(userVariables,parameterStringClass.getString(1),parameterStringClass.getString(2), parameterStringClass.getString(3), parameterStringClass.getString(4));
+	    /*
         MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix creates a spherical spiral of MG2+ ions. Eventually it will be adaptive to the density. You need to provide the spherical center (3D), in nm. Also the spherical radius."<<endl);
         MMBLOG_FILE_FUNC_LINE(ALWAYS, "Syntax: "<<endl);
         MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the center point of the sphere, in nm: "<<endl);
@@ -3809,48 +3794,26 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         } else {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "You are misusing the sphericalHelix family of commands! Check your syntax and try again. "<<endl);
         }
-        //Vec3 sphericalCenter(31.89, 31.89+2.0, 31.89);
-        //double sphericalHelixRadius = -9999.9;
-        //double sphericalHelixInterStrandDistance = -9999.9;
-        //double sphericalHelixStartTheta   = -9999.9;
-        //double sphericalHelixPhiOffset     = -9999.9;
         Vec3 priorXYZ(-9999.9, -9999.9, -9999.9);
-        //if ((parameterStringClass.getString(4).length() >0) and (parameterStringClass.getString(5).length() == 0)){
-            //parameterStringClass.validateNumFields(5);
-            //sphericalHelixRadius      = myAtoF(userVariables,(parameterStringClass.getString(1)).c_str());
-            //sphericalHelixInterStrandDistance = myAtoF(userVariables,(parameterStringClass.getString(2)).c_str());
-            //sphericalHelixStartTheta        = myAtoF(userVariables,(parameterStringClass.getString(3)).c_str());
-            //sphericalHelixPhiOffset          = myAtoF(userVariables,(parameterStringClass.getString(4)).c_str());
         priorXYZ = Vec3(sphericalHelixRadius* sin(sphericalHelixStartTheta)*cos(sphericalHelixPhiOffset) , sphericalHelixRadius* sin(sphericalHelixStartTheta)*sin(sphericalHelixPhiOffset), sphericalHelixRadius* cos(sphericalHelixStartTheta));
         priorXYZ += sphericalHelixCenter;
-        //}
         MMBLOG_FILE_FUNC_LINE(INFO, "sphericalHelixRadius "<<sphericalHelixRadius<<endl);
-        //Vec3 priorXYZ(sphericalHelixRadius,0,0);
-        //priorXYZ += sphericalHelixCenter;
         int n = 0; // counter   
         MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
         FILE * spiralPdbFile;
-        //FILE * spiralCommandsFile;
         spiralPdbFile      = fopen ("spiral.pdb","w"); 
-        //spiralCommandsFile = fopen ("commands.spiral.dat","w"); 
         fprintf (spiralPdbFile,"ATOM  %5d MG2+ MG  Z%4d    %8.3f%8.3f%8.3f \n",n,n,priorXYZ[0]*10, priorXYZ[1]*10,priorXYZ[2]*10  ); // Converting to Ångströms
-        //std::string withCorrectExpectedLength = std::regex_replace( commonSpiralCommands, std::regex(1982), to );
-        //fprintf (spiralCommandsFile,"%s",commonSpiralCommands.c_str());
-        //double sphericalHelixInterStrandDistance = 2.;
         double helixAdvancePerBasePair = 0.34 ;  // in nm
         //double deltaTheta =  SimTK::Pi  / 2000;
         MMBLOG_FILE_FUNC_LINE(INFO, std::endl);
         MMBLOG_FILE_FUNC_LINE(INFO, " priorXYZ "<<priorXYZ<<endl);
         // might be good to run this just to confirm:
         MMBLOG_FILE_FUNC_LINE(INFO, "starting theta provided by user : "<<sphericalHelixStartTheta<<" compared to that gotten by trigonometry after converting spherical to cartesian and back to spherical: "<<thetaFromXYZ(priorXYZ, sphericalHelixCenter)<<endl);
-        //double sphericalHelixStartTheta = thetaFromXYZ(priorXYZ, sphericalHelixCenter); // 1.63; // starting angle   
         MMBLOG_FILE_FUNC_LINE(INFO, "sphericalHelixStartTheta = "<< sphericalHelixStartTheta << ""<<endl);
         double currentTheta = -11111.1;
-        //double sphericalHelixPhiOffsetFromPriorXYZ = phiFromXYZ(priorXYZ, sphericalHelixCenter) ;
-        //std::MMBLOG_FILE_FUNC_LINE(" sphericalHelixPhiOffsetFromPriorXYZ "<<sphericalHelixPhiOffsetFromPriorXYZ<<std::endl;
         // In the default spherical spiral, phi is just theta times a constant. However we need to be able to rotate the sphere and key the spiral wherever we want. So we need a phiOffset.
         double sphericalHelixPhiOffsetFromStartingTheta = phiFromTheta(sphericalHelixStartTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, 0.0); // use offset = 0 to retreive the original, non-offset phi
-        double phiOffset = sphericalHelixPhiOffset /*sphericalHelixPhiOffsetFromPriorXYZ*/  - sphericalHelixPhiOffsetFromStartingTheta;
+        double phiOffset = sphericalHelixPhiOffset   - sphericalHelixPhiOffsetFromStartingTheta;
         MMBLOG_FILE_FUNC_LINE(INFO, "phiOffset "<<phiOffset<<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
         double priorTheta = sphericalHelixStartTheta ; // thetaFromXYZ(priorXYZ, sphericalHelixCenter) ;
@@ -3896,11 +3859,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             tetherCommandStream<<"previousFrameFileName    base-pair."<<n<<".pdb   "<<std::endl;
             tetherCommandStream<<"DNA A "<<n<<" A "<<std::endl;
             tetherCommandStream<<"DNA B "<<9999-n<<" T "<<std::endl;
-            //tetherCommandStream<<"loadSequencesFromPdb base-pair-at-origin.pdb   "<<std::endl;
-            //tetherCommandStream<<"deleteResidues A 1 "<<n-1<<std::endl;
-            //tetherCommandStream<<"deleteResidues A "<<n+1<<" 9999 "<<std::endl;
-            //tetherCommandStream<<"deleteResidues B 1 "<<9999-n-1<<std::endl;
-            //tetherCommandStream<<"deleteResidues B "<<9999-n+1<<" 9999 "<<std::endl;
             tetherCommandStream<<"#renumberBiopolymerResidues A "<<n<<std::endl;
             tetherCommandStream<<"#renumberBiopolymerResidues B "<<9999-n<<std::endl;
             tetherCommandStream<<"mobilizer Rigid "<<std::endl;
@@ -3916,12 +3874,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             tetherCommandStream<<"rotation B Y "<<  -(SimTK::Pi / 2) +  currentTheta  <<std::endl ; // tilt up 
             tetherCommandStream<<"rotation A Z "<<  phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset)   <<std::endl;
             tetherCommandStream<<"rotation B Z "<<  phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset)   <<std::endl;
-            //tetherCommandStream<<"tetherToGround A  "<<n<<" N1 "<< currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2]<<" @TetherLength @SpringConstant "<<std::endl;
             tetherCommandStream<<"readBlockEnd"<<std::endl;
 
-            //fprintf (spiralCommandsFile, "readAtStage %d \n",n);
-            //fprintf (spiralCommandsFile, "tetherToGround A  %d N1 %f %f %f .5 30.0  \n",n, currentXYZ[0], currentXYZ[1], currentXYZ[2]);
-            //fprintf (spiralCommandsFile, "readBlockEnd \n");
 
             MMBLOG_FILE_FUNC_LINE(INFO, "MMB-command: tetherToGround A "<<n<<" N1 "<<currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2] << " .5 30.0 "<<endl);
             MMBLOG_FILE_FUNC_LINE(INFO, "MMB-command: readBlockEnd "<<endl);
@@ -3939,9 +3893,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         spiralCommandsFile2<<tetherCommandStream.str()<<std::endl;
         spiralCommandsFile2.close();
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
-        //fprintf (spiralCommandsFile,"%s",commonSpiralCommandsAdjusted.c_str());
-        //fprintf (spiralCommandsFile,"%s",tetherCommands.c_str());
-        //fclose(spiralCommandsFile); 
+	*/
         return;
     }
     if (((parameterStringClass.getString(0)).compare("densityForceConstant") ==0)  )  {

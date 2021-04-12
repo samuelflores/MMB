@@ -15,6 +15,7 @@
 #include "ContactContainer.h"
 #include "ResidueStretchContainer.h"
 //#include <string>
+#include <MMBLogger.h>
 #include <map>
 #include <set>
 #include <cstdlib>
@@ -3193,7 +3194,8 @@ void BiopolymerClassContainer::setNeighborsFromList(vector<MMBAtomInfo>& concate
     for ( size_t j = 0 ; j < neighborList.size(); j++)
     {
         if(j % 1000000 == 0)
-            cout << "NeighborList; read " << j << " neighbors" << endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "NeighborList; read " << j << " neighbors" << endl);
+
         unsigned int id1 = neighborList[j].first;
         unsigned int id2 = neighborList[j].second;
 

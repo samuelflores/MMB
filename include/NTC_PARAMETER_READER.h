@@ -63,11 +63,11 @@ class  NTC_PAR_BondKey {
 	String bondingEdge2;
 	String dihedraltype;
         String isTwoTransformForce;
-        NTC_PAR_BondKey(String myPdbResidueName1, String myPdbResidueName2,String myBondingEdge1, String myBondingEdge2, String mydihedraltype, String myIsTwoTransformForce); 
-        NTC_PAR_BondKey(NTC_PAR_BondRow myNTC_PAR_BondRow) ; 
+        NTC_PAR_BondKey(String myPdbResidueName1, String myPdbResidueName2, String myBondingEdge1, String myBondingEdge2, String mydihedraltype, String myIsTwoTransformForce);
+        NTC_PAR_BondKey(const NTC_PAR_BondRow &myNTC_PAR_BondRow);
 };
 struct NTC_PAR_BondKeyCmp {
-    bool operator()( const NTC_PAR_BondKey ti1, const NTC_PAR_BondKey ti2 ) const {
+    bool operator()(const NTC_PAR_BondKey &ti1, const NTC_PAR_BondKey &ti2) const {
         if (ti1.pdbResidueName1 < ti2.pdbResidueName1) return 1;
         else if (ti1.pdbResidueName1 > ti2.pdbResidueName1) return 0;
         else if ((ti1.pdbResidueName2 < ti2.pdbResidueName2)) return  1;
@@ -84,8 +84,6 @@ struct NTC_PAR_BondKeyCmp {
     }
 };
 
-    static map <const NTC_PAR_BondKey, NTC_PAR_BondRow, NTC_PAR_BondKeyCmp> NTC_PAR_Map;
-
 
 struct NTC_PAR_BondMatrix {
 	vector<NTC_PAR_BondRow> myNTC_PAR_BondRow;
@@ -93,15 +91,15 @@ struct NTC_PAR_BondMatrix {
 class NTC_PAR_Class  { 
 public:
     NTC_PAR_BondMatrix myNTC_PAR_BondMatrix;
-    int  initialize ( String inFileName) ;
-    Transform getNTC_PAR_Transform(NTC_PAR_BondRow myNTC_PAR_BondRow) const;
+    int  initialize (const String &inFileName) ;
+    Transform getNTC_PAR_Transform(const NTC_PAR_BondRow &myNTC_PAR_BondRow) const;
 
-    NTC_PAR_BondRow getNearestNTC_PAR_BondRow(String myPdbResidueName1,  String myPdbResidueName2, Transform residue1Transform, Transform residue2Transform)  const;
+    NTC_PAR_BondRow getNearestNTC_PAR_BondRow(const String &myPdbResidueName1, const String &myPdbResidueName2, const Transform &residue1Transform, const Transform &residue2Transform)  const;
     void printNTC_PAR_BondRows ();
 
-    int getNTC_PAR_BondRowIndex ( String myPdbResidueName1, String myPdbResidueName2, String Classtype, String dihedraltype,String myBasePairIsTwoTransformForce,NTC_Classes NTC) const;
+    int getNTC_PAR_BondRowIndex (const String &myPdbResidueName1, const String &myPdbResidueName2, const String &Classtype, const String &dihedraltype, const String &myBasePairIsTwoTransformForce, /*const*/ NTC_Classes /*&*/NTC) const;
     
-    NTC_PAR_BondRow getNTC_PAR_BondRow(ResidueID myResidueNumber1,ResidueID myResidueNumber2, String myPdbResidueName1, String myBondingEdge1, String myPdbResidueName2,String myBondingEdge2, String mydihedraltype,String myBasePairIsTwoTransformForce) const  ;
+    NTC_PAR_BondRow getNTC_PAR_BondRow(const ResidueID &myResidueNumber1, const ResidueID &myResidueNumber2, const String &myPdbResidueName1, const String &myBondingEdge1, const String &myPdbResidueName2, const String &myBondingEdge2, const String &mydihedraltype, const String &myBasePairIsTwoTransformForce) const  ;
 
 };
 

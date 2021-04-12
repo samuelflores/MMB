@@ -295,18 +295,21 @@ void AtomSpringContainer::createSpringsFromThreading(BiopolymerClassContainer & 
             {
                 AtomSpring myAtomSpring1(thread.getThreadingPartner(0).biopolymerClass.getChainID(), thread.getThreadingPartner(0).biopolymerClass.sum(thread.getThreadingPartner(0).startResidue , i), String("N"),
                                          thread.getThreadingPartner(1).biopolymerClass.getChainID(), thread.getThreadingPartner(1).biopolymerClass.sum(thread.getThreadingPartner(1).startResidue , i), String("N"),
-                                         thread.forceConstant
+                                         thread.forceConstant,thread.deadLength,thread.deadLengthFraction
                                         );
 
                 AtomSpring myAtomSpring2(thread.getThreadingPartner(0).biopolymerClass.getChainID(), thread.getThreadingPartner(0).biopolymerClass.sum(thread.getThreadingPartner(0).startResidue , i), String("CA"),
                                          thread.getThreadingPartner(1).biopolymerClass.getChainID(), thread.getThreadingPartner(1).biopolymerClass.sum(thread.getThreadingPartner(1).startResidue , i), String("CA"),
-                                         thread.forceConstant
+                                         thread.forceConstant,thread.deadLength,thread.deadLengthFraction
                                         );
 
                 AtomSpring myAtomSpring3(thread.getThreadingPartner(0).biopolymerClass.getChainID(), thread.getThreadingPartner(0).biopolymerClass.sum(thread.getThreadingPartner(0).startResidue , i), String("C"),
                                          thread.getThreadingPartner(1).biopolymerClass.getChainID(), thread.getThreadingPartner(1).biopolymerClass.sum(thread.getThreadingPartner(1).startResidue , i), String("C"),
-                                         thread.forceConstant
+                                         thread.forceConstant,thread.deadLength,thread.deadLengthFraction
                                         );
+                //myAtomSpring1.deadLength = thread.deadLength;
+                //myAtomSpring2.deadLength = thread.deadLength;
+                //myAtomSpring3.deadLength = thread.deadLength;
                 this->add   (myAtomSpring1);
                 this->add   (myAtomSpring2);
                 this->add   (myAtomSpring3);
@@ -350,8 +353,17 @@ void AtomSpringContainer::createSpringsFromThreading(BiopolymerClassContainer & 
                                                      thread.getThreadingPartner(1).biopolymerClass. getChainID(), 
                                                      thread.getThreadingPartner(1).biopolymerClass. sum(thread.getThreadingPartner(1).startResidue , i), 
                                                      atomNameA,
-                                                     thread.forceConstant
+                                                     thread.forceConstant,
+                                                     thread.deadLength,
+                                                     thread.deadLengthFraction
                                                     );
+                            MMBLOG_FILE_FUNC_LINE(DEBUG," Created atomSpring for proteinThreading: "<<endl);
+			    //atomNameA, thread.chainID1, residueA, thread.chainID2, residueB : >"<<atomNameA<<"< " << thread.getThreadingPartner(0).biopolymerClass. getChainID()  <<", "<<  <<", "<<thread.chainID2<<", "<<thread.residueStart2 + i  <<endl);
+                            //MMBLOG_FILE_FUNC_LINE(DEBUG," Created atomSpring for proteinThreading: atomNameA, thread.chainID1, residueA, thread.chainID2, residueB : >"<<atomNameA<<"< " << thread.getThreadingPartner(0).biopolymerClass. getChainID()  <<", "<<  <<", "<<thread.chainID2<<", "<<thread.residueStart2 + i  <<endl);
+                            MMBLOG_FILE_FUNC_LINE(DEBUG, " Adding AtomSpring from ThreadingStruct: "<<endl);
+			    myAtomSpring1.printDebug();
+
+                            //"Created a ThreadingStruct connecting chain "<<chain1<<" residue "<<thread.updThreadingPartner(0).startResidue.outString() <<" to "<<thread.updThreadingPartner(0).endResidue.outString()<<" . "<<endl);
                             //cout<<__FILE__<<":"<<__LINE__<<" Created atomSpring for proteinThreading: atomNameA, thread.chainID1, residueA, thread.chainID2, residueB : >"<<atomNameA<<"< " <<thread.chainID1<<", "<<thread.residueStart1 + i<<", "<<thread.chainID2<<", "<<thread.residueStart2 + i  <<endl;
                             this->add(myAtomSpring1);
 
@@ -527,12 +539,15 @@ void AtomSpringContainer::createSpringsFromGappedThreading(BiopolymerClassContai
 
                             AtomSpring myAtomSpring1(chainA, bpA.sum(thread.updThreadingPartner(0).startResidue   , aIndex), atomNameA,
                                                      chainB, bpB.sum(thread.updThreadingPartner(1).startResidue   , bIndex), atomNameA,
-                                                     thread.forceConstant
+                                                     thread.forceConstant,thread.deadLength,thread.deadLengthFraction
                                                     );
 
-                            myAtomSpring1.deadLengthIsFractionOfInitialLength = thread.deadLengthIsFractionOfInitialLength;
-                            myAtomSpring1.deadLengthFraction = thread.deadLengthFraction;
+                            //myAtomSpring1.deadLengthIsFractionOfInitialLength = thread.deadLengthIsFractionOfInitialLength;
+                            //myAtomSpring1.deadLengthFraction = thread.deadLengthFraction;
+                            //myAtomSpring1.deadLength = thread.deadLength;
 
+                            MMBLOG_FILE_FUNC_LINE(DEBUG, " Adding AtomSpring from ThreadingStruct: "<<endl);
+                            myAtomSpring1.printDebug(); 
 
                             this->add(myAtomSpring1);
 

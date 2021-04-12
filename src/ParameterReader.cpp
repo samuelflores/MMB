@@ -791,6 +791,7 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useCIFFileFormat                       bool    " + std::to_string ( useCIFFileFormat ) + " : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesIsGapped                bool    " + std::to_string ( alignmentForcesIsGapped ) + " : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesGapPenalty              double  " + std::to_string ( alignmentForcesGapPenalty ) + " : The penalty applied to gaps. The noGaps condition is enforced with a high value of this parameter. Can vary through the course of the input commands file. This is only the final value." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesDeadLength              double  " + std::to_string ( alignmentForcesDeadLengthFraction ) + " : The final length to which the alignmentSprings equilibrate. Defaults to 0.             " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesDeadLengthFraction      double  " + std::to_string ( alignmentForcesDeadLengthFraction ) + " : The fraction of the initial length to which the alignmentSprings equilibrate. Should be in the interval (0,1]. A nonzero value enables e.g. progressive morphing.  Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesForceConstant           double  " + std::to_string ( alignmentForcesForceConstant ) + " : Force constant for the  alignmentForces springs. Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "applyC1pSprings                        bool    " + std::to_string ( applyC1pSprings ) ) );
@@ -914,6 +915,7 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "useCIFFileFormat                       bool    "<<useCIFFileFormat<<" : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " <<endl;
     myOstream << remarkString << "alignmentForcesIsGapped                bool    "<<alignmentForcesIsGapped<<" : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." <<endl;
     myOstream << remarkString << "alignmentForcesGapPenalty              double  "<<alignmentForcesGapPenalty<<" : The penalty applied to gaps. The noGaps condition is enforced with a high value of this parameter. Can vary through the course of the input commands file. This is only the final value." <<endl;
+    myOstream << remarkString << "alignmentForcesDeadLength              double  "<<alignmentForcesDeadLength<<" : The equilibrium length to which the springs will equilibrate. In nm." <<endl;
     myOstream << remarkString << "alignmentForcesDeadLengthFraction      double  "<<alignmentForcesDeadLengthFraction<<" : The fraction of the initial length to which the alignmentSprings equilibrate. Should be in the interval (0,1]. A nonzero value enables e.g. progressive morphing.  Can vary through the course of the input commands file. This is only the final value." <<endl;
     myOstream << remarkString << "alignmentForcesForceConstant           double  "<<alignmentForcesForceConstant<<" : Force constant for the  alignmentForces springs. Can vary through the course of the input commands file. This is only the final value." <<endl;
     myOstream << remarkString << "applyC1pSprings                        bool    "<<applyC1pSprings              <<endl;
@@ -2041,41 +2043,54 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
          // do deadLengthFraction
          } else if ((parameterStringClass.getString(3)).length()==0)  // User intends to set a parameter with a value
          {
-         if ((parameterStringClass.getString(1)).compare("deadLengthFraction")==0){
-                                  alignmentForcesDeadLengthFraction = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
-                    if ((alignmentForcesDeadLengthFraction < 0.0 ) || (alignmentForcesDeadLengthFraction > 1.0 )){
-                      if (safeParameters) {
-             MMBLOG_FILE_FUNC_LINE(CRITICAL, "alignmentForcesDeadLengthFraction should lie in the interval (0, 1] if you want to apply progressive forces, or be set to 0 if you want to restore normal behavior. "<<endl);
-                         }
-                         alignmentForcesDeadLengthIsFractionOfInitialLength = true;
-                         alignmentForcesDeadLengthFraction = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
-                         MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesDeadLengthIsFractionOfInitialLength = "<<alignmentForcesDeadLengthIsFractionOfInitialLength<<endl);
-                         MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesDeadLengthFraction = " << alignmentForcesDeadLengthFraction <<endl);
-                        return;
-                                        
-                    } else if (alignmentForcesDeadLengthFraction < 1E-14 ){
-                         alignmentForcesDeadLengthIsFractionOfInitialLength = false;
-                         MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesDeadLengthIsFractionOfInitialLength = "<<alignmentForcesDeadLengthIsFractionOfInitialLength<<endl);
-
-                        return;
-
-                    } else {
-                         alignmentForcesDeadLengthIsFractionOfInitialLength = true;
-                         alignmentForcesDeadLengthFraction = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
-                         MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesDeadLengthIsFractionOfInitialLength = "<<alignmentForcesDeadLengthIsFractionOfInitialLength<<endl);
-			 MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesDeadLengthFraction = " << alignmentForcesDeadLengthFraction <<endl);
-
-                        return;
-                     }
-        } 
-        else if ((parameterStringClass.getString(1)).compare("forceConstant")==0){
-            alignmentForcesForceConstant      = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
-            if (alignmentForcesForceConstant <= 0.0) {
-                MMBLOG_FILE_FUNC_LINE(CRITICAL, "forceConstant must be greater than zero! You have specified : "<<alignmentForcesForceConstant<<endl);
-            }
-            return;
-        }
-        else if ( myBiopolymerClassContainer.hasChainID( parameterStringClass.getString(1)) &&   myBiopolymerClassContainer.hasChainID(parameterStringClass.getString(2))) { // Syntax:  <alignmentForces> <Chain A>  <Chain-B>
+              if ((parameterStringClass.getString(1)).compare("deadLengthFraction")==0){
+                                       alignmentForcesDeadLengthFraction = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
+                         if ((alignmentForcesDeadLengthFraction < 0.0 ) || (alignmentForcesDeadLengthFraction > 1.0 )){
+                           if (safeParameters) {
+                  MMBLOG_FILE_FUNC_LINE(CRITICAL, "alignmentForcesDeadLengthFraction should lie in the interval (0, 1] if you want to apply progressive forces, or be set to 0 if you want to restore normal behavior. "<<endl);
+                              }
+                              alignmentForcesDeadLengthIsFractionOfInitialLength = true;
+                              alignmentForcesDeadLengthFraction = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
+                              MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesDeadLengthIsFractionOfInitialLength = "<<alignmentForcesDeadLengthIsFractionOfInitialLength<<endl);
+                              MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesDeadLengthFraction = " << alignmentForcesDeadLengthFraction <<endl);
+                             return;
+                                             
+                         } else if (alignmentForcesDeadLengthFraction < 1E-14 ){
+                              alignmentForcesDeadLengthIsFractionOfInitialLength = false;
+                              MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesDeadLengthIsFractionOfInitialLength = "<<alignmentForcesDeadLengthIsFractionOfInitialLength<<endl);
+                             return;
+                         } else {
+                              alignmentForcesDeadLengthIsFractionOfInitialLength = true;
+                              alignmentForcesDeadLengthFraction = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
+                              MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesDeadLengthIsFractionOfInitialLength = "<<alignmentForcesDeadLengthIsFractionOfInitialLength<<endl);
+             		 MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesDeadLengthFraction = " << alignmentForcesDeadLengthFraction <<endl);
+ 
+                             return;
+                          }
+             } 
+             else if ((parameterStringClass.getString(1)).compare("deadLength")==0){
+                 alignmentForcesDeadLength         = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
+                 if (alignmentForcesDeadLength    <= 0.0) {
+                     MMBLOG_FILE_FUNC_LINE(CRITICAL, "deadLength    must be greater than zero! You have specified : "<< alignmentForcesDeadLength  <<endl);
+                 }
+                 return;
+             }
+             else if ((parameterStringClass.getString(1)).compare("forceConstant")==0){
+                 alignmentForcesForceConstant      = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
+                 if (alignmentForcesForceConstant <= 0.0) {
+                     MMBLOG_FILE_FUNC_LINE(CRITICAL, "forceConstant must be greater than zero! You have specified : "<<alignmentForcesForceConstant<<endl);
+                 }
+                 return;
+             }
+             else {
+		 MMBLOG_FILE_FUNC_LINE(CRITICAL, "alignmentForces : parameter "<< parameterStringClass.getString(1)<<" with value "<<parameterStringClass.getString(2)<<" not recognized."<<endl);
+             }
+	} // of parameter setting section
+        else if ( myBiopolymerClassContainer.hasChainID( parameterStringClass.getString(1)) &&   myBiopolymerClassContainer.hasChainID(parameterStringClass.getString(2))) { 
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "This syntax is no longer supported. Please issue alignmentForces forceConstant [double]"<<endl);}
+	 /*
+	// Syntax:  <alignmentForces> <Chain A>  <Chain-B>
+        else if ( myBiopolymerClassContainer.hasChainID( parameterStringClass.getString(1)) &&   myBiopolymerClassContainer.hasChainID(parameterStringClass.getString(2))) { 
             MMBLOG_FILE_FUNC_LINE(INFO, "Detected you wish to align chains "<< parameterStringClass.getString(1)<<" and "<<parameterStringClass.getString(2)<<endl);
 	    String      chainA = parameterStringClass.getString(1);
 	    String      chainB = parameterStringClass.getString(2);
@@ -2111,19 +2126,17 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
 
 
-        }
-        else {
-		 MMBLOG_FILE_FUNC_LINE(CRITICAL, "alignmentForces : parameter "<< parameterStringClass.getString(1)<<" with value "<<parameterStringClass.getString(2)<<" not recognized."<<endl);
-        }
-        }// if ((parameterStringClass.getString(3)).length()==0) 
-       
+        } // of alignmentFroces ChainA ChainB forceConstant
+        */
 
         else if ((parameterStringClass.getString(4)).length()==0 ) { // Syntax:  <alignmentForces> <Chain A>  <Chain-B>  [forceConstant]
 
 	    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of parameters for this command! This command no longer takes an optional <force constant> parameter, if that is what you were trying to provide. Instead set the force constant using syntax:  alignmentForces forceConstant <force constant (double)> "<<endl);
 
 
-         } else if (((parameterStringClass.getString(7)).length()==0 ) &&  ((parameterStringClass.getString(6)).length()!=0 ))   { // In case the user u    sed the syntax  <alignmentForces> <Chain A>  <start residue A> <end residue A>  <Chain-B>  <start residue B> <end residue B> 
+         } else if (((parameterStringClass.getString(7)).length()==0 ) &&  ((parameterStringClass.getString(6)).length()!=0 ))   { 
+	 // In case the user u    sed the syntax  <alignmentForces> <Chain A>  <start residue A> <end residue A>  <Chain-B>  <start residue B> <end residue B> 
+            MMBLOG_FILE_FUNC_LINE(ALWAYS, " You are invoking the syntax: "<<endl<<" alignmentForces <chain A> <start residue A> <end residue A> <chain B> <start residue B> <end residue B>       "<<endl);
 
 	    if ((parameterStringClass.getString(7)).length() >0) // Should never happen. Just being ultra paranoid.
 	    {
@@ -2145,10 +2158,14 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             thread.isGapped   = alignmentForcesIsGapped;
             thread.deadLengthIsFractionOfInitialLength = alignmentForcesDeadLengthIsFractionOfInitialLength;
             thread.deadLengthFraction = alignmentForcesDeadLengthFraction;
+            thread.deadLength         = alignmentForcesDeadLength        ;
 
          } else if ((parameterStringClass.getString(7)).length()>0 )   { // In case the user u    sed the syntax  <alignmentForces> <Chain A>  <start residue A> <end residue A>  <Chain-B>  <start residue B> <end residue B>   [forceConstant]
 		MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of parameters for this command! This command no longer takes an optional <force constant> parameter, if that is what you were trying to provide. Instead set the force constant using syntax:  alignmentForces forceConstant <force constant (double)> "<<endl);
         } else {
+	    for (int i = 0 ; i < 10; i++){
+	        MMBLOG_FILE_FUNC_LINE(INFO, " parameterStringClass.getString("<<i<<") = "<<parameterStringClass.getString(i)<<endl);
+	    }	
 	    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Please check your syntax!"<<endl);
         }
         atomSpringContainer.addGappedThreading(thread, myBiopolymerClassContainer);
@@ -5300,6 +5317,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     alignmentForcesIsGapped = true;
     alignmentForcesGapPenalty = -1;
     alignmentForcesDeadLengthFraction = 0;
+    alignmentForcesDeadLength = 0;
     alignmentForcesDeadLengthIsFractionOfInitialLength = false;
     alignmentForcesForceConstant = 30.0;
     applyC1pSprings = true;

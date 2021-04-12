@@ -152,22 +152,22 @@ void ProgressWriter::write(const bool wait) {
         _totalSteps
     );
     if (len < 1) {
-        MMBLOG_PLAIN(WARNING, "Failed to create progress report\n");
+        MMBLOG_PLAIN(WARNING, "Failed to count progress report data length\n");
         return;
     }
 
     auto text = std::unique_ptr<char[]>(new char[len + 1]);
     int len2 = snprintf(
         text.get(),
-        len,
+        len + 1,
         "{\"state\":\"%s\",\"step\": %d,\"total_steps\":%d}\n",
         stateToStr(_state),
         _step,
         _totalSteps
     );
 
-    if (len2 < 1 || len2 >= len) {
-        MMBLOG_PLAIN(WARNING, "Failed to create progress report\n");
+    if (len2 < 1 || len2 >= len + 1) {
+        MMBLOG_PLAIN(WARNING, "Failed to create progress report data\n");
         return;
     }
 

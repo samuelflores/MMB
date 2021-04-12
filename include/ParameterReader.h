@@ -85,6 +85,7 @@ public:
     bool   alignmentForcesIsGapped;
     double alignmentForcesGapPenalty;
     double alignmentForcesDeadLengthFraction;
+    double alignmentForcesDeadLength;
     double alignmentForcesDeadLengthIsFractionOfInitialLength;
     double alignmentForcesForceConstant;
     bool   applyC1pSprings;

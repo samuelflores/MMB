@@ -42,12 +42,25 @@ void sig_handler(int signum) {
     std::quick_exit(EXIT_SUCCESS);
 }
 
+static
+void changeWorkingDirectory(const String &dir)
+{
+#ifdef _WINDOWS
+	if (!SetCurrentDirectoryA(dir.c_str()))
+		MMBLOG_PLAIN(CRITICAL, "Failed to change working directory");
+#else
+	if (chdir(dir.c_str()) != 0)
+		MMBLOG_PLAIN(CRITICAL, "Failed to change working directory");
+#endif // _WINDOWS
+}
+
 #ifndef _WINDOWS
 static struct option long_opts[] = {
     {"commands",  required_argument, 0,        'C'},
     {"HELP",      no_argument,       0,        'H'},
     {"output",    required_argument, 0, PARAM_DOUT},
     {"progress",  required_argument, 0, PARAM_PROG},
+    {"workdir",   required_argument, 0,        'W'},
     {0,           0,                 0,          0}
 };
 #endif // _WINDOWS
@@ -62,6 +75,7 @@ void printUsage() {
     std::cout << " -C  commands             Set name of contacts file " << std::endl;
     std::cout << " -output                  Name of diagnostic output file (stdout of not specified)" << std::endl;
     std::cout << " -progress                Name of progress report file " << std::endl;
+    std::cout << " -W workdir               Override MMB working directory" << std::endl;
     //std::cout << " -D  directory         Set working directory " << std::endl<<std::endl;
     std::cout << "Last compiled on "<<__DATE__<<" at "<<__TIME__<< std::endl<<std::endl;
     std::cout << "MMB units are nm, kJ/mol, ps, and daltons (g/mol). In MMB 2.10 and earlier, we took some lengths and ground locations in Å (atomSpring, springToGround, atomTether, applyContactsWithin, applyMobilizersWithin, etc.).  As of MMB 2.11 all such lengths and locations are in nm.  Please update your older scripts if you plan to reuse them in MMB 2.11 and later." <<std::endl <<std::endl;
@@ -79,9 +93,8 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
     String parameterFile = "commands.dat";
     String progressFile = "";
     String diagOutputFile = "";
+    String orideWorkingDirectory;
     std::ofstream diagOutputStm;
-
-    MMBLOG_FILE_FUNC_LINE(INFO, " Current working directory: " << Pathname::getCurrentWorkingDirectory() << endl);
 
 #ifdef _WINDOWS
     int narg = 1;
@@ -93,7 +106,7 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
 
             parameterFile = args[narg];
         }
-        else if (!std::strcmp(args[narg], "-C") || !std::strcmp(args[narg], "-commands")) {
+        else if (!std::strcmp(args[narg], "-H") || !std::strcmp(args[narg], "-help")) {
             printUsage();
             return EXIT_SUCCESS;
         }
@@ -111,6 +124,13 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
 
             progressFile = args[narg];
         }
+	else if (!std::strcmp(args[narg], "-W") || !std::strcmp(args[narg], "-workdir")) {
+		narg++;
+		if (narg >= num_args)
+			MMBLOG_PLAIN(CRITICAL, "Command line parameter is missing an argument");
+
+		orideWorkingDirectory = args[narg];
+	}
         else {
             printUsage();
             return EXIT_SUCCESS;
@@ -119,7 +139,7 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
     }
 #else
     int oc, opt_idx = 0;
-    while ((oc = getopt_long_only(num_args, args, "C:D:H", long_opts, &opt_idx)) != -1) {
+    while ((oc = getopt_long_only(num_args, args, "C:D:HW:", long_opts, &opt_idx)) != -1) {
         switch (oc) {
         case 'C':
             parameterFile = optarg;
@@ -127,6 +147,9 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
         case 'H':
             printUsage();
             return EXIT_SUCCESS;
+	case 'W':
+	    orideWorkingDirectory = optarg;
+	    break;
         case PARAM_DOUT:
             diagOutputFile = optarg;
             break;
@@ -152,6 +175,11 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
     GlobalProgressWriter::initialize(progressFile);
     if (signal(SIGTERM, sig_handler) == SIG_ERR)
 	    MMBLOG_PLAIN(CRITICAL, "Failed to install SIGTERM handler");
+
+    if (!orideWorkingDirectory.empty()) {
+	    changeWorkingDirectory(orideWorkingDirectory);
+	    MMBLOG_PLAIN(ALWAYS, "Changed working directory to: " << orideWorkingDirectory << std::endl);
+    }
 
     try 
     {

@@ -69,7 +69,7 @@ void   Spiral::clear(){
     frequencyPhaseAmplitudeVector.clear();    
     spiralPdbFileName = String("NOT-SET"); // was "spiral.pdb"
     MMBLOG_FILE_FUNC_LINE(INFO, " Setting spiralPdbFileName = " <<spiralPdbFileName                                   <<endl);
-    spiralCommandsFileName = String("NOT-SET"); // was "spiral.pdb"
+    spiralCommandsFileName = String("NOT-SET"); // was "commands.spiral.dat"
     center            = Vec3(-11111.,-11111.,-11111.);
     radius            = -11111.;
     interStrandDistance=-11111.;
@@ -185,7 +185,7 @@ void Spiral::writeDnaSpiralCommandfile()
         tetherCommandStream.precision(6);  
         tetherCommandStream<<"previousFrameFileName    base-pair."<<n<<".pdb   "<<std::endl;
 
-        tetherCommandStream<<"DN	A A "<<n<<" A "<<std::endl;
+        tetherCommandStream<<"DNA A "<<n<<" A "<<std::endl;
         tetherCommandStream<<"DNA B "<<9999-n<<" T "<<std::endl;
         tetherCommandStream<<"#renumberBiopolymerResidues A "<<n<<std::endl;
         tetherCommandStream<<"#renumberBiopolymerResidues B "<<9999-n<<std::endl;
@@ -237,14 +237,19 @@ void Spiral::writeSyntax()
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix interStrandDistance  <distance, in nm>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the start theta (the angle from the 'north pole': "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix startTheta <angle, in rads>  "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the offset in phi  (the angle about the polar axis): "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "Next specify the offset in phi (the angle about the +Z axis).  Phi = 0 in the +X half of the XZ plane, and increases following the right-hand rule about the +Z-axis.  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the offset in phi : "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix phiOffset <angle, in rads>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "This file will contain MG ions indicating the center of each base pair in the spiral. You will use this as a rough draft to check your spiral parameters: "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix spiralPdbFileName <string>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "This file will contain the commands to place idealized base pairs at their positions in the ideal spiral you generated. You would rerun MMB with this as your input command file: "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix spiralCommandsFileName <string>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "This will modulate the theta position as a functoin of phi. Use a frequency multiplier of 1 if you want this to oscillate by 2*pi over phi sweep of 2*pi. Or 2 if you want to oscillate by 4*pi, etc.  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "The effect is additive. Every time you call this, one element will be added to the frequencyPhaseAmplitudeVector, and all elements will be applied.            "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "The output theta will have a correction added which looks like: amplitude * sin( multiplier * phi + phase) "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix frequencyPhaseAmplitude <frequency multiplier> <phase, rads> <amplitude, rads>  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "If you want to remove all elements from the frequencyPhaseAmplitudeVector, issue: "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix frequencyPhaseAmplitude clear                                                   "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "And finally, to create the helix, issue:                        "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix writeCommands "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "The above should be the last sphericalHelix command you issue. "<<endl);
@@ -300,6 +305,13 @@ void Spiral::parseInput(const  map<const String,double> & userVariables,String p
         return;
     } else if ((parameterName).compare("spiralCommandsFileName")==0){ // was "commands.spiral.dat") ;
         spiralCommandsFileName = parameterValue;	    
+        return;
+    } else if ((parameterName).compare("frequencyPhaseAmplitude")==0){ 
+        if ( parameterValue == "clear"){ // ATM there is only one supported command for frequencyPhaseAmplitude, and that is "clear". That is in addition to the setting of frequency multiplier, phase, and amplitude, which is treated separately.
+            frequencyPhaseAmplitudeVector.clear();		
+	} else {
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have provided an unsupported parameter for "<<parameterName<<" : "<<parameterValue<<". Check your syntax.    "<<endl);
+        }	    
         return;
     } else {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "You are misusing the sphericalHelix family of commands! Check your syntax and try again. "<<endl);

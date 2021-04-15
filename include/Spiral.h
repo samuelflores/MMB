@@ -11,11 +11,10 @@
 #ifndef Spiral_H_
 #define Spiral_H_
 #include <regex>
-//#include "ResidueStretchContainer.h"
-//#include "ParameterReader.h"
 #include "SimTKmolmodel.h"
 #include "MMBLogger.h"    
 #include "Utils.h"    
+#include "MonoAtoms.h"    
 #include <vector>
 #include <map>
 #include <fstream>
@@ -43,6 +42,7 @@ private:
 public:
     Spiral(); // Default constructor. Should set default values of parameters.
     void clear();
+    //MonoAtomsContainer & monoAtomsContainer; // this should be linked to the ParameterReader's monoAtoms object at runtime.
     void validate();
     void parseInput(String commandName);
     void parseInput(const map<const String,double> & userVariables, String parameterName, String parameterValue);

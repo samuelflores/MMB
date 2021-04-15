@@ -23,30 +23,33 @@ class MonoAtoms {
 	private:
 		String 	chainID;
     		ResidueID firstResidueID    ;
-		int 	numAtoms;
+		//int 	numAtoms;
 		String 	atomName;
 		vector<Compound> compoundVector; 
 	public:
 		MonoAtoms();
 		MonoAtoms(String, ResidueID, int, String);
-                void initialize(CompoundSystem & system,  bool readPreviousFrameFile,  String previousFrameFileName, bool matchExact, bool matchIdealized);
+		void            clear();
+		void            addMonoAtom();
+		void            addMonoAtom (Vec3 positionVec3 ); // Add a monoAtom at a specific default top level transform
+                void            initialize(CompoundSystem & system,  bool readPreviousFrameFile,  String previousFrameFileName, bool matchExact, bool matchIdealized);
 		int 		validate();  //return 0 if fine, return 1 and exit if not fine.
 		void		validateResidue(ResidueID) ; //die if residue number out of range, or if atom names mismatch.
-		String      getChainID();
+		String          getChainID();
 		ResidueID	getLastResidueID ();
 		ResidueID	getFirstResidueID ();
-        int         getResidueIndex(ResidueID myResidueID);
-		int         getNumAtoms();
-		String      getAtomName();  
+                int             getResidueIndex(ResidueID myResidueID);
+		int             getNumAtoms();
+		String          getAtomName();  
 		Compound 	getSingleCompound(ResidueID); 
 		MobilizedBodyIndex getMobilizedBodyIndex(ResidueID);
 		MobilizedBody &	updMobilizedBody(ResidueID, SimbodyMatterSubsystem &) ;
-		bool        hasAtom(ResidueID residueNumber);
+		bool            hasAtom(ResidueID residueNumber);
 		Compound::AtomIndex getAtomIndex(ResidueID residueNumber);
-		Vec3	    getAtomLocationInMobilizedBodyFrame(ResidueID residueNumber);
+		Vec3	        getAtomLocationInMobilizedBodyFrame(ResidueID residueNumber);
 		void		adoptCompounds(CompoundSystem & mySystem, bool readPreviousFrameFile);
 		void		matchDefaultConfiguration(SimTK::PdbStructure,bool matchExact, bool matchIdealized);
-                void            renumberPdbResidues(ResidueID firstResidueID);
+                void            renumberPdbResidues();
                 void            setPdbChainId(String chainID);
 		String		getAtomPathName(ResidueID);
 		void 		includeAllAtoms(DuMMForceFieldSubsystem & dumm);
@@ -59,7 +62,8 @@ class MonoAtomsContainer  {
 		MonoAtomsContainer();
                 void initialize(CompoundSystem &  , bool , String ,bool matchExact, bool matchIdealized  );
 		//const int       getChainID(String);
-		bool        hasChainID(String) ; 
+		void            remove(String myChainID) ; 
+		bool            hasChainID(String) ; 
 		MonoAtoms 	getMonoAtoms(String) ; 
 		void 		addMonoAtoms(MonoAtoms) ; 
 		void		adoptCompounds(CompoundSystem & mySystem, bool readPreviousFrameFile);

@@ -9,6 +9,7 @@
  * -------------------------------------------------------------------------- */
 
 #include "Spiral.h"
+#include "MonoAtoms.h"
 
 using namespace std;
 
@@ -139,7 +140,8 @@ void Spiral::writeDnaSpiralCommandfile()
     n = 1;
     std::string tetherCommands("");
     stringstream tetherCommandStream("");
-    //tetherCommands<<"#readAtStage "<<std::endl;
+    //                  chain ID, first residue #, number of ions (we start with an empty vector), name of ions.
+    MonoAtoms monoAtoms(String("Z"),ResidueID(1),0,String("Mg+2"));  
     while (currentTheta < endTheta){
         MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
         double priorPhi = phiFromXYZ(priorXYZ, center) ;
@@ -176,6 +178,7 @@ void Spiral::writeDnaSpiralCommandfile()
         MMBLOG_FILE_FUNC_LINE(INFO, "phi from the just-updated currentXYZ = "<< phiFromXYZ(currentXYZ, center)<<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, " About to write to spiralPdbFileName = " <<spiralPdbFileName                                   <<endl);
         fprintf (spiralPdbFile,"ATOM  %5d MG2+ MG  Z%4d    %8.3f%8.3f%8.3f \n",n,n,currentAdjustedXYZ[0]*10, currentAdjustedXYZ[1]*10,currentAdjustedXYZ[2]*10  ); // Converting to Ångströms
+	monoAtoms.addMonoAtom(Vec3(currentAdjustedXYZ[0], currentAdjustedXYZ[1],currentAdjustedXYZ[2])); // provide coords in nm.
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         MMBLOG_FILE_FUNC_LINE(INFO, "MMB-command: readAtStage "<<n<<endl);
         tetherCommandStream<<"readAtStage "<<n<<std::endl;
@@ -213,6 +216,7 @@ void Spiral::writeDnaSpiralCommandfile()
         n++;
     }
     fclose(spiralPdbFile); 
+    monoAtoms.renumberPdbResidues(); // monoAtoms were above added one by one  with no residue numbers set. Now we fix that.
     MMBLOG_FILE_FUNC_LINE(INFO, " closed  spiralPdbFileName = " <<spiralPdbFileName                                   <<endl);
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     std::string commonSpiralCommandsAdjusted = std::regex_replace( commonSpiralCommands, std::regex(std::string("ZZZZ")), std::to_string(n-1 ) ); 
@@ -222,7 +226,7 @@ void Spiral::writeDnaSpiralCommandfile()
     spiralCommandsFile2<<tetherCommandStream.str()<<std::endl;
     spiralCommandsFile2.close();
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    return;
+    //monoAtomsContainer.addMonoAtoms(monoAtoms);
 } // of procedure
 
 void Spiral::writeSyntax()

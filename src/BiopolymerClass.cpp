@@ -3690,14 +3690,17 @@ void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem&
 #endif
 
 bool isRNAtest(const Biopolymer & inputBiopolymer){
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Inside isRNAtest               "     <<endl);
+    //MMBLOG_FILE_FUNC_LINE(CRITICAL, " Inside isRNAtest               "     <<endl);
     for (int i = 0; i < inputBiopolymer.getNumResidues(); i++) {
         const ResidueInfo myResidueInfo = inputBiopolymer.getResidue(ResidueInfo::Index(i));
         const char myOneLetterCode = myResidueInfo.getOneLetterCode();
         if (! letterIsRNA(myOneLetterCode)) {
+            MMBLOG_FILE_FUNC_LINE(DEBUG, " The single letter code symbol >"<<myResidueInfo.getOneLetterCode()<<"< does not represent an RNA "     <<endl);
             return false;    
         }
         if (! inputBiopolymer.hasAtom("0/O2*")) {
-            //MMBLOG_FILE_FUNC_LINE(" No O2* atom found on first residue.  This is not RNA! "<<endl;
+            MMBLOG_FILE_FUNC_LINE(DEBUG, " No O2* atom found on first residue.  This is not RNA! "     <<endl);
             return false;
         }
     }
@@ -3829,9 +3832,9 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     } else {
         MMBLOG_FILE_FUNC_LINE(INFO, "Apparently "<<inPDBFileName<<" has size "<<st.st_size <<" . This seems OK."<< endl);
     }
-    PDBReader myPDBReader ( inPDBFileName ); //, deletedResidueVector);
+    PDBReader myPDBReader ( inPDBFileName );/////////  PDBReader.cpp:149 seems to be reading residue types in 3-letter and 1-letter codes correctly.  I don't think it knows what kind of biopolymer it has yet though./
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    CompoundSystem system;
+    CompoundSystem system;/////////
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     SimbodyMatterSubsystem  matter(system);
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
@@ -3840,7 +3843,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     dumm.loadAmber99Parameters();
     MMBLOG_FILE_FUNC_LINE(INFO, "About to issue myPDBReader.createCompounds( system,chainsPrefix)"<<endl);
     MMBLOG_FILE_FUNC_LINE(DEBUG, "Prefix = "<< chainsPrefix                           <<endl);
-    myPDBReader.createCompounds( system, chainsPrefix );
+    myPDBReader.createCompounds( system, chainsPrefix ); // This has a call to Repr::residueIsRNA(type) which is I don't know if it is going right
     MMBLOG_FILE_FUNC_LINE(INFO, "Done with myPDBReader.createCompounds( system)"<<endl);
     MMBLOG_FILE_FUNC_LINE(INFO,std::endl);
     auto  pdbStructureMapIterator = pdbStructureMap.begin();
@@ -3856,7 +3859,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     MMBLOG_FILE_FUNC_LINE(INFO,endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "system.getNumCompounds() = "<<system.getNumCompounds() <<endl);
     MMBLOG_FILE_FUNC_LINE(INFO,endl);
-    PdbStructure myPdbStructure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap);
+    PdbStructure myPdbStructure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap); //////
     /* 
     //================================================ Use PDB reader or CIF reader depending on the extension.
     PdbStructure myPdbStructure;

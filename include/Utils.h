@@ -306,6 +306,7 @@ public:
 public:
     
     ResidueID() { ResidueNumber = 0;  InsertionCode = ' ' ;};
+    ResidueID(int residueNumber) { ResidueNumber = residueNumber; InsertionCode = ' '          ;};
     ResidueID(int residueNumber, char insertionCode) { ResidueNumber = residueNumber; InsertionCode = insertionCode;};
     ResidueID( map<const String,double> myUserVariables,  const char* value) { // Allow the user to provide a user-configured variable, starting with '@'
 	MMBLOG_FILE_LINE(DEBUG, std::endl);

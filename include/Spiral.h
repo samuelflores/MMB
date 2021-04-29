@@ -44,13 +44,13 @@ public:
     void clear();
     //MonoAtomsContainer & monoAtomsContainer; // this should be linked to the ParameterReader's monoAtoms object at runtime.
     void validate();
-    void parseInput(String commandName);
+    void parseInput(String commandName, MonoAtomsContainer &monoAtomsContainer);
     void parseInput(const map<const String,double> & userVariables, String parameterName, String parameterValue);
-    void parseInput(const map<const String,double> & userVariables, String parameterName, String parameterValue1, String parameterValue2,String parameterValue3 );
+    void parseInput(const map<const String,double> & userVariables, String parameterName, String parameterValue1, String parameterValue2,String parameterValue3, MonoAtomsContainer &monoAtomsContainer );
     void parseInput(String parameterName, double X, double Y, double Z);
     void writeSyntax(); // To be written as a helpful aid to the user.
     void writeIonSpiralPdbFile();
-    void writeDnaSpiralCommandfile();
+    void writeDnaSpiralCommandfile(MonoAtomsContainer &monoAtomsContainer );
 };
 #endif
 

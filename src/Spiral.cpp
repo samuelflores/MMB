@@ -110,7 +110,7 @@ double Spiral::harmonicThetaAdjustment(double inputPhi){
 }                               	
 
 
-void Spiral::writeDnaSpiralCommandfile()
+void Spiral::writeDnaSpiralCommandfile(MonoAtomsContainer &monoAtomsContainer)
 {
     validate();
     Vec3 priorXYZ(-9999.9, -9999.9, -9999.9);
@@ -179,6 +179,7 @@ void Spiral::writeDnaSpiralCommandfile()
         MMBLOG_FILE_FUNC_LINE(INFO, " About to write to spiralPdbFileName = " <<spiralPdbFileName                                   <<endl);
         fprintf (spiralPdbFile,"ATOM  %5d MG2+ MG  Z%4d    %8.3f%8.3f%8.3f \n",n,n,currentAdjustedXYZ[0]*10, currentAdjustedXYZ[1]*10,currentAdjustedXYZ[2]*10  ); // Converting to Ångströms
 	monoAtoms.addMonoAtom(Vec3(currentAdjustedXYZ[0], currentAdjustedXYZ[1],currentAdjustedXYZ[2])); // provide coords in nm.
+	// I believe the above is enough to instantiate an ion in the MonoAtoms object. The question is, is this being passed on to the right systems in MMB?
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         MMBLOG_FILE_FUNC_LINE(INFO, "MMB-command: readAtStage "<<n<<endl);
         tetherCommandStream<<"readAtStage "<<n<<std::endl;
@@ -226,12 +227,12 @@ void Spiral::writeDnaSpiralCommandfile()
     spiralCommandsFile2<<tetherCommandStream.str()<<std::endl;
     spiralCommandsFile2.close();
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    //monoAtomsContainer.addMonoAtoms(monoAtoms);
+    monoAtomsContainer.addMonoAtoms(monoAtoms);
 } // of procedure
 
 void Spiral::writeSyntax()
 {
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix creates a spherical spiral of MG2+ ions. Eventually it will be adaptive to the density. You need to provide the spherical center (3D), in nm. Also the spherical radius."<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix creates a spherical spiral of MG2+ ions. Eventually it will be adaptive to the density. You need to provide the spherical center (3D), the spherical radius, the pitch (inter-duplex distance), all in nm. You need start and end theta in rads. There are other optional parameters. "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "Syntax: "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the center point of the sphere, in nm: "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix center <X>  <Y> <Z> "<<endl);
@@ -241,6 +242,9 @@ void Spiral::writeSyntax()
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix interStrandDistance  <distance, in nm>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the start theta (the angle from the 'north pole': "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix startTheta <angle, in rads>  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the end   theta (the angle from the 'north pole': "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix   endTheta <angle, in rads>  "<<endl);
+
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "Next specify the offset in phi (the angle about the +Z axis).  Phi = 0 in the +X half of the XZ plane, and increases following the right-hand rule about the +Z-axis.  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the offset in phi : "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix phiOffset <angle, in rads>  "<<endl);
@@ -262,7 +266,7 @@ void Spiral::writeSyntax()
     
 
 // This function figures out which polymorphism of parseInput should be used, based on number of parameters provided, be it 0,1,or 3.
-void Spiral::parseInput(const map<const String,double> & userVariables, String parameterName, String parameterValue1,String parameterValue2, String parameterValue3){
+void Spiral::parseInput(const map<const String,double> & userVariables, String parameterName, String parameterValue1,String parameterValue2, String parameterValue3,MonoAtomsContainer &monoAtomsContainer){
     if (parameterValue3 != ""){
         if (parameterValue2 == "") MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of parameters! Please check your syntax.       "<<endl); // if parameterValue3 is specified, then parameterValue2 must also be.
         parseInput(parameterName,myAtoF(userVariables,(parameterValue1).c_str()),myAtoF(userVariables,(parameterValue2).c_str()),myAtoF(userVariables,(parameterValue3).c_str()));
@@ -270,16 +274,16 @@ void Spiral::parseInput(const map<const String,double> & userVariables, String p
     else if (parameterValue1 != ""){
         if (parameterName   == "") MMBLOG_FILE_FUNC_LINE(CRITICAL, " You are misusing the sphericalHelix family of commands! Please specify a parameter or command.       "<<endl);
         parseInput(userVariables,parameterName,parameterValue1);} // specifying a parameter with a certain single value
-    else if (parameterName   != ""){parseInput(parameterName);} // specifying a command.                           
+    else if (parameterName   != ""){parseInput(parameterName, monoAtomsContainer);} // specifying a command.                           
     else {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "You are misusing the sphericalHelix family of commands! Please specify a parameter or command. "<<endl);
     
     }
 }	
 
-void Spiral::parseInput(String commandName){
+void Spiral::parseInput(String commandName, MonoAtomsContainer & monoAtomsContainer){
     if (commandName == "writeCommands"){
-        writeDnaSpiralCommandfile();
+        writeDnaSpiralCommandfile(monoAtomsContainer);
     } else {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Non recognizable input: " << commandName << endl);
     }

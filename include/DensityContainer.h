@@ -16,10 +16,6 @@
 class DensityContainer : public ResidueStretchContainer <DensityStretch>{
 public:
     void clear();
-    //void validate(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer); // Already defined in parent.
-    //void	add(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer){addStretch(}; // just use parent's addStretch(ResidueStretchType newStretch) 
-    //void	add(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer){addStretch(}; // just use parent's addStretch(ResidueStretchType newStretch) 
-    //void addStretch(const ResidueStretch myResidueStretch){addStretch(DensityStretch(myResidueStretch));}; // If user provides a ResidueStretch as argument, upcast ResidueStretch as a DensityStretch, to use the addStretch member already defined in the parent. This function caused a seg fault, so I removed it and am using the parent's addStretch.
     DensityStretch getDensityStretch(int densityStretchIndex){return getResidueStretch(densityStretchIndex);}; // just use parent's getResidueStretch
     int numDensityStretches(){return getNumResidueStretches();}; // use parent member
     void stuffDensityStretchVector(BiopolymerClassContainer & myBiopolymerClassContainer );

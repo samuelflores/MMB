@@ -106,12 +106,16 @@ MonoAtoms::MonoAtoms (String myChainID,ResidueID myFirstResidueNumber, int   num
 }
 
 String MonoAtoms::getChainID() {
-	return chainID;
+    return chainID;
 } 
 
 ResidueID MonoAtoms::getFirstResidueID() {
-        return firstResidueID;
-	//return ResidueID(compoundVector[0].getPdbResidueNumber(),' ');// compoundVector[0].getPdbInsertionCode());
+    return firstResidueID;
+    //return ResidueID(compoundVector[0].getPdbResidueNumber(),' ');// compoundVector[0].getPdbInsertionCode());
+} 
+
+ResidueID MonoAtoms::getResidueID(int myResidueIndex) {
+    return ResidueID(compoundVector[myResidueIndex         ].getPdbResidueNumber(),' ');
 } 
 
 ResidueID MonoAtoms::getLastResidueID() {
@@ -164,6 +168,16 @@ Compound::AtomIndex MonoAtoms::getAtomIndex(ResidueID residueNumber)
 	    {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Attempted to get a   MonoAtom member that doesn't exist!"<<endl); }
         Compound::AtomIndex myAtomIndex = compoundVector[residueNumber.getResidueNumber() - getFirstResidueID()  .getResidueNumber()].getAtomIndex(Compound::AtomPathName(atomName));
 	return myAtomIndex;
+}
+Vec3 MonoAtoms::getAtomLocationInGroundFrame(int       residueIndex, const State & state ){
+	ResidueID residueNumber = getResidueID(residueIndex);
+	validateResidue (residueNumber ); 
+	//if (getAtomIndex(residueNumber))
+	//    {MMBLOG_FILE_FUNC_LINE(CRITICAL, " Expected an atom index of zero, got:"<<getAtomIndex(residueNumber)<<endl); }
+	//atom index should always be zero, but just to be sure I'm getting it explicitly.  
+        //return compoundVector[residueIndex   ].calcDefaultAtomLocationInGroundFrame(getAtomIndex(residueNumber));
+	MMBLOG_FILE_FUNC_LINE(DEBUG, " About to issue  compoundVector["<<residueIndex<<"].calcAtomLocationInGroundFrame(state,0)"<<endl<<" Got : "<<compoundVector[residueIndex   ].calcAtomLocationInGroundFrame(state,SimTK::Compound::AtomIndex(0))<<endl); 
+        return compoundVector[residueIndex   ].calcAtomLocationInGroundFrame(state,SimTK::Compound::AtomIndex(0));
 }
 
 Vec3 MonoAtoms::getAtomLocationInMobilizedBodyFrame(ResidueID residueNumber){

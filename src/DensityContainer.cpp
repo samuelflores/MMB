@@ -13,23 +13,6 @@
 void DensityContainer::clear(){
     residueStretchVector.clear();
 }
-/*
-void DensityContainer::validate(const DensityStretch & myDensityStretch,BiopolymerClassContainer & myBiopolymerClassContainer){
-    if (myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).difference(myDensityStretch.getEndResidue() , myDensityStretch.getStartResidue()) < 0) {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The end residue (currently "<<myDensityStretch.getEndResidue().outString()<<") must be greater than or equal to the start residue (currently "<<myDensityStretch.getStartResidue().outString()<<". "<<endl);    }
-    if ((myDensityStretch.getEndResidue() > myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getLastResidueID    ()) ) {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The end residue (currently "<<myDensityStretch.getEndResidue().outString()<<") is greater than the last residue number of the chain."<<endl);    }
-    if ((myDensityStretch.getStartResidue() < myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getFirstResidueID    ()) ) {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The start residue (currently "<<myDensityStretch.getStartResidue().outString()<<") is lesser than the first residue number of the chain."<<endl);    }
-    if (!(myBiopolymerClassContainer.hasChainID(myDensityStretch.getChain()))){
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Couldn't find chain "<<myDensityStretch.getChain()<<endl);
-    }   
-}*/
-
-/*void	DensityContainer::add(const DensityStretch & myDensityStretch,  BiopolymerClassContainer & myBiopolymerClassContainer){
-	validate(myDensityStretch,  myBiopolymerClassContainer);
-	densityStretchVector.push_back(myDensityStretch);
-}*/
 
 void DensityContainer::updateDensityStretch(int id, const DensityStretch & stretch, BiopolymerClassContainer & myBiopolymerClassContainer){
     if(id < 0 || id >= residueStretchVector.size()){

@@ -38,6 +38,7 @@ class MonoAtoms {
 		String          getChainID();
 		ResidueID	getLastResidueID ();
 		ResidueID	getFirstResidueID ();
+                ResidueID       getResidueID   (int       myResidueIndex);
                 int             getResidueIndex(ResidueID myResidueID);
 		int             getNumAtoms();
 		String          getAtomName();  
@@ -47,6 +48,7 @@ class MonoAtoms {
 		bool            hasAtom(ResidueID residueNumber);
 		Compound::AtomIndex getAtomIndex(ResidueID residueNumber);
 		Vec3	        getAtomLocationInMobilizedBodyFrame(ResidueID residueNumber);
+		Vec3	        getAtomLocationInGroundFrame       (int       residueIndex ,const State & state);
 		void		adoptCompounds(CompoundSystem & mySystem, bool readPreviousFrameFile);
 		void		matchDefaultConfiguration(SimTK::PdbStructure,bool matchExact, bool matchIdealized);
                 void            renumberPdbResidues();

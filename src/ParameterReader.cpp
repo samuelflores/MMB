@@ -52,180 +52,8 @@
 
 using namespace SimTK;
 using namespace std  ;
-/*
-        double   phiFromXYZ( const Vec3 myPoint, const  Vec3 sphericalCenter) {
-            double xDist = myPoint[0]-sphericalCenter[0];
-            double yDist = myPoint[1]-sphericalCenter[1];
-            double sliceRadius = sqrt(xDist*xDist+yDist*yDist);
-            double myPhi = acos(xDist / sliceRadius);
-            MMBLOG_FILE_FUNC_LINE(INFO, "myPhi = " << myPhi<<endl);
-            return myPhi; 
-        }
-        double thetaFromXYZ( const Vec3 myPoint, const  Vec3 sphericalCenter) {
-            double xDist = myPoint[0]-sphericalCenter[0];
-            double yDist = myPoint[1]-sphericalCenter[1];
-            double zDist = myPoint[2]-sphericalCenter[2];
-            double sliceRadius = sqrt(xDist*xDist+yDist*yDist);
-            double computedSphericalRadius = sqrt(xDist*xDist+yDist*yDist+zDist*zDist);
-            MMBLOG_FILE_FUNC_LINE(INFO, "slice radius = " << sliceRadius<<endl);
-            double theta = asin(sliceRadius / computedSphericalRadius);
-            MMBLOG_FILE_FUNC_LINE(INFO, "computedSphericalRadius = " << computedSphericalRadius<<endl);
-            MMBLOG_FILE_FUNC_LINE(INFO, "theta = " << theta<<endl);
-            return asin(sqrt(xDist*xDist+yDist*yDist) / sqrt(xDist*xDist+yDist*yDist+zDist*zDist));
-        }
-        double zSliceRadius ( const double mySphereRadius, const double myTheta){
-            return mySphereRadius*sin(myTheta);
-        }
-        // computes arc length in a cylindrical helix, for a certain deltaTheta
-        // takes deltaPhi in radians
-        double helicalSpiralArcLength ( const double myCylindricalRadius, const double helicalPitch, const double deltaPhi){
-            return deltaPhi * sqrt( myCylindricalRadius * myCylindricalRadius + helicalPitch * helicalPitch);
-        }
-        double deltaPhiFromCylindricalRadiusHelicalPitchAndHelicalArcLength( const double myCylindricalRadius, const double myHelicalPitch, const double myArcLength){
-            return myArcLength / sqrt( myCylindricalRadius * myCylindricalRadius + myHelicalPitch * myHelicalPitch);
-        }
-        double deltaPhiFromThetaInterHelicalDistanceSphericalRadiusAndHelicalArcLength( const double myTheta, const double myInterHelicalDistance, const  double mySphericalRadius, const double myArcLength){
-            double myHelicalPitch = myInterHelicalDistance*sin(myTheta);       
-            double myCylindricalRadius = mySphericalRadius * sin(myTheta);
-            return  deltaPhiFromCylindricalRadiusHelicalPitchAndHelicalArcLength(myCylindricalRadius, myHelicalPitch, myArcLength);
-        }
-        double thetaFromPhi( const double phi, const double myInterHelicalDistance, const double mySphericalRadius, const double myPhiOffset){
-            return (phi - myPhiOffset) / (2*SimTK::Pi/myInterHelicalDistance*mySphericalRadius) ;            
-        }
-        double phiFromTheta(const double theta,const double myInterHelicalDistance, const double mySphericalRadius, const double myPhiOffset){
-            return theta * (2*SimTK::Pi/myInterHelicalDistance*mySphericalRadius) + myPhiOffset ;            
-        }
-       */
 
 
-        /*std::string commonSpiralCommands = "(\n"
-            "numReportingIntervals 1 \n"
-            "reportingInterval .00001 \n"
-            "firstStage 2 \n"
-            "lastStage ZZZZ ) \n";
-
-             R"(
-            # The following command should have been issued in a prior step, to generate this file.
-            # Here we specify a spherical spiral with radius 16.3 and inter-DNA-helix ditance 2.0 nm. staring theta (measured from north pole) is 1.5708 (pi/2), and starting phi is 0.0 rads (directly on the x-axis).
-            # sphericalSpiral 16.3 2.0 1.5708 0      
-
-            numReportingIntervals 5 
-            reportingInterval 1
-            @expectedLength ZZZZ
- 
-            # Base pairing strength, for nucleicAcidDuplex
-            baseInteractionScaleFactor  600
-
-            readAtStage 1
-            numReportingIntervals 100
-            DNA A 1    G
-            DNA B ZZZZ C
-            readBlockEnd
-            
-            readFromStage 2
-            loadSequencesFromPdb
-            
-            insertResidue A @CURRENTSTAGE G
-            insertResidue B @expectedLength-@CURRENTSTAGE+1 C
-            
-            # NtCs to make the backbones super nice:
-            #@NtCStrength 50
-            #NtC A FirstResidue LastResidue BB00 @NtCStrength
-            #NtC B FirstResidue LastResidue BB00 @NtCStrength
-            
-            readBlockEnd
-            
-            readToStage 20
-            # Makes the MMB Watson-Crick base pairs, and also adds stacking forces:
-            # At stage 21, this will become limited to the last 21 base pairs.
-            nucleicAcidDuplex A FirstResidue LastResidue       B LastResidue FirstResidue                                              
-            readBlockEnd
-            
-            readFromStage 21
-            
-            mobilizer Rigid A FirstResidue @CURRENTSTAGE-20
-            mobilizer Rigid B @expectedLength-@CURRENTSTAGE+1+20 @expectedLength
-            #mobilizer Rigid A @expectedLength-@CURRENTSTAGE+1+20 @expectedLength
-            # 1982-24+1+20 =  1979
-            rootMobilizer A Weld
-            constraint  B @expectedLength Weld Ground
-            
-            # This contains the virus density map. I think this is around 30Å resolution:
-            densityFileName LocalRef_02_Cl02_res85_nocaps2_box.xplor
-            densityForceConstant 1
-            # Fits all chains into density:
-            fitToDensity A @CURRENTSTAGE-20 @CURRENTSTAGE
-            fitToDensity B  @expectedLength-@CURRENTSTAGE+1  @expectedLength-@CURRENTSTAGE+1+20
-
-            # NtCs to make the backbones super nice:
-            @NtCStrength 50
-            NtC A @CURRENTSTAGE-20  @CURRENTSTAGE BB00 @NtCStrength
-            NtC B  @expectedLength-@CURRENTSTAGE+1 @expectedLength-@CURRENTSTAGE+1+20 BB00 @NtCStrength
-
-            # Makes the MMB Watson-Crick base pairs, and also adds stacking forces:
-            nucleicAcidDuplex A @CURRENTSTAGE-20 @CURRENTSTAGE B @expectedLength-@CURRENTSTAGE+1+20 @expectedLength-@CURRENTSTAGE+1 
-
-            readBlockEnd
-            
-            ##############
-            # Start common part
-            ##############
-            
-            
-            
-            ##############
-            # In this section, we override the natural atomic numbers with numbers that are weighted by the expected density at their nuclear position. Thus base atoms are all weighted by 1.5, while backbone atoms all have lower weights, e.g. 0.28 for P.
-            # Note we skip hydrogens. These do not contribute to the fitting forces.
-            ##############
-            
-            overrideAtomicProperty C1' atomicNumber 4.9750263
-            overrideAtomicProperty C1* atomicNumber 6.2733764
-            overrideAtomicProperty C2' atomicNumber 4.5999638
-            overrideAtomicProperty C2* atomicNumber 5.0251489
-            overrideAtomicProperty C3' atomicNumber 3.7686810
-            overrideAtomicProperty C3* atomicNumber 3.3192283
-            overrideAtomicProperty C4' atomicNumber 3.9553631
-            overrideAtomicProperty C4* atomicNumber 3.4677441
-            overrideAtomicProperty C5' atomicNumber 3.5208469
-            overrideAtomicProperty C5* atomicNumber 3.1520366
-            overrideAtomicProperty O3' atomicNumber 4.5878700
-            overrideAtomicProperty O3* atomicNumber 3.1520629
-            overrideAtomicProperty O4' atomicNumber 5.5034410
-            overrideAtomicProperty O4* atomicNumber 6.8406485
-            overrideAtomicProperty O5' atomicNumber 3.8024094
-            overrideAtomicProperty O5* atomicNumber 3.4035229
-            overrideAtomicProperty OP1 atomicNumber 1.5633502
-            overrideAtomicProperty OP2 atomicNumber 1.9463295
-            overrideAtomicProperty P   atomicNumber 4.2507383
-            overrideAtomicProperty O2  atomicNumber 12.1912986
-            overrideAtomicProperty C5  atomicNumber 9.1434739
-            overrideAtomicProperty C6  atomicNumber 9.1434739
-            overrideAtomicProperty C8  atomicNumber 9.1434739
-            overrideAtomicProperty N1  atomicNumber 10.6673863
-            overrideAtomicProperty N2  atomicNumber 10.6673863
-            overrideAtomicProperty N3  atomicNumber 10.6673863
-            overrideAtomicProperty N4  atomicNumber 10.6673863
-            overrideAtomicProperty N7  atomicNumber 10.6673863
-            overrideAtomicProperty N9  atomicNumber 10.6673863
-            overrideAtomicProperty C2  atomicNumber 9.1434739
-            overrideAtomicProperty C4  atomicNumber 9.1434739        
-            overrideAtomicProperty O6  atomicNumber 12.1912986               
-            
-            ##############
-            
-            #@TetherLength .0
-            # At less than 10Å, no force will be applied:
-            @TetherLength .1
-            
-            @SpringConstant  90.0
-            
-            firstStage 1  
-            #  User variables are not permitted for setting firstStage or lastStage. Would have been convenient just now
-            lastStage ZZZZ              
-            ##############
-            # End common part
-            ##############
-            )";  */
         
 
 String get_and_set_working_path(String newPath = "RETRIEVE-ONLY" )
@@ -3107,11 +2935,18 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }
         else if (parameterStringClass.getString(2).length() == 0) {
             if (parameterStringClass.getString(1).length() == 0) {MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have not specified enough parameters for this command. "<<endl);}
-            myDensityStretch.setStartResidue ( myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getFirstResidueID());
-            myDensityStretch.setEndResidue ( myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getLastResidueID());
-            myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).validateResidueID(myDensityStretch.getStartResidue());
-            myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).validateResidueID(myDensityStretch.getEndResidue());
-            densityContainer.add(myDensityStretch,myBiopolymerClassContainer );
+	    if (myBiopolymerClassContainer.hasChainID(parameterStringClass.getString(1))) {
+                myDensityStretch.setStartResidue ( myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getFirstResidueID());
+                myDensityStretch.setEndResidue ( myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).getLastResidueID());
+                myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).validateResidueID(myDensityStretch.getStartResidue());
+                myBiopolymerClassContainer.updBiopolymerClass(myDensityStretch.getChain()).validateResidueID(myDensityStretch.getEndResidue());
+                densityContainer.add(myDensityStretch,myBiopolymerClassContainer );}
+	    else if (myMonoAtomsContainer.hasChainID(parameterStringClass.getString(1))) {
+                myDensityStretch.setStartResidue ( myMonoAtomsContainer.getMonoAtoms(myDensityStretch.getChain()).getFirstResidueID());
+                myDensityStretch.setEndResidue   ( myMonoAtomsContainer.getMonoAtoms(myDensityStretch.getChain()).getLastResidueID());
+                densityContainer.addStretch(myDensityStretch );//}
+	    }
+
         } else if (parameterStringClass.getString(4).length() == 0 ) {
             if (parameterStringClass.getString(3).length() == 0) {MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have not specified enough parameters for this command. "<<endl);}
             myDensityStretch.setStartResidue ( myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(2), myDensityStretch.getChain()));

@@ -25,69 +25,63 @@ void DensityForce::calcForce(const State& state, Vector_<SpatialVec>& bodyForces
         //if (myParameterReader.applyHeavyAtomDensityForces)
         for (int i = 0; i < myParameterReader.densityContainer.numDensityStretches(); i++) {
                 String myChainID = myParameterReader.densityContainer.getDensityStretch(i).getChain();
-                BiopolymerClass & tempBiopolymerClass = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID );
-                Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
-                vector<MMBAtomInfo> tempAtomInfoVector = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm, myParameterReader.densityFitPhosphates );   
-                for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) {
-                    MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
-                    Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
-                    //Vec3 myAtomForce = myDensityMap.calcInterpolatedFirstQuadrantGradient(myAtomLocation) * (myParameterReader.densityForceConstant * tempAtomInfo.mass);
-                    // changed to atomic number on May 30 2012, earlier was atomic mass:
-                    Vec3 myAtomForce = myDensityMap.calcInterpolatedFirstQuadrantGradient(myAtomLocation) * (myParameterReader.densityForceConstant * tempAtomInfo.atomicNumber);
-
-                    bodyForces[tempAtomInfo.mobilizedBodyIndex] +=  SpatialVec(torque + (-((tempAtomInfo.mobilizedBody).getBodyTransform(state)).T()+ myAtomLocation) % myAtomForce, myAtomForce);
-                } // of for m
-        } // of for biopolymer
+		if (myParameterReader.myBiopolymerClassContainer.hasChainID(myChainID)){
+                    BiopolymerClass & tempBiopolymerClass = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID );
+                    Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
+                    vector<MMBAtomInfo> tempAtomInfoVector = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm,myParameterReader.densityFitPhosphates); 
+                    for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) {
+                        MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
+                        Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
+                        // changed to atomic number on May 30 2012, earlier was atomic mass:
+                        Vec3 myAtomForce = myDensityMap.calcInterpolatedFirstQuadrantGradient(myAtomLocation) * (myParameterReader.densityForceConstant * tempAtomInfo.atomicNumber);
+                        bodyForces[tempAtomInfo.mobilizedBodyIndex] +=  SpatialVec(torque + (-((tempAtomInfo.mobilizedBody).getBodyTransform(state)).T()+ myAtomLocation) % myAtomForce, myAtomForce);
+                    } // of for m
+		} // of if myBiopolymerClassContainer.hasChainID 
+		else if (myParameterReader.myMonoAtomsContainer.hasChainID(myChainID)){
+                        // We have not yet implemented calcForce for monoAtoms, so do nothing here.
+                    }			    
+                else {
+                        MMBLOG_FILE_FUNC_LINE(CRITICAL, " The chain ID you specified, "<< myChainID << " does not correspond to any existing BiopolymerClass or MonoAtoms !"<<endl);
+		    }
+        } // of for myParameterReader.densityContainer.numDensityStretches
         };
 
 Real DensityForce::calcPotentialEnergy(const State& state) const
         {
         double totalPotentialEnergy = 0;
         for (int i = 0; i < myParameterReader.densityContainer.numDensityStretches(); i++) {
-                String myChainID = myParameterReader.densityContainer.getDensityStretch(i).getChain();
-                BiopolymerClass & tempBiopolymerClass = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID );
-                Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
-                vector<MMBAtomInfo> tempAtomInfoVector = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm, myParameterReader.densityFitPhosphates );   
-                for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) {
-                    MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
-                    Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
-                    // changed to atomic number on FEB 24 2021, earlier was atomic mass:
-                    totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * tempAtomInfo.atomicNumber;
-                } // of for m
-        } // of for biopolymer
-        MMBLOG_FILE_FUNC_LINE(INFO, " Total potential energy due to density fitting potential = "<<totalPotentialEnergy <<std::endl);
-	return totalPotentialEnergy;
-        };
-/*
-Real DensityForce::calcPotentialEnergy(const State& state) const {
+            String myChainID = myParameterReader.densityContainer.getDensityStretch(i).getChain();
+            if (myParameterReader.myBiopolymerClassContainer.hasChainID(myChainID)){
+                    BiopolymerClass & tempBiopolymerClass = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID );
+                    Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
+                    vector<MMBAtomInfo> tempAtomInfoVector = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm, myParameterReader.densityFitPhosphates );   
+                    for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) {
+                        MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
+                        Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
+                        // changed to atomic number on FEB 24 2021, earlier was atomic mass:
+                        totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * tempAtomInfo.atomicNumber;
+                    } // of for m
+            } // of if myBiopolymerClassContainer.hasChainID	
+            else if (myParameterReader.myMonoAtomsContainer.hasChainID(myChainID)){
+		    
+                for (int i = 0; i < myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getNumAtoms(); i++) {
+                    Vec3 myAtomLocation = myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getAtomLocationInGroundFrame(i,state);
+		    //ResidueID myResidueID = myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getResidueID(i);
+		    // Couldn't get getAtomElement to work .. just hard coding to unity for now.
+		    //SimTK::Compound::AtomIndex    myAtomIndex = myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getAtomIndex(myResidueID);
 
-        Real totalPotentialEnergy = 0;
-        for (int i = 0; i < myParameterReader.densityContainer.numDensityStretches(); i++) {
-                String myChainID = myParameterReader.densityContainer.getDensityStretch(i).getChain();
-
-                for (ResidueID j = myParameterReader.densityContainer.getDensityStretch(i).getStartResidue(); j <=  myParameterReader.densityContainer.getDensityStretch(i).getEndResidue(); myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).incrementResidueID( j) ) {
-                        ResidueInfo myResidueInfo = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().updResidue(ResidueInfo::Index(myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).getResidueIndex(j) ));
-
-                        for (ResidueInfo::AtomIndex k ( 0); k < myResidueInfo.getNumAtoms() ; k++) {
-                                //Compound::AtomName myAtomName = myResidueInfo.getAtomName(k);
-                                Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex( k  );
-                                DuMM::AtomIndex myDuMMAtomIndex = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().getDuMMAtomIndex(myAtomIndex);
-                                if (((myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().getAtomElement(myAtomIndex)).getSymbol()).compare("H") != 0) { 
-                                        Vec3 myAtomLocation = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().calcAtomLocationInGroundFrame(state, myAtomIndex);
-                                        // This should be off by default. When active, it reports the density observed and the atom name. The intent is to gather statistics on density maps to judiciously choose atomicNumber overrides. 
-                                        if (myParameterReader.densityReportAtEachAtomPosition) { std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Atom_name= "<< myResidueInfo.getAtomName(k)<<" local_density= "<<myDensityMap.getDensity(myAtomLocation)<<std::endl; }
-                                        totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * dumm.getAtomMass(myDuMMAtomIndex);
-
-                                }
-                        }
-                    if (j ==  myParameterReader.densityContainer.getDensityStretch(i).getEndResidue()) break;
+		    int    myAtomicNumber = 1; //dumm.getAtomElement(myAtomIndex);
+		    totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * myAtomicNumber;
+		    
                 }
-
-        } 
+            } else {
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, " The chain ID you specified, "<< myChainID << " does not correspond to any existing BiopolymerClass or MonoAtoms !"<<endl);
+            }
+        } // of for myParameterReader.densityContainer.numDensityStretches
         MMBLOG_FILE_FUNC_LINE(INFO, " Total potential energy due to density fitting potential = "<<totalPotentialEnergy <<std::endl);
         return totalPotentialEnergy;
-    };
-*/
+        };
+
 bool DensityForce::dependsOnlyOnPositions() const  { 
         return true; 
     };    

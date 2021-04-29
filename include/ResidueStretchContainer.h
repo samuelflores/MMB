@@ -280,53 +280,6 @@ class ResidueStretchContainer{
 	};
         #endif
 	
-/*
-	void addSingleWeldConstraintPerInterfaceChainPair( double radius, //vector<String> referenceChains, vector<String> partnerChains , ConstraintContainer & myConstraintContainer,  
-            BiopolymerClassContainer & myBiopolymerClassContainer) { // This polymorphism requires that the user specify two sets of chains.  Only residues at the interface between the two sets will be included.  This lets the user leave out other chains (e.g. threading templates) which are in the system but which shouldn't be flexibilized.
-            vector<MMBAtomInfo> concatenatedAtomInfoVector = myBiopolymerClassContainer.getConcatenatedAtomInfoVector();
-	    vector<openmmVecType> particleList(concatenatedAtomInfoVector.size());
-            for (int i = 0; i < concatenatedAtomInfoVector.size() ; i++) {
- 		particleList[i] = concatenatedAtomInfoVector[i].position;
-	    }
-            cout<<__FILE__<<":"<<__LINE__<<endl;
-	    vector<set<int> > exclusions( particleList.size() );
-	    OpenMM::NeighborList neighborList;
-            openmmVecType boxSize = openmmVecType(10000,10000,10000);
-            cout<<__FILE__<<":"<<__LINE__<<" neighborList size is : "<<neighborList.size()<<endl;
-	    computeNeighborListVoxelHash(neighborList, particleList.size() , particleList, exclusions, &boxSize, false, radius  , 0.0);
-            //cout<<__FILE__<<":"<<__LINE__<<" neighborList size is : "<<neighborList.size()<<endl;
-            //cout<<__FILE__<<":"<<__LINE__<<" neighborList size is : "<<neighborList.size()<<endl;
-            for ( int j = 0 ; j < neighborList.size(); j++) {
-                //cout<<__FILE__<<":"<<__LINE__<<" concatenatedAtomInfoVector[neighborList[j].first].chain ="<<concatenatedAtomInfoVector[neighborList[j].first].chain<< " ";
-                //cout<<__FILE__<<":"<<__LINE__<<" concatenatedAtomInfoVector[neighborList[j].second].chain ="<<concatenatedAtomInfoVector[neighborList[j].second].chain<<endl;
-                if (((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].chain , (referenceChains))) == 1) &&
-                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].chain ,(  partnerChains))) == 1))  != //Use an XOR here. This means if the 'partnerChains' evaluation is later set to return 1 when partnerChains is empty, this will still work.
-                    ((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].chain ,(referenceChains))) == 1) &&
-                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].chain  ,(  partnerChains))) == 1))     //Make sure that exactly one residue is in the 'referenceChains', and the other residue is in the 'partnerChains' .. thus only the desired interface is included
-															  )  
-                 
-		{
-		    //cout<<__FILE__<<":"<<__LINE__<<endl;
-                    ResidueID residueID1(concatenatedAtomInfoVector[neighborList[j].first].residueID);
-                    String chain1(concatenatedAtomInfoVector[neighborList[j].first].chain);
-                    String atom1(concatenatedAtomInfoVector[neighborList[j].first].atomName);
-                    ResidueID residueID2(concatenatedAtomInfoVector[neighborList[j].second].residueID);
-                    String chain2(concatenatedAtomInfoVector[neighborList[j].second].chain);
-                    String atom2(concatenatedAtomInfoVector[neighborList[j].second].atomName);
-	   	    if (!(myConstraintContainer.hasConstraintClass(myResidueStretch1.getChain(),myResidueStretch2.getChain()))) {
-                        ConstraintClass myConstraintClass(chain1 ,residueID1,atom1,chain2, residueID2,atom2, ConstraintType::WeldToAtom);
-		        myConstraintContainer.addConstraintClassToVector(myConstraintClass);
-		        cout<<__FILE__<<":"<<__LINE__<<" Added ConstraintClass :"<<endl; 
-		        myConstraintClass.print();
-                        // Right here, should probably delete particleList  element.
-		    }
-	  	}
-                else {
-                    // Right here, should probably delete particleList element.
-                }
-            }
-	};
-*/
     #ifdef USE_OPENMM
     void addIntraChainInterfaceResidues(double radius, String referenceChain, BiopolymerClassContainer & myBiopolymerClassContainer) { // This polymorphism requires that the user specify ONE  chain.  Only residues at the interfaces between BODIES on that chain will be included.  This does NOT include interfaces with OTHER chains. 
             vector<MMBAtomInfo> chainAtomInfoVector = myBiopolymerClassContainer.updBiopolymerClass(referenceChain).getAtomInfoVector();

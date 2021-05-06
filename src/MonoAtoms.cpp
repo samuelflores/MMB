@@ -189,9 +189,12 @@ Vec3 MonoAtoms::getAtomLocationInMobilizedBodyFrame(ResidueID residueNumber){
 void    MonoAtoms::adoptCompounds(SimTK::CompoundSystem & mySystem, bool readPreviousFrameFile){
 	for (int i =  0 ; i<getNumAtoms(); i++) {
                 //MMBLOG_FILE_FUNC_LINE( " X,Y,Z position of monoAtom: "<<0.1*sin((double)i)<<" , "<<0.1*cos((double)i)<<", "<<1.0*i/1<<endl;
-                if (readPreviousFrameFile == 0)
+                /*if (readPreviousFrameFile == 0) {
 		    mySystem.adoptCompound(compoundVector[i],Vec3(  0*sin((double)i) ,0*cos((double)i),1.0*i/1));
-                else mySystem.adoptCompound(compoundVector[i]);
+		}else {*/
+		    // 21.05.04 SCF We previously called adoptCompound differently for readPreviousFrameFile == 0. However this was interfering with our ability to generate spherical helices of ions. So now monoatoms are always adopted the same way at this stage. We should create additional commands to create monoAtoms patterns, if future users want to adopt ions in other geometries.
+                    mySystem.adoptCompound(compoundVector[i]);
+		/*}*/
 		//mySystem.adoptCompound(compoundVector[i],Vec3(  0.1*sin((double)i) ,0.1*cos((double)i),1.0*i/1));
 	}
 }

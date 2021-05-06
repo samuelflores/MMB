@@ -58,9 +58,11 @@ double deltaPhiFromThetaInterHelicalDistanceSphericalRadiusAndHelicalArcLength( 
     return  deltaPhiFromCylindricalRadiusHelicalPitchAndHelicalArcLength(myCylindricalRadius, myHelicalPitch, myArcLength);
 }
 double thetaFromPhi( const double phi, const double myInterHelicalDistance, const double mySphericalRadius, const double myPhiOffset){
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " locally, phiOffset = "<<myPhiOffset<<endl);
     return (phi - myPhiOffset) / (2*SimTK::Pi/myInterHelicalDistance*mySphericalRadius) ;
 }
 double phiFromTheta(const double theta,const double myInterHelicalDistance, const double mySphericalRadius, const double myPhiOffset){
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " locally, phiOffset = "<<myPhiOffset<<endl);
     return theta * (2*SimTK::Pi/myInterHelicalDistance*mySphericalRadius) + myPhiOffset ;
 }
 
@@ -133,8 +135,12 @@ void Spiral::writeDnaSpiralCommandfile(MonoAtomsContainer &monoAtomsContainer)
     double currentTheta = -11111.1;
     // In the default spherical spiral, phi is just theta times a constant. However we need to be able to rotate the sphere and key the spiral wherever we want. So we need a phiOffset.
     double phiOffsetFromStartingTheta = phiFromTheta(startTheta, interStrandDistance, radius, 0.0); // use offset = 0 to retreive the original, non-offset phi
-    double phiOffset = phiOffset /*phiOffsetFromPriorXYZ*/  - phiOffsetFromStartingTheta;
-    MMBLOG_FILE_FUNC_LINE(INFO, "phiOffset "<<phiOffset<<endl);
+    // 21.05.04 SCF Here  "- phiOffsetFromStartingTheta" means that the first ion should be at phi=phiOffset.
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "phiOffset "<<phiOffset<<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "phiOffsetFromStartingTheta "<<phiOffsetFromStartingTheta<<endl);
+    // Here we are DECLARING phiOffset, and immediately trying to use it!!! Why are we even being allowed to redeclare here???
+    //double phiOffset = phiOffset - phiOffsetFromStartingTheta;
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "phiOffset "<<phiOffset<<endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
     double priorTheta = startTheta ; // thetaFromXYZ(priorXYZ, center) ;
     n = 1;
@@ -149,7 +155,7 @@ void Spiral::writeDnaSpiralCommandfile(MonoAtomsContainer &monoAtomsContainer)
         MMBLOG_FILE_FUNC_LINE(INFO, "priorPhi "<<priorPhi<<endl);
         double deltaPhi = deltaPhiFromThetaInterHelicalDistanceSphericalRadiusAndHelicalArcLength(priorTheta, interStrandDistance, radius, helixAdvancePerBasePair);
         MMBLOG_FILE_FUNC_LINE(INFO, "deltaPhi "<<deltaPhi<<endl);
-        double deltaTheta = thetaFromPhi(deltaPhi, interStrandDistance, radius, 0.0);
+        double deltaTheta = thetaFromPhi(deltaPhi, interStrandDistance, radius, 0.0); // SCF no need to include phiOffset here. This just gives us deltaTheta given deltaPhi
         MMBLOG_FILE_FUNC_LINE(INFO, "radius "<<radius<<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, "deltaTheta = "<<deltaTheta<<" .. should be positive and tiny"<<endl);
         currentTheta = priorTheta + deltaTheta;
@@ -158,6 +164,7 @@ void Spiral::writeDnaSpiralCommandfile(MonoAtomsContainer &monoAtomsContainer)
         MMBLOG_FILE_FUNC_LINE(INFO, "priorTheta "<<priorTheta<<endl);
         double currentPhi = priorPhi + deltaPhi ; // phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset);
         MMBLOG_FILE_FUNC_LINE(INFO, "currentPhi "<<currentPhi<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "phiOffset "<<phiOffset<<endl);
         Vec3 currentXYZ (
             radius * sin(currentTheta) * cos (phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset)), 
             radius * sin(currentTheta) * sin (phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset)),
@@ -198,8 +205,6 @@ void Spiral::writeDnaSpiralCommandfile(MonoAtomsContainer &monoAtomsContainer)
         tetherCommandStream<<"initialDisplacement B "<<  currentAdjustedXYZ[0] <<" "<<  currentAdjustedXYZ[1]  <<" "<< currentAdjustedXYZ[2] <<std::endl;
         tetherCommandStream<<"rotation A  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
         tetherCommandStream<<"rotation B  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
-        //tetherCommandStream<<"# phiFromTheta = " <<  phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset*0.)<<std::endl;
-        //tetherCommandStream<<"#rotation A X "<<  -atan(currentTheta / phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
         tetherCommandStream<<"rotation A X "<<  -atan(currentAdjustedTheta / phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset*0.0)) - (SimTK::Pi / 2)    <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
         tetherCommandStream<<"rotation B X "<<  -atan(currentAdjustedTheta / phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset*0.0)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
         tetherCommandStream<<"rotation A Y "<<  -(SimTK::Pi / 2) +  currentAdjustedTheta  <<std::endl ; // tilt up 

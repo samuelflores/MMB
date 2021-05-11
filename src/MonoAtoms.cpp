@@ -114,7 +114,7 @@ ResidueID MonoAtoms::getFirstResidueID() {
     //return ResidueID(compoundVector[0].getPdbResidueNumber(),' ');// compoundVector[0].getPdbInsertionCode());
 } 
 
-ResidueID MonoAtoms::getResidueID(int myResidueIndex) {
+ResidueID MonoAtoms::getResidueID(const int myResidueIndex) {
     return ResidueID(compoundVector[myResidueIndex         ].getPdbResidueNumber(),' ');
 } 
 
@@ -169,7 +169,7 @@ Compound::AtomIndex MonoAtoms::getAtomIndex(ResidueID residueNumber)
         Compound::AtomIndex myAtomIndex = compoundVector[residueNumber.getResidueNumber() - getFirstResidueID()  .getResidueNumber()].getAtomIndex(Compound::AtomPathName(atomName));
 	return myAtomIndex;
 }
-Vec3 MonoAtoms::getAtomLocationInGroundFrame(int       residueIndex, const State & state ){
+Vec3 MonoAtoms::getAtomLocationInGroundFrame(const int       residueIndex, const State & state ){
 	ResidueID residueNumber = getResidueID(residueIndex);
 	validateResidue (residueNumber ); 
 	//if (getAtomIndex(residueNumber))
@@ -250,6 +250,39 @@ void MonoAtoms::includeAllAtoms(DuMMForceFieldSubsystem & dumm){
         dumm.includeNonbondAtom(myDuMMAtomIndex);
     }
 }
+
+double dotProduct (const Vec3 vec1 , const Vec3 vec2){
+    return (vec1[0]*vec2[0] +vec1[1]*vec2[1] + vec1[2]*vec2[2]);
+}
+double magnitude  (const Vec3 vec){
+    return sqrt(vec[0]*vec[0] +vec[1]*vec[1] + vec[2]*vec[2]);
+}
+
+double MonoAtoms::computeCurvatureSquared(const int index, const State & state){
+    if (index < 1){
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Cannot compute curvature for the first or last atom.  "<<endl);
+    }
+    else if (index > (getNumAtoms()-2)){
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Cannot compute curvature for the first or last atom.  "<<endl);
+    }
+    Vec3 priorVec = ( getAtomLocationInGroundFrame(index  ,state) -  getAtomLocationInGroundFrame(index-1,state) );
+    Vec3 nextVec = ( getAtomLocationInGroundFrame(index+1,state) -  getAtomLocationInGroundFrame(index  ,state) );
+    double angleBetweenVectors = acos(dotProduct(priorVec,nextVec)/magnitude(priorVec)/ magnitude(nextVec));
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " For index "<<index<<" computed angle = "<< angleBetweenVectors <<" and squared angle of "<<angleBetweenVectors*angleBetweenVectors <<endl);
+    return angleBetweenVectors*angleBetweenVectors;
+}
+
+double MonoAtoms::computeTotalCurvatureSquared( const State & state){
+    double totalCurvature = 0.;
+    for (int i = 1; i < (getNumAtoms()-1); i++){
+       totalCurvature += computeCurvatureSquared(i,state);
+    }
+    if (getNumAtoms() <3){
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Cannot compute curvature for fewer than 3 atoms.  "<<endl);
+    }
+    return totalCurvature;
+}
+
 
 MonoAtomsContainer::MonoAtomsContainer() {}
 
@@ -356,5 +389,22 @@ void MonoAtomsContainer::includeAllAtoms(DuMMForceFieldSubsystem & dumm){
 			(*monoAtomsMapIterator).second.includeAllAtoms(dumm);
 		}
 
+}
+
+double MonoAtomsContainer::computeTotalCurvatureSquared(const State & state){
+        map <String,MonoAtoms> :: iterator monoAtomsMapIterator;
+	double totalCurvature = 0.;
+	if (monoAtomsMap.size() > 0)
+		for (monoAtomsMapIterator = monoAtomsMap.begin();
+       			monoAtomsMapIterator != monoAtomsMap.end();
+			monoAtomsMapIterator++) 
+		{
+			// Don't compute if there are fewer than 3 atoms. 
+			if ((*monoAtomsMapIterator).second.getNumAtoms()>2) totalCurvature += (*monoAtomsMapIterator).second.computeTotalCurvatureSquared(state);
+		}
+       MMBLOG_FILE_FUNC_LINE(INFO, " Computed total curvature squared = "<< totalCurvature  <<endl);
+       return totalCurvature;
+
+          
 }
 

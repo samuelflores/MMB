@@ -9,6 +9,7 @@
  * -------------------------------------------------------------------------- */
 
 #include "Spiral.h"
+#include "Utils.h"  
 #include "MonoAtoms.h"
 
 using namespace std;
@@ -26,7 +27,7 @@ double   phiFromXYZ( const Vec3 myPoint, const  Vec3 sphericalCenter) {
     double yDist = myPoint[1]-sphericalCenter[1];
     double sliceRadius = sqrt(xDist*xDist+yDist*yDist);
     double myPhi = acos(xDist / sliceRadius);
-    MMBLOG_FILE_FUNC_LINE(INFO, "myPhi = " << myPhi<<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "myPhi = " << myPhi<<endl);
     return myPhi;
 }
 double thetaFromXYZ( const Vec3 myPoint, const  Vec3 sphericalCenter) {
@@ -35,10 +36,10 @@ double thetaFromXYZ( const Vec3 myPoint, const  Vec3 sphericalCenter) {
     double zDist = myPoint[2]-sphericalCenter[2];
     double sliceRadius = sqrt(xDist*xDist+yDist*yDist);
     double computedSphericalRadius = sqrt(xDist*xDist+yDist*yDist+zDist*zDist);
-    MMBLOG_FILE_FUNC_LINE(INFO, "slice radius = " << sliceRadius<<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "slice radius = " << sliceRadius<<endl);
     double theta = asin(sliceRadius / computedSphericalRadius);
-    MMBLOG_FILE_FUNC_LINE(INFO, "computedSphericalRadius = " << computedSphericalRadius<<endl);
-    MMBLOG_FILE_FUNC_LINE(INFO, "theta = " << theta<<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "computedSphericalRadius = " << computedSphericalRadius<<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "theta = " << theta<<endl);
     return asin(sqrt(xDist*xDist+yDist*yDist) / sqrt(xDist*xDist+yDist*yDist+zDist*zDist));
 }
 double zSliceRadius ( const double mySphereRadius, const double myTheta){
@@ -52,18 +53,25 @@ double helicalSpiralArcLength ( const double myCylindricalRadius, const double h
 double deltaPhiFromCylindricalRadiusHelicalPitchAndHelicalArcLength( const double myCylindricalRadius, const double myHelicalPitch, const double myArcLength){
     return myArcLength / sqrt( myCylindricalRadius * myCylindricalRadius + myHelicalPitch * myHelicalPitch);
 }
-double deltaPhiFromThetaInterHelicalDistanceSphericalRadiusAndHelicalArcLength( const double myTheta, const double myInterHelicalDistance, const  double mySphericalRadius, const double myArcLength){
+
+// Returns -1 for right handed spirals, +1 for left handed. This is for changing the sign of phi and related quantities.
+double negativeWhenRightHanded(bool spiralIsRightHanded){
+    return ( -2.0 * spiralIsRightHanded + 1);
+}
+
+double deltaPhiFromThetaInterHelicalDistanceSphericalRadiusAndHelicalArcLength( const double myTheta, const double myInterHelicalDistance, const  double mySphericalRadius, const double myArcLength , const bool spiralIsRightHanded){
     double myHelicalPitch = myInterHelicalDistance*sin(myTheta);
     double myCylindricalRadius = mySphericalRadius * sin(myTheta);
-    return  deltaPhiFromCylindricalRadiusHelicalPitchAndHelicalArcLength(myCylindricalRadius, myHelicalPitch, myArcLength);
+    //( -2.0 * spiralIsRightHanded + 1) returns +1 for left handed, -1 for right handed. So if it is right handed, we change sign of delta-phi.
+    return  negativeWhenRightHanded(spiralIsRightHanded)*deltaPhiFromCylindricalRadiusHelicalPitchAndHelicalArcLength(myCylindricalRadius, myHelicalPitch, myArcLength);
 }
-double thetaFromPhi( const double phi, const double myInterHelicalDistance, const double mySphericalRadius, const double myPhiOffset){
+double thetaFromPhi( const double phi, const double myInterHelicalDistance, const double mySphericalRadius, const double myPhiOffset, const bool spiralIsRightHanded){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " locally, phiOffset = "<<myPhiOffset<<endl);
-    return (phi - myPhiOffset) / (2*SimTK::Pi/myInterHelicalDistance*mySphericalRadius) ;
+    return negativeWhenRightHanded(spiralIsRightHanded)*(phi - myPhiOffset) / (2*SimTK::Pi/myInterHelicalDistance*mySphericalRadius) ;
 }
-double phiFromTheta(const double theta,const double myInterHelicalDistance, const double mySphericalRadius, const double myPhiOffset){
+double phiFromTheta(const double theta,const double myInterHelicalDistance, const double mySphericalRadius, const double myPhiOffset, const bool spiralIsRightHanded){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " locally, phiOffset = "<<myPhiOffset<<endl);
-    return theta * (2*SimTK::Pi/myInterHelicalDistance*mySphericalRadius) + myPhiOffset ;
+    return negativeWhenRightHanded(spiralIsRightHanded)*theta * (2*SimTK::Pi/myInterHelicalDistance*mySphericalRadius) + myPhiOffset ;
 }
 
 
@@ -75,11 +83,16 @@ void   Spiral::clear(){
     spiralCommandsFileName = String("NOT-SET"); // was "commands.spiral.dat"
     center            = Vec3(-11111.,-11111.,-11111.);
     radius            = -11111.;
-    interStrandDistance=-11111.;
+    pitch=-11111.;
     startTheta        = -11111.;
     endTheta          = -11111.;
     phiOffset         = -11111.;
+    cylinderHeight    = -11111.;
+    spiralIsRightHanded = 0; // defaults to left-handed
     double helixAdvancePerBasePair = -11111. ;  // in nm // should be user specified.
+    String chainID    = "Z";
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Setting chainID  = " << chainID                       <<endl);
+    geometry = geometryEnum::sphere;
 
 }
 void   Spiral::validate(){
@@ -90,8 +103,8 @@ void   Spiral::validate(){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for spiralCommandsFileName : "<<spiralCommandsFileName<< endl);
     if (radius         == -11111.)
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for radius : "<<radius<< endl);
-    if (interStrandDistance         == -11111.)
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for interStrandDistance : "<<interStrandDistance<< endl);
+    if (pitch         == -11111.)
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for pitch : "<<pitch<< endl);
     if (startTheta         == -11111.)
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for startTheta : "<<startTheta<< endl);
     if (endTheta         == -11111.)
@@ -109,86 +122,90 @@ double Spiral::harmonicThetaAdjustment(double inputPhi){
     }
     MMBLOG_FILE_FUNC_LINE(DEBUG, " outputThetaAdjustment = "<<outputThetaAdjustment<<endl);
     return outputThetaAdjustment;
-}                               	
-
-
-void Spiral::writeDnaSpiralCommandfile(MonoAtomsContainer &monoAtomsContainer)
+}   
+double cylindricalSpiralSlopeAngle(const double pitch, const double radius){
+    return atan(pitch/radius/2/SimTK::Pi);
+}
+void Spiral::writeCylindricalSpiralCommandFile(MonoAtomsContainer &monoAtomsContainer)
 {
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "  "<<endl);
+    validate();
+    double deltaZScalar =  sin(cylindricalSpiralSlopeAngle(pitch,radius))*helixAdvancePerBasePair ;
+    Vec3 deltaZ = Vec3(0,0,1) * sin(cylindricalSpiralSlopeAngle(pitch,radius))*helixAdvancePerBasePair ;
+                        // arc length projected to "floor"                                     // divide by radius
+    double deltaPhi = cos(cylindricalSpiralSlopeAngle(pitch,radius))*helixAdvancePerBasePair / radius;
+    double currentZ ;
+    Vec3   currentXYZ (0,0,0) ;
+    double currentPhi = phiOffset;
+    MonoAtoms monoAtoms(chainID    ,ResidueID(1),0,String("Mg+2"));  
+    for (currentZ = 0.; currentZ <= cylinderHeight; currentZ += deltaZScalar){
+        currentXYZ[0] = center[0] + cos(currentPhi)*radius;
+        currentXYZ[1] = center[1] + sin(currentPhi)*radius;
+        currentXYZ[2] = center[2] + currentZ;                       
+	monoAtoms.addMonoAtom(currentXYZ); // provide coords in nm.
+	currentPhi += deltaPhi;
+    }
+    monoAtoms.renumberPdbResidues(); // monoAtoms were above added one by one  with no residue numbers set. Now we fix that.
+    monoAtomsContainer.addMonoAtoms(monoAtoms);
+} // of procedure
+/*
+*/
+void Spiral::writeSphericalSpiralCommandFile(MonoAtomsContainer &monoAtomsContainer)
+{
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "  "<<endl);
     validate();
     Vec3 priorXYZ(-9999.9, -9999.9, -9999.9);
     priorXYZ = Vec3(radius* sin(startTheta)*cos(phiOffset) , radius* sin(startTheta)*sin(phiOffset), radius* cos(startTheta));
     priorXYZ += center;
-    MMBLOG_FILE_FUNC_LINE(INFO, "radius "<<radius<<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "radius "<<radius<<endl);
     int n = 0; // counter   
-    MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
-    FILE * spiralPdbFile;
-    spiralPdbFile      = fopen (spiralPdbFileName,"w"); // file name should be specified by user. Was .."spiral.pdb","w"); 
-    MMBLOG_FILE_FUNC_LINE(INFO, " Opened  spiralPdbFileName = " <<spiralPdbFileName                                   <<endl);
-    fprintf (spiralPdbFile,"ATOM  %5d MG2+ MG  Z%4d    %8.3f%8.3f%8.3f \n",n,n,priorXYZ[0]*10, priorXYZ[1]*10,priorXYZ[2]*10  ); // Converting to Ångströms
-    //double helixAdvancePerBasePair = 0.34 ;  // in nm // should be user specified.
-    //double deltaTheta =  SimTK::Pi  / 2000;
-    MMBLOG_FILE_FUNC_LINE(INFO, std::endl);
-    MMBLOG_FILE_FUNC_LINE(INFO, " priorXYZ "<<priorXYZ<<endl);
-    // might be good to run this just to confirm:
-    MMBLOG_FILE_FUNC_LINE(INFO, "starting theta provided by user : "<<startTheta<<" compared to that gotten by trigonometry after converting spherical to cartesian and back to spherical: "<<thetaFromXYZ(priorXYZ, center)<<endl);
-    MMBLOG_FILE_FUNC_LINE(INFO, "startTheta = "<< startTheta << ""<<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "priorXYZ "<<priorXYZ<<endl);
+    //FILE * spiralPdbFile;
+    //spiralPdbFile      = fopen (spiralPdbFileName,"w"); // file name should be specified by user. Was .."spiral.pdb","w"); 
     double currentTheta = -11111.1;
     // In the default spherical spiral, phi is just theta times a constant. However we need to be able to rotate the sphere and key the spiral wherever we want. So we need a phiOffset.
-    double phiOffsetFromStartingTheta = phiFromTheta(startTheta, interStrandDistance, radius, 0.0); // use offset = 0 to retreive the original, non-offset phi
+    double phiOffsetFromStartingTheta = phiFromTheta(startTheta, pitch, radius, 0.0, spiralIsRightHanded); // use offset = 0 to retreive the original, non-offset phi
     // 21.05.04 SCF Here  "- phiOffsetFromStartingTheta" means that the first ion should be at phi=phiOffset.
-    MMBLOG_FILE_FUNC_LINE(DEBUG, "phiOffset "<<phiOffset<<endl);
-    MMBLOG_FILE_FUNC_LINE(DEBUG, "phiOffsetFromStartingTheta "<<phiOffsetFromStartingTheta<<endl);
-    // Here we are DECLARING phiOffset, and immediately trying to use it!!! Why are we even being allowed to redeclare here???
-    //double phiOffset = phiOffset - phiOffsetFromStartingTheta;
-    MMBLOG_FILE_FUNC_LINE(DEBUG, "phiOffset "<<phiOffset<<endl);
-    MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
     double priorTheta = startTheta ; // thetaFromXYZ(priorXYZ, center) ;
     n = 1;
     std::string tetherCommands("");
     stringstream tetherCommandStream("");
     //                  chain ID, first residue #, number of ions (we start with an empty vector), name of ions.
-    MonoAtoms monoAtoms(String("Z"),ResidueID(1),0,String("Mg+2"));  
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "chainID "<<chainID<<endl);
+    MonoAtoms monoAtoms(chainID,ResidueID(1),0,String("Mg+2"));  
     while (currentTheta < endTheta){
-        MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
         double priorPhi = phiFromXYZ(priorXYZ, center) ;
-        MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "priorPhi "<<priorPhi<<endl);
-        double deltaPhi = deltaPhiFromThetaInterHelicalDistanceSphericalRadiusAndHelicalArcLength(priorTheta, interStrandDistance, radius, helixAdvancePerBasePair);
-        MMBLOG_FILE_FUNC_LINE(INFO, "deltaPhi "<<deltaPhi<<endl);
-        double deltaTheta = thetaFromPhi(deltaPhi, interStrandDistance, radius, 0.0); // SCF no need to include phiOffset here. This just gives us deltaTheta given deltaPhi
-        MMBLOG_FILE_FUNC_LINE(INFO, "radius "<<radius<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "deltaTheta = "<<deltaTheta<<" .. should be positive and tiny"<<endl);
+        double deltaPhi = deltaPhiFromThetaInterHelicalDistanceSphericalRadiusAndHelicalArcLength(priorTheta, pitch, radius, helixAdvancePerBasePair,spiralIsRightHanded);
+        double deltaTheta = thetaFromPhi(deltaPhi, pitch, radius, 0.0, spiralIsRightHanded); // SCF no need to include phiOffset here. This just gives us deltaTheta given deltaPhi
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "radius "<<radius<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "deltaTheta = "<<deltaTheta<<" .. should be positive and tiny"<<endl);
         currentTheta = priorTheta + deltaTheta;
-        MMBLOG_FILE_FUNC_LINE(INFO, "currentTheta = priorTheta + deltaTheta : "<<currentTheta<<" = "<<priorTheta<<" + "<<deltaTheta<<" "<<endl);
         priorTheta = currentTheta;
-        MMBLOG_FILE_FUNC_LINE(INFO, "priorTheta "<<priorTheta<<endl);
-        double currentPhi = priorPhi + deltaPhi ; // phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset);
-        MMBLOG_FILE_FUNC_LINE(INFO, "currentPhi "<<currentPhi<<endl);
-        MMBLOG_FILE_FUNC_LINE(DEBUG, "phiOffset "<<phiOffset<<endl);
+        double currentPhi = priorPhi + deltaPhi ; // phiFromTheta(currentTheta, pitch, radius, phiOffset);
         Vec3 currentXYZ (
-            radius * sin(currentTheta) * cos (phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset)), 
-            radius * sin(currentTheta) * sin (phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset)),
+            radius * sin(currentTheta) * cos (phiFromTheta(currentTheta, pitch, radius, phiOffset, spiralIsRightHanded)), 
+            radius * sin(currentTheta) * sin (phiFromTheta(currentTheta, pitch, radius, phiOffset,spiralIsRightHanded)),
             radius * cos(currentTheta)
             );
-	double currentAdjustedTheta = currentTheta+harmonicThetaAdjustment(phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset));
+	double currentAdjustedTheta = currentTheta+harmonicThetaAdjustment(phiFromTheta(currentTheta, pitch, radius, phiOffset,spiralIsRightHanded));
         Vec3 currentAdjustedXYZ (
-            radius * sin(currentAdjustedTheta) * cos (phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset)), 
-            radius * sin(currentAdjustedTheta) * sin (phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset)),
+            radius * sin(currentAdjustedTheta) * cos (phiFromTheta(currentTheta, pitch, radius, phiOffset,spiralIsRightHanded)), 
+            radius * sin(currentAdjustedTheta) * sin (phiFromTheta(currentTheta, pitch, radius, phiOffset,spiralIsRightHanded)),
             radius * cos(currentAdjustedTheta)
             );
         
-        MMBLOG_FILE_FUNC_LINE(INFO, "radius "<<radius<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "interStrandDistance "<<interStrandDistance<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "radius "<<radius<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "pitch "<<pitch<<endl);
         currentXYZ += center;
         currentAdjustedXYZ += center;
-        MMBLOG_FILE_FUNC_LINE(INFO, "currentXYZ "<<currentXYZ<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "phi from the just-updated currentXYZ = "<< phiFromXYZ(currentXYZ, center)<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, " About to write to spiralPdbFileName = " <<spiralPdbFileName                                   <<endl);
-        fprintf (spiralPdbFile,"ATOM  %5d MG2+ MG  Z%4d    %8.3f%8.3f%8.3f \n",n,n,currentAdjustedXYZ[0]*10, currentAdjustedXYZ[1]*10,currentAdjustedXYZ[2]*10  ); // Converting to Ångströms
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "currentXYZ "<<currentXYZ<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "phi from the just-updated currentXYZ = "<< phiFromXYZ(currentXYZ, center)<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " About to write to spiralPdbFileName = " <<spiralPdbFileName                                   <<endl);
+        //fprintf (spiralPdbFile,"ATOM  %5d MG2+ MG  Z%4d    %8.3f%8.3f%8.3f \n",n,n,currentAdjustedXYZ[0]*10, currentAdjustedXYZ[1]*10,currentAdjustedXYZ[2]*10  ); // Converting to Ångströms
 	monoAtoms.addMonoAtom(Vec3(currentAdjustedXYZ[0], currentAdjustedXYZ[1],currentAdjustedXYZ[2])); // provide coords in nm.
 	// I believe the above is enough to instantiate an ion in the MonoAtoms object. The question is, is this being passed on to the right systems in MMB?
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "MMB-command: readAtStage "<<n<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "MMB-command: readAtStage "<<n<<endl);
         tetherCommandStream<<"readAtStage "<<n<<std::endl;
         // base-pair-at-origin.pdb contains a single base pair, with axis perpendicular to Z-axis.
         // We had a problem with a rotation command which was spitting out tiny values in scientific notation, which MMB later had a hard time parsing. Solution is to used fixed-format, with 6 places precision:
@@ -205,33 +222,35 @@ void Spiral::writeDnaSpiralCommandfile(MonoAtomsContainer &monoAtomsContainer)
         tetherCommandStream<<"initialDisplacement B "<<  currentAdjustedXYZ[0] <<" "<<  currentAdjustedXYZ[1]  <<" "<< currentAdjustedXYZ[2] <<std::endl;
         tetherCommandStream<<"rotation A  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
         tetherCommandStream<<"rotation B  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
-        tetherCommandStream<<"rotation A X "<<  -atan(currentAdjustedTheta / phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset*0.0)) - (SimTK::Pi / 2)    <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
-        tetherCommandStream<<"rotation B X "<<  -atan(currentAdjustedTheta / phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset*0.0)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+        tetherCommandStream<<"rotation A X "<<  -atan(currentAdjustedTheta / phiFromTheta(currentTheta, pitch, radius, phiOffset*0.0,spiralIsRightHanded)) - (SimTK::Pi / 2)    <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+        tetherCommandStream<<"rotation A X "<<  1.0*spiralIsRightHanded*SimTK::Pi     <<std::endl;  // If the spiral is right-handed, we need an additional 180-degree rotation
+        tetherCommandStream<<"rotation B X "<<  -atan(currentAdjustedTheta / phiFromTheta(currentTheta, pitch, radius, phiOffset*0.0,spiralIsRightHanded)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+        tetherCommandStream<<"rotation B X "<<  1.0*spiralIsRightHanded*SimTK::Pi     <<std::endl;  // If the spiral is right-handed, we need an additional 180-degree rotation
         tetherCommandStream<<"rotation A Y "<<  -(SimTK::Pi / 2) +  currentAdjustedTheta  <<std::endl ; // tilt up 
         tetherCommandStream<<"rotation B Y "<<  -(SimTK::Pi / 2) +  currentAdjustedTheta  <<std::endl ; // tilt up 
-        tetherCommandStream<<"rotation A Z "<<  phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset)   <<std::endl;
-        tetherCommandStream<<"rotation B Z "<<  phiFromTheta(currentTheta, interStrandDistance, radius, phiOffset)   <<std::endl;
+        tetherCommandStream<<"rotation A Z "<<  phiFromTheta(currentTheta, pitch, radius, phiOffset,spiralIsRightHanded)   <<std::endl;
+        tetherCommandStream<<"rotation B Z "<<  phiFromTheta(currentTheta, pitch, radius, phiOffset,spiralIsRightHanded)   <<std::endl;
         tetherCommandStream<<"readBlockEnd"<<std::endl;
 
 
-        MMBLOG_FILE_FUNC_LINE(INFO, "MMB-command: tetherToGround A "<<n<<" N1 "<<currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2] << " .5 30.0 "<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "MMB-command: readBlockEnd "<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "MMB-command: tetherToGround A "<<n<<" N1 "<<currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2] << " .5 30.0 "<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "MMB-command: readBlockEnd "<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "priorXYZ "<<priorXYZ<<endl);
         priorXYZ= currentXYZ;
-        MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "priorXYZ "<<priorXYZ<<endl);
         n++;
     }
-    fclose(spiralPdbFile); 
+    //fclose(spiralPdbFile); 
     monoAtoms.renumberPdbResidues(); // monoAtoms were above added one by one  with no residue numbers set. Now we fix that.
     MMBLOG_FILE_FUNC_LINE(INFO, " closed  spiralPdbFileName = " <<spiralPdbFileName                                   <<endl);
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
     std::string commonSpiralCommandsAdjusted = std::regex_replace( commonSpiralCommands, std::regex(std::string("ZZZZ")), std::to_string(n-1 ) ); 
     commonSpiralCommandsAdjusted = std::regex_replace( commonSpiralCommandsAdjusted, std::regex(std::string("            ")), std::string("") );  // Now get rid of extra whitespace
     ofstream spiralCommandsFile2(spiralCommandsFileName); // was "commands.spiral.dat") ;
     spiralCommandsFile2<<commonSpiralCommandsAdjusted<<std::endl;
     spiralCommandsFile2<<tetherCommandStream.str()<<std::endl;
     spiralCommandsFile2.close();
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
     monoAtomsContainer.addMonoAtoms(monoAtoms);
 } // of procedure
 
@@ -244,7 +263,7 @@ void Spiral::writeSyntax()
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the radius of the sphere: "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix radius <radius, in nm>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the separation between consecutive DNA duplexes : "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix interStrandDistance  <distance, in nm>  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix pitch  <distance, in nm>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the start theta (the angle from the 'north pole': "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix startTheta <angle, in rads>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the end   theta (the angle from the 'north pole': "<<endl);
@@ -263,6 +282,8 @@ void Spiral::writeSyntax()
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix frequencyPhaseAmplitude <frequency multiplier> <phase, rads> <amplitude, rads>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "If you want to remove all elements from the frequencyPhaseAmplitudeVector, issue: "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix frequencyPhaseAmplitude clear                                                   "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "You can create more than one geometry. Specify which one you want: "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "geometry <sphere | cylinder>                                                   "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "And finally, to create the helix, issue:                        "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix writeCommands "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "The above should be the last sphericalHelix command you issue. "<<endl);
@@ -272,6 +293,7 @@ void Spiral::writeSyntax()
 
 // This function figures out which polymorphism of parseInput should be used, based on number of parameters provided, be it 0,1,or 3.
 void Spiral::parseInput(const map<const String,double> & userVariables, String parameterName, String parameterValue1,String parameterValue2, String parameterValue3,MonoAtomsContainer &monoAtomsContainer){
+    MMBLOG_FILE_FUNC_LINE(DEBUG   , "  "<<endl);
     if (parameterValue3 != ""){
         if (parameterValue2 == "") MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of parameters! Please check your syntax.       "<<endl); // if parameterValue3 is specified, then parameterValue2 must also be.
         parseInput(parameterName,myAtoF(userVariables,(parameterValue1).c_str()),myAtoF(userVariables,(parameterValue2).c_str()),myAtoF(userVariables,(parameterValue3).c_str()));
@@ -287,18 +309,39 @@ void Spiral::parseInput(const map<const String,double> & userVariables, String p
 }	
 
 void Spiral::parseInput(String commandName, MonoAtomsContainer & monoAtomsContainer){
+    MMBLOG_FILE_FUNC_LINE(DEBUG   , "  "<<endl);
     if (commandName == "writeCommands"){
-        writeDnaSpiralCommandfile(monoAtomsContainer);
-    } else {
+        MMBLOG_FILE_FUNC_LINE(DEBUG   , "  "<<endl);
+	if (geometry == geometryEnum::sphere){
+            MMBLOG_FILE_FUNC_LINE(DEBUG   , " About to write a sphere. "<<endl);
+            writeSphericalSpiralCommandFile (monoAtomsContainer);}
+        else if (geometry == geometryEnum::cylinder) {
+            MMBLOG_FILE_FUNC_LINE(DEBUG   , " About to write a cylinder. "<<endl);
+            writeCylindricalSpiralCommandFile (monoAtomsContainer);}
+    }
+    else {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Non recognizable input: " << commandName << endl);
     }
 }
 void Spiral::parseInput(const  map<const String,double> & userVariables,String parameterName, String parameterValue){
+    MMBLOG_FILE_FUNC_LINE(DEBUG   , "  "<<endl);
     if ((parameterName).compare("radius") ==0)    {
         radius = myAtoF(userVariables,(parameterValue).c_str());
         return;
-    } else if ((parameterName).compare("interStrandDistance") ==0)    {
-        interStrandDistance = myAtoF(userVariables,(parameterValue).c_str());
+    } else if ((parameterName).compare("geometry") ==0)    {
+        MMBLOG_FILE_FUNC_LINE(DEBUG   , " parameterValue "<<parameterValue<<endl);
+	if (parameterValue.compare("sphere")==0){
+            MMBLOG_FILE_FUNC_LINE(DEBUG   , "  "<<endl);
+            geometry = geometryEnum::sphere;}
+        else if (parameterValue.compare("cylinder") == 0) {
+            MMBLOG_FILE_FUNC_LINE(DEBUG   , "  "<<endl);
+            geometry = geometryEnum::cylinder;}
+        return;
+    } else if ((parameterName.compare("pitch") ==0) || (parameterName.compare("interStrandDistance") ==0) )    {
+        pitch = myAtoF(userVariables,(parameterValue).c_str());
+        return;
+    } else if ((parameterName).compare("spiralIsRightHanded") ==0)    {
+        spiralIsRightHanded = aToBool((parameterValue).c_str());
         return;
     } else if ((parameterName).compare("startTheta") ==0)    {
         startTheta = myAtoF(userVariables,(parameterValue).c_str());
@@ -312,12 +355,18 @@ void Spiral::parseInput(const  map<const String,double> & userVariables,String p
     } else if ((parameterName).compare("helixAdvancePerBasePair") ==0)    {
         helixAdvancePerBasePair = myAtoF(userVariables,(parameterValue).c_str());
         return;
+    } else if ((parameterName).compare("cylinderHeight") ==0)    {
+        cylinderHeight          = myAtoF(userVariables,(parameterValue).c_str());
+        return;
     } else if ((parameterName).compare("spiralPdbFileName")==0){ // was "spiral.pdb"
         spiralPdbFileName = parameterValue;	    
         MMBLOG_FILE_FUNC_LINE(INFO, " Setting spiralPdbFileName = " <<spiralPdbFileName                                   <<endl);
         return;
     } else if ((parameterName).compare("spiralCommandsFileName")==0){ // was "commands.spiral.dat") ;
         spiralCommandsFileName = parameterValue;	    
+        return;
+    } else if ((parameterName).compare("chainID")==0){ 
+        chainID                = parameterValue;	    
         return;
     } else if ((parameterName).compare("frequencyPhaseAmplitude")==0){ 
         if ( parameterValue == "clear"){ // ATM there is only one supported command for frequencyPhaseAmplitude, and that is "clear". That is in addition to the setting of frequency multiplier, phase, and amplitude, which is treated separately.

@@ -38,7 +38,7 @@ class MonoAtoms {
 		String          getChainID();
 		ResidueID	getLastResidueID ();
 		ResidueID	getFirstResidueID ();
-                ResidueID       getResidueID   (int       myResidueIndex);
+                ResidueID       getResidueID   (const int       myResidueIndex);
                 int             getResidueIndex(ResidueID myResidueID);
 		int             getNumAtoms();
 		String          getAtomName();  
@@ -48,13 +48,16 @@ class MonoAtoms {
 		bool            hasAtom(ResidueID residueNumber);
 		Compound::AtomIndex getAtomIndex(ResidueID residueNumber);
 		Vec3	        getAtomLocationInMobilizedBodyFrame(ResidueID residueNumber);
-		Vec3	        getAtomLocationInGroundFrame       (int       residueIndex ,const State & state);
+		Vec3	        getAtomLocationInGroundFrame       (const int       residueIndex ,const State & state);
 		void		adoptCompounds(CompoundSystem & mySystem, bool readPreviousFrameFile);
 		void		matchDefaultConfiguration(SimTK::PdbStructure,bool matchExact, bool matchIdealized);
                 void            renumberPdbResidues();
                 void            setPdbChainId(String chainID);
 		String		getAtomPathName(ResidueID);
 		void 		includeAllAtoms(DuMMForceFieldSubsystem & dumm);
+		double          computeCurvatureSquared(const int index, const State & state);
+		double          computeTotalCurvatureSquared(const State & state);
+
 };
 	
 class MonoAtomsContainer  {
@@ -73,6 +76,7 @@ class MonoAtomsContainer  {
 		String		getAtomPathName(String,ResidueID);
 		void 		clear();
 		void 		includeAllAtoms(DuMMForceFieldSubsystem & dumm);
+		double          computeTotalCurvatureSquared(const State & state);
 };
 #endif
 

@@ -1044,6 +1044,7 @@ void ConstrainedDynamics::initializeBodies(){
     setMobilizers();
     //_parameterReader->removeBasePairsAcrossRigidStretches(); //SCF
     createMultibodyTree();
+    _parameterReader->myMonoAtomsContainer.computeTotalCurvatureSquared(_state);
 }
 
 void ConstrainedDynamics::initializeDynamics(){

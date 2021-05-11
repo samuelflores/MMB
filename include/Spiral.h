@@ -26,19 +26,24 @@ struct frequencyPhaseAmplitude {
     double amplitude; // also rads. Because this is angle in the theta-direction, that is to say, along the meridians.
     // We can also use the hard coded SimTK::Pi
 };
+enum   geometryEnum {sphere, cylinder};
 class Spiral                                                            {
 private:
     vector<frequencyPhaseAmplitude> frequencyPhaseAmplitudeVector; // This holds all the harmonic adjustments to be made to the spherical helix.
     double helixAdvancePerBasePair  ;  // in nm
     String spiralPdbFileName  ;
     String spiralCommandsFileName  ;
+    String chainID                 ;
     Vec3   center	      ;
     double radius             ;
-    double interStrandDistance; 
+    double pitch; 
     double startTheta         ;
     double endTheta         ;
     double phiOffset          ;
+    double cylinderHeight          ;
     double harmonicThetaAdjustment(double inputPhi);
+    bool   spiralIsRightHanded;
+    geometryEnum   geometry ;
 public:
     Spiral(); // Default constructor. Should set default values of parameters.
     void clear();
@@ -50,7 +55,8 @@ public:
     void parseInput(String parameterName, double X, double Y, double Z);
     void writeSyntax(); // To be written as a helpful aid to the user.
     void writeIonSpiralPdbFile();
-    void writeDnaSpiralCommandfile(MonoAtomsContainer &monoAtomsContainer );
+    void writeSphericalSpiralCommandFile(MonoAtomsContainer &monoAtomsContainer );
+    void writeCylindricalSpiralCommandFile(MonoAtomsContainer &monoAtomsContainer);
 };
 #endif
 

@@ -41,7 +41,7 @@ RUN mkdir /github/simbody/build
 WORKDIR  /github/simbody/build
 RUN cmake -DBUILD_VISUALIZER=OFF -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTS_AND_EXAMPLES_SHARED=OFF -DBUILD_TESTS_AND_EXAMPLES_STATIC=OFF ..
 #install prefix is /usr/local
-RUN make install
+RUN make install 
 
 # MMB part
 RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
@@ -50,7 +50,7 @@ RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
 RUN mkdir /github/MMB/3rdparty/openmm/build
 WORKDIR /github/MMB/3rdparty/openmm/build
 RUN cmake ..
-RUN make install
+RUN make install 
 # default install directory is /usr/local/openmm
 
 #WORKDIR /github/MMB
@@ -71,7 +71,7 @@ RUN mkdir /github/molmodel/build
 WORKDIR /github/molmodel/build
 RUN cmake -DUSE_GEMMI=TRUE -DGEMMI_PATH=/github/gemmi/include -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF ..
 #RUN cmake -DUSE_GEMMI=FALSE -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF ..
-RUN make install
+RUN make install 
 
 #RUN git -C /github/MMB  checkout $GIT_COMMIT        
 
@@ -82,7 +82,7 @@ RUN cmake .. \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DCMAKE_INSTALL_PREFIX="/usr/local" \
 	-DBuild_GEMMI=TRUE \
-	-DBUILD_MMB_GUI_TEST=TRUE \
+	-DBUILD_MMB_GUI_TEST=FALSE \
 	-DGEMMI_INCLUDE_DIR="/github/gemmi/include" \
 	-DLepton_INCLUDE_DIR="/github/MMB/3rdparty/Lepton1.3/include" \
 	-DOpenMM_INSTALL_DIR="/usr/local/openmm" \
@@ -96,7 +96,7 @@ RUN cmake .. \
 
 
 RUN touch /github/MMB/build/done-cmake.txt
-RUN make install
+RUN make install 
 RUN rm MMB libMMBlib.so
 ENV LD_LIBRARY_PATH /usr/local/lib
 ENV PATH "/usr/local/bin:$PATH"

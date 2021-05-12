@@ -89,46 +89,47 @@ ELSE()
 	SET(ZLIB_LIB_STATIC z)
 ENDIF()
 
-SET(OpenMM_SHARED_LIBS
-        optimized OpenMM)
-
-SET(OpenMM_SHARED_LIBS_D
-        debug OpenMM)
-
-SET(OpenMM_STATIC_LIBS
-        optimized OpenMM_static)
-
-SET(OpenMM_STATIC_LIBS_D
-        debug OpenMM_static_d)
-
-SET(SimTK_SHARED_LIBS
-    optimized SimTKmolmodel${molmodel_VERTAG}
-    optimized SimTKsimbody${Simbody_VERTAG}
-    optimized SimTKmath${Simbody_VERTAG}
-    optimized SimTKcommon${Simbody_VERTAG}
-)
-
-SET(SimTK_SHARED_LIBS_D
-    debug SimTKmolmodel_d${molmodel_VERTAG}
-    debug SimTKsimbody_d${Simbody_VERTAG}
-    debug SimTKmath_d${Simbody_VERTAG}
-    debug SimTKcommon_d${Simbody_VERTAG}
-)
-
-SET(SimTK_STATIC_LIBS
-    optimized SimTKmolmodel_static${molmodel_VERTAG}
-    optimized SimTKsimbody_static${Simbody_VERTAG}
-    optimized SimTKmath_static${Simbody_VERTAG}
-    optimized SimTKcommon_static${Simbody_VERTAG}
-)
-
-SET(SimTK_STATIC_LIBS_D
-    debug SimTKmolmodel_static_d${molmodel_VERTAG}
-    debug SimTKsimbody_static_d${Simbody_VERTAG}
-    debug SimTKmath_static_d${Simbody_VERTAG}
-    debug SimTKcommon_static_d${Simbody_VERTAG}
-)
-
+IF(CMAKE_BUILD_TYPE MATCHES Release)
+    SET(OpenMM_SHARED_LIBS
+        PRIVATE optimized OpenMM
+    )
+    SET(OpenMM_STATIC_LIBS
+        PRIVATE optimized OpenMM_static
+    )
+    SET(SimTK_SHARED_LIBS
+        PRIVATE optimized SimTKmolmodel${molmodel_VERTAG}
+        PRIVATE optimized SimTKsimbody${Simbody_VERTAG}
+        PRIVATE optimized SimTKmath${Simbody_VERTAG}
+        PRIVATE optimized SimTKcommon${Simbody_VERTAG}
+    )
+    SET(SimTK_STATIC_LIBS
+        PRIVATE optimized SimTKmolmodel_static${molmodel_VERTAG}
+        PRIVATE optimized SimTKsimbody_static${Simbody_VERTAG}
+        PRIVATE optimized SimTKmath_static${Simbody_VERTAG}
+        PRIVATE optimized SimTKcommon_static${Simbody_VERTAG}
+    )
+ELSEIF(CMAKE_BUILD_TYPE MATCHES Debug)
+    SET(OpenMM_SHARED_LIBS
+        PRIVATE debug OpenMM_d
+    )
+    SET(OpenMM_STATIC_LIBS
+        PRIVATE debug OpenMM_static_d
+    )
+    SET(SimTK_SHARED_LIBS
+        PRIVATE debug SimTKmolmodel_d${molmodel_VERTAG}
+        PRIVATE debug SimTKsimbody_d${Simbody_VERTAG}
+        PRIVATE debug SimTKmath_d${Simbody_VERTAG}
+        PRIVATE debug SimTKcommon_d${Simbody_VERTAG}
+    )
+    SET(SimTK_STATIC_LIBS
+        PRIVATE debug SimTKmolmodel_static_d${molmodel_VERTAG}
+        PRIVATE debug SimTKsimbody_static_d${Simbody_VERTAG}
+        PRIVATE debug SimTKmath_static_d${Simbody_VERTAG}
+        PRIVATE debug SimTKcommon_static_d${Simbody_VERTAG}
+    )
+ELSE()
+    message(FATAL_ERROR "Unknown build mode")
+ENDIF()
 
 # These extra libraries are only available as a shared, optimized.
 IF(WIN32)
@@ -163,6 +164,11 @@ IF(WIN32)
 
     IF(MSVC)
         SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /MP")
+    ENDIF()
+ELSEIF(UNIX)
+    IF(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR
+       ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+           SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
     ENDIF()
 ENDIF()
 
@@ -328,9 +334,7 @@ IF (BUILD_MMB_SHARED_LIB)
         PROJECT_LABEL "MMBlib (dynamic)"
         SOVERSION "${MMB_MAJOR_VERSION}.${MMB_MINOR_VERSION}")
     TARGET_LINK_LIBRARIES(${SHARED_MMB_TARGET}
-                          ${SimTK_SHARED_LIBS_D}
                           ${SimTK_SHARED_LIBS}
-                          ${OpenMM_SHARED_LIBS_D}
                           ${OpenMM_SHARED_LIBS}
                           ${SimTK_GENERAL_LIBS}
                           ${ZLIB_LIB_SHARED})
@@ -402,8 +406,10 @@ IF (BUILD_MMB_SHARED_EXEC)
     SET_TARGET_PROPERTIES(MMB
         PROPERTIES 
         PROJECT_LABEL "MMB - Dynamic")
-    TARGET_LINK_LIBRARIES(MMB 
-                          PRIVATE ${SHARED_MMB_TARGET})
+    TARGET_LINK_LIBRARIES(MMB
+                          PRIVATE ${SHARED_MMB_TARGET}
+                          ${SimTK_SHARED_LIBS}
+                          )
 
     INSTALL(TARGETS MMB
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
@@ -432,9 +438,7 @@ IF (BUILD_MMB_STATIC)
         COMPILE_FLAGS "-DMMB_BUILDING_STATIC_LIBRARY -DSimTK_USE_STATIC_LIBRARIES"
         PROJECT_LABEL "MMBlib (static)")
     TARGET_LINK_LIBRARIES(${STATIC_MMB_TARGET}
-                          ${SimTK_STATIC_LIBS_D}
                           ${SimTK_STATIC_LIBS}
-                          ${OpenMM_STATIC_LIBS_D}
                           ${OpenMM_STATIC_LIBS}
                           ${SimTK_GENERAL_LIBS}
                           ${ZLIB_LIB_STATIC})

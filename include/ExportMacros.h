@@ -51,7 +51,11 @@
         #define MMB_EXPORT __declspec(dllimport) /*i.e., a client of a shared library*/
     #endif
 #else
-    #define MMB_EXPORT // Linux, Mac
+    #if defined(MMB_BUILDING_SHARED_LIBRARY)
+	#define MMB_EXPORT __attribute__ ((visibility ("default")))
+    #else
+        #define MMB_EXPORT // Linux, Mac
+    #endif
 #endif
 
 #endif

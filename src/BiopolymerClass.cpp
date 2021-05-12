@@ -1064,7 +1064,7 @@ bool BiopolymerClass::hasAtom(ResidueID myResidueID, String myAtomName) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-///generates an atom path e.g. 3/C1* .                                               //
+///generates an atom path e.g. 3/C1' .                                               //
 ////////////////////////////////////////////////////////////////////////////////////////
 
 Compound::AtomPathName BiopolymerClass::atomPathString(ResidueID myResidueID, String myAtomName) {
@@ -1290,9 +1290,9 @@ vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidu
             if ((returnAtomInfoVector[i].atomName == "P") ||
                (returnAtomInfoVector[i].atomName == "OP1") ||
                (returnAtomInfoVector[i].atomName == "OP2") ||
-               (returnAtomInfoVector[i].atomName == "O5*") ||
                (returnAtomInfoVector[i].atomName == "O5'") ||
-               (returnAtomInfoVector[i].atomName == "O3*") ||
+               (returnAtomInfoVector[i].atomName == "O5'") ||
+               (returnAtomInfoVector[i].atomName == "O3'") ||
                (returnAtomInfoVector[i].atomName == "O3'") ) {
                 //MMBLOG_FILE_FUNC_LINE(": About to delete "<<returnAtomInfoVector[i].atomName<<" in returnAtomInfoVector["<<i<<"] "<<std::endl;
                 returnAtomInfoVector.erase(returnAtomInfoVector.begin() + i);
@@ -1420,10 +1420,10 @@ const String&  BiopolymerClass::getPdbResidueName(const ResidueID& residueID) co
 
 String BiopolymerClass::getRepresentativeAtomName(){
     if (biopolymerType     ==  BiopolymerType::RNA)     {
-        return  "C4*";
+        return  "C4'";
     }
     else if (biopolymerType     ==  BiopolymerType::DNA)     {
-        return  "C4*";
+        return  "C4'";
     }
     else if (biopolymerType == BiopolymerType::Protein) {
         return  "CA";
@@ -3699,8 +3699,8 @@ bool isRNAtest(const Biopolymer & inputBiopolymer){
             MMBLOG_FILE_FUNC_LINE(DEBUG, " The single letter code symbol >"<<myResidueInfo.getOneLetterCode()<<"< does not represent an RNA "     <<endl);
             return false;    
         }
-        if (! inputBiopolymer.hasAtom("0/O2*")) {
-            MMBLOG_FILE_FUNC_LINE(DEBUG, " No O2* atom found on first residue.  This is not RNA! "     <<endl);
+        if (! inputBiopolymer.hasAtom("0/O2'")) {
+            MMBLOG_FILE_FUNC_LINE(DEBUG, " No O2' atom found on first residue.  This is not RNA! "     <<endl);
             return false;
         }
     }
@@ -3717,8 +3717,8 @@ bool BiopolymerClassContainer::isRNA(const Biopolymer & inputBiopolymer)  {
         if (! letterIsRNA(String(myOneLetterCode))) {
             return false;    
         }
-        if (! inputBiopolymer.hasAtom("0/O2*")) {
-            MMBLOG_FILE_FUNC_LINE(" No O2* atom found on first residue.  This is not RNA! "<<endl;
+        if (! inputBiopolymer.hasAtom("0/O2'")) {
+            MMBLOG_FILE_FUNC_LINE(" No O2' atom found on first residue.  This is not RNA! "<<endl;
             return false;
         }
     }
@@ -3735,8 +3735,8 @@ bool BiopolymerClass::isRNA()  {
         if (! letterIsRNA(String(myOneLetterCode))) {
             return false;    
         }
-        if (! this->updBiopolymer().hasAtom("0/O2*")) {
-            MMBLOG_FILE_FUNC_LINE(" No O2* atom found on first residue.  This is not RNA! "<<endl;
+        if (! this->updBiopolymer().hasAtom("0/O2'")) {
+            MMBLOG_FILE_FUNC_LINE(" No O2' atom found on first residue.  This is not RNA! "<<endl;
             return false;
         }
     }
@@ -3752,8 +3752,8 @@ bool isDNAtest(const Biopolymer & inputBiopolymer)  {
         if (! letterIsDNA(myOneLetterCode)) {
             return false;    
         }
-        if ( inputBiopolymer.hasAtom("0/O2*")) {
-            MMBLOG_FILE_FUNC_LINE(WARNING, "O2* atom found on first residue.  This is not DNA! "<<endl);
+        if ( inputBiopolymer.hasAtom("0/O2'")) {
+            MMBLOG_FILE_FUNC_LINE(WARNING, "O2' atom found on first residue.  This is not DNA! "<<endl);
             return false;
         }
     }
@@ -3769,8 +3769,8 @@ bool BiopolymerClass::isDNA()  {
         if (! letterIsDNA(String(myOneLetterCode))) {
             return false;    
         }
-        if ( this->updBiopolymer().hasAtom("0/O2*")) {
-            MMBLOG_FILE_FUNC_LINE(" O2* atom found on first residue.  This is not DNA! "<<endl;
+        if ( this->updBiopolymer().hasAtom("0/O2'")) {
+            MMBLOG_FILE_FUNC_LINE(" O2' atom found on first residue.  This is not DNA! "<<endl;
             return false;
         }
     }
@@ -3785,8 +3785,8 @@ bool BiopolymerClassContainer::isDNA(const Biopolymer & inputBiopolymer)  {
         if (! letterIsDNA(String(myOneLetterCode))) {
             return false;    
         }
-        if ( inputBiopolymer.hasAtom("0/O2*")) {
-            MMBLOG_FILE_FUNC_LINE(" O2* atom found on first residue.  This is not DNA! "<<endl;
+        if ( inputBiopolymer.hasAtom("0/O2'")) {
+            MMBLOG_FILE_FUNC_LINE(" O2' atom found on first residue.  This is not DNA! "<<endl;
             return false;
         }
     }

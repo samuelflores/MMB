@@ -146,10 +146,10 @@ void ParameterReader::addC1pSprings (LeontisWesthofClass myLeontisWesthofClass) 
             atomSpringContainer.initializeAtomSpring(myAtomSpring);
             myAtomSpring.atom1Chain   = basePairContainer.getBasePair(p).FirstBPChain;
             myAtomSpring.atom1Residue = basePairContainer.getBasePair(p).FirstBPResidue;
-            myAtomSpring.atom1Name    = "C1*";        
+            myAtomSpring.atom1Name    = "C1'";        
             myAtomSpring.atom2Chain   = basePairContainer.getBasePair(p).SecondBPChain;
             myAtomSpring.atom2Residue = basePairContainer.getBasePair(p).SecondBPResidue;
-            myAtomSpring.atom2Name    = "C1*";         
+            myAtomSpring.atom2Name    = "C1'";         
             myAtomSpring.deadLength   = myLeontisWesthofClass.myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[basePairContainer.getBasePair(p).leontisWesthofBondRowIndex].distanceC1pC1p;
             myAtomSpring.forceConstant= .30 * twoTransformForceMultiplier; 
             myAtomSpring.toGround = false  ; 
@@ -3519,10 +3519,10 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             atomicPropertyOverrideStruct.atomName = "P";   myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
             atomicPropertyOverrideStruct.atomName = "OP1"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
             atomicPropertyOverrideStruct.atomName = "OP2"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
-            atomicPropertyOverrideStruct.atomName = "O5*"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
             atomicPropertyOverrideStruct.atomName = "O5'"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
-            atomicPropertyOverrideStruct.atomName = "O3*"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
+            //atomicPropertyOverrideStruct.atomName = "O5'"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
             atomicPropertyOverrideStruct.atomName = "O3'"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
+            //atomicPropertyOverrideStruct.atomName = "O3'"; myBiopolymerClassContainer.atomicPropertyOverrideVector.push_back(atomicPropertyOverrideStruct);
         } else {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have tried to set densityFitPhosphates to TRUE. please don't do this! Just leave out the command altogether. Actually this whole command is obsolete."<<endl);
         }

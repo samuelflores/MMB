@@ -39,7 +39,7 @@ RUN wget http://pe1.scilifelab.se/MMB-annex/Documentation/MMB.3_2.tutorial.docx
 RUN mkdir /github/simbody/build 
 #; cd /github/simbody/build ; cmake .. ; make install 
 WORKDIR  /github/simbody/build
-RUN cmake -DBUILD_VISUALIZER=OFF -DBUILD_TESTING=OFF -DBUILD_TESTS_AND_EXAMPLES_SHARED=OFF -DBUILD_TESTS_AND_EXAMPLES_STATIC=OFF ..
+RUN cmake -DBUILD_VISUALIZER=OFF -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTS_AND_EXAMPLES_SHARED=OFF -DBUILD_TESTS_AND_EXAMPLES_STATIC=OFF ..
 #install prefix is /usr/local
 RUN make install
 

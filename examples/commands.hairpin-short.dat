@@ -12,7 +12,7 @@ lastStage 1
 # This is a multiplying factor for the baseInteraction forces:
 baseInteractionScaleFactor     200
 # Simulation time = reportingInterval * numReportingIntervals :
-reportingInterval 4.0
+reportingInterval 1.0
 numReportingIntervals 10
 temperature 10 
 

@@ -37,7 +37,7 @@ struct AmplitudeFrequencyAndRandomPhases {
 struct GridPoint   {
 	double noiseFreeDensity; 
 	double density; 
-        double noise;
+        double noise;/*
 	float ddxPositiveXGradient;
 	float ddyPositiveXGradient;
 	float ddzPositiveXGradient;
@@ -46,7 +46,7 @@ struct GridPoint   {
         float ddzPositiveYGradient;
 	float ddxPositiveZGradient;
 	float ddyPositiveZGradient;
-	float ddzPositiveZGradient;
+	float ddzPositiveZGradient;*/
 	Vec3 position;
         Vec3 firstQuadrantGradient; 
 };
@@ -114,7 +114,7 @@ class MMB_EXPORT DensityMap {
         //void loadParametersAndDensity_OpenDX(const String densityFileName) ;
         //void loadParametersAndDensity_Situs(const String densityFileName) ;
         void precomputeGradient();
-        void precomputeGradientDerivatives();
+        //void precomputeGradientDerivatives();
         Vec3 fetchGradient(const Vec3 &position);
         Vec3 fetchFirstQuadrantGradient(const Vec3 &position);
         //Vec3 calcInterpolatedFirstQuadrantGradient(Vec3 position);
@@ -133,21 +133,21 @@ class MMB_EXPORT DensityMap {
         double getDensity(GridPoint & gridPoint) const;
         double getDensity(GridPoint & gridPoint, Vec3 myPosition) const;   
         void setPositiveXGradient(GridPoint & gridPoint, Real);
-        void setddxPositiveXGradient(GridPoint & gridPoint, Real);
-        void setddyPositiveXGradient(GridPoint & gridPoint, Real);
-        void setddzPositiveXGradient(GridPoint & gridPoint, Real);
+        //void setddxPositiveXGradient(GridPoint & gridPoint, Real);
+        //void setddyPositiveXGradient(GridPoint & gridPoint, Real);
+        //void setddzPositiveXGradient(GridPoint & gridPoint, Real);
         void setPositiveYGradient(GridPoint & gridPoint,Real);
-        void setddxPositiveYGradient(GridPoint & gridPoint, Real);
-        void setddyPositiveYGradient(GridPoint & gridPoint, Real);
-        void setddzPositiveYGradient(GridPoint & gridPoint, Real);
+        //void setddxPositiveYGradient(GridPoint & gridPoint, Real);
+        //void setddyPositiveYGradient(GridPoint & gridPoint, Real);
+        //void setddzPositiveYGradient(GridPoint & gridPoint, Real);
         void setPositiveZGradient(GridPoint & gridPoint, Real);
-        void setddxPositiveZGradient(GridPoint & gridPoint, Real);
-        void setddyPositiveZGradient(GridPoint & gridPoint, Real);
-        void setddzPositiveZGradient(GridPoint & gridPoint, Real);
+        //void setddxPositiveZGradient(GridPoint & gridPoint, Real);
+        //void setddyPositiveZGradient(GridPoint & gridPoint, Real);
+        //void setddzPositiveZGradient(GridPoint & gridPoint, Real);
         void setNegativeXGradient(GridPoint & gridPoint, Real);
         void setNegativeYGradient(GridPoint & gridPoint, Real);
         void setNegativeZGradient(GridPoint & gridPoint, Real);
-        void printSecondDerivatives(GridPoint & gridPoint) const;
+        //void printSecondDerivatives(GridPoint & gridPoint) const;
         Vec3 calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint, const Vec3 &queryPosition) const;
 };
 

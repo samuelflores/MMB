@@ -105,10 +105,16 @@ void   Spiral::validate(){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for radius : "<<radius<< endl);
     if (pitch         == -11111.)
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for pitch : "<<pitch<< endl);
-    if (startTheta         == -11111.)
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for startTheta : "<<startTheta<< endl);
-    if (endTheta         == -11111.)
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for endTheta : "<<endTheta<< endl);
+    if (geometry  == geometryEnum::sphere) {
+        if (startTheta         == -11111.)
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for startTheta : "<<startTheta<< endl);
+        if (endTheta         == -11111.)
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for endTheta : "<<endTheta<< endl);
+    } else if (geometry  == geometryEnum::cylinder){
+        if (cylinderHeight <=0){
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for cylinderHeight : "<<cylinderHeight<< endl);
+	}
+    }
     if (phiOffset         == -11111.)
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for phiOffset : "<<phiOffset<< endl);
     MMBLOG_FILE_FUNC_LINE(INFO, " Validation passed.           "<< endl);
@@ -137,17 +143,51 @@ void Spiral::writeCylindricalSpiralCommandFile(MonoAtomsContainer &monoAtomsCont
     double currentZ ;
     Vec3   currentXYZ (0,0,0) ;
     double currentPhi = phiOffset;
+    int n=1;
+    stringstream tetherCommandStream("");
     MonoAtoms monoAtoms(chainID    ,ResidueID(1),0,String("Mg+2"));  
     for (currentZ = 0.; currentZ <= cylinderHeight; currentZ += deltaZScalar){
         currentXYZ[0] = center[0] + cos(currentPhi)*radius;
         currentXYZ[1] = center[1] + sin(currentPhi)*radius;
         currentXYZ[2] = center[2] + currentZ;                       
 	monoAtoms.addMonoAtom(currentXYZ); // provide coords in nm.
+
+
+        tetherCommandStream<<"readAtStage "<<n<<std::endl;
+        // base-pair-at-origin.pdb contains a single base pair, with axis perpendicular to Z-axis.
+        // We had a problem with a rotation command which was spitting out tiny values in scientific notation, which MMB later had a hard time parsing. Solution is to used fixed-format, with 6 places precision:
+        tetherCommandStream.setf(std::ios_base::fixed, std::ios_base::floatfield);
+        tetherCommandStream.precision(6);  
+        tetherCommandStream<<"previousFrameFileName    base-pair."<<n<<".pdb   "<<std::endl;
+
+        tetherCommandStream<<"DNA A "<<n<<" A "<<std::endl;
+        tetherCommandStream<<"DNA B "<<9999-n<<" T "<<std::endl;
+        tetherCommandStream<<"mobilizer Rigid "<<std::endl;
+        tetherCommandStream<<"initialDisplacement A "<<  currentXYZ[0] <<" "<<  currentXYZ[1]  <<" "<< currentXYZ[2] <<std::endl;
+        tetherCommandStream<<"initialDisplacement B "<<  currentXYZ[0] <<" "<<  currentXYZ[1]  <<" "<< currentXYZ[2] <<std::endl;
+        tetherCommandStream<<"rotation A  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
+        tetherCommandStream<<"rotation B  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
+        tetherCommandStream<<"rotation A X "<<  atan( pitch / radius / SimTK::Pi / 2)*(-negativeWhenRightHanded(spiralIsRightHanded))    <<std::endl;  // Now, slope it so if follows the tangential slope of the helix. // here we are assuming right handed helix,  then  there is a sign change if it is actually left handed.
+        tetherCommandStream<<"rotation A X "<<  1.0*spiralIsRightHanded*SimTK::Pi     <<std::endl;  // If the spiral is right-handed, we need an additional 180-degree rotation
+        tetherCommandStream<<"rotation B X "<<  atan( pitch / radius / SimTK::Pi / 2)*(-negativeWhenRightHanded(spiralIsRightHanded))    <<std::endl;  // Now, slope it so if follows the tangential slope of the helix. // here we are assuming right handed helix,  then  there is a sign change if it is actually left handed.
+        tetherCommandStream<<"rotation B X "<<  1.0*spiralIsRightHanded*SimTK::Pi     <<std::endl;  // If the spiral is right-handed, we need an additional 180-degree rotation
+        tetherCommandStream<<"rotation A Z "<<  currentPhi   <<std::endl;
+        tetherCommandStream<<"rotation B Z "<<  currentPhi   <<std::endl;
+        tetherCommandStream<<"readBlockEnd"<<std::endl;
+
+
 	currentPhi += deltaPhi;
+	n++;
     }
+    std::string commonSpiralCommandsAdjusted = std::regex_replace( commonSpiralCommands, std::regex(std::string("ZZZZ")), std::to_string(n-1 ) ); 
+    commonSpiralCommandsAdjusted = std::regex_replace( commonSpiralCommandsAdjusted, std::regex(std::string("            ")), std::string("") );  // Now get rid of extra whitespace
+    ofstream spiralCommandsFile2(spiralCommandsFileName); // was "commands.spiral.dat") ;
+    spiralCommandsFile2<<commonSpiralCommandsAdjusted<<std::endl;
+    spiralCommandsFile2<<tetherCommandStream.str()<<std::endl;
+    spiralCommandsFile2.close();
     monoAtoms.renumberPdbResidues(); // monoAtoms were above added one by one  with no residue numbers set. Now we fix that.
     monoAtomsContainer.addMonoAtoms(monoAtoms);
-} // of procedure
+} // of writeCylindricalSpiralCommandFile
 /*
 */
 void Spiral::writeSphericalSpiralCommandFile(MonoAtomsContainer &monoAtomsContainer)
@@ -233,8 +273,8 @@ void Spiral::writeSphericalSpiralCommandFile(MonoAtomsContainer &monoAtomsContai
         tetherCommandStream<<"readBlockEnd"<<std::endl;
 
 
-        MMBLOG_FILE_FUNC_LINE(DEBUG, "MMB-command: tetherToGround A "<<n<<" N1 "<<currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2] << " .5 30.0 "<<endl);
-        MMBLOG_FILE_FUNC_LINE(DEBUG, "MMB-command: readBlockEnd "<<endl);
+        //MMBLOG_FILE_FUNC_LINE(DEBUG, "MMB-command: tetherToGround A "<<n<<" N1 "<<currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2] << " .5 30.0 "<<endl);
+        //MMBLOG_FILE_FUNC_LINE(DEBUG, "MMB-command: readBlockEnd "<<endl);
         MMBLOG_FILE_FUNC_LINE(DEBUG, "priorXYZ "<<priorXYZ<<endl);
         priorXYZ= currentXYZ;
         MMBLOG_FILE_FUNC_LINE(DEBUG, "priorXYZ "<<priorXYZ<<endl);

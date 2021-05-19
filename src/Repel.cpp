@@ -647,7 +647,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         _parameterReader->myDensityMap.precomputeGradient();
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
-        _parameterReader->myDensityMap.precomputeGradientDerivatives();
+        //_parameterReader->myDensityMap.precomputeGradientDerivatives(); // partial derivatives have not been used for a while.
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         // This needs to be re-done here, with the "dumm" version of initializeAtomInfoVectors, which sets atomic numbers, masses, etc. Consider making a cheaper version of initializeAtomInfoVectors that only updates the existing MMBAtomInfo's, though I'm not sure this would save much.
@@ -666,7 +666,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     {
         _parameterReader->myElectroDensityMap.loadParametersAndDensity(_parameterReader->electroDensityFileName);
         _parameterReader->myElectroDensityMap.precomputeGradient();
-        _parameterReader->myElectroDensityMap.precomputeGradientDerivatives();
+        //_parameterReader->myElectroDensityMap.precomputeGradientDerivatives(); // partial derivatives have not been used for a while.
         // This needs to be re-done here, with the "dumm" version of initializeAtomInfoVectors, which sets atomic numbers, masses, etc. Consider making a cheaper version of initializeAtomInfoVectors that only updates the existing MMBAtomInfo's, though I'm not sure this would save much.
         //_parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); 
         _parameterReader->myBiopolymerClassContainer.validateAtomInfoVectors();

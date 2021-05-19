@@ -71,6 +71,7 @@ Real DensityForce::calcPotentialEnergy(const State& state) const
 		    //SimTK::Compound::AtomIndex    myAtomIndex = myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getAtomIndex(myResidueID);
 
 		    int    myAtomicNumber = 1; //dumm.getAtomElement(myAtomIndex);
+                    MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(myAtomLocation) = "<< myDensityMap.getDensity(myAtomLocation)<<" myAtomLocation = "<<myAtomLocation<<" myParameterReader.densityForceConstant = "<<myParameterReader.densityForceConstant<<" myAtomicNumber = "<<myAtomicNumber<<endl);
 		    totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * myAtomicNumber;
 		    
                 }

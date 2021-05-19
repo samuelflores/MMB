@@ -17,7 +17,7 @@ public:
     using std::runtime_error::what;
 };
 
-class MMB_EXPORT MMBLogger {
+class MMBLogger {
 public:
     enum class Severity : uint8_t {
         DEBUG,
@@ -27,17 +27,17 @@ public:
         CRITICAL = 255    /*!< Unrecoverable error message. Logging the message also terminates the program */
     };
 
-    static MMBLogger & instance();
+    static MMB_EXPORT MMBLogger & instance();
 
-    void flush();
-    void log(const Severity severity, const LogFunc &logFunc, const bool printSeverity = true);
+    MMB_EXPORT void flush();
+    MMB_EXPORT void log(const Severity severity, const LogFunc &logFunc, const bool printSeverity = true);
 
     #ifndef MMBLOG_DONT_THROW_ON_CRITICAL
-    void logCritical [[noreturn]] (const LogFunc &oss);
+    MMB_EXPORT void MMB_EXPORT logCritical [[noreturn]] (const LogFunc &oss);
     #endif // MMBLOG_DONT_THROW_ON_CRITICAL
 
-    void setOutput(std::ostream *output);
-    void setLoggingSeverity(const Severity severity);
+    MMB_EXPORT void setOutput(std::ostream *output);
+    MMB_EXPORT void setLoggingSeverity(const Severity severity);
 
 private:
     MMBLogger();

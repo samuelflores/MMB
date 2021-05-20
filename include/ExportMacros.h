@@ -51,10 +51,14 @@
         #define MMB_EXPORT __declspec(dllimport) /*i.e., a client of a shared library*/
     #endif
 #else
-    #if defined(MMB_BUILDING_SHARED_LIBRARY)
-	#define MMB_EXPORT __attribute__ ((visibility ("default")))
+    #ifdef __GNUC__
+        #if defined(MMB_BUILDING_SHARED_LIBRARY)
+            #define MMB_EXPORT __attribute__ ((visibility ("default")))
+        #else
+            #define MMB_EXPORT
+        #endif
     #else
-        #define MMB_EXPORT // Linux, Mac
+        #define MMB_EXPORT // Unknown platform or compiler
     #endif
 #endif
 

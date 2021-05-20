@@ -168,7 +168,7 @@ IF(WIN32)
 ELSEIF(UNIX)
     IF(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR
        ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-           SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
+        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
     ENDIF()
 ENDIF()
 
@@ -407,8 +407,8 @@ IF (BUILD_MMB_SHARED_EXEC)
         PROPERTIES 
         PROJECT_LABEL "MMB - Dynamic")
     TARGET_LINK_LIBRARIES(MMB
-                          PRIVATE ${SHARED_MMB_TARGET}
                           ${SimTK_SHARED_LIBS}
+                          PRIVATE ${SHARED_MMB_TARGET}
                           )
 
     INSTALL(TARGETS MMB

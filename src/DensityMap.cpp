@@ -140,11 +140,12 @@ double DensityMap::getDensity(const Vec3 &myPosition) {
         //MMBLOG_FILE_FUNC_LINE( myFractionalVector[0] <<", "<<  myFractionalVector[1]   <<", "<< myFractionalVector[2]   <<" ..preceding should be unitCellParameters.convertCartesianVectorToFractionalVector(myPosition)"<<std::endl;
         if (!(unitCellParameters.fractionalVectorIsInsideMapBoundaries(myFractionalVector)))
 	{
+                MMBLOG_FILE_FUNC_LINE(DEBUG," Fractional vector "<<myFractionalVector<< " is outside map boundaries"<<  endl);
 		return 0.0; //return zero density
 	} else {
                 GridIndices myLowerLeftGridIndices = calcLowerLeftGridIndices(myPosition);
-                    MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
-		    return getDensity(  updGridPoint(myLowerLeftGridIndices), myPosition); // need to verify that this interpolated density is reasonable
+                MMBLOG_FILE_FUNC_LINE(DEBUG," Fractional vector "<<myFractionalVector<< " is INside map boundaries and yields indices "<< myLowerLeftGridIndices.getXGridIndex ()<<"," << myLowerLeftGridIndices.getYGridIndex ()<<","  << myLowerLeftGridIndices.getZGridIndex ()    <<   endl);
+		return getDensity(  updGridPoint(myLowerLeftGridIndices), myPosition); // need to verify that this interpolated density is reasonable
 	} 
 }
 

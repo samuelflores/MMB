@@ -58,6 +58,8 @@ Real DensityForce::calcPotentialEnergy(const State& state) const
                     for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) {
                         MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
                         Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
+                        MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(Vec3(-.68, -4.79, 2.26)) = "<< myDensityMap.getDensity(Vec3(-.68, -4.79, 2.26))<<endl);
+                        MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(myAtomLocation) = "<< myDensityMap.getDensity(myAtomLocation)<<" myAtomLocation = "<<myAtomLocation<<" myParameterReader.densityForceConstant = "<<myParameterReader.densityForceConstant<<" myAtomicNumber = "<<tempAtomInfo.atomicNumber<<endl);
                         // changed to atomic number on FEB 24 2021, earlier was atomic mass:
                         totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * tempAtomInfo.atomicNumber;
                     } // of for m
@@ -71,6 +73,10 @@ Real DensityForce::calcPotentialEnergy(const State& state) const
 		    //SimTK::Compound::AtomIndex    myAtomIndex = myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getAtomIndex(myResidueID);
 
 		    int    myAtomicNumber = 1; //dumm.getAtomElement(myAtomIndex);
+                    //MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(Vec3(myAtomLocation[0], -4.79, 2.26)) = "<< myDensityMap.getDensity(Vec3(myAtomLocation[0], -4.79, 2.26))<<endl);
+                    //MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(Vec3(-.68,myAtomLocation[1],  2.26)) = "<< myDensityMap.getDensity(Vec3(-.68,myAtomLocation[1], 2.26))<<endl);
+                    //MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(Vec3(-.68,-4.79,myAtomLocation[2])) = "<< myDensityMap.getDensity(Vec3(-.68,-4.79,myAtomLocation[2]))<<endl);
+                    //MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(Vec3(-.68, -4.79, 2.26)) = "<< myDensityMap.getDensity(Vec3(-.68, -4.79, 2.26))<<endl);
                     MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(myAtomLocation) = "<< myDensityMap.getDensity(myAtomLocation)<<" myAtomLocation = "<<myAtomLocation<<" myParameterReader.densityForceConstant = "<<myParameterReader.densityForceConstant<<" myAtomicNumber = "<<myAtomicNumber<<endl);
 		    totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myParameterReader.densityForceConstant * myAtomicNumber;
 		    

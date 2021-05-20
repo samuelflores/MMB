@@ -2920,7 +2920,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "you can't set dutyCycle<1.0 if you also issue the fitToDensity command"<<endl);
         }
         if (myDensityMap.getDensityFileName() == "densityFileName-NOT-SET") {
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "you can't issue fitToDensity before setting the densityFileName parameter, Currently densityFileName is set to: "<<myDensityMap.getDensityFileName()<<std::endl);
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "you can't issue fitToDensity before setting the densityFileName parameter, Currently densityFileName is set to: "<<myDensityMap.getDensityFileName()<<". Perhaps you issued 'density clear' AFTER 'density densityFileName' ? If so flip the order. "<<std::endl);
         }
         DensityStretch myDensityStretch;
         myDensityStretch.setChain ( parameterStringClass.getString(1));
@@ -3450,6 +3450,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         if (parameterStringClass.getString(1).compare("clear") ==0) {
             parameterStringClass.validateNumFields(2);
             myDensityMap.initializeMap();
+            return;
 	}
     }
     if (((parameterStringClass.getString(0)).compare("densityForceConstant") ==0)  )  {

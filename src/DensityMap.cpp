@@ -515,11 +515,15 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
     //================================================ Open the file using Gammi
     gemmi::Ccp4<float> map;
     map.read_ccp4                                     ( gemmi::MaybeGzipped ( densityFileName.c_str() ) );
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " map mode: "<< static_cast<int> ( map.header_i32   ( 4  ) )<<endl);
     
     //================================================ Read in the axes starting points before it is modified by the gemmi set-up
     int xFrom                                         = static_cast<int> ( map.header_i32   ( 5  ) );
     int yFrom                                         = static_cast<int> ( map.header_i32   ( 6  ) );
     int zFrom                                         = static_cast<int> ( map.header_i32   ( 7  ) );
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " start column for x :" << xFrom     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " start column for y :" << yFrom     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " start column for z :" << zFrom     << endl);
     
     //================================================ Convert to XYZ and create complete map, if need be
     map.setup                                         ( gemmi::GridSetup::ReorderOnly, NAN );
@@ -528,10 +532,16 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
     int xDimInds                                      = static_cast<int> ( map.header_i32   ( 1  ) );
     int yDimInds                                      = static_cast<int> ( map.header_i32   ( 2  ) );
     int zDimInds                                      = static_cast<int> ( map.header_i32   ( 3  ) );
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " number of columns in x :" << xDimInds     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " number of columns in y :" << yDimInds     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " number of columns in z :" << zDimInds     << endl);
     
     float xDim                                        = static_cast<float> ( map.header_float ( 11 ) );
     float yDim                                        = static_cast<float> ( map.header_float ( 12 ) );
     float zDim                                        = static_cast<float> ( map.header_float ( 13 ) );
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " cell dimension in x (Å) :" << xDim      << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " cell dimension in y (Å) :" << yDim      << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " cell dimension in z (Å) :" << zDim      << endl);
     
     float aAng                                        = static_cast<float> ( map.header_float ( 14 ) );
     float bAng                                        = static_cast<float> ( map.header_float ( 15 ) );
@@ -540,6 +550,9 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
     int xAxOrigin                                     = static_cast<int> ( map.header_i32   ( 50 ) ) + xFrom;
     int yAxOrigin                                     = static_cast<int> ( map.header_i32   ( 51 ) ) + yFrom;
     int zAxOrigin                                     = static_cast<int> ( map.header_i32   ( 52 ) ) + zFrom;
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " phase/subvolume origin x " << xAxOrigin     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " phase/subvolume origin y " << yAxOrigin     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " phase/subvolume origin z " << zAxOrigin     << endl);
     
     int xAxOrder                                      = static_cast<int> ( map.header_i32   ( 17 ) );
     int yAxOrder                                      = static_cast<int> ( map.header_i32   ( 18 ) );

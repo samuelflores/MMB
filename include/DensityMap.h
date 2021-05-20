@@ -78,12 +78,16 @@ class MMB_EXPORT DensityMap {
     private:
         double noiseTemperature;    		
         double noiseScale;
+	double forceConstant;
+	String densityFileName;
+        std::vector<std::vector<std::vector<GridPoint> > > ArrayOfGridPoints;        
     public:
         DensityMap();
         ~DensityMap();
         void initializeMap();
         void validateGridParameters();
-        std::vector<std::vector<std::vector<GridPoint> > > ArrayOfGridPoints;        
+	int getSizeOfArrayOfGridPoints() const ;//
+        // 	{return ArrayOfGridPoints.size()*ArrayOfGridPoints[0].size()*ArrayOfGridPoints[0][0].size();};
         std::vector<std::vector<std::vector<AmplitudeFrequencyAndRandomPhases> > > vectorOfAmplitudeFrequencyAndRandomPhases;     
         bool hasGridPoint(GridIndices);
         GridPoint     & updGridPoint(GridIndices);
@@ -107,10 +111,14 @@ class MMB_EXPORT DensityMap {
         void normalizeNoiseMap(const double totalNoiseEverywhere);
         void densityAutocorrelation(const bool computeNoiseAutocorrelation, const bool computeDensityAutocorrelation ) const;
         void populateNoiseMap();
-        void loadParametersAndDensity(const String &densityFileName) ;
-        void loadParametersAndDensity_XPLOR(const String &densityFileName) ;
-        void loadParametersAndDensity_CCP4MAP(const String &densityFileName) ;
-        void writeDensityMapXplor(const String &densityFileName,  const bool writeDensity = 1, const bool writeNoise =1);
+        double getForceConstant  () const {return forceConstant; };
+        void setForceConstant  (double myForceConstant  ) {forceConstant   = myForceConstant  ;};
+        String getDensityFileName() const {return densityFileName;};
+        void setDensityFileName(String myDensityFileName) {densityFileName = myDensityFileName;};
+        void loadParametersAndDensity() ;
+        void loadParametersAndDensity_XPLOR() ;
+        void loadParametersAndDensity_CCP4MAP() ;
+        void writeDensityMapXplor(const String outDensityFileName, const bool writeDensity = 1, const bool writeNoise =1);
         //void loadParametersAndDensity_OpenDX(const String densityFileName) ;
         //void loadParametersAndDensity_Situs(const String densityFileName) ;
         void precomputeGradient();

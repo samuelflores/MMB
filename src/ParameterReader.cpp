@@ -628,9 +628,9 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "constraintTolerance                    double  " + std::to_string ( constraintTolerance ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "cutoffRadius                           double  " + std::to_string ( cutoffRadius ) + " (nm)" ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityAtomFraction                    String  " + std::to_string ( densityAtomFraction ) ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityFileName                        String  " + std::string ( densityFileName ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityFileName                        String  " + std::string ( myDensityMap.getDensityFileName()  ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityFitPhosphates                   bool    " + std::to_string ( densityFitPhosphates ) + " : When set to False, this means phophate groups in DNA and RNA will feel zero density map fitting force. Be warned that this slows down your run A LOT -- proportional to the number of nucleic acid residues that have fitting forces turned on." ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityForceConstant                   double  " + std::to_string ( densityForceConstant ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityForceConstant                   double  " + std::to_string ( myDensityMap.getForceConstant( )  ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityNoiseComputeAutocorrelation     double  " + std::to_string ( densityNoiseComputeAutocorrelation ) + " : Compute the autocorrelation function for both the planck's law noise and input density. may only have effect if densityNoiseScale > 0." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityReportAtEachAtomPosition        bool    " + std::to_string ( densityReportAtEachAtomPosition ) + " : Write out the local density observed at each atom position, and the corresponding atom name. Written to stdout. Only works when the density forces are active. " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityNoiseTemperature                double  " + std::to_string ( densityNoiseTemperature ) + " : Temperature for the Planck's Law based noise generator for the density map." ) );
@@ -638,8 +638,8 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
 //    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "densityMapActivate                     String  " + std::to_string ( densityMapActivate ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addAllAtomSterics                      bool    " + std::to_string ( addAllAtomSterics ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "dutyCycle                              double  " + std::to_string ( dutyCycle ) + " : Must lie in (0,1)" ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "electroDensityFileName                 String  " + std::string ( densityFileName ) ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "electroDensityForceConstant            double  " + std::to_string ( densityForceConstant ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "electroDensityFileName                 String  " + std::string ( myDensityMap.getDensityFileName() ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "electroDensityForceConstant            double  " + std::to_string ( myDensityMap.getForceConstant( )  ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "excludedVolumeRadius                   double  " + std::to_string ( excludedVolumeRadius ) + " : Radius (in nm) of contact spheres to be applied in AllHeavyAtomSterics and AllAtomSterics." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "excludedVolumeStiffness                double  " + std::to_string ( excludedVolumeStiffness ) ) );
 //    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "firstResidueMobilizerType              String  " + std::to_string ( firstResidueMobilizerType ) + " : use constrainToGround to set this to Weld." ) );
@@ -752,17 +752,17 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "constraintTolerance                    double   "<<constraintTolerance               <<endl;
     myOstream << remarkString << "cutoffRadius                           double   "<<cutoffRadius<<" (nm)"    <<endl;
     myOstream << remarkString << "densityAtomFraction                    String  "<<densityAtomFraction<<endl;
-    myOstream << remarkString << "densityFileName                        String  "<<densityFileName<<endl;
+    myOstream << remarkString << "densityFileName                        String  "<<myDensityMap.getDensityFileName()<<endl;
     myOstream << remarkString << "densityFitPhosphates                   bool    "<<densityFitPhosphates<<" : When set to False, this means phophate groups in DNA and RNA will feel zero density map fitting force. Be warned that this slows down your run A LOT -- proportional to the number of nucleic acid residues that have fitting forces turned on."<<endl;
-    myOstream << remarkString << "densityForceConstant                   double   "<<densityForceConstant<<endl;
+    myOstream << remarkString << "densityForceConstant                   double   "<<myDensityMap.getForceConstant( ) <<endl;
     myOstream << remarkString << "densityNoiseComputeAutocorrelation                double   "<<densityNoiseComputeAutocorrelation<<" Compute the autocorrelation function for both the planck's law noise and input density. may only have effect if densityNoiseScale > 0."<<endl;
     myOstream << remarkString << "densityReportAtEachAtomPosition        bool    "<<densityReportAtEachAtomPosition<<" Write out the local density observed at each atom position, and the corresponding atom name. Written to stdout. Only works when the density forces are active. "<<endl;
     myOstream << remarkString << "densityNoiseTemperature                double   "<<densityNoiseTemperature<<" Temperature for the Planck's Law based noise generator for the density map."<<endl;
     myOstream << remarkString << "densityNoiseScale                      double   "<<densityNoiseScale<<" Overall scale of the noise for the Planck's Law based noise generator for the density map. Note that this scales the noise amplitude, but the amplitude is squared prior to being added to the density map, and being used to compute signalToNoiseRatio. "<< endl;
     //myOstream << remarkString << "densityMapActivate                     String  "<<densityMapActivate<<endl;
     myOstream << remarkString << "dutyCycle                              double   "<<dutyCycle<<" : Must lie in (0,1) "<<endl;
-    myOstream << remarkString << "electroDensityFileName                        String  "<<densityFileName<<endl;
-    myOstream << remarkString << "electroDensityForceConstant                   double   "<<densityForceConstant<<endl;
+    myOstream << remarkString << "electroDensityFileName                        String  "<<myDensityMap.getDensityFileName()<<endl;
+    myOstream << remarkString << "electroDensityForceConstant                   double   "<<myDensityMap.getForceConstant( ) <<endl;
     myOstream << remarkString << "excludedVolumeRadius                   double   "<<excludedVolumeRadius<<" : Radius (in nm) of contact spheres to be applied in AllHeavyAtomSterics and AllAtomSterics.  "        <<endl;
     myOstream << remarkString << "excludedVolumeStiffness                double   "<<excludedVolumeStiffness      <<endl;
     //myOstream << remarkString << "firstResidueMobilizerType              String  "<< firstResidueMobilizerType<<" : use constrainToGround to set this to Weld "<<endl;
@@ -2919,8 +2919,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         if ((dutyCycle<1.0) ) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "you can't set dutyCycle<1.0 if you also issue the fitToDensity command"<<endl);
         }
-        if (densityFileName == "densityFileName-NOT-SET") {
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "you can't issue fitToDensity before setting the densityFileName parameter, Currently densityFileName is set to: "<<densityFileName<<std::endl);
+        if (myDensityMap.getDensityFileName() == "densityFileName-NOT-SET") {
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "you can't issue fitToDensity before setting the densityFileName parameter, Currently densityFileName is set to: "<<myDensityMap.getDensityFileName()<<std::endl);
         }
         DensityStretch myDensityStretch;
         myDensityStretch.setChain ( parameterStringClass.getString(1));
@@ -3425,30 +3425,37 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }
         return;
     }
-    if (((parameterStringClass.getString(0)).compare("densityFileName") ==0)  )  {
-        parameterStringClass.validateNumFields(2);
-        densityFileName = parameterStringClass.getString(1);    
-        return;
+    if (  ((parameterStringClass.getString(0)).compare("densityFileName") ==0)  )  {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " This syntax is no longer supported. Please instead use: density densityFileName <name of file>"<<endl);
     }
-
-
-
-
-
-
-
-    if (((parameterStringClass.getString(0)).compare("sphericalHelix") ==0)  )  {
-	//MonoAtoms myMonoAtoms;
-	//myMonoAtoms.clear();
-	spiral.writeSyntax();    
-	spiral.parseInput(userVariables,parameterStringClass.getString(1),parameterStringClass.getString(2), parameterStringClass.getString(3), parameterStringClass.getString(4),myMonoAtomsContainer);
-	//spiral.monoAtoms;
-        return;
-            //myMonoAtomsContainer.addMonoAtoms(myMonoAtoms);
+    if (parameterStringClass.getString(0).compare("density") == 0) {
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "The density family of commands and parameters supports the following >"<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "Syntax:  "<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "    density densityFileName <name of file, in any of the supported formats, use right suffix>"<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "        sets the name of the input density file."<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "    density forceConstant <double>"<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "        sets the scaling factor for the density fitting forces. Defaults to 1.0. "<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "    density clear"<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, "        clears the existing, loaded density map. This forces a reload at the next MMB stage. If you do not call this, the density map loaded in a previous stage will be reused for time savings."<<endl);
+        if (parameterStringClass.getString(1).compare("densityFileName") ==0) {
+            parameterStringClass.validateNumFields(3);
+            myDensityMap.setDensityFileName(parameterStringClass.getString(2));
+            return;
+        }
+        if (parameterStringClass.getString(1).compare("forceConstant") ==0) {
+            parameterStringClass.validateNumFields(3);
+            myDensityMap.setForceConstant(myAtoF(userVariables,parameterStringClass.getString(2).c_str()));
+            return;
+        }
+        if (parameterStringClass.getString(1).compare("clear") ==0) {
+            parameterStringClass.validateNumFields(2);
+            myDensityMap.initializeMap();
+	}
     }
     if (((parameterStringClass.getString(0)).compare("densityForceConstant") ==0)  )  {
-        parameterStringClass.validateNumFields(2);
-        densityForceConstant = myAtoF(userVariables,(parameterStringClass.getString(1)).c_str());
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " This syntax is no longer supported. Please instead use: density forceConstant                 "<<endl);
+        //parameterStringClass.validateNumFields(2);
+        //densityForceConstant = myAtoF(userVariables,(parameterStringClass.getString(1)).c_str());
         return;
     }
     if (((parameterStringClass.getString(0)).compare("densityNoiseTemperature") ==0)  )  {
@@ -3541,6 +3548,22 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         parameterStringClass.validateNumFields(2);
         electroDensityForceConstant = myAtoF(userVariables,(parameterStringClass.getString(1)).c_str());
         return;
+    }
+
+
+
+
+
+
+
+    if (((parameterStringClass.getString(0)).compare("sphericalHelix") ==0)  )  {
+	//MonoAtoms myMonoAtoms;
+	//myMonoAtoms.clear();
+	spiral.writeSyntax();    
+	spiral.parseInput(userVariables,parameterStringClass.getString(1),parameterStringClass.getString(2), parameterStringClass.getString(3), parameterStringClass.getString(4),myMonoAtomsContainer);
+	//spiral.monoAtoms;
+        return;
+            //myMonoAtomsContainer.addMonoAtoms(myMonoAtoms);
     }
 
     if (((parameterStringClass.getString(0)).compare("vanderWallSphereRadius") ==0)  )  {
@@ -4866,8 +4889,8 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     cutoffRadius  = .1; // in nm, of course
     cutoffAngle = 0    ;
     densityAtomFraction = 1.0;
-    densityFileName = "densityFileName-NOT-SET";
-    densityForceConstant = 1.;
+    //densityFileName = "densityFileName-NOT-SET";
+    //densityForceConstant = 1.;
     densityNoiseTemperature = 0.;
     densityNoiseScale    = 0.;
     densityNoiseComputeAutocorrelation = 0;

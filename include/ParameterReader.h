@@ -105,9 +105,9 @@ public:
     double densityAtomFraction;
     double densityNoiseTemperature;
     double densityNoiseScale  ;
-    String densityFileName;
+    //String densityFileName;
     String electroDensityFileName;
-    double densityForceConstant;
+    //double densityForceConstant;
     bool   densityFitPhosphates; 
     bool   densityNoiseComputeAutocorrelation; 
     bool   densityReportAtEachAtomPosition;

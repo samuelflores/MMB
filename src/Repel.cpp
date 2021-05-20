@@ -628,7 +628,10 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
         MMBLOG_FILE_FUNC_LINE(INFO, "setting noiseScale to :" <<_parameterReader->densityNoiseScale<<endl);
         _parameterReader->myDensityMap.setNoiseScale(_parameterReader->densityNoiseScale);
         MMBLOG_FILE_FUNC_LINE(INFO, "set noiseScale to :" <<_parameterReader->myDensityMap.getNoiseScale() <<endl);
-        _parameterReader->myDensityMap.loadParametersAndDensity(_parameterReader->densityFileName);
+	if (_parameterReader->myDensityMap.getSizeOfArrayOfGridPoints() == 0){
+            MMBLOG_FILE_FUNC_LINE(INFO, " Current map has "<< _parameterReader->myDensityMap.getSizeOfArrayOfGridPoints() <<" grid points. Loading density amp from"<<_parameterReader->myDensityMap.getDensityFileName() <<endl);
+            _parameterReader->myDensityMap.loadParametersAndDensity();
+	}
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         if (_parameterReader->myDensityMap.getNoiseScale() > 0.0000001) {
             MMBLOG_FILE_FUNC_LINE(INFO, endl);
@@ -664,7 +667,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     }
     if (_parameterReader->electroDensityContainer.numDensityStretches() > 0) 
     {
-        _parameterReader->myElectroDensityMap.loadParametersAndDensity(_parameterReader->electroDensityFileName);
+        _parameterReader->myElectroDensityMap.loadParametersAndDensity();
         _parameterReader->myElectroDensityMap.precomputeGradient();
         //_parameterReader->myElectroDensityMap.precomputeGradientDerivatives(); // partial derivatives have not been used for a while.
         // This needs to be re-done here, with the "dumm" version of initializeAtomInfoVectors, which sets atomic numbers, masses, etc. Consider making a cheaper version of initializeAtomInfoVectors that only updates the existing MMBAtomInfo's, though I'm not sure this would save much.

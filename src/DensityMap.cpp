@@ -37,20 +37,40 @@ int GridIndices::getYGridIndex () const {return yGridPoint;}
 int GridIndices::getZGridIndex () const {return zGridPoint;}
 
 DensityMap::DensityMap(){
-    unitCellParameters.setDefaultParameters(); 
-    //initializeMap();
+    //unitCellParameters.setDefaultParameters(); 
+    initializeMap();
 };
 
 DensityMap::~DensityMap(){
+    MMBLOG_FILE_FUNC_LINE(DEBUG," Issuing ArrayOfGridPoints.clear() "<<  endl);
     ArrayOfGridPoints.clear();
 };
 
 void DensityMap::initializeMap() {
+    MMBLOG_FILE_FUNC_LINE(DEBUG," Issuing ArrayOfGridPoints.clear() "<<  endl);
+    ArrayOfGridPoints.clear();
+    MMBLOG_FILE_FUNC_LINE(DEBUG,"  "<<  endl);
     unitCellParameters.setDefaultParameters(); 
     setNoiseTemperature(00.);
     setNoiseScale(.0);
+    setDensityFileName("densityFileName-NOT-SET");
+    setForceConstant  (1.0                      );
 };
 
+int DensityMap::getSizeOfArrayOfGridPoints() const {
+    MMBLOG_FILE_FUNC_LINE(DEBUG,"  "<<  endl);
+    long unsigned int size = 0;
+    size = ArrayOfGridPoints.size();
+    if (size >0){
+        size *= ArrayOfGridPoints[0].size();
+    }
+    if (size >0){
+        size *= ArrayOfGridPoints[0][0].size();
+    }
+    return size; // ArrayOfGridPoints.size()*ArrayOfGridPoints[0].size()*ArrayOfGridPoints[0][0].size();
+    MMBLOG_FILE_FUNC_LINE(DEBUG,"  "<<  endl);
+
+}
 void DensityMap::validateGridParameters() {
     unitCellParameters.validate();
 }
@@ -475,28 +495,28 @@ void DensityMap::initializeVectorOfAmplitudeAndRandomPhases(){
 }
 
 
-void DensityMap::loadParametersAndDensity(const String &densityFileName)
+void DensityMap::loadParametersAndDensity()
 {
     unsigned int extIndex = densityFileName.rfind(".");
     String extension = densityFileName.substr(extIndex);
     if(extension == ".xplor")
-        loadParametersAndDensity_XPLOR(densityFileName);
+        loadParametersAndDensity_XPLOR();
     else if(extension == ".dx")
         { //loadParametersAndDensity_OpenDX(densityFileName);
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open density map : "<<densityFileName<<" .. DX is not a supported format at the moment."<<endl);
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open density map : "<<getDensityFileName()<<" .. DX is not a supported format at the moment."<<endl);
         }
     else if(extension == ".situs" || extension == ".sit")
         {//loadParametersAndDensity_Situs(densityFileName);
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open density map : "<<densityFileName<<" .. Situs is nota  supported format at the moment"<<endl);
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open density map : "<<getDensityFileName()<<" .. Situs is nota  supported format at the moment"<<endl);
         }
     else if (extension == ".map"    || extension == ".ccp4"    || extension == ".mrc"    ||
              extension == ".map.gz" || extension == ".ccp4.gz" || extension == ".mrc.gz" )
     {
-        loadParametersAndDensity_CCP4MAP              ( densityFileName );
+        loadParametersAndDensity_CCP4MAP  (  );
     }
     else
     {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "DensityMap: Extension unknown for " << densityFileName << endl);
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "DensityMap: Extension unknown for " << getDensityFileName() << endl);
     }
 }
 
@@ -510,7 +530,7 @@ void DensityMap::loadParametersAndDensity(const String &densityFileName)
 
     \param[in] densityFileName String containing the path to the density file which should read in.
 */
-void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
+void DensityMap::loadParametersAndDensity_CCP4MAP()
 {
     //================================================ Open the file using Gammi
     gemmi::Ccp4<float> map;
@@ -626,7 +646,7 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
 // Expects .xplor density maps to be in the following format:
 // http://psb11.snv.jussieu.fr/doc-logiciels/msi/xplor981/formats.html -- not accessible anymore
 // http://chem5.nchc.org.tw/software/document2007/insightII/doc/xplor/formats.html
-void DensityMap::loadParametersAndDensity_XPLOR(const String &densityFileName) {
+void DensityMap::loadParametersAndDensity_XPLOR() {
 
 	std::cout << " >>>>>> Loading XPLOR density map <<<<<<" << std::endl;
 
@@ -738,8 +758,8 @@ void incrementer(int & xIndex, const int maxX, int & yIndex, const int maxY, int
     incrementer(counter, maxCounter); // Always increment counter
 }
 
-void DensityMap::writeDensityMapXplor(const String &densityFileName, const bool writeDensity, const bool writeNoise ) {
-        ofstream outFile(densityFileName.c_str(),ofstream::out);
+void DensityMap::writeDensityMapXplor(const String outDensityFileName, const bool writeDensity, const bool writeNoise ) {
+        ofstream outFile(outDensityFileName.c_str(),ofstream::out);
         int densitiesPerLine = 6;	
         vector<String> mystring;
        	stringstream u;

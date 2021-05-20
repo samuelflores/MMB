@@ -140,11 +140,12 @@ double DensityMap::getDensity(const Vec3 &myPosition) {
         //MMBLOG_FILE_FUNC_LINE( myFractionalVector[0] <<", "<<  myFractionalVector[1]   <<", "<< myFractionalVector[2]   <<" ..preceding should be unitCellParameters.convertCartesianVectorToFractionalVector(myPosition)"<<std::endl;
         if (!(unitCellParameters.fractionalVectorIsInsideMapBoundaries(myFractionalVector)))
 	{
+                MMBLOG_FILE_FUNC_LINE(DEBUG," Fractional vector "<<myFractionalVector<< " is outside map boundaries"<<  endl);
 		return 0.0; //return zero density
 	} else {
                 GridIndices myLowerLeftGridIndices = calcLowerLeftGridIndices(myPosition);
-                    MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
-		    return getDensity(  updGridPoint(myLowerLeftGridIndices), myPosition); // need to verify that this interpolated density is reasonable
+                MMBLOG_FILE_FUNC_LINE(DEBUG," Fractional vector "<<myFractionalVector<< " is INside map boundaries and yields indices "<< myLowerLeftGridIndices.getXGridIndex ()<<"," << myLowerLeftGridIndices.getYGridIndex ()<<","  << myLowerLeftGridIndices.getZGridIndex ()    <<   endl);
+		return getDensity(  updGridPoint(myLowerLeftGridIndices), myPosition); // need to verify that this interpolated density is reasonable
 	} 
 }
 
@@ -158,11 +159,13 @@ void DensityMap::initializeArrayOfGridPoints(){
         Vec3 tempPosition(0,0,0);
         ArrayOfGridPoints.resize(unitCellParameters.getNc());
         for ( int zIndex = 0; zIndex < unitCellParameters.getNc(); zIndex++) {
+                MMBLOG_FILE_FUNC_LINE(DEBUG," resizing ArrayOfGridPoints["<<zIndex<<"] of max index "<<unitCellParameters.getNc()<< endl);
         	ArrayOfGridPoints[zIndex].resize(unitCellParameters.getNb());
         	for ( int yIndex = 0; yIndex < unitCellParameters.getNb(); yIndex++) {
         		ArrayOfGridPoints[zIndex][yIndex].resize(unitCellParameters.getNa());
         	}}
         for ( int xIndex = 0; xIndex < unitCellParameters.getNa(); xIndex++) {
+                MMBLOG_FILE_FUNC_LINE(DEBUG," initializing for xIndex    "<<xIndex<<"] of max index "<<unitCellParameters.getNa()<< endl);
         	for ( int yIndex = 0; yIndex < unitCellParameters.getNb(); yIndex++) {
         		for ( int zIndex = 0; zIndex < unitCellParameters.getNc(); zIndex++) {
         			GridPoint tempGridPoint;// = updGridPoint(GridIndices(xIndex, yIndex, zIndex)) ;
@@ -180,6 +183,7 @@ void DensityMap::initializeArrayOfGridPoints(){
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of grid points in Z direction! Found :"<< ArrayOfGridPoints.size()<<" expected : " << unitCellParameters.getNc()<<","<< unitCellParameters.getNc()<<endl);
         }
         for ( int zIndex = 0; zIndex < unitCellParameters.getNc(); zIndex++) {
+                MMBLOG_FILE_FUNC_LINE(DEBUG," checking for zIndex "<<zIndex<<" of max index "<<unitCellParameters.getNc()<< endl);
         	if (ArrayOfGridPoints[zIndex].size() != unitCellParameters.getNb()) {
                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of grid points in Y direction! Found :"<< ArrayOfGridPoints[zIndex].size()<<" expected : " << unitCellParameters.getNb()<<","<< unitCellParameters.getNc()<<endl);
                 }
@@ -189,6 +193,7 @@ void DensityMap::initializeArrayOfGridPoints(){
                 }
         	}
         } // of for zIndex
+        MMBLOG_FILE_FUNC_LINE(INFO, endl);
 }
 
 double plancksLaw(double temperature, double frequency){
@@ -510,11 +515,15 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
     //================================================ Open the file using Gammi
     gemmi::Ccp4<float> map;
     map.read_ccp4                                     ( gemmi::MaybeGzipped ( densityFileName.c_str() ) );
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " map mode: "<< static_cast<int> ( map.header_i32   ( 4  ) )<<endl);
     
     //================================================ Read in the axes starting points before it is modified by the gemmi set-up
     int xFrom                                         = static_cast<int> ( map.header_i32   ( 5  ) );
     int yFrom                                         = static_cast<int> ( map.header_i32   ( 6  ) );
     int zFrom                                         = static_cast<int> ( map.header_i32   ( 7  ) );
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " start column for x :" << xFrom     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " start column for y :" << yFrom     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " start column for z :" << zFrom     << endl);
     
     //================================================ Convert to XYZ and create complete map, if need be
     map.setup                                         ( gemmi::GridSetup::ReorderOnly, NAN );
@@ -523,10 +532,16 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
     int xDimInds                                      = static_cast<int> ( map.header_i32   ( 1  ) );
     int yDimInds                                      = static_cast<int> ( map.header_i32   ( 2  ) );
     int zDimInds                                      = static_cast<int> ( map.header_i32   ( 3  ) );
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " number of columns in x :" << xDimInds     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " number of columns in y :" << yDimInds     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " number of columns in z :" << zDimInds     << endl);
     
     float xDim                                        = static_cast<float> ( map.header_float ( 11 ) );
     float yDim                                        = static_cast<float> ( map.header_float ( 12 ) );
     float zDim                                        = static_cast<float> ( map.header_float ( 13 ) );
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " cell dimension in x (Å) :" << xDim      << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " cell dimension in y (Å) :" << yDim      << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " cell dimension in z (Å) :" << zDim      << endl);
     
     float aAng                                        = static_cast<float> ( map.header_float ( 14 ) );
     float bAng                                        = static_cast<float> ( map.header_float ( 15 ) );
@@ -535,6 +550,9 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
     int xAxOrigin                                     = static_cast<int> ( map.header_i32   ( 50 ) ) + xFrom;
     int yAxOrigin                                     = static_cast<int> ( map.header_i32   ( 51 ) ) + yFrom;
     int zAxOrigin                                     = static_cast<int> ( map.header_i32   ( 52 ) ) + zFrom;
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " phase/subvolume origin x " << xAxOrigin     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " phase/subvolume origin y " << yAxOrigin     << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " phase/subvolume origin z " << zAxOrigin     << endl);
     
     int xAxOrder                                      = static_cast<int> ( map.header_i32   ( 17 ) );
     int yAxOrder                                      = static_cast<int> ( map.header_i32   ( 18 ) );
@@ -567,7 +585,9 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
     unitCellParameters.setDeOrthogonalizationMatrix   ( );
     
     //================================================ Prepate grid
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     initializeArrayOfGridPoints                       ( );
+    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     
     //================================================ Read in the map
     {
@@ -584,12 +604,15 @@ void DensityMap::loadParametersAndDensity_CCP4MAP(const String &densityFileName)
         //============================================ Copy read in data to internal map variable
         for ( axOrdArr[0] = 0; axOrdArr[0] < axDimArr[xAxOrder-1]; axOrdArr[0]++ )
         {
+            MMBLOG_FILE_FUNC_LINE(DEBUG," copying int map variable for x index "<<axOrdArr[0]<<" of "<<axDimArr[xAxOrder-1]<< endl);
             for ( axOrdArr[1] = 0; axOrdArr[1] < axDimArr[yAxOrder-1]; axOrdArr[1]++ )
             {
                 for ( axOrdArr[2] = 0; axOrdArr[2] < axDimArr[zAxOrder-1]; axOrdArr[2]++ )
                 {
                     GridIndices centralGridIndices    ( axOrdArr[0],  axOrdArr[1], axOrdArr[2] );
                     GridPoint & centralGridPoint      = updGridPoint ( centralGridIndices );
+		    // This one is SUPER verbose. Anyway, I confirmed that nonzero densities are being read in here.
+		    //MMBLOG_FILE_FUNC_LINE(DEBUG," Setting density = "<< static_cast < float > ( map.grid.get_value_q( axOrdArr[xAxOrder-1], axOrdArr[yAxOrder-1], axOrdArr[zAxOrder-1] ) )<<" for indices : "<<axOrdArr[0]<<","<<  axOrdArr[1]<<","<< axOrdArr[2] <<endl);
                     setDensity                        ( centralGridPoint, static_cast < float > ( map.grid.get_value_q( axOrdArr[xAxOrder-1], axOrdArr[yAxOrder-1], axOrdArr[zAxOrder-1] ) ) );
                 }
             }
@@ -862,7 +885,8 @@ void DensityMap::loadParametersAndDensity_Situs(const String densityFileName) {
 } */
 
 void DensityMap::precomputeGradient() {
-			for ( int xIndex = 0; xIndex < unitCellParameters.getNa(); xIndex ++) 
+		for ( int xIndex = 0; xIndex < unitCellParameters.getNa(); xIndex ++) {
+                        MMBLOG_FILE_FUNC_LINE(DEBUG, " precomputing gradient for xIndex "<<xIndex<< " of max "<< unitCellParameters.getNa()<<endl);
 			for ( int yIndex = 0; yIndex < unitCellParameters.getNb(); yIndex ++) 
 			for ( int zIndex = 0; zIndex < unitCellParameters.getNc(); zIndex ++) 
 
@@ -901,7 +925,8 @@ void DensityMap::precomputeGradient() {
 
 
 
-			}
+			} // of zIndex
+			} // of xIndex
 		}
 /*
 void DensityMap::precomputeGradientDerivatives() {

@@ -11,6 +11,7 @@
 #include "Utils.h"
 #include "MonoAtoms.h"
 #include "molmodel/internal/Ions.h"
+#include <MMBLogger.h>
 #include <cstdlib>
 #include <fstream>
 #include <stdexcept>
@@ -114,12 +115,11 @@ int MonoAtoms::getResidueIndex(ResidueID myResidueID) {
     MMBLOG_FILE_FUNC_LINE(CRITICAL, "Requested ResidueID : " <<myResidueID.outString()<<" is invalid."<<endl);
 }
 
-int MonoAtoms::getNumAtoms() {
+int MonoAtoms::getNumAtoms() const {
 	return compoundVector.size();
-	//return numAtoms;
 } 
 
-String MonoAtoms::getAtomName() {
+const String & MonoAtoms::getAtomName() const {
 	return atomName;
 } 
 
@@ -273,19 +273,22 @@ double MonoAtoms::computeTotalCurvatureSquared( const State & state){
 
 MonoAtomsContainer::MonoAtomsContainer() {}
 
-bool MonoAtomsContainer::hasChainID(String myChainID ) {
-	if (monoAtomsMap.find(myChainID) == monoAtomsMap.end())
-	 	{return false;}
-	else
-		{return true;}
+bool MonoAtomsContainer::hasChainID(const String &myChainID) const {
+	return monoAtomsMap.find(myChainID) != monoAtomsMap.end();
 }
 
-MonoAtoms MonoAtomsContainer::getMonoAtoms(String myChainID) {
-	if (hasChainID(myChainID))
-		{MonoAtoms myMonoAtoms ( monoAtomsMap[myChainID]);
-		return myMonoAtoms;	
-                }
-	else {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Attempted to get a SingleAtom that doesn't exist!"<<endl);}
+MonoAtoms MonoAtomsContainer::getMonoAtoms(const String &myChainID) {
+    if (hasChainID(myChainID))
+        return monoAtomsMap[myChainID];
+    else
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Attempted to get a SingleAtom that doesn't exist!"<<endl);
+}
+
+const MonoAtoms & MonoAtomsContainer::getMonoAtoms(const String &myChainID) const {
+    if (hasChainID(myChainID))
+        return monoAtomsMap.at(myChainID);
+    else
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Attempted to get a SingleAtom that doesn't exist!"<<endl);
 }
 
 void MonoAtomsContainer::addMonoAtoms(MonoAtoms myMonoAtoms) {

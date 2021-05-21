@@ -40,8 +40,8 @@ class MonoAtoms {
 		ResidueID	getFirstResidueID ();
                 ResidueID       getResidueID   (const int       myResidueIndex);
                 int             getResidueIndex(ResidueID myResidueID);
-		int             getNumAtoms();
-		String          getAtomName();  
+		int             getNumAtoms() const;
+		const String &  getAtomName() const;
 		Compound 	getSingleCompound(ResidueID); 
 		MobilizedBodyIndex getMobilizedBodyIndex(ResidueID);
 		MobilizedBody &	updMobilizedBody(ResidueID, SimbodyMatterSubsystem &) ;
@@ -68,8 +68,9 @@ class MonoAtomsContainer  {
                 void initialize(CompoundSystem &  , bool , String ,bool matchExact, bool matchIdealized  );
 		//const int       getChainID(String);
 		void            remove(String myChainID) ; 
-		bool            hasChainID(String) ; 
-		MonoAtoms 	getMonoAtoms(String) ; 
+		bool            hasChainID(const String &) const;
+		MonoAtoms 	getMonoAtoms(const String &);
+		const MonoAtoms & getMonoAtoms(const String &) const;
 		void 		addMonoAtoms(MonoAtoms) ; 
 		void		adoptCompounds(CompoundSystem & mySystem, bool readPreviousFrameFile);
 		void 		matchDefaultConfiguration(SimTK::PdbStructure ,bool matchExact, bool matchIdealized );

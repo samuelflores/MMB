@@ -1,6 +1,7 @@
 #include "CifOutput.h"
 #include "molmodel/internal/CompoundSystem.h"
 #include <BiopolymerClass.h>
+#include <gemmi/metadata.hpp>
 #include <gemmi/model.hpp>
 
 #include <cassert>
@@ -10,49 +11,31 @@
 #include <gemmi/to_cif.hpp>
 #include <gemmi/gz.hpp>
 
-void SimTK::CIFOut::assignEntities ( gemmi::Structure &outStruct, const map <const String, BiopolymerClass>& biopolymers )
+static
+gemmi::EntityType getEntityType( const std::string& chainID, const SimTK::CIFOut::Data &data )
 {
-    //======================================== For each structure entity
-    for ( auto &entity : outStruct.entities )
+    auto bpIt = data.biopolymers.find(chainID);
+    if (bpIt != data.biopolymers.cend())
     {
-        const auto &chainID = entity.name;
-        const auto cpIt = biopolymers.find(chainID);
-        assert( cpIt != biopolymers.cend() );
-
-        //======================================== Print log
-        std::cout <<__FILE__<<":"<<__LINE__<<" Processing compound with chainID "<<chainID<< std::endl;
-
-        const auto &polymer = cpIt->second.myBiopolymer;
-        //================================ Copy sequence
-        const auto numResidues = polymer.getNumResidues();
-        entity.full_sequence.resize( numResidues );
-        for ( auto idx = 0; idx < numResidues; idx++ )
-        {
-            entity.full_sequence[idx] = polymer.getResidue(ResidueInfo::Index(idx)).getPdbResidueName();
-        }
+        const auto bioType   = bpIt->second.getBiopolymerType();
+        const bool isPolymer = ( bioType == BiopolymerType::RNA ) || ( bioType == BiopolymerType::DNA ) || ( bioType == BiopolymerType::Protein );
+        return isPolymer ? gemmi::EntityType::Polymer : gemmi::EntityType::NonPolymer;
     }
+
+    return gemmi::EntityType::NonPolymer;
 }
 
-void SimTK::CIFOut::buildModel ( const State& state, gemmi::Model& gModel, const map<const String, BiopolymerClass>& biopolymers, const CompoundSystem& system, int precision )
+void SimTK::CIFOut::buildModel ( const State& state, gemmi::Model& gModel, const Data& data, const CompoundSystem& system, int precision )
 {
     assert(precision > 0);
 
     for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c)
     {
         const auto& sysCompound                    = system.getCompound(c);
-        const auto& chainID                        = sysCompound.getPdbChainId();
-
-        const auto cpIt = biopolymers.find(chainID);
-        assert( cpIt != biopolymers.cend() );
-        //======================================== Print log
-        std::cout <<__FILE__<<":"<<__LINE__<<" Processing compound with chainID "<<chainID<<std::endl;
-
-        //==================================== Figure out the compound type
-        BiopolymerType::BiopolymerTypeEnum bioType = cpIt->second.getBiopolymerType();
-        bool isPolymer                             = ( bioType == BiopolymerType::RNA ) || ( bioType == BiopolymerType::DNA ) || ( bioType == BiopolymerType::Protein );
+        const auto  entityType                     = getEntityType(sysCompound.getPdbChainId(), data);
 
         //======================================== Build the Gemmi model from molmodel data
-        sysCompound.buildCif                       ( state, &gModel, isPolymer, precision, Transform( Vec3 ( 0 ) ) );
+        sysCompound.buildCif                       ( state, &gModel, entityType, precision, Transform( Vec3 ( 0 ) ) );
     }
 }
 
@@ -98,10 +81,6 @@ void SimTK::CIFOut::writeOutCif ( const gemmi::Structure& outStruct, const std::
     //================================================ Write out mmCIF file
     gemmi::cif::write_cif_to_stream                   ( outputFile, outDocument, gemmi::cif::Style::Simple );
     outputFile.close                                  ( );
-
-    //================================================ Done
-    return ;
-
 }
 
 void SimTK::CIFOut::reWriteOutCif ( const gemmi::Model& gModel, const std::string& modelName, const std::string& fileName, ParameterReader& myParameterReader, const CompoundSystem& system, bool firstInStage )
@@ -123,10 +102,6 @@ void SimTK::CIFOut::reWriteOutCif ( const gemmi::Model& gModel, const std::strin
         gemmi::assign_label_seq_id                    ( myTrajectoryOutputFile, true );
         gemmi::assign_subchains                       ( myTrajectoryOutputFile, true );
         
-        //============================================ Add sequence to entities
-
-        const auto& biopolymers                       = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
-        assignEntities                                ( myTrajectoryOutputFile, biopolymers );
         //============================================ Write out the file
         writeOutCif                                   ( myTrajectoryOutputFile, fileName, myParameterReader.trajectoryFileRemarks );
         
@@ -148,8 +123,4 @@ void SimTK::CIFOut::reWriteOutCif ( const gemmi::Model& gModel, const std::strin
         //============================================ Write out the file
         writeOutCif ( myTrajectoryOutputFile, fileName, myParameterReader.trajectoryFileRemarks );
     }
-    
-    //============================================ Done
-    return ;
-    
 }

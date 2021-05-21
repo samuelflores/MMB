@@ -943,7 +943,7 @@ void ConstrainedDynamics::postDynamics(){
         {
             //======================================== Initialise internal variables
             gemmi::Structure outStruct;
-            const auto& biopolymers                   = _parameterReader->myBiopolymerClassContainer.getBiopolymerClassMap();
+            const CIFOut::Data data                   {_parameterReader->myBiopolymerClassContainer.getBiopolymerClassMap(), _parameterReader->myMonoAtomsContainer};
 
             //======================================== Determine structure name and save it
             std::string strName                       = _parameterReader->lastFrameFileName;
@@ -961,14 +961,12 @@ void ConstrainedDynamics::postDynamics(){
             //==================================== Create new gemmi model for this compound
             gemmi::Model gModel                       ( "1" );
 
-            SimTK::CIFOut::buildModel                 ( _state, gModel, biopolymers, _system, 17 );
+            SimTK::CIFOut::buildModel                 ( _state, gModel, data, _system, 17 );
             outStruct.models.emplace_back             ( std::move( gModel ) );
 
             gemmi::setup_entities                     ( outStruct );
             gemmi::assign_label_seq_id                ( outStruct, true );
             gemmi::assign_subchains                   ( outStruct, true );
-
-            SimTK::CIFOut::assignEntities             ( outStruct, biopolymers );
 
             //======================================== Write out CIF
             SimTK::CIFOut::writeOutCif                ( outStruct, _parameterReader->lastFrameFileName, _parameterReader->lastFileRemarks );

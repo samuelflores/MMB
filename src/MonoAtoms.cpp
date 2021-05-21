@@ -78,12 +78,15 @@ void MonoAtoms::addMonoAtom (Vec3 positionVec3 ) {
     compoundVector.back().setTopLevelTransform(Transform(positionVec3))    ;
 }
 
-MonoAtoms::MonoAtoms(String myChainID, ResidueID myFirstResidueNumber, String myAtomName) :
+MonoAtoms::MonoAtoms(String myChainID, ResidueID myFirstResidueNumber, const int numAtoms, String myAtomName) :
     chainID(std::move(myChainID)),
     firstResidueID(std::move(myFirstResidueNumber)),
     atomName(std::move(myAtomName))
 {
-	validate();
+    validate();
+    for (int n = 0; n < numAtoms; n++)
+        addMonoAtom();
+    renumberPdbResidues();
 }
 
 String MonoAtoms::getChainID() {

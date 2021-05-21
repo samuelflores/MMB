@@ -1440,6 +1440,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
             MonoAtoms myMonoAtoms(parameterStringClass.getString(1),
                     ResidueID(parameterStringClass.getString(2)),
+                    myAtoI(userVariables,(parameterStringClass.getString(3)).c_str()),
                     parameterStringClass.getString(4));
             myMonoAtomsContainer.addMonoAtoms(myMonoAtoms);
 
@@ -1458,6 +1459,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
         MonoAtoms myMonoAtoms(parameterStringClass.getString(1), 
                 ResidueID(parameterStringClass.getString(2)),
+                myAtoI(userVariables,(parameterStringClass.getString(3)).c_str()),
                 parameterStringClass.getString(4)); 
         myMonoAtomsContainer.addMonoAtoms(myMonoAtoms); 
         return;

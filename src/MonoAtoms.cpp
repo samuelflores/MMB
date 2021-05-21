@@ -10,6 +10,8 @@
 
 #include "Utils.h"
 #include "MonoAtoms.h"
+#include "molmodel/internal/Ions.h"
+#include <cstdlib>
 #include <fstream>
 
 int MonoAtoms::validate() {
@@ -34,42 +36,30 @@ int MonoAtoms::validate() {
 
 MonoAtoms::MonoAtoms () {}
 
-
-Molecule returnIonOfCorrectType (String atomName){
-    Molecule myMolecule;
+static
+Molecule returnIonOfCorrectType(const String &atomName) {
     if (atomName.compare("Mg+2") == 0) {
-        MagnesiumIon myIon;
-        myMolecule = myIon;
-    } else if (atomName.compare("Zn+2") == 0) {
-        ZincIon myIon;
-        myMolecule = myIon;
+        return MagnesiumIon{};
+    } else if (atomName.compare("Zn+2") == 0 || atomName.compare("ZN+2") == 0) {
+        return ZincIon{};
     } else if (atomName.compare("Cl-") == 0) {
-        ChlorideIon myIon;
-        myMolecule = myIon;
+        return ChlorideIon{};
     } else if (atomName.compare("Na+") == 0) {
-        SodiumIon myIon;
-        myMolecule = myIon;
+        return SodiumIon{};
     } else if (atomName.compare("K+") == 0) {
-        PotassiumIon myIon;
-        myMolecule = myIon;
-    } else if (atomName.compare("ZN+2") == 0) {
-        ZincIon myIon;
-        myMolecule = myIon;
+        return PotassiumIon{};
     } else if (atomName.compare("Li+") == 0) {
-        LithiumIon myIon;
+        return LithiumIon{};
     } else if (atomName.compare("Ca+2") == 0) {
-        CalciumIon myIon;
-        myMolecule = myIon;
+        return CalciumIon{};
     } else if (atomName.compare("Cs+" ) == 0) {
-        CesiumIon myIon;
-        myMolecule = myIon;
+        return CesiumIon{};
     } else if (atomName.compare("Rb+") == 0) {
-        RubidiumIon myIon;
-        myMolecule = myIon;
-    } else {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have requested a monoAtoms of an unsupported type: "<<  atomName<<". Currently only the following are supported:  Mg+2, Zn+2, Cl-, Na+, K+, Li+, Ca+2, Cs+, Rb+."<<endl << "Corresponding residue types should be MG, ZN, CL, NA, K, LI, CA, CS, RB."<<endl);
+        return RubidiumIon{};
     }
-    return myMolecule;
+
+    MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have requested a monoAtoms of an unsupported type: "<<  atomName<<". Currently only the following are supported:  Mg+2, Zn+2, Cl-, Na+, K+, Li+, Ca+2, Cs+, Rb+."<<endl << "Corresponding residue types should be MG, ZN, CL, NA, K, LI, CA, CS, RB."<<endl);
+    std::abort();
 }
 
 

@@ -110,10 +110,10 @@ IF(CMAKE_BUILD_TYPE MATCHES Release)
     )
 ELSEIF(CMAKE_BUILD_TYPE MATCHES Debug)
     SET(OpenMM_SHARED_LIBS
-        PRIVATE debug OpenMM_d
+        PRIVATE debug OpenMM
     )
     SET(OpenMM_STATIC_LIBS
-        PRIVATE debug OpenMM_static_d
+        PRIVATE debug OpenMM_static
     )
     SET(SimTK_SHARED_LIBS
         PRIVATE debug SimTKmolmodel_d${molmodel_VERTAG}

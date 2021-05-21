@@ -28,7 +28,7 @@ class MonoAtoms {
 		vector<Compound> compoundVector; 
 	public:
 		MonoAtoms();
-		MonoAtoms(String, ResidueID, int, String);
+		MonoAtoms(String, ResidueID, String);
 		void            clear();
 		void            addMonoAtom();
 		void            addMonoAtom (Vec3 positionVec3 ); // Add a monoAtom at a specific default top level transform

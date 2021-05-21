@@ -13,6 +13,7 @@
 #include "molmodel/internal/Ions.h"
 #include <cstdlib>
 #include <fstream>
+#include <stdexcept>
 
 int MonoAtoms::validate() {
 	if (chainID.length() >1) {
@@ -77,22 +78,12 @@ void MonoAtoms::addMonoAtom (Vec3 positionVec3 ) {
     compoundVector.back().setTopLevelTransform(Transform(positionVec3))    ;
 }
 
-MonoAtoms::MonoAtoms (String myChainID,ResidueID myFirstResidueNumber, int   numAtoms, String myAtomName) {
-	compoundVector.clear();
-	chainID = myChainID;
-	firstResidueID     = myFirstResidueNumber;
-	//numAtoms = myNumAtoms;	
-	atomName = myAtomName;
+MonoAtoms::MonoAtoms(String myChainID, ResidueID myFirstResidueNumber, String myAtomName) :
+    chainID(std::move(myChainID)),
+    firstResidueID(std::move(myFirstResidueNumber)),
+    atomName(std::move(myAtomName))
+{
 	validate();
-        //Molecule myMolecule;
-	for (int i = 0; i < getNumAtoms(); i++) {
-            addMonoAtom();		
-            /*myMolecule = returnIonOfCorrectType(atomName);
-            myMolecule.setPdbChainId(chainID);
-            myMolecule.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-            compoundVector.push_back(myMolecule);*/
-        }
-        renumberPdbResidues();
 }
 
 String MonoAtoms::getChainID() {

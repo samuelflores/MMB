@@ -244,9 +244,9 @@ String MonoAtoms::getAtomPathName(ResidueID myResidue) {
 
 void MonoAtoms::includeAllAtoms(DuMMForceFieldSubsystem & dumm){
     for (int i = 0; i < (int)compoundVector.size(); i++) {
-        MMBLOG_FILE_FUNC_LINE(INFO, "About to get atom named : "<<getAtomName() <<endl);
         Compound::AtomIndex myAtomIndex = compoundVector[i].getAtomIndex(getAtomName() );
         DuMM::AtomIndex myDuMMAtomIndex = compoundVector[i].getDuMMAtomIndex(myAtomIndex);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "Got atom named : "<<getAtomName()<<" with index "<<myDuMMAtomIndex <<endl);
         dumm.includeNonbondAtom(myDuMMAtomIndex);
     }
 }

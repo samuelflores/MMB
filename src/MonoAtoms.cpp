@@ -10,7 +10,11 @@
 
 #include "Utils.h"
 #include "MonoAtoms.h"
+#include "molmodel/internal/Ions.h"
+#include <MMBLogger.h>
+#include <cstdlib>
 #include <fstream>
+#include <stdexcept>
 
 int MonoAtoms::validate() {
 	if (chainID.length() >1) {
@@ -34,42 +38,30 @@ int MonoAtoms::validate() {
 
 MonoAtoms::MonoAtoms () {}
 
-
-Molecule returnIonOfCorrectType (String atomName){
-    Molecule myMolecule;
+static
+Molecule returnIonOfCorrectType(const String &atomName) {
     if (atomName.compare("Mg+2") == 0) {
-        MagnesiumIon myIon;
-        myMolecule = myIon;
-    } else if (atomName.compare("Zn+2") == 0) {
-        ZincIon myIon;
-        myMolecule = myIon;
+        return MagnesiumIon{};
+    } else if (atomName.compare("Zn+2") == 0 || atomName.compare("ZN+2") == 0) {
+        return ZincIon{};
     } else if (atomName.compare("Cl-") == 0) {
-        ChlorideIon myIon;
-        myMolecule = myIon;
+        return ChlorideIon{};
     } else if (atomName.compare("Na+") == 0) {
-        SodiumIon myIon;
-        myMolecule = myIon;
+        return SodiumIon{};
     } else if (atomName.compare("K+") == 0) {
-        PotassiumIon myIon;
-        myMolecule = myIon;
-    } else if (atomName.compare("ZN+2") == 0) {
-        ZincIon myIon;
-        myMolecule = myIon;
+        return PotassiumIon{};
     } else if (atomName.compare("Li+") == 0) {
-        LithiumIon myIon;
+        return LithiumIon{};
     } else if (atomName.compare("Ca+2") == 0) {
-        CalciumIon myIon;
-        myMolecule = myIon;
+        return CalciumIon{};
     } else if (atomName.compare("Cs+" ) == 0) {
-        CesiumIon myIon;
-        myMolecule = myIon;
+        return CesiumIon{};
     } else if (atomName.compare("Rb+") == 0) {
-        RubidiumIon myIon;
-        myMolecule = myIon;
-    } else {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have requested a monoAtoms of an unsupported type: "<<  atomName<<". Currently only the following are supported:  Mg+2, Zn+2, Cl-, Na+, K+, Li+, Ca+2, Cs+, Rb+."<<endl << "Corresponding residue types should be MG, ZN, CL, NA, K, LI, CA, CS, RB."<<endl);
+        return RubidiumIon{};
     }
-    return myMolecule;
+
+    MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have requested a monoAtoms of an unsupported type: "<<  atomName<<". Currently only the following are supported:  Mg+2, Zn+2, Cl-, Na+, K+, Li+, Ca+2, Cs+, Rb+."<<endl << "Corresponding residue types should be MG, ZN, CL, NA, K, LI, CA, CS, RB."<<endl);
+    std::abort();
 }
 
 
@@ -87,22 +79,15 @@ void MonoAtoms::addMonoAtom (Vec3 positionVec3 ) {
     compoundVector.back().setTopLevelTransform(Transform(positionVec3))    ;
 }
 
-MonoAtoms::MonoAtoms (String myChainID,ResidueID myFirstResidueNumber, int   numAtoms, String myAtomName) {
-	compoundVector.clear();
-	chainID = myChainID;
-	firstResidueID     = myFirstResidueNumber;
-	//numAtoms = myNumAtoms;	
-	atomName = myAtomName;
-	validate();
-        //Molecule myMolecule;
-	for (int i = 0; i < getNumAtoms(); i++) {
-            addMonoAtom();		
-            /*myMolecule = returnIonOfCorrectType(atomName);
-            myMolecule.setPdbChainId(chainID);
-            myMolecule.setPdbResidueNumber(i+getFirstResidueID().getResidueNumber());
-            compoundVector.push_back(myMolecule);*/
-        }
-        renumberPdbResidues();
+MonoAtoms::MonoAtoms(String myChainID, ResidueID myFirstResidueNumber, const int numAtoms, String myAtomName) :
+    chainID(std::move(myChainID)),
+    firstResidueID(std::move(myFirstResidueNumber)),
+    atomName(std::move(myAtomName))
+{
+    validate();
+    for (int n = 0; n < numAtoms; n++)
+        addMonoAtom();
+    renumberPdbResidues();
 }
 
 String MonoAtoms::getChainID() {
@@ -130,12 +115,11 @@ int MonoAtoms::getResidueIndex(ResidueID myResidueID) {
     MMBLOG_FILE_FUNC_LINE(CRITICAL, "Requested ResidueID : " <<myResidueID.outString()<<" is invalid."<<endl);
 }
 
-int MonoAtoms::getNumAtoms() {
+int MonoAtoms::getNumAtoms() const {
 	return compoundVector.size();
-	//return numAtoms;
 } 
 
-String MonoAtoms::getAtomName() {
+const String & MonoAtoms::getAtomName() const {
 	return atomName;
 } 
 
@@ -251,10 +235,13 @@ void MonoAtoms::includeAllAtoms(DuMMForceFieldSubsystem & dumm){
     }
 }
 
-double dotProduct (const Vec3 vec1 , const Vec3 vec2){
+static
+double dotProduct(const Vec3 &vec1, const Vec3 &vec2) {
     return (vec1[0]*vec2[0] +vec1[1]*vec2[1] + vec1[2]*vec2[2]);
 }
-double magnitude  (const Vec3 vec){
+
+static
+double magnitude(const Vec3 &vec) {
     return sqrt(vec[0]*vec[0] +vec[1]*vec[1] + vec[2]*vec[2]);
 }
 
@@ -286,19 +273,22 @@ double MonoAtoms::computeTotalCurvatureSquared( const State & state){
 
 MonoAtomsContainer::MonoAtomsContainer() {}
 
-bool MonoAtomsContainer::hasChainID(String myChainID ) {
-	if (monoAtomsMap.find(myChainID) == monoAtomsMap.end())
-	 	{return false;}
-	else
-		{return true;}
+bool MonoAtomsContainer::hasChainID(const String &myChainID) const {
+	return monoAtomsMap.find(myChainID) != monoAtomsMap.end();
 }
 
-MonoAtoms MonoAtomsContainer::getMonoAtoms(String myChainID) {
-	if (hasChainID(myChainID))
-		{MonoAtoms myMonoAtoms ( monoAtomsMap[myChainID]);
-		return myMonoAtoms;	
-                }
-	else {MMBLOG_FILE_FUNC_LINE(CRITICAL, "Attempted to get a SingleAtom that doesn't exist!"<<endl);}
+MonoAtoms MonoAtomsContainer::getMonoAtoms(const String &myChainID) {
+    if (hasChainID(myChainID))
+        return monoAtomsMap[myChainID];
+    else
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Attempted to get a SingleAtom that doesn't exist!"<<endl);
+}
+
+const MonoAtoms & MonoAtomsContainer::getMonoAtoms(const String &myChainID) const {
+    if (hasChainID(myChainID))
+        return monoAtomsMap.at(myChainID);
+    else
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Attempted to get a SingleAtom that doesn't exist!"<<endl);
 }
 
 void MonoAtomsContainer::addMonoAtoms(MonoAtoms myMonoAtoms) {

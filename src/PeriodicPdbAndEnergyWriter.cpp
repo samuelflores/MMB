@@ -78,8 +78,8 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
 
     if ( myParameterReader.useCIFFileFormat )
     {
-        const auto &biopolymers = myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap();
-        CIFOut::buildModel( state, gModel, biopolymers, system, 3 );
+        const CIFOut::Data data{myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap(), myParameterReader.myMonoAtomsContainer};
+        CIFOut::buildModel( state, gModel, data, system, 3 );
     }
     else
     {

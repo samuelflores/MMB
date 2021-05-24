@@ -145,7 +145,7 @@ void Spiral::writeCylindricalSpiralCommandFile(MonoAtomsContainer &monoAtomsCont
     double currentPhi = phiOffset;
     int n=1;
     stringstream tetherCommandStream("");
-    MonoAtoms monoAtoms(chainID    ,ResidueID(1),0,String("Mg+2"));  
+    MonoAtoms monoAtoms(chainID, ResidueID(1), 0, String("Mg+2"));
     for (currentZ = 0.; currentZ <= cylinderHeight; currentZ += deltaZScalar){
         currentXYZ[0] = center[0] + cos(currentPhi)*radius;
         currentXYZ[1] = center[1] + sin(currentPhi)*radius;
@@ -212,7 +212,7 @@ void Spiral::writeSphericalSpiralCommandFile(MonoAtomsContainer &monoAtomsContai
     stringstream tetherCommandStream("");
     //                  chain ID, first residue #, number of ions (we start with an empty vector), name of ions.
     MMBLOG_FILE_FUNC_LINE(DEBUG, "chainID "<<chainID<<endl);
-    MonoAtoms monoAtoms(chainID,ResidueID(1),0,String("Mg+2"));  
+    MonoAtoms monoAtoms(chainID,ResidueID(1), 0, String("Mg+2"));
     while (currentTheta < endTheta){
         double priorPhi = phiFromXYZ(priorXYZ, center) ;
         double deltaPhi = deltaPhiFromThetaInterHelicalDistanceSphericalRadiusAndHelicalArcLength(priorTheta, pitch, radius, helixAdvancePerBasePair,spiralIsRightHanded);

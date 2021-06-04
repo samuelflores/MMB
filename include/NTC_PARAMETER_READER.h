@@ -97,10 +97,7 @@ public:
     NTC_PAR_BondRow getNearestNTC_PAR_BondRow(const String &myPdbResidueName1, const String &myPdbResidueName2, const Transform &residue1Transform, const Transform &residue2Transform)  const;
     void printNTC_PAR_BondRows ();
 
-    int getNTC_PAR_BondRowIndex (const String &myPdbResidueName1, const String &myPdbResidueName2, const String &Classtype, const String &dihedraltype, const String &myBasePairIsTwoTransformForce, /*const*/ NTC_Classes /*&*/NTC) const;
-    
-    NTC_PAR_BondRow getNTC_PAR_BondRow(const ResidueID &myResidueNumber1, const ResidueID &myResidueNumber2, const String &myPdbResidueName1, const String &myBondingEdge1, const String &myPdbResidueName2, const String &myBondingEdge2, const String &mydihedraltype, const String &myBasePairIsTwoTransformForce) const  ;
-
+    int getNTC_PAR_BondRowIndex (const String &myPdbResidueName1, const String &myPdbResidueName2, const String &Classtype, const String &dihedraltype, const String &myBasePairIsTwoTransformForce, const NTC_Classes &NTC) const;
 };
 
 #endif //      BaseInteractionParameterReader_H_

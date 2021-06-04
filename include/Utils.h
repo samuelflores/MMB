@@ -613,22 +613,11 @@ class     NTC_Classes {
                String NtC_step_ID;
                String NtC_Class_String; 
                int    NtC_INDEX;
-               String NtC_atom_type1;
-               String NtC_atom_type2;
-               String NtC_atom_type3;
-               String NtC_atom_type4;
-               String Residue_shift_atom1;
-               String Residue_shift_atom2;
-               String Residue_shift_atom3;
-               String Residue_shift_atom4;
-               String NtC_dihedraltype;
                double Confalparam;
-               Rotation rotationCorrection1 ;
-               Rotation rotationCorrection2 ;
+               Rotation rotationCorrection1;
+               Rotation rotationCorrection2;
                Vec3   translationCorrection1;
-               Vec3   translationCorrection2;               
-               double Harmonic_pot_constant;
-               double Rotation_angle;
+               Vec3   translationCorrection2;
                int    NTC_PAR_BondRowIndex;
                double weight,weight2;
                int    meta = 0;
@@ -647,7 +636,8 @@ class     NTC_Classes {
         << " translationCorrection2 = >"<<translationCorrection2<<"<"<<std::endl
         << " NTC_PAR_BondRowIndex = >"<<NTC_PAR_BondRowIndex<<"<"<<std::endl
         << " meta = >"<<meta<<"<"<<std::endl
-        << " count = >"<<count<<"<"<<std::endl);
+        << " count = >"<<count<<"<"<<std::endl
+	<< std::endl);
     }
                
 };

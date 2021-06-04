@@ -181,7 +181,7 @@ static map<NTC_PAR_BondKey, NTC_PAR_BondRow, NTC_PAR_BondKeyCmp> NTC_PAR_Map;
         const String &Classtype,
         const String &dihedraltype,
         const String &myBasePairIsTwoTransformForce,
-        /*const*/ NTC_Classes /*&*/NTC) const {
+        const NTC_Classes &NTC) const {
         MMBLOG_FILE_FUNC_LINE(
             INFO,
             myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.size() << " br size " << " " << Classtype << " " << dihedraltype << " " << myPdbResidueName1 << " "<< myPdbResidueName2 << endl
@@ -195,62 +195,10 @@ static map<NTC_PAR_BondKey, NTC_PAR_BondRow, NTC_PAR_BondKeyCmp> NTC_PAR_Map;
                 (srcNTC.bondingEdge1.compare(Classtype) == 0) &&
                 (srcNTC.bondingEdge2.compare(Classtype) == 0) &&
                 (srcNTC.dihedraltype.compare(dihedraltype) == 0)) {
-                NTC.NtC_atom_type1 = srcNTC.residue1Atom[0];
-                NTC.NtC_atom_type2 = srcNTC.residue1Atom[1];
-                NTC.NtC_atom_type3 = srcNTC.residue1Atom[2];
-                NTC.NtC_atom_type4 = srcNTC.residue1Atom[3];
-                NTC.NtC_dihedraltype = dihedraltype;
-                NTC.Harmonic_pot_constant = srcNTC.springConstant[0];
-                NTC.Residue_shift_atom1 = srcNTC.atom_shift[0];
-                NTC.Residue_shift_atom2 = srcNTC.atom_shift[1];
-                NTC.Residue_shift_atom3 = srcNTC.atom_shift[2];
-                NTC.Residue_shift_atom4 = srcNTC.atom_shift[3];
-                NTC.Rotation_angle = srcNTC.rotationAngle;
-                NTC.NTC_PAR_BondRowIndex = q;
-
                 return q;
             }
         }
 
-        SimTK_ERRCHK_ALWAYS(0,"[BaseInteractionParameterReader.cpp]","Found no match for the above user-specified interaction.  Either add this interaction type to the parameter file, or check your spelling, syntax, or semantics.");
+	MMBLOG_FILE_FUNC_LINE(CRITICAL, "Found no match for the above user-specified interaction.  Either add this interaction type to the parameter file, or check your spelling, syntax, or semantics.\n");
     }
 
-
-    
-    NTC_PAR_BondRow NTC_PAR_Class::getNTC_PAR_BondRow(
-        const ResidueID &myResidueNumber1,
-        const ResidueID &myResidueNumber2,
-        const String &myPdbResidueName1,
-        const String &myBondingEdge1,
-        const String &myPdbResidueName2,
-        const String &myBondingEdge2,
-        const String &dihedraltype,
-        const String &myBasePairIsTwoTransformForce) const {
-
-        static map <const NTC_PAR_BondKey, NTC_PAR_BondRow, NTC_PAR_BondKeyCmp>::iterator iter = NTC_PAR_Map.begin();
-
-        iter = NTC_PAR_Map.find(NTC_PAR_BondKey(myPdbResidueName1, myPdbResidueName2, myBondingEdge1,  myBondingEdge2,  dihedraltype,  myBasePairIsTwoTransformForce));
-       
-        NTC_PAR_BondRow myReturnNTC_PAR_BondRow;
-
-
-        if (!((myPdbResidueName1.compare(myReturnNTC_PAR_BondRow.pdbResidueName1) == 0) &&
-              (myPdbResidueName2.compare(myReturnNTC_PAR_BondRow.pdbResidueName2) == 0) &&
-              (myBondingEdge1.compare(myReturnNTC_PAR_BondRow.bondingEdge1) == 0)       &&
-              (myBondingEdge2.compare(myReturnNTC_PAR_BondRow.bondingEdge2) == 0)       &&
-              (dihedraltype.compare(myReturnNTC_PAR_BondRow.dihedraltype) == 0)         &&
-              (myBasePairIsTwoTransformForce.compare(myReturnNTC_PAR_BondRow.isTwoTransformForce) == 0))) {
-                MMBLOG_FILE_FUNC_LINE(
-                    INFO,
-                    "[BaseInteractionParameterReader.cpp] for interaction between residues "<<myResidueNumber1.getResidueNumber()<< " and "<<myResidueNumber2.getResidueNumber() <<endl<<"trying to match :"<<endl<<
-                    ","<<(myBasePairIsTwoTransformForce)<<
-                    ", myPdbResidueName1 "<<(myPdbResidueName1)<<
-                    ", myPdbResidueName2 "<<(myPdbResidueName2)<<
-                    ", myBondingEdge1 "<<(myBondingEdge1)<<
-                    ", myBondingEdge2 "<<(myBondingEdge2)<<
-                    ", dihedraltype "<<(dihedraltype)<<endl
-                );
-        }
-
-        return myReturnNTC_PAR_BondRow;
-    }

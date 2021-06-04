@@ -122,10 +122,10 @@ void NTC_Class_Container::add_NTC_Class(BiopolymerClassContainer & myBiopolymerC
 void NTC_Class_Container::add_NTC_Class(BiopolymerClassContainer & myBiopolymerClassContainer, 
                                     const NTC_PAR_Class & ntc_par_class, NTC_Classes & NTC, bool NTC_add){
     
-    
     String dihedraltype;
     
     dihedraltype = "delta";
+
     
     validate_NTC_Class(myBiopolymerClassContainer, ntc_par_class,NTC, dihedraltype);
     myNTC_Class_Vector.push_back(NTC);
@@ -234,7 +234,6 @@ void NTC_Class_Container::add_NTC_Class(BiopolymerClassContainer & myBiopolymerC
 
     validate_NTC_Class(myBiopolymerClassContainer, ntc_par_class,NTC, dihedraltype);
     myNTC_Class_Vector.push_back(NTC);     
-
 }
 
 void NTC_Class_Container::validate_NTC_Class(BiopolymerClassContainer & myBiopolymerClassContainer, 
@@ -249,8 +248,6 @@ void NTC_Class_Container::validate_NTC_Class(BiopolymerClassContainer & myBiopol
     
     String resName1 = myBiopolymerClassContainer.getPdbResidueName(NTC.NtC_FirstBPChain, NTC.NtC_step_ID);
     String resName2 = myBiopolymerClassContainer.getPdbResidueName(NTC.NtC_FirstBPChain, ntc2);
-    
-    NTC_PAR_BondRow br = ntc_par_class.getNTC_PAR_BondRow(NTC.NtC_step_ID,ntc2,resName1,NTC.NtC_Class_String,resName2,NTC.NtC_Class_String,dihedraltype,"ntcstep");
  
     NTC.NTC_PAR_BondRowIndex  = ntc_par_class.getNTC_PAR_BondRowIndex(resName1,resName2,NTC.NtC_Class_String,dihedraltype,"ntcstep",NTC ); 
 

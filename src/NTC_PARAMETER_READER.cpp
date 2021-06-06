@@ -18,9 +18,6 @@
 #include "NTC_FORCE_CLASS.h"
 #include "NTC_PARAMETER_READER.h"
 
-static const int numNTC_PAR_BondMatrixRows=(39600);  // yes, global constants are bad.  Couldn't think of an elegant way around this one though.  This number should be exactly equal to the number of rows in the leontisWesthofBondMatrix
-//const int maxParallelTorques = 1000; //max number of parallel torques to be applied.  This can be huge, minimal cost for doing that.
-
 using namespace SimTK;
 using namespace std;
 

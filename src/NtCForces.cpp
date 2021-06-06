@@ -11,8 +11,11 @@
 #include <string.h>
 #include <sstream>
 #include <Utils.h>
+#include <array>
 #include "MMBLogger.h"
 #include "ParameterReader.h"
+
+#define K_ANGLE 57.295779513
 
     NTC_Torque::NTC_Torque (SimbodyMatterSubsystem& matter,ParameterReader& myParameterReader,  NTC_PAR_Class& myNTC_PAR_Class, BiopolymerClassContainer & myBiopolymerClassContainer, std::ostream& outputStream ) : matter(matter),myParameterReader(myParameterReader), myNTC_PAR_Class (myNTC_PAR_Class), myBiopolymerClassContainer(myBiopolymerClassContainer), outputStream(outputStream)
         { 
@@ -32,7 +35,7 @@
         double angle;
         double dih,bias;
         int    value,i;
-        double prob[361];
+	std::array<double, 361> prob;
         
         AtomSpringContainer atomSpringContainer;
         
@@ -104,7 +107,7 @@
 
     // pot_angle = torqueConstant*(dist_ang/57.295779513);//(exp(-(pow(dist_ang,2)/(2.0*pow(l_param,2)))))*(dist_ang/57.295779513)/(2.0*pow(l_param/57.295779513,2))*(sin(dist_ang/57.295779513));       
      
-       if((myParameterReader.ntc_class_container.getNTC_Class(r)).meta == 0) pot_angle = torqueConstant*(myParameterReader.ntc_class_container.getNTC_Class(r)).weight*(-sin((dist_ang + 180.0)/57.295779513))*(360.0/57.295779513 + 1.0)/(1.0 + myNTC_PAR_BondRow.CONFALVALUE)/(360.0/57.295779513);
+       if((myParameterReader.ntc_class_container.getNTC_Class(r)).meta == 0) pot_angle = torqueConstant*(myParameterReader.ntc_class_container.getNTC_Class(r)).weight*(-sin((dist_ang + 180.0)/K_ANGLE))*(360.0/K_ANGLE + 1.0)/(1.0 + myNTC_PAR_BondRow.CONFALVALUE)/(360.0/K_ANGLE);
      
      Vec3 torque;    
      
@@ -129,7 +132,7 @@
         value = -1;
         bias = 0;
            
-        angle *= 57.295779513;
+        angle *= K_ANGLE;
          
        if(isfinite(angle) == 1) { 
         
@@ -153,7 +156,7 @@
          
         };*/
          
-         pot_angle = torqueConstant*(-sin((dist_ang + 180.0)/57.295779513))*(360.0/57.295779513 + 1.0)/(1.0 + myNTC_PAR_BondRow.CONFALVALUE)/(360.0/57.295779513);
+         pot_angle = torqueConstant*(-sin((dist_ang + 180.0)/K_ANGLE))*(360.0/K_ANGLE + 1.0)/(1.0 + myNTC_PAR_BondRow.CONFALVALUE)/(360.0/K_ANGLE);
        
          torque = d_d2/d_d2.norm()*(pot_angle)/(1.0+(myParameterReader.ntc_class_container.getNTC_Class(r)).weight2)*(myParameterReader.ntc_class_container.getNTC_Class(r)).weight;
    
@@ -352,8 +355,8 @@
      
      double dist_ang = return_dist_ang(angle,myNTC_PAR_BondRow.rotationAngle);  
 
-    energy += torqueConstant*cos((dist_ang + 180.0)/57.295779513)*(360.0/57.295779513+1.0)/(1.0+myNTC_PAR_BondRow.CONFALVALUE)/(360.0/57.295779513);//torqueConstant*pow(dist_ang/57.295779513,2);//-torqueConstant*(-cos(dist_ang/57.295779513)+(exp(-(pow(dist_ang,2)/(2.0*pow(l_param,2))))));
-    MMBLOG_FILE_FUNC_LINE(DEBUG, " NTC sampling - CHAIN ID = " << chainId1 << ", residuenumber " << myResidueNumber.ResidueNumber  << " difference-angle = "<< dist_ang << " , CONFALVALUE = " << myNTC_PAR_BondRow.CONFALVALUE << " , " << angle*57.295779513 << " = angle at time t for atoms  = " << myNTC_PAR_BondRow.residue1Atom[0] << " , " << myNTC_PAR_BondRow.residue1Atom[1] << " , " << myNTC_PAR_BondRow.residue1Atom[2] << " , " << myNTC_PAR_BondRow.residue1Atom[3] << " , "<< myNTC_PAR_BondRow.rotationAngle*57.295779513 << " = angle_0 from  input , " << "energy = " << energy << endl);    
+    energy += torqueConstant*cos((dist_ang + 180.0)/K_ANGLE)*(360.0/K_ANGLE+1.0)/(1.0+myNTC_PAR_BondRow.CONFALVALUE)/(360.0/K_ANGLE);//torqueConstant*pow(dist_ang/57.295779513,2);//-torqueConstant*(-cos(dist_ang/57.295779513)+(exp(-(pow(dist_ang,2)/(2.0*pow(l_param,2))))));
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " NTC sampling - CHAIN ID = " << chainId1 << ", residuenumber " << myResidueNumber.ResidueNumber  << " difference-angle = "<< dist_ang << " , CONFALVALUE = " << myNTC_PAR_BondRow.CONFALVALUE << " , " << angle*K_ANGLE << " = angle at time t for atoms  = " << myNTC_PAR_BondRow.residue1Atom[0] << " , " << myNTC_PAR_BondRow.residue1Atom[1] << " , " << myNTC_PAR_BondRow.residue1Atom[2] << " , " << myNTC_PAR_BondRow.residue1Atom[3] << " , "<< myNTC_PAR_BondRow.rotationAngle*K_ANGLE << " = angle_0 from  input , " << "energy = " << energy << endl);    
     //cout << " NTC sampling - CHAIN ID = " << chainId1 << ", residuenumber " << myResidueNumber.ResidueNumber  << " difference-angle = "<< dist_ang << " , CONFALVALUE = " << myNTC_PAR_BondRow.CONFALVALUE << " , " << angle*57.295779513 << " = angle at time t for atoms  = " << myNTC_PAR_BondRow.residue1Atom[0] << " , " << myNTC_PAR_BondRow.residue1Atom[1] << " , " << myNTC_PAR_BondRow.residue1Atom[2] << " , " << myNTC_PAR_BondRow.residue1Atom[3] << " , "<< myNTC_PAR_BondRow.rotationAngle*57.295779513 << " = angle_0 from  input , " << "energy = " << energy << endl;
         
     rms   += sqrt(pow(dist_ang,2));    
@@ -406,10 +409,10 @@
 Real NTC_Torque::return_dist_ang(double angle,double rotationAngle) const
 {
        
-     double ang_diff = (angle - rotationAngle)*57.295779513; // Deg
+     double ang_diff = (angle - rotationAngle)*K_ANGLE; // Deg
      double dist_ang = 180.0 - abs(180.0 - abs(ang_diff));
-     int angle_1 = int(round(angle*57.295779513));
-     int angle_2 = int(round(rotationAngle*57.295779513));
+     int angle_1 = int(round(angle*K_ANGLE));
+     int angle_2 = int(round(rotationAngle*K_ANGLE));
 
      int interval_begin = angle_2;
      int interval_end   = (interval_begin + 180) % 360;
@@ -431,7 +434,6 @@ Real NTC_Torque::return_angle(Vec3 cross_1,Vec3 cross_2,Vec3 cross_3,Vec3 d_d2) 
 {
    
    double angle; 
-   double PI = 3.14159265359;
            
    Vec3 direction;
             
@@ -444,7 +446,7 @@ Real NTC_Torque::return_angle(Vec3 cross_1,Vec3 cross_2,Vec3 cross_3,Vec3 d_d2) 
    if(scalar_product > 1.0) scalar_product = 1.0;
    if(scalar_product < -1.0) scalar_product = -1.0;       
       
-   angle = acos(scalar_product)*180.0/PI;
+   angle = acos(scalar_product)*180.0/3.14159265359;
         
    if(direction[0] < 0.0 && direction[1] < 0.0 && direction[2] < 0.0) {
             
@@ -454,7 +456,7 @@ Real NTC_Torque::return_angle(Vec3 cross_1,Vec3 cross_2,Vec3 cross_3,Vec3 d_d2) 
             
    if(angle < 0.0) angle = angle + 360.0;
         
-   angle /= 57.295779513;    
+   angle /= K_ANGLE;    
     
   return angle;  
 }

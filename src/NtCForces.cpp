@@ -65,7 +65,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
 
       if (stoi(myNTC_PAR_BondRow.atom_shift[0]) == 0)
         myResidueNumber = residueNumber1;
-      if (stoi(myNTC_PAR_BondRow.atom_shift[0]) == 1)
+      else if (stoi(myNTC_PAR_BondRow.atom_shift[0]) == 1)
         myResidueNumber = residueNumber2;
 
       body1 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -75,7 +75,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
 
       if (stoi(myNTC_PAR_BondRow.atom_shift[1]) == 0)
         myResidueNumber = residueNumber1;
-      if (stoi(myNTC_PAR_BondRow.atom_shift[1]) == 1)
+      else if (stoi(myNTC_PAR_BondRow.atom_shift[1]) == 1)
         myResidueNumber = residueNumber2;
 
       body2 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -85,7 +85,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
 
       if (stoi(myNTC_PAR_BondRow.atom_shift[2]) == 0)
         myResidueNumber = residueNumber1;
-      if (stoi(myNTC_PAR_BondRow.atom_shift[2]) == 1)
+      else if (stoi(myNTC_PAR_BondRow.atom_shift[2]) == 1)
         myResidueNumber = residueNumber2;
 
       body3 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -95,7 +95,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
 
       if (stoi(myNTC_PAR_BondRow.atom_shift[3]) == 0)
         myResidueNumber = residueNumber1;
-      if (stoi(myNTC_PAR_BondRow.atom_shift[3]) == 1)
+      else if (stoi(myNTC_PAR_BondRow.atom_shift[3]) == 1)
         myResidueNumber = residueNumber2;
 
       body4 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -137,12 +137,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
 
       Vec3 torque;
 
-      if ((myParameterReader.ntc_class_container.getNTC_Class(r)).meta == 0)
-
-      {
-
-        //   cout << pot_angle << "  -- pot_angle " << endl;
-
+      if ((myParameterReader.ntc_class_container.getNTC_Class(r)).meta == 0) {
         torque = d_d2 / d_d2.norm() * pot_angle;
 
         bodyForces[body1.getMobilizedBodyIndex()] +=
@@ -153,7 +148,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
             SpatialVec(torque, Vec3(0));
         bodyForces[body3.getMobilizedBodyIndex()] -=
             SpatialVec(torque, Vec3(0));
-      };
+      }
 
       if ((myParameterReader.ntc_class_container.getNTC_Class(r)).meta == 1) {
         dih = 0;
@@ -423,8 +418,7 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
   double torqueConstant;
   double angle;
 
-  for (int r = 0; r < myParameterReader.ntc_class_container.numNTC_Torsions();
-       r++) {
+  for (int r = 0; r < myParameterReader.ntc_class_container.numNTC_Torsions(); r++) {
     // If we have changed our NtC class type, meaning we are computing a new NtC
     // Class, not just an additional torsion in the same class:
     if (!((myParameterReader.ntc_class_container.getNTC_Class(r))
@@ -466,7 +460,7 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
 
       if (stoi(myNTC_PAR_BondRow.atom_shift[0]) == 0)
         myResidueNumber = residueNumber1;
-      if (stoi(myNTC_PAR_BondRow.atom_shift[0]) == 1)
+      else if (stoi(myNTC_PAR_BondRow.atom_shift[0]) == 1)
         myResidueNumber = residueNumber2;
 
       body1 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -476,7 +470,7 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
 
       if (stoi(myNTC_PAR_BondRow.atom_shift[1]) == 0)
         myResidueNumber = residueNumber1;
-      if (stoi(myNTC_PAR_BondRow.atom_shift[1]) == 1)
+      else if (stoi(myNTC_PAR_BondRow.atom_shift[1]) == 1)
         myResidueNumber = residueNumber2;
 
       body2 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -486,7 +480,7 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
 
       if (stoi(myNTC_PAR_BondRow.atom_shift[2]) == 0)
         myResidueNumber = residueNumber1;
-      if (stoi(myNTC_PAR_BondRow.atom_shift[2]) == 1)
+      else if (stoi(myNTC_PAR_BondRow.atom_shift[2]) == 1)
         myResidueNumber = residueNumber2;
 
       body3 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -496,7 +490,7 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
 
       if (stoi(myNTC_PAR_BondRow.atom_shift[3]) == 0)
         myResidueNumber = residueNumber1;
-      if (stoi(myNTC_PAR_BondRow.atom_shift[3]) == 1)
+      else if (stoi(myNTC_PAR_BondRow.atom_shift[3]) == 1)
         myResidueNumber = residueNumber2;
 
       body4 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -644,15 +638,14 @@ Real NTC_Torque::return_angle(Vec3 cross_1, Vec3 cross_2, Vec3 cross_3,
 
   if (scalar_product > 1.0)
     scalar_product = 1.0;
-  if (scalar_product < -1.0)
+  else if (scalar_product < -1.0)
     scalar_product = -1.0;
 
   angle = acos(scalar_product) * 180.0 / 3.14159265359;
 
   if (direction[0] < 0.0 && direction[1] < 0.0 && direction[2] < 0.0) {
-
     angle = -angle;
-  };
+  }
 
   if (angle < 0.0)
     angle = angle + 360.0;

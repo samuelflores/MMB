@@ -52,5 +52,5 @@ public:
     bool dependsOnlyOnPositions() const;
     
     Real return_dist_ang(double angle,double rotationAngle) const;
-    Real return_angle(Vec3 cross_1,Vec3 cross_2,Vec3 cross_3,Vec3 d_d2) const; 
+    Real return_angle(const Vec3 &cross_1, const Vec3 &cross_2, const Vec3 &cross_3, const Vec3 &d_d2) const; 
 };

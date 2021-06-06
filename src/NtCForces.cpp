@@ -21,40 +21,15 @@
     void NTC_Torque::calcForce(const State& state, Vector_<SpatialVec>& bodyForces,  
             Vector_<Vec3>& particleForces, Vector& mobilityForces) const 
         {  
-        double energy = 0.0;        
         MobilizedBody body1;
         MobilizedBody body2;
         MobilizedBody body3;
         MobilizedBody body4;
         Transform transform1;
         Transform transform2;
-        double forceConstant;
         double torqueConstant;
-        double dutyCycle; //must be between 0 and 1.  at 1, force is applied all the time.  at 0, basically never applied.    
-        double scrubberPeriod;
-        double cutoffRadius;
         double pot_angle;
         double angle;
-        double x_d1,x_d2,x_d3,x_d4;
-        double y_d1,y_d2,y_d3,y_d4;
-        double z_d1,z_d2,z_d3,z_d4;                   
-        double d_d1_x,d_d1_y,d_d1_z;
-        double d_d2_x,d_d2_y,d_d2_z;
-        double d_d3_x,d_d3_y,d_d3_z;
-        double cross_1_x,cross_1_y,cross_1_z;
-        double cross_2_x,cross_2_y,cross_2_z;
-        double d_t,d_t2;
-        double cross_3_x,cross_3_y,cross_3_z;
-        double direction_x,direction_y,direction_z;
-        double rgsq,fg,hg,gaa,gbb,fga,hgb;
-        double dfgx,dfgy,dfgz,dthx,dthy,dthz;
-        double dtfx,dtfy,dtfz;
-        double s_x2,s_y2,s_z2;
-        double force_a1_x,force_a1_y,force_a1_z;
-        double force_a2_x,force_a2_y,force_a2_z;        
-        double force_a3_x,force_a3_y,force_a3_z;
-        double force_a4_x,force_a4_y,force_a4_z;
-        double PI = 3.14159265359;     
         double dih,bias;
         int    value,i;
         double prob[361];
@@ -82,28 +57,24 @@
             if(stoi(myNTC_PAR_BondRow.atom_shift[0]) == 1) myResidueNumber = residueNumber2;
             
             body1 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[0]);
-            Vec3 stationA = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[0]);
             state_1 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[0]); 
             
             if(stoi(myNTC_PAR_BondRow.atom_shift[1]) == 0) myResidueNumber = residueNumber1;
             if(stoi(myNTC_PAR_BondRow.atom_shift[1]) == 1) myResidueNumber = residueNumber2;
             
             body2 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[1]);
-            Vec3 stationB = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[1]);
             state_2 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[1]); 
             
             if(stoi(myNTC_PAR_BondRow.atom_shift[2]) == 0) myResidueNumber = residueNumber1;
             if(stoi(myNTC_PAR_BondRow.atom_shift[2]) == 1) myResidueNumber = residueNumber2;
             
             body3 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[2]);
-            Vec3 stationC = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[2]);
             state_3 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[2]); 
 
             if(stoi(myNTC_PAR_BondRow.atom_shift[3]) == 0) myResidueNumber = residueNumber1;
             if(stoi(myNTC_PAR_BondRow.atom_shift[3]) == 1) myResidueNumber = residueNumber2;
 
             body4 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[3]);
-            Vec3 stationD = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[3]);
             state_4 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[3]);               
             
             torqueConstant = myNTC_PAR_BondRow.torqueConstant;            
@@ -221,11 +192,9 @@
             Vec3  state_2;
         
             body1 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,residueNumber1,myNTC_PAR_BondRow.residue1Atom[0]);
-            Vec3 stationA = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,residueNumber1,myNTC_PAR_BondRow.residue1Atom[0]);
             state_1 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,residueNumber1,myNTC_PAR_BondRow.residue1Atom[0]); 
             
             body2 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,residueNumber2,myNTC_PAR_BondRow.residue1Atom[1]);
-            Vec3 stationB = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,residueNumber2,myNTC_PAR_BondRow.residue1Atom[1]);
             state_2 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,residueNumber2,myNTC_PAR_BondRow.residue1Atom[1]); 
             
             Vec3 ptp = state_2 - state_1;
@@ -246,9 +215,6 @@
     
   if((myParameterReader.ntc_class_container.getNTC_Class(r)).meta == 1) {  
   
-      double prob_d[31];
-      
-      double dist = 0.0;
       
       bias = 0.0;
       
@@ -305,33 +271,9 @@
         MobilizedBody body4;
         Transform transform1;
         Transform transform2;
-        double forceConstant;
         double torqueConstant;
-        double dutyCycle; //must be between 0 and 1.  at 1, force is applied all the time.  at 0, basically never applied.    
-        double scrubberPeriod;
-        double cutoffRadius;
-        double PI = 3.14159265359;
-        double pot_angle;
         double angle;
-        double x_d1,x_d2,x_d3,x_d4;
-        double y_d1,y_d2,y_d3,y_d4;
-        double z_d1,z_d2,z_d3,z_d4;                   
-        double d_d1_x,d_d1_y,d_d1_z;
-        double d_d2_x,d_d2_y,d_d2_z;
-        double d_d3_x,d_d3_y,d_d3_z;
-        double cross_1_x,cross_1_y,cross_1_z;
-        double cross_2_x,cross_2_y,cross_2_z;
-        double d_t,d_t2;
-        double cross_3_x,cross_3_y,cross_3_z;
-        double direction_x,direction_y,direction_z;
-        double rgsq,fg,hg,gaa,gbb,fga,hgb;
-        double dfgx,dfgy,dfgz,dthx,dthy,dthz;
-        double dtfx,dtfy,dtfz;
-        double s_x2,s_y2,s_z2;
-        double force_a1_x,force_a1_y,force_a1_z;
-        double force_a2_x,force_a2_y,force_a2_z;        
-        double force_a3_x,force_a3_y,force_a3_z;
-        double force_a4_x,force_a4_y,force_a4_z;
+
         
         for (int r=0;r<myParameterReader.ntc_class_container.numNTC_Torsions();r++) 
         { 
@@ -366,28 +308,24 @@
             if(stoi(myNTC_PAR_BondRow.atom_shift[0]) == 1) myResidueNumber = residueNumber2;
             
             body1 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[0]);
-            Vec3 stationA = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[0]);
             state_1 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[0]); 
             
             if(stoi(myNTC_PAR_BondRow.atom_shift[1]) == 0) myResidueNumber = residueNumber1;
             if(stoi(myNTC_PAR_BondRow.atom_shift[1]) == 1) myResidueNumber = residueNumber2;
             
             body2 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[1]);
-            Vec3 stationB = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[1]);
             state_2 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[1]); 
             
             if(stoi(myNTC_PAR_BondRow.atom_shift[2]) == 0) myResidueNumber = residueNumber1;
             if(stoi(myNTC_PAR_BondRow.atom_shift[2]) == 1) myResidueNumber = residueNumber2;
             
             body3 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[2]);
-            Vec3 stationC = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[2]);
             state_3 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[2]); 
 
             if(stoi(myNTC_PAR_BondRow.atom_shift[3]) == 0) myResidueNumber = residueNumber1;
             if(stoi(myNTC_PAR_BondRow.atom_shift[3]) == 1) myResidueNumber = residueNumber2;
 
             body4 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[3]);
-            Vec3 stationD = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[3]);
             state_4 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,myResidueNumber,myNTC_PAR_BondRow.residue1Atom[3]);               
             
             torqueConstant = myNTC_PAR_BondRow.torqueConstant;            
@@ -429,12 +367,10 @@
 	    Vec3  state_2;
                     
             body1 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,residueNumber1,myNTC_PAR_BondRow.residue1Atom[0]);
-            Vec3 stationA = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,residueNumber1,myNTC_PAR_BondRow.residue1Atom[0]);
             state_1 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,residueNumber1,myNTC_PAR_BondRow.residue1Atom[0]); 
             
             
             body2 = myBiopolymerClassContainer.updAtomMobilizedBody(matter,chainId1,residueNumber2,myNTC_PAR_BondRow.residue1Atom[1]);
-            Vec3 stationB = myBiopolymerClassContainer.getAtomLocationInMobilizedBodyFrame(chainId1,residueNumber2,myNTC_PAR_BondRow.residue1Atom[1]);
             state_2 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chainId1,residueNumber2,myNTC_PAR_BondRow.residue1Atom[1]); 
             
             Vec3 diff = state_2 - state_1;

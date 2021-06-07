@@ -24,7 +24,6 @@ private:
     ParameterReader& myParameterReader;
     NTC_PAR_Class& myNTC_PAR_Class;
     BiopolymerClassContainer & myBiopolymerClassContainer;
-    mutable int parameterReaderIndex;
     std::ostream& outputStream;
 
 public:
@@ -34,15 +33,6 @@ public:
                BiopolymerClassContainer &myBiopolymerClassContainer,
                std::ostream &outputStream);
 
-    void calcAxes(const State &state,
-                  NTC_PAR_BondRow myNTC_PAR_BondRow,
-                  ResidueID residueNumber1, ResidueID residueNumber2,
-                  String chain1, String chain2,
-                  Vec3 &xAxisVector1, Vec3 &yAxisVector1, Vec3 &zAxisVector1,
-                  Vec3 &xAxisVector2, Vec3 &yAxisVector2 , Vec3 &zAxisVector2,
-                  Vec3 &glycosidicNitrogenAtom1LocationInGround, Vec3 &glycosidicNitrogenAtom2LocationInGround,
-                  Vec3 &ring1CenterLocationInGround, Vec3 & ring2CenterLocationInGround) const;
-    int isThisATwoTransformForce(String myBPEdge) const;
     void calcForce(const State &state, Vector_<SpatialVec> &bodyForces, Vector_<Vec3> &particleForces, Vector &mobilityForces) const;
     Real calcPotentialEnergy(const State& state) const;
     bool dependsOnlyOnPositions() const;

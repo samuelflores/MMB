@@ -8,6 +8,7 @@
  * See RNABuilder.cpp for the copyright and usage agreement.                  *
  * -------------------------------------------------------------------------- */
 #include "NtCForces.h"
+#include <SimTKcommon/Scalar.h>
 #include <string.h>
 #include <sstream>
 #include <Utils.h>
@@ -640,7 +641,7 @@ Real NTC_Torque::return_angle(const Vec3 &cross_1, const Vec3 &cross_2, const Ve
   else if (scalar_product < -1.0)
     scalar_product = -1.0;
 
-  angle = acos(scalar_product) * 180.0 / 3.14159265359;
+  angle = acos(scalar_product) * 180.0 / SimTK::Pi;
 
   if (direction[0] < 0.0 && direction[1] < 0.0 && direction[2] < 0.0) {
     angle = -angle;

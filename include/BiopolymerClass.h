@@ -104,7 +104,7 @@ public:
     String  getSequence(const vector <ResidueID> & residueIDVector); // gets the sequence
     String  getSubSequence(const ResidueID startResidue, const ResidueID endResidue); 
     const String&  getChainID() const {return chainID;}
-    void    setChainID(String myChainID ) {chainID = myChainID;cout<<__FILE__<<":"<<__LINE__<<" set chainID to : >"<<getChainID()<<"<"<<endl; } 
+    void    setChainID(String myChainID) {chainID = std::move(myChainID);}
     const String&  getChainPrefix() const {return chainPrefix;}
     void    setChainPrefix(String myChainPrefix ) {chainPrefix = myChainPrefix;} 
 
@@ -137,7 +137,7 @@ public:
     };*/
 
     BiopolymerClass(); // sets all properties to empty values.
-    BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, String myBiopolymerType, bool proteinCapping, bool useNACappingHydroxyls   ); // validates and sets the listed properties.          
+    BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, BiopolymerType::BiopolymerTypeEnum myBiopolymerType, bool proteinCapping, bool useNACappingHydroxyls) noexcept;
     
     int  initializeBiopolymer(CompoundSystem & system, 
                               bool myProteinCapping, 
@@ -349,7 +349,7 @@ public:
     vector<SecondaryStructureStretch> secondaryStructureStretchVector;
     void        addBiopolymerClass(String mySequence, 
                                    String myChainID, ResidueID myFirstResidueID, 
-                                   String myBiopolymerType, bool proteinCapping,
+                                   BiopolymerType::BiopolymerTypeEnum myBiopolymerType, bool proteinCapping,
                                    String pdbFileName, bool loadFromPdb, 
                                    //String pdbFileName="", bool loadFromPdb=false, 
 				   bool useNACappingHydroxyls

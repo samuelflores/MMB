@@ -473,47 +473,40 @@ String BiopolymerClass::getFirstResidueMobilizerType(){
 }
 
 BiopolymerClass::BiopolymerClass() {
-    clear();
+    setActivePhysics(true);
+    setFirstResidueMobilizerType("Free");
+
     MMBLOG_FILE_FUNC_LINE(INFO, "sizeof(PdbStructure) = " << sizeof(PdbStructure) <<std::endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "sizeof(myBiopolymer) = "<< sizeof(myBiopolymer) <<std::endl);
 }
 
-BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, String myBiopolymerType, bool proteinCapping , bool useNACappingHydroxyls ){
+BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, BiopolymerType::BiopolymerTypeEnum myBiopolymerType, bool proteinCapping, bool useNACappingHydroxyls) noexcept :
+    biopolymerType{myBiopolymerType},
+    proteinCapping{proteinCapping},
+    chainID{std::move(myChainID)},
+    sequence{std::move(mySequence)}
+{
+    assert(biopolymerType != BiopolymerType::Unassigned);
+
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    clear();
-    setBiopolymerType(     myBiopolymerType);
-    //MMBLOG_FILE_FUNC_LINE(endl;
-    setProteinCapping (proteinCapping); 
-    //MMBLOG_FILE_FUNC_LINE(endl;
-    setChainID(myChainID);
-    setSequence(mySequence);  // Note that this will not have the right PDB residue numbering. Hence the next line:
-    renumberPdbResidues( myFirstResidueNumber );
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    //setChainID(myChainID);
-    pdbFileName = "";
-    //MMBLOG_FILE_FUNC_LINE(endl;
-    loadFromPdb = false;
+
+    setActivePhysics(true);
+    setFirstResidueMobilizerType("Free");
     
     validateChainID();
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    if (  biopolymerType == BiopolymerType::RNA) {
-	// useNACappingHydroxyls , when true (default) replaces the 5' phosphorus with an H5T.      
-        myBiopolymer = SimTK::RNA(mySequence,useNACappingHydroxyls);
-    } else if (  biopolymerType == BiopolymerType::DNA) {
-        myBiopolymer = SimTK::DNA(mySequence,useNACappingHydroxyls);
-    } else if (  biopolymerType == BiopolymerType::Protein) {
-        //MMBLOG_FILE_FUNC_LINE(" "<<mySequence<<", "<<proteinCapping<<endl;
-        myBiopolymer = SimTK::Protein   (mySequence,BondMobility::Rigid,proteinCapping);
-        //myBiopolymer = SimTK::Protein   (mySequence,BondMobility::Rigid,proteinCapping);
-        //MMBLOG_FILE_FUNC_LINE(endl;
-    } else {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have tried to make a Biopolymer of an unsupported type: "<< myBiopolymerType<<endl);
+    if (this->biopolymerType == BiopolymerType::RNA) {
+        // useNACappingHydroxyls , when true (default) replaces the 5' phosphorus with an H5T.
+        myBiopolymer = SimTK::RNA(this->sequence, useNACappingHydroxyls);
+    } else if (this->biopolymerType == BiopolymerType::DNA) {
+        myBiopolymer = SimTK::DNA(this->sequence, useNACappingHydroxyls);
+    } else if (this->biopolymerType == BiopolymerType::Protein) {
+        myBiopolymer = SimTK::Protein(this->sequence, BondMobility::Rigid, proteinCapping);
     }
+
     validateSequence();
-    validateBiopolymerType();
     validateProteinCapping();
-    renumberPdbResidues((myFirstResidueNumber ) );
-    //MMBLOG_FILE_FUNC_LINE(endl;
+    renumberPdbResidues(myFirstResidueNumber);
 }
 
 
@@ -2646,14 +2639,14 @@ template void BiopolymerClass::selectivelyRemoveResidueStretchFromContainer(cons
 
 
 void BiopolymerClassContainer::addBiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, 
-                                                  String myBiopolymerType, bool proteinCapping, String pdbFileName, bool loadFromPdb, bool useNACappingHydroxyls)
+                                                  BiopolymerType::BiopolymerTypeEnum myBiopolymerType, bool proteinCapping, String pdbFileName, bool loadFromPdb, bool useNACappingHydroxyls)
 {
     BiopolymerClass bp(std::move(mySequence), myChainID, myFirstResidueNumber, std::move(myBiopolymerType), proteinCapping, useNACappingHydroxyls);
     bp.setRenumberPdbResidues(0); // Default value
     bp.setPdbFileName(pdbFileName);
     bp.setLoadFromPdb(loadFromPdb);
 
-    biopolymerClassMap[myChainID] = bp;
+    biopolymerClassMap[myChainID] = std::move(bp);
 }
 /*void BiopolymerClassContainer::addBiopolymerClass(String newChainID, BiopolymerClass newBiopolymerClass) 
 {
@@ -3900,10 +3893,6 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
         
     // for (SimTK::CompoundSystem::CompoundIndex c(0); c < myNumChains; ++c) // This way got us some extra chains for some reason.
 
-    const std::array<String, 3> BIOPOLY_TYPES = {
-        String{"RNA"}, String{"DNA"}, String{"Protein"}
-    };
-
     for (SimTK::CompoundSystem::CompoundIndex c(0); c < myNumChainsFromSystem; ++c) 
     {
         MMBLOG_FILE_FUNC_LINE(INFO, "Processing chain >"<<system.getCompound(c).getPdbChainId()<<"< ."<<endl);
@@ -3924,7 +3913,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
 
                 bool endCaps{false};
                 ResidueInfo::Index index{0};
-                std::size_t biopolyTypeIndex{0};
+                auto bpType = BiopolymerType::RNA;
 
                 if (isRNA(myBiopolymer)) // if RNA
                 {
@@ -3932,11 +3921,11 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
                 }
                 else if (isDNA(myBiopolymer)) // if DNA
                 {
-                    biopolyTypeIndex = 1;
+                    bpType = BiopolymerType::DNA;
                 }
                 else if (isProtein(myBiopolymer)) {
                     endCaps = true;
-                    biopolyTypeIndex = 2;
+                    bpType = BiopolymerType::Protein;
                     index = ResidueInfo::Index{1};
                 }
                 else {
@@ -3956,7 +3945,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
                     std::move(mySequence),
                     chainId,
                     myFirstResidueNumber,
-                    BIOPOLY_TYPES[biopolyTypeIndex],
+                    bpType,
                     proteinCapping,
                     inPDBFileName,
                     true,
@@ -4259,7 +4248,7 @@ void BiopolymerClassContainer::replaceBiopolymerWithMutatedBiopolymerClass(Biopo
     ResidueID myFirstResidueNumber = myOldBiopolymerClass.getFirstResidueID();
     bool proteinCapping = myOldBiopolymerClass.getProteinCapping();
     String myOriginalSequence = myOldBiopolymerClass.getOriginalSequence();
-    String oldBiopolymerClassBiopolymerType = myOldBiopolymerClass.getBiopolymerTypeAsString();
+    auto oldBiopolymerClassBiopolymerType = myOldBiopolymerClass.getBiopolymerType();
     String oldBiopolymerClassPdbFileName = myOldBiopolymerClass.getPdbFileName();
     bool oldBiopolymerClassLoadFromPdb = myOldBiopolymerClass.getLoadFromPdb();
     bool oldActivePhysics = myOldBiopolymerClass.getActivePhysics();

@@ -16,6 +16,7 @@
 #include "ResidueStretchContainer.h"
 //#include <string>
 #include <MMBLogger.h>
+#include <array>
 #include <map>
 #include <set>
 #include <cstdlib>
@@ -2647,11 +2648,12 @@ template void BiopolymerClass::selectivelyRemoveResidueStretchFromContainer(cons
 void BiopolymerClassContainer::addBiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, 
                                                   String myBiopolymerType, bool proteinCapping, String pdbFileName, bool loadFromPdb, bool useNACappingHydroxyls)
 {
-    BiopolymerClass bp(mySequence, myChainID, myFirstResidueNumber, myBiopolymerType, proteinCapping,useNACappingHydroxyls);
+    BiopolymerClass bp(std::move(mySequence), myChainID, myFirstResidueNumber, std::move(myBiopolymerType), proteinCapping, useNACappingHydroxyls);
     bp.setRenumberPdbResidues(0); // Default value
+    bp.setPdbFileName(pdbFileName);
+    bp.setLoadFromPdb(loadFromPdb);
+
     biopolymerClassMap[myChainID] = bp;
-    biopolymerClassMap.at(myChainID).setPdbFileName(pdbFileName);
-    biopolymerClassMap.at(myChainID).setLoadFromPdb(loadFromPdb);
 }
 /*void BiopolymerClassContainer::addBiopolymerClass(String newChainID, BiopolymerClass newBiopolymerClass) 
 {
@@ -3897,116 +3899,76 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     // We will instead use myNumChains (myPdbStructure.getModel(Pdb::ModelIndex(0)).getNumChains()) which is only the number of chains in model 0
         
     // for (SimTK::CompoundSystem::CompoundIndex c(0); c < myNumChains; ++c) // This way got us some extra chains for some reason.
+
+    const std::array<String, 3> BIOPOLY_TYPES = {
+        String{"RNA"}, String{"DNA"}, String{"Protein"}
+    };
+
     for (SimTK::CompoundSystem::CompoundIndex c(0); c < myNumChainsFromSystem; ++c) 
     {
         MMBLOG_FILE_FUNC_LINE(INFO, "Processing chain >"<<system.getCompound(c).getPdbChainId()<<"< ."<<endl);
         if (Molecule::isInstanceOf(system.getCompound(c) )) 
         {
-            const Molecule   & myMolecule   = Molecule::downcast(system.getCompound(c));                
-            if (Biopolymer::isInstanceOf(myMolecule ))
+            const Molecule & myMolecule = Molecule::downcast(system.getCompound(c));
+            if (Biopolymer::isInstanceOf(myMolecule))
             {
                 const Biopolymer & myBiopolymer = Biopolymer::downcast(myMolecule);
 
-                stringstream myChainId;
-                myChainId << myBiopolymer.getPdbChainId();
-                String myChainIdString = myChainId.str();
-                MMBLOG_FILE_FUNC_LINE(INFO, "Chain ID :"<<myChainId.str()<<endl);
-                //printBiopolymerSequenceInfo(myBiopolymer);
+                auto chainId = myBiopolymer.getPdbChainId();
+                MMBLOG_FILE_FUNC_LINE(INFO, "Chain ID :"<<chainId<<endl);
 
-                if(hasChainID(myChainIdString))
+                if (hasChainID(chainId))
                 {
-                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The chain Id "<< myChainIdString << " found in PDB file " << inPDBFileName << " is already assigned to a chain in MMB. We suggest you to rename or remove the chain in the pdb file or you can use the 'deleteChain " << myChainIdString << "' command before loading the sequences in this file." << endl);
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The chain Id "<< chainId << " found in PDB file " << inPDBFileName << " is already assigned to a chain in MMB. We suggest you to rename or remove the chain in the pdb file or you can use the 'deleteChain " << chainId << "' command before loading the sequences in this file." << endl);
                 }
 
-                if (isRNA(myBiopolymer) ) // if RNA 
+                bool endCaps{false};
+                ResidueInfo::Index index{0};
+                std::size_t biopolyTypeIndex{0};
+
+                if (isRNA(myBiopolymer)) // if RNA
                 {
-                    const RNA& myRNA=static_cast<const RNA&>(myBiopolymer); 
-                    String myBiopolymerType("RNA"); 
-                    String mySequence = extractSequenceFromBiopolymer(myRNA);
-                    ResidueID myFirstResidueNumber ( 
-                        myRNA.getResidue( ResidueInfo::Index(0)).getPdbResidueNumber(),
-                        myRNA.getResidue( ResidueInfo::Index(0)).getPdbInsertionCode()
-                        ); // retrieve first residue in chain. don't forget, we haven't actually called getPdbInsertionCode  () !  also, i think this doesn't take into account proteinCapping, if that's an issue. 
-                    MMBLOG_FILE_FUNC_LINE(INFO, mySequence<<endl);
-                    addBiopolymerClass(
-                     mySequence, 
-                     myChainIdString,
-                     myFirstResidueNumber, 
-                     myBiopolymerType, 
-                     proteinCapping,
-                     inPDBFileName,
-                     true, useNACappingHydroxyls);
-                    //updBiopolymerClass(myChainIdString).setResidueNumbersAndInsertionCodesFromBiopolymer(myRNA, 'FALSE'     ); // provided biopolymer has end caps because it's a protein.
-                    setOriginalSequence(myChainIdString,mySequence); 
-                    MMBLOG_FILE_FUNC_LINE(INFO, "mySequence "<<mySequence<<endl);
-                    MMBLOG_FILE_FUNC_LINE(INFO, "myChainIdString "<<myChainIdString<<endl);
-                    //if (tempRenumberPdbResidues){
-                    //   MMBLOG_FILE_FUNC_LINE(" "<<endl;
-                    //   renumberPdbResidues(ResidueID("1"));
-                    //}
-                    setResidueIDsAndInsertionCodesFromBiopolymer(myChainIdString,myRNA,0); // provided biopolymer has no end caps because it's an RNA.
-                    updBiopolymerClass(myChainIdString).setRenumberPdbResidues(tempRenumberPdbResidues);
-                    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+                    // Default values are okay for RNA, do nothing
                 }
-                else if (isDNA(myBiopolymer) ) // if DNA 
+                else if (isDNA(myBiopolymer)) // if DNA
                 {
-                    const DNA& myDNA=static_cast<const DNA&>(myBiopolymer); 
-                    String myBiopolymerType("DNA"); 
-                    String mySequence = extractSequenceFromBiopolymer(myDNA);
-                    ResidueID myFirstResidueNumber ( 
-                        myDNA.getResidue( ResidueInfo::Index(0)).getPdbResidueNumber(),
-                        myDNA.getResidue( ResidueInfo::Index(0)).getPdbInsertionCode()
-                        ); // retrieve first residue in chain. don't forget, we haven't actually called getPdbInsertionCode  () !  also, i think this doesn't take into account proteinCapping, if that's an issue. 
-                    MMBLOG_FILE_FUNC_LINE(INFO, mySequence<<endl);
-                    addBiopolymerClass(
-                     mySequence, 
-                     myChainIdString,
-                     myFirstResidueNumber, 
-                     myBiopolymerType, 
-                     proteinCapping,
-                     inPDBFileName,
-                     true,useNACappingHydroxyls);
-                    //if (tempRenumberPdbResidues){
-                    //   renumberPdbResidues(ResidueID("1"));
-                    //}
-                    setResidueIDsAndInsertionCodesFromBiopolymer(myChainIdString,myDNA,0); // provided biopolymer has no end caps because it's a DNA.
-                    updBiopolymerClass(myChainIdString).setRenumberPdbResidues(tempRenumberPdbResidues);
+                    biopolyTypeIndex = 1;
                 }
                 else if (isProtein(myBiopolymer)) {
-
-                    const Protein& myProtein=static_cast<const Protein&>(myBiopolymer); 
-                    String myBiopolymerType("Protein"); 
-                    String mySequence = extractSequenceFromBiopolymer(myProtein, true);
-                    ResidueID myFirstResidueNumber ( 
-                        myProtein.getResidue( ResidueInfo::Index(1)).getPdbResidueNumber(),
-                        myProtein.getResidue( ResidueInfo::Index(1)).getPdbInsertionCode()
-                        ); // retrieve first residue in chain. don't forget, we haven't actually called getPdbInsertionCode  () !  also, i think this doesn't take into account proteinCapping, if that's an issue. 
-                    //printBiopolymerSequenceInfo(myProtein);
-                    MMBLOG_FILE_FUNC_LINE(INFO, mySequence<<endl);
-                    addBiopolymerClass(
-                        mySequence, 
-                        myChainIdString,
-                        myFirstResidueNumber,
-                        myBiopolymerType, 
-                        proteinCapping,
-                        inPDBFileName,
-                        true, // this will setRenumberPdbResidues(-1)
-			useNACappingHydroxyls); 
-                    MMBLOG_FILE_FUNC_LINE(INFO, endl);
-                    setResidueIDsAndInsertionCodesFromBiopolymer(myChainIdString,myProtein,1); // provided biopolymer has end caps because it's a protein.
-                    updBiopolymerClass(myChainIdString).setRenumberPdbResidues(tempRenumberPdbResidues);
-                    /*if (tempRenumberPdbResidues){
-                       MMBLOG_FILE_FUNC_LINE(endl;
-                       updBiopolymerClass(myChainIdString).renumberPdbResidues(ResidueID("1"));
-                    }*/
-                    //MMBLOG_FILE_FUNC_LINE(endl;
+                    endCaps = true;
+                    biopolyTypeIndex = 2;
+                    index = ResidueInfo::Index{1};
                 }
                 else {
-                   MMBLOG_FILE_FUNC_LINE(CRITICAL, "loadSequencesFromPdb can only be used with Protein, RNA and DNA.  You have one or more atoms in the file "<< inPDBFileName<< " which belong to none of these. Please get rid of these atoms and try again."<<endl);
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "loadSequencesFromPdb can only be used with Protein, RNA and DNA.  You have one or more atoms in the file "<< inPDBFileName<< " which belong to none of these. Please get rid of these atoms and try again."<<endl);
                 }
-                BiopolymerClass & myBiopolymerClass = updBiopolymerClass(myChainIdString);
+
+                auto mySequence = extractSequenceFromBiopolymer(myBiopolymer, endCaps);
+
+                MMBLOG_FILE_FUNC_LINE(INFO, "mySequence "<<mySequence<<endl);
+
+                ResidueID myFirstResidueNumber(
+                    myBiopolymer.getResidue(index).getPdbResidueNumber(),
+                    myBiopolymer.getResidue(index).getPdbInsertionCode()
+                ); // retrieve first residue in chain. don't forget, we haven't actually called getPdbInsertionCode  () !  also, i think this doesn't take into account proteinCapping, if that's an issue.
+                MMBLOG_FILE_FUNC_LINE(INFO, mySequence<<endl);
+                addBiopolymerClass(
+                    std::move(mySequence),
+                    chainId,
+                    myFirstResidueNumber,
+                    BIOPOLY_TYPES[biopolyTypeIndex],
+                    proteinCapping,
+                    inPDBFileName,
+                    true,
+                    useNACappingHydroxyls
+                );
+
+                BiopolymerClass & myBiopolymerClass = updBiopolymerClass(chainId);
+                myBiopolymerClass.setResidueIDsAndInsertionCodesFromBiopolymer(myBiopolymer, endCaps);
+                myBiopolymerClass.setRenumberPdbResidues(tempRenumberPdbResidues);
+
                 MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
-                myBiopolymerClass.setPdbStructure((pdbStructureMap.at(inPDBFileName)));
+                myBiopolymerClass.setPdbStructure(pdbStructureMap.at(inPDBFileName));
             } // of if Biopolymer
         } // of if Molecule
         MMBLOG_FILE_FUNC_LINE(INFO, "This BiopolymerClassContainer now has getNumBiopolymers() = "<< getNumBiopolymers() <<endl);
@@ -4023,9 +3985,9 @@ void BiopolymerClassContainer::printBiopolymerInfo() {
     }  
 };
 
-void BiopolymerClassContainer::setResidueIDsAndInsertionCodesFromBiopolymer(String chain, const Biopolymer & inputBiopolymer, bool endCaps){
+void BiopolymerClassContainer::setResidueIDsAndInsertionCodesFromBiopolymer(const String & chain, const Biopolymer & inputBiopolymer, bool endCaps) {
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    updBiopolymerClass(chain).setResidueIDsAndInsertionCodesFromBiopolymer(   inputBiopolymer,  endCaps);
+    updBiopolymerClass(chain).setResidueIDsAndInsertionCodesFromBiopolymer(inputBiopolymer, endCaps);
 }
 ResidueID BiopolymerClassContainer::residueID(map<const String,double> myUserVariables,  const char* value , String chain) {
     String inputResidueID(value);

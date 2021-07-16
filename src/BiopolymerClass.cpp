@@ -481,10 +481,11 @@ BiopolymerClass::BiopolymerClass() {
 }
 
 BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, BiopolymerType::BiopolymerTypeEnum myBiopolymerType, bool proteinCapping, bool useNACappingHydroxyls) noexcept :
-    chainID{std::move(myChainID)},
     sequence{std::move(mySequence)},
-    biopolymerType{myBiopolymerType},
-    proteinCapping{proteinCapping}
+    originalSequence{sequence},
+    chainID{std::move(myChainID)},
+    proteinCapping{proteinCapping},
+    biopolymerType{myBiopolymerType}
 {
     assert(biopolymerType != BiopolymerType::Unassigned);
 

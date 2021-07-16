@@ -155,7 +155,7 @@ public:
                               const vector<Displacement> & displacementVector,
                               double matchingMinimizerTolerance, 
                               double myPlanarityThreshold,
-                              vector<SecondaryStructureStretch> secondaryStructureStretchVector ,
+                              const vector<SecondaryStructureStretch> &secondaryStructureStretchVector,
                               PdbStructureMapType & pdbStructureMap
                              ) ; //    Should  everything currently done by ConstrainedDynamics::initializeMolecules.  the latter should stop treating biopolymers altogether.  it really should stop treating MonoAtoms as well.
 
@@ -388,7 +388,7 @@ public:
     /** 
         Initialize one biopolymer identified by chainID
     */
-    int  initializeBiopolymer(String chainID, CompoundSystem & system,
+    int  initializeBiopolymer(const String &chainID, CompoundSystem & system,
                               bool myProteinCapping, bool matchExact, 
                               bool matchIdealized, const bool matchOptimize, 
                               bool matchHydrogenAtomLocations, 
@@ -398,7 +398,7 @@ public:
                               const vector<Displacement> &displacementVector,
                               double matchingMinimizerTolerance,
                               double myPlanarityThreshold,
-                              vector<SecondaryStructureStretch> secondaryStructureStretchVector
+                              const vector<SecondaryStructureStretch> &secondaryStructureStretchVector
                              );
     //template<class ResidueStretchTypeA> 
     // This loops through all the MobilzerStretch's in mobilizerContainer, and if these are rigid,  selectively removes them from residueStretchContainer. For example,  residueStretchContainer could be a DensityContainer. If we don't want to apply density forces to Rigid segments, we call this function.

@@ -1085,7 +1085,7 @@ class SecondaryStructureStretch  : public ResidueStretch  {
     private:
                SecondaryStructureType mySecondaryStructureType;
     public:
-           void setSecondaryStructureType(String inputSecondaryStructureType) {
+           void setSecondaryStructureType(const String &inputSecondaryStructureType) {
             if ((inputSecondaryStructureType.compare("Alpha")) == 0) { 
                 mySecondaryStructureType = Alpha;}
             else if ((inputSecondaryStructureType.compare("ParallelBeta")) == 0) { 
@@ -1096,7 +1096,7 @@ class SecondaryStructureStretch  : public ResidueStretch  {
                 MMBLOG_FILE_LINE(CRITICAL, " Error!  The only permitted secondary structure types are Alpha, ParallelBeta and AntiParallelBeta."<<endl);
             }
         }
-    SecondaryStructureType getSecondaryStructureType() {return mySecondaryStructureType ;};
+    SecondaryStructureType getSecondaryStructureType() const  {return mySecondaryStructureType ;};
 };
 
 class  DensityStretch : public ResidueStretch   {

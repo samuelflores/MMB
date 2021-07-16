@@ -661,52 +661,47 @@ const ResidueID& BiopolymerClass::getResidueID(const int residueIndex) const {
     //return myResidueID;
 }
 
-
-PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, PdbStructureMapType & pdbStructureMap ){
-        MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
-        if (!pdbStructureMap.empty()) if (pdbStructureMap.find(inputFileName) != pdbStructureMap.end()) {
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
-	}
-        MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
-        PdbStructure myPdbStructure{inputFileName};
-
-    // have to add this to the map..	
-    //
+const PdbStructure & generatePdbStructure(const String &inputFileName, const String &chainsPrefix, PdbStructureMapType & pdbStructureMap) {
     MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
-    MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being linked to a PdbStructure"   << std::endl);
-    pdbStructureMap.insert(pdbStructurePairType(inputFileName, myPdbStructure) );
-    MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
-    //pdbStructureMap.insert(pir<String, PdbStructure>(inPDBFileName, myPdbStructure) );
-    return myPdbStructure;
-}
 
-PdbStructure generateOrFetchPdbStructure(String inputFileName, String chainsPrefix, PdbStructureMapType & pdbStructureMap ){
-    PdbStructure myPdbStructure;
-    MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
     if (pdbStructureMap.find(inputFileName) != pdbStructureMap.end()) {
-        MMBLOG_FILE_FUNC_LINE(DEBUG   , " The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
-	myPdbStructure = pdbStructureMap.find(inputFileName)->second ;
-    } else { 
-        MMBLOG_FILE_FUNC_LINE(DEBUG   , " The pdbStructureMap does NOT have a PdbStructure linked to inputFileName "<<inputFileName<<" .. generating one now.."<<endl);
-        myPdbStructure = generatePdbStructure(inputFileName, chainsPrefix, pdbStructureMap);	    
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
     }
-    return myPdbStructure;
+
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being linked to a PdbStructure" << std::endl);
+
+    auto it = pdbStructureMap.emplace(inputFileName, inputFileName);
+    return it.first->second;
 }
 
-int  BiopolymerClass::matchCoordinates(const String & inputFileName,
-                                       bool matchExact, bool matchIdealized,
-                                       const bool matchOptimize,
-                                       bool matchHydrogenAtomLocations,
-                                       bool matchPurineN1AtomLocations,
-                                       bool guessCoordinates,
-                                       double matchingMinimizerTolerance,
-                                       double myPlanarityThreshold,   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
-				       PdbStructureMapType & pdbStructureMap
+const PdbStructure & generateOrFetchPdbStructure(const String &inputFileName, const String &chainsPrefix, PdbStructureMapType &pdbStructureMap) {
+    MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
 
-    ) {
+    auto it = pdbStructureMap.find(inputFileName);
+    if (it != pdbStructureMap.end()) {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
+	    return it->second;
+    } else {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " The pdbStructureMap does NOT have a PdbStructure linked to inputFileName "<<inputFileName<<" .. generating one now.."<<endl);
+        return generatePdbStructure(inputFileName, chainsPrefix, pdbStructureMap);
+    }
+}
+
+int BiopolymerClass::matchCoordinates(
+    const String &inputFileName,
+    bool matchExact,
+    bool matchIdealized,
+    const bool matchOptimize,
+    bool matchHydrogenAtomLocations,
+    bool matchPurineN1AtomLocations,
+    bool guessCoordinates,
+    double matchingMinimizerTolerance,
+    double myPlanarityThreshold,   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
+    PdbStructureMapType & pdbStructureMap
+) {
     MMBLOG_FILE_FUNC_LINE(INFO, "about to match chain \""<< getChainID()<<"\" having prefix \""<< getChainPrefix()<<"\" to file name : "<<inputFileName<<" using generateOrFetchPdbStructure " <<endl);
     MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
-    PdbStructure myPdbStructure = generateOrFetchPdbStructure(inputFileName, getChainPrefix(), pdbStructureMap);
+    const PdbStructure &myPdbStructure = generateOrFetchPdbStructure(inputFileName, getChainPrefix(), pdbStructureMap);
     return matchCoordinates( myPdbStructure, matchExact, matchIdealized, matchOptimize,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                          guessCoordinates, matchingMinimizerTolerance, myPlanarityThreshold);
@@ -746,7 +741,7 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
     ) {
     double maxObservedSinePlaneDeviation = 0;
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    Compound::AtomTargetLocations biopolymerAtomTargets = myBiopolymer.createAtomTargets(myPdbStructure,guessCoordinates); 
+    Compound::AtomTargetLocations biopolymerAtomTargets = myBiopolymer.createAtomTargets(myPdbStructure, guessCoordinates);
 
     bool matchProteinCarboxylOxygenLocations = false;
     bool matchNucleotideSideGroups = false;
@@ -929,21 +924,23 @@ void BiopolymerClass::setSingleBondMobility(ResidueID residueID1,  String atomNa
      * \brief Set chain ID, renumber residues, match coordinates, and adopt the compound.
      *
      */
-int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
-                                           bool myProteinCapping,
-                                           bool matchExact, bool matchIdealized,
-                                           const bool matchOptimize,
-                                           bool matchHydrogenAtomLocations,
-                                           bool matchPurineN1AtomLocations,
-                                           bool guessCoordinates,
-                                           int biopolymerClassIndex, double initialSeparation,
-                                           const vector<Displacement> & displacementVector,
-                                           double matchingMinimizerTolerance,
-                                           double myPlanarityThreshold,
-                                           vector<SecondaryStructureStretch> secondaryStructureStretchVector  ,
-					   PdbStructureMapType & pdbStructureMap
-                                          )
-{
+int BiopolymerClass::initializeBiopolymer(
+    CompoundSystem & system,
+    bool myProteinCapping,
+    bool matchExact,
+    bool matchIdealized,
+    const bool matchOptimize,
+    bool matchHydrogenAtomLocations,
+    bool matchPurineN1AtomLocations,
+    bool guessCoordinates,
+    int biopolymerClassIndex,
+    double initialSeparation,
+    const vector<Displacement> & displacementVector,
+    double matchingMinimizerTolerance,
+    double myPlanarityThreshold,
+    const vector<SecondaryStructureStretch> &secondaryStructureStretchVector,
+    PdbStructureMapType & pdbStructureMap
+) {
     //int returnValue = 0;
     if (biopolymerType == BiopolymerType::Protein) {
         setProteinCapping (myProteinCapping);
@@ -976,10 +973,9 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
         }
 
         ////////////////////
-        SecondaryStructureStretch mySecondaryStructureStretch  ;
         for (size_t i = 0; i <   secondaryStructureStretchVector.size(); i++)
         {
-            mySecondaryStructureStretch =   secondaryStructureStretchVector[i]; 
+            const auto &mySecondaryStructureStretch = secondaryStructureStretchVector[i];
             if (mySecondaryStructureStretch.getChain().compare( getChainID()) == 0) 
             {
                 MMBLOG_FILE_FUNC_LINE(INFO, " Applying secondary structure default phi, psi angles for stretch : "<<i<<endl);
@@ -2521,48 +2517,50 @@ int  BiopolymerClassContainer::initializeBiopolymers(CompoundSystem & system,
                                                      double matchingMinimizerTolerance,
                                                      double myPlanarityThreshold)
 {
-    map<const String, BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
     int n = 0;
     int returnValue = 0;
-    for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
-        returnValue = (biopolymerClassMapIterator->second).initializeBiopolymer(system, 
-                                                                  myProteinCapping, matchExact, 
-                                                                  matchIdealized ,matchOptimize, 
-                                                                  matchHydrogenAtomLocations, 
-                                                                  matchPurineN1AtomLocations, 
-                                                                  guessCoordinates,
-                                                                  n,
-                                                                  initialSeparation, 
-                                                                  displacementVector,
-                                                                  matchingMinimizerTolerance,
-                                                                  myPlanarityThreshold,
-                                                                  secondaryStructureStretchVector,
-								  pdbStructureMap
-                                                                  );  
+    for (auto &&it : biopolymerClassMap) {
+        returnValue = it.second.initializeBiopolymer(
+            system,
+            myProteinCapping,
+            matchExact,
+            matchIdealized,
+            matchOptimize,
+            matchHydrogenAtomLocations,
+            matchPurineN1AtomLocations,
+            guessCoordinates,
+            n,
+            initialSeparation,
+            displacementVector,
+            matchingMinimizerTolerance,
+            myPlanarityThreshold,
+            secondaryStructureStretchVector,
+            pdbStructureMap
+        );
         MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
-        if (returnValue){
+        if (returnValue) {
             MMBLOG_FILE_FUNC_LINE(WARNING, "Returned an error from initializeBiopolymer"<<endl);
             //returnValue = 1;
-        }; 
+        }
         n++;
     }
     return returnValue;
 }
 
-int  BiopolymerClassContainer::initializeBiopolymer(String chainID, CompoundSystem & system,
-                                                    bool myProteinCapping, bool matchExact, 
-                                                    bool matchIdealized, const bool matchOptimize, 
-                                                    bool matchHydrogenAtomLocations, 
+int  BiopolymerClassContainer::initializeBiopolymer(const String &chainID, CompoundSystem & system,
+                                                    bool myProteinCapping, bool matchExact,
+                                                    bool matchIdealized, const bool matchOptimize,
+                                                    bool matchHydrogenAtomLocations,
                                                     bool matchPurineN1AtomLocations,
                                                     bool guessCoordinates,
-                                                    double initialSeparation, 
+                                                    double initialSeparation,
                                                     const vector<Displacement> &displacementVector,
                                                     double matchingMinimizerTolerance,
                                                     double myPlanarityThreshold,
-                                                    vector<SecondaryStructureStretch> secondaryStructureStretchVector)
+                                                    const vector<SecondaryStructureStretch> &secondaryStructureStretchVector)
 {
     BiopolymerClass & bpc = updBiopolymerClass(chainID);
-    if (bpc.initializeBiopolymer(system, myProteinCapping, matchExact, 
+    if (bpc.initializeBiopolymer(system, myProteinCapping, matchExact,
                              matchIdealized, matchOptimize,
                              matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                              guessCoordinates, 

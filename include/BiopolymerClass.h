@@ -123,7 +123,7 @@ public:
     void    setPdbFileName(String pdbFileName);
     const String & getPdbFileName() const;
 
-    void    setPdbStructure( PdbStructure );
+    void    setPdbStructure(PdbStructure);
     const PdbStructure& getPdbStructure() const;
     
     void    setLoadFromPdb(bool yesno);
@@ -235,8 +235,8 @@ public:
     void        physicsZone(vector<AllResiduesWithin> & myIncludeAllResiduesWithinVector , double radius, SimbodyMatterSubsystem & matter,State & state);
     void        multiplySmallGroupInertia(  ResidueID residueID,   String atomName,   double multiplier, CompoundSystem & system,  SimbodyMatterSubsystem & matter,State & state);
     void        multiplySmallGroupInertia(   double multiplier, CompoundSystem & system, SimbodyMatterSubsystem & matter,State & state) ;
-    MMBAtomInfo mmbAtomInfo(  ResidueID myResidueID,   ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter  );
-    MMBAtomInfo mmbAtomInfo(  ResidueID myResidueID,   ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm );
+    MMBAtomInfo mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter);
+    MMBAtomInfo mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm);
     //MMBAtomInfo mmbAtomInfo(  ResidueID myResidueID,   ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm , State & state);
     #ifdef USE_OPENMM
     void        initializeAtomInfoVector(SimbodyMatterSubsystem & matter,  const vector<AtomicPropertyOverrideStruct>  & myAtomicPropertyOverrideVector);

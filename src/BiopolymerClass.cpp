@@ -1179,34 +1179,35 @@ Vec3 BiopolymerClass::getAtomLocationInMobilizedBodyFrame(ResidueID myResidueID,
 
 // mmbAtomInfo WITHOUT dumm, doesn't set mass, atomicNumber, mobilizedBody, or mobilizedBodyIndex.
 
-MMBAtomInfo BiopolymerClass::mmbAtomInfo(ResidueID myResidueID, ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter ) {
-        ResidueInfo myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID ));    
-        Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex );
-        Compound::AtomName  myAtomName  = myResidueInfo.getAtomName(myResidueInfoAtomIndex );
-        MMBAtomInfo myMMBAtomInfo;
-        myMMBAtomInfo.compoundAtomIndex = myAtomIndex;
-            myMMBAtomInfo.atomName = myAtomName; 
-            myMMBAtomInfo.residueID = myResidueID;
-            myMMBAtomInfo.chain = getChainID();
-        return myMMBAtomInfo;
+MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter) {
+    const ResidueInfo &myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID));
+    Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex);
+    Compound::AtomName myAtomName = myResidueInfo.getAtomName(myResidueInfoAtomIndex);
+
+    MMBAtomInfo myMMBAtomInfo;
+    myMMBAtomInfo.compoundAtomIndex = myAtomIndex;
+    myMMBAtomInfo.atomName = std::move(myAtomName);
+    myMMBAtomInfo.residueID = myResidueID;
+    myMMBAtomInfo.chain = getChainID();
+    return myMMBAtomInfo;
 }
 // mmbAtomInfo WITH dumm, adds mass, atomicNumber, mobilizedBody, and mobilizedBodyIndex.
-MMBAtomInfo BiopolymerClass::mmbAtomInfo(ResidueID myResidueID, ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) {
-        ResidueInfo myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID ));    
-        Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex );
-        Compound::AtomName  myAtomName  = myResidueInfo.getAtomName(myResidueInfoAtomIndex );
-        MMBAtomInfo myMMBAtomInfo = mmbAtomInfo(myResidueID, myResidueInfoAtomIndex, matter);
-        DuMM::AtomIndex myDuMMAtomIndex = myBiopolymer.getDuMMAtomIndex(myAtomIndex);
-        myMMBAtomInfo.mobilizedBody = updAtomMobilizedBody(matter, myResidueID ,myAtomName);
-        myMMBAtomInfo.mobilizedBodyIndex =  myMMBAtomInfo.mobilizedBody.getMobilizedBodyIndex();
-        //MMBLOG_FILE_FUNC_LINE(" initializing  myMMBAtomInfo.mobilizedBodyIndex = "<<  myMMBAtomInfo.mobilizedBodyIndex  <<endl;
-        myMMBAtomInfo.atomName = myAtomName;
-        myMMBAtomInfo.mass = dumm.getAtomMass(myDuMMAtomIndex); 
-        myMMBAtomInfo.atomicNumber = dumm.getAtomElement(myDuMMAtomIndex); 
-        myMMBAtomInfo.mobilizedBody = updAtomMobilizedBody(matter, myResidueID ,myAtomName);
-        myMMBAtomInfo.mobilizedBodyIndex =  myMMBAtomInfo.mobilizedBody.getMobilizedBodyIndex();
-        myMMBAtomInfo.partialCharge = dumm.getPartialCharge(myDuMMAtomIndex);
-        return myMMBAtomInfo;
+MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) {
+    const ResidueInfo &myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID));
+    Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex);
+    const Compound::AtomName &myAtomName = myResidueInfo.getAtomName(myResidueInfoAtomIndex);
+    
+    MMBAtomInfo myMMBAtomInfo = mmbAtomInfo(myResidueID, myResidueInfoAtomIndex, matter);
+    DuMM::AtomIndex myDuMMAtomIndex = myBiopolymer.getDuMMAtomIndex(myAtomIndex);
+    myMMBAtomInfo.mobilizedBody = updAtomMobilizedBody(matter, myResidueID, myAtomName);
+    myMMBAtomInfo.mobilizedBodyIndex = myMMBAtomInfo.mobilizedBody.getMobilizedBodyIndex();
+    myMMBAtomInfo.atomName = myAtomName;
+    myMMBAtomInfo.mass = dumm.getAtomMass(myDuMMAtomIndex);
+    myMMBAtomInfo.atomicNumber = dumm.getAtomElement(myDuMMAtomIndex);
+    myMMBAtomInfo.mobilizedBody = updAtomMobilizedBody(matter, myResidueID, myAtomName);
+    myMMBAtomInfo.mobilizedBodyIndex = myMMBAtomInfo.mobilizedBody.getMobilizedBodyIndex();
+    myMMBAtomInfo.partialCharge = dumm.getPartialCharge(myDuMMAtomIndex);
+    return myMMBAtomInfo;
 }
 // Overrides default atom position, uses that from State instead. Not sure we'll ever need this. 
 /*MMBAtomInfo BiopolymerClass::mmbAtomInfo(ResidueID myResidueID, ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, State & state) {
@@ -2292,9 +2293,9 @@ const String & BiopolymerClass::getPdbFileName() const {
     return pdbFileName;
 }
 
-void  BiopolymerClass::setPdbStructure(const PdbStructure myPdbStructure)
+void  BiopolymerClass::setPdbStructure(PdbStructure myPdbStructure)
 {
-    this->pdbStructure = myPdbStructure;
+    this->pdbStructure = std::move(myPdbStructure);
 }
 
 const PdbStructure& BiopolymerClass::getPdbStructure() const
@@ -3937,7 +3938,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     MMBLOG_FILE_FUNC_LINE(INFO,endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "system.getNumCompounds() = "<<system.getNumCompounds() <<endl);
     MMBLOG_FILE_FUNC_LINE(INFO,endl);
-    PdbStructure myPdbStructure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap); //////
+    const PdbStructure &myPdbStructure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap); //////
     /* 
     //================================================ Use PDB reader or CIF reader depending on the extension.
     PdbStructure myPdbStructure;

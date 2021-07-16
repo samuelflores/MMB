@@ -173,7 +173,7 @@ void   BiopolymerClass:: modifyResidue( const BiopolymerModification myBiopolyme
 }
 
 
-String  BiopolymerClass::getSubSequence(const ResidueID startResidue, const ResidueID endResidue)
+String  BiopolymerClass::getSubSequence(const ResidueID &startResidue, const ResidueID &endResidue) const
 {
     validateResidueID(startResidue);
     validateResidueID(  endResidue);
@@ -481,10 +481,10 @@ BiopolymerClass::BiopolymerClass() {
 }
 
 BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, BiopolymerType::BiopolymerTypeEnum myBiopolymerType, bool proteinCapping, bool useNACappingHydroxyls) noexcept :
-    biopolymerType{myBiopolymerType},
-    proteinCapping{proteinCapping},
     chainID{std::move(myChainID)},
-    sequence{std::move(mySequence)}
+    sequence{std::move(mySequence)},
+    biopolymerType{myBiopolymerType},
+    proteinCapping{proteinCapping}
 {
     assert(biopolymerType != BiopolymerType::Unassigned);
 
@@ -509,6 +509,91 @@ BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID 
     renumberPdbResidues(myFirstResidueNumber);
 }
 
+/* Copy c-tor */
+BiopolymerClass::BiopolymerClass(const BiopolymerClass &other) :
+    firstResidueID{other.firstResidueID},
+    sequence{other.sequence},
+    originalSequence{other.originalSequence},
+    chainID{other.chainID},
+    chainPrefix{other.chainPrefix},
+    firstResidueMobilizerType{other.firstResidueMobilizerType},
+    myRenumberPdbResidues{other.myRenumberPdbResidues},
+    proteinCapping{other.proteinCapping},
+    atomInfoVector{other.atomInfoVector},
+    ignoreAtomPositionVector{other.ignoreAtomPositionVector},
+    residueIDVector{other.residueIDVector},
+    pdbFileName{other.pdbFileName},
+    pdbStructure{other.pdbStructure},
+    activePhysics{other.activePhysics},
+    myBiopolymer{other.myBiopolymer},
+    biopolymerType{other.biopolymerType}
+{
+}
+
+/* Move c-tor */
+BiopolymerClass::BiopolymerClass(BiopolymerClass &&other) noexcept :
+    firstResidueID{std::move(other.firstResidueID)},
+    sequence{std::move(other.sequence)},
+    originalSequence{std::move(other.originalSequence)},
+    chainID{std::move(other.chainID)},
+    chainPrefix{std::move(other.chainPrefix)},
+    firstResidueMobilizerType{std::move(other.firstResidueMobilizerType)},
+    myRenumberPdbResidues{other.myRenumberPdbResidues},
+    proteinCapping{other.proteinCapping},
+    atomInfoVector{std::move(other.atomInfoVector)},
+    ignoreAtomPositionVector{std::move(other.ignoreAtomPositionVector)},
+    residueIDVector{std::move(other.residueIDVector)},
+    pdbFileName{std::move(other.pdbFileName)},
+    pdbStructure{std::move(other.pdbStructure)},
+    activePhysics{other.activePhysics},
+    myBiopolymer{std::move(other.myBiopolymer)},
+    biopolymerType{other.biopolymerType}
+{
+}
+
+/* Copy assignment */
+BiopolymerClass & BiopolymerClass::operator=(const BiopolymerClass &other) {
+    firstResidueID = other.firstResidueID;
+    sequence = other.sequence;
+    originalSequence = other.originalSequence;
+    chainID = other.chainID;
+    chainPrefix = other.chainPrefix;
+    firstResidueMobilizerType = other.firstResidueMobilizerType;
+    myRenumberPdbResidues = other.myRenumberPdbResidues;
+    proteinCapping = other.proteinCapping;
+    atomInfoVector = other.atomInfoVector;
+    ignoreAtomPositionVector = other.ignoreAtomPositionVector;
+    residueIDVector = other.residueIDVector;
+    pdbFileName = other.pdbFileName;
+    pdbStructure = other.pdbStructure;
+    activePhysics = other.activePhysics;
+    myBiopolymer = other.myBiopolymer;
+    biopolymerType = other.biopolymerType;
+
+    return *this;
+}
+
+/* Move assignment */
+BiopolymerClass & BiopolymerClass::operator=(BiopolymerClass &&other) noexcept {
+    firstResidueID = std::move(other.firstResidueID);
+    sequence = std::move(other.sequence);
+    originalSequence = std::move(other.originalSequence);
+    chainID = std::move(other.chainID);
+    chainPrefix = std::move(other.chainPrefix);
+    firstResidueMobilizerType = std::move(other.firstResidueMobilizerType);
+    myRenumberPdbResidues = other.myRenumberPdbResidues;
+    proteinCapping = other.proteinCapping;
+    atomInfoVector = std::move(other.atomInfoVector);
+    ignoreAtomPositionVector = std::move(other.ignoreAtomPositionVector);
+    residueIDVector = std::move(other.residueIDVector);
+    pdbFileName = std::move(other.pdbFileName);
+    pdbStructure = std::move(other.pdbStructure);
+    activePhysics = other.activePhysics;
+    myBiopolymer = std::move(other.myBiopolymer);
+    biopolymerType = other.biopolymerType;
+
+    return *this;
+}
 
 void BiopolymerClass::setPdbResidueNumbersFromResidueIDVector() {
     MMBLOG_FILE_FUNC_LINE(INFO, "Inside setPdbResidueNumbersFromResidueIDVector() for chain "<< getChainID()<< endl);
@@ -994,10 +1079,10 @@ void BiopolymerClass::setRenumberPdbResidues (bool tempRenumberPdbResidues){
  *
  */
 
-ResidueID BiopolymerClass::residueID(map<const String,double> myUserVariables,  const char* value){
+ResidueID BiopolymerClass::residueID(const map<const String,double> &myUserVariables, const char* value) const {
         String tempString(value);
         if ((tempString.substr(0,1)).compare("@") ==0) { // if the String starts with '@' , this is a user-defined integer variable.  Note that insertion codes cannot be specified with this method.
-            ResidueID myResidueID( myUserVariables, value);
+            ResidueID myResidueID(myUserVariables, value);
             validateResidueID(myResidueID );
             return myResidueID;
         } else { // if the residue ID is supplied as a String literal, just validate and return it.  This String can contain insertion codes.
@@ -1009,10 +1094,9 @@ ResidueID BiopolymerClass::residueID(map<const String,double> myUserVariables,  
      * \brief Make sure residue number is in proper range.
      * This polymorphism does NOT support e.g. FirstResidue, LastResidue.
      */
-ResidueID BiopolymerClass::residueID(String inputString){
-        
+ResidueID BiopolymerClass::residueID(const String &inputString) const {
         ResidueID myResidueID(inputString/*, false*/); // set validate=false, because BiopolymerClass has its own validation.
-        validateResidueID(myResidueID );
+        validateResidueID(myResidueID);
         return myResidueID;
 }
 
@@ -1061,21 +1145,21 @@ bool BiopolymerClass::hasAtom(ResidueID myResidueID, String myAtomName) {
 ///generates an atom path e.g. 3/C1' .                                               //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-Compound::AtomPathName BiopolymerClass::atomPathString(ResidueID myResidueID, String myAtomName) {
-    int myResidueIndex = getResidueIndex(myResidueID);
+Compound::AtomPathName BiopolymerClass::atomPathString(const ResidueID &residueID, const String &atomName) const {
+    int myResidueIndex = getResidueIndex(residueID);
     Compound::AtomPathName myAtomPathName =  Compound::AtomPathName
          (String(
             intToString(myResidueIndex) +  // does this properly correct for proteinCapping? confirm empirically later.
             String("/") +
-            myAtomName
+            atomName
             )
          );
    // validateAtomPathName(myAtomPathName);
    return myAtomPathName;
 }
 
-Compound::AtomIndex    BiopolymerClass::atomIndex(ResidueID myResidueID, String myAtomName) {
-   Compound::AtomPathName myAtomPathString = atomPathString(myResidueID,  myAtomName);
+Compound::AtomIndex BiopolymerClass::atomIndex(const ResidueID &residueID, const String &atomName) const {
+   Compound::AtomPathName myAtomPathString = atomPathString(residueID, atomName);
    return myBiopolymer.getAtomIndex(myAtomPathString);
 }
 
@@ -1334,9 +1418,9 @@ MobilizedBodyIndex BiopolymerClass::getAtomMobilizedBodyIndex(SimbodyMatterSubsy
     //return matter.updMobilizedBody(myAtomMobilizedBodyIndex);
 }
 
-Vec3 BiopolymerClass::calcDefaultAtomLocationInGroundFrame(ResidueID myResidueID, String atomName ){
+Vec3 BiopolymerClass::calcDefaultAtomLocationInGroundFrame(const ResidueID &myResidueID, const String &atomName) const {
     Compound::AtomIndex myAtomIndex = atomIndex(myResidueID,atomName);
-    return myBiopolymer.calcDefaultAtomLocationInGroundFrame (atomPathString(myResidueID,atomName));    
+    return myBiopolymer.calcDefaultAtomLocationInGroundFrame(atomPathString(myResidueID,atomName));
 }
 
 Vec3 BiopolymerClass::calcAtomLocationInGroundFrame(const State & state,  ResidueID myResidueID, String atomName ){
@@ -1412,7 +1496,7 @@ const String&  BiopolymerClass::getPdbResidueName(const ResidueID& residueID) co
     return myBiopolymer.getResidue(getResidueIndex(residueID)).getPdbResidueName(); 
 }
 
-String BiopolymerClass::getRepresentativeAtomName(){
+String BiopolymerClass::getRepresentativeAtomName() const {
     if (biopolymerType     ==  BiopolymerType::RNA)     {
         return  "C4'";
     }
@@ -1428,7 +1512,7 @@ String BiopolymerClass::getRepresentativeAtomName(){
 }
 
 
-double BiopolymerClass::getRepresentativeAtomMassThreshold(){
+double BiopolymerClass::getRepresentativeAtomMassThreshold() const {
     if (biopolymerType     ==  BiopolymerType::RNA)     {
         return  30.   ;
     }
@@ -2180,7 +2264,7 @@ void BiopolymerClass::setCurrentSequencesFromOriginalSequences() {
 
 
 
-ResidueID BiopolymerClass::sum(ResidueID  oldResidueID, int  increment ){
+ResidueID BiopolymerClass::sum(ResidueID  oldResidueID, int  increment ) const {
     ResidueID newResidueID = oldResidueID;
     if (residueIDVector.size() > 0) {
         int oldResidueIndex = getResidueIndex(oldResidueID);
@@ -2205,9 +2289,10 @@ ResidueID BiopolymerClass::sum(ResidueID  oldResidueID, int  increment ){
 };
 
 void BiopolymerClass::setPdbFileName(String pdbFileName){
-    this->pdbFileName = pdbFileName;
+    this->pdbFileName = std::move(pdbFileName);
 }
-String BiopolymerClass::getPdbFileName(){
+
+const String & BiopolymerClass::getPdbFileName() const {
     return pdbFileName;
 }
 
@@ -2224,7 +2309,7 @@ const PdbStructure& BiopolymerClass::getPdbStructure() const
 void BiopolymerClass::setLoadFromPdb(bool yesno){
     this->loadFromPdb = yesno;
 }
-bool BiopolymerClass::getLoadFromPdb(){
+bool BiopolymerClass::getLoadFromPdb() const {
     return loadFromPdb;
 }
 
@@ -2323,7 +2408,7 @@ TAlign BiopolymerClass::createGappedAlignment(BiopolymerClass otherBiopolymerCla
 }
 
 
-int BiopolymerClass::getCorrespondingMutationInCurrentBiopolymer(BiopolymerClass otherBiopolymerClass, TAlign align,Mutation mutationInOtherBiopolymer, Mutation & mutationInCurrentBiopolymer){
+int BiopolymerClass::getCorrespondingMutationInCurrentBiopolymer(const BiopolymerClass &otherBiopolymerClass, TAlign align,Mutation mutationInOtherBiopolymer, Mutation & mutationInCurrentBiopolymer){
     //Mutation mutationInCurrentBiopolymer;
     std::string chainInCurrentBiopolymer = getChainID();
     ResidueID residueIdInCurrentBiopolymer ;
@@ -2343,7 +2428,7 @@ int BiopolymerClass::getCorrespondingMutationInCurrentBiopolymer(BiopolymerClass
 }
 
 // The return value of this method is 0 for failure, 1 for success.
-int  BiopolymerClass::getCorrespondingResidueInCurrentBiopolymer(BiopolymerClass otherBiopolymerClass, TAlign align, ResidueID residueIdInOtherBiopolymerClass , ResidueID & correspondingResidueIdInCurrentBiopolymerClass  ){
+int  BiopolymerClass::getCorrespondingResidueInCurrentBiopolymer(const BiopolymerClass &otherBiopolymerClass, TAlign align, ResidueID residueIdInOtherBiopolymerClass , ResidueID & correspondingResidueIdInCurrentBiopolymerClass  ){
 
 
         int status = 1    ; // set to 1 to indicate failure
@@ -2643,10 +2728,10 @@ void BiopolymerClassContainer::addBiopolymerClass(String mySequence, String myCh
 {
     BiopolymerClass bp(std::move(mySequence), myChainID, myFirstResidueNumber, std::move(myBiopolymerType), proteinCapping, useNACappingHydroxyls);
     bp.setRenumberPdbResidues(0); // Default value
-    bp.setPdbFileName(pdbFileName);
+    bp.setPdbFileName(std::move(pdbFileName));
     bp.setLoadFromPdb(loadFromPdb);
 
-    biopolymerClassMap[myChainID] = std::move(bp);
+    biopolymerClassMap.emplace(std::move(myChainID), std::move(bp));
 }
 /*void BiopolymerClassContainer::addBiopolymerClass(String newChainID, BiopolymerClass newBiopolymerClass) 
 {
@@ -3105,7 +3190,7 @@ vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer:
     BiopolymerClass & primaryBiopolymerClass = updBiopolymerClass(chainID);
 
     // We add the given residue first
-    residuesWithin.push_back(make_pair(primaryBiopolymerClass,resID));
+    residuesWithin.emplace_back(primaryBiopolymerClass, resID);
 
     // Get the neighborlist
     //if(neighborList == NULL)
@@ -3134,8 +3219,8 @@ vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer:
         MMBAtomInfo  atom1 = concatenatedAtomInfoVector[id1];
         MMBAtomInfo  atom2 = concatenatedAtomInfoVector[id2];
 
-        BiopolymerClass  bpc1 = updBiopolymerClass(atom1.chain);
-        BiopolymerClass  bpc2 = updBiopolymerClass(atom2.chain);
+        BiopolymerClass bpc1 = getBiopolymerClass(atom1.chain);
+        BiopolymerClass bpc2 = getBiopolymerClass(atom2.chain);
 
         double dist = atom1.distance(atom2);
 
@@ -3146,12 +3231,12 @@ vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer:
         // if residue 1 is the given residue we add residue 2
         if(atom1.chain == chainID && atom1.residueID == resID && dist <= radius)
         {
-            residuesWithin.push_back(make_pair((bpc2),(atom2.residueID)));
+            residuesWithin.emplace_back(std::move(bpc2), atom2.residueID);
         }
         // if residue 2 is the given residue we add residue 1
         else if(atom2.chain == chainID && atom2.residueID == resID && dist <= radius)
         {
-            residuesWithin.push_back(make_pair((bpc1),(atom1.residueID)));
+            residuesWithin.emplace_back(std::move(bpc1), atom1.residueID);
         }
     }
     return residuesWithin;
@@ -3619,7 +3704,7 @@ void BiopolymerClassContainer::includeNonBondAtom(String chain , ResidueID resid
 
 void BiopolymerClassContainer::waterDropletAboutResidues (const vector <WaterDropletAboutResidueStruct> waterDropletAboutResidueVector,    WaterDropletContainer & waterDropletContainer  )     {
         for (size_t i = 0; i < waterDropletAboutResidueVector.size(); i++) {
-                 BiopolymerClass  primaryBiopolymerClass = updBiopolymerClass(waterDropletAboutResidueVector[i]. biopolymerChainID );
+                 const BiopolymerClass  &primaryBiopolymerClass = updBiopolymerClass(waterDropletAboutResidueVector[i]. biopolymerChainID );
                  MMBLOG_FILE_FUNC_LINE(INFO, primaryBiopolymerClass.getRepresentativeAtomName()<<endl);
                  Vec3 myLocation = (primaryBiopolymerClass.calcDefaultAtomLocationInGroundFrame(waterDropletAboutResidueVector[i].residue, primaryBiopolymerClass.getRepresentativeAtomName()))*(1.0); // used to convert to Å, now using nm
 
@@ -4226,7 +4311,7 @@ void BiopolymerClassContainer::setOriginalSequencesFromCurrentSequences() {
 
 
 void BiopolymerClassContainer::substituteResidue(String myChain , ResidueID myResidue, String mySubstitution, bool proteinCapping) {
-    BiopolymerClass myOldBiopolymerClass = updBiopolymerClass(myChain);
+    const BiopolymerClass &myOldBiopolymerClass = updBiopolymerClass(myChain);
 
     String myOldSequence = myOldBiopolymerClass.getSequence();
     String myOriginalSequence = myOldBiopolymerClass.getOriginalSequence();
@@ -4241,8 +4326,8 @@ void BiopolymerClassContainer::substituteResidue(String myChain , ResidueID myRe
     updBiopolymerClass(myChain).setResidueIDsAndInsertionCodesFromBiopolymer(tempBiopolymer, proteinCapping);
 }
 
-void BiopolymerClassContainer::replaceBiopolymerWithMutatedBiopolymerClass(BiopolymerClass & myOldBiopolymerClass, 
-                                                            String & myNewSequence, bool useNACappingHydroxyls )
+void BiopolymerClassContainer::replaceBiopolymerWithMutatedBiopolymerClass(const BiopolymerClass & myOldBiopolymerClass, 
+                                                            String & myNewSequence, bool useNACappingHydroxyls)
 {
     String myChain = myOldBiopolymerClass.getChainID();
     ResidueID myFirstResidueNumber = myOldBiopolymerClass.getFirstResidueID();
@@ -4476,18 +4561,18 @@ String BiopolymerClassContainer::getFoldxFormattedMutations() {
 }
 
 Mutation  BiopolymerClassContainer::setMutationWildTypeResidueType(Mutation & myMutation){
-    BiopolymerClass myBiopolymerClass = updBiopolymerClass(myMutation. getChain());
+    const BiopolymerClass &myBiopolymerClass = updBiopolymerClass(myMutation. getChain());
     ResidueID myResidue = myBiopolymerClass.residueID(myMutation.getResidue().outString()); // This BiopolymerClass method has a validation step. Requires a String.
     MMBLOG_FILE_FUNC_LINE(INFO, "myBiopolymerClass.residueID(myMutation.getResidue().outString()) returns >"<<myBiopolymerClass.residueID(myMutation.getResidue().outString()).outString()<<"< "<<endl);
     String myWildTypeResidueType = myBiopolymerClass.getResidueSingleLetterCode(myResidue);
     MMBLOG_FILE_FUNC_LINE(INFO, "myBiopolymerClass.getResidueSingleLetterCode(myResidue) = >"<<myBiopolymerClass.getResidueSingleLetterCode(myResidue)<<"< "<<endl);
-    myMutation. setWildTypeResidueType(myWildTypeResidueType);
+    myMutation.setWildTypeResidueType(myWildTypeResidueType);
     return myMutation;
 } ;
 
 // This is a variation of setMutationWildTypeResidueType. Sometimes the current sequence is mutated, so the original residue type is lost. This is a way of recovering it. 
 Mutation  BiopolymerClassContainer::setMutationWildTypeResidueTypeFromOriginalSequence(Mutation & myMutation){
-    BiopolymerClass myBiopolymerClass = updBiopolymerClass(myMutation. getChain());
+    const BiopolymerClass &myBiopolymerClass = updBiopolymerClass(myMutation. getChain());
     ResidueInfo::Index myResidueIndex = myBiopolymerClass.getResidueIndex(myMutation.getResidue());
     String myOriginalWildTypeResidueType = myBiopolymerClass.getOriginalSequence().substr(myResidueIndex,1);
     myMutation. setWildTypeResidueType(myOriginalWildTypeResidueType);
@@ -4613,7 +4698,7 @@ void BiopolymerClassContainer::substituteResidue(Mutation myMutation,
     ResidueID myResidue = myMutation.getResidue();
     //MMBLOG_FILE_FUNC_LINE(" >"<<myResidue.getInsertionCode()<<endl;
     String mySubstitution = myMutation.getSubstitutedResidueType();
-    BiopolymerClass myOldBiopolymerClass = updBiopolymerClass(myChain);
+    const BiopolymerClass &myOldBiopolymerClass = updBiopolymerClass(myChain);
     if (safeParameters) if  (myOldBiopolymerClass.getBiopolymerType() != BiopolymerType::Protein ) if (matchPurineN1AtomLocations) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "In order to substitute a nucleic acid residue, you must first set matchPurineN1AtomLocations FALSE.  Otherwise you might mutate a purine to pyrmidine, and the N1 atom of the watson-crick edge would be taken as the glycosidic nitrogen of the pyrimidine, generating a physically irrational structure in the mutant."<<endl);
     }
@@ -4635,7 +4720,7 @@ void BiopolymerClassContainer::deleteResidue(Mutation myDeletion,   bool protein
     String myChain = myDeletion.getChain();
     ResidueID myDeletedResidueID = myDeletion.getResidue();
     String mySubstitution = myDeletion.getSubstitutedResidueType();
-    BiopolymerClass myOldBiopolymerClass = updBiopolymerClass(myChain);
+    const BiopolymerClass &myOldBiopolymerClass = updBiopolymerClass(myChain);
     String myOldSequence = myOldBiopolymerClass.getSequence();
     String myOriginalSequence = myOldBiopolymerClass.getOriginalSequence();
     String myNewSequence = myOldSequence;
@@ -4660,7 +4745,7 @@ void BiopolymerClassContainer::insertResidue(Mutation myInsertion,   bool protei
     ResidueID myInsertedResidueID = myInsertion.getResidue();
     //MMBLOG_FILE_FUNC_LINE(" >"<<myInsertedResidueID.getInsertionCode()<<endl;
     String mySubstitution = myInsertion.getSubstitutedResidueType();
-    BiopolymerClass myOldBiopolymerClass = updBiopolymerClass(myChain);
+    const BiopolymerClass &myOldBiopolymerClass = updBiopolymerClass(myChain);
     String myOldSequence = myOldBiopolymerClass.getSequence();
     String myOriginalSequence = myOldBiopolymerClass.getOriginalSequence();
     String myNewSequence = myOldSequence;

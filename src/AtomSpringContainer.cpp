@@ -267,7 +267,7 @@ void AtomSpringContainer::updateThreading(int id, const ThreadingStruct & newThr
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "you tried to update a non existing Threading." << endl);
     }
     validateThreading(newThread, myBiopolymerClassContainer);
-    threadingStructVector[id] = newThread;
+    threadingStructVector[id] = std::move(newThread);
 }
 
 void AtomSpringContainer::updateThreading(int id, String chain1, ResidueID resStart1, ResidueID resEnd1, 

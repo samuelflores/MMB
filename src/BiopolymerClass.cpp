@@ -525,6 +525,7 @@ BiopolymerClass::BiopolymerClass(const BiopolymerClass &other) :
     residueIDVector{other.residueIDVector},
     pdbFileName{other.pdbFileName},
     pdbStructure{other.pdbStructure},
+    loadFromPdb{other.loadFromPdb},
     activePhysics{other.activePhysics},
     myBiopolymer{other.myBiopolymer},
     biopolymerType{other.biopolymerType}
@@ -546,6 +547,7 @@ BiopolymerClass::BiopolymerClass(BiopolymerClass &&other) noexcept :
     residueIDVector{std::move(other.residueIDVector)},
     pdbFileName{std::move(other.pdbFileName)},
     pdbStructure{std::move(other.pdbStructure)},
+    loadFromPdb{other.loadFromPdb},
     activePhysics{other.activePhysics},
     myBiopolymer{std::move(other.myBiopolymer)},
     biopolymerType{other.biopolymerType}
@@ -567,6 +569,7 @@ BiopolymerClass & BiopolymerClass::operator=(const BiopolymerClass &other) {
     residueIDVector = other.residueIDVector;
     pdbFileName = other.pdbFileName;
     pdbStructure = other.pdbStructure;
+    loadFromPdb = other.loadFromPdb;
     activePhysics = other.activePhysics;
     myBiopolymer = other.myBiopolymer;
     biopolymerType = other.biopolymerType;
@@ -589,6 +592,7 @@ BiopolymerClass & BiopolymerClass::operator=(BiopolymerClass &&other) noexcept {
     residueIDVector = std::move(other.residueIDVector);
     pdbFileName = std::move(other.pdbFileName);
     pdbStructure = std::move(other.pdbStructure);
+    loadFromPdb = other.loadFromPdb;
     activePhysics = other.activePhysics;
     myBiopolymer = std::move(other.myBiopolymer);
     biopolymerType = other.biopolymerType;

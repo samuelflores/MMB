@@ -18,7 +18,7 @@
 using namespace SimTK;
 using namespace std;
 
-static map<NTC_PAR_BondKey, NTC_PAR_BondRow, NTC_PAR_BondKeyCmp> NTC_PAR_Map;
+static map<std::string, std::size_t> NTC_PAR_Map;
 
 /**
  *
@@ -91,30 +91,6 @@ private:
     std::string m_buf;
 };
 
-NTC_PAR_BondKey::NTC_PAR_BondKey(String myPdbResidueName1,
-                                 String myPdbResidueName2,
-                                 String myBondingEdge1, String myBondingEdge2,
-                                 String dihedraltype,
-                                 String myIsTwoTransformForce) noexcept
-    : pdbResidueName1(std::move(myPdbResidueName1)),
-      pdbResidueName2(std::move(myPdbResidueName2)),
-      bondingEdge1(std::move(myBondingEdge1)),
-      bondingEdge2(std::move(myBondingEdge2)),
-      dihedraltype(std::move(dihedraltype)),
-      isTwoTransformForce(std::move(myIsTwoTransformForce))
-{
-}
-
-NTC_PAR_BondKey::NTC_PAR_BondKey(const NTC_PAR_BondRow &other) :
-    pdbResidueName1{other.pdbResidueName1},
-    pdbResidueName2{other.pdbResidueName2},
-    bondingEdge1{other.bondingEdge1},
-    bondingEdge2{other.bondingEdge2},
-    dihedraltype{other.dihedraltype},
-    isTwoTransformForce{other.isTwoTransformForce}
-{
-}
-
 void NTC_PAR_Class::initialize(const String &inFileName) {
     if (!NTC_PAR_Map.empty() || !myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.empty())
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "NTC parameters definitions are not empty. This means that parameters definition file has already been read!" << std::endl);
@@ -170,7 +146,7 @@ void NTC_PAR_Class::initialize(const String &inFileName) {
             ri.initField(&NTC_PAR_BondRow::isTwoTransformForce);
             ri.initField(&NTC_PAR_BondRow::distanceC1pC1p);
 
-            NTC_PAR_Map[NTC_PAR_BondKey(row)] = row;
+            NTC_PAR_Map[ntcBondKey(row)] = myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.size();
         }
     }
 
@@ -192,27 +168,32 @@ void NTC_PAR_Class::printNTC_PAR_BondRows() {
   }
 }
 
-int NTC_PAR_Class::getNTC_PAR_BondRowIndex(
+std::size_t NTC_PAR_Class::getNTC_PAR_BondRowIndex(const std::string &key) const {
+    auto it = NTC_PAR_Map.find(key);
+
+    if (it == NTC_PAR_Map.end()) {
+        MMBLOG_FILE_FUNC_LINE( CRITICAL, "Found no match for the above user-specified interaction.  Either add this interaction type to the parameter file, or check your spelling, syntax, or semantics." << std::endl);
+    }
+
+    return it->second;
+}
+
+std::size_t NTC_PAR_Class::getNTC_PAR_BondRowIndex(
     const String &myPdbResidueName1, const String &myPdbResidueName2,
     const String &Classtype, const String &dihedraltype,
-    const String &myBasePairIsTwoTransformForce, const NTC_Classes &NTC) const {
+    const String &myBasePairIsTwoTransformForce) const {
     MMBLOG_FILE_FUNC_LINE(INFO, myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.size()
                                 << " br size "
                                 << " " << Classtype << " " << dihedraltype
                                 << " " << myPdbResidueName1 << " "
                                 << myPdbResidueName2 << endl);
 
-    for (size_t q = 0; q < myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.size(); q++) {
-        const auto &srcNTC = myNTC_PAR_BondMatrix.myNTC_PAR_BondRow[q];
-
-        if ((srcNTC.pdbResidueName1.compare(myPdbResidueName1) == 0) &&
-            (srcNTC.pdbResidueName2.compare(myPdbResidueName2) == 0) &&
-            (srcNTC.bondingEdge1.compare(Classtype) == 0) &&
-            (srcNTC.bondingEdge2.compare(Classtype) == 0) &&
-            (srcNTC.dihedraltype.compare(dihedraltype) == 0)) {
-            return q;
-        }
-    }
-
-    MMBLOG_FILE_FUNC_LINE( CRITICAL, "Found no match for the above user-specified interaction.  Either add this interaction type to the parameter file, or check your spelling, syntax, or semantics." << std::endl);
+    return getNTC_PAR_BondRowIndex(
+        ntcBondKey(
+	    myPdbResidueName1, myPdbResidueName2,
+            Classtype, Classtype,
+	    dihedraltype,
+	    myBasePairIsTwoTransformForce
+	)
+    );
 }

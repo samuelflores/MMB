@@ -179,7 +179,7 @@ void NTC_Class_Container::validate_NTC_Class(BiopolymerClassContainer &myBiopoly
     String resName1 = myBiopolymerClassContainer.getPdbResidueName(NTC.NtC_FirstBPChain, NTC.NtC_step_ID);
     String resName2 = myBiopolymerClassContainer.getPdbResidueName(NTC.NtC_FirstBPChain, ntc2);
 
-    NTC.NTC_PAR_BondRowIndex = ntc_par_class.getNTC_PAR_BondRowIndex( resName1, resName2, NTC.NtC_Class_String, dihedraltype, "ntcstep", NTC);
+    NTC.NTC_PAR_BondRowIndex  = ntc_par_class.getNTC_PAR_BondRowIndex(resName1,resName2,NTC.NtC_Class_String,dihedraltype,"ntcstep");
 
     MMBLOG_FILE_FUNC_LINE(INFO, NTC.NTC_PAR_BondRowIndex << " BOND ROW\n");
 }

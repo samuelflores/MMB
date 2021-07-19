@@ -118,7 +118,7 @@ void NTC_Class_Container::add_NTC_Class(
 
         NTC.FirstBPResidue = myBiopolymerClassContainer.getBiopolymerClass(NTC.NtC_FirstBPChain).getResidueID(currentFirstResidueIndex);
         NTC.SecondBPResidue = myBiopolymerClassContainer.getBiopolymerClass(NTC.NtC_FirstBPChain).getResidueID(currentFirstResidueIndex + 1);
-        NTC.NtC_step_ID = NTC.FirstBPResidue.outString();
+        NTC.NtC_step_ID = NTC.FirstBPResidue.ResidueNumber;
 
         MMBLOG_FILE_FUNC_LINE(INFO, "Starting NtC loop. Overall residue stretch is from "
                                     << firstNtCResidueInStretch.outString() << " to "
@@ -174,7 +174,7 @@ void NTC_Class_Container::add_NTC_Class(BiopolymerClassContainer &myBiopolymerCl
 }
 
 void NTC_Class_Container::validate_NTC_Class(BiopolymerClassContainer &myBiopolymerClassContainer, const NTC_PAR_Class &ntc_par_class, NTC_Classes &NTC, const String &dihedraltype) {
-    String ntc2 = to_string((stoi(NTC.NtC_step_ID)) + 1);
+    int ntc2 = NTC.NtC_step_ID + 1;
 
     String resName1 = myBiopolymerClassContainer.getPdbResidueName(NTC.NtC_FirstBPChain, NTC.NtC_step_ID);
     String resName2 = myBiopolymerClassContainer.getPdbResidueName(NTC.NtC_FirstBPChain, ntc2);

@@ -610,7 +610,7 @@ class     NTC_Classes {
                String NtC_FirstBPChain;
                ResidueID FirstBPResidue;
                ResidueID SecondBPResidue;
-               String NtC_step_ID;
+               int NtC_step_ID;
                String NtC_Class_String; 
                int    NtC_INDEX;
                double Confalparam;

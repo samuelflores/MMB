@@ -37,7 +37,7 @@ struct NTC_PAR_BondRow {
     String dihedraltype;
     String residue1Atom[4];
     String residue2Atom[4];
-    String atom_shift[4];
+    int    atom_shift[4];
     String isTwoTransformForce;
     double bondLength[4];
     double springConstant[4];

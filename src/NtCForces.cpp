@@ -64,9 +64,9 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
     if (myNTC_PAR_BondRow.bondLength[0] == 0.0) {
       Vec3 state_1, state_2, state_3, state_4;
 
-      if (stoi(myNTC_PAR_BondRow.atom_shift[0]) == 0)
+      if (myNTC_PAR_BondRow.atom_shift[0] == 0)
         myResidueNumber = residueNumber1;
-      else if (stoi(myNTC_PAR_BondRow.atom_shift[0]) == 1)
+      else if (myNTC_PAR_BondRow.atom_shift[0] == 1)
         myResidueNumber = residueNumber2;
 
       body1 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -74,9 +74,9 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
       state_1 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
           state, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[0]);
 
-      if (stoi(myNTC_PAR_BondRow.atom_shift[1]) == 0)
+      if (myNTC_PAR_BondRow.atom_shift[1] == 0)
         myResidueNumber = residueNumber1;
-      else if (stoi(myNTC_PAR_BondRow.atom_shift[1]) == 1)
+      else if (myNTC_PAR_BondRow.atom_shift[1] == 1)
         myResidueNumber = residueNumber2;
 
       body2 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -84,9 +84,9 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
       state_2 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
           state, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[1]);
 
-      if (stoi(myNTC_PAR_BondRow.atom_shift[2]) == 0)
+      if (myNTC_PAR_BondRow.atom_shift[2] == 0)
         myResidueNumber = residueNumber1;
-      else if (stoi(myNTC_PAR_BondRow.atom_shift[2]) == 1)
+      else if (myNTC_PAR_BondRow.atom_shift[2] == 1)
         myResidueNumber = residueNumber2;
 
       body3 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -94,9 +94,9 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
       state_3 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
           state, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[2]);
 
-      if (stoi(myNTC_PAR_BondRow.atom_shift[3]) == 0)
+      if (myNTC_PAR_BondRow.atom_shift[3] == 0)
         myResidueNumber = residueNumber1;
-      else if (stoi(myNTC_PAR_BondRow.atom_shift[3]) == 1)
+      else if (myNTC_PAR_BondRow.atom_shift[3] == 1)
         myResidueNumber = residueNumber2;
 
       body4 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -459,9 +459,9 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
 
       Vec3 state_1, state_2, state_3, state_4;
 
-      if (stoi(myNTC_PAR_BondRow.atom_shift[0]) == 0)
+      if (myNTC_PAR_BondRow.atom_shift[0] == 0)
         myResidueNumber = residueNumber1;
-      else if (stoi(myNTC_PAR_BondRow.atom_shift[0]) == 1)
+      else if (myNTC_PAR_BondRow.atom_shift[0] == 1)
         myResidueNumber = residueNumber2;
 
       body1 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -469,9 +469,9 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
       state_1 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
           state, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[0]);
 
-      if (stoi(myNTC_PAR_BondRow.atom_shift[1]) == 0)
+      if (myNTC_PAR_BondRow.atom_shift[1] == 0)
         myResidueNumber = residueNumber1;
-      else if (stoi(myNTC_PAR_BondRow.atom_shift[1]) == 1)
+      else if (myNTC_PAR_BondRow.atom_shift[1] == 1)
         myResidueNumber = residueNumber2;
 
       body2 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -479,9 +479,9 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
       state_2 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
           state, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[1]);
 
-      if (stoi(myNTC_PAR_BondRow.atom_shift[2]) == 0)
+      if (myNTC_PAR_BondRow.atom_shift[2] == 0)
         myResidueNumber = residueNumber1;
-      else if (stoi(myNTC_PAR_BondRow.atom_shift[2]) == 1)
+      else if (myNTC_PAR_BondRow.atom_shift[2] == 1)
         myResidueNumber = residueNumber2;
 
       body3 = myBiopolymerClassContainer.updAtomMobilizedBody(
@@ -489,9 +489,9 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
       state_3 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
           state, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[2]);
 
-      if (stoi(myNTC_PAR_BondRow.atom_shift[3]) == 0)
+      if (myNTC_PAR_BondRow.atom_shift[3] == 0)
         myResidueNumber = residueNumber1;
-      else if (stoi(myNTC_PAR_BondRow.atom_shift[3]) == 1)
+      else if (myNTC_PAR_BondRow.atom_shift[3] == 1)
         myResidueNumber = residueNumber2;
 
       body4 = myBiopolymerClassContainer.updAtomMobilizedBody(

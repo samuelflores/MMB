@@ -10,6 +10,7 @@
 
 #include <MMBLogger.h>
 #include <fstream>
+#include <stdexcept>
 #include "SimTKsimbody.h"
 #include "NtC_Class_Container.h"
 #include "NTC_FORCE_CLASS.h"
@@ -61,6 +62,12 @@ public:
     }
 
     template <size_t Size>
+    void initField(int (NTC_PAR_BondRow::*field)[Size], size_t idx) {
+        read();
+        (m_row.*field)[idx] = getInt(m_buf);
+    }
+
+    template <size_t Size>
     void initField(double (NTC_PAR_BondRow::*field)[Size], size_t idx) {
         read();
         (m_row.*field)[idx] = getDouble(m_buf);
@@ -77,6 +84,19 @@ private:
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot convert string \"" << m_buf << "\" to double" << std::endl);
         } catch (const std::out_of_range &) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Numerical value of\"" << m_buf << "\" out of range of double" << std::endl);
+        }
+    }
+
+    int getInt(const std::string &str) {
+        try {
+            return std::stoi(str);
+        } catch (const std::invalid_argument &) {
+            if (str.empty())
+                return 0;
+            else
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot convert string \"" << m_buf << "\" to int" << std::endl);
+        } catch (const std::out_of_range &) {
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Numerical value of\"" << m_buf << "\" out of range of int" << std::endl);
         }
     }
 

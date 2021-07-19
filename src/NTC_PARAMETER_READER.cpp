@@ -95,7 +95,7 @@ NTC_PAR_BondKey::NTC_PAR_BondKey(String myPdbResidueName1,
                                  String myPdbResidueName2,
                                  String myBondingEdge1, String myBondingEdge2,
                                  String dihedraltype,
-                                 String myIsTwoTransformForce)
+                                 String myIsTwoTransformForce) noexcept
     : pdbResidueName1(std::move(myPdbResidueName1)),
       pdbResidueName2(std::move(myPdbResidueName2)),
       bondingEdge1(std::move(myBondingEdge1)),
@@ -105,13 +105,14 @@ NTC_PAR_BondKey::NTC_PAR_BondKey(String myPdbResidueName1,
 {
 }
 
-NTC_PAR_BondKey::NTC_PAR_BondKey(const NTC_PAR_BondRow &myNTC_PAR_BondRow) {
-    pdbResidueName1 = myNTC_PAR_BondRow.pdbResidueName1;
-    pdbResidueName2 = myNTC_PAR_BondRow.pdbResidueName2;
-    bondingEdge1 = myNTC_PAR_BondRow.bondingEdge1;
-    bondingEdge2 = myNTC_PAR_BondRow.bondingEdge2;
-    dihedraltype = myNTC_PAR_BondRow.dihedraltype;
-    isTwoTransformForce = myNTC_PAR_BondRow.isTwoTransformForce;
+NTC_PAR_BondKey::NTC_PAR_BondKey(const NTC_PAR_BondRow &other) :
+    pdbResidueName1{other.pdbResidueName1},
+    pdbResidueName2{other.pdbResidueName2},
+    bondingEdge1{other.bondingEdge1},
+    bondingEdge2{other.bondingEdge2},
+    dihedraltype{other.dihedraltype},
+    isTwoTransformForce{other.isTwoTransformForce}
+{
 }
 
 void NTC_PAR_Class::initialize(const String &inFileName) {
@@ -125,11 +126,15 @@ void NTC_PAR_Class::initialize(const String &inFileName) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open parameter file " << inFileName << endl);
     }
 
+    /* We are reserving space for 10 more NtC classes than we
+     * had as of writing this */
+    myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.reserve(233200);
+
     string s;
     while (inFile.good()) {
         std::getline(inFile, s, ',');
 
-        if ((String(s)).compare("NTCRECORD") == 0) { // if this is a RECORD entry
+        if (s.compare("NTCRECORD") == 0) { // if this is a RECORD entry
             myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.emplace_back(NTC_PAR_BondRow{});
             auto &row = myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.back();
 

@@ -52,7 +52,7 @@ struct NTC_PAR_BondRow {
 
 class NTC_PAR_BondKey {
 public:
-    NTC_PAR_BondKey(String myPdbResidueName1, String myPdbResidueName2, String myBondingEdge1, String myBondingEdge2, String mydihedraltype, String myIsTwoTransformForce);
+    NTC_PAR_BondKey(String myPdbResidueName1, String myPdbResidueName2, String myBondingEdge1, String myBondingEdge2, String mydihedraltype, String myIsTwoTransformForce) noexcept;
     NTC_PAR_BondKey(const NTC_PAR_BondRow &myNTC_PAR_BondRow);
 
     String pdbResidueName1;

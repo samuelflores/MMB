@@ -147,6 +147,8 @@ void NTC_PAR_Class::initialize(const String &inFileName) {
             }
             for (size_t r = 0; r < 4; r++) {
                 ri.initField(&NTC_PAR_BondRow::atom_shift, r);
+                if (!(row.atom_shift[r] == 0 || row.atom_shift[r] == 1))
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Value of NTC atom_shift must be 0 or 1, got " << row.atom_shift[r] << std::endl);
             }
             for (size_t r = 0; r < 4; r++) {
                 ri.initField(&NTC_PAR_BondRow::bondLength, r);

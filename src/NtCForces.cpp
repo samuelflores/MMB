@@ -9,6 +9,8 @@
  * -------------------------------------------------------------------------- */
 #include "NtCForces.h"
 #include <SimTKcommon/Scalar.h>
+#include <SimTKcommon/internal/SpatialAlgebra.h>
+#include <cstddef>
 #include <string.h>
 #include <sstream>
 #include <Utils.h>
@@ -17,6 +19,10 @@
 #include "ParameterReader.h"
 
 #define K_ANGLE 57.295779513
+
+static const double BF_SIGN[4] = { 1.0, 1.0, -1.0, -1.0 };
+static const double BF_SIGN_2[2] = { -1.0, 1.0 };
+static const double BF_SIGN_2I[2] = { 1.0, -1.0 };
 
 NTC_Torque::NTC_Torque(SimbodyMatterSubsystem &matter,
                        ParameterReader &myParameterReader,
@@ -31,10 +37,6 @@ NTC_Torque::NTC_Torque(SimbodyMatterSubsystem &matter,
 void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                            Vector_<Vec3> &particleForces,
                            Vector &mobilityForces) const {
-  MobilizedBody body1;
-  MobilizedBody body2;
-  MobilizedBody body3;
-  MobilizedBody body4;
   Transform transform1;
   Transform transform2;
   double torqueConstant;
@@ -44,114 +46,58 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
   int value, i;
   std::array<double, 361> prob;
 
-  AtomSpringContainer atomSpringContainer;
+  Vec3 states[4];
+  for (int r = 0; r < myParameterReader.ntc_class_container.numNTC_Torsions(); r++) {
 
-  for (int r = 0; r < myParameterReader.ntc_class_container.numNTC_Torsions();
-       r++) {
-    String chainId1 = (myParameterReader.ntc_class_container.getNTC_Class(r))
-                          .NtC_FirstBPChain;
-    NTC_PAR_BondRow myNTC_PAR_BondRow =
-        myNTC_PAR_Class.myNTC_PAR_BondMatrix.myNTC_PAR_BondRow
-            [(myParameterReader.ntc_class_container.getNTC_Class(r))
-                 .NTC_PAR_BondRowIndex];
+    const auto &ntc = myParameterReader.ntc_class_container.getNTC_Class(r);
+    const auto &chainId1 = ntc.NtC_FirstBPChain;
+    const auto &myNTC_PAR_BondRow = myNTC_PAR_Class.myNTC_PAR_BondMatrix.myNTC_PAR_BondRow[ntc.NTC_PAR_BondRowIndex];
     String basePairIsTwoTransformForce = "ntcstep";
-    ResidueID residueNumber1 =
-        (myParameterReader.ntc_class_container.getNTC_Class(r)).FirstBPResidue;
-    ResidueID residueNumber2 =
-        (myParameterReader.ntc_class_container.getNTC_Class(r)).SecondBPResidue;
-    ResidueID myResidueNumber, myResidueNumber2;
+    std::array<const ResidueID *const, 2> residues = { &ntc.FirstBPResidue, &ntc.SecondBPResidue };
 
     if (myNTC_PAR_BondRow.bondLength[0] == 0.0) {
-      Vec3 state_1, state_2, state_3, state_4;
 
-      if (myNTC_PAR_BondRow.atom_shift[0] == 0)
-        myResidueNumber = residueNumber1;
-      else if (myNTC_PAR_BondRow.atom_shift[0] == 1)
-        myResidueNumber = residueNumber2;
-
-      body1 = myBiopolymerClassContainer.updAtomMobilizedBody(
-          matter, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[0]);
-      state_1 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
-          state, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[0]);
-
-      if (myNTC_PAR_BondRow.atom_shift[1] == 0)
-        myResidueNumber = residueNumber1;
-      else if (myNTC_PAR_BondRow.atom_shift[1] == 1)
-        myResidueNumber = residueNumber2;
-
-      body2 = myBiopolymerClassContainer.updAtomMobilizedBody(
-          matter, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[1]);
-      state_2 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
-          state, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[1]);
-
-      if (myNTC_PAR_BondRow.atom_shift[2] == 0)
-        myResidueNumber = residueNumber1;
-      else if (myNTC_PAR_BondRow.atom_shift[2] == 1)
-        myResidueNumber = residueNumber2;
-
-      body3 = myBiopolymerClassContainer.updAtomMobilizedBody(
-          matter, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[2]);
-      state_3 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
-          state, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[2]);
-
-      if (myNTC_PAR_BondRow.atom_shift[3] == 0)
-        myResidueNumber = residueNumber1;
-      else if (myNTC_PAR_BondRow.atom_shift[3] == 1)
-        myResidueNumber = residueNumber2;
-
-      body4 = myBiopolymerClassContainer.updAtomMobilizedBody(
-          matter, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[3]);
-      state_4 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
-          state, chainId1, myResidueNumber, myNTC_PAR_BondRow.residue1Atom[3]);
+      for (std::size_t idx = 0; idx < 4; idx++) {
+        const ResidueID *myResidueNumber = residues[myNTC_PAR_BondRow.atom_shift[idx]];
+        states[idx] = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
+            state, chainId1, *myResidueNumber, myNTC_PAR_BondRow.residue1Atom[idx]);
+      }
 
       torqueConstant = myNTC_PAR_BondRow.torqueConstant;
 
-      Vec3 d_d1, d_d2, d_d3;
+      Vec3 d_d1 = states[1] - states[0];
+      Vec3 d_d2 = states[2] - states[1];
+      Vec3 d_d3 = states[3] - states[2];
 
-      d_d1 = state_2 - state_1;
-      d_d2 = state_3 - state_2;
-      d_d3 = state_4 - state_3;
-
-      Vec3 cross_1, cross_2;
-
-      cross_1 = d_d1 % d_d2;
-      cross_2 = d_d2 % d_d3;
+      Vec3 cross_1 = d_d1 % d_d2;
+      Vec3 cross_2 = d_d2 % d_d3;
 
       cross_1 = cross_1 / cross_1.norm();
       cross_2 = cross_2 / cross_2.norm();
 
-      Vec3 cross_3;
-
-      cross_3 = cross_1 % cross_2;
+      Vec3 cross_3 = cross_1 % cross_2;
 
       angle = return_angle(cross_1, cross_2, cross_3, d_d2);
 
       double dist_ang = return_dist_ang(angle, myNTC_PAR_BondRow.rotationAngle);
-
-      if ((myParameterReader.ntc_class_container.getNTC_Class(r)).meta == 0) {
-        pot_angle =
-            torqueConstant *
-            (myParameterReader.ntc_class_container.getNTC_Class(r)).weight *
-            (-sin((dist_ang + 180.0) / K_ANGLE)) * (360.0 / K_ANGLE + 1.0) /
-            (1.0 + myNTC_PAR_BondRow.CONFALVALUE) / (360.0 / K_ANGLE);
-      }
-
       Vec3 torque;
 
-      if ((myParameterReader.ntc_class_container.getNTC_Class(r)).meta == 0) {
+      if (ntc.meta == 0) {
+        pot_angle =
+            torqueConstant *
+            ntc.weight *
+            (-sin((dist_ang + 180.0) / K_ANGLE)) * (360.0 / K_ANGLE + 1.0) /
+            (1.0 + myNTC_PAR_BondRow.CONFALVALUE) / (360.0 / K_ANGLE);
+
         torque = d_d2 / d_d2.norm() * pot_angle;
 
-        bodyForces[body1.getMobilizedBodyIndex()] +=
-            SpatialVec(torque, Vec3(0));
-        bodyForces[body4.getMobilizedBodyIndex()] -=
-            SpatialVec(torque, Vec3(0));
-        bodyForces[body2.getMobilizedBodyIndex()] +=
-            SpatialVec(torque, Vec3(0));
-        bodyForces[body3.getMobilizedBodyIndex()] -=
-            SpatialVec(torque, Vec3(0));
-      }
-
-      if ((myParameterReader.ntc_class_container.getNTC_Class(r)).meta == 1) {
+        for (std::size_t idx = 0; idx < 4; idx++) {
+          const ResidueID *myResidueNumber = residues[myNTC_PAR_BondRow.atom_shift[idx]];
+          const auto &body = myBiopolymerClassContainer.updAtomMobilizedBody(
+            matter, chainId1, *myResidueNumber, myNTC_PAR_BondRow.residue1Atom[idx]);
+          bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN[idx] * SpatialVec(torque, Vec3(0));
+        }
+      } else if (ntc.meta == 1) {
         dih = 0;
         value = -1;
         bias = 0;
@@ -161,68 +107,34 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
         if (isfinite(angle) == 1) {
           i = (int)round(angle);
 
-          myBiopolymerClassContainer
-              .hist[(myParameterReader.ntc_class_container.getNTC_Class(r))
-                        .count][i] += 1.0;
+          myBiopolymerClassContainer.hist[ntc.count][i] += 1.0;
           value = i;
 
-          myBiopolymerClassContainer
-              .counter[(myParameterReader.ntc_class_container.getNTC_Class(r))
-                           .count] += 1.0;
+          myBiopolymerClassContainer.counter[ntc.count] += 1.0;
 
-          if (myBiopolymerClassContainer
-                  .counter[(myParameterReader.ntc_class_container.getNTC_Class(
-                                r))
-                               .count] > 0.0) {
-            myBiopolymerClassContainer
-                .prob[(myParameterReader.ntc_class_container.getNTC_Class(r))
-                          .count][i] =
-                myBiopolymerClassContainer
-                    .hist[(myParameterReader.ntc_class_container.getNTC_Class(
-                               r))
-                              .count][i] /
-                myBiopolymerClassContainer.counter
-                    [(myParameterReader.ntc_class_container.getNTC_Class(r))
-                         .count];
+          if (myBiopolymerClassContainer.counter[ntc.count] > 0.0) {
+            myBiopolymerClassContainer.prob[ntc.count][i] =
+              myBiopolymerClassContainer.hist[ntc.count][i] / myBiopolymerClassContainer.counter[ntc.count];
           }
 
           if (value > 0 &&
-              myBiopolymerClassContainer
-                      .prob[(myParameterReader.ntc_class_container.getNTC_Class(
-                                 r))
-                                .count][value] > 1e-3 &&
-              myBiopolymerClassContainer
-                      .prob[(myParameterReader.ntc_class_container.getNTC_Class(
-                                 r))
-                                .count][value + 1] > 1e-3 &&
+              myBiopolymerClassContainer.prob[ntc.count][value] > 1e-3 &&
+              myBiopolymerClassContainer.prob[ntc.count][value + 1] > 1e-3 &&
               value < 360) {
-            bias = 2.479 * (log(myBiopolymerClassContainer
-                                    .prob[(myParameterReader.ntc_class_container
-                                               .getNTC_Class(r))
-                                              .count][value] /
+            bias = 2.479 * (log(myBiopolymerClassContainer.prob[ntc.count][value] /
                                 (1e-3)) -
-                            log(myBiopolymerClassContainer
-                                    .prob[(myParameterReader.ntc_class_container
-                                               .getNTC_Class(r))
-                                              .count][value + 1] /
+                            log(myBiopolymerClassContainer.prob[ntc.count][value + 1] /
                                 (1e-3)));
           }
 
           if (prob[value] > 1e-3 &&
-              myBiopolymerClassContainer
-                      .prob[(myParameterReader.ntc_class_container.getNTC_Class(
-                                 r))
-                                .count][value + 1] > 1e-3 &&
+              myBiopolymerClassContainer.prob[ntc.count][value + 1] > 1e-3 &&
               value == 360) {
             bias = 2.479 * (log(myBiopolymerClassContainer
-                                    .prob[(myParameterReader.ntc_class_container
-                                               .getNTC_Class(r))
-                                              .count][value] /
+                                    .prob[ntc.count][value] /
                                 (1e-3)) -
                             log(myBiopolymerClassContainer
-                                    .prob[(myParameterReader.ntc_class_container
-                                               .getNTC_Class(r))
-                                              .count][1] /
+                                    .prob[ntc.count][1] /
                                 (1e-3)));
           }
 
@@ -232,46 +144,30 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
 
           torque =
               d_d2 / d_d2.norm() * (pot_angle) /
-              (1.0 + (myParameterReader.ntc_class_container.getNTC_Class(r))
-                         .weight2) *
-              (myParameterReader.ntc_class_container.getNTC_Class(r)).weight;
+              (1.0 + ntc.weight2) * ntc.weight;
 
-          bodyForces[body1.getMobilizedBodyIndex()] +=
-              SpatialVec(torque, Vec3(0));
-          bodyForces[body4.getMobilizedBodyIndex()] -=
-              SpatialVec(torque, Vec3(0));
-          bodyForces[body2.getMobilizedBodyIndex()] +=
-              SpatialVec(torque, Vec3(0));
-          bodyForces[body3.getMobilizedBodyIndex()] -=
-              SpatialVec(torque, Vec3(0));
+          for (std::size_t idx = 0; idx < 4; idx++) {
+            const ResidueID *myResidueNumber = residues[myNTC_PAR_BondRow.atom_shift[idx]];
+            const auto &body = myBiopolymerClassContainer.updAtomMobilizedBody(
+              matter, chainId1, *myResidueNumber, myNTC_PAR_BondRow.residue1Atom[idx]);
+            bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN[idx] * SpatialVec(torque, Vec3(0));
+          }
 
           if (isfinite(log(
-                  myBiopolymerClassContainer.prob
-                      [(myParameterReader.ntc_class_container.getNTC_Class(r))
-                           .count][value] /
-                  (1e-3))) == 1 &&
+                  myBiopolymerClassContainer.prob[ntc.count][value] / (1e-3))) == 1 &&
               isfinite(log(
-                  myBiopolymerClassContainer.prob
-                      [(myParameterReader.ntc_class_container.getNTC_Class(r))
-                           .count][value + 1] /
-                  (1e-3))) == 1) {
+                  myBiopolymerClassContainer.prob[ntc.count][value + 1] / (1e-3))) == 1) {
             if (isfinite(bias) == 1 && sqrt(pow(bias, 2)) > 0.0) {
 
               torque = -d_d2 / d_d2.norm() * (bias)*sqrt(pow(pot_angle, 2)) /
-                       sqrt(pow(bias, 2)) *
-                       (myParameterReader.ntc_class_container.getNTC_Class(r))
-                           .weight2 *
-                       (myParameterReader.ntc_class_container.getNTC_Class(r))
-                           .weight;
+                       sqrt(pow(bias, 2)) * ntc.weight2 * ntc.weight;
 
-              bodyForces[body1.getMobilizedBodyIndex()] +=
-                  SpatialVec(torque, Vec3(0));
-              bodyForces[body4.getMobilizedBodyIndex()] -=
-                  SpatialVec(torque, Vec3(0));
-              bodyForces[body2.getMobilizedBodyIndex()] +=
-                  SpatialVec(torque, Vec3(0));
-              bodyForces[body3.getMobilizedBodyIndex()] -=
-                  SpatialVec(torque, Vec3(0));
+              for (std::size_t idx = 0; idx < 4; idx++) {
+                const ResidueID *myResidueNumber = residues[myNTC_PAR_BondRow.atom_shift[idx]];
+                const auto &body = myBiopolymerClassContainer.updAtomMobilizedBody(
+                  matter, chainId1, *myResidueNumber, myNTC_PAR_BondRow.residue1Atom[idx]);
+                bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN[idx] * SpatialVec(torque, Vec3(0));
+              }
             }
           }
         }
@@ -281,89 +177,54 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
     }
     // bonds
     else {
+      for (std::size_t idx = 0; idx < 2; idx++) {
+        states[idx] = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
+            state, chainId1, *residues[idx], myNTC_PAR_BondRow.residue1Atom[idx]);
+      }
 
-      Vec3 state_1;
-      Vec3 state_2;
-
-      body1 = myBiopolymerClassContainer.updAtomMobilizedBody(
-          matter, chainId1, residueNumber1, myNTC_PAR_BondRow.residue1Atom[0]);
-      state_1 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
-          state, chainId1, residueNumber1, myNTC_PAR_BondRow.residue1Atom[0]);
-
-      body2 = myBiopolymerClassContainer.updAtomMobilizedBody(
-          matter, chainId1, residueNumber2, myNTC_PAR_BondRow.residue1Atom[1]);
-      state_2 = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
-          state, chainId1, residueNumber2, myNTC_PAR_BondRow.residue1Atom[1]);
-
-      Vec3 ptp = state_2 - state_1;
+      Vec3 ptp = states[1] - states[0];
       double d = ptp.norm(); // sqrt(pow(x_d2-x_d1,2) + pow(y_d2-y_d1,2) +
                              // pow(z_d2-z_d1,2));
       double frc;
-      Vec3 frcVec;
 
-      if ((myParameterReader.ntc_class_container.getNTC_Class(r)).meta == 0) {
-
+      if (ntc.meta == 0) {
         frc = (1.0 - exp(-(2.0 * myNTC_PAR_BondRow.CONFALVALUE) *
                          (d - myNTC_PAR_BondRow.bondLength[0]))) *
               (-exp(-(2.0 * myNTC_PAR_BondRow.CONFALVALUE) *
                     (d - myNTC_PAR_BondRow.bondLength[0]))) *
               myNTC_PAR_BondRow.springConstant[0] *
-              (myParameterReader.ntc_class_container.getNTC_Class(r)).weight;
-        frcVec = (frc)*ptp / d;
+              ntc.weight;
+        Vec3 frcVec = (frc)*ptp / d;
 
-        bodyForces[body1.getMobilizedBodyIndex()] -=
-            SpatialVec(frcVec, Vec3(1));
-        bodyForces[body2.getMobilizedBodyIndex()] +=
-            SpatialVec(frcVec, Vec3(1));
-      }
-
-      if ((myParameterReader.ntc_class_container.getNTC_Class(r)).meta == 1) {
+        for (std::size_t idx = 0; idx < 2; idx++) {
+          const auto &body = myBiopolymerClassContainer.updAtomMobilizedBody(
+            matter, chainId1, *residues[idx], myNTC_PAR_BondRow.residue1Atom[idx]);
+          bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN_2[idx] * SpatialVec(frcVec, Vec3(1));
+        }
+      } else if (ntc.meta == 1) {
         bias = 0.0;
 
         if (d < 3.0) {
           i = (int)round((d)*10.0);
 
-          myBiopolymerClassContainer
-              .hist_d[(myParameterReader.ntc_class_container.getNTC_Class(r))
-                          .count][i] += 1.0;
+          myBiopolymerClassContainer.hist_d[ntc.count][i] += 1.0;
           value = i;
 
-          myBiopolymerClassContainer
-              .counter_d[(myParameterReader.ntc_class_container.getNTC_Class(r))
-                             .count] += 1.0;
+          myBiopolymerClassContainer.counter_d[ntc.count] += 1.0;
 
-          if (myBiopolymerClassContainer.counter_d
-                  [(myParameterReader.ntc_class_container.getNTC_Class(r))
-                       .count] > 0.0)
-            myBiopolymerClassContainer
-                .prob_d[(myParameterReader.ntc_class_container.getNTC_Class(r))
-                            .count][i] =
-                myBiopolymerClassContainer
-                    .hist_d[(myParameterReader.ntc_class_container.getNTC_Class(
-                                 r))
-                                .count][i] /
-                myBiopolymerClassContainer.counter_d
-                    [(myParameterReader.ntc_class_container.getNTC_Class(r))
-                         .count];
+          if (myBiopolymerClassContainer.counter_d[ntc.count] > 0.0)
+            myBiopolymerClassContainer.prob_d[ntc.count][i] =
+                myBiopolymerClassContainer.hist_d[ntc.count][i] /
+                myBiopolymerClassContainer.counter_d[ntc.count];
 
           if (value > 0 &&
               myBiopolymerClassContainer.prob_d
-                      [(myParameterReader.ntc_class_container.getNTC_Class(r))
-                           .count][value] > 1e-3 &&
-              myBiopolymerClassContainer.prob_d
-                      [(myParameterReader.ntc_class_container.getNTC_Class(r))
-                           .count][value + 1] > 1e-3 &&
-              value < 31)
+                      [ntc.count][value] > 1e-3 &&
+              myBiopolymerClassContainer.prob_d[ntc.count][value + 1] > 1e-3 && value < 31)
             bias =
-                2.479 * (log(myBiopolymerClassContainer
-                                 .prob_d[(myParameterReader.ntc_class_container
-                                              .getNTC_Class(r))
-                                             .count][value] /
+                2.479 * (log(myBiopolymerClassContainer.prob_d[ntc.count][value] /
                              (1e-3)) -
-                         log(myBiopolymerClassContainer
-                                 .prob_d[(myParameterReader.ntc_class_container
-                                              .getNTC_Class(r))
-                                             .count][value + 1] /
+                         log(myBiopolymerClassContainer.prob_d[ntc.count][value + 1] /
                              (1e-3)));
 
           frc = (1.0 - exp(-(2.0 * myNTC_PAR_BondRow.CONFALVALUE) *
@@ -373,31 +234,28 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                 myNTC_PAR_BondRow.springConstant[0];
           frc =
               frc /
-              (1.0 +
-               (myParameterReader.ntc_class_container.getNTC_Class(r)).weight2);
+              (1.0 + ntc.weight2);
 
-          frcVec =
-              (frc)*ptp / d *
-              (myParameterReader.ntc_class_container.getNTC_Class(r)).weight;
+          Vec3 frcVec =
+              (frc)*ptp / d * ntc.weight;
 
-          bodyForces[body1.getMobilizedBodyIndex()] -=
-              SpatialVec(frcVec, Vec3(1));
-          bodyForces[body2.getMobilizedBodyIndex()] +=
-              SpatialVec(frcVec, Vec3(1));
-
+          for (std::size_t idx = 0; idx < 2; idx++) {
+            const auto &body = myBiopolymerClassContainer.updAtomMobilizedBody(
+              matter, chainId1, *residues[idx], myNTC_PAR_BondRow.residue1Atom[idx]);
+            bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN_2[idx] * SpatialVec(frcVec, Vec3(1));
+          }
           if (isfinite(bias) == 1 && sqrt(pow(bias, 2)) > 0.0) {
 
             bias =
-                bias * (sqrt(pow(frc, 2)) / (sqrt(pow(bias, 2)))) *
-                (myParameterReader.ntc_class_container.getNTC_Class(r)).weight2;
+                bias * (sqrt(pow(frc, 2)) / (sqrt(pow(bias, 2)))) * ntc.weight2;
             frcVec =
-                (bias)*ptp / d *
-                (myParameterReader.ntc_class_container.getNTC_Class(r)).weight;
+                (bias)*ptp / d * ntc.weight;
 
-            bodyForces[body1.getMobilizedBodyIndex()] +=
-                SpatialVec(frcVec, Vec3(1));
-            bodyForces[body2.getMobilizedBodyIndex()] -=
-                SpatialVec(frcVec, Vec3(1));
+            for (std::size_t idx = 0; idx < 2; idx++) {
+              const auto &body = myBiopolymerClassContainer.updAtomMobilizedBody(
+                matter, chainId1, *residues[idx], myNTC_PAR_BondRow.residue1Atom[idx]);
+              bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN_2I[idx] * SpatialVec(frcVec, Vec3(1));
+            }
           }
         }
       }

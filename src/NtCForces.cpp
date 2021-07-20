@@ -39,8 +39,6 @@ NTC_Torque::NTC_Torque(SimbodyMatterSubsystem &matter,
 void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                            Vector_<Vec3> &particleForces,
                            Vector &mobilityForces) const {
-    std::array<double, 361> prob;
-
     Vec3 states[4];
     for (int r = 0; r < myParameterReader.ntc_class_container.numNTC_Torsions(); r++) {
         const auto &ntc = myParameterReader.ntc_class_container.getNTC_Class(r);
@@ -117,8 +115,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                                         log(myBiopolymerClassContainer.prob[count][value + 1] / (1e-3)));
                     }
 
-                    if (prob[value] > 1e-3 &&
-                        myBiopolymerClassContainer.prob[count][value + 1] > 1e-3 &&
+                    if (myBiopolymerClassContainer.prob[count][value + 1] > 1e-3 &&
                         value == 360) {
                         bias = 2.479 * (log(myBiopolymerClassContainer.prob[count][value] / (1e-3)) -
                                         log(myBiopolymerClassContainer.prob[count][1] /(1e-3)));

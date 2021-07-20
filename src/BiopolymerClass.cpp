@@ -1467,8 +1467,8 @@ void BiopolymerClass::loadResidueIDVectorAscending(ResidueID firstResidueID ){
 
 ResidueInfo::Index BiopolymerClass::getResidueIndex(const ResidueID& residueID) const {
     if (residueIDVector.size() > 0) {
-        auto residueIDVectorIterator = find(residueIDVector.cbegin(), residueIDVector.cend(), residueID);
-        auto residueIndex = ResidueInfo::Index(residueIDVectorIterator-residueIDVector.begin());
+        auto it = find(residueIDVector.cbegin(), residueIDVector.cend(), residueID);
+        auto residueIndex = ResidueInfo::Index(it - residueIDVector.cbegin());
 
         //std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Your residue ID: "<<residueID.outString() << " has a corresponding residue index : "<<residueIndex<<std::endl;  
         if (residueIndex < 0 || residueIndex >= getChainLength()) {

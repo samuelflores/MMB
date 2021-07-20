@@ -396,19 +396,12 @@ public:
     };
 
     bool operator==(const ResidueID &other) const {
-    // Compare the values, and return a bool result.
-    if ((ResidueNumber == other.ResidueNumber) &&
-        (InsertionCode == other.InsertionCode)) 
-        {return true  ;}
-        else {return false;}
-    };
+        return (ResidueNumber == other.ResidueNumber) && (InsertionCode == other.InsertionCode);
+    }
+
     bool operator!=(const ResidueID &other) const {
-    // Compare the values, and return a bool result.
-    if ((ResidueNumber != other.ResidueNumber) ||
-        (InsertionCode != other.InsertionCode)) 
-        {return true  ;}
-        else {return false;}
-    };
+        return !(*this == other);
+    }
     // Inequalities don't work , because we no longer require residue ID's to be monotonically increasing, especially wrt insertion codes.
     
     bool operator > (const ResidueID &other) const {

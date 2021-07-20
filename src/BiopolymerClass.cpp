@@ -1148,7 +1148,7 @@ bool BiopolymerClass::hasAtom(ResidueID myResidueID, String myAtomName) {
 
 Compound::AtomPathName BiopolymerClass::atomPathString(const ResidueID &residueID, const String &atomName) const {
     int myResidueIndex = getResidueIndex(residueID);
-    Compound::AtomPathName myAtomPathName =  Compound::AtomPathName
+/*    Compound::AtomPathName myAtomPathName =  Compound::AtomPathName
          (String(
             intToString(myResidueIndex) +  // does this properly correct for proteinCapping? confirm empirically later.
             String("/") +
@@ -1156,7 +1156,9 @@ Compound::AtomPathName BiopolymerClass::atomPathString(const ResidueID &residueI
             )
          );
    // validateAtomPathName(myAtomPathName);
-   return myAtomPathName;
+   return myAtomPathName;*/
+
+   return std::to_string(myResidueIndex) + "/" + atomName;
 }
 
 Compound::AtomIndex BiopolymerClass::atomIndex(const ResidueID &residueID, const String &atomName) const {
@@ -1425,10 +1427,9 @@ Vec3 BiopolymerClass::calcDefaultAtomLocationInGroundFrame(const ResidueID &myRe
     return myBiopolymer.calcDefaultAtomLocationInGroundFrame(atomPathString(myResidueID,atomName));
 }
 
-Vec3 BiopolymerClass::calcAtomLocationInGroundFrame(const State & state,  ResidueID myResidueID, String atomName ){
-    Compound::AtomIndex myAtomIndex = atomIndex(myResidueID,atomName);
-    //MMBLOG_FILE_FUNC_LINE(": "<< myBiopolymer.calcAtomLocationInGroundFrame(state,myAtomIndex)<<endl;    
-    return myBiopolymer.calcAtomLocationInGroundFrame(state,myAtomIndex);    
+Vec3 BiopolymerClass::calcAtomLocationInGroundFrame(const State & state, const ResidueID &myResidueID, const String& atomName) {
+    Compound::AtomIndex myAtomIndex = atomIndex(myResidueID, atomName);
+    return myBiopolymer.calcAtomLocationInGroundFrame(state, myAtomIndex);
 }
 
 
@@ -2914,7 +2915,7 @@ Vec3 BiopolymerClassContainer::getAtomLocationInMobilizedBodyFrame(String myChai
     return updBiopolymerClass(myChainID).getAtomLocationInMobilizedBodyFrame(myResidueID,  myAtomName);
 }
 
-MobilizedBody & BiopolymerClassContainer::updAtomMobilizedBody(SimbodyMatterSubsystem & matter,String chainID, ResidueID myResidueID, String myAtomName){ 
+MobilizedBody & BiopolymerClassContainer::updAtomMobilizedBody(SimbodyMatterSubsystem & matter, const String &chainID, const ResidueID &myResidueID, const String &myAtomName) {
     return updBiopolymerClass(chainID).updAtomMobilizedBody(matter,myResidueID,myAtomName);
 }
 
@@ -2996,9 +2997,9 @@ int  BiopolymerClassContainer::validateChainID(const String& chainID) const {
     } else return 0   ;
 }
 
-Vec3  BiopolymerClassContainer::calcAtomLocationInGroundFrame(const State & state, String chainID, ResidueID residueID, String atomName){
+Vec3  BiopolymerClassContainer::calcAtomLocationInGroundFrame(const State &state, const String &chainID, const ResidueID &residueID, const String &atomName) {
     validateChainID(chainID);
-    return updBiopolymerClass(chainID).calcAtomLocationInGroundFrame(state,residueID,atomName);
+    return updBiopolymerClass(chainID).calcAtomLocationInGroundFrame(state, residueID, atomName);
 };
 
 

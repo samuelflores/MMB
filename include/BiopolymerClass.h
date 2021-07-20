@@ -212,7 +212,7 @@ public:
     Vec3        getAtomLocationInMobilizedBodyFrame(  ResidueID myResidueID,   String myAtomName); 
     MobilizedBody & updAtomMobilizedBody(SimbodyMatterSubsystem & matter,   ResidueID myResidueID,   String myAtomName);
     MobilizedBodyIndex getAtomMobilizedBodyIndex( SimbodyMatterSubsystem & matter,   ResidueID myResidueID    ,   String myAtomName);
-    Vec3        calcAtomLocationInGroundFrame(const  State & ,    ResidueID residueID,   String atomName);   
+    Vec3        calcAtomLocationInGroundFrame(const  State & state, const ResidueID &residueID, const String &atomName);
     Vec3        calcDefaultAtomLocationInGroundFrame(const ResidueID &residueID, const String &atomName) const;
     void        loadResidueIDVector();
     void        loadResidueIDVectorAscending(ResidueID firstResidueID);
@@ -421,13 +421,13 @@ public:
     void        setBondMobility  (vector<BasePair> & ); 
     void        rigidifyAllChains();
     Vec3        getAtomLocationInMobilizedBodyFrame(String myChainID, ResidueID myResidueID, String myAtomName);
-    MobilizedBody &     updAtomMobilizedBody(SimbodyMatterSubsystem & matter, String myChainID, ResidueID myResidueID, String myAtomName);
+    MobilizedBody &     updAtomMobilizedBody(SimbodyMatterSubsystem &matter, const String &myChainID, const ResidueID &myResidueID, const String &myAtomName);
     //void      addContacts(ContactContainer myContactContainer , GeneralContactSubsystem &,GeneralForceSubsystem &, SimbodyMatterSubsystem &,CompoundSystem & , LeontisWesthofClass & myLeontisWesthofClass ,double excludedVolumeRadius,double excludedVolumeStiffness );
     void        writeDefaultPdb(std::ostream& outputStream);
     void        writePdb(State & state, CompoundSystem & system, std::ostream& outputStream, int modelNumber=1, bool calcEnergy=false, int satisfiedBasePairs=0, int unSatisfiedBasePairs=0);
     bool        hasChainID(const String& chainID) const;
     int         validateChainID(const String& chainID) const;
-    Vec3        calcAtomLocationInGroundFrame(const State & , String chainID, ResidueID , String );   
+    Vec3        calcAtomLocationInGroundFrame(const State &state, const String &chainID, const ResidueID &residueId, const String &atomName);
     void        newCalcAxes(const State& state,  LeontisWesthofBondRow myLeontisWesthofBondRow,ResidueID residueID1,ResidueID residueID2,String chain1 , String chain2,Vec3 & xAxisVector1,Vec3 & yAxisVector1, Vec3 & zAxisVector1,Vec3 & xAxisVector2,Vec3 & yAxisVector2 , Vec3 & zAxisVector2,Vec3 & glycosidicNitrogenAtom1LocationInGround,Vec3 & glycosidicNitrogenAtom2LocationInGround, Vec3 & ring1CenterLocationInGround, Vec3 & ring2CenterLocationInGround) ; 
     void        computeCorrection(LeontisWesthofClass &,vector<BaseInteraction> &,State &,SimbodyMatterSubsystem &);
     const String&      getPdbResidueName( const String &chainID, const ResidueID& resID) const;

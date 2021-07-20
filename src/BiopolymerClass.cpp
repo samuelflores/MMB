@@ -1148,17 +1148,7 @@ bool BiopolymerClass::hasAtom(ResidueID myResidueID, String myAtomName) {
 
 Compound::AtomPathName BiopolymerClass::atomPathString(const ResidueID &residueID, const String &atomName) const {
     int myResidueIndex = getResidueIndex(residueID);
-/*    Compound::AtomPathName myAtomPathName =  Compound::AtomPathName
-         (String(
-            intToString(myResidueIndex) +  // does this properly correct for proteinCapping? confirm empirically later.
-            String("/") +
-            atomName
-            )
-         );
-   // validateAtomPathName(myAtomPathName);
-   return myAtomPathName;*/
-
-   return std::to_string(myResidueIndex) + "/" + atomName;
+    return std::to_string(myResidueIndex) + "/" + atomName;
 }
 
 Compound::AtomIndex BiopolymerClass::atomIndex(const ResidueID &residueID, const String &atomName) const {

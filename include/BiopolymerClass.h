@@ -22,6 +22,7 @@
 
 #include <string>
 #include <array>
+#include <memory>
 #include <utility>
 #include <vector>
 
@@ -33,7 +34,7 @@ typedef seqan::String<TChar> TSequence;                // sequence type
 typedef seqan::Align<TSequence, seqan::ArrayGaps> TAlign;
 typedef pair <const string, PdbStructure> pdbStructurePairType;
 //typedef map pdbStructurePairType PdbStructureMapType ;
-typedef map <const string, PdbStructure> PdbStructureMapType ;
+typedef map <const string, std::shared_ptr<PdbStructure>> PdbStructureMapType ;
 
 
 void         printBiopolymerSequenceInfo(const Biopolymer & myBiopolymer) ;
@@ -63,7 +64,7 @@ private:
     vector<MMBAtomInfo> ignoreAtomPositionVector;
     vector<ResidueID> residueIDVector; // the element index should match the residue index for fast retrieval
     String      pdbFileName;
-    PdbStructure pdbStructure;
+    std::shared_ptr<PdbStructure> pdbStructure;
     bool        loadFromPdb;
     void        clear(); // sets all methods to empty values
     //void        validateChainID();
@@ -123,8 +124,8 @@ public:
     void    setPdbFileName(String pdbFileName);
     const String & getPdbFileName() const;
 
-    void    setPdbStructure(PdbStructure);
-    const PdbStructure& getPdbStructure() const;
+    void    setPdbStructure(const std::shared_ptr<PdbStructure> &structure);
+    const std::shared_ptr<PdbStructure> getPdbStructure() const;
     
     void    setLoadFromPdb(bool yesno);
     bool    getLoadFromPdb() const;
@@ -462,7 +463,6 @@ public:
     bool        isDNA    (const Biopolymer & inputBiopolymer) ;
     bool        isProtein(const Biopolymer & inputBiopolymer, bool endCaps) ;
     void        loadSequencesFromPdb(String inPDBFilename,bool proteinCapping, const String & chainsPrefix , const bool tempRenumberPdbResidues  , const bool useNACappingHydroxyls); 
-    const PdbStructure & getPdbStructure(String fileName);
     void        printBiopolymerInfo() ;
     void setResidueIDsAndInsertionCodesFromBiopolymer(const String & chain, const Biopolymer & inputBiopolymer, const bool endCaps);
     ResidueID   residueID(map<const String,double> myUserVariables, const char* value , const String chain); // just like that below, except it can handle user-defined integer variables

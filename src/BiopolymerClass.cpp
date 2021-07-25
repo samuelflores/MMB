@@ -26,6 +26,7 @@
 #include <utility>
 
 #include "MobilizerContainer.h"
+#include "molmodel/internal/Pdb.h"
 
 // #define  _DEBUG_FLAGS_ON_
 
@@ -666,7 +667,7 @@ const ResidueID& BiopolymerClass::getResidueID(const int residueIndex) const {
     //return myResidueID;
 }
 
-const PdbStructure & generatePdbStructure(const String &inputFileName, const String &chainsPrefix, PdbStructureMapType & pdbStructureMap) {
+std::shared_ptr<PdbStructure> generatePdbStructure(const String &inputFileName, const String &chainsPrefix, PdbStructureMapType & pdbStructureMap) {
     MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
 
     if (pdbStructureMap.find(inputFileName) != pdbStructureMap.end()) {
@@ -675,17 +676,19 @@ const PdbStructure & generatePdbStructure(const String &inputFileName, const Str
 
     MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being linked to a PdbStructure" << std::endl);
 
-    auto it = pdbStructureMap.emplace(inputFileName, inputFileName);
-    return it.first->second;
+    auto item = std::make_shared<PdbStructure>(inputFileName);
+
+    auto it = pdbStructureMap.emplace(inputFileName, item);
+    return item;
 }
 
-const PdbStructure & generateOrFetchPdbStructure(const String &inputFileName, const String &chainsPrefix, PdbStructureMapType &pdbStructureMap) {
+std::shared_ptr<PdbStructure> generateOrFetchPdbStructure(const String &inputFileName, const String &chainsPrefix, PdbStructureMapType &pdbStructureMap) {
     MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
 
     auto it = pdbStructureMap.find(inputFileName);
     if (it != pdbStructureMap.end()) {
         MMBLOG_FILE_FUNC_LINE(DEBUG, " The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
-	    return it->second;
+        return it->second;
     } else {
         MMBLOG_FILE_FUNC_LINE(DEBUG, " The pdbStructureMap does NOT have a PdbStructure linked to inputFileName "<<inputFileName<<" .. generating one now.."<<endl);
         return generatePdbStructure(inputFileName, chainsPrefix, pdbStructureMap);
@@ -706,8 +709,8 @@ int BiopolymerClass::matchCoordinates(
 ) {
     MMBLOG_FILE_FUNC_LINE(INFO, "about to match chain \""<< getChainID()<<"\" having prefix \""<< getChainPrefix()<<"\" to file name : "<<inputFileName<<" using generateOrFetchPdbStructure " <<endl);
     MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
-    const PdbStructure &myPdbStructure = generateOrFetchPdbStructure(inputFileName, getChainPrefix(), pdbStructureMap);
-    return matchCoordinates( myPdbStructure, matchExact, matchIdealized, matchOptimize,
+    const auto myPdbStructure = generateOrFetchPdbStructure(inputFileName, getChainPrefix(), pdbStructureMap);
+    return matchCoordinates(*myPdbStructure, matchExact, matchIdealized, matchOptimize,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                          guessCoordinates, matchingMinimizerTolerance, myPlanarityThreshold);
 }
@@ -2289,12 +2292,12 @@ const String & BiopolymerClass::getPdbFileName() const {
     return pdbFileName;
 }
 
-void  BiopolymerClass::setPdbStructure(PdbStructure myPdbStructure)
+void  BiopolymerClass::setPdbStructure(const std::shared_ptr<PdbStructure> &structure)
 {
-    this->pdbStructure = std::move(myPdbStructure);
+    this->pdbStructure = structure;
 }
 
-const PdbStructure& BiopolymerClass::getPdbStructure() const
+const std::shared_ptr<PdbStructure> BiopolymerClass::getPdbStructure() const
 {
     return this->pdbStructure;
 }
@@ -3934,7 +3937,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     MMBLOG_FILE_FUNC_LINE(INFO,endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "system.getNumCompounds() = "<<system.getNumCompounds() <<endl);
     MMBLOG_FILE_FUNC_LINE(INFO,endl);
-    const PdbStructure &myPdbStructure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap); //////
+    auto myPdbStructure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap); //////
     /* 
     //================================================ Use PDB reader or CIF reader depending on the extension.
     PdbStructure myPdbStructure;
@@ -3956,10 +3959,10 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     pdbStructureMap.insert(pair<String, PdbStructure>(inPDBFileName, myPdbStructure) );
     */
-    MMBLOG_FILE_FUNC_LINE(INFO, "myPdbStructure.getNumModels() "<<myPdbStructure.getNumModels()<<endl);
-    int myNumChains =  myPdbStructure.getModel(Pdb::ModelIndex(0)).getNumChains();
+    MMBLOG_FILE_FUNC_LINE(INFO, "myPdbStructure.getNumModels() "<<myPdbStructure->getNumModels()<<endl);
+    int myNumChains =  myPdbStructure->getModel(Pdb::ModelIndex(0)).getNumChains();
     // PdbStructure can sometimes come up with a higher chain count. Maybe it puts in some HETATOM's or HOH's as extra chains. So we will use this one which we get more from CompoundSystem:
-    int myNumChainsFromSystem =  system.getNumCompounds() /  myPdbStructure.getNumModels() ;
+    int myNumChainsFromSystem =  system.getNumCompounds() /  myPdbStructure->getNumModels() ;
     MMBLOG_FILE_FUNC_LINE(INFO, "myNumChains "<<myNumChains<<endl);
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
 

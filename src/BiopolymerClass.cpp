@@ -861,11 +861,11 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
             MMBLOG_FILE_FUNC_LINE(INFO, "confirming transform: "<<endl);
             MMBLOG_FILE_FUNC_LINE(INFO, "myBiopolymer.getTopLevelTransform() = "<<  myBiopolymer.getTopLevelTransform()<<endl);
             MMBLOG_FILE_FUNC_LINE(INFO, "about to writeDefaultPdb:"<<endl);
-            std::ofstream tempStream5(String("match.400.pdb").c_str(),ios_base::out);
-            myBiopolymer.writeDefaultPdb(tempStream5,Transform(Vec3(0)));
+            //std::ofstream tempStream5(String("match.400.pdb").c_str(),ios_base::out);
+            //myBiopolymer.writeDefaultPdb(tempStream5,Transform(Vec3(0)));
             MMBLOG_FILE_FUNC_LINE(INFO, "Now writing with top level transform provided:"<<endl);
-            std::ofstream tempStream6(String("match.401.pdb").c_str(),ios_base::out);
-            myBiopolymer.writeDefaultPdb(tempStream6,myBiopolymer.getTopLevelTransform()  );
+            //std::ofstream tempStream6(String("match.401.pdb").c_str(),ios_base::out);
+            //myBiopolymer.writeDefaultPdb(tempStream6,myBiopolymer.getTopLevelTransform()  );
             MMBLOG_FILE_FUNC_LINE(INFO, endl);
     }
 

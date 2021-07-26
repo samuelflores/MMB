@@ -4584,7 +4584,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             MMBLogger::instance().setLoggingSeverity(MMBLogger::Severity::WARNING);
         else {
             MMBLOG_FILE_FUNC_LINE(
-                WARNING,
+                CRITICAL,
                 "Unknown logging severity "<<param<<endl
                 <<"Allowed values are: debug, info, warning"<<endl
             );

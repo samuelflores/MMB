@@ -1,3 +1,4 @@
+// vim: expandtab sw=4 ts=4 sts=4 :
 /* -------------------------------------------------------------------------- *
  *                           MMB (MacroMoleculeBuilder)                       *
  * -------------------------------------------------------------------------- *
@@ -75,26 +76,24 @@ public:
 
 private:
     double getDouble(const std::string &str) {
+        if (str.empty())
+            return 0.0;
         try {
             return std::stod(str);
         } catch (const std::invalid_argument &) {
-            if (str.empty())
-                return 0.0;
-            else
-                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot convert string \"" << m_buf << "\" to double" << std::endl);
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot convert string \"" << m_buf << "\" to double" << std::endl);
         } catch (const std::out_of_range &) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Numerical value of\"" << m_buf << "\" out of range of double" << std::endl);
         }
     }
 
     int getInt(const std::string &str) {
+        if (str.empty())
+            return 0;
         try {
             return std::stoi(str);
         } catch (const std::invalid_argument &) {
-            if (str.empty())
-                return 0;
-            else
-                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot convert string \"" << m_buf << "\" to int" << std::endl);
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot convert string \"" << m_buf << "\" to int" << std::endl);
         } catch (const std::out_of_range &) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Numerical value of\"" << m_buf << "\" out of range of int" << std::endl);
         }

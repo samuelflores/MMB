@@ -11,8 +11,6 @@
 #ifndef Utils_H_
 #define Utils_H_                 
 
-//#include <string>
-#include <SimTKcommon/internal/common.h>
 #include <cstring>
 #include <fstream>
 #include <sstream>
@@ -1459,7 +1457,7 @@ class ThreadingStructOld {
                         {chain1ResiduesIncluded.clear(); }
 };*/
 
-class  MMBAtomInfo {
+class MMBAtomInfo {
     public:
         MobilizedBody mobilizedBody;
         MobilizedBodyIndex mobilizedBodyIndex;
@@ -1475,7 +1473,7 @@ class  MMBAtomInfo {
         std::vector<MMBAtomInfo*> neighbors;
         //ChargedAtomType chargedAtomType;
         void setAtomName(const String myAtomName ){ atomName = myAtomName;}
-        String getAtomName( ){ return atomName ;}
+        const String & getAtomName() const { return atomName; }
         void setResidueID(const ResidueID myResidueID ){ residueID = myResidueID;}
         void setChain(const String myChain ){ chain = myChain;}
         String getChain( ){ return chain ;}
@@ -1483,18 +1481,20 @@ class  MMBAtomInfo {
         ResidueID          getResidueID   ( ){ return  residueID   ;}
         void setResidueIndex(ResidueInfo::Index  myResidueIndex ){ residueIndex = myResidueIndex;}
         MMBAtomInfo(){};
-        MMBAtomInfo(String myChain,  ResidueID myResidueID, String myAtomName ){
-            setChain(myChain); 
-            setResidueID ( myResidueID); 
-            setAtomName ( myAtomName);
-        };
-        MMBAtomInfo(String myChain,  ResidueID myResidueID, ResidueInfo::Index  myResidueIndex, String myAtomName ){
-            setChain(myChain); 
-            setResidueID ( myResidueID); 
-            setResidueIndex (myResidueIndex);
-            setAtomName ( myAtomName);
-            
-        };
+
+        MMBAtomInfo(String myChain, ResidueID myResidueID, String myAtomName) :
+            atomName(std::move(myAtomName)),
+            chain(std::move(myChain)),
+            residueID(std::move(myResidueID))
+        {}
+
+        MMBAtomInfo(String myChain, ResidueID myResidueID, ResidueInfo::Index myResidueIndex, String myAtomName) :
+            atomName(std::move(myAtomName)),
+            chain(std::move(myChain)),
+            residueID(std::move(myResidueID)),
+            residueIndex(std::move(myResidueIndex))
+        {}
+
         bool operator == (MMBAtomInfo & a){
         if (this->compoundAtomIndex == a.compoundAtomIndex ) {return true;}
         else return false;

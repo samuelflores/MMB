@@ -3872,7 +3872,7 @@ bool BiopolymerClassContainer::isProtein(const Biopolymer & inputBiopolymer, boo
     return true;
 }
 
-void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,const bool proteinCapping, const String & chainsPrefix, const bool tempRenumberPdbResidues, bool useNACappingHydroxyls ){
+void BiopolymerClassContainer::loadSequencesFromPdb(const String &inPDBFileName, const bool proteinCapping, const String &chainsPrefix, const bool tempRenumberPdbResidues, bool useNACappingHydroxyls) {
     MMBLOG_FILE_FUNC_LINE(INFO, "About to load sequences from file : "<<inPDBFileName<<endl);
 
     struct stat st;
@@ -3890,7 +3890,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
         MMBLOG_FILE_FUNC_LINE(INFO, "Apparently "<<inPDBFileName<<" has size "<<st.st_size <<" . This seems OK."<< endl);
     }
 
-    PDBReader myPDBReader ( inPDBFileName );/////////  PDBReader.cpp:149 seems to be reading residue types in 3-letter and 1-letter codes correctly.  I don't think it knows what kind of biopolymer it has yet though./
+    PDBReader myPDBReader(inPDBFileName, true);/////////  PDBReader.cpp:149 seems to be reading residue types in 3-letter and 1-letter codes correctly.  I don't think it knows what kind of biopolymer it has yet though./
     CompoundSystem system;
     SimbodyMatterSubsystem  matter(system);
     GeneralForceSubsystem forces(system);
@@ -3903,27 +3903,10 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     MMBLOG_FILE_FUNC_LINE(INFO, "Done with myPDBReader.createCompounds(system)" << endl
                                 << "pdbStructureMap.size() = " << pdbStructureMap.size() << endl
                                 << "system.getNumCompounds() = " << system.getNumCompounds() << endl);
-    auto myPdbStructure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap);
 
+    auto structure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap);
 
-    MMBLOG_FILE_FUNC_LINE(INFO, "myPdbStructure.getNumModels() "<<myPdbStructure->getNumModels()<<endl);
-    int myNumChains =  myPdbStructure->getModel(Pdb::ModelIndex(0)).getNumChains();
-    // PdbStructure can sometimes come up with a higher chain count. Maybe it puts in some HETATOM's or HOH's as extra chains. So we will use this one which we get more from CompoundSystem:
-    int myNumChainsFromSystem =  system.getNumCompounds() /  myPdbStructure->getNumModels() ;
-    MMBLOG_FILE_FUNC_LINE(INFO, "myNumChains "<<myNumChains<<endl);
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
-
-    MMBLOG_FILE_FUNC_LINE(INFO, "system.getNumCompounds() = "<<system.getNumCompounds() <<endl);
-    // let's check which chains we have already:    
-    MMBLOG_FILE_FUNC_LINE(INFO, "This BiopolymerClassContainer already has getNumBiopolymers() = "<< getNumBiopolymers() <<endl);
-
-    // system.getNumCompounds() returns the number of chains * number of models!  This is too many chains. We only want the chain in model 0 by arbitrary convention.
-    //for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c) 
-    // We will instead use myNumChains (myPdbStructure.getModel(Pdb::ModelIndex(0)).getNumChains()) which is only the number of chains in model 0
-        
-    // for (SimTK::CompoundSystem::CompoundIndex c(0); c < myNumChains; ++c) // This way got us some extra chains for some reason.
-
-    for (SimTK::CompoundSystem::CompoundIndex c(0); c < myNumChainsFromSystem; ++c) 
+    for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c)
     {
         MMBLOG_FILE_FUNC_LINE(INFO, "Processing chain >"<<system.getCompound(c).getPdbChainId()<<"< ."<<endl);
         if (Molecule::isInstanceOf(system.getCompound(c) )) 
@@ -3987,7 +3970,7 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
                 myBiopolymerClass.setRenumberPdbResidues(tempRenumberPdbResidues);
 
                 MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
-                myBiopolymerClass.setPdbStructure(pdbStructureMap.at(inPDBFileName));
+                myBiopolymerClass.setPdbStructure(structure);
             } // of if Biopolymer
         } // of if Molecule
         MMBLOG_FILE_FUNC_LINE(INFO, "This BiopolymerClassContainer now has getNumBiopolymers() = "<< getNumBiopolymers() <<endl);

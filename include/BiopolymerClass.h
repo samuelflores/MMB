@@ -462,7 +462,7 @@ public:
     bool        isRNA    (const Biopolymer & inputBiopolymer) ;
     bool        isDNA    (const Biopolymer & inputBiopolymer) ;
     bool        isProtein(const Biopolymer & inputBiopolymer, bool endCaps) ;
-    void        loadSequencesFromPdb(String inPDBFilename,bool proteinCapping, const String & chainsPrefix , const bool tempRenumberPdbResidues  , const bool useNACappingHydroxyls); 
+    void        loadSequencesFromPdb(const String &inPDBFilename, bool proteinCapping, const String &chainsPrefix, const bool tempRenumberPdbResidues, const bool useNACappingHydroxyls); 
     void        printBiopolymerInfo() ;
     void setResidueIDsAndInsertionCodesFromBiopolymer(const String & chain, const Biopolymer & inputBiopolymer, const bool endCaps);
     ResidueID   residueID(map<const String,double> myUserVariables, const char* value , const String chain); // just like that below, except it can handle user-defined integer variables

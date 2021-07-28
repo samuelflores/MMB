@@ -31,9 +31,9 @@ public:
     CompoundObjectMapContainer () {clear(); loadCompoundMap(); /*loadSingleAtomMap ()*/ ; loadBiotypeMap(); }
     //Compound::SingleAtom fetchSingleAtom(const String);
     Compound::SingleAtom fetchSingleAtom(const String className,  Compound::AtomName& atomName, String elementName , Angle );
-    const Element fetchElement (String elementName);
-    Compound fetchCompound(const String);
-    Biotype fetchBiotype(const String);
+    const Element * fetchElement (const String &elementName);
+    Compound fetchCompound(const String &);
+    Biotype fetchBiotype(const String &);
 private:
     map <const String , Compound> compoundMap;
     //map <const String , Compound::SingleAtom> singleAtomMap;
@@ -61,8 +61,7 @@ public:
     String getResidueName() {return residueName;};
     void setPdbChainID() {molecule.setPdbChainId(chainID);};
     void setPdbResidueName() ;
-    void addOneCommand(vector <String> command) {moleculeBuildCommandVector.push_back(command);  
-    }
+    void addOneCommand(vector <String> command) {moleculeBuildCommandVector.push_back(std::move(command));}
     
     void includeAllAtoms(DuMMForceFieldSubsystem & dumm);
     void addRingClosingBond(CovalentBondClass myBond);

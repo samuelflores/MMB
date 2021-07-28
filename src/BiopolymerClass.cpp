@@ -122,7 +122,7 @@ bool letterIsProtein(const char c) {
 
 void   BiopolymerClass:: modifyResidue( const BiopolymerModification myBiopolymerModification,Compound  compoundToAdd,  DuMMForceFieldSubsystem & dumm){//DuMMForceFieldSubsystem & dumm) { 
 
-        Compound addedAtom = UnivalentAtom("HG", Element::Hydrogen());
+        Compound addedAtom = UnivalentAtom("HG", Element::getBySymbol("H"));
         DuMM::ChargedAtomTypeIndex      myChargedAtomTypeIndex = dumm.getBiotypeChargedAtomType( compoundToAdd.getAtomBiotypeIndex(Compound::AtomIndex( 0)));
             //dumm.getNextUnusedChargedAtomTypeIndex (); 
         String residueName ("Cysteine (-SH)");
@@ -144,7 +144,7 @@ void   BiopolymerClass:: modifyResidue( const BiopolymerModification myBiopolyme
         double bondLength = .14;
         Angle myDihedral = 180*Deg2Rad;
         BondMobility::Mobility myBondMobility = stringToBondMobility("Rigid");
-        Compound myCompound(UnivalentAtom(specificAtomName, Element::Hydrogen()));
+        Compound myCompound(UnivalentAtom(specificAtomName, Element::getBySymbol("H")));
         myCompound.setPdbResidueNumber(1);
         myCompound.setPdbChainId("A");
         myCompound.setPdbResidueName("CYX");
@@ -770,7 +770,7 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
     {
         it = next;
         Compound::AtomIndex m = (*it).first;
-        Element myAtomElement = myBiopolymer.getAtomElement(m);
+        const Element *myAtomElement = myBiopolymer.getAtomElement(m);
         Compound::AtomName myAtomName = myBiopolymer.getAtomName(m);
         size_t pos = myAtomName.find("/");
         String myAtomNameSubstr = myAtomName.substr(pos);
@@ -778,7 +778,7 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
         ResidueInfo::Index  myResidueIndex (    atoi(myAtomName.substr(0,pos).c_str()) );
         next++;
 
-        if( !matchHydrogenAtomLocations && ((myAtomElement.getName()).compare("hydrogen") == 0) )
+        if( !matchHydrogenAtomLocations && ((myAtomElement->getName()).compare("hydrogen") == 0) )
         {
             biopolymerAtomTargets.erase(it);
             continue;
@@ -913,10 +913,10 @@ void BiopolymerClass::rigidifyTargetedBonds(Compound::AtomTargetLocations & biop
     {
         it = next;
         Compound::AtomIndex m = (*it).first;
-        Element myAtomElement = myBiopolymer.getAtomElement(m);
+        const Element *myAtomElement = myBiopolymer.getAtomElement(m);
         next++;
-        MMBLOG_FILE_FUNC_LINE(INFO, myAtomElement.getName()<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, myAtomElement.getName()<<", "<<  biopolymerAtomTargets[m]  <<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, myAtomElement->getName()<<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, myAtomElement->getName()<<", "<<  biopolymerAtomTargets[m]  <<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, " "<<m<<","<<myBiopolymer.getAtomName(m)<<endl);
     }
 }
@@ -1541,7 +1541,7 @@ void BiopolymerClass::addGeneralSterics(GeneralContactSubsystem & contacts, Cont
                 );//: %s .",String(ss3.str()));
 
                 if (myBiopolymer.hasAtom(ss3.str()))
-                    if (addHydrogens || (((myBiopolymer.getAtomElement(myResidueInfo.getAtomIndex( r  ))).getSymbol()).compare("H") != 0))
+                    if (addHydrogens || (((myBiopolymer.getAtomElement(myResidueInfo.getAtomIndex( r  )))->getSymbol()).compare("H") != 0))
                     {                           
                         contacts.addBody(contactSet,
                                          (matter.updMobilizedBody(myBiopolymer.getAtomMobilizedBodyIndex(Compound::AtomIndex(myBiopolymer.getAtomIndex(ss3.str()))))),

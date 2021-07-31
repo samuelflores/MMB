@@ -679,7 +679,7 @@ std::shared_ptr<PdbStructure> generatePdbStructure(const String &inputFileName, 
 
     auto item = std::make_shared<PdbStructure>(inputFileName);
 
-    auto it = pdbStructureMap.emplace(inputFileName, item);
+    pdbStructureMap.emplace(inputFileName, item);
     return item;
 }
 

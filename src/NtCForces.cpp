@@ -137,8 +137,9 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                     if (isfinite(log(myBiopolymerClassContainer.prob[count][value] / (1e-3))) &&
                         isfinite(log(myBiopolymerClassContainer.prob[count][value + 1] / (1e-3)))) {
 
-                        if (isfinite(bias) == 1 && sqrt(pow(bias, 2)) > 0.0) {
-                            Vec3 torque = -d_d2 / d_d2.norm() * (bias)*sqrt(pow(pot_angle, 2)) / sqrt(pow(bias, 2)) * ntc.weight2 * ntc.weight;
+                        if (isfinite(bias) && bias != 0.0) {
+                            const auto absBias = std::abs(bias);
+                            Vec3 torque = -d_d2 / d_d2.norm() * bias * std::abs(pot_angle) / absBias * ntc.weight2 * ntc.weight;
 
                             for (std::size_t idx = 0; idx < 4; idx++) {
                                 const ResidueID *resNo = residues[bondRow.atom_shift[idx]];
@@ -207,9 +208,10 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                         bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN_2[idx] * SpatialVec(frcVec, Vec3(1));
                     }
 
-                    if (isfinite(bias) && sqrt(pow(bias, 2)) > 0.0) { // WTF???
-                        bias = bias * (sqrt(pow(frc, 2)) / (sqrt(pow(bias, 2)))) * ntc.weight2;
-                        frcVec = (bias) * ptp / d * ntc.weight;
+                    if (isfinite(bias) && bias != 0.0) {
+                        const auto absBias = std::abs(bias);
+                        bias = bias * std::abs(frc) / absBias * ntc.weight2;
+                        frcVec = bias * ptp / d * ntc.weight;
 
                         for (std::size_t idx = 0; idx < 2; idx++) {
                             const auto &body = myBiopolymerClassContainer.updAtomMobilizedBody(

@@ -9,6 +9,7 @@
  * -------------------------------------------------------------------------- */
 
 //#include <ostream>
+#include <MMBLogger.h>
 #include <iostream>
 #include <istream>
 #include <fstream>
@@ -57,6 +58,7 @@ using namespace std;
         if (!(inFile.good())) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open parameter file "<<inFileName<<endl);
         }
+	MMBLOG_FILE_FUNC_LINE(INFO, "Parameter file " << inFileName << " opened sucessfully\n");
         int q=0;
 	//char * s; 
         string s;

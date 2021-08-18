@@ -11,8 +11,6 @@
 #ifndef Utils_H_
 #define Utils_H_                 
 
-//#include <string>
-#include <SimTKcommon/internal/common.h>
 #include <cstring>
 #include <fstream>
 #include <sstream>
@@ -396,19 +394,12 @@ public:
     };
 
     bool operator==(const ResidueID &other) const {
-    // Compare the values, and return a bool result.
-    if ((ResidueNumber == other.ResidueNumber) &&
-        (InsertionCode == other.InsertionCode)) 
-        {return true  ;}
-        else {return false;}
-    };
+        return (ResidueNumber == other.ResidueNumber) && (InsertionCode == other.InsertionCode);
+    }
+
     bool operator!=(const ResidueID &other) const {
-    // Compare the values, and return a bool result.
-    if ((ResidueNumber != other.ResidueNumber) ||
-        (InsertionCode != other.InsertionCode)) 
-        {return true  ;}
-        else {return false;}
-    };
+        return !(*this == other);
+    }
     // Inequalities don't work , because we no longer require residue ID's to be monotonically increasing, especially wrt insertion codes.
     
     bool operator > (const ResidueID &other) const {
@@ -610,25 +601,14 @@ class     NTC_Classes {
                String NtC_FirstBPChain;
                ResidueID FirstBPResidue;
                ResidueID SecondBPResidue;
-               String NtC_step_ID;
+               int NtC_step_ID;
                String NtC_Class_String; 
                int    NtC_INDEX;
-               String NtC_atom_type1;
-               String NtC_atom_type2;
-               String NtC_atom_type3;
-               String NtC_atom_type4;
-               String Residue_shift_atom1;
-               String Residue_shift_atom2;
-               String Residue_shift_atom3;
-               String Residue_shift_atom4;
-               String NtC_dihedraltype;
                double Confalparam;
-               Rotation rotationCorrection1 ;
-               Rotation rotationCorrection2 ;
+               Rotation rotationCorrection1;
+               Rotation rotationCorrection2;
                Vec3   translationCorrection1;
-               Vec3   translationCorrection2;               
-               double Harmonic_pot_constant;
-               double Rotation_angle;
+               Vec3   translationCorrection2;
                int    NTC_PAR_BondRowIndex;
                double weight,weight2;
                int    meta = 0;
@@ -647,7 +627,8 @@ class     NTC_Classes {
         << " translationCorrection2 = >"<<translationCorrection2<<"<"<<std::endl
         << " NTC_PAR_BondRowIndex = >"<<NTC_PAR_BondRowIndex<<"<"<<std::endl
         << " meta = >"<<meta<<"<"<<std::endl
-        << " count = >"<<count<<"<"<<std::endl);
+        << " count = >"<<count<<"<"<<std::endl
+	<< std::endl);
     }
                
 };
@@ -1095,7 +1076,7 @@ class SecondaryStructureStretch  : public ResidueStretch  {
     private:
                SecondaryStructureType mySecondaryStructureType;
     public:
-           void setSecondaryStructureType(String inputSecondaryStructureType) {
+           void setSecondaryStructureType(const String &inputSecondaryStructureType) {
             if ((inputSecondaryStructureType.compare("Alpha")) == 0) { 
                 mySecondaryStructureType = Alpha;}
             else if ((inputSecondaryStructureType.compare("ParallelBeta")) == 0) { 
@@ -1106,7 +1087,7 @@ class SecondaryStructureStretch  : public ResidueStretch  {
                 MMBLOG_FILE_LINE(CRITICAL, " Error!  The only permitted secondary structure types are Alpha, ParallelBeta and AntiParallelBeta."<<endl);
             }
         }
-    SecondaryStructureType getSecondaryStructureType() {return mySecondaryStructureType ;};
+    SecondaryStructureType getSecondaryStructureType() const  {return mySecondaryStructureType ;};
 };
 
 class  DensityStretch : public ResidueStretch   {
@@ -1476,7 +1457,7 @@ class ThreadingStructOld {
                         {chain1ResiduesIncluded.clear(); }
 };*/
 
-class  MMBAtomInfo {
+class MMBAtomInfo {
     public:
         MobilizedBody mobilizedBody;
         MobilizedBodyIndex mobilizedBodyIndex;
@@ -1492,7 +1473,7 @@ class  MMBAtomInfo {
         std::vector<MMBAtomInfo*> neighbors;
         //ChargedAtomType chargedAtomType;
         void setAtomName(const String myAtomName ){ atomName = myAtomName;}
-        String getAtomName( ){ return atomName ;}
+        const String & getAtomName() const { return atomName; }
         void setResidueID(const ResidueID myResidueID ){ residueID = myResidueID;}
         void setChain(const String myChain ){ chain = myChain;}
         String getChain( ){ return chain ;}
@@ -1500,18 +1481,20 @@ class  MMBAtomInfo {
         ResidueID          getResidueID   ( ){ return  residueID   ;}
         void setResidueIndex(ResidueInfo::Index  myResidueIndex ){ residueIndex = myResidueIndex;}
         MMBAtomInfo(){};
-        MMBAtomInfo(String myChain,  ResidueID myResidueID, String myAtomName ){
-            setChain(myChain); 
-            setResidueID ( myResidueID); 
-            setAtomName ( myAtomName);
-        };
-        MMBAtomInfo(String myChain,  ResidueID myResidueID, ResidueInfo::Index  myResidueIndex, String myAtomName ){
-            setChain(myChain); 
-            setResidueID ( myResidueID); 
-            setResidueIndex (myResidueIndex);
-            setAtomName ( myAtomName);
-            
-        };
+
+        MMBAtomInfo(String myChain, ResidueID myResidueID, String myAtomName) :
+            atomName(std::move(myAtomName)),
+            chain(std::move(myChain)),
+            residueID(std::move(myResidueID))
+        {}
+
+        MMBAtomInfo(String myChain, ResidueID myResidueID, ResidueInfo::Index myResidueIndex, String myAtomName) :
+            atomName(std::move(myAtomName)),
+            chain(std::move(myChain)),
+            residueID(std::move(myResidueID)),
+            residueIndex(std::move(myResidueIndex))
+        {}
+
         bool operator == (MMBAtomInfo & a){
         if (this->compoundAtomIndex == a.compoundAtomIndex ) {return true;}
         else return false;

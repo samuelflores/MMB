@@ -54,8 +54,6 @@ using namespace SimTK;
 using namespace std  ;
 
 
-        
-
 String get_and_set_working_path(String newPath = "RETRIEVE-ONLY" )
 {
     MMBLOG_FILE_FUNC_LINE(DEBUG, "PATH_MAX = " << PATH_MAX <<endl);
@@ -1050,8 +1048,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         if (((parameterStringClass.getString(0)).compare("proteinSequence") ==0 ) || ((parameterStringClass.getString(0)).compare("protein") ==0 ) || ((parameterStringClass.getString(0)).compare("Protein") ==0 )  ) {
             MMBLOG_FILE_FUNC_LINE(INFO, endl);
             myBiopolymerClassContainer.addBiopolymerClass(parameterStringClass.getString(3),parameterStringClass.getString(1), 
-                    ResidueID((parameterStringClass.getString(2))) ,
-                    "Protein",proteinCapping, previousFrameFileName, readPreviousFrameFile,useNACappingHydroxyls);
+                    ResidueID((parameterStringClass.getString(2))),
+                    BiopolymerType::Protein, proteinCapping, previousFrameFileName, readPreviousFrameFile,useNACappingHydroxyls);
             //myBiopolymerClassContainer.updBiopolymerClass(parameterStringClass.getString(1)).modifyResidue();
             //MMBLOG_FILE_FUNC_LINE("This is temporary .. SCF"<<endl;
             //myBiopolymerClassContainer.updBiopolymerClass(String("A")).modifyResidue(_dumm); // can't do here, don't have dumm..
@@ -1081,7 +1079,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                     //ResidueID( myAtoI(userVariables,(parameterStringClass.getString(2)).c_str())),
                     ResidueID(parameterStringClass.getString(2)) , 
                     //myResidue,
-                    String("RNA"), false, previousFrameFileName, readPreviousFrameFile, useNACappingHydroxyls);
+                    BiopolymerType::RNA, false, previousFrameFileName, readPreviousFrameFile, useNACappingHydroxyls);
         }
         else if ((((parameterStringClass.getString(0)).compare("DNA") ==0 )) ) 
         {
@@ -1106,7 +1104,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                     //ResidueID( userVariables,(parameterStringClass.getString(2)).c_str()),
                     ResidueID(parameterStringClass.getString(2)) ,
                     //myResidue,
-                    String("DNA"), false, previousFrameFileName, readPreviousFrameFile, useNACappingHydroxyls);
+                    BiopolymerType::DNA, false, previousFrameFileName, readPreviousFrameFile, useNACappingHydroxyls);
             //MMBLOG_FILE_FUNC_LINE(" myResidue = "<<myResidue.outString()<<std::endl;
         }
         else {
@@ -4586,7 +4584,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             MMBLogger::instance().setLoggingSeverity(MMBLogger::Severity::WARNING);
         else {
             MMBLOG_FILE_FUNC_LINE(
-                WARNING,
+                CRITICAL,
                 "Unknown logging severity "<<param<<endl
                 <<"Allowed values are: debug, info, warning"<<endl
             );

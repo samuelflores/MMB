@@ -1,3 +1,4 @@
+// vim: expandtab ts=4 sts=4 sw=4 :
 /* -------------------------------------------------------------------------- *
  *                           MMB (MacroMoleculeBuilder)                       *
  * -------------------------------------------------------------------------- *
@@ -16,6 +17,7 @@
 #include "ResidueStretchContainer.h"
 //#include <string>
 #include <MMBLogger.h>
+#include <array>
 #include <map>
 #include <set>
 #include <cstdlib>
@@ -25,6 +27,7 @@
 #include <utility>
 
 #include "MobilizerContainer.h"
+#include "molmodel/internal/Pdb.h"
 
 // #define  _DEBUG_FLAGS_ON_
 
@@ -119,7 +122,7 @@ bool letterIsProtein(const char c) {
 
 void   BiopolymerClass:: modifyResidue( const BiopolymerModification myBiopolymerModification,Compound  compoundToAdd,  DuMMForceFieldSubsystem & dumm){//DuMMForceFieldSubsystem & dumm) { 
 
-        Compound addedAtom = UnivalentAtom("HG", Element::Hydrogen());
+        Compound addedAtom = UnivalentAtom("HG", Element::getBySymbol("H"));
         DuMM::ChargedAtomTypeIndex      myChargedAtomTypeIndex = dumm.getBiotypeChargedAtomType( compoundToAdd.getAtomBiotypeIndex(Compound::AtomIndex( 0)));
             //dumm.getNextUnusedChargedAtomTypeIndex (); 
         String residueName ("Cysteine (-SH)");
@@ -141,7 +144,7 @@ void   BiopolymerClass:: modifyResidue( const BiopolymerModification myBiopolyme
         double bondLength = .14;
         Angle myDihedral = 180*Deg2Rad;
         BondMobility::Mobility myBondMobility = stringToBondMobility("Rigid");
-        Compound myCompound(UnivalentAtom(specificAtomName, Element::Hydrogen()));
+        Compound myCompound(UnivalentAtom(specificAtomName, Element::getBySymbol("H")));
         myCompound.setPdbResidueNumber(1);
         myCompound.setPdbChainId("A");
         myCompound.setPdbResidueName("CYX");
@@ -172,7 +175,7 @@ void   BiopolymerClass:: modifyResidue( const BiopolymerModification myBiopolyme
 }
 
 
-String  BiopolymerClass::getSubSequence(const ResidueID startResidue, const ResidueID endResidue)
+String  BiopolymerClass::getSubSequence(const ResidueID &startResidue, const ResidueID &endResidue) const
 {
     validateResidueID(startResidue);
     validateResidueID(  endResidue);
@@ -472,49 +475,132 @@ String BiopolymerClass::getFirstResidueMobilizerType(){
 }
 
 BiopolymerClass::BiopolymerClass() {
-    clear();
+    setActivePhysics(true);
+    setFirstResidueMobilizerType("Free");
+
     MMBLOG_FILE_FUNC_LINE(INFO, "sizeof(PdbStructure) = " << sizeof(PdbStructure) <<std::endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "sizeof(myBiopolymer) = "<< sizeof(myBiopolymer) <<std::endl);
 }
 
-BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, String myBiopolymerType, bool proteinCapping , bool useNACappingHydroxyls ){
+BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, BiopolymerType::BiopolymerTypeEnum myBiopolymerType, bool proteinCapping, bool useNACappingHydroxyls) noexcept :
+    sequence{std::move(mySequence)},
+    originalSequence{sequence},
+    chainID{std::move(myChainID)},
+    proteinCapping{proteinCapping},
+    biopolymerType{myBiopolymerType}
+{
+    assert(biopolymerType != BiopolymerType::Unassigned);
+
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    clear();
-    setBiopolymerType(     myBiopolymerType);
-    //MMBLOG_FILE_FUNC_LINE(endl;
-    setProteinCapping (proteinCapping); 
-    //MMBLOG_FILE_FUNC_LINE(endl;
-    setChainID(myChainID);
-    setSequence(mySequence);  // Note that this will not have the right PDB residue numbering. Hence the next line:
-    renumberPdbResidues( myFirstResidueNumber );
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    //setChainID(myChainID);
-    pdbFileName = "";
-    //MMBLOG_FILE_FUNC_LINE(endl;
-    loadFromPdb = false;
+
+    setActivePhysics(true);
+    setFirstResidueMobilizerType("Free");
     
     validateChainID();
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    if (  biopolymerType == BiopolymerType::RNA) {
-	// useNACappingHydroxyls , when true (default) replaces the 5' phosphorus with an H5T.      
-        myBiopolymer = SimTK::RNA(mySequence,useNACappingHydroxyls);
-    } else if (  biopolymerType == BiopolymerType::DNA) {
-        myBiopolymer = SimTK::DNA(mySequence,useNACappingHydroxyls);
-    } else if (  biopolymerType == BiopolymerType::Protein) {
-        //MMBLOG_FILE_FUNC_LINE(" "<<mySequence<<", "<<proteinCapping<<endl;
-        myBiopolymer = SimTK::Protein   (mySequence,BondMobility::Rigid,proteinCapping);
-        //myBiopolymer = SimTK::Protein   (mySequence,BondMobility::Rigid,proteinCapping);
-        //MMBLOG_FILE_FUNC_LINE(endl;
-    } else {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have tried to make a Biopolymer of an unsupported type: "<< myBiopolymerType<<endl);
+    if (this->biopolymerType == BiopolymerType::RNA) {
+        // useNACappingHydroxyls , when true (default) replaces the 5' phosphorus with an H5T.
+        myBiopolymer = SimTK::RNA(this->sequence, useNACappingHydroxyls);
+    } else if (this->biopolymerType == BiopolymerType::DNA) {
+        myBiopolymer = SimTK::DNA(this->sequence, useNACappingHydroxyls);
+    } else if (this->biopolymerType == BiopolymerType::Protein) {
+        myBiopolymer = SimTK::Protein(this->sequence, BondMobility::Rigid, proteinCapping);
     }
+
     validateSequence();
-    validateBiopolymerType();
     validateProteinCapping();
-    renumberPdbResidues((myFirstResidueNumber ) );
-    //MMBLOG_FILE_FUNC_LINE(endl;
+    renumberPdbResidues(myFirstResidueNumber);
 }
 
+/* Copy c-tor */
+BiopolymerClass::BiopolymerClass(const BiopolymerClass &other) :
+    firstResidueID{other.firstResidueID},
+    sequence{other.sequence},
+    originalSequence{other.originalSequence},
+    chainID{other.chainID},
+    chainPrefix{other.chainPrefix},
+    firstResidueMobilizerType{other.firstResidueMobilizerType},
+    myRenumberPdbResidues{other.myRenumberPdbResidues},
+    proteinCapping{other.proteinCapping},
+    atomInfoVector{other.atomInfoVector},
+    ignoreAtomPositionVector{other.ignoreAtomPositionVector},
+    residueIDVector{other.residueIDVector},
+    pdbFileName{other.pdbFileName},
+    pdbStructure{other.pdbStructure},
+    loadFromPdb{other.loadFromPdb},
+    activePhysics{other.activePhysics},
+    myBiopolymer{other.myBiopolymer},
+    biopolymerType{other.biopolymerType}
+{
+}
+
+/* Move c-tor */
+BiopolymerClass::BiopolymerClass(BiopolymerClass &&other) noexcept :
+    firstResidueID{std::move(other.firstResidueID)},
+    sequence{std::move(other.sequence)},
+    originalSequence{std::move(other.originalSequence)},
+    chainID{std::move(other.chainID)},
+    chainPrefix{std::move(other.chainPrefix)},
+    firstResidueMobilizerType{std::move(other.firstResidueMobilizerType)},
+    myRenumberPdbResidues{other.myRenumberPdbResidues},
+    proteinCapping{other.proteinCapping},
+    atomInfoVector{std::move(other.atomInfoVector)},
+    ignoreAtomPositionVector{std::move(other.ignoreAtomPositionVector)},
+    residueIDVector{std::move(other.residueIDVector)},
+    pdbFileName{std::move(other.pdbFileName)},
+    pdbStructure{std::move(other.pdbStructure)},
+    loadFromPdb{other.loadFromPdb},
+    activePhysics{other.activePhysics},
+    myBiopolymer{std::move(other.myBiopolymer)},
+    biopolymerType{other.biopolymerType}
+{
+}
+
+/* Copy assignment */
+BiopolymerClass & BiopolymerClass::operator=(const BiopolymerClass &other) {
+    firstResidueID = other.firstResidueID;
+    sequence = other.sequence;
+    originalSequence = other.originalSequence;
+    chainID = other.chainID;
+    chainPrefix = other.chainPrefix;
+    firstResidueMobilizerType = other.firstResidueMobilizerType;
+    myRenumberPdbResidues = other.myRenumberPdbResidues;
+    proteinCapping = other.proteinCapping;
+    atomInfoVector = other.atomInfoVector;
+    ignoreAtomPositionVector = other.ignoreAtomPositionVector;
+    residueIDVector = other.residueIDVector;
+    pdbFileName = other.pdbFileName;
+    pdbStructure = other.pdbStructure;
+    loadFromPdb = other.loadFromPdb;
+    activePhysics = other.activePhysics;
+    myBiopolymer = other.myBiopolymer;
+    biopolymerType = other.biopolymerType;
+
+    return *this;
+}
+
+/* Move assignment */
+BiopolymerClass & BiopolymerClass::operator=(BiopolymerClass &&other) noexcept {
+    firstResidueID = std::move(other.firstResidueID);
+    sequence = std::move(other.sequence);
+    originalSequence = std::move(other.originalSequence);
+    chainID = std::move(other.chainID);
+    chainPrefix = std::move(other.chainPrefix);
+    firstResidueMobilizerType = std::move(other.firstResidueMobilizerType);
+    myRenumberPdbResidues = other.myRenumberPdbResidues;
+    proteinCapping = other.proteinCapping;
+    atomInfoVector = std::move(other.atomInfoVector);
+    ignoreAtomPositionVector = std::move(other.ignoreAtomPositionVector);
+    residueIDVector = std::move(other.residueIDVector);
+    pdbFileName = std::move(other.pdbFileName);
+    pdbStructure = std::move(other.pdbStructure);
+    loadFromPdb = other.loadFromPdb;
+    activePhysics = other.activePhysics;
+    myBiopolymer = std::move(other.myBiopolymer);
+    biopolymerType = other.biopolymerType;
+
+    return *this;
+}
 
 void BiopolymerClass::setPdbResidueNumbersFromResidueIDVector() {
     MMBLOG_FILE_FUNC_LINE(INFO, "Inside setPdbResidueNumbersFromResidueIDVector() for chain "<< getChainID()<< endl);
@@ -582,53 +668,50 @@ const ResidueID& BiopolymerClass::getResidueID(const int residueIndex) const {
     //return myResidueID;
 }
 
-
-PdbStructure generatePdbStructure(String inputFileName, String chainsPrefix, PdbStructureMapType & pdbStructureMap ){
-        MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
-        if (!pdbStructureMap.empty()) if (pdbStructureMap.find(inputFileName) != pdbStructureMap.end()) {
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
-	}
-        MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
-        PdbStructure myPdbStructure{inputFileName};
-
-    // have to add this to the map..	
-    //
+std::shared_ptr<PdbStructure> generatePdbStructure(const String &inputFileName, const String &chainsPrefix, PdbStructureMapType & pdbStructureMap) {
     MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
-    MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being linked to a PdbStructure"   << std::endl);
-    pdbStructureMap.insert(pdbStructurePairType(inputFileName, myPdbStructure) );
-    MMBLOG_FILE_FUNC_LINE(INFO, " "<<endl);
-    //pdbStructureMap.insert(pir<String, PdbStructure>(inPDBFileName, myPdbStructure) );
-    return myPdbStructure;
-}
 
-PdbStructure generateOrFetchPdbStructure(String inputFileName, String chainsPrefix, PdbStructureMapType & pdbStructureMap ){
-    PdbStructure myPdbStructure;
-    MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
     if (pdbStructureMap.find(inputFileName) != pdbStructureMap.end()) {
-        MMBLOG_FILE_FUNC_LINE(DEBUG   , " The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
-	myPdbStructure = pdbStructureMap.find(inputFileName)->second ;
-    } else { 
-        MMBLOG_FILE_FUNC_LINE(DEBUG   , " The pdbStructureMap does NOT have a PdbStructure linked to inputFileName "<<inputFileName<<" .. generating one now.."<<endl);
-        myPdbStructure = generatePdbStructure(inputFileName, chainsPrefix, pdbStructureMap);	    
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
     }
-    return myPdbStructure;
+
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "The file " << inputFileName << " with chainsPrefix >"<< chainsPrefix <<"< is being linked to a PdbStructure" << std::endl);
+
+    auto item = std::make_shared<PdbStructure>(inputFileName);
+
+    pdbStructureMap.emplace(inputFileName, item);
+    return item;
 }
 
-int  BiopolymerClass::matchCoordinates(const String & inputFileName,
-                                       bool matchExact, bool matchIdealized,
-                                       const bool matchOptimize,
-                                       bool matchHydrogenAtomLocations,
-                                       bool matchPurineN1AtomLocations,
-                                       bool guessCoordinates,
-                                       double matchingMinimizerTolerance,
-                                       double myPlanarityThreshold,   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
-				       PdbStructureMapType & pdbStructureMap
+std::shared_ptr<PdbStructure> generateOrFetchPdbStructure(const String &inputFileName, const String &chainsPrefix, PdbStructureMapType &pdbStructureMap) {
+    MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
 
-    ) {
+    auto it = pdbStructureMap.find(inputFileName);
+    if (it != pdbStructureMap.end()) {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " The pdbStructureMap already has a PdbStructure linked to inputFileName "<<inputFileName<<endl);
+        return it->second;
+    } else {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " The pdbStructureMap does NOT have a PdbStructure linked to inputFileName "<<inputFileName<<" .. generating one now.."<<endl);
+        return generatePdbStructure(inputFileName, chainsPrefix, pdbStructureMap);
+    }
+}
+
+int BiopolymerClass::matchCoordinates(
+    const String &inputFileName,
+    bool matchExact,
+    bool matchIdealized,
+    const bool matchOptimize,
+    bool matchHydrogenAtomLocations,
+    bool matchPurineN1AtomLocations,
+    bool guessCoordinates,
+    double matchingMinimizerTolerance,
+    double myPlanarityThreshold,   // this parameter sets the out-of-planarity tolerance for identifying planar bonds.  Units: radians.
+    PdbStructureMapType & pdbStructureMap
+) {
     MMBLOG_FILE_FUNC_LINE(INFO, "about to match chain \""<< getChainID()<<"\" having prefix \""<< getChainPrefix()<<"\" to file name : "<<inputFileName<<" using generateOrFetchPdbStructure " <<endl);
     MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
-    PdbStructure myPdbStructure = generateOrFetchPdbStructure(inputFileName, getChainPrefix(), pdbStructureMap);
-    return matchCoordinates( myPdbStructure, matchExact, matchIdealized, matchOptimize,
+    const auto myPdbStructure = generateOrFetchPdbStructure(inputFileName, getChainPrefix(), pdbStructureMap);
+    return matchCoordinates(*myPdbStructure, matchExact, matchIdealized, matchOptimize,
                          matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                          guessCoordinates, matchingMinimizerTolerance, myPlanarityThreshold);
 }
@@ -667,7 +750,7 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
     ) {
     double maxObservedSinePlaneDeviation = 0;
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    Compound::AtomTargetLocations biopolymerAtomTargets = myBiopolymer.createAtomTargets(myPdbStructure,guessCoordinates); 
+    Compound::AtomTargetLocations biopolymerAtomTargets = myBiopolymer.createAtomTargets(myPdbStructure, guessCoordinates);
 
     bool matchProteinCarboxylOxygenLocations = false;
     bool matchNucleotideSideGroups = false;
@@ -687,7 +770,7 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
     {
         it = next;
         Compound::AtomIndex m = (*it).first;
-        Element myAtomElement = myBiopolymer.getAtomElement(m);
+        const Element *myAtomElement = myBiopolymer.getAtomElement(m);
         Compound::AtomName myAtomName = myBiopolymer.getAtomName(m);
         size_t pos = myAtomName.find("/");
         String myAtomNameSubstr = myAtomName.substr(pos);
@@ -695,7 +778,7 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
         ResidueInfo::Index  myResidueIndex (    atoi(myAtomName.substr(0,pos).c_str()) );
         next++;
 
-        if( !matchHydrogenAtomLocations && ((myAtomElement.getName()).compare("hydrogen") == 0) )
+        if( !matchHydrogenAtomLocations && ((myAtomElement->getName()).compare("hydrogen") == 0) )
         {
             biopolymerAtomTargets.erase(it);
             continue;
@@ -779,11 +862,11 @@ int  BiopolymerClass::matchCoordinates(const PdbStructure & myPdbStructure,
             MMBLOG_FILE_FUNC_LINE(INFO, "confirming transform: "<<endl);
             MMBLOG_FILE_FUNC_LINE(INFO, "myBiopolymer.getTopLevelTransform() = "<<  myBiopolymer.getTopLevelTransform()<<endl);
             MMBLOG_FILE_FUNC_LINE(INFO, "about to writeDefaultPdb:"<<endl);
-            std::ofstream tempStream5(String("match.400.pdb").c_str(),ios_base::out);
-            myBiopolymer.writeDefaultPdb(tempStream5,Transform(Vec3(0)));
+            //std::ofstream tempStream5(String("match.400.pdb").c_str(),ios_base::out);
+            //myBiopolymer.writeDefaultPdb(tempStream5,Transform(Vec3(0)));
             MMBLOG_FILE_FUNC_LINE(INFO, "Now writing with top level transform provided:"<<endl);
-            std::ofstream tempStream6(String("match.401.pdb").c_str(),ios_base::out);
-            myBiopolymer.writeDefaultPdb(tempStream6,myBiopolymer.getTopLevelTransform()  );
+            //std::ofstream tempStream6(String("match.401.pdb").c_str(),ios_base::out);
+            //myBiopolymer.writeDefaultPdb(tempStream6,myBiopolymer.getTopLevelTransform()  );
             MMBLOG_FILE_FUNC_LINE(INFO, endl);
     }
 
@@ -830,10 +913,10 @@ void BiopolymerClass::rigidifyTargetedBonds(Compound::AtomTargetLocations & biop
     {
         it = next;
         Compound::AtomIndex m = (*it).first;
-        Element myAtomElement = myBiopolymer.getAtomElement(m);
+        const Element *myAtomElement = myBiopolymer.getAtomElement(m);
         next++;
-        MMBLOG_FILE_FUNC_LINE(INFO, myAtomElement.getName()<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, myAtomElement.getName()<<", "<<  biopolymerAtomTargets[m]  <<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, myAtomElement->getName()<<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, myAtomElement->getName()<<", "<<  biopolymerAtomTargets[m]  <<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, " "<<m<<","<<myBiopolymer.getAtomName(m)<<endl);
     }
 }
@@ -850,21 +933,23 @@ void BiopolymerClass::setSingleBondMobility(ResidueID residueID1,  String atomNa
      * \brief Set chain ID, renumber residues, match coordinates, and adopt the compound.
      *
      */
-int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
-                                           bool myProteinCapping,
-                                           bool matchExact, bool matchIdealized,
-                                           const bool matchOptimize,
-                                           bool matchHydrogenAtomLocations,
-                                           bool matchPurineN1AtomLocations,
-                                           bool guessCoordinates,
-                                           int biopolymerClassIndex, double initialSeparation,
-                                           const vector<Displacement> & displacementVector,
-                                           double matchingMinimizerTolerance,
-                                           double myPlanarityThreshold,
-                                           vector<SecondaryStructureStretch> secondaryStructureStretchVector  ,
-					   PdbStructureMapType & pdbStructureMap
-                                          )
-{
+int BiopolymerClass::initializeBiopolymer(
+    CompoundSystem & system,
+    bool myProteinCapping,
+    bool matchExact,
+    bool matchIdealized,
+    const bool matchOptimize,
+    bool matchHydrogenAtomLocations,
+    bool matchPurineN1AtomLocations,
+    bool guessCoordinates,
+    int biopolymerClassIndex,
+    double initialSeparation,
+    const vector<Displacement> & displacementVector,
+    double matchingMinimizerTolerance,
+    double myPlanarityThreshold,
+    const vector<SecondaryStructureStretch> &secondaryStructureStretchVector,
+    PdbStructureMapType & pdbStructureMap
+) {
     //int returnValue = 0;
     if (biopolymerType == BiopolymerType::Protein) {
         setProteinCapping (myProteinCapping);
@@ -897,10 +982,9 @@ int  BiopolymerClass::initializeBiopolymer(CompoundSystem & system,
         }
 
         ////////////////////
-        SecondaryStructureStretch mySecondaryStructureStretch  ;
         for (size_t i = 0; i <   secondaryStructureStretchVector.size(); i++)
         {
-            mySecondaryStructureStretch =   secondaryStructureStretchVector[i]; 
+            const auto &mySecondaryStructureStretch = secondaryStructureStretchVector[i];
             if (mySecondaryStructureStretch.getChain().compare( getChainID()) == 0) 
             {
                 MMBLOG_FILE_FUNC_LINE(INFO, " Applying secondary structure default phi, psi angles for stretch : "<<i<<endl);
@@ -1000,10 +1084,10 @@ void BiopolymerClass::setRenumberPdbResidues (bool tempRenumberPdbResidues){
  *
  */
 
-ResidueID BiopolymerClass::residueID(map<const String,double> myUserVariables,  const char* value){
+ResidueID BiopolymerClass::residueID(const map<const String,double> &myUserVariables, const char* value) const {
         String tempString(value);
         if ((tempString.substr(0,1)).compare("@") ==0) { // if the String starts with '@' , this is a user-defined integer variable.  Note that insertion codes cannot be specified with this method.
-            ResidueID myResidueID( myUserVariables, value);
+            ResidueID myResidueID(myUserVariables, value);
             validateResidueID(myResidueID );
             return myResidueID;
         } else { // if the residue ID is supplied as a String literal, just validate and return it.  This String can contain insertion codes.
@@ -1015,10 +1099,9 @@ ResidueID BiopolymerClass::residueID(map<const String,double> myUserVariables,  
      * \brief Make sure residue number is in proper range.
      * This polymorphism does NOT support e.g. FirstResidue, LastResidue.
      */
-ResidueID BiopolymerClass::residueID(String inputString){
-        
+ResidueID BiopolymerClass::residueID(const String &inputString) const {
         ResidueID myResidueID(inputString/*, false*/); // set validate=false, because BiopolymerClass has its own validation.
-        validateResidueID(myResidueID );
+        validateResidueID(myResidueID);
         return myResidueID;
 }
 
@@ -1067,21 +1150,13 @@ bool BiopolymerClass::hasAtom(ResidueID myResidueID, String myAtomName) {
 ///generates an atom path e.g. 3/C1' .                                               //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-Compound::AtomPathName BiopolymerClass::atomPathString(ResidueID myResidueID, String myAtomName) {
-    int myResidueIndex = getResidueIndex(myResidueID);
-    Compound::AtomPathName myAtomPathName =  Compound::AtomPathName
-         (String(
-            intToString(myResidueIndex) +  // does this properly correct for proteinCapping? confirm empirically later.
-            String("/") +
-            myAtomName
-            )
-         );
-   // validateAtomPathName(myAtomPathName);
-   return myAtomPathName;
+Compound::AtomPathName BiopolymerClass::atomPathString(const ResidueID &residueID, const String &atomName) const {
+    int myResidueIndex = getResidueIndex(residueID);
+    return std::to_string(myResidueIndex) + "/" + atomName;
 }
 
-Compound::AtomIndex    BiopolymerClass::atomIndex(ResidueID myResidueID, String myAtomName) {
-   Compound::AtomPathName myAtomPathString = atomPathString(myResidueID,  myAtomName);
+Compound::AtomIndex BiopolymerClass::atomIndex(const ResidueID &residueID, const String &atomName) const {
+   Compound::AtomPathName myAtomPathString = atomPathString(residueID, atomName);
    return myBiopolymer.getAtomIndex(myAtomPathString);
 }
 
@@ -1105,34 +1180,29 @@ Vec3 BiopolymerClass::getAtomLocationInMobilizedBodyFrame(ResidueID myResidueID,
 
 // mmbAtomInfo WITHOUT dumm, doesn't set mass, atomicNumber, mobilizedBody, or mobilizedBodyIndex.
 
-MMBAtomInfo BiopolymerClass::mmbAtomInfo(ResidueID myResidueID, ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter ) {
-        ResidueInfo myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID ));    
-        Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex );
-        Compound::AtomName  myAtomName  = myResidueInfo.getAtomName(myResidueInfoAtomIndex );
-        MMBAtomInfo myMMBAtomInfo;
-        myMMBAtomInfo.compoundAtomIndex = myAtomIndex;
-            myMMBAtomInfo.atomName = myAtomName; 
-            myMMBAtomInfo.residueID = myResidueID;
-            myMMBAtomInfo.chain = getChainID();
-        return myMMBAtomInfo;
+MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter) {
+    const ResidueInfo &myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID));
+    Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex);
+    Compound::AtomName myAtomName = myResidueInfo.getAtomName(myResidueInfoAtomIndex);
+
+    auto ai = MMBAtomInfo(getChainID(), myResidueID, std::move(myAtomName));
+    ai.compoundAtomIndex = myAtomIndex;
+
+    return ai;
 }
 // mmbAtomInfo WITH dumm, adds mass, atomicNumber, mobilizedBody, and mobilizedBodyIndex.
-MMBAtomInfo BiopolymerClass::mmbAtomInfo(ResidueID myResidueID, ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) {
-        ResidueInfo myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID ));    
-        Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex );
-        Compound::AtomName  myAtomName  = myResidueInfo.getAtomName(myResidueInfoAtomIndex );
-        MMBAtomInfo myMMBAtomInfo = mmbAtomInfo(myResidueID, myResidueInfoAtomIndex, matter);
-        DuMM::AtomIndex myDuMMAtomIndex = myBiopolymer.getDuMMAtomIndex(myAtomIndex);
-        myMMBAtomInfo.mobilizedBody = updAtomMobilizedBody(matter, myResidueID ,myAtomName);
-        myMMBAtomInfo.mobilizedBodyIndex =  myMMBAtomInfo.mobilizedBody.getMobilizedBodyIndex();
-        //MMBLOG_FILE_FUNC_LINE(" initializing  myMMBAtomInfo.mobilizedBodyIndex = "<<  myMMBAtomInfo.mobilizedBodyIndex  <<endl;
-        myMMBAtomInfo.atomName = myAtomName;
-        myMMBAtomInfo.mass = dumm.getAtomMass(myDuMMAtomIndex); 
-        myMMBAtomInfo.atomicNumber = dumm.getAtomElement(myDuMMAtomIndex); 
-        myMMBAtomInfo.mobilizedBody = updAtomMobilizedBody(matter, myResidueID ,myAtomName);
-        myMMBAtomInfo.mobilizedBodyIndex =  myMMBAtomInfo.mobilizedBody.getMobilizedBodyIndex();
-        myMMBAtomInfo.partialCharge = dumm.getPartialCharge(myDuMMAtomIndex);
-        return myMMBAtomInfo;
+MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) {
+    const ResidueInfo &myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID));
+    Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex);
+
+    MMBAtomInfo myMMBAtomInfo = mmbAtomInfo(myResidueID, myResidueInfoAtomIndex, matter);
+    DuMM::AtomIndex myDuMMAtomIndex = myBiopolymer.getDuMMAtomIndex(myAtomIndex);
+    myMMBAtomInfo.mobilizedBody = updAtomMobilizedBody(matter, myResidueID, myMMBAtomInfo.getAtomName());
+    myMMBAtomInfo.mobilizedBodyIndex = myMMBAtomInfo.mobilizedBody.getMobilizedBodyIndex();
+    myMMBAtomInfo.mass = dumm.getAtomMass(myDuMMAtomIndex);
+    myMMBAtomInfo.atomicNumber = dumm.getAtomElement(myDuMMAtomIndex);
+    myMMBAtomInfo.partialCharge = dumm.getPartialCharge(myDuMMAtomIndex);
+    return myMMBAtomInfo;
 }
 // Overrides default atom position, uses that from State instead. Not sure we'll ever need this. 
 /*MMBAtomInfo BiopolymerClass::mmbAtomInfo(ResidueID myResidueID, ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, State & state) {
@@ -1173,68 +1243,58 @@ void overrideAtomInfoVectorProperties(BiopolymerClass & myBiopolymerClass, vecto
 #ifdef USE_OPENMM
 // Without dumm, doesn't load certain properties..
 void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter,  const vector<AtomicPropertyOverrideStruct>  & myAtomicPropertyOverrideVector ) {
-    if (atomInfoVector.size() > 0 ) {
-	  MMBLOG_FILE_FUNC_LINE(CRITICAL, "initializeAtomInfoVector has already been called!"<<endl);
+    if (atomInfoVector.size() > 0) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "initializeAtomInfoVector has already been called!"<<endl);
     }
+
     MMBLOG_FILE_FUNC_LINE(INFO, "Pre-loading atomInfoVector for chain >"<<getChainID()<<"<"<<endl);
     PdbChain myPdbChain = PdbChain(myBiopolymer,myBiopolymer.getTopLevelTransform());
 
-    for (ResidueID j = getFirstResidueID(); j <= getLastResidueID() ; incrementResidueID(j)) { 
+    for (ResidueID j = getFirstResidueID(); j <= getLastResidueID(); incrementResidueID(j)) {
         ResidueInfo myResidueInfo = myBiopolymer.updResidue(getResidueIndex(j));
-        for (ResidueInfo::AtomIndex k (0) ;k < myResidueInfo.getNumAtoms() ; k++) {
-            //MMBLOG_FILE_FUNC_LINE(" j,k "<<j.outString()<<", "<<k<<endl;
-            MMBAtomInfo myAtomInfo = mmbAtomInfo(j,k,matter);
-            myAtomInfo.setResidueIndex(getResidueIndex(j));
-            myAtomInfo.setChain(getChainID());
-            myAtomInfo.setResidueID(j);	
-            //MMBLOG_FILE_FUNC_LINE(endl;
-           const PdbAtom& myPdbAtom = myPdbChain.getAtom(myAtomInfo.atomName, PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
-            //MMBLOG_FILE_FUNC_LINE(endl;
-            Vec3 myPositionVec3 = myPdbAtom.getCoordinates();
-            //MMBLOG_FILE_FUNC_LINE(endl;
-            myAtomInfo.position =openmmVecType (myPositionVec3[0],myPositionVec3[1], myPositionVec3[2]);
-            atomInfoVector.push_back(myAtomInfo);   
-            //MMBLOG_FILE_FUNC_LINE(endl;
+        for (ResidueInfo::AtomIndex k(0); k < myResidueInfo.getNumAtoms(); k++) {
+            atomInfoVector.emplace_back(mmbAtomInfo(j, k, matter));
+            auto &ai = atomInfoVector.back();
+            ai.setResidueIndex(getResidueIndex(j));
+            ai.setChain(getChainID());
+            ai.setResidueID(j);
+
+            const PdbAtom &myPdbAtom = myPdbChain.getAtom(ai.atomName, PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
+            const Vec3 &myPositionVec3 = myPdbAtom.getCoordinates();
+            ai.position = openmmVecType(myPositionVec3[0], myPositionVec3[1], myPositionVec3[2]);
         } // of for k
-        if (j == getLastResidueID() ) break;
+        if (j == getLastResidueID()) break;
     } // of for j
-    // now if   maskPhosphates is true,  we set the corresponding atomic numbers to zero.
-    //if ((maskPhosphates)){
+
     overrideAtomInfoVectorProperties(*this, atomInfoVector,myAtomicPropertyOverrideVector);
-        //otherwise, do nothing. Phosphates on nucleic acids will get treated just like all other atoms for density map fitting purposes.
-    //}
-
-
-
 } // of initializeAtomInfoVector
 
 void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const vector<AtomicPropertyOverrideStruct>  & myAtomicPropertyOverrideVector) {
-          atomInfoVector.clear();
-          ignoreAtomPositionVector.clear();
-          PdbChain myPdbChain = PdbChain(myBiopolymer,myBiopolymer.getTopLevelTransform());
-          //MMBLOG_FILE_FUNC_LINE(endl;
-          for (ResidueID j = getFirstResidueID(); j <= getLastResidueID() ; incrementResidueID(j)) { 
-            ResidueInfo myResidueInfo = myBiopolymer.updResidue(getResidueIndex(j));
-                   for (ResidueInfo::AtomIndex k (0) ;k < myResidueInfo.getNumAtoms() ; k++) {
-                        MMBAtomInfo myAtomInfo = mmbAtomInfo(j,k,matter,dumm);
-                        myAtomInfo.setResidueIndex(getResidueIndex(j));
-		        myAtomInfo.setChain(getChainID());
-		        myAtomInfo.setResidueID(j);	
-                        // Added this as a fix:
-			const PdbAtom& myPdbAtom = myPdbChain.getAtom(myAtomInfo.atomName, PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
-			Vec3 myPositionVec3 = myPdbAtom.getCoordinates();
-			myAtomInfo.position =openmmVecType(myPositionVec3[0],myPositionVec3[1], myPositionVec3[2]);
-                        ////
+    atomInfoVector.clear();
+    ignoreAtomPositionVector.clear();
 
-                        atomInfoVector.push_back(myAtomInfo);   
-                   } // of for k
-            if (j == getLastResidueID() ) break;
+    PdbChain myPdbChain = PdbChain(myBiopolymer,myBiopolymer.getTopLevelTransform());
+
+    for (ResidueID j = getFirstResidueID(); j <= getLastResidueID() ; incrementResidueID(j)) {
+        auto &myResidueInfo = myBiopolymer.updResidue(getResidueIndex(j));
+
+        for (ResidueInfo::AtomIndex k(0); k < myResidueInfo.getNumAtoms(); k++) {
+            atomInfoVector.emplace_back(mmbAtomInfo(j, k, matter, dumm));
+            auto &ai = atomInfoVector.back();
+
+            ai.setResidueIndex(getResidueIndex(j));
+            ai.setChain(getChainID());
+            ai.setResidueID(j);
+
+            // Added this as a fix:
+            const PdbAtom& myPdbAtom = myPdbChain.getAtom(ai.atomName, PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
+            const Vec3& myPositionVec3 = myPdbAtom.getCoordinates();
+            ai.position = openmmVecType(myPositionVec3[0],myPositionVec3[1], myPositionVec3[2]);
+        } // of for k
+        if (j == getLastResidueID()) break;
     } // of for j
-    // now if   maskPhosphates is true,  we set the corresponding atomic numbers to zero.
-    //if ((maskPhosphates)){
+
     overrideAtomInfoVectorProperties(*this,atomInfoVector, myAtomicPropertyOverrideVector);
-        //otherwise, do nothing. Phosphates on nucleic acids will get treated just like all other atoms for density map fitting purposes.
-    //}
 } // of initializeAtomInfoVector
 #endif
 
@@ -1340,15 +1400,14 @@ MobilizedBodyIndex BiopolymerClass::getAtomMobilizedBodyIndex(SimbodyMatterSubsy
     //return matter.updMobilizedBody(myAtomMobilizedBodyIndex);
 }
 
-Vec3 BiopolymerClass::calcDefaultAtomLocationInGroundFrame(ResidueID myResidueID, String atomName ){
+Vec3 BiopolymerClass::calcDefaultAtomLocationInGroundFrame(const ResidueID &myResidueID, const String &atomName) const {
     Compound::AtomIndex myAtomIndex = atomIndex(myResidueID,atomName);
-    return myBiopolymer.calcDefaultAtomLocationInGroundFrame (atomPathString(myResidueID,atomName));    
+    return myBiopolymer.calcDefaultAtomLocationInGroundFrame(atomPathString(myResidueID,atomName));
 }
 
-Vec3 BiopolymerClass::calcAtomLocationInGroundFrame(const State & state,  ResidueID myResidueID, String atomName ){
-    Compound::AtomIndex myAtomIndex = atomIndex(myResidueID,atomName);
-    //MMBLOG_FILE_FUNC_LINE(": "<< myBiopolymer.calcAtomLocationInGroundFrame(state,myAtomIndex)<<endl;    
-    return myBiopolymer.calcAtomLocationInGroundFrame(state,myAtomIndex);    
+Vec3 BiopolymerClass::calcAtomLocationInGroundFrame(const State & state, const ResidueID &myResidueID, const String& atomName) {
+    Compound::AtomIndex myAtomIndex = atomIndex(myResidueID, atomName);
+    return myBiopolymer.calcAtomLocationInGroundFrame(state, myAtomIndex);
 }
 
 
@@ -1386,8 +1445,8 @@ void BiopolymerClass::loadResidueIDVectorAscending(ResidueID firstResidueID ){
 
 ResidueInfo::Index BiopolymerClass::getResidueIndex(const ResidueID& residueID) const {
     if (residueIDVector.size() > 0) {
-        auto residueIDVectorIterator = find(residueIDVector.cbegin(), residueIDVector.cend(), residueID);
-        auto residueIndex = ResidueInfo::Index(residueIDVectorIterator-residueIDVector.begin());
+        auto it = find(residueIDVector.cbegin(), residueIDVector.cend(), residueID);
+        auto residueIndex = ResidueInfo::Index(it - residueIDVector.cbegin());
 
         //std::cout <<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" Your residue ID: "<<residueID.outString() << " has a corresponding residue index : "<<residueIndex<<std::endl;  
         if (residueIndex < 0 || residueIndex >= getChainLength()) {
@@ -1418,7 +1477,7 @@ const String&  BiopolymerClass::getPdbResidueName(const ResidueID& residueID) co
     return myBiopolymer.getResidue(getResidueIndex(residueID)).getPdbResidueName(); 
 }
 
-String BiopolymerClass::getRepresentativeAtomName(){
+String BiopolymerClass::getRepresentativeAtomName() const {
     if (biopolymerType     ==  BiopolymerType::RNA)     {
         return  "C4'";
     }
@@ -1434,7 +1493,7 @@ String BiopolymerClass::getRepresentativeAtomName(){
 }
 
 
-double BiopolymerClass::getRepresentativeAtomMassThreshold(){
+double BiopolymerClass::getRepresentativeAtomMassThreshold() const {
     if (biopolymerType     ==  BiopolymerType::RNA)     {
         return  30.   ;
     }
@@ -1482,7 +1541,7 @@ void BiopolymerClass::addGeneralSterics(GeneralContactSubsystem & contacts, Cont
                 );//: %s .",String(ss3.str()));
 
                 if (myBiopolymer.hasAtom(ss3.str()))
-                    if (addHydrogens || (((myBiopolymer.getAtomElement(myResidueInfo.getAtomIndex( r  ))).getSymbol()).compare("H") != 0))
+                    if (addHydrogens || (((myBiopolymer.getAtomElement(myResidueInfo.getAtomIndex( r  )))->getSymbol()).compare("H") != 0))
                     {                           
                         contacts.addBody(contactSet,
                                          (matter.updMobilizedBody(myBiopolymer.getAtomMobilizedBodyIndex(Compound::AtomIndex(myBiopolymer.getAtomIndex(ss3.str()))))),
@@ -2186,7 +2245,7 @@ void BiopolymerClass::setCurrentSequencesFromOriginalSequences() {
 
 
 
-ResidueID BiopolymerClass::sum(ResidueID  oldResidueID, int  increment ){
+ResidueID BiopolymerClass::sum(ResidueID  oldResidueID, int  increment ) const {
     ResidueID newResidueID = oldResidueID;
     if (residueIDVector.size() > 0) {
         int oldResidueIndex = getResidueIndex(oldResidueID);
@@ -2211,18 +2270,19 @@ ResidueID BiopolymerClass::sum(ResidueID  oldResidueID, int  increment ){
 };
 
 void BiopolymerClass::setPdbFileName(String pdbFileName){
-    this->pdbFileName = pdbFileName;
+    this->pdbFileName = std::move(pdbFileName);
 }
-String BiopolymerClass::getPdbFileName(){
+
+const String & BiopolymerClass::getPdbFileName() const {
     return pdbFileName;
 }
 
-void  BiopolymerClass::setPdbStructure(const PdbStructure myPdbStructure)
+void  BiopolymerClass::setPdbStructure(const std::shared_ptr<PdbStructure> &structure)
 {
-    this->pdbStructure = myPdbStructure;
+    this->pdbStructure = structure;
 }
 
-const PdbStructure& BiopolymerClass::getPdbStructure() const
+const std::shared_ptr<PdbStructure> BiopolymerClass::getPdbStructure() const
 {
     return this->pdbStructure;
 }
@@ -2230,7 +2290,7 @@ const PdbStructure& BiopolymerClass::getPdbStructure() const
 void BiopolymerClass::setLoadFromPdb(bool yesno){
     this->loadFromPdb = yesno;
 }
-bool BiopolymerClass::getLoadFromPdb(){
+bool BiopolymerClass::getLoadFromPdb() const {
     return loadFromPdb;
 }
 
@@ -2329,7 +2389,7 @@ TAlign BiopolymerClass::createGappedAlignment(BiopolymerClass otherBiopolymerCla
 }
 
 
-int BiopolymerClass::getCorrespondingMutationInCurrentBiopolymer(BiopolymerClass otherBiopolymerClass, TAlign align,Mutation mutationInOtherBiopolymer, Mutation & mutationInCurrentBiopolymer){
+int BiopolymerClass::getCorrespondingMutationInCurrentBiopolymer(const BiopolymerClass &otherBiopolymerClass, TAlign align,Mutation mutationInOtherBiopolymer, Mutation & mutationInCurrentBiopolymer){
     //Mutation mutationInCurrentBiopolymer;
     std::string chainInCurrentBiopolymer = getChainID();
     ResidueID residueIdInCurrentBiopolymer ;
@@ -2349,7 +2409,7 @@ int BiopolymerClass::getCorrespondingMutationInCurrentBiopolymer(BiopolymerClass
 }
 
 // The return value of this method is 0 for failure, 1 for success.
-int  BiopolymerClass::getCorrespondingResidueInCurrentBiopolymer(BiopolymerClass otherBiopolymerClass, TAlign align, ResidueID residueIdInOtherBiopolymerClass , ResidueID & correspondingResidueIdInCurrentBiopolymerClass  ){
+int  BiopolymerClass::getCorrespondingResidueInCurrentBiopolymer(const BiopolymerClass &otherBiopolymerClass, TAlign align, ResidueID residueIdInOtherBiopolymerClass , ResidueID & correspondingResidueIdInCurrentBiopolymerClass  ){
 
 
         int status = 1    ; // set to 1 to indicate failure
@@ -2442,48 +2502,50 @@ int  BiopolymerClassContainer::initializeBiopolymers(CompoundSystem & system,
                                                      double matchingMinimizerTolerance,
                                                      double myPlanarityThreshold)
 {
-    map<const String, BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
     int n = 0;
     int returnValue = 0;
-    for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
-        returnValue = (biopolymerClassMapIterator->second).initializeBiopolymer(system, 
-                                                                  myProteinCapping, matchExact, 
-                                                                  matchIdealized ,matchOptimize, 
-                                                                  matchHydrogenAtomLocations, 
-                                                                  matchPurineN1AtomLocations, 
-                                                                  guessCoordinates,
-                                                                  n,
-                                                                  initialSeparation, 
-                                                                  displacementVector,
-                                                                  matchingMinimizerTolerance,
-                                                                  myPlanarityThreshold,
-                                                                  secondaryStructureStretchVector,
-								  pdbStructureMap
-                                                                  );  
+    for (auto &&it : biopolymerClassMap) {
+        returnValue = it.second.initializeBiopolymer(
+            system,
+            myProteinCapping,
+            matchExact,
+            matchIdealized,
+            matchOptimize,
+            matchHydrogenAtomLocations,
+            matchPurineN1AtomLocations,
+            guessCoordinates,
+            n,
+            initialSeparation,
+            displacementVector,
+            matchingMinimizerTolerance,
+            myPlanarityThreshold,
+            secondaryStructureStretchVector,
+            pdbStructureMap
+        );
         MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
-        if (returnValue){
+        if (returnValue) {
             MMBLOG_FILE_FUNC_LINE(WARNING, "Returned an error from initializeBiopolymer"<<endl);
             //returnValue = 1;
-        }; 
+        }
         n++;
     }
     return returnValue;
 }
 
-int  BiopolymerClassContainer::initializeBiopolymer(String chainID, CompoundSystem & system,
-                                                    bool myProteinCapping, bool matchExact, 
-                                                    bool matchIdealized, const bool matchOptimize, 
-                                                    bool matchHydrogenAtomLocations, 
+int  BiopolymerClassContainer::initializeBiopolymer(const String &chainID, CompoundSystem & system,
+                                                    bool myProteinCapping, bool matchExact,
+                                                    bool matchIdealized, const bool matchOptimize,
+                                                    bool matchHydrogenAtomLocations,
                                                     bool matchPurineN1AtomLocations,
                                                     bool guessCoordinates,
-                                                    double initialSeparation, 
+                                                    double initialSeparation,
                                                     const vector<Displacement> &displacementVector,
                                                     double matchingMinimizerTolerance,
                                                     double myPlanarityThreshold,
-                                                    vector<SecondaryStructureStretch> secondaryStructureStretchVector)
+                                                    const vector<SecondaryStructureStretch> &secondaryStructureStretchVector)
 {
     BiopolymerClass & bpc = updBiopolymerClass(chainID);
-    if (bpc.initializeBiopolymer(system, myProteinCapping, matchExact, 
+    if (bpc.initializeBiopolymer(system, myProteinCapping, matchExact,
                              matchIdealized, matchOptimize,
                              matchHydrogenAtomLocations, matchPurineN1AtomLocations,
                              guessCoordinates, 
@@ -2645,13 +2707,14 @@ template void BiopolymerClass::selectivelyRemoveResidueStretchFromContainer(cons
 
 
 void BiopolymerClassContainer::addBiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, 
-                                                  String myBiopolymerType, bool proteinCapping, String pdbFileName, bool loadFromPdb, bool useNACappingHydroxyls)
+                                                  BiopolymerType::BiopolymerTypeEnum myBiopolymerType, bool proteinCapping, String pdbFileName, bool loadFromPdb, bool useNACappingHydroxyls)
 {
-    BiopolymerClass bp(mySequence, myChainID, myFirstResidueNumber, myBiopolymerType, proteinCapping,useNACappingHydroxyls);
+    BiopolymerClass bp(std::move(mySequence), myChainID, myFirstResidueNumber, std::move(myBiopolymerType), proteinCapping, useNACappingHydroxyls);
     bp.setRenumberPdbResidues(0); // Default value
-    biopolymerClassMap[myChainID] = bp;
-    biopolymerClassMap.at(myChainID).setPdbFileName(pdbFileName);
-    biopolymerClassMap.at(myChainID).setLoadFromPdb(loadFromPdb);
+    bp.setPdbFileName(std::move(pdbFileName));
+    bp.setLoadFromPdb(loadFromPdb);
+
+    biopolymerClassMap.emplace(std::move(myChainID), std::move(bp));
 }
 /*void BiopolymerClassContainer::addBiopolymerClass(String newChainID, BiopolymerClass newBiopolymerClass) 
 {
@@ -2830,7 +2893,7 @@ Vec3 BiopolymerClassContainer::getAtomLocationInMobilizedBodyFrame(String myChai
     return updBiopolymerClass(myChainID).getAtomLocationInMobilizedBodyFrame(myResidueID,  myAtomName);
 }
 
-MobilizedBody & BiopolymerClassContainer::updAtomMobilizedBody(SimbodyMatterSubsystem & matter,String chainID, ResidueID myResidueID, String myAtomName){ 
+MobilizedBody & BiopolymerClassContainer::updAtomMobilizedBody(SimbodyMatterSubsystem & matter, const String &chainID, const ResidueID &myResidueID, const String &myAtomName) {
     return updBiopolymerClass(chainID).updAtomMobilizedBody(matter,myResidueID,myAtomName);
 }
 
@@ -2912,9 +2975,9 @@ int  BiopolymerClassContainer::validateChainID(const String& chainID) const {
     } else return 0   ;
 }
 
-Vec3  BiopolymerClassContainer::calcAtomLocationInGroundFrame(const State & state, String chainID, ResidueID residueID, String atomName){
+Vec3  BiopolymerClassContainer::calcAtomLocationInGroundFrame(const State &state, const String &chainID, const ResidueID &residueID, const String &atomName) {
     validateChainID(chainID);
-    return updBiopolymerClass(chainID).calcAtomLocationInGroundFrame(state,residueID,atomName);
+    return updBiopolymerClass(chainID).calcAtomLocationInGroundFrame(state, residueID, atomName);
 };
 
 
@@ -3110,7 +3173,7 @@ vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer:
     BiopolymerClass & primaryBiopolymerClass = updBiopolymerClass(chainID);
 
     // We add the given residue first
-    residuesWithin.push_back(make_pair(primaryBiopolymerClass,resID));
+    residuesWithin.emplace_back(primaryBiopolymerClass, resID);
 
     // Get the neighborlist
     //if(neighborList == NULL)
@@ -3139,8 +3202,8 @@ vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer:
         MMBAtomInfo  atom1 = concatenatedAtomInfoVector[id1];
         MMBAtomInfo  atom2 = concatenatedAtomInfoVector[id2];
 
-        BiopolymerClass  bpc1 = updBiopolymerClass(atom1.chain);
-        BiopolymerClass  bpc2 = updBiopolymerClass(atom2.chain);
+        BiopolymerClass bpc1 = getBiopolymerClass(atom1.chain);
+        BiopolymerClass bpc2 = getBiopolymerClass(atom2.chain);
 
         double dist = atom1.distance(atom2);
 
@@ -3151,12 +3214,12 @@ vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer:
         // if residue 1 is the given residue we add residue 2
         if(atom1.chain == chainID && atom1.residueID == resID && dist <= radius)
         {
-            residuesWithin.push_back(make_pair((bpc2),(atom2.residueID)));
+            residuesWithin.emplace_back(std::move(bpc2), atom2.residueID);
         }
         // if residue 2 is the given residue we add residue 1
         else if(atom2.chain == chainID && atom2.residueID == resID && dist <= radius)
         {
-            residuesWithin.push_back(make_pair((bpc1),(atom1.residueID)));
+            residuesWithin.emplace_back(std::move(bpc1), atom1.residueID);
         }
     }
     return residuesWithin;
@@ -3624,7 +3687,7 @@ void BiopolymerClassContainer::includeNonBondAtom(String chain , ResidueID resid
 
 void BiopolymerClassContainer::waterDropletAboutResidues (const vector <WaterDropletAboutResidueStruct> waterDropletAboutResidueVector,    WaterDropletContainer & waterDropletContainer  )     {
         for (size_t i = 0; i < waterDropletAboutResidueVector.size(); i++) {
-                 BiopolymerClass  primaryBiopolymerClass = updBiopolymerClass(waterDropletAboutResidueVector[i]. biopolymerChainID );
+                 const BiopolymerClass  &primaryBiopolymerClass = updBiopolymerClass(waterDropletAboutResidueVector[i]. biopolymerChainID );
                  MMBLOG_FILE_FUNC_LINE(INFO, primaryBiopolymerClass.getRepresentativeAtomName()<<endl);
                  Vec3 myLocation = (primaryBiopolymerClass.calcDefaultAtomLocationInGroundFrame(waterDropletAboutResidueVector[i].residue, primaryBiopolymerClass.getRepresentativeAtomName()))*(1.0); // used to convert to Å, now using nm
 
@@ -3673,19 +3736,17 @@ String BiopolymerClassContainer::extractSequenceFromBiopolymer(const Biopolymer 
 };
 
 #ifdef USE_OPENMM
-void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter ) {
-    map<const String,BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
-    for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
-        (biopolymerClassMapIterator->second).initializeAtomInfoVector(matter,  atomicPropertyOverrideVector);
-    }  
+void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter ) {  
+    for (auto &it : biopolymerClassMap) {
+        it.second.initializeAtomInfoVector(matter, atomicPropertyOverrideVector);
+    }
 };
 
 
 void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) {
-    map<const String,BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
-    for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
-        (biopolymerClassMapIterator->second).initializeAtomInfoVector(matter, dumm,   atomicPropertyOverrideVector);
-    }  
+    for (auto &it : biopolymerClassMap) {
+        it.second.initializeAtomInfoVector(matter, dumm, atomicPropertyOverrideVector);
+    }
 };
 #endif
 
@@ -3811,13 +3872,9 @@ bool BiopolymerClassContainer::isProtein(const Biopolymer & inputBiopolymer, boo
     return true;
 }
 
-void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,const bool proteinCapping, const String & chainsPrefix, const bool tempRenumberPdbResidues, bool useNACappingHydroxyls ){
-    //std::MMBLOG_FILE_FUNC_LINE(" >"<< deletedResidueVector.size() <<"<"<<std::endl;
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+void BiopolymerClassContainer::loadSequencesFromPdb(const String &inPDBFileName, const bool proteinCapping, const String &chainsPrefix, const bool tempRenumberPdbResidues, bool useNACappingHydroxyls) {
     MMBLOG_FILE_FUNC_LINE(INFO, "About to load sequences from file : "<<inPDBFileName<<endl);
-    //CheckFile myCheckFile(inPDBFileName);
-    //myCheckFile.validateExists();
-    //myCheckFile.validateNonZeroSize(); 
+
     struct stat st;
     // Just querying the members of st is not a good idea. First, check to make sure stat succeeded at all: 
     if ((stat(inPDBFileName.c_str(), &st)) == -1){
@@ -3827,186 +3884,93 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String inPDBFileName,c
     stat(inPDBFileName.c_str(), &st);
 
     MMBLOG_FILE_FUNC_LINE(INFO, "About to check that "<<inPDBFileName<<" has nonzero size.."<<endl);
-    if ( st.st_size == 0){
+    if (st.st_size == 0) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Apparently "<<inPDBFileName<<" has size "<<st.st_size <<" . Dying now."<< endl);
     } else {
         MMBLOG_FILE_FUNC_LINE(INFO, "Apparently "<<inPDBFileName<<" has size "<<st.st_size <<" . This seems OK."<< endl);
     }
-    PDBReader myPDBReader ( inPDBFileName );/////////  PDBReader.cpp:149 seems to be reading residue types in 3-letter and 1-letter codes correctly.  I don't think it knows what kind of biopolymer it has yet though./
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    CompoundSystem system;/////////
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+
+    PDBReader myPDBReader(inPDBFileName, true);/////////  PDBReader.cpp:149 seems to be reading residue types in 3-letter and 1-letter codes correctly.  I don't think it knows what kind of biopolymer it has yet though./
+    CompoundSystem system;
     SimbodyMatterSubsystem  matter(system);
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
     GeneralForceSubsystem forces(system);
     DuMMForceFieldSubsystem dumm(system);
+
     dumm.loadAmber99Parameters();
-    MMBLOG_FILE_FUNC_LINE(INFO, "About to issue myPDBReader.createCompounds( system,chainsPrefix)"<<endl);
-    MMBLOG_FILE_FUNC_LINE(DEBUG, "Prefix = "<< chainsPrefix                           <<endl);
-    myPDBReader.createCompounds( system, chainsPrefix ); // This has a call to Repr::residueIsRNA(type) which is I don't know if it is going right
-    MMBLOG_FILE_FUNC_LINE(INFO, "Done with myPDBReader.createCompounds( system)"<<endl);
-    MMBLOG_FILE_FUNC_LINE(INFO,std::endl);
-    auto  pdbStructureMapIterator = pdbStructureMap.begin();
-    MMBLOG_FILE_FUNC_LINE(INFO,std::endl);
-    MMBLOG_FILE_FUNC_LINE(INFO,"pdbStructureMap.size() = "<<pdbStructureMap.size()<<std::endl);
-    MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
-    MMBLOG_FILE_FUNC_LINE(INFO,"pdbStructureMap.empty() = "<<pdbStructureMap.empty()<<std::endl);
-    //while ( pdbStructureMapIterator != pdbStructureMap.end()) {
-    //    MMBLOG_FILE_FUNC_LINE(INFO,std::endl);
-        //MMBLOG_FILE_FUNC_LINE(INFO,pdbStructureMapIterator->first);
-    //	pdbStructureMapIterator++;
-    //}
-    MMBLOG_FILE_FUNC_LINE(INFO,endl);
-    MMBLOG_FILE_FUNC_LINE(INFO, "system.getNumCompounds() = "<<system.getNumCompounds() <<endl);
-    MMBLOG_FILE_FUNC_LINE(INFO,endl);
-    PdbStructure myPdbStructure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap); //////
-    /* 
-    //================================================ Use PDB reader or CIF reader depending on the extension.
-    PdbStructure myPdbStructure;
-    if ( inPDBFileName.substr ( inPDBFileName.length() - 4, inPDBFileName.length() - 1) == ".pdb" )
-    {
-        //============================================ No problem, continue as usual
-        MMBLOG_FILE_FUNC_LINE(INFO, "Filename " << inPDBFileName << " suggests PDB file. Using the PDB file reader ... reading in with prefix of >" << chainsPrefix <<"< " << endl);
-        ifstream pdbfile                              ( inPDBFileName.c_str()) ;
-        myPdbStructure                                = PdbStructure ( pdbfile, chainsPrefix );
-        pdbfile.close                                 ( );
-    }
-    else
-    {
-        //============================================ This should be a CIF file, read it using MMDB
-        MMBLOG_FILE_FUNC_LINE(INFO, "Caching the PdbStructure from CIF file " << inPDBFileName << endl);
-        myPdbStructure                                = PdbStructure ( inPDBFileName );
-    }
-    
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    pdbStructureMap.insert(pair<String, PdbStructure>(inPDBFileName, myPdbStructure) );
-    */
-    MMBLOG_FILE_FUNC_LINE(INFO, "myPdbStructure.getNumModels() "<<myPdbStructure.getNumModels()<<endl);
-    int myNumChains =  myPdbStructure.getModel(Pdb::ModelIndex(0)).getNumChains();
-    // PdbStructure can sometimes come up with a higher chain count. Maybe it puts in some HETATOM's or HOH's as extra chains. So we will use this one which we get more from CompoundSystem:
-    int myNumChainsFromSystem =  system.getNumCompounds() /  myPdbStructure.getNumModels() ;
-    MMBLOG_FILE_FUNC_LINE(INFO, "myNumChains "<<myNumChains<<endl);
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to issue myPDBReader.createCompounds( system,chainsPrefix)" << endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "Prefix = " << chainsPrefix << endl);
+    myPDBReader.createCompounds(system, chainsPrefix); // This has a call to Repr::residueIsRNA(type) which is I don't know if it is going right
+    MMBLOG_FILE_FUNC_LINE(INFO, "Done with myPDBReader.createCompounds(system)" << endl
+                                << "pdbStructureMap.size() = " << pdbStructureMap.size() << endl
+                                << "system.getNumCompounds() = " << system.getNumCompounds() << endl);
 
-    MMBLOG_FILE_FUNC_LINE(INFO, "system.getNumCompounds() = "<<system.getNumCompounds() <<endl);
-    // let's check which chains we have already:    
-    MMBLOG_FILE_FUNC_LINE(INFO, "This BiopolymerClassContainer already has getNumBiopolymers() = "<< getNumBiopolymers() <<endl);
+    auto structure = generatePdbStructure(inPDBFileName, chainsPrefix, pdbStructureMap);
 
-    // system.getNumCompounds() returns the number of chains * number of models!  This is too many chains. We only want the chain in model 0 by arbitrary convention.
-    //for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c) 
-    // We will instead use myNumChains (myPdbStructure.getModel(Pdb::ModelIndex(0)).getNumChains()) which is only the number of chains in model 0
-        
-    // for (SimTK::CompoundSystem::CompoundIndex c(0); c < myNumChains; ++c) // This way got us some extra chains for some reason.
-    for (SimTK::CompoundSystem::CompoundIndex c(0); c < myNumChainsFromSystem; ++c) 
+    for (SimTK::CompoundSystem::CompoundIndex c(0); c < system.getNumCompounds(); ++c)
     {
         MMBLOG_FILE_FUNC_LINE(INFO, "Processing chain >"<<system.getCompound(c).getPdbChainId()<<"< ."<<endl);
         if (Molecule::isInstanceOf(system.getCompound(c) )) 
         {
-            const Molecule   & myMolecule   = Molecule::downcast(system.getCompound(c));                
-            if (Biopolymer::isInstanceOf(myMolecule ))
+            const Molecule & myMolecule = Molecule::downcast(system.getCompound(c));
+            if (Biopolymer::isInstanceOf(myMolecule))
             {
                 const Biopolymer & myBiopolymer = Biopolymer::downcast(myMolecule);
 
-                stringstream myChainId;
-                myChainId << myBiopolymer.getPdbChainId();
-                String myChainIdString = myChainId.str();
-                MMBLOG_FILE_FUNC_LINE(INFO, "Chain ID :"<<myChainId.str()<<endl);
-                //printBiopolymerSequenceInfo(myBiopolymer);
+                auto chainId = myBiopolymer.getPdbChainId();
+                MMBLOG_FILE_FUNC_LINE(INFO, "Chain ID :"<<chainId<<endl);
 
-                if(hasChainID(myChainIdString))
+                if (hasChainID(chainId))
                 {
-                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The chain Id "<< myChainIdString << " found in PDB file " << inPDBFileName << " is already assigned to a chain in MMB. We suggest you to rename or remove the chain in the pdb file or you can use the 'deleteChain " << myChainIdString << "' command before loading the sequences in this file." << endl);
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "The chain Id "<< chainId << " found in PDB file " << inPDBFileName << " is already assigned to a chain in MMB. We suggest you to rename or remove the chain in the pdb file or you can use the 'deleteChain " << chainId << "' command before loading the sequences in this file." << endl);
                 }
 
-                if (isRNA(myBiopolymer) ) // if RNA 
+                bool endCaps{false};
+                ResidueInfo::Index index{0};
+                auto bpType = BiopolymerType::RNA;
+
+                if (isRNA(myBiopolymer)) // if RNA
                 {
-                    const RNA& myRNA=static_cast<const RNA&>(myBiopolymer); 
-                    String myBiopolymerType("RNA"); 
-                    String mySequence = extractSequenceFromBiopolymer(myRNA);
-                    ResidueID myFirstResidueNumber ( 
-                        myRNA.getResidue( ResidueInfo::Index(0)).getPdbResidueNumber(),
-                        myRNA.getResidue( ResidueInfo::Index(0)).getPdbInsertionCode()
-                        ); // retrieve first residue in chain. don't forget, we haven't actually called getPdbInsertionCode  () !  also, i think this doesn't take into account proteinCapping, if that's an issue. 
-                    MMBLOG_FILE_FUNC_LINE(INFO, mySequence<<endl);
-                    addBiopolymerClass(
-                     mySequence, 
-                     myChainIdString,
-                     myFirstResidueNumber, 
-                     myBiopolymerType, 
-                     proteinCapping,
-                     inPDBFileName,
-                     true, useNACappingHydroxyls);
-                    //updBiopolymerClass(myChainIdString).setResidueNumbersAndInsertionCodesFromBiopolymer(myRNA, 'FALSE'     ); // provided biopolymer has end caps because it's a protein.
-                    setOriginalSequence(myChainIdString,mySequence); 
-                    MMBLOG_FILE_FUNC_LINE(INFO, "mySequence "<<mySequence<<endl);
-                    MMBLOG_FILE_FUNC_LINE(INFO, "myChainIdString "<<myChainIdString<<endl);
-                    //if (tempRenumberPdbResidues){
-                    //   MMBLOG_FILE_FUNC_LINE(" "<<endl;
-                    //   renumberPdbResidues(ResidueID("1"));
-                    //}
-                    setResidueIDsAndInsertionCodesFromBiopolymer(myChainIdString,myRNA,0); // provided biopolymer has no end caps because it's an RNA.
-                    updBiopolymerClass(myChainIdString).setRenumberPdbResidues(tempRenumberPdbResidues);
-                    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+                    // Default values are okay for RNA, do nothing
                 }
-                else if (isDNA(myBiopolymer) ) // if DNA 
+                else if (isDNA(myBiopolymer)) // if DNA
                 {
-                    const DNA& myDNA=static_cast<const DNA&>(myBiopolymer); 
-                    String myBiopolymerType("DNA"); 
-                    String mySequence = extractSequenceFromBiopolymer(myDNA);
-                    ResidueID myFirstResidueNumber ( 
-                        myDNA.getResidue( ResidueInfo::Index(0)).getPdbResidueNumber(),
-                        myDNA.getResidue( ResidueInfo::Index(0)).getPdbInsertionCode()
-                        ); // retrieve first residue in chain. don't forget, we haven't actually called getPdbInsertionCode  () !  also, i think this doesn't take into account proteinCapping, if that's an issue. 
-                    MMBLOG_FILE_FUNC_LINE(INFO, mySequence<<endl);
-                    addBiopolymerClass(
-                     mySequence, 
-                     myChainIdString,
-                     myFirstResidueNumber, 
-                     myBiopolymerType, 
-                     proteinCapping,
-                     inPDBFileName,
-                     true,useNACappingHydroxyls);
-                    //if (tempRenumberPdbResidues){
-                    //   renumberPdbResidues(ResidueID("1"));
-                    //}
-                    setResidueIDsAndInsertionCodesFromBiopolymer(myChainIdString,myDNA,0); // provided biopolymer has no end caps because it's a DNA.
-                    updBiopolymerClass(myChainIdString).setRenumberPdbResidues(tempRenumberPdbResidues);
+                    bpType = BiopolymerType::DNA;
                 }
                 else if (isProtein(myBiopolymer)) {
-
-                    const Protein& myProtein=static_cast<const Protein&>(myBiopolymer); 
-                    String myBiopolymerType("Protein"); 
-                    String mySequence = extractSequenceFromBiopolymer(myProtein, true);
-                    ResidueID myFirstResidueNumber ( 
-                        myProtein.getResidue( ResidueInfo::Index(1)).getPdbResidueNumber(),
-                        myProtein.getResidue( ResidueInfo::Index(1)).getPdbInsertionCode()
-                        ); // retrieve first residue in chain. don't forget, we haven't actually called getPdbInsertionCode  () !  also, i think this doesn't take into account proteinCapping, if that's an issue. 
-                    //printBiopolymerSequenceInfo(myProtein);
-                    MMBLOG_FILE_FUNC_LINE(INFO, mySequence<<endl);
-                    addBiopolymerClass(
-                        mySequence, 
-                        myChainIdString,
-                        myFirstResidueNumber,
-                        myBiopolymerType, 
-                        proteinCapping,
-                        inPDBFileName,
-                        true, // this will setRenumberPdbResidues(-1)
-			useNACappingHydroxyls); 
-                    MMBLOG_FILE_FUNC_LINE(INFO, endl);
-                    setResidueIDsAndInsertionCodesFromBiopolymer(myChainIdString,myProtein,1); // provided biopolymer has end caps because it's a protein.
-                    updBiopolymerClass(myChainIdString).setRenumberPdbResidues(tempRenumberPdbResidues);
-                    /*if (tempRenumberPdbResidues){
-                       MMBLOG_FILE_FUNC_LINE(endl;
-                       updBiopolymerClass(myChainIdString).renumberPdbResidues(ResidueID("1"));
-                    }*/
-                    //MMBLOG_FILE_FUNC_LINE(endl;
+                    endCaps = true;
+                    bpType = BiopolymerType::Protein;
+                    index = ResidueInfo::Index{1};
                 }
                 else {
-                   MMBLOG_FILE_FUNC_LINE(CRITICAL, "loadSequencesFromPdb can only be used with Protein, RNA and DNA.  You have one or more atoms in the file "<< inPDBFileName<< " which belong to none of these. Please get rid of these atoms and try again."<<endl);
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "loadSequencesFromPdb can only be used with Protein, RNA and DNA.  You have one or more atoms in the file "<< inPDBFileName<< " which belong to none of these. Please get rid of these atoms and try again."<<endl);
                 }
-                BiopolymerClass & myBiopolymerClass = updBiopolymerClass(myChainIdString);
+
+                auto mySequence = extractSequenceFromBiopolymer(myBiopolymer, endCaps);
+
+                MMBLOG_FILE_FUNC_LINE(INFO, "mySequence "<<mySequence<<endl);
+
+                ResidueID myFirstResidueNumber(
+                    myBiopolymer.getResidue(index).getPdbResidueNumber(),
+                    myBiopolymer.getResidue(index).getPdbInsertionCode()
+                ); // retrieve first residue in chain. don't forget, we haven't actually called getPdbInsertionCode  () !  also, i think this doesn't take into account proteinCapping, if that's an issue.
+                MMBLOG_FILE_FUNC_LINE(INFO, mySequence<<endl);
+                addBiopolymerClass(
+                    std::move(mySequence),
+                    chainId,
+                    myFirstResidueNumber,
+                    bpType,
+                    proteinCapping,
+                    inPDBFileName,
+                    true,
+                    useNACappingHydroxyls
+                );
+
+                BiopolymerClass & myBiopolymerClass = updBiopolymerClass(chainId);
+                myBiopolymerClass.setResidueIDsAndInsertionCodesFromBiopolymer(myBiopolymer, endCaps);
+                myBiopolymerClass.setRenumberPdbResidues(tempRenumberPdbResidues);
+
                 MMBLOG_FILE_FUNC_LINE(INFO,"std::distance(pdbStructureMap.begin(),pdbStructureMap.end()) = "<<std::distance(pdbStructureMap.begin(),pdbStructureMap.end())<<std::endl);
-                myBiopolymerClass.setPdbStructure((pdbStructureMap.at(inPDBFileName)));
+                myBiopolymerClass.setPdbStructure(structure);
             } // of if Biopolymer
         } // of if Molecule
         MMBLOG_FILE_FUNC_LINE(INFO, "This BiopolymerClassContainer now has getNumBiopolymers() = "<< getNumBiopolymers() <<endl);
@@ -4023,9 +3987,9 @@ void BiopolymerClassContainer::printBiopolymerInfo() {
     }  
 };
 
-void BiopolymerClassContainer::setResidueIDsAndInsertionCodesFromBiopolymer(String chain, const Biopolymer & inputBiopolymer, bool endCaps){
+void BiopolymerClassContainer::setResidueIDsAndInsertionCodesFromBiopolymer(const String & chain, const Biopolymer & inputBiopolymer, bool endCaps) {
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    updBiopolymerClass(chain).setResidueIDsAndInsertionCodesFromBiopolymer(   inputBiopolymer,  endCaps);
+    updBiopolymerClass(chain).setResidueIDsAndInsertionCodesFromBiopolymer(inputBiopolymer, endCaps);
 }
 ResidueID BiopolymerClassContainer::residueID(map<const String,double> myUserVariables,  const char* value , String chain) {
     String inputResidueID(value);
@@ -4275,7 +4239,7 @@ void BiopolymerClassContainer::setOriginalSequencesFromCurrentSequences() {
 
 
 void BiopolymerClassContainer::substituteResidue(String myChain , ResidueID myResidue, String mySubstitution, bool proteinCapping) {
-    BiopolymerClass myOldBiopolymerClass = updBiopolymerClass(myChain);
+    const BiopolymerClass &myOldBiopolymerClass = updBiopolymerClass(myChain);
 
     String myOldSequence = myOldBiopolymerClass.getSequence();
     String myOriginalSequence = myOldBiopolymerClass.getOriginalSequence();
@@ -4290,14 +4254,14 @@ void BiopolymerClassContainer::substituteResidue(String myChain , ResidueID myRe
     updBiopolymerClass(myChain).setResidueIDsAndInsertionCodesFromBiopolymer(tempBiopolymer, proteinCapping);
 }
 
-void BiopolymerClassContainer::replaceBiopolymerWithMutatedBiopolymerClass(BiopolymerClass & myOldBiopolymerClass, 
-                                                            String & myNewSequence, bool useNACappingHydroxyls )
+void BiopolymerClassContainer::replaceBiopolymerWithMutatedBiopolymerClass(const BiopolymerClass & myOldBiopolymerClass, 
+                                                            String & myNewSequence, bool useNACappingHydroxyls)
 {
     String myChain = myOldBiopolymerClass.getChainID();
     ResidueID myFirstResidueNumber = myOldBiopolymerClass.getFirstResidueID();
     bool proteinCapping = myOldBiopolymerClass.getProteinCapping();
     String myOriginalSequence = myOldBiopolymerClass.getOriginalSequence();
-    String oldBiopolymerClassBiopolymerType = myOldBiopolymerClass.getBiopolymerTypeAsString();
+    auto oldBiopolymerClassBiopolymerType = myOldBiopolymerClass.getBiopolymerType();
     String oldBiopolymerClassPdbFileName = myOldBiopolymerClass.getPdbFileName();
     bool oldBiopolymerClassLoadFromPdb = myOldBiopolymerClass.getLoadFromPdb();
     bool oldActivePhysics = myOldBiopolymerClass.getActivePhysics();
@@ -4525,18 +4489,18 @@ String BiopolymerClassContainer::getFoldxFormattedMutations() {
 }
 
 Mutation  BiopolymerClassContainer::setMutationWildTypeResidueType(Mutation & myMutation){
-    BiopolymerClass myBiopolymerClass = updBiopolymerClass(myMutation. getChain());
+    const BiopolymerClass &myBiopolymerClass = updBiopolymerClass(myMutation. getChain());
     ResidueID myResidue = myBiopolymerClass.residueID(myMutation.getResidue().outString()); // This BiopolymerClass method has a validation step. Requires a String.
     MMBLOG_FILE_FUNC_LINE(INFO, "myBiopolymerClass.residueID(myMutation.getResidue().outString()) returns >"<<myBiopolymerClass.residueID(myMutation.getResidue().outString()).outString()<<"< "<<endl);
     String myWildTypeResidueType = myBiopolymerClass.getResidueSingleLetterCode(myResidue);
     MMBLOG_FILE_FUNC_LINE(INFO, "myBiopolymerClass.getResidueSingleLetterCode(myResidue) = >"<<myBiopolymerClass.getResidueSingleLetterCode(myResidue)<<"< "<<endl);
-    myMutation. setWildTypeResidueType(myWildTypeResidueType);
+    myMutation.setWildTypeResidueType(myWildTypeResidueType);
     return myMutation;
 } ;
 
 // This is a variation of setMutationWildTypeResidueType. Sometimes the current sequence is mutated, so the original residue type is lost. This is a way of recovering it. 
 Mutation  BiopolymerClassContainer::setMutationWildTypeResidueTypeFromOriginalSequence(Mutation & myMutation){
-    BiopolymerClass myBiopolymerClass = updBiopolymerClass(myMutation. getChain());
+    const BiopolymerClass &myBiopolymerClass = updBiopolymerClass(myMutation. getChain());
     ResidueInfo::Index myResidueIndex = myBiopolymerClass.getResidueIndex(myMutation.getResidue());
     String myOriginalWildTypeResidueType = myBiopolymerClass.getOriginalSequence().substr(myResidueIndex,1);
     myMutation. setWildTypeResidueType(myOriginalWildTypeResidueType);
@@ -4662,7 +4626,7 @@ void BiopolymerClassContainer::substituteResidue(Mutation myMutation,
     ResidueID myResidue = myMutation.getResidue();
     //MMBLOG_FILE_FUNC_LINE(" >"<<myResidue.getInsertionCode()<<endl;
     String mySubstitution = myMutation.getSubstitutedResidueType();
-    BiopolymerClass myOldBiopolymerClass = updBiopolymerClass(myChain);
+    const BiopolymerClass &myOldBiopolymerClass = updBiopolymerClass(myChain);
     if (safeParameters) if  (myOldBiopolymerClass.getBiopolymerType() != BiopolymerType::Protein ) if (matchPurineN1AtomLocations) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "In order to substitute a nucleic acid residue, you must first set matchPurineN1AtomLocations FALSE.  Otherwise you might mutate a purine to pyrmidine, and the N1 atom of the watson-crick edge would be taken as the glycosidic nitrogen of the pyrimidine, generating a physically irrational structure in the mutant."<<endl);
     }
@@ -4684,7 +4648,7 @@ void BiopolymerClassContainer::deleteResidue(Mutation myDeletion,   bool protein
     String myChain = myDeletion.getChain();
     ResidueID myDeletedResidueID = myDeletion.getResidue();
     String mySubstitution = myDeletion.getSubstitutedResidueType();
-    BiopolymerClass myOldBiopolymerClass = updBiopolymerClass(myChain);
+    const BiopolymerClass &myOldBiopolymerClass = updBiopolymerClass(myChain);
     String myOldSequence = myOldBiopolymerClass.getSequence();
     String myOriginalSequence = myOldBiopolymerClass.getOriginalSequence();
     String myNewSequence = myOldSequence;
@@ -4709,7 +4673,7 @@ void BiopolymerClassContainer::insertResidue(Mutation myInsertion,   bool protei
     ResidueID myInsertedResidueID = myInsertion.getResidue();
     //MMBLOG_FILE_FUNC_LINE(" >"<<myInsertedResidueID.getInsertionCode()<<endl;
     String mySubstitution = myInsertion.getSubstitutedResidueType();
-    BiopolymerClass myOldBiopolymerClass = updBiopolymerClass(myChain);
+    const BiopolymerClass &myOldBiopolymerClass = updBiopolymerClass(myChain);
     String myOldSequence = myOldBiopolymerClass.getSequence();
     String myOriginalSequence = myOldBiopolymerClass.getOriginalSequence();
     String myNewSequence = myOldSequence;

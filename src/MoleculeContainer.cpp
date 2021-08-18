@@ -4,27 +4,27 @@
 #include <fstream>
 
 #define MK_ELEMENT(name) \
-    if (elementName.compare(#name) == 0) return Element::name()
+    if (elementName.compare(#name) == 0) return Element::getByName(#name)
 
 
 void CompoundObjectMapContainer::loadCompoundMap() {
     MMBLOG_FILE_FUNC_LINE(INFO, "starting loadCompoundMap() "<<endl);
-    compoundMap.insert (std::pair <const String , Compound> ("PurineBaseCore",PurineBaseCore() ));
+    compoundMap.emplace("PurineBaseCore", PurineBaseCore());
     RibonucleotideResidue::Guanylate myGuanylate; myGuanylate.assignBiotypes();
-    compoundMap.insert (std::pair <const String , Compound> ("Guanylate",myGuanylate ));
+    compoundMap.emplace("Guanylate", myGuanylate);
     //compoundMap.insert (std::pair <const String , Compound> ("Guanylate",RibonucleotideResidue::Guanylate() ));
     // from molmodel/include/molmodel/internal/NA.h:
-    compoundMap.insert (std::pair <const String , Compound> ("NaPhosphodiesterLinkage",NaPhosphodiesterLinkage("NaPhosphodiesterLinkage") ));
-    compoundMap.insert (std::pair <const String , Compound> ("FivePrimeNaPhosphateGroup",FivePrimeNaPhosphateGroup("FivePrimeNaPhosphateGroup") ));
-    compoundMap.insert (std::pair <const String , Compound> ("ThreePrimeNaPhosphateGroup",ThreePrimeNaPhosphateGroup("ThreePrimeNaPhosphateGroup") ));
-    compoundMap.insert (std::pair <const String , Compound> ("RibonucleosideResidue",RibonucleosideResidue("RibonucleosideResidue") ));
-    compoundMap.insert (std::pair <const String , Compound> ("MethyleneGroup",MethyleneGroup() ));
-    compoundMap.insert (std::pair <const String , Compound> ("methyl",MethylGroup() ));
-    compoundMap.insert (std::pair <const String , Compound> ("MethylGroup",MethylGroup() ));
-    compoundMap.insert (std::pair <const String , Compound> ("Methane",Methane()     ));
-    compoundMap.insert (std::pair <const String , Compound> ("MagnesiumIon",MagnesiumIon()     ));
-    compoundMap.insert (std::pair <const String , Compound> ("AromaticSixMemberedCHGroup",AromaticSixMemberedCHGroup() ));
-    compoundMap.insert (std::pair <const String , Compound> ("AliphaticHydrogen",AliphaticHydrogen() ));
+    compoundMap.emplace("NaPhosphodiesterLinkage", NaPhosphodiesterLinkage("NaPhosphodiesterLinkage"));
+    compoundMap.emplace("FivePrimeNaPhosphateGroup",FivePrimeNaPhosphateGroup("FivePrimeNaPhosphateGroup"));
+    compoundMap.emplace("ThreePrimeNaPhosphateGroup", ThreePrimeNaPhosphateGroup("ThreePrimeNaPhosphateGroup"));
+    compoundMap.emplace("RibonucleosideResidue", RibonucleosideResidue("RibonucleosideResidue"));
+    compoundMap.emplace("MethyleneGroup", MethyleneGroup());
+    compoundMap.emplace("methyl", MethylGroup());
+    compoundMap.emplace("MethylGroup", MethylGroup());
+    compoundMap.emplace("Methane", Methane());
+    compoundMap.emplace("MagnesiumIon", MagnesiumIon());
+    compoundMap.emplace("AromaticSixMemberedCHGroup", AromaticSixMemberedCHGroup());
+    compoundMap.emplace("AliphaticHydrogen", AliphaticHydrogen());
 
 // From Compound.h:
 // SingleAtom
@@ -32,9 +32,9 @@ void CompoundObjectMapContainer::loadCompoundMap() {
     compoundMap.insert (std::pair <const String , Compound> ("BivalentAtom",
     compoundMap.insert (std::pair <const String , Compound> ("TrivalentAtom",
     compoundMap.insert (std::pair <const String , Compound> ("QuadrivalentAtom",*/
-    compoundMap.insert (std::pair <const String , Compound> ("AlcoholOHGroup",AlcoholOHGroup()       ));
-    compoundMap.insert (std::pair <const String , Compound> ("PrimaryAmineGroup",PrimaryAmineGroup() ));
-    compoundMap.insert (std::pair <const String , Compound> ("CarboxylateGroup",CarboxylateGroup()   ));
+    compoundMap.emplace("AlcoholOHGroup", AlcoholOHGroup());
+    compoundMap.emplace("PrimaryAmineGroup", PrimaryAmineGroup());
+    compoundMap.emplace("CarboxylateGroup", CarboxylateGroup());
 
 
     MMBLOG_FILE_FUNC_LINE(INFO, "done with loadCompoundMap() "<<endl);
@@ -61,14 +61,14 @@ void CompoundObjectMapContainer::printCompoundMap() {
 }*/
 void CompoundObjectMapContainer::loadBiotypeMap() {
     MMBLOG_FILE_FUNC_LINE(INFO, "starting loadBiotypeMap() "<<endl);
-    biotypeMap.insert (std::pair <const String , Biotype> ("MethaneH",Biotype::MethaneH() ));
-    biotypeMap.insert (std::pair <const String , Biotype> ("MethaneC",Biotype::MethaneC() ));
-    biotypeMap.insert (std::pair <const String , Biotype> ("SerineN", Biotype::SerineN()  ));
+    biotypeMap.emplace("MethaneH", Biotype::MethaneH());
+    biotypeMap.emplace("MethaneC", Biotype::MethaneC());
+    biotypeMap.emplace("SerineN",  Biotype::SerineN());
     //biotypeMap.insert (std::pair <const String , Biotype> ("Magnesium Ion", Biotype::MagnesiumIon()  ));
     MMBLOG_FILE_FUNC_LINE(INFO, "done with loadBiotypeMap() "<<endl);
 }
 
-Compound CompoundObjectMapContainer::fetchCompound(const String compoundName)  {
+Compound CompoundObjectMapContainer::fetchCompound(const String &compoundName)  {
     //printCompoundMap();
     if (compoundMap.find(compoundName) == compoundMap.end()) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "No Compound object found with name "<<compoundName <<endl);
@@ -77,7 +77,7 @@ Compound CompoundObjectMapContainer::fetchCompound(const String compoundName)  {
 }
 
 
-Biotype CompoundObjectMapContainer::fetchBiotype   (const String compoundName)  {
+Biotype CompoundObjectMapContainer::fetchBiotype(const String &compoundName)  {
     MMBLOG_FILE_FUNC_LINE(INFO, "You have requested biotype named : >"<<compoundName<<"< "<<endl);
     if (biotypeMap.find(compoundName) == biotypeMap.end()) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "No Biotype  object found with name >"<<compoundName <<"< "<<endl);
@@ -93,7 +93,7 @@ Biotype CompoundObjectMapContainer::fetchBiotype   (const String compoundName)  
     }
 }
 
-const Element CompoundObjectMapContainer::fetchElement (String elementName) {
+const Element * CompoundObjectMapContainer::fetchElement(const String &elementName) {
     MMBLOG_FILE_FUNC_LINE(INFO, "About to fetch element with name "<<elementName<<endl);
     MK_ELEMENT(Hydrogen);
     MK_ELEMENT(Deuterium);
@@ -212,23 +212,19 @@ const Element CompoundObjectMapContainer::fetchElement (String elementName) {
     MK_ELEMENT(Ununquadium);
     MK_ELEMENT(Ununpentium);
     MK_ELEMENT(Ununhexium);
-    // If we didn't return after the above, something is wrong:
-    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Element "<<elementName<<" not found! Did you use proper capitalization (e.g. Carbon)?"<<endl);
-    //return Element::Hydrogen();
+
+    throw std::logic_error("Impossible execution path");
 }
-
-
-
 
 Compound::SingleAtom  CompoundObjectMapContainer::fetchSingleAtom(const String className, Compound::AtomName& atomName , String elementName, Angle angle1 = 180*Deg2Rad )  {
     MMBLOG_FILE_FUNC_LINE(INFO, "Fetching single atom of class >"<<className<<"< "<<endl);
-    const Element myElement = fetchElement(elementName);
-    MMBLOG_FILE_FUNC_LINE(INFO, "using element : >"<<myElement.getName()<<"< "<<endl);
+    const Element *myElement = fetchElement(elementName);
+    MMBLOG_FILE_FUNC_LINE(INFO, "using element : >"<<myElement->getName()<<"< "<<endl);
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     if (className.compare("AliphaticHydrogen") == 0) {return AliphaticHydrogen(atomName);}
     if (className.compare("AliphaticCarbon") == 0) {return AliphaticCarbon(atomName);}
     if (className.compare("UnivalentAtom") == 0) {
-        MMBLOG_FILE_FUNC_LINE(INFO, "using element : >"<<myElement.getName()<<"< "<<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, "using element : >"<<myElement->getName()<<"< "<<endl);
         return UnivalentAtom(atomName,myElement);
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
     }

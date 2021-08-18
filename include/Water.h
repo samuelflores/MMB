@@ -1,7 +1,6 @@
 #include "SimTKmolmodel.h"
 #include <iostream>
 #include <fstream>
-//#include <ios>
 
 
 
@@ -40,7 +39,7 @@ class Water : public Compound { public:
      }
 	
      if (! Biotype::exists("TIP3P"   ,"Hydrogen" ))
-         Biotype::defineBiotype(Element::Hydrogen(), 1, "TIP3P",   "Hydrogen"  ); // second arg is valence
+         Biotype::defineBiotype(Element::getBySymbol("H"), 1, "TIP3P",   "Hydrogen"  ); // second arg is valence
                                                                                  // a residue name, second is an atom name
      dumm.setBiotypeChargedAtomType( DuMM::ChargedAtomTypeIndex(8000), Biotype::get("TIP3P", "Hydrogen"     ).getIndex() );
      if (!dumm.hasAtomClass(DuMM::AtomClassIndex(300)))
@@ -64,15 +63,15 @@ class Water : public Compound { public:
          	);
      }
      if (! Biotype::exists("TIP3P"   ,"Oxygen"   ))
-         Biotype::defineBiotype(Element::Oxygen(), 2, "TIP3P"   ,  "Oxygen"  ); // second arg is valence
+         Biotype::defineBiotype(Element::getBySymbol("O"), 2, "TIP3P"   ,  "Oxygen"  ); // second arg is valence
                                                                                  // a residue name, second is an atom name
      dumm.setBiotypeChargedAtomType( DuMM::ChargedAtomTypeIndex(7000), Biotype::get("TIP3P" , "Oxygen"     ).getIndex() );
  
 
    
-        setBaseAtom    (BivalentAtom("OW",Element::Oxygen()),Vec3(0));
-        bondAtom    ( UnivalentAtom("HW0",Element::Hydrogen()),"OW/bond1",(.09572));
-        bondAtom    ( UnivalentAtom("HW1",Element::Hydrogen()),"OW/bond2",(.09572));
+        setBaseAtom    (BivalentAtom("OW",Element::getBySymbol("O")),Vec3(0));
+        bondAtom    ( UnivalentAtom("HW0",Element::getBySymbol("H")),"OW/bond1",(.09572));
+        bondAtom    ( UnivalentAtom("HW1",Element::getBySymbol("H")),"OW/bond2",(.09572));
         setDefaultBondAngle((104.52*Deg2Rad),"HW0","OW","HW1");
 
         setBiotypeIndex( "OW", Biotype::get("TIP3P"   ,"Oxygen").getIndex() );

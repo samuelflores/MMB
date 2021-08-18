@@ -1,6 +1,8 @@
 #include "Utils.h"
 #include "BiopolymerClass.h"
 
+#include <array>
+
 typedef char TChar;                             // character type
 typedef seqan::String<TChar> TSequence;                // sequence type
 typedef seqan::Align<TSequence, seqan::ArrayGaps> TAlign;
@@ -18,7 +20,7 @@ struct ThreadingPartner {
 
 class ThreadingStruct {
    private:
-       ThreadingPartner threadingPartners[2];
+       std::array<ThreadingPartner, 2> threadingPartners;
        seqan::AlignmentStats alignmentStats;
        TAlign align;
        bool alignHasBeenComputed;
@@ -153,8 +155,8 @@ class ThreadingStruct {
 			 //residueStart1(resStart1), residueEnd1(resEnd1),
 			 //forceConstant(forceConstant), backboneOnly(backboneOnly)
 	    {   
-		updThreadingPartner(0).biopolymerClass = biopolymerClass0; 
-		updThreadingPartner(1).biopolymerClass = biopolymerClass1; 
+		updThreadingPartner(0).biopolymerClass = std::move(biopolymerClass0);
+		updThreadingPartner(1).biopolymerClass = std::move(biopolymerClass1);
 		updThreadingPartner(0).includedResidues.clear();
 		//chain1ResiduesIncluded.clear(); 
 		alignHasBeenComputed = 0; 

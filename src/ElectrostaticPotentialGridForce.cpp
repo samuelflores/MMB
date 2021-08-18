@@ -60,7 +60,7 @@ Real ElectrostaticPotentialGridForce::calcPotentialEnergy(const State& state) co
                                 Compound::AtomName myAtomName = myResidueInfo.getAtomName(k);
                                 Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex( k  );
                                 DuMM::AtomIndex myDuMMAtomIndex = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().getDuMMAtomIndex(myAtomIndex);
-                                if (((myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().getAtomElement(myAtomIndex)).getSymbol()).compare("H") != 0) { 
+                                if (((myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().getAtomElement(myAtomIndex))->getSymbol()).compare("H") != 0) { 
                                         Vec3 myAtomLocation = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID).updBiopolymer().calcAtomLocationInGroundFrame(state, myAtomIndex);
                                         std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;
                                         totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myDensityMap.getForceConstant() * (-dumm.getPartialCharge(myDuMMAtomIndex));

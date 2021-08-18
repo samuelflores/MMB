@@ -25,6 +25,7 @@
 //#include "RNANoHydrogens.h"
 //#include "PeriodicPdbAndEnergyWriter.h"
 #include "ProgressWriter.h"
+#include <molmodel/internal/Exceptions.h>
 #define _DEBUG_FLAGS_ON_
 
 #define PARAM_DOUT 257
@@ -346,7 +347,6 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
                 output << endl << "REMARK end of user input file " << endl << endl;
             }
 
-
             myParameterReader.outMonteCarloFileName = ss6.str();
 
             MMBLOG_FILE_FUNC_LINE(INFO, endl);
@@ -387,9 +387,14 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
         }
 
     }
-    catch (const std::exception & e) {
-        MMBLOG_FILE_FUNC_LINE(INFO, e.what() <<endl); //FIXME: This will log the error twice!
+    catch (const MMBException &) {
+        return EXIT_FAILURE; // Everything has been taken care of so just quit
+    }
+    catch (const UnrecoverableMolmodelError &ex) {
+        MMBLOG_PLAIN(CRITICAL, "Unrecoverable Molmodel error: " << ex.what() << endl);
+        return EXIT_FAILURE; // We will get here only if MMBLogger is set to not throw on CRITICAL errors
     }
 
+    return EXIT_SUCCESS;
 }
 

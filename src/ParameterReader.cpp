@@ -5059,18 +5059,20 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     convergenceTimeout = 5;
     convergenceEpsilon = 0.5;
 
-    _leontisWesthofClass.initialize(leontisWesthofInFileName);
-    
-    #ifdef BuildNtC
-    ifstream ifile("parameters_user.csv");
-    if(ifile){
-         ntc_par_class.initialize("parameters_user.csv"); 
-         ntc_par_class.initialize(leontisWesthofInFileName); 
-    } else {
-         ntc_par_class.initialize(leontisWesthofInFileName);         
-    };
-    #endif
-    };
+    if (this->firstStage == this->currentStage) {
+        _leontisWesthofClass.initialize(leontisWesthofInFileName);
+
+        #ifdef BuildNtC
+        ifstream ifile("parameters_user.csv");
+        if(ifile){
+             ntc_par_class.initialize("parameters_user.csv");
+             ntc_par_class.initialize(leontisWesthofInFileName);
+        } else {
+             ntc_par_class.initialize(leontisWesthofInFileName);
+        }
+        #endif
+    }
+}
 
 
 void ParameterReader::initialize(const char * parameterFileName ) {

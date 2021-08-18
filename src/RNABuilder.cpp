@@ -210,9 +210,9 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
         }
 
         for (int i = myParameterReader.firstStage; i<=  myParameterReader.lastStage; i++) {
+            myParameterReader.currentStage = i;
             myParameterReader.initializeDefaults();
 
-            myParameterReader.currentStage = i;
             if (myParameterReader.currentStage<1) {
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "stage < 1 error!  "<<endl); //Most likely you have failed to specify the command file, (currently "<< parameterFile<<"), or it was not found"<<endl;
             }

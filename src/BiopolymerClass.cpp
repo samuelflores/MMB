@@ -2628,13 +2628,15 @@ void BiopolymerClass::selectivelyRemoveResidueStretchFromContainer(const Residue
                  (residueStretch.getEndResidue() < residueStretchVector[i].getEndResidue())) {
             // case = 2 ;
             MMBLOG_FILE_FUNC_LINE(INFO, endl);
-            ResidueStretchType & secondResidueStretch = residueStretchVector[i];
+            //ResidueStretchType & secondResidueStretch = residueStretchVector[i];
+	    // SCF changed from above to a full regular copy below. That is because updates to residueStretchVector[i] were being inappropriately applied to secondResidueStretch.
+            ResidueStretchType secondResidueStretch = residueStretchVector[i];
             ResidueID tempStartResidueID = (residueStretch).getStartResidue(); // getStartResidue() returns a temporary, whereas decrementResidueID expects a reference. can't convert a temporary to a reference.  This is because decrementResidueID might (and will!) try to modify ResidueID (as the name of the function suggests!).
             //residueStretchContainer.residueStretchVector[i].setEndResidue(decrementResidueID((residueStretch).getStartResidue() ));
             residueStretchVector[i].setEndResidue(decrementResidueID(tempStartResidueID));//((residueStretch).getStartResidue() )));
             MMBLOG_FILE_FUNC_LINE(INFO, "Just decreased endpoint of stretch "<<i<<".  New stretch is:"<<endl);
             residueStretchVector[i].printStretch();
-            ResidueID tempEndResidueID = (residueStretch).getEndResidue();
+            ResidueID tempEndResidueID = (residueStretch).getEndResidue(); // residueStretch is e.g. the Default stretch
             secondResidueStretch.setStartResidue(incrementResidueID(tempEndResidueID));//  residueStretch.getEndResidue()));
             residueStretchContainer.addStretch(secondResidueStretch);
             MMBLOG_FILE_FUNC_LINE(INFO, "Just added new  stretch :"<<endl);

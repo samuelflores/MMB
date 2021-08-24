@@ -124,6 +124,8 @@ AtomSpring & AtomSpringContainer::initializeAtomSpring(AtomSpring & atomSpring) 
    atomSpring.groundLocation = Vec3(0);
    atomSpring.forceConstant  = 0.0 ;
    atomSpring.deadLength     = 0.0 ;   
+   atomSpring.deadLengthIsFractionOfInitialLength = 0;
+     = 0.0 ;   
    return atomSpring;
 };
 

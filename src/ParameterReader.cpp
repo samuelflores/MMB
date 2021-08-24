@@ -1738,8 +1738,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
              } 
              else if ((parameterStringClass.getString(1)).compare("deadLength")==0){
                  alignmentForcesDeadLength         = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
-                 if (alignmentForcesDeadLength    <= 0.0) {
-                     MMBLOG_FILE_FUNC_LINE(CRITICAL, "deadLength    must be greater than zero! You have specified : "<< alignmentForcesDeadLength  <<endl);
+                 if (alignmentForcesDeadLength    < 0.0) {
+                     MMBLOG_FILE_FUNC_LINE(CRITICAL, "deadLength    must be greater than or equal to zero! You have specified : "<< alignmentForcesDeadLength  <<endl);
                  }
                  return;
              }

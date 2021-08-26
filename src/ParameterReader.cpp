@@ -1561,12 +1561,34 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         }   
         else if  ((parameterStringClass.getString(1)).compare("add")==0){            
             MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring add  :  Once you have set the parameters, somewhere above this command in the file, issue this to create a spring with those parameters. Technically, you are adding an AtomSpring to atomSpringContainer.  You can then change one or more parameters, and issue the command again to create another spring with the new parameters. And so on. "<<endl);
-            parameterStringClass.validateNumFields(2);   // expecting atomSpring, the command.   
-	    dummyAtomSpring.print();
-            atomSpringContainer.add(dummyAtomSpring);
-        } else {
+            MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring add <number of residues>  :  Acts like the above, EXCEPT instead of applying it for a single value of atom1Residue, it applies it for a loop starting with atom1Residue and stopping after the given number of residues. So you can easily apply the atomSpring to a range of residues. "<<endl);
+            if(parameterStringClass.getString(2) == ""){
+                parameterStringClass.validateNumFields(2);
+                dummyAtomSpring.print();
+                atomSpringContainer.add(dummyAtomSpring);
+            } // of if
+            else if(parameterStringClass.getString(3) == ""){
+                int myNumResidues = myAtoI(userVariables,(parameterStringClass.getString(2)).c_str());
+                parameterStringClass.validateNumFields(3);//expecting atomSpring add <N>
+                if (myNumResidues < 1) {
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, " Number of residues to apply the command to, must be 1 or greater. You specified : "<<myNumResidues<<endl); } // of if myNumResidues
+                ResidueID oldAtom1Residue = dummyAtomSpring.atom1Residue;
+                for (int i = 1 ; i <= myNumResidues ; i++){
+                    dummyAtomSpring.print();
+                    atomSpringContainer.add(dummyAtomSpring); // add takes a reference. However push_back creates a copy to put on the vector, so this should be fine in terms of preventing changes to dummyAtomSpring from propogating toatomSpringVector.
+                    myBiopolymerClassContainer.updBiopolymerClass ( dummyAtomSpring.atom1Chain ).incrementResidueID( dummyAtomSpring.atom1Residue);
+                }// of for i
+                dummyAtomSpring.atom1Residue = oldAtom1Residue; // Just good practice to leave things as they were
+            } // of else if getString(3) == ""
+            else {
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Too many parameters! please check your syntax. "<<endl);
+            }
+
+
+        }  // of else if  ((parameterStringClass.getString(1)).compare("add")==0)
+	else {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Error! You have specified a parameter or command that is not related to atomSpring.  "<<endl);
-        }  
+        }
         return;
     }  // of if atomSpring
        
@@ -4281,6 +4303,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         MMBLOG_FILE_FUNC_LINE(ALWAYS, endl);
         parameterStringClass.validateNumFields(2);
         reportingInterval= myAtoF(userVariables,(parameterStringClass.getString(1)).c_str());    
+	MMBLOG_FILE_FUNC_LINE(DEBUG," read reportingInterval = "<<reportingInterval);
         return;
     }
     if ((parameterStringClass.getString(0)).compare("restrainingForceConstant") ==0) {

@@ -552,17 +552,29 @@ void ConstrainedDynamics::createMultibodyTree(CompoundSystem & system, State & s
 }
 
 void ConstrainedDynamics::initializeCustomForcesConstraints(){
+    //scf added time reporting 
+    time_t rawtime;
+    struct tm * timeinfo;
+    time ( &rawtime );
+    timeinfo = localtime ( &rawtime );
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     _output.open(_parameterReader->outTrajectoryFileName.c_str(),  ios_base::app);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
 
     _parameterReader->waterDropletContainer.addTethers(_parameterReader->atomSpringContainer);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
 
     _parameterReader->waterDropletContainer.validateWaterVectors();
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     _parameterReader->myBiopolymerClassContainer.multiplySmallGroupInertia( _parameterReader->smallGroupInertiaMultiplier, _system,_matter, _state      );
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     _parameterReader->waterDropletContainer.multiplySmallGroupInertia( _parameterReader->waterInertiaMultiplier, _system,_matter, _state      );
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     //MMBLOG_FILE_FUNC_LINE(endl;
     #ifdef USE_OPENMM  
     _parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // investigate moving this outside the conditional, so it's available for DensityForce below.
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     #endif
     MMBLOG_FILE_FUNC_LINE(INFO, "You have specified _parameterReader->physicsRadius = "<<_parameterReader->physicsRadius<<endl);
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); // Looks fine at this point ..
@@ -591,6 +603,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
            MMBLOG_FILE_FUNC_LINE(INFO, endl);
        }
     }
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     if (_parameterReader->includeIntraChainInterfaceVector.size() >0) {
         //_parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // investigate moving this outside the conditional, so it's available for DensityForce below.
     for (size_t i = 0; i < _parameterReader->includeIntraChainInterfaceVector.size() ; i++) {
@@ -600,14 +613,18 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
             _matter,_state) ;
     }
     }
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     constraintsAndRestraints(*_parameterReader, _parameterReader->myBiopolymerClassContainer, _forces, _matter, _state,_system);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     _parameterReader->myBiopolymerClassContainer.computeCorrection(_parameterReader->_leontisWesthofClass, _parameterReader->basePairContainer.myBasePairVector, _state, _matter);
     _parameterReader->setLeontisWesthofBondRowIndex(); 
     
     _parameterReader->addC1pSprings(_parameterReader->_leontisWesthofClass);         
     _parameterReader->waterDropletContainer.validateWaterVectors();
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
 
     _parameterReader->applyAtomSprings(_matter,_forces, _state);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     #ifdef USE_OPENMM
     _parameterReader->contactContainer.createContactsWithin(_parameterReader->myBiopolymerClassContainer,_state);
     #endif
@@ -619,10 +636,12 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     #ifdef BuildNtC    
     NTC_Torque * myNTC_Torque = new NTC_Torque( _matter,  *_parameterReader,  _parameterReader->ntc_par_class, _parameterReader->myBiopolymerClassContainer, _output);
     Force::Custom(_forces, myNTC_Torque);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     #endif
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     if (_parameterReader->densityContainer.numDensityStretches() > 0) 
     {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         _parameterReader->myDensityMap.setNoiseTemperature(_parameterReader->densityNoiseTemperature);
         MMBLOG_FILE_FUNC_LINE(INFO, "setting noiseScale to :" <<_parameterReader->densityNoiseScale<<endl);
@@ -647,6 +666,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
                 MMBLOG_FILE_FUNC_LINE(INFO, endl);
             }
         }
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl); // Actually the total time elapsed between this flag and the one 100 lines above did not even cross the 1 second mark.
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         _parameterReader->myDensityMap.precomputeGradient();
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
@@ -897,6 +917,12 @@ void ConstrainedDynamics::initializeIntegrator(){
     /// Create and call time stepper         ///
     ////////////////////////////////////////////
 
+    //scf added time reporting 
+    time_t rawtime;
+    struct tm * timeinfo;
+    time ( &rawtime );
+    timeinfo = localtime ( &rawtime );
+
     if(_ts) delete _ts;
     _ts = new TimeStepper(_system,*_study);
     // added an initial momentum
@@ -904,9 +930,10 @@ void ConstrainedDynamics::initializeIntegrator(){
     if (_parameterReader->setInitialVelocities) 
     for (int i =0; i< _state.getNU(); i++)
             _state.updU()[i] =  rand() * .0001 / RAND_MAX ;
-    MMBLOG_FILE_FUNC_LINE(INFO, "Starting dynamics now."<<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     //cout<<"[Repel.h:ConstrainedDynamics] _study.getPredictedNextStepSize() " << (*_study).getPredictedNextStepSize()<<endl;
-    MMBLOG_FILE_FUNC_LINE(INFO, "size of _matter subsystem Q vector or number of degrees of freedom: "<<(_matter.getQ(_state)).size()<<endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "size of _matter subsystem Q vector or number of degrees of freedom: "<<(_matter.getQ(_state)).size()<<endl); // This one step seems to take an inordinate amount of time for virus fitting. Unless it's just a stream flush issue..
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl); // Actually the total time elapsed between this flag and the one 3   lines above did not even cross the 1 second mark.
     if (_parameterReader->minimize) {
         if (_parameterReader->basePairContainer.numBasePairs() >0) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "If you want to minimize, you can't have any baseInteraction\'s!"<<endl);
@@ -914,6 +941,7 @@ void ConstrainedDynamics::initializeIntegrator(){
         MMBLOG_FILE_FUNC_LINE(INFO, "Starting minimizer ..."<<endl);
         LocalEnergyMinimizer::minimizeEnergy(_system, _state, .001);
     } 
+    MMBLOG_FILE_FUNC_LINE(INFO, " Initializing TimeStepper now."<<endl);
     _ts->initialize(_state);
     MMBLOG_FILE_FUNC_LINE(INFO, "Force subsystem topology has been realized: "<<_forces.subsystemTopologyHasBeenRealized()    <<endl);
 
@@ -997,9 +1025,18 @@ void ConstrainedDynamics::postDynamics(){
 
 void ConstrainedDynamics::runAllSteps() {
     if(getRemainingFramesNum() <= 0){
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot run more steps" << endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " You have requested a zero time simulation. We presume you wish to calculate single-point energy at time zero. Proceeding with that now. " << endl);
+        //_ts->stepTo(0.0); // does not evaluate potential energy, cuts out immediately. Also does not realize(Dynamics)a
+        _state = _ts->getState();
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " " << endl);
+	_system.realize(_state,Stage::Dynamics);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " " << endl);
+	for (int i = 0;  i < _forces.getNumForces(); i++){
+            MMBLOG_FILE_FUNC_LINE(INFO, " Force "<<i<<" contributes potential energy = "<<	_forces.getForce(ForceIndex(i)).calcPotentialEnergyContribution(_state)<<endl); 
+	}
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "Just did a zero time simulation" << endl);
+        //MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot run more steps" << endl);
     }
-
     // Normal way to compute dynamics
     //_parameterReader->myBiopolymerClassContainer.printBiopolymerInfo();
     // _ts->stepTo(_parameterReader->numReportingIntervals*_parameterReader->reportingInterval);
@@ -1007,17 +1044,17 @@ void ConstrainedDynamics::runAllSteps() {
 
     // New way, to allow a step by step control later
         
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "  _nextFrame = "<< _nextFrame  <<" . "<<endl);
     for(; _nextFrame <= _parameterReader->numReportingIntervals; _nextFrame++){
-        //MMBLOG_FILE_FUNC_LINE(std::endl; 
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "  _nextFrame = "<< _nextFrame  <<" . "<<endl);
         _ts->stepTo(_nextFrame*_parameterReader->reportingInterval);
         _state = _ts->getState();
-        //MMBLOG_FILE_FUNC_LINE(std::endl; 
         if(_parameterReader->detectConvergence && _parameterReader->converged){
-            //MMBLOG_FILE_FUNC_LINE(std::endl; 
             _nextFrame = _parameterReader->numReportingIntervals;
         }
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "  _nextFrame = "<< _nextFrame  <<" . "<<endl);
     }
-
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "  _nextFrame = "<< _nextFrame  <<" . "<<endl);
 }
 
 unsigned int ConstrainedDynamics::runOneStep(){
@@ -1045,7 +1082,8 @@ void ConstrainedDynamics::initializeBodies(){
     setMobilizers();
     //_parameterReader->removeBasePairsAcrossRigidStretches(); //SCF
     createMultibodyTree();
-    _parameterReader->myMonoAtomsContainer.computeTotalCurvatureSquared(_state);
+    // This was taking a long time and no longer really useful.
+    //_parameterReader->myMonoAtomsContainer.computeTotalCurvatureSquared(_state);
 }
 
 void ConstrainedDynamics::initializeDynamics(){

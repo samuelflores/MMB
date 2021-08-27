@@ -63,6 +63,7 @@ Real DensityForce::calcPotentialEnergy(const State& state) const
                         // changed to atomic number on FEB 24 2021, earlier was atomic mass:
                         totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myDensityMap.getForceConstant() * tempAtomInfo.atomicNumber;
                     } // of for m
+                    MMBLOG_FILE_FUNC_LINE(DEBUG,  " Potential energy due to density and BiopolymerClassContainer: = "<< totalPotentialEnergy <<endl);
             } // of if myBiopolymerClassContainer.hasChainID	
             else if (myParameterReader.myMonoAtomsContainer.hasChainID(myChainID)){
 		    
@@ -80,7 +81,9 @@ Real DensityForce::calcPotentialEnergy(const State& state) const
                     MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(myAtomLocation) = "<< myDensityMap.getDensity(myAtomLocation)<<" myAtomLocation = "<<myAtomLocation<<" myDensityMap.getForceConstant()        = "<<myDensityMap.getForceConstant()<<" myAtomicNumber = "<<myAtomicNumber<<endl);
 		    totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myDensityMap.getForceConstant() * myAtomicNumber;
 		    
-                }
+                } // of for myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getNumAtoms()
+                MMBLOG_FILE_FUNC_LINE(INFO,  "(Use with caution)  totalPotentialEnergy / getMonoAtoms("<<myChainID<<").getNumAtoms() = "<< totalPotentialEnergy / myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getNumAtoms()  <<endl);
+		
             } else {
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, " The chain ID you specified, "<< myChainID << " does not correspond to any existing BiopolymerClass or MonoAtoms !"<<endl);
             }

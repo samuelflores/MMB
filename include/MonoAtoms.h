@@ -78,6 +78,8 @@ class MonoAtomsContainer  {
 		void 		clear();
 		void 		includeAllAtoms(DuMMForceFieldSubsystem & dumm);
 		double          computeTotalCurvatureSquared(const State & state);
+                int             getNumAtoms() const;// Counts all the atoms over all MonoAtoms in MonoAtomsContainer
+
 };
 #endif
 

@@ -398,3 +398,17 @@ double MonoAtomsContainer::computeTotalCurvatureSquared(const State & state){
           
 }
 
+// Counts all the atoms over all MonoAtoms in MonoAtomsContainer
+int  MonoAtomsContainer::getNumAtoms() const{
+        int myNumAtoms = 0;
+        //map <String,MonoAtoms> :: iterator monoAtomsMapIterator;
+	if (monoAtomsMap.size() > 0)
+	    for (auto monoAtomsMapIterator = monoAtomsMap.begin();
+       		monoAtomsMapIterator != monoAtomsMap.end();
+		monoAtomsMapIterator++) 
+	    {
+	    myNumAtoms += (*monoAtomsMapIterator).second.getNumAtoms();
+	}
+	return myNumAtoms;
+}
+

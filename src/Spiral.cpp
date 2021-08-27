@@ -165,18 +165,32 @@ void Spiral::writeCylindricalSpiralCommandFile(MonoAtomsContainer &monoAtomsCont
         tetherCommandStream<<"mobilizer Rigid "<<std::endl;
         tetherCommandStream<<"initialDisplacement A "<<  currentXYZ[0] <<" "<<  currentXYZ[1]  <<" "<< currentXYZ[2] <<std::endl;
         tetherCommandStream<<"initialDisplacement B "<<  currentXYZ[0] <<" "<<  currentXYZ[1]  <<" "<< currentXYZ[2] <<std::endl;
-        tetherCommandStream<<"rotation A  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
-        tetherCommandStream<<"rotation B  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
-        tetherCommandStream<<"rotation A X "<<  atan( pitch / radius / SimTK::Pi / 2)*(-negativeWhenRightHanded(spiralIsRightHanded))    <<std::endl;  // Now, slope it so if follows the tangential slope of the helix. // here we are assuming right handed helix,  then  there is a sign change if it is actually left handed.
-        tetherCommandStream<<"rotation A X "<<  1.0*spiralIsRightHanded*SimTK::Pi     <<std::endl;  // If the spiral is right-handed, we need an additional 180-degree rotation
-        tetherCommandStream<<"rotation B X "<<  atan( pitch / radius / SimTK::Pi / 2)*(-negativeWhenRightHanded(spiralIsRightHanded))    <<std::endl;  // Now, slope it so if follows the tangential slope of the helix. // here we are assuming right handed helix,  then  there is a sign change if it is actually left handed.
-        tetherCommandStream<<"rotation B X "<<  1.0*spiralIsRightHanded*SimTK::Pi     <<std::endl;  // If the spiral is right-handed, we need an additional 180-degree rotation
+        stringstream tempStream("");
+	tempStream<<" Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
+        tetherCommandStream<<"rotation A "<< tempStream.str();
+        tetherCommandStream<<"rotation B "<< tempStream.str(); 
+        //tetherCommandStream<<"rotation A  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
+        //tetherCommandStream<<"rotation B  Z "<<  (SimTK::Pi *  2) / 10 * n    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
+	// "rotation" expects radians
+	// I think the factor if 2*pi should not exist:
+	
+	tempStream.str("");
+	// radius*2*SimTK::Pi gives the full circumference of the cylinder.
+	tempStream<<" X "<< (SimTK::Pi/2 - atan( pitch / (radius*2*SimTK::Pi) ))*(negativeWhenRightHanded(spiralIsRightHanded))<<std::endl;// Now, slope it so if follows the tangential slope of the helix. // here we are assuming right handed helix,  then  there is a sign change if it is actually left handed.
+        tetherCommandStream<<"rotation A "<<tempStream.str  ();
+        tetherCommandStream<<"rotation B "<<tempStream.str  ();
+	tempStream.str("");
+	tempStream<<" X "<<  1.0*spiralIsRightHanded*SimTK::Pi     <<std::endl;
+        tetherCommandStream<<"rotation A "<<  tempStream.str();  // If the spiral is right-handed, we need an additional 180-degree rotation
+        tetherCommandStream<<"rotation B "<<  tempStream.str();  // If the spiral is right-handed, we need an additional 180-degree rotation
+        //tetherCommandStream<<"rotation A X "<<  1.0*spiralIsRightHanded*SimTK::Pi     <<std::endl;  // If the spiral is right-handed, we need an additional 180-degree rotation
+        //tetherCommandStream<<"rotation B X "<<  1.0*spiralIsRightHanded*SimTK::Pi     <<std::endl;  // If the spiral is right-handed, we need an additional 180-degree rotation
         tetherCommandStream<<"rotation A Z "<<  currentPhi   <<std::endl;
         tetherCommandStream<<"rotation B Z "<<  currentPhi   <<std::endl;
         tetherCommandStream<<"readBlockEnd"<<std::endl;
 
 
-	currentPhi += deltaPhi;
+	currentPhi -= deltaPhi*negativeWhenRightHanded(spiralIsRightHanded);
 	n++;
     }
     std::string commonSpiralCommandsAdjusted = std::regex_replace( commonSpiralCommands, std::regex(std::string("ZZZZ")), std::to_string(n-1 ) ); 

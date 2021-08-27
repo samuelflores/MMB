@@ -125,7 +125,6 @@ AtomSpring & AtomSpringContainer::initializeAtomSpring(AtomSpring & atomSpring) 
    atomSpring.forceConstant  = 0.0 ;
    atomSpring.deadLength     = 0.0 ;   
    atomSpring.deadLengthIsFractionOfInitialLength = 0;
-     = 0.0 ;   
    return atomSpring;
 };
 

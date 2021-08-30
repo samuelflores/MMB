@@ -32,6 +32,9 @@ public:
     int numNTC_Torsions();
     const NTC_Classes & getNTC_Class(int NTC_Class_Index);
     vector<NTC_Classes>	myNTC_Class_Vector;
+
+private:
+    void initMolmodelAtomIndices(const BiopolymerClassContainer &container, const NTC_PAR_Class &ntcPars, NTC_Classes &ntc);
 };
 
 #endif

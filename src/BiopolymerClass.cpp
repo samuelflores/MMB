@@ -27,6 +27,7 @@
 #include <utility>
 
 #include "MobilizerContainer.h"
+#include "molmodel/internal/Compound.h"
 #include "molmodel/internal/Pdb.h"
 
 // #define  _DEBUG_FLAGS_ON_
@@ -1299,6 +1300,11 @@ MobilizedBody & BiopolymerClass::updAtomMobilizedBody(SimbodyMatterSubsystem & m
     return matter.updMobilizedBody(myAtomMobilizedBodyIndex);
 }
 
+MobilizedBody & BiopolymerClass::updAtomMobilizedBody(SimbodyMatterSubsystem & matter, const Compound::AtomIndex aIx) {
+    MobilizedBodyIndex ix  = myBiopolymer.getAtomMobilizedBodyIndex(aIx);
+    return matter.updMobilizedBody(ix);
+}
+
 MobilizedBodyIndex BiopolymerClass::getAtomMobilizedBodyIndex(SimbodyMatterSubsystem & matter, const ResidueID &myResidueID, const String &myAtomName) const {
     Compound::AtomIndex myAtomIndex = atomIndex (myResidueID,myAtomName ); 
     MobilizedBodyIndex myAtomMobilizedBodyIndex = myBiopolymer.getAtomMobilizedBodyIndex(myAtomIndex); 
@@ -1316,6 +1322,9 @@ Vec3 BiopolymerClass::calcAtomLocationInGroundFrame(const State & state, const R
     return myBiopolymer.calcAtomLocationInGroundFrame(state, myAtomIndex);
 }
 
+Vec3 BiopolymerClass::calcAtomLocationInGroundFrame(const State & state, Compound::AtomIndex aIx) {
+    return myBiopolymer.calcAtomLocationInGroundFrame(state, aIx);
+}
 
 void BiopolymerClass::loadResidueIDVector() {
     MMBLOG_FILE_FUNC_LINE(CRITICAL, "You should not be doing this at this stage!  This is being done in BiopolymerClass::setResidueIDsAndInsertionCodesFromBiopolymer."<<endl);
@@ -2792,7 +2801,6 @@ Vec3 BiopolymerClassContainer::getAtomLocationInMobilizedBodyFrame(String myChai
 MobilizedBody & BiopolymerClassContainer::updAtomMobilizedBody(SimbodyMatterSubsystem & matter, const String &chainID, const ResidueID &myResidueID, const String &myAtomName) {
     return updBiopolymerClass(chainID).updAtomMobilizedBody(matter,myResidueID,myAtomName);
 }
-
 
 void BiopolymerClassContainer::writeDefaultPdb(std::ostream& outputStream)
 {

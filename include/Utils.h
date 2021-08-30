@@ -609,7 +609,15 @@ class     NTC_Classes {
                double weight,weight2;
                int    meta = 0;
                int    count = 0;
+               std::array<Compound::AtomIndex, 4> atomIndices;
+
     void print(){
+        std::stringstream ss{};
+        for (const auto &i : atomIndices) {
+            ss << i << ", ";
+        }
+        ss << std::endl;
+
         MMBLOG_PLAIN(INFO, " Printing parameters for NtC:"<<std::endl
         << " NtC_FirstBPChain = >"<<NtC_FirstBPChain<<"<"<<std::endl
         << " FirstBPResidue = >"<<FirstBPResidue.outString()<<"<"<<std::endl
@@ -624,7 +632,8 @@ class     NTC_Classes {
         << " NTC_PAR_BondRowIndex = >"<<NTC_PAR_BondRowIndex<<"<"<<std::endl
         << " meta = >"<<meta<<"<"<<std::endl
         << " count = >"<<count<<"<"<<std::endl
-	<< std::endl);
+        << " Molmodel atom indices" << ss.str() << std::endl
+        << std::endl);
     }
                
 };

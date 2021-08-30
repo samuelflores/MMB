@@ -10,6 +10,7 @@
 
 #ifndef BiopolymerClass_H_
 #define BiopolymerClass_H_
+#include "molmodel/internal/Compound.h"
 #define MUTATIONMINORSEPARATOR "-"
 #define MUTATIONMAJORSEPARATOR "."
 
@@ -214,8 +215,10 @@ public:
     Vec3        getAtomLocationInMobilizedBodyFrame(  ResidueID myResidueID,   String myAtomName); 
     const MobilizedBody & getAtomMobilizedBody(SimbodyMatterSubsystem & matter, const ResidueID &myResidueID, const String &myAtomName) const;
     MobilizedBody & updAtomMobilizedBody(SimbodyMatterSubsystem & matter,   ResidueID myResidueID,   String myAtomName);
+    MobilizedBody & updAtomMobilizedBody(SimbodyMatterSubsystem & matter, const Compound::AtomIndex aIx);
     MobilizedBodyIndex getAtomMobilizedBodyIndex( SimbodyMatterSubsystem & matter, const ResidueID &myResidueID, const String &myAtomName) const;
     Vec3        calcAtomLocationInGroundFrame(const  State & state, const ResidueID &residueID, const String &atomName);
+    Vec3        calcAtomLocationInGroundFrame(const State &state, Compound::AtomIndex aIx);
     Vec3        calcDefaultAtomLocationInGroundFrame(const ResidueID &residueID, const String &atomName) const;
     void        loadResidueIDVector();
     void        loadResidueIDVectorAscending(ResidueID firstResidueID);

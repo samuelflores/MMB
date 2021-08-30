@@ -1,3 +1,5 @@
+// vim :set expandtab sw=4 ts=4 sts=4:
+
 /* -------------------------------------------------------------------------- *
  *                           MMB (MacroMoleculeBuilder)                       *
  * -------------------------------------------------------------------------- *
@@ -12,6 +14,7 @@
 #include "NtC_Class_Container.h"
 #include "NTC_PARAMETER_READER.h"
 #include "MMBLogger.h"
+#include "molmodel/internal/Compound.h"
 #include <array>
 #include <sstream>
 
@@ -169,6 +172,7 @@ void NTC_Class_Container::add_NTC_Class(
 void NTC_Class_Container::add_NTC_Class(BiopolymerClassContainer &myBiopolymerClassContainer, const NTC_PAR_Class &ntc_par_class, NTC_Classes &NTC) {
     for (const auto &dht : DIHEDRAL_TYPES) {
         validate_NTC_Class(myBiopolymerClassContainer, ntc_par_class, NTC, dht);
+        initMolmodelAtomIndices(myBiopolymerClassContainer, ntc_par_class, NTC);
         myNTC_Class_Vector.push_back(NTC);
     }
 }
@@ -188,4 +192,22 @@ int NTC_Class_Container::numNTC_Torsions() { return myNTC_Class_Vector.size(); }
 
 const NTC_Classes &NTC_Class_Container::getNTC_Class(int NTC_Class_Index) {
     return myNTC_Class_Vector[NTC_Class_Index];
+}
+
+
+void NTC_Class_Container::initMolmodelAtomIndices(const BiopolymerClassContainer &container, const NTC_PAR_Class &ntcPars, NTC_Classes &ntc) {
+    const auto &bp = container.getBiopolymerClass(ntc.NtC_FirstBPChain);
+    const auto &bondRow = ntcPars.myNTC_PAR_BondMatrix.myNTC_PAR_BondRow[ntc.NTC_PAR_BondRowIndex];
+
+    std::array<const ResidueID *const, 2> residues = { &ntc.FirstBPResidue, &ntc.SecondBPResidue };
+    if (bondRow.bondLength[0] == 0.0) { // Bond of zero length is actually a torsion (I know, I know...)
+        for (size_t idx = 0; idx < 4; idx++) {
+            const ResidueID *resId = residues[bondRow.atom_shift[idx]];
+            ntc.atomIndices[idx] = bp.atomIndex(*resId, bondRow.residue1Atom[idx]);
+        }
+    } else { // Non-zero bond length indicates an acutal bond
+        for (size_t idx = 0; idx < 2; idx++) {
+            ntc.atomIndices[idx] = bp.atomIndex(*residues[idx], bondRow.residue1Atom[idx]);
+        }
+    }
 }

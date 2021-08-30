@@ -356,16 +356,11 @@ Real NTC_Torque::return_angle(const Vec3 &cross_1, const Vec3 &cross_2, const Ve
     else if (scalar_product < -1.0)
         scalar_product = -1.0;
 
-    angle = acos(scalar_product) * 180.0 / SimTK::Pi;
+    angle = std::acos(scalar_product) * 180.0 / SimTK::Pi;
+    double flipper = 1.0 - 2.0 * (direction[0] < 0.0 && direction[1] < 0.0 && direction[2] < 0.0);
+    angle = flipper * angle;
 
-    if (direction[0] < 0.0 && direction[1] < 0.0 && direction[2] < 0.0) {
-        angle = -angle;
-    }
+    angle += 360.0 * (angle < 0.0);
 
-    if (angle < 0.0)
-        angle = angle + 360.0;
-
-    angle /= K_ANGLE;
-
-    return angle;
+    return angle /= K_ANGLE;
 }

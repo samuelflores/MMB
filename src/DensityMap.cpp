@@ -75,7 +75,7 @@ void DensityMap::validateGridParameters() {
     unitCellParameters.validate();
 }
 		
-bool        DensityMap::hasGridPoint(GridIndices myGridIndices){
+bool        DensityMap::hasGridPoint(const GridIndices &myGridIndices) const {
 
         //cout<<__FILE__<<":"<<__LINE__<< " ArrayOfGridPoints[0].size() = "  <<ArrayOfGridPoints[0].size() <<endl;
         //cout<<__FILE__<<":"<<__LINE__<< " ArrayOfGridPoints[0][0].size() = "  <<ArrayOfGridPoints[0][0].size() <<endl;
@@ -138,7 +138,7 @@ GridIndices DensityMap::calcNearestGridIndices(const Vec3 &position)
 			return tempGridIndices;
 		}
 		
-GridIndices DensityMap::calcLowerLeftGridIndices(const Vec3 &position)
+GridIndices DensityMap::calcLowerLeftGridIndices(const Vec3 &position) const
                 {
                         iVec3 tempIndexVector = unitCellParameters.convertCartesianVectorToLowerIndexVector(position); //convertFractionalVectorToLowerIndexVector(position);
 
@@ -1032,20 +1032,17 @@ const Vec3 & DensityMap::fetchFirstQuadrantGradient(const Vec3 &position)  {
 
 }
 
-Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(const Vec3 &position)  {
+const Vec3 & DensityMap::calcInterpolatedFirstQuadrantGradient(const Vec3 &position) const {
 
                         GridIndices myLowerLeftGridIndex = calcLowerLeftGridIndices(   position);
                          if (hasGridPoint(myLowerLeftGridIndex)) {
                                  //MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
-                                 Vec3 tempVec3 = calcInterpolatedFirstQuadrantGradient(ArrayOfGridPoints[myLowerLeftGridIndex.getZGridIndex()][myLowerLeftGridIndex.getYGridIndex()][myLowerLeftGridIndex.getXGridIndex()],position);
+                                 return calcInterpolatedFirstQuadrantGradient(ArrayOfGridPoints[myLowerLeftGridIndex.getZGridIndex()][myLowerLeftGridIndex.getYGridIndex()][myLowerLeftGridIndex.getXGridIndex()],position);
                                  //cout<<__FILE__<<":"<<__LINE__<<":"<<__FUNCTION__<<" Returning NON-ZERO force "<< tempVec3 <<" for grid point at position "<<position<<", lower left indices "<<myLowerLeftGridIndex.getXGridIndex() <<", "<< myLowerLeftGridIndex.getYGridIndex()   <<", "<< myLowerLeftGridIndex.getZGridIndex()  <<  endl;
-                                 return tempVec3; //calcInterpolatedFirstQuadrantGradient(ArrayOfGridPoints[myLowerLeftGridIndex.getZGridIndex()][myLowerLeftGridIndex.getYGridIndex()][myLowerLeftGridIndex.getXGridIndex()],position);
 
                          } 
                          else { // might want to trap the conditions at the boundaries of the map, to get the minimizer to work
-                                 Vec3 tempVec3(0);
-                                 //cout<<__FILE__<<":"<<__LINE__<<":"<<__FUNCTION__<<" Returning ZERO force "<< tempVec3 <<" for grid point at position "<<position<<endl;
-                                 return tempVec3;
+				 return ZERO_VEC;
                          }
 }
 
@@ -1158,8 +1155,8 @@ void DensityMap::setNegativeZGradient(GridPoint & gridPoint,Real myNegativeZGrad
         //MMBLOG_FILE_FUNC_LINE(CRITICAL, " this function is only for calculating the gradient in the first quadrant"<<endl;
         MMBLOG_FILE_FUNC_LINE(CRITICAL, ""); //Seriously????
 }
-Vec3 DensityMap::calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint, const Vec3 &queryPosition) const {
-    Vec3 dxdydz = unitCellParameters.convertFractionalVectorToFractionFromLowerLeft(unitCellParameters.convertCartesianVectorToFractionalVector(queryPosition)); //queryPosition - gridPoint.position; // the first term is the query position, the second term is the grid point position in cartesian space
+const Vec3 & DensityMap::calcInterpolatedFirstQuadrantGradient(const GridPoint & gridPoint, const Vec3 &queryPosition) const {
+    //Vec3 dxdydz = unitCellParameters.convertFractionalVectorToFractionFromLowerLeft(unitCellParameters.convertCartesianVectorToFractionalVector(queryPosition)); //queryPosition - gridPoint.position; // the first term is the query position, the second term is the grid point position in cartesian space
 
     /* 
     // These conditions never tripped, so I think we are doing a good enough job preventing them implicitly.

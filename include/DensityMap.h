@@ -89,13 +89,13 @@ class MMB_EXPORT DensityMap {
 	int getSizeOfArrayOfGridPoints() const ;//
         // 	{return ArrayOfGridPoints.size()*ArrayOfGridPoints[0].size()*ArrayOfGridPoints[0][0].size();};
         std::vector<std::vector<std::vector<AmplitudeFrequencyAndRandomPhases> > > vectorOfAmplitudeFrequencyAndRandomPhases;     
-        bool hasGridPoint(GridIndices);
+        bool hasGridPoint(const GridIndices &indices) const;
         GridPoint     & updGridPoint(GridIndices);
         GridPoint getGridPoint(GridIndices) const ;
         void validateGridPoint(GridIndices myGridIndices);
         //const bool hasNearbyGridIndices(Vec3 position);
         GridIndices calcNearestGridIndices(const Vec3 &position);
-        GridIndices calcLowerLeftGridIndices(const Vec3 &position);
+        GridIndices calcLowerLeftGridIndices(const Vec3 &position) const;
         GridPoint getGridPoint(const Vec3 &);
         GridPoint     & updGridPoint(const Vec3 &);
         //const double getDensity(Vec3);
@@ -126,7 +126,7 @@ class MMB_EXPORT DensityMap {
         Vec3 fetchGradient(const Vec3 &position);
         const Vec3 & fetchFirstQuadrantGradient(const Vec3 &position);
         //Vec3 calcInterpolatedFirstQuadrantGradient(Vec3 position);
-        SimTK::Vec3 calcInterpolatedFirstQuadrantGradient(const SimTK::Vec3 &position) ;
+        const Vec3 & calcInterpolatedFirstQuadrantGradient(const Vec3 &position) const;
         // Functions which were moved from GridPoint to DensityMap for memory savings
         void initializeGradient(GridPoint & gridPoint );
         void initialize(GridPoint & gridPoint );
@@ -156,7 +156,7 @@ class MMB_EXPORT DensityMap {
         void setNegativeYGradient(GridPoint & gridPoint, Real);
         void setNegativeZGradient(GridPoint & gridPoint, Real);
         //void printSecondDerivatives(GridPoint & gridPoint) const;
-        Vec3 calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint, const Vec3 &queryPosition) const;
+        const Vec3 & calcInterpolatedFirstQuadrantGradient(const GridPoint & gridPoint, const Vec3 &queryPosition) const;
 };
 
 // #define LINESIZE 1024

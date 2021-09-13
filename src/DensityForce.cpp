@@ -24,10 +24,10 @@ void DensityForce::calcForce(const State& state, Vector_<SpatialVec>& bodyForces
         double torque = 0.;
         //if (myParameterReader.applyHeavyAtomDensityForces)
         for (int i = 0; i < myParameterReader.densityContainer.numDensityStretches(); i++) {
-                String myChainID = myParameterReader.densityContainer.getDensityStretch(i).getChain();
+                const String &myChainID = myParameterReader.densityContainer.getDensityStretch(i).getChain();
 		if (myParameterReader.myBiopolymerClassContainer.hasChainID(myChainID)){
-                    BiopolymerClass & tempBiopolymerClass = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID );
-                    Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
+                    const BiopolymerClass & tempBiopolymerClass = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID );
+                    const Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
                     vector<MMBAtomInfo> tempAtomInfoVector = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm,myParameterReader.densityFitPhosphates); 
                     for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) {
                         MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];

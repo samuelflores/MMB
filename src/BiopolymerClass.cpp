@@ -344,7 +344,7 @@ int BiopolymerClass::validateBiopolymerType () const {
 
 }
 
-void BiopolymerClass::validateAtomInfoVector(){
+void BiopolymerClass::validateAtomInfoVector() const {
     if (atomInfoVector.size() == 0) {
              MMBLOG_FILE_FUNC_LINE(CRITICAL, "Your atomInfoVector has no elements! "  <<endl);
     } else {
@@ -1180,8 +1180,8 @@ Vec3 BiopolymerClass::getAtomLocationInMobilizedBodyFrame(ResidueID myResidueID,
 
 // mmbAtomInfo WITHOUT dumm, doesn't set mass, atomicNumber, mobilizedBody, or mobilizedBodyIndex.
 
-MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter) {
-    const ResidueInfo &myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID));
+MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter) const {
+    const ResidueInfo &myResidueInfo = myBiopolymer.getResidue(getResidueIndex(myResidueID));
     Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex);
     Compound::AtomName myAtomName = myResidueInfo.getAtomName(myResidueInfoAtomIndex);
 
@@ -1191,13 +1191,13 @@ MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const Res
     return ai;
 }
 // mmbAtomInfo WITH dumm, adds mass, atomicNumber, mobilizedBody, and mobilizedBodyIndex.
-MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) {
-    const ResidueInfo &myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID));
+MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) const {
+    const ResidueInfo &myResidueInfo = myBiopolymer.getResidue(getResidueIndex(myResidueID));
     Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex);
 
     MMBAtomInfo myMMBAtomInfo = mmbAtomInfo(myResidueID, myResidueInfoAtomIndex, matter);
     DuMM::AtomIndex myDuMMAtomIndex = myBiopolymer.getDuMMAtomIndex(myAtomIndex);
-    myMMBAtomInfo.mobilizedBody = updAtomMobilizedBody(matter, myResidueID, myMMBAtomInfo.getAtomName());
+    myMMBAtomInfo.mobilizedBody = getAtomMobilizedBody(matter, myResidueID, myMMBAtomInfo.getAtomName());
     myMMBAtomInfo.mobilizedBodyIndex = myMMBAtomInfo.mobilizedBody.getMobilizedBodyIndex();
     myMMBAtomInfo.mass = dumm.getAtomMass(myDuMMAtomIndex);
     myMMBAtomInfo.atomicNumber = dumm.getAtomElement(myDuMMAtomIndex);
@@ -1305,30 +1305,30 @@ vector<MMBAtomInfo>  BiopolymerClass::getAtomInfoVector(){
 }
 
 
-vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates ) {
+vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates ) const {
     if ((myResidueStretch.getStartResidue() == getFirstResidueID()) && 
         (myResidueStretch.getEndResidue()   == getLastResidueID()  )) {
         validateAtomInfoVector(); //return atomInfoVector;
         return atomInfoVector;
     } // just return the precomputed atomInfoVector
     else {
-          vector<MMBAtomInfo>::iterator startAtomInfoIterator;
-          vector<MMBAtomInfo>::iterator endAtomInfoIterator;
-          ResidueInfo myEndResidueInfo = myBiopolymer.updResidue(getResidueIndex(  myResidueStretch.getEndResidue() ));
+          vector<MMBAtomInfo>::const_iterator startAtomInfoIterator;
+          vector<MMBAtomInfo>::const_iterator endAtomInfoIterator;
+          ResidueInfo myEndResidueInfo = myBiopolymer.getResidue(getResidueIndex(  myResidueStretch.getEndResidue() ));
           MMBAtomInfo   myStartAtomInfo =  mmbAtomInfo(myResidueStretch.getStartResidue(), ResidueInfo::AtomIndex(0), matter,dumm ) ;
           MMBAtomInfo   myEndAtomInfo   =  mmbAtomInfo(myResidueStretch.getEndResidue(), ResidueInfo::AtomIndex(myEndResidueInfo.getNumAtoms()-1), matter,dumm ) ;
 
-          startAtomInfoIterator =   atomInfoVector.begin();
+          startAtomInfoIterator =   atomInfoVector.cbegin();
           ResidueID indexResidueID = getFirstResidueID();
           while ( indexResidueID < myResidueStretch.getStartResidue()) { 
-              startAtomInfoIterator += myBiopolymer.updResidue(getResidueIndex(indexResidueID)).getNumAtoms();
+              startAtomInfoIterator += myBiopolymer.getResidue(getResidueIndex(indexResidueID)).getNumAtoms();
               if (indexResidueID <  getLastResidueID() ) incrementResidueID(indexResidueID); else break; // make sure we don't increment past the last residue
        
           }
           endAtomInfoIterator =   startAtomInfoIterator ;
           ResidueID indexResidueID2 = myResidueStretch.getStartResidue();      
           while ( indexResidueID2 <= myResidueStretch.getEndResidue()) { 
-              endAtomInfoIterator += myBiopolymer.updResidue( getResidueIndex(indexResidueID2) ).getNumAtoms();
+              endAtomInfoIterator += myBiopolymer.getResidue( getResidueIndex(indexResidueID2) ).getNumAtoms();
               if (indexResidueID2 <  getLastResidueID() ) incrementResidueID(indexResidueID2); else break; // make sure we don't increment past the last residue
           }
           endAtomInfoIterator -= 1;
@@ -1383,13 +1383,18 @@ void BiopolymerClass::addRingClosingBond( ResidueID residueID1, String atomName1
     myBiopolymer.addRingClosingBond( centerName1,    centerName2 , bondLength, dihedralAngle, bondMobility); 
 }
 
+const MobilizedBody & BiopolymerClass::getAtomMobilizedBody(SimbodyMatterSubsystem &matter, const ResidueID &myResidueID, const String &myAtomName) const {
+    MobilizedBodyIndex myAtomMobilizedBodyIndex = getAtomMobilizedBodyIndex(matter, myResidueID, myAtomName);
+    return matter.updMobilizedBody(myAtomMobilizedBodyIndex);
+}
+
 MobilizedBody & BiopolymerClass::updAtomMobilizedBody(SimbodyMatterSubsystem & matter, ResidueID myResidueID    , String myAtomName){ 
     //Compound::AtomIndex myAtomIndex = atomIndex (myResidueID,myAtomName ); 
     MobilizedBodyIndex myAtomMobilizedBodyIndex = getAtomMobilizedBodyIndex(matter,myResidueID,myAtomName ); 
     return matter.updMobilizedBody(myAtomMobilizedBodyIndex);
 }
 
-MobilizedBodyIndex BiopolymerClass::getAtomMobilizedBodyIndex(SimbodyMatterSubsystem & matter, ResidueID myResidueID    , String myAtomName){ 
+MobilizedBodyIndex BiopolymerClass::getAtomMobilizedBodyIndex(SimbodyMatterSubsystem & matter, const ResidueID &myResidueID, const String &myAtomName) const {
     Compound::AtomIndex myAtomIndex = atomIndex (myResidueID,myAtomName ); 
     MobilizedBodyIndex myAtomMobilizedBodyIndex = myBiopolymer.getAtomMobilizedBodyIndex(myAtomIndex); 
     return myAtomMobilizedBodyIndex;

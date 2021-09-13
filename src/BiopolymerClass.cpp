@@ -1305,7 +1305,7 @@ vector<MMBAtomInfo>  BiopolymerClass::getAtomInfoVector(){
 }
 
 
-vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates ) const {
+vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(const ResidueStretch &myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates ) const {
     if ((myResidueStretch.getStartResidue() == getFirstResidueID()) && 
         (myResidueStretch.getEndResidue()   == getLastResidueID()  )) {
         validateAtomInfoVector(); //return atomInfoVector;

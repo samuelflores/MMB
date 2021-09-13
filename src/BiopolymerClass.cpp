@@ -1192,11 +1192,8 @@ MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const Res
 }
 // mmbAtomInfo WITH dumm, adds mass, atomicNumber, mobilizedBody, and mobilizedBodyIndex.
 MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) const {
-    const ResidueInfo &myResidueInfo = myBiopolymer.getResidue(getResidueIndex(myResidueID));
-    Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex);
-
     MMBAtomInfo myMMBAtomInfo = mmbAtomInfo(myResidueID, myResidueInfoAtomIndex, matter);
-    DuMM::AtomIndex myDuMMAtomIndex = myBiopolymer.getDuMMAtomIndex(myAtomIndex);
+    DuMM::AtomIndex myDuMMAtomIndex = myBiopolymer.getDuMMAtomIndex(myMMBAtomInfo.compoundAtomIndex);
     myMMBAtomInfo.mobilizedBody = getAtomMobilizedBody(matter, myResidueID, myMMBAtomInfo.getAtomName());
     myMMBAtomInfo.mobilizedBodyIndex = myMMBAtomInfo.mobilizedBody.getMobilizedBodyIndex();
     myMMBAtomInfo.mass = dumm.getAtomMass(myDuMMAtomIndex);

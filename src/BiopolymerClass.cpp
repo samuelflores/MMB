@@ -1623,6 +1623,10 @@ void BiopolymerClass::setProteinBondMobility ( BondMobility::Mobility  mobility,
         }
         }
 
+const Biopolymer & BiopolymerClass::getBiopolymer() const {
+    return myBiopolymer;
+}
+
 Biopolymer & BiopolymerClass::updBiopolymer() {
     return  myBiopolymer;
 }

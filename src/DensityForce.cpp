@@ -26,12 +26,12 @@ void DensityForce::calcForce(const State& state, Vector_<SpatialVec>& bodyForces
         for (int i = 0; i < myParameterReader.densityContainer.numDensityStretches(); i++) {
                 const String &myChainID = myParameterReader.densityContainer.getDensityStretch(i).getChain();
 		if (myParameterReader.myBiopolymerClassContainer.hasChainID(myChainID)){
-                    const BiopolymerClass & tempBiopolymerClass = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID );
-                    const Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
-                    vector<MMBAtomInfo> tempAtomInfoVector = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm,myParameterReader.densityFitPhosphates); 
+                    const BiopolymerClass &bpc = myParameterReader.myBiopolymerClassContainer.getBiopolymerClass(myChainID );
+                    const Biopolymer &bp = bpc.getBiopolymer();
+                    vector<MMBAtomInfo> tempAtomInfoVector = bpc.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm,myParameterReader.densityFitPhosphates); 
                     for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) {
                         const MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
-                        Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
+                        Vec3 myAtomLocation = bp.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
                         // changed to atomic number on May 30 2012, earlier was atomic mass:
                         const Vec3 &myAtomForce = myDensityMap.calcInterpolatedFirstQuadrantGradient(myAtomLocation) * (myDensityMap.getForceConstant() * tempAtomInfo.atomicNumber);
                         bodyForces[tempAtomInfo.mobilizedBodyIndex] +=  SpatialVec(torque + (-((tempAtomInfo.mobilizedBody).getBodyTransform(state)).T()+ myAtomLocation) % myAtomForce, myAtomForce);

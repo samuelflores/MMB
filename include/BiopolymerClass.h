@@ -228,6 +228,7 @@ public:
     void        setProteinBondMobility (   BondMobility::Mobility  mobility,   ResidueID startResidue,   ResidueID endResidue);
     void        rigidifyTargetedBonds(Compound::AtomTargetLocations  & biopolymerAtomTargets);
     void        setSingleBondMobility(  ResidueID residueID1,  String atomName1,  ResidueID residueID2,   String atomName2,  String mobilityString ); // sets BondMobility for a single bond in the chain.
+    const Biopolymer & getBiopolymer() const;
     Biopolymer & updBiopolymer();
     void        includeNonBondAtom(  ResidueID residueID,   String atomName, State & state, DuMMForceFieldSubsystem & dumm) ;
     ResidueInfo updResidueInfo (  ResidueID residueID) ;

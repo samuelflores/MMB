@@ -1306,13 +1306,10 @@ vector<MMBAtomInfo>  BiopolymerClass::getAtomInfoVector(){
 
 
 vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates ) {
-
-
-    vector<MMBAtomInfo> returnAtomInfoVector;
     if ((myResidueStretch.getStartResidue() == getFirstResidueID()) && 
         (myResidueStretch.getEndResidue()   == getLastResidueID()  )) {
         validateAtomInfoVector(); //return atomInfoVector;
-        returnAtomInfoVector = atomInfoVector;
+        return atomInfoVector;
     } // just return the precomputed atomInfoVector
     else {
           vector<MMBAtomInfo>::iterator startAtomInfoIterator;
@@ -1335,7 +1332,7 @@ vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidu
               if (indexResidueID2 <  getLastResidueID() ) incrementResidueID(indexResidueID2); else break; // make sure we don't increment past the last residue
           }
           endAtomInfoIterator -= 1;
-          returnAtomInfoVector = vector<MMBAtomInfo>  (startAtomInfoIterator, endAtomInfoIterator+1);
+          return {startAtomInfoIterator, endAtomInfoIterator+1};
           //return vector<MMBAtomInfo>  (startAtomInfoIterator, endAtomInfoIterator+1);
     }
  
@@ -1364,7 +1361,6 @@ vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidu
         // We are a protein, so includePhosphates should not affect us. Do nothing.
     }
         */
-    return returnAtomInfoVector;
     //MMBLOG_FILE_FUNC_LINE(": Unexplained error! "<<endl; exit (0);
 }
 

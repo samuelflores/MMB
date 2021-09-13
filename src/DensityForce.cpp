@@ -30,10 +30,10 @@ void DensityForce::calcForce(const State& state, Vector_<SpatialVec>& bodyForces
                     const Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
                     vector<MMBAtomInfo> tempAtomInfoVector = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm,myParameterReader.densityFitPhosphates); 
                     for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) {
-                        MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
+                        const MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
                         Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
                         // changed to atomic number on May 30 2012, earlier was atomic mass:
-                        Vec3 myAtomForce = myDensityMap.calcInterpolatedFirstQuadrantGradient(myAtomLocation) * (myDensityMap.getForceConstant() * tempAtomInfo.atomicNumber);
+                        const Vec3 &myAtomForce = myDensityMap.calcInterpolatedFirstQuadrantGradient(myAtomLocation) * (myDensityMap.getForceConstant() * tempAtomInfo.atomicNumber);
                         bodyForces[tempAtomInfo.mobilizedBodyIndex] +=  SpatialVec(torque + (-((tempAtomInfo.mobilizedBody).getBodyTransform(state)).T()+ myAtomLocation) % myAtomForce, myAtomForce);
                     } // of for m
 		} // of if myBiopolymerClassContainer.hasChainID 

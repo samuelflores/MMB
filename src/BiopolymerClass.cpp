@@ -1314,7 +1314,7 @@ vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidu
     else {
           vector<MMBAtomInfo>::const_iterator startAtomInfoIterator;
           vector<MMBAtomInfo>::const_iterator endAtomInfoIterator;
-          ResidueInfo myEndResidueInfo = myBiopolymer.getResidue(getResidueIndex(  myResidueStretch.getEndResidue() ));
+          const ResidueInfo &myEndResidueInfo = myBiopolymer.getResidue(getResidueIndex(  myResidueStretch.getEndResidue() ));
           MMBAtomInfo   myStartAtomInfo =  mmbAtomInfo(myResidueStretch.getStartResidue(), ResidueInfo::AtomIndex(0), matter,dumm ) ;
           MMBAtomInfo   myEndAtomInfo   =  mmbAtomInfo(myResidueStretch.getEndResidue(), ResidueInfo::AtomIndex(myEndResidueInfo.getNumAtoms()-1), matter,dumm ) ;
 

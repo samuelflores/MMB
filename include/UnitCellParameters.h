@@ -1,17 +1,25 @@
 #ifndef UnitCellParameters_H_
 #define UnitCellParameters_H_
 #include  "SimTKmolmodel.h" // Actually this could just need simtkcommon or some such..
+#include <array>
 #include  <vector>
 //typedef SimTK::Vec<3,int> iVec3;
 typedef std::array<int, 3> iVec3; // This is not really a vector, it is an array. But I think it should work fine for us.
 class UnitCellParameters{
 	private:
+		enum AbcMins : size_t {
+			A,
+			B,
+			C
+		};
+
 		bool valid;
 		double a,b,c;
 		double alpha, beta, gamma;
-		int  na, aMin, aMax, nb, bMin, bMax, nc, cMin, cMax;
+		int  na, aMax, nb, bMax, nc, cMax;
 		SimTK::Mat33 orthogonalizationMatrix;
 		SimTK::Mat33 deOrthogonalizationMatrix;
+		std::array<int, 3> abcMins;
 	public:
 		void setDefaultParameters();
 
@@ -42,9 +50,9 @@ class UnitCellParameters{
                 double geta() const {return a;};
                 double getb() const {return b;};
                 double getc() const {return c;};
-                double getaMin() const {return aMin;};
-                double getbMin() const {return bMin;};
-                double getcMin() const {return cMin;};
+                double getaMin() const {return abcMins[AbcMins::A];};
+                double getbMin() const {return abcMins[AbcMins::B];};
+                double getcMin() const {return abcMins[AbcMins::C];};
                 double getaMax() const {return aMax;};
                 double getbMax() const {return bMax;};
                 double getcMax() const {return cMax;};

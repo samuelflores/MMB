@@ -81,13 +81,16 @@ class MMB_EXPORT DensityMap {
         double noiseScale;
 	double forceConstant;
 	String densityFileName;
-        std::vector<std::vector<std::vector<GridPoint> > > ArrayOfGridPoints;        
+
+        std::vector<GridPoint> m_gridPoints;
+        const GridPoint & gridPoint(int z, int y, int x) const;
+        GridPoint & gridPoint(int z, int y, int x);
+
     public:
         DensityMap();
-        ~DensityMap();
         void initializeMap();
         void validateGridParameters();
-	int getSizeOfArrayOfGridPoints() const ;//
+        size_t getSizeOfArrayOfGridPoints() const ;//
         // 	{return ArrayOfGridPoints.size()*ArrayOfGridPoints[0].size()*ArrayOfGridPoints[0][0].size();};
         std::vector<std::vector<std::vector<AmplitudeFrequencyAndRandomPhases> > > vectorOfAmplitudeFrequencyAndRandomPhases;     
         bool hasGridPoint(const GridIndices &indices) const;
@@ -139,8 +142,8 @@ class MMB_EXPORT DensityMap {
         //Quadrant calcQuadrant(GridPoint & gridPoint, Vec3 queryPosition) const;
         //Vec3  fetchGradient(GridPoint & gridPoint, Vec3 queryPosition) const;
         const Vec3 & fetchFirstQuadrantGradient(const GridPoint & gridPoint) const ;
-        double getDensity(GridPoint & gridPoint) const;
-        double getDensity(GridPoint & gridPoint, Vec3 myPosition) const;   
+        double getDensity(const GridPoint & gridPoint) const;
+        double getDensity(const GridPoint & gridPoint, const Vec3 &myPosition) const;   
         void setPositiveXGradient(GridPoint & gridPoint, Real);
         //void setddxPositiveXGradient(GridPoint & gridPoint, Real);
         //void setddyPositiveXGradient(GridPoint & gridPoint, Real);

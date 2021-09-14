@@ -108,9 +108,8 @@ iVec3 UnitCellParameters::convertFractionalVectorToLowerIndexVector  (const SimT
     iVec3 indexVector = { -1, -1, -1 };
     for (size_t idx = 0; idx < 3; idx++) {
         int tr = std::trunc(fractionalVector[idx]);
-        if (fractionalVector[idx] - tr >= 0) {
-            indexVector[idx] = tr - abcMins[idx];
-        }
+        int cond = fractionalVector[idx] - tr >= 0;
+        indexVector[idx] += cond * (tr - abcMins[idx] + 1); // Add one because the initial value is -1
     }
     return indexVector;
 }

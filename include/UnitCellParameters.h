@@ -19,7 +19,7 @@ class UnitCellParameters{
                 SimTK::Mat33 getDeOrthogonalizationMatrix () const ;
 		//SimTK::Vec3 multiplyMat33TimesVec3  (const SimTK::Mat33 myMat33 , const SimTK::Vec3 myVec3 ) ;
 		// takes a cartesian vector, returns a vector in fractional coordinates
-		SimTK::Vec3 convertCartesianVectorToFractionalVector  (const SimTK::Vec3 cartesianVector) const ;
+		SimTK::Vec3 convertCartesianVectorToFractionalVector  (const SimTK::Vec3 &cartesianVector) const ;
                 // takes a fractional vector, drops the integer part and returns only the fractional part:
 		SimTK::Vec3 convertFractionalVectorToFractionFromLowerLeft  (const SimTK::Vec3 & fractionalVector) const ;
                 // Rounds fractional vector to nearest integers

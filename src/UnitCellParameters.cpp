@@ -49,13 +49,11 @@ SimTK::Vec3 multiplyMat33TimesVec3  (const SimTK::Mat33 myMat33 , const SimTK::V
 }
 
 // takes a cartesian vector, returns a vector in fractional coordinates
-SimTK::Vec3 UnitCellParameters::convertCartesianVectorToFractionalVector  (const SimTK::Vec3 cartesianVector) const {
+SimTK::Vec3 UnitCellParameters::convertCartesianVectorToFractionalVector  (const SimTK::Vec3 &cartesianVector) const {
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Converting cartesian vector "<<cartesianVector<<std::endl;
     exitIfNotValid();
 
-    SimTK::Vec3 fractionalVector = multiplyMat33TimesVec3(getDeOrthogonalizationMatrix(), cartesianVector);
-    //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" To fractional vector "<< fractionalVector <<std::endl;
-    return fractionalVector;
+    return multiplyMat33TimesVec3(getDeOrthogonalizationMatrix(), cartesianVector);
 }
 SimTK::Vec3 UnitCellParameters::convertFractionalVectorToFractionFromLowerLeft  (const SimTK::Vec3 & fractionalVector) const{
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Converting fractional vector "<<fractionalVector<<std::endl;

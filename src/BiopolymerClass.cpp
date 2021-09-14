@@ -344,7 +344,7 @@ int BiopolymerClass::validateBiopolymerType () const {
 
 }
 
-void BiopolymerClass::validateAtomInfoVector(){
+void BiopolymerClass::validateAtomInfoVector() const {
     if (atomInfoVector.size() == 0) {
              MMBLOG_FILE_FUNC_LINE(CRITICAL, "Your atomInfoVector has no elements! "  <<endl);
     } else {
@@ -510,96 +510,6 @@ BiopolymerClass::BiopolymerClass(String mySequence, String myChainID, ResidueID 
     validateSequence();
     validateProteinCapping();
     renumberPdbResidues(myFirstResidueNumber);
-}
-
-/* Copy c-tor */
-BiopolymerClass::BiopolymerClass(const BiopolymerClass &other) :
-    firstResidueID{other.firstResidueID},
-    sequence{other.sequence},
-    originalSequence{other.originalSequence},
-    chainID{other.chainID},
-    chainPrefix{other.chainPrefix},
-    firstResidueMobilizerType{other.firstResidueMobilizerType},
-    myRenumberPdbResidues{other.myRenumberPdbResidues},
-    proteinCapping{other.proteinCapping},
-    atomInfoVector{other.atomInfoVector},
-    ignoreAtomPositionVector{other.ignoreAtomPositionVector},
-    residueIDVector{other.residueIDVector},
-    pdbFileName{other.pdbFileName},
-    pdbStructure{other.pdbStructure},
-    loadFromPdb{other.loadFromPdb},
-    activePhysics{other.activePhysics},
-    myBiopolymer{other.myBiopolymer},
-    biopolymerType{other.biopolymerType}
-{
-}
-
-/* Move c-tor */
-BiopolymerClass::BiopolymerClass(BiopolymerClass &&other) noexcept :
-    firstResidueID{std::move(other.firstResidueID)},
-    sequence{std::move(other.sequence)},
-    originalSequence{std::move(other.originalSequence)},
-    chainID{std::move(other.chainID)},
-    chainPrefix{std::move(other.chainPrefix)},
-    firstResidueMobilizerType{std::move(other.firstResidueMobilizerType)},
-    myRenumberPdbResidues{other.myRenumberPdbResidues},
-    proteinCapping{other.proteinCapping},
-    atomInfoVector{std::move(other.atomInfoVector)},
-    ignoreAtomPositionVector{std::move(other.ignoreAtomPositionVector)},
-    residueIDVector{std::move(other.residueIDVector)},
-    pdbFileName{std::move(other.pdbFileName)},
-    pdbStructure{std::move(other.pdbStructure)},
-    loadFromPdb{other.loadFromPdb},
-    activePhysics{other.activePhysics},
-    myBiopolymer{std::move(other.myBiopolymer)},
-    biopolymerType{other.biopolymerType}
-{
-}
-
-/* Copy assignment */
-BiopolymerClass & BiopolymerClass::operator=(const BiopolymerClass &other) {
-    firstResidueID = other.firstResidueID;
-    sequence = other.sequence;
-    originalSequence = other.originalSequence;
-    chainID = other.chainID;
-    chainPrefix = other.chainPrefix;
-    firstResidueMobilizerType = other.firstResidueMobilizerType;
-    myRenumberPdbResidues = other.myRenumberPdbResidues;
-    proteinCapping = other.proteinCapping;
-    atomInfoVector = other.atomInfoVector;
-    ignoreAtomPositionVector = other.ignoreAtomPositionVector;
-    residueIDVector = other.residueIDVector;
-    pdbFileName = other.pdbFileName;
-    pdbStructure = other.pdbStructure;
-    loadFromPdb = other.loadFromPdb;
-    activePhysics = other.activePhysics;
-    myBiopolymer = other.myBiopolymer;
-    biopolymerType = other.biopolymerType;
-
-    return *this;
-}
-
-/* Move assignment */
-BiopolymerClass & BiopolymerClass::operator=(BiopolymerClass &&other) noexcept {
-    firstResidueID = std::move(other.firstResidueID);
-    sequence = std::move(other.sequence);
-    originalSequence = std::move(other.originalSequence);
-    chainID = std::move(other.chainID);
-    chainPrefix = std::move(other.chainPrefix);
-    firstResidueMobilizerType = std::move(other.firstResidueMobilizerType);
-    myRenumberPdbResidues = other.myRenumberPdbResidues;
-    proteinCapping = other.proteinCapping;
-    atomInfoVector = std::move(other.atomInfoVector);
-    ignoreAtomPositionVector = std::move(other.ignoreAtomPositionVector);
-    residueIDVector = std::move(other.residueIDVector);
-    pdbFileName = std::move(other.pdbFileName);
-    pdbStructure = std::move(other.pdbStructure);
-    loadFromPdb = other.loadFromPdb;
-    activePhysics = other.activePhysics;
-    myBiopolymer = std::move(other.myBiopolymer);
-    biopolymerType = other.biopolymerType;
-
-    return *this;
 }
 
 void BiopolymerClass::setPdbResidueNumbersFromResidueIDVector() {
@@ -1180,8 +1090,8 @@ Vec3 BiopolymerClass::getAtomLocationInMobilizedBodyFrame(ResidueID myResidueID,
 
 // mmbAtomInfo WITHOUT dumm, doesn't set mass, atomicNumber, mobilizedBody, or mobilizedBodyIndex.
 
-MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter) {
-    const ResidueInfo &myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID));
+MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter) const {
+    const ResidueInfo &myResidueInfo = myBiopolymer.getResidue(getResidueIndex(myResidueID));
     Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex);
     Compound::AtomName myAtomName = myResidueInfo.getAtomName(myResidueInfoAtomIndex);
 
@@ -1191,13 +1101,10 @@ MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const Res
     return ai;
 }
 // mmbAtomInfo WITH dumm, adds mass, atomicNumber, mobilizedBody, and mobilizedBodyIndex.
-MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) {
-    const ResidueInfo &myResidueInfo = myBiopolymer.updResidue(getResidueIndex(myResidueID));
-    Compound::AtomIndex myAtomIndex = myResidueInfo.getAtomIndex(myResidueInfoAtomIndex);
-
+MMBAtomInfo BiopolymerClass::mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) const {
     MMBAtomInfo myMMBAtomInfo = mmbAtomInfo(myResidueID, myResidueInfoAtomIndex, matter);
-    DuMM::AtomIndex myDuMMAtomIndex = myBiopolymer.getDuMMAtomIndex(myAtomIndex);
-    myMMBAtomInfo.mobilizedBody = updAtomMobilizedBody(matter, myResidueID, myMMBAtomInfo.getAtomName());
+    DuMM::AtomIndex myDuMMAtomIndex = myBiopolymer.getDuMMAtomIndex(myMMBAtomInfo.compoundAtomIndex);
+    myMMBAtomInfo.mobilizedBody = getAtomMobilizedBody(matter, myResidueID, myMMBAtomInfo.getAtomName());
     myMMBAtomInfo.mobilizedBodyIndex = myMMBAtomInfo.mobilizedBody.getMobilizedBodyIndex();
     myMMBAtomInfo.mass = dumm.getAtomMass(myDuMMAtomIndex);
     myMMBAtomInfo.atomicNumber = dumm.getAtomElement(myDuMMAtomIndex);
@@ -1304,38 +1211,35 @@ vector<MMBAtomInfo>  BiopolymerClass::getAtomInfoVector(){
     return atomInfoVector;
 }
 
-
-vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates ) {
-
-
-    vector<MMBAtomInfo> returnAtomInfoVector;
+std::pair<vector<MMBAtomInfo>::const_iterator, vector<MMBAtomInfo>::const_iterator>
+BiopolymerClass::calcAtomInfoVector(const ResidueStretch &myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates ) const {
     if ((myResidueStretch.getStartResidue() == getFirstResidueID()) && 
         (myResidueStretch.getEndResidue()   == getLastResidueID()  )) {
         validateAtomInfoVector(); //return atomInfoVector;
-        returnAtomInfoVector = atomInfoVector;
+        return {atomInfoVector.cbegin(), atomInfoVector.cend()};
     } // just return the precomputed atomInfoVector
     else {
-          vector<MMBAtomInfo>::iterator startAtomInfoIterator;
-          vector<MMBAtomInfo>::iterator endAtomInfoIterator;
-          ResidueInfo myEndResidueInfo = myBiopolymer.updResidue(getResidueIndex(  myResidueStretch.getEndResidue() ));
+          vector<MMBAtomInfo>::const_iterator startAtomInfoIterator;
+          vector<MMBAtomInfo>::const_iterator endAtomInfoIterator;
+          const ResidueInfo &myEndResidueInfo = myBiopolymer.getResidue(getResidueIndex(  myResidueStretch.getEndResidue() ));
           MMBAtomInfo   myStartAtomInfo =  mmbAtomInfo(myResidueStretch.getStartResidue(), ResidueInfo::AtomIndex(0), matter,dumm ) ;
           MMBAtomInfo   myEndAtomInfo   =  mmbAtomInfo(myResidueStretch.getEndResidue(), ResidueInfo::AtomIndex(myEndResidueInfo.getNumAtoms()-1), matter,dumm ) ;
 
-          startAtomInfoIterator =   atomInfoVector.begin();
+          startAtomInfoIterator =   atomInfoVector.cbegin();
           ResidueID indexResidueID = getFirstResidueID();
           while ( indexResidueID < myResidueStretch.getStartResidue()) { 
-              startAtomInfoIterator += myBiopolymer.updResidue(getResidueIndex(indexResidueID)).getNumAtoms();
+              startAtomInfoIterator += myBiopolymer.getResidue(getResidueIndex(indexResidueID)).getNumAtoms();
               if (indexResidueID <  getLastResidueID() ) incrementResidueID(indexResidueID); else break; // make sure we don't increment past the last residue
        
           }
           endAtomInfoIterator =   startAtomInfoIterator ;
           ResidueID indexResidueID2 = myResidueStretch.getStartResidue();      
           while ( indexResidueID2 <= myResidueStretch.getEndResidue()) { 
-              endAtomInfoIterator += myBiopolymer.updResidue( getResidueIndex(indexResidueID2) ).getNumAtoms();
+              endAtomInfoIterator += myBiopolymer.getResidue( getResidueIndex(indexResidueID2) ).getNumAtoms();
               if (indexResidueID2 <  getLastResidueID() ) incrementResidueID(indexResidueID2); else break; // make sure we don't increment past the last residue
           }
           endAtomInfoIterator -= 1;
-          returnAtomInfoVector = vector<MMBAtomInfo>  (startAtomInfoIterator, endAtomInfoIterator+1);
+          return {startAtomInfoIterator, endAtomInfoIterator + 1};
           //return vector<MMBAtomInfo>  (startAtomInfoIterator, endAtomInfoIterator+1);
     }
  
@@ -1364,7 +1268,6 @@ vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(ResidueStretch myResidu
         // We are a protein, so includePhosphates should not affect us. Do nothing.
     }
         */
-    return returnAtomInfoVector;
     //MMBLOG_FILE_FUNC_LINE(": Unexplained error! "<<endl; exit (0);
 }
 
@@ -1387,13 +1290,18 @@ void BiopolymerClass::addRingClosingBond( ResidueID residueID1, String atomName1
     myBiopolymer.addRingClosingBond( centerName1,    centerName2 , bondLength, dihedralAngle, bondMobility); 
 }
 
+const MobilizedBody & BiopolymerClass::getAtomMobilizedBody(SimbodyMatterSubsystem &matter, const ResidueID &myResidueID, const String &myAtomName) const {
+    MobilizedBodyIndex myAtomMobilizedBodyIndex = getAtomMobilizedBodyIndex(matter, myResidueID, myAtomName);
+    return matter.updMobilizedBody(myAtomMobilizedBodyIndex);
+}
+
 MobilizedBody & BiopolymerClass::updAtomMobilizedBody(SimbodyMatterSubsystem & matter, ResidueID myResidueID    , String myAtomName){ 
     //Compound::AtomIndex myAtomIndex = atomIndex (myResidueID,myAtomName ); 
     MobilizedBodyIndex myAtomMobilizedBodyIndex = getAtomMobilizedBodyIndex(matter,myResidueID,myAtomName ); 
     return matter.updMobilizedBody(myAtomMobilizedBodyIndex);
 }
 
-MobilizedBodyIndex BiopolymerClass::getAtomMobilizedBodyIndex(SimbodyMatterSubsystem & matter, ResidueID myResidueID    , String myAtomName){ 
+MobilizedBodyIndex BiopolymerClass::getAtomMobilizedBodyIndex(SimbodyMatterSubsystem & matter, const ResidueID &myResidueID, const String &myAtomName) const {
     Compound::AtomIndex myAtomIndex = atomIndex (myResidueID,myAtomName ); 
     MobilizedBodyIndex myAtomMobilizedBodyIndex = myBiopolymer.getAtomMobilizedBodyIndex(myAtomIndex); 
     return myAtomMobilizedBodyIndex;
@@ -1621,6 +1529,10 @@ void BiopolymerClass::setProteinBondMobility ( BondMobility::Mobility  mobility,
             incrementResidueID(i);
         }
         }
+
+const Biopolymer & BiopolymerClass::getBiopolymer() const {
+    return myBiopolymer;
+}
 
 Biopolymer & BiopolymerClass::updBiopolymer() {
     return  myBiopolymer;

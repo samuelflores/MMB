@@ -52,15 +52,16 @@ struct GridPoint   {
 };
 
 class GridIndices {
-private:
-	int  xGridPoint; 
-	int  yGridPoint;
-	int  zGridPoint;
 public:
-	GridIndices( int myXIndex,  int myYIndex,  int myZIndex) ;
-	int getXGridIndex () const;
-	int getYGridIndex () const;
-	int getZGridIndex () const;
+	GridIndices(int x, int y, int z) :
+        z{z},
+        y{y},
+        x{x}
+    {}
+
+	const int z;
+	const int y;
+	const int x;
 };
 
 
@@ -80,24 +81,27 @@ class MMB_EXPORT DensityMap {
         double noiseScale;
 	double forceConstant;
 	String densityFileName;
-        std::vector<std::vector<std::vector<GridPoint> > > ArrayOfGridPoints;        
+
+        std::vector<GridPoint> m_gridPoints;
+        const GridPoint & gridPoint(int z, int y, int x) const;
+        GridPoint & gridPoint(int z, int y, int x);
+
     public:
         DensityMap();
-        ~DensityMap();
         void initializeMap();
         void validateGridParameters();
-	int getSizeOfArrayOfGridPoints() const ;//
+        size_t getSizeOfArrayOfGridPoints() const ;//
         // 	{return ArrayOfGridPoints.size()*ArrayOfGridPoints[0].size()*ArrayOfGridPoints[0][0].size();};
         std::vector<std::vector<std::vector<AmplitudeFrequencyAndRandomPhases> > > vectorOfAmplitudeFrequencyAndRandomPhases;     
-        bool hasGridPoint(GridIndices);
-        GridPoint     & updGridPoint(GridIndices);
-        GridPoint getGridPoint(GridIndices) const ;
-        void validateGridPoint(GridIndices myGridIndices);
+        bool hasGridPoint(const GridIndices &indices) const;
+        const GridPoint & getGridPoint(const GridIndices &indices) const;
+        const GridPoint & getGridPoint(const Vec3 &pos) const;
+        GridPoint & updGridPoint(const GridIndices &indices);
+        GridPoint & updGridPoint(const Vec3 &pos);
+        void validateGridPoint(const GridIndices &indices) const;
         //const bool hasNearbyGridIndices(Vec3 position);
-        GridIndices calcNearestGridIndices(const Vec3 &position);
-        GridIndices calcLowerLeftGridIndices(const Vec3 &position);
-        GridPoint getGridPoint(const Vec3 &);
-        GridPoint     & updGridPoint(const Vec3 &);
+        GridIndices calcNearestGridIndices(const Vec3 &position) const;
+        GridIndices calcLowerLeftGridIndices(const Vec3 &position) const;
         //const double getDensity(Vec3);
         double getDensity(const SimTK::Vec3 &);
         void initializeArrayOfGridPoints();
@@ -124,22 +128,22 @@ class MMB_EXPORT DensityMap {
         void precomputeGradient();
         //void precomputeGradientDerivatives();
         Vec3 fetchGradient(const Vec3 &position);
-        Vec3 fetchFirstQuadrantGradient(const Vec3 &position);
+        const Vec3 & fetchFirstQuadrantGradient(const Vec3 &position);
         //Vec3 calcInterpolatedFirstQuadrantGradient(Vec3 position);
-        SimTK::Vec3 calcInterpolatedFirstQuadrantGradient(const SimTK::Vec3 &position) ;
+        const Vec3 & calcInterpolatedFirstQuadrantGradient(const Vec3 &position) const;
         // Functions which were moved from GridPoint to DensityMap for memory savings
         void initializeGradient(GridPoint & gridPoint );
         void initialize(GridPoint & gridPoint );
-        void validatePosition(GridPoint & gridPoint, const Vec3 &myPosition)const ;
-        void validateDensity (GridPoint & gridPoint, double          ) const;
-        void validate(GridPoint & gridPoint) const;
+        void validatePosition(const GridPoint & gridPoint, const Vec3 &myPosition)const ;
+        void validateDensity (const GridPoint & gridPoint, double          ) const;
+        void validate(const GridPoint & gridPoint) const;
         void setDensity(GridPoint & gridPoint, Real myDensity);
         void setPosition(GridPoint & gridPoint, const Vec3 &myPosition);
         //Quadrant calcQuadrant(GridPoint & gridPoint, Vec3 queryPosition) const;
         //Vec3  fetchGradient(GridPoint & gridPoint, Vec3 queryPosition) const;
-        Vec3 fetchFirstQuadrantGradient(GridPoint & gridPoint) const ;
-        double getDensity(GridPoint & gridPoint) const;
-        double getDensity(GridPoint & gridPoint, Vec3 myPosition) const;   
+        const Vec3 & fetchFirstQuadrantGradient(const GridPoint & gridPoint) const ;
+        double getDensity(const GridPoint & gridPoint) const;
+        double getDensity(const GridPoint & gridPoint, const Vec3 &myPosition) const;   
         void setPositiveXGradient(GridPoint & gridPoint, Real);
         //void setddxPositiveXGradient(GridPoint & gridPoint, Real);
         //void setddyPositiveXGradient(GridPoint & gridPoint, Real);
@@ -156,7 +160,7 @@ class MMB_EXPORT DensityMap {
         void setNegativeYGradient(GridPoint & gridPoint, Real);
         void setNegativeZGradient(GridPoint & gridPoint, Real);
         //void printSecondDerivatives(GridPoint & gridPoint) const;
-        Vec3 calcInterpolatedFirstQuadrantGradient(GridPoint & gridPoint, const Vec3 &queryPosition) const;
+        const Vec3 & calcInterpolatedFirstQuadrantGradient(const GridPoint & gridPoint, const Vec3 &queryPosition) const;
 };
 
 // #define LINESIZE 1024

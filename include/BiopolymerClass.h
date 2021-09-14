@@ -139,11 +139,11 @@ public:
 
     BiopolymerClass(); // sets all properties to empty values.
     BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, BiopolymerType::BiopolymerTypeEnum myBiopolymerType, bool proteinCapping, bool useNACappingHydroxyls) noexcept;
-    BiopolymerClass(const BiopolymerClass &other);
-    BiopolymerClass(BiopolymerClass &&other) noexcept;
+    BiopolymerClass(const BiopolymerClass &other) = default;
+    BiopolymerClass(BiopolymerClass &&other) noexcept = default;
 
-    BiopolymerClass & operator=(const BiopolymerClass &other);
-    BiopolymerClass & operator=(BiopolymerClass &&other) noexcept;
+    BiopolymerClass & operator=(const BiopolymerClass &other) = default;
+    BiopolymerClass & operator=(BiopolymerClass &&other) noexcept = default;
     
     int  initializeBiopolymer(CompoundSystem & system, 
                               bool myProteinCapping, 
@@ -204,15 +204,16 @@ public:
     ResidueID   residueID(const String &inputString) const;  // this method of converting string to ResidueID has the advantage that it validates against the corresponding biopolymer
     void        validateResidueID(const ResidueID & myResidueID) const;
     void        validateResidueIndex(int myResidueIndex) const;
-    void        validateAtomInfoVector();
+    void        validateAtomInfoVector() const;
     bool        hasAtom(  ResidueID myResidueID,   String myAtomName);
     int         validateAtomPathName(  Compound::AtomPathName);
     Compound::AtomPathName atomPathString(const ResidueID &residueID, const String &atomName) const;
     Compound::AtomIndex    atomIndex(const ResidueID &residueID, const String &atomName) const;
     DuMM::AtomIndex    getDuMMAtomIndex(  ResidueID ,   String );
     Vec3        getAtomLocationInMobilizedBodyFrame(  ResidueID myResidueID,   String myAtomName); 
+    const MobilizedBody & getAtomMobilizedBody(SimbodyMatterSubsystem & matter, const ResidueID &myResidueID, const String &myAtomName) const;
     MobilizedBody & updAtomMobilizedBody(SimbodyMatterSubsystem & matter,   ResidueID myResidueID,   String myAtomName);
-    MobilizedBodyIndex getAtomMobilizedBodyIndex( SimbodyMatterSubsystem & matter,   ResidueID myResidueID    ,   String myAtomName);
+    MobilizedBodyIndex getAtomMobilizedBodyIndex( SimbodyMatterSubsystem & matter, const ResidueID &myResidueID, const String &myAtomName) const;
     Vec3        calcAtomLocationInGroundFrame(const  State & state, const ResidueID &residueID, const String &atomName);
     Vec3        calcDefaultAtomLocationInGroundFrame(const ResidueID &residueID, const String &atomName) const;
     void        loadResidueIDVector();
@@ -227,6 +228,7 @@ public:
     void        setProteinBondMobility (   BondMobility::Mobility  mobility,   ResidueID startResidue,   ResidueID endResidue);
     void        rigidifyTargetedBonds(Compound::AtomTargetLocations  & biopolymerAtomTargets);
     void        setSingleBondMobility(  ResidueID residueID1,  String atomName1,  ResidueID residueID2,   String atomName2,  String mobilityString ); // sets BondMobility for a single bond in the chain.
+    const Biopolymer & getBiopolymer() const;
     Biopolymer & updBiopolymer();
     void        includeNonBondAtom(  ResidueID residueID,   String atomName, State & state, DuMMForceFieldSubsystem & dumm) ;
     ResidueInfo updResidueInfo (  ResidueID residueID) ;
@@ -236,8 +238,8 @@ public:
     void        physicsZone(vector<AllResiduesWithin> & myIncludeAllResiduesWithinVector , double radius, SimbodyMatterSubsystem & matter,State & state);
     void        multiplySmallGroupInertia(  ResidueID residueID,   String atomName,   double multiplier, CompoundSystem & system,  SimbodyMatterSubsystem & matter,State & state);
     void        multiplySmallGroupInertia(   double multiplier, CompoundSystem & system, SimbodyMatterSubsystem & matter,State & state) ;
-    MMBAtomInfo mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter);
-    MMBAtomInfo mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm);
+    MMBAtomInfo mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter) const;
+    MMBAtomInfo mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) const;
     //MMBAtomInfo mmbAtomInfo(  ResidueID myResidueID,   ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm , State & state);
     #ifdef USE_OPENMM
     void        initializeAtomInfoVector(SimbodyMatterSubsystem & matter,  const vector<AtomicPropertyOverrideStruct>  & myAtomicPropertyOverrideVector);
@@ -246,7 +248,10 @@ public:
 
     vector<MMBAtomInfo> getAtomInfoVector();
     void printAtomInfoVector(){for (int i = 0 ; i < atomInfoVector.size(); i++) atomInfoVector[i].print(); };
-    vector<MMBAtomInfo>  calcAtomInfoVector(ResidueStretch myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates = 1);
+
+    std::pair<vector<MMBAtomInfo>::const_iterator, vector<MMBAtomInfo>::const_iterator>
+    calcAtomInfoVector(const ResidueStretch &myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates = 1) const;
+
     void        addRingClosingBond(CovalentBondClass myCovalentBondClass); 
     void        addRingClosingBond( ResidueID residueID1, String atomName1, String bondCenterName1,  ResidueID residueID2, String atomName2,String bondCenterName2, SimTK::BondMobility::Mobility bondMobility) ; 
  

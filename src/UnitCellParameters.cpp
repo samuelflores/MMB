@@ -1,3 +1,5 @@
+/* vim: set expandtab sw=4 ts=4 sts=4: */
+
 #include <cmath>
 #include "UnitCellParameters.h"
 #include "MMBLogger.h"
@@ -10,7 +12,8 @@ void UnitCellParameters::setDefaultParameters(){
     valid = 0;
     a = 0; b = 0; c=0;
     alpha  = 0; beta  = 0; gamma  = 0;
-    na = 0; aMin= 0; aMax= 0; nb= 0; bMin= 0; bMax= 0; nc= 0; cMin= 0; cMax= 0;
+    na = 0; aMax= 0; nb= 0; bMax= 0; nc= 0; cMax= 0;
+    abcMins[AbcMins::A] = abcMins[AbcMins::B] = abcMins[AbcMins::C] = 0;
 }
 
 void UnitCellParameters::setDeOrthogonalizationMatrix (){ 
@@ -38,24 +41,20 @@ SimTK::Mat33 UnitCellParameters::getDeOrthogonalizationMatrix () const{
     exitIfNotValid();
     return deOrthogonalizationMatrix;
 }
-SimTK::Vec3 multiplyMat33TimesVec3  (const SimTK::Mat33 myMat33 , const SimTK::Vec3 myVec3 ){
-    SimTK::Vec3 returnVec3 = {0,0,0};
-    //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" provided SimTK::Mat33 contains : "<<std::endl;
-    //for (int i = 0; i < 3; i++) for (int j = 0 ; j < 3; j++) std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" myMat33["<<i<<"]["<<j<<"] = "<<myMat33[i][j]<<std::endl; 
-    returnVec3[0] =    myMat33[0][0] * myVec3[0] + myMat33[0][1] * myVec3[1]  + myMat33[0][2] * myVec3[2];
-    returnVec3[1] =    myMat33[1][0] * myVec3[0] + myMat33[1][1] * myVec3[1]  + myMat33[1][2] * myVec3[2];
-    returnVec3[2] =    myMat33[2][0] * myVec3[0] + myMat33[2][1] * myVec3[1]  + myMat33[2][2] * myVec3[2];
-    return returnVec3;
+SimTK::Vec3 multiplyMat33TimesVec3(const SimTK::Mat33 &myMat33, const SimTK::Vec3 &myVec3) {
+    return {
+        myMat33[0][0] * myVec3[0] + myMat33[0][1] * myVec3[1] + myMat33[0][2] * myVec3[2],
+        myMat33[1][0] * myVec3[0] + myMat33[1][1] * myVec3[1] + myMat33[1][2] * myVec3[2],
+        myMat33[2][0] * myVec3[0] + myMat33[2][1] * myVec3[1] + myMat33[2][2] * myVec3[2]
+    };
 }
 
 // takes a cartesian vector, returns a vector in fractional coordinates
-SimTK::Vec3 UnitCellParameters::convertCartesianVectorToFractionalVector  (const SimTK::Vec3 cartesianVector) const {
+SimTK::Vec3 UnitCellParameters::convertCartesianVectorToFractionalVector  (const SimTK::Vec3 &cartesianVector) const {
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Converting cartesian vector "<<cartesianVector<<std::endl;
     exitIfNotValid();
 
-    SimTK::Vec3 fractionalVector = multiplyMat33TimesVec3(getDeOrthogonalizationMatrix(), cartesianVector);
-    //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" To fractional vector "<< fractionalVector <<std::endl;
-    return fractionalVector;
+    return multiplyMat33TimesVec3(getDeOrthogonalizationMatrix(), cartesianVector);
 }
 SimTK::Vec3 UnitCellParameters::convertFractionalVectorToFractionFromLowerLeft  (const SimTK::Vec3 & fractionalVector) const{
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Converting fractional vector "<<fractionalVector<<std::endl;
@@ -95,9 +94,9 @@ iVec3 UnitCellParameters::convertCartesianVectorToNearestIndexVector  (const Sim
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Converting cartesian vector "<<cartesianVector<<std::endl;
     SimTK::Vec3 fractionalVector = convertCartesianVectorToFractionalVector( cartesianVector);
     iVec3 indexVector = {0,0,0};
-    indexVector[0] = round(fractionalVector[0]) - aMin;
-    indexVector[1] = round(fractionalVector[1]) - bMin;
-    indexVector[2] = round(fractionalVector[2]) - cMin;
+    indexVector[0] = round(fractionalVector[0]) - abcMins[AbcMins::A];
+    indexVector[1] = round(fractionalVector[1]) - abcMins[AbcMins::B];
+    indexVector[2] = round(fractionalVector[2]) - abcMins[AbcMins::C];
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" To rounded index vector "<< indexVector[0] <<","<< indexVector[1]<<","<<  indexVector[2] <<std::endl;
     return indexVector;}
 iVec3 UnitCellParameters::convertFractionalVectorToLowerIndexVector  (const SimTK::Vec3 & fractionalVector) const {
@@ -105,35 +104,28 @@ iVec3 UnitCellParameters::convertFractionalVectorToLowerIndexVector  (const SimT
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Converting fractional coordinate vector "<<fractionalVector<<std::endl;
     #endif
     //Vec3 fractionalVector = convertCartesianVectorToFractionalVector( fractionalVector);
-    iVec3 indexVector = {0,0,0};
-    indexVector[0] = trunc(fractionalVector[0]) - aMin;
-    if ((fractionalVector[0] - trunc(fractionalVector[0])) < 0 ) {indexVector[0] -= 1;} // If this component of the fractional vector is negative, the lower left index is computed a bit differently
-    indexVector[1] = trunc(fractionalVector[1]) - bMin;
-    if ((fractionalVector[1] - trunc(fractionalVector[1])) < 0 ) {indexVector[1] -= 1;}
-    indexVector[2] = trunc(fractionalVector[2]) - cMin;
-    if ((fractionalVector[2] - trunc(fractionalVector[2])) < 0 ) {indexVector[2] -= 1;}
-    //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" To truncated (lower left) index vector "<< indexVector[0] <<","<< indexVector[1]<<","<<  indexVector[2]  <<std::endl;
+
+    iVec3 indexVector = { -1, -1, -1 };
+    for (size_t idx = 0; idx < 3; idx++) {
+        int tr = std::trunc(fractionalVector[idx]);
+        int cond = fractionalVector[idx] - tr >= 0;
+        indexVector[idx] += cond * (tr - abcMins[idx] + 1); // Add one because the initial value is -1
+    }
     return indexVector;
 }
 iVec3 UnitCellParameters::convertCartesianVectorToLowerIndexVector  (const SimTK::Vec3 & cartesianVector) const {
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Converting cartesian vector "<<cartesianVector<<std::endl;
     SimTK::Vec3 fractionalVector = convertCartesianVectorToFractionalVector( cartesianVector);
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" .. to fractional coordinate vector "<<fractionalVector<<std::endl;
-    iVec3 indexVector = {0,0,0};
-    indexVector = convertFractionalVectorToLowerIndexVector (fractionalVector);
-    //indexVector[0] = trunc(fractionalVector[0]) - aMin;
-    //indexVector[1] = trunc(fractionalVector[1]) - bMin;
-    //indexVector[2] = trunc(fractionalVector[2]) - cMin;
-    //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" .. and finally to truncated index vector "<< indexVector[0] <<","<< indexVector[1]<<","<<  indexVector[2]  <<std::endl;
-    return indexVector;
+    return convertFractionalVectorToLowerIndexVector (fractionalVector);
 }
 bool UnitCellParameters::fractionalVectorIsInsideMapBoundaries(const SimTK::Vec3 & fractionalVector){
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;
     exitIfNotValid();
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;
-    if ((fractionalVector[0] < aMin) || (fractionalVector[0] > aMax) ||
-        (fractionalVector[1] < bMin) || (fractionalVector[1] > bMax) ||
-        (fractionalVector[2] < cMin) || (fractionalVector[2] > cMax) ) {
+    if ((fractionalVector[0] < abcMins[AbcMins::A]) || (fractionalVector[0] > aMax) ||
+        (fractionalVector[1] < abcMins[AbcMins::B]) || (fractionalVector[1] > bMax) ||
+        (fractionalVector[2] < abcMins[AbcMins::C]) || (fractionalVector[2] > cMax) ) {
         //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;
         return 0;} 
     else {
@@ -242,15 +234,18 @@ double UnitCellParameters::getGamma(){ return gamma;}
 void UnitCellParameters::setN ( const int myna, const int myaMin,const int myaMax,const int mynb,const int mybMin,const int mybMax,const int mync,const int mycMin,const int mycMax ){
    MMBLOG_FILE_FUNC_LINE(INFO, "About to set na, aMin, aMax to : "<<myna <<", "<<  myaMin <<", "<< myaMax<<" nm "<<endl);
    validateNnMinnMax(myna,  myaMin, myaMax); // validateNnMinnMax will kill the program if any of its arguments are invalid.
-   na = myna; aMin = myaMin; aMax = myaMax;
+   na = myna; aMax = myaMax;
+   abcMins[AbcMins::A] = myaMin;
    MMBLOG_FILE_FUNC_LINE(INFO, "Confirming na, aMin, aMax are now : "<<getNa()<<", "<<getaMin()<<", "<<getaMax()<<endl);
    MMBLOG_FILE_FUNC_LINE(INFO, "About to set nb, bMin, bMax to : "<<mynb <<", "<<  mybMin <<", "<< mybMax<<endl);
    validateNnMinnMax(mynb,  mybMin, mybMax);
-   nb = mynb; bMin = mybMin; bMax = mybMax;
+   nb = mynb; bMax = mybMax;
+   abcMins[AbcMins::B] = mybMin;
    MMBLOG_FILE_FUNC_LINE(INFO, "Confirming nb, bMin, bMax are now : "<<getNb()<<", "<<getbMin()<<", "<<getbMax()<<endl);
    MMBLOG_FILE_FUNC_LINE(INFO, "About to set nc, cMin, cMax to : "<<mync <<", "<<  mycMin <<", "<< mycMax<<endl);
    validateNnMinnMax(mync,  mycMin, mycMax);
-   nc = mync; cMin = mycMin; cMax = mycMax;
+   nc = mync; cMax = mycMax;
+   abcMins[AbcMins::C] = mycMin;
    MMBLOG_FILE_FUNC_LINE(INFO, "Confirming nc, cMin, cMax are now : "<<getNc()<<", "<<getcMin()<<", "<<getcMax()<<endl);
 }
 bool UnitCellParameters::exitIfNotValid() const{

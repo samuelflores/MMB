@@ -4026,15 +4026,15 @@ ResidueID BiopolymerClassContainer::residueID(map<const String,double> myUserVar
         MMBLOG_FILE_FUNC_LINE(DEBUG, "myResidueIncrementString = "<<myResidueIncrementString<<endl);
         MMBLOG_FILE_FUNC_LINE(DEBUG, "Note that the above should NOT include any insertion codes."<<endl);
         myResidueIncrement = myAtoI(myUserVariables, myResidueIncrementString ); // This can handle additional +/- as well as user variables in any order or position
-        MMBLOG_FILE_FUNC_LINE(DEBUG, "myResidueIncrement = >"<<myResidueIncrement<<"<"<<endl);
-	MMBLOG_FILE_FUNC_LINE(DEBUG, "chain: "<<chain<<endl);
+        //MMBLOG_FILE_FUNC_LINE(DEBUG, "myResidueIncrement = >"<<myResidueIncrement<<"<"<<endl);
+	//MMBLOG_FILE_FUNC_LINE(DEBUG, "chain: "<<chain<<endl);
         MMBLOG_FILE_FUNC_LINE(DEBUG, "myResidueIDString >"<<myResidueIDString<<"<"<<endl);
         MMBLOG_FILE_FUNC_LINE(DEBUG, "myResidueIDString.c_str() >"<<myResidueIDString.c_str()<<"<"<<endl);
-        MMBLOG_FILE_FUNC_LINE(DEBUG, "You wish to add the following increment : "<<myResidueIncrement<<" to the following residue ID: ");
+        // MMBLOG_FILE_FUNC_LINE(DEBUG, "You wish to add the following increment : "<<myResidueIncrement<<" to the following residue ID: ");
         //MMBLOG_FILE_FUNC_LINE(endl;
         ResidueID myResidueID = residueID(myUserVariables, myResidueIDString.c_str(), chain); // this is recursive, calls self. Should be able to handle LastResidue, FirstResidue, @ variables, and literal strings.
-        cout<<myResidueID.outString()<<endl;
-        MMBLOG_FILE_FUNC_LINE(INFO, "The result is: "<<updBiopolymerClass(chain).sum(myResidueID,myResidueIncrement).outString()<<endl);
+        //cout<<myResidueID.outString()<<endl;
+        MMBLOG_FILE_FUNC_LINE(INFO, "Added increment : "<<myResidueIncrement<<" to residue ID "<< myResidueID.outString() <<" of chain "<< chain<<" . The result is: "<<updBiopolymerClass(chain).sum(myResidueID,myResidueIncrement).outString()<<endl);
         return updBiopolymerClass(chain).sum(myResidueID,myResidueIncrement);
         
     }

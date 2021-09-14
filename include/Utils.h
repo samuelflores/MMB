@@ -1160,10 +1160,14 @@ struct AtomSpring {
                 <<" toGround      : "<< toGround                 <<std::endl     
                 <<" tether        : "<< tether                   <<std::endl
                 <<" deadLength    : "<< deadLength               <<std::endl
+                <<" deadLengthIsFractionOfInitialLength : "<< deadLengthIsFractionOfInitialLength  <<std::endl
+                <<" deadLengthFraction : "<< deadLengthFraction  <<std::endl
                 <<" groundLocationIsRelativeToAtom1Location : "<< groundLocationIsRelativeToAtom1Location <<std::endl
                 <<" groundLocation: "<< groundLocation           <<std::endl
+                <<" forceConstant : "<< forceConstant            <<std::endl
                 <<""<<std::endl);
        } 
+       /*
        void printDebug(){
             MMBLOG_FILE_LINE(DEBUG, " Printing AtomSpring  contents:"<<std::endl
                 <<" atom1Chain    : "<<atom1Chain                <<std::endl  
@@ -1178,7 +1182,7 @@ struct AtomSpring {
                 <<" groundLocationIsRelativeToAtom1Location : "<< groundLocationIsRelativeToAtom1Location <<std::endl
                 <<" groundLocation: "<< groundLocation           <<std::endl
                 <<""<<std::endl);
-       }
+       }*/
        AtomSpring(String chain1, ResidueID res1, String name1,
                   String chain2, ResidueID res2, String name2,
                   double constant,
@@ -1221,6 +1225,7 @@ struct AtomSpring {
             groundLocation = Vec3(0);
             forceConstant  = 0.0 ;
             deadLength     = 0.0 ; 
+            deadLengthFraction     = 0.0 ; 
        }
 };
 

@@ -128,7 +128,7 @@ AtomSpring & AtomSpringContainer::initializeAtomSpring(AtomSpring & atomSpring) 
    return atomSpring;
 };
 
-
+/*
 void AtomSpringContainer::printAtomSpring(const AtomSpring atomSpring){
     MMBLOG_FILE_FUNC_LINE(INFO,
           "atom1Chain     = " << atomSpring.atom1Chain    
@@ -143,11 +143,11 @@ void AtomSpringContainer::printAtomSpring(const AtomSpring atomSpring){
         <<" forceConstant  = " << atomSpring.forceConstant <<" (kJ/mol/nm/nm) "
         <<" deadLength     = " << atomSpring.deadLength <<" (nm) "
         <<endl);
-};
+};*/
 
 void AtomSpringContainer::printAtomSpring(int atomSpringIndex){
     AtomSpring myAtomSpring = getAtomSpring (atomSpringIndex);
-    printAtomSpring(myAtomSpring);
+    myAtomSpring.print(); // Now using the AtomSpring object's member, rather than AtomSpringContainer's
 };
 
 void AtomSpringContainer::printAtomSprings(){
@@ -361,8 +361,8 @@ void AtomSpringContainer::createSpringsFromThreading(BiopolymerClassContainer & 
                             MMBLOG_FILE_FUNC_LINE(DEBUG," Created atomSpring for proteinThreading: "<<endl);
 			    //atomNameA, thread.chainID1, residueA, thread.chainID2, residueB : >"<<atomNameA<<"< " << thread.getThreadingPartner(0).biopolymerClass. getChainID()  <<", "<<  <<", "<<thread.chainID2<<", "<<thread.residueStart2 + i  <<endl);
                             //MMBLOG_FILE_FUNC_LINE(DEBUG," Created atomSpring for proteinThreading: atomNameA, thread.chainID1, residueA, thread.chainID2, residueB : >"<<atomNameA<<"< " << thread.getThreadingPartner(0).biopolymerClass. getChainID()  <<", "<<  <<", "<<thread.chainID2<<", "<<thread.residueStart2 + i  <<endl);
-                            MMBLOG_FILE_FUNC_LINE(DEBUG, " Adding AtomSpring from ThreadingStruct: "<<endl);
-			    myAtomSpring1.printDebug();
+                            MMBLOG_FILE_FUNC_LINE(DEBUG, " Adding AtomSpring from ThreadingStruct.. "<<endl);
+			    myAtomSpring1.print();
 
                             //"Created a ThreadingStruct connecting chain "<<chain1<<" residue "<<thread.updThreadingPartner(0).startResidue.outString() <<" to "<<thread.updThreadingPartner(0).endResidue.outString()<<" . "<<endl);
                             //cout<<__FILE__<<":"<<__LINE__<<" Created atomSpring for proteinThreading: atomNameA, thread.chainID1, residueA, thread.chainID2, residueB : >"<<atomNameA<<"< " <<thread.chainID1<<", "<<thread.residueStart1 + i<<", "<<thread.chainID2<<", "<<thread.residueStart2 + i  <<endl;
@@ -547,8 +547,8 @@ void AtomSpringContainer::createSpringsFromGappedThreading(BiopolymerClassContai
                             //myAtomSpring1.deadLengthFraction = thread.deadLengthFraction;
                             //myAtomSpring1.deadLength = thread.deadLength;
 
-                            MMBLOG_FILE_FUNC_LINE(DEBUG, " Adding AtomSpring from ThreadingStruct: "<<endl);
-                            myAtomSpring1.printDebug(); 
+                            MMBLOG_FILE_FUNC_LINE(DEBUG, " Adding AtomSpring from ThreadingStruct.. "<<endl);
+                            //myAtomSpring1.print(); 
 
                             this->add(myAtomSpring1);
 

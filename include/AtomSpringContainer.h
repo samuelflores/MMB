@@ -32,7 +32,7 @@ public:
         AtomSpringContainer() {clear(); };
         double calcRmsd      (State & state, BiopolymerClassContainer & biopolymerClassContainer);
         float  calcKabschRmsd(State & state, BiopolymerClassContainer & biopolymerClassContainer);
-        void printAtomSpring  (const AtomSpring   atomSpring);
+        //void printAtomSpring  (const AtomSpring   atomSpring);
         void printAtomSpring  (int atomSpringIndex);   
         void printAtomSprings ();   
         void validateAtomSpring(const AtomSpring & atomSpring );// ,   BiopolymerClassContainer & myBiopolymerContainer);

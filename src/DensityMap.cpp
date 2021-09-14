@@ -27,15 +27,6 @@ using namespace std;
 using namespace SimTK;
 
 
-GridIndices::GridIndices( int myXIndex,  int myYIndex,  int myZIndex) {
-		xGridPoint = ValidateInt(myXIndex);
-		yGridPoint = ValidateInt(myYIndex);
-		zGridPoint = ValidateInt(myZIndex);
-	}
-int GridIndices::getXGridIndex () const {return xGridPoint;}
-int GridIndices::getYGridIndex () const {return yGridPoint;}
-int GridIndices::getZGridIndex () const {return zGridPoint;}
-
 DensityMap::DensityMap(){
     //unitCellParameters.setDefaultParameters(); 
     initializeMap();
@@ -80,25 +71,25 @@ bool        DensityMap::hasGridPoint(const GridIndices &myGridIndices) const {
         //cout<<__FILE__<<":"<<__LINE__<< " ArrayOfGridPoints[0].size() = "  <<ArrayOfGridPoints[0].size() <<endl;
         //cout<<__FILE__<<":"<<__LINE__<< " ArrayOfGridPoints[0][0].size() = "  <<ArrayOfGridPoints[0][0].size() <<endl;
 	bool myHasGridPoint;
-	if (myGridIndices.getZGridIndex() >= unitCellParameters.getNc()) 
+	if (myGridIndices.z >= unitCellParameters.getNc()) 
         {
 		myHasGridPoint = false;
 	}
-	else if (myGridIndices.getZGridIndex() <  0 ) {
+	else if (myGridIndices.z <  0 ) {
 		myHasGridPoint = false;
 	}
-	else if (myGridIndices.getYGridIndex() >= unitCellParameters.getNb()) {
+	else if (myGridIndices.y >= unitCellParameters.getNb()) {
 		myHasGridPoint = false;
 	}
-	else if (myGridIndices.getYGridIndex() <  0 ) {
+	else if (myGridIndices.y <  0 ) {
 		//cout<<__FILE__<<":"<<__LINE__<< " The Y-index of "<<myGridIndices.getYGridIndex()<<" is less than zero. No force applied."<<endl; 
 		myHasGridPoint = false;
 	}
-	else if (myGridIndices.getXGridIndex() >= unitCellParameters.getNa()) {
+	else if (myGridIndices.x >= unitCellParameters.getNa()) {
 		//cout<<__FILE__<<":"<<__LINE__<< " The X-index of "<<myGridIndices.getXGridIndex()<<" exceeds the X-dimension, "<<unitCellParameters.getNa() <<" of the grid map. No force applied."<<endl;	
 		myHasGridPoint = false;
 	}
-	else if (myGridIndices.getXGridIndex() <  0 ) {
+	else if (myGridIndices.x <  0 ) {
 		//cout<<__FILE__<<":"<<__LINE__<< " The X-index of "<<myGridIndices.getXGridIndex()<<" is less than zero. No force applied."<<endl; 
 		myHasGridPoint = false;
 	}
@@ -108,19 +99,17 @@ bool        DensityMap::hasGridPoint(const GridIndices &myGridIndices) const {
 }
 
 
-GridPoint & DensityMap::updGridPoint(GridIndices myGridIndices){
-		if (! hasGridPoint(myGridIndices)) {
-			MMBLOG_FILE_FUNC_LINE(CRITICAL, "No nearby grid point.  The point you requested "<< myGridIndices.getZGridIndex()<<" , "<<  myGridIndices.getYGridIndex()<<" , "<< myGridIndices.getXGridIndex() << " is off the density map."<<endl);
-		} else {
-			GridPoint & myGridPoint = ArrayOfGridPoints[myGridIndices.getZGridIndex()][myGridIndices.getYGridIndex()][myGridIndices.getXGridIndex()] ;
-			//myGridPoint.validate();
-			return myGridPoint;
-		}
-  		}
+GridPoint & DensityMap::updGridPoint(const GridIndices &indices) {
+    if (!hasGridPoint(indices)) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "No nearby grid point.  The point you requested "<< indices.z<<" , "<<  indices.y<<" , "<< indices.x << " is off the density map."<<endl);
+    } else {
+        return ArrayOfGridPoints[indices.z][indices.y][indices.x];
+    }
+}
    
-GridPoint DensityMap::getGridPoint(GridIndices myGridIndices) const  {
-		return ArrayOfGridPoints[myGridIndices.getZGridIndex()][myGridIndices.getYGridIndex()][myGridIndices.getXGridIndex()] ;
-  		}
+const GridPoint & DensityMap::getGridPoint(const GridIndices &indices) const {
+    return ArrayOfGridPoints[indices.z][indices.y][indices.x];
+}
    
 void	    DensityMap::validateGridPoint(GridIndices myGridIndices){
 			if (! hasGridPoint(myGridIndices)) {
@@ -130,13 +119,10 @@ void	    DensityMap::validateGridPoint(GridIndices myGridIndices){
 }
 
 
-GridIndices DensityMap::calcNearestGridIndices(const Vec3 &position)
-		{
-                        iVec3 tempIndexVector = {0,0,0};
-                        tempIndexVector = unitCellParameters.convertCartesianVectorToNearestIndexVector(position);
-			GridIndices tempGridIndices(tempIndexVector[0], tempIndexVector[1], tempIndexVector[2]); //tempXIndex, tempYIndex, tempZIndex);
-			return tempGridIndices;
-		}
+GridIndices DensityMap::calcNearestGridIndices(const Vec3 &position) const {
+    iVec3 iv = unitCellParameters.convertCartesianVectorToNearestIndexVector(position);
+	return {iv[0], iv[1], iv[2]};
+}
 		
 GridIndices DensityMap::calcLowerLeftGridIndices(const Vec3 &position) const
                 {
@@ -146,12 +132,12 @@ GridIndices DensityMap::calcLowerLeftGridIndices(const Vec3 &position) const
 
                 }
 		
-GridPoint DensityMap::getGridPoint(const Vec3 &myPosition)  {
-	return getGridPoint(calcNearestGridIndices( myPosition));				
+const GridPoint & DensityMap::getGridPoint(const Vec3 &pos) const {
+    return getGridPoint(calcNearestGridIndices(pos));
 }
 
-GridPoint & DensityMap::updGridPoint(const Vec3 &myPosition)  {
-	return updGridPoint(calcNearestGridIndices( myPosition));				
+GridPoint & DensityMap::updGridPoint(const Vec3 &pos) {
+    return updGridPoint(calcNearestGridIndices(pos));
 }
 
 double DensityMap::getDensity(const Vec3 &myPosition) {
@@ -164,7 +150,7 @@ double DensityMap::getDensity(const Vec3 &myPosition) {
 		return 0.0; //return zero density
 	} else {
                 GridIndices myLowerLeftGridIndices = calcLowerLeftGridIndices(myPosition);
-                MMBLOG_FILE_FUNC_LINE(DEBUG," Fractional vector "<<myFractionalVector<< " is INside map boundaries and yields indices "<< myLowerLeftGridIndices.getXGridIndex ()<<"," << myLowerLeftGridIndices.getYGridIndex ()<<","  << myLowerLeftGridIndices.getZGridIndex ()    <<   endl);
+                MMBLOG_FILE_FUNC_LINE(DEBUG," Fractional vector "<<myFractionalVector<< " is INside map boundaries and yields indices "<< myLowerLeftGridIndices.x<<"," << myLowerLeftGridIndices.y<<","  << myLowerLeftGridIndices.z << endl);
 		return getDensity(  updGridPoint(myLowerLeftGridIndices), myPosition); // need to verify that this interpolated density is reasonable
 	} 
 }
@@ -1002,27 +988,27 @@ const Vec3 & DensityMap::fetchFirstQuadrantGradient(const Vec3 &position)  {
 
                         GridIndices myLowerLeftGridIndex = calcLowerLeftGridIndices(   position);
                          if (hasGridPoint(myLowerLeftGridIndex)) {
-                                 return fetchFirstQuadrantGradient(ArrayOfGridPoints[myLowerLeftGridIndex.getZGridIndex()][myLowerLeftGridIndex.getYGridIndex()][myLowerLeftGridIndex.getXGridIndex()]);
+                                 return fetchFirstQuadrantGradient(ArrayOfGridPoints[myLowerLeftGridIndex.z][myLowerLeftGridIndex.y][myLowerLeftGridIndex.x]);
 
-                         } else if (hasGridPoint(GridIndices (myLowerLeftGridIndex.getXGridIndex()+1, myLowerLeftGridIndex.getYGridIndex(),myLowerLeftGridIndex.getZGridIndex()))) {
+                         } else if (hasGridPoint({myLowerLeftGridIndex.x+1, myLowerLeftGridIndex.y, myLowerLeftGridIndex.z})) {
                                 GridPoint myGridPoint;
                                 initialize(myGridPoint);
                                 MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
-                                setPositiveXGradient(myGridPoint,(getDensity(updGridPoint(GridIndices(myLowerLeftGridIndex.getXGridIndex() +1,  myLowerLeftGridIndex.getYGridIndex() , myLowerLeftGridIndex.getZGridIndex() ))) - 0.) / unitCellParameters.geta()) ;
+                                setPositiveXGradient(myGridPoint,(getDensity(updGridPoint(GridIndices{myLowerLeftGridIndex.x+1,  myLowerLeftGridIndex.y, myLowerLeftGridIndex.z})) - 0.) / unitCellParameters.geta()) ;
                                 return fetchFirstQuadrantGradient(myGridPoint) ;
 
-                         } else if (hasGridPoint(GridIndices (myLowerLeftGridIndex.getXGridIndex(), myLowerLeftGridIndex.getYGridIndex()+1,myLowerLeftGridIndex.getZGridIndex()))) {
+                         } else if (hasGridPoint(GridIndices (myLowerLeftGridIndex.x, myLowerLeftGridIndex.y+1,myLowerLeftGridIndex.z))) {
                                 GridPoint myGridPoint;
                                 initialize(myGridPoint);  
                                 MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
-                                setPositiveYGradient(myGridPoint,(getDensity(updGridPoint(GridIndices(myLowerLeftGridIndex.getXGridIndex() ,  myLowerLeftGridIndex.getYGridIndex() +1, myLowerLeftGridIndex.getZGridIndex() ))) - 0.) / unitCellParameters.getb()) ;
+                                setPositiveYGradient(myGridPoint,(getDensity(updGridPoint(GridIndices{myLowerLeftGridIndex.x, myLowerLeftGridIndex.y+1, myLowerLeftGridIndex.z})) - 0.) / unitCellParameters.getb()) ;
                                 return fetchFirstQuadrantGradient(myGridPoint) ;
 
-                         } else if (hasGridPoint(GridIndices (myLowerLeftGridIndex.getXGridIndex(), myLowerLeftGridIndex.getYGridIndex(),myLowerLeftGridIndex.getZGridIndex()+1))) {
+                         } else if (hasGridPoint(GridIndices (myLowerLeftGridIndex.x, myLowerLeftGridIndex.y, myLowerLeftGridIndex.z+1))) {
                                 GridPoint myGridPoint;
                                 initialize(myGridPoint);
                                 MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
-                                setPositiveZGradient(myGridPoint,(getDensity(updGridPoint(GridIndices(myLowerLeftGridIndex.getXGridIndex() ,  myLowerLeftGridIndex.getYGridIndex() , myLowerLeftGridIndex.getZGridIndex() +1 ))) - 0.) / unitCellParameters.geta()) ;
+                                setPositiveZGradient(myGridPoint,(getDensity(updGridPoint(GridIndices{myLowerLeftGridIndex.x,  myLowerLeftGridIndex.y, myLowerLeftGridIndex.z+1})) - 0.) / unitCellParameters.geta()) ;
                                 // return myGridPoint.fetchGradient (position) ;
                                 return fetchFirstQuadrantGradient(myGridPoint) ;
 
@@ -1037,7 +1023,7 @@ const Vec3 & DensityMap::calcInterpolatedFirstQuadrantGradient(const Vec3 &posit
                         GridIndices myLowerLeftGridIndex = calcLowerLeftGridIndices(   position);
                          if (hasGridPoint(myLowerLeftGridIndex)) {
                                  //MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
-                                 return calcInterpolatedFirstQuadrantGradient(ArrayOfGridPoints[myLowerLeftGridIndex.getZGridIndex()][myLowerLeftGridIndex.getYGridIndex()][myLowerLeftGridIndex.getXGridIndex()],position);
+                                 return calcInterpolatedFirstQuadrantGradient(ArrayOfGridPoints[myLowerLeftGridIndex.z][myLowerLeftGridIndex.y][myLowerLeftGridIndex.x],position);
                                  //cout<<__FILE__<<":"<<__LINE__<<":"<<__FUNCTION__<<" Returning NON-ZERO force "<< tempVec3 <<" for grid point at position "<<position<<", lower left indices "<<myLowerLeftGridIndex.getXGridIndex() <<", "<< myLowerLeftGridIndex.getYGridIndex()   <<", "<< myLowerLeftGridIndex.getZGridIndex()  <<  endl;
 
                          } 

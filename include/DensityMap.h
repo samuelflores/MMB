@@ -52,15 +52,16 @@ struct GridPoint   {
 };
 
 class GridIndices {
-private:
-	int  xGridPoint; 
-	int  yGridPoint;
-	int  zGridPoint;
 public:
-	GridIndices( int myXIndex,  int myYIndex,  int myZIndex) ;
-	int getXGridIndex () const;
-	int getYGridIndex () const;
-	int getZGridIndex () const;
+	GridIndices(int x, int y, int z) :
+        z{z},
+        y{y},
+        x{x}
+    {}
+
+	const int z;
+	const int y;
+	const int x;
 };
 
 
@@ -90,14 +91,14 @@ class MMB_EXPORT DensityMap {
         // 	{return ArrayOfGridPoints.size()*ArrayOfGridPoints[0].size()*ArrayOfGridPoints[0][0].size();};
         std::vector<std::vector<std::vector<AmplitudeFrequencyAndRandomPhases> > > vectorOfAmplitudeFrequencyAndRandomPhases;     
         bool hasGridPoint(const GridIndices &indices) const;
-        GridPoint     & updGridPoint(GridIndices);
-        GridPoint getGridPoint(GridIndices) const ;
+        const GridPoint & getGridPoint(const GridIndices &indices) const;
+        const GridPoint & getGridPoint(const Vec3 &pos) const;
+        GridPoint & updGridPoint(const GridIndices &indices);
+        GridPoint & updGridPoint(const Vec3 &pos);
         void validateGridPoint(GridIndices myGridIndices);
         //const bool hasNearbyGridIndices(Vec3 position);
-        GridIndices calcNearestGridIndices(const Vec3 &position);
+        GridIndices calcNearestGridIndices(const Vec3 &position) const;
         GridIndices calcLowerLeftGridIndices(const Vec3 &position) const;
-        GridPoint getGridPoint(const Vec3 &);
-        GridPoint     & updGridPoint(const Vec3 &);
         //const double getDensity(Vec3);
         double getDensity(const SimTK::Vec3 &);
         void initializeArrayOfGridPoints();

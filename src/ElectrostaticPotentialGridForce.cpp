@@ -30,17 +30,17 @@ void ElectrostaticPotentialGridForce::calcForce(const State& state, Vector_<Spat
                 BiopolymerClass & tempBiopolymerClass = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID );
                 Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
         //vector<AtomInfo> tempAtomInfoVector = tempBiopolymerClass.getAtomInfoVector();   
-                vector<MMBAtomInfo> tempAtomInfoVector = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.electroDensityContainer.getDensityStretch(i), matter, dumm );  
-                double densitySum = 0.0; 
-                for (int m = 0; m < (int)tempAtomInfoVector.size(); m++) {
-                    MMBAtomInfo & tempAtomInfo = tempAtomInfoVector[m];
-                    Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, tempAtomInfo.compoundAtomIndex);
-                    Vec3 myAtomForce = myDensityMap.calcInterpolatedFirstQuadrantGradient(myAtomLocation) * (myParameterReader.electroDensityForceConstant * (-tempAtomInfo.partialCharge));
+                const auto atomInfoRange = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.electroDensityContainer.getDensityStretch(i), matter, dumm );  
+                double densitySum = 0.0;
+
+                for (auto it = atomInfoRange.first; it != atomInfoRange.second; it++) {
+                    Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, it->compoundAtomIndex);
+                    Vec3 myAtomForce = myDensityMap.calcInterpolatedFirstQuadrantGradient(myAtomLocation) * (myParameterReader.electroDensityForceConstant * (-it->partialCharge));
                     // cout << "ElectroForce "<< tempAtomInfo.atomName << " " <<tempAtomInfo.partialCharge <<" "<< myDensityMap.getDensity(myAtomLocation) << endl;
                     std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;
                     densitySum += myDensityMap.getDensity(myAtomLocation);
 
-                    bodyForces[tempAtomInfo.mobilizedBodyIndex] +=  SpatialVec(torque + (-((tempAtomInfo.mobilizedBody).getBodyTransform(state)).T()+ myAtomLocation) % myAtomForce, myAtomForce);
+                    bodyForces[it->mobilizedBodyIndex] +=  SpatialVec(torque + (-((it->mobilizedBody).getBodyTransform(state)).T()+ myAtomLocation) % myAtomForce, myAtomForce);
                 } // of for m
                 // cout.precision(5);
                 // cout << "DensityMean "<< densitySum/(int)tempAtomInfoVector.size() << endl;

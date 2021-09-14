@@ -1301,12 +1301,12 @@ vector<MMBAtomInfo>  BiopolymerClass::getAtomInfoVector(){
     return atomInfoVector;
 }
 
-
-vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(const ResidueStretch &myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates ) const {
+std::pair<vector<MMBAtomInfo>::const_iterator, vector<MMBAtomInfo>::const_iterator>
+BiopolymerClass::calcAtomInfoVector(const ResidueStretch &myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates ) const {
     if ((myResidueStretch.getStartResidue() == getFirstResidueID()) && 
         (myResidueStretch.getEndResidue()   == getLastResidueID()  )) {
         validateAtomInfoVector(); //return atomInfoVector;
-        return atomInfoVector;
+        return {atomInfoVector.cbegin(), atomInfoVector.cend()};
     } // just return the precomputed atomInfoVector
     else {
           vector<MMBAtomInfo>::const_iterator startAtomInfoIterator;
@@ -1329,7 +1329,7 @@ vector<MMBAtomInfo>  BiopolymerClass::calcAtomInfoVector(const ResidueStretch &m
               if (indexResidueID2 <  getLastResidueID() ) incrementResidueID(indexResidueID2); else break; // make sure we don't increment past the last residue
           }
           endAtomInfoIterator -= 1;
-          return {startAtomInfoIterator, endAtomInfoIterator+1};
+          return {startAtomInfoIterator, endAtomInfoIterator + 1};
           //return vector<MMBAtomInfo>  (startAtomInfoIterator, endAtomInfoIterator+1);
     }
  

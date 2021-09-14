@@ -248,7 +248,10 @@ public:
 
     vector<MMBAtomInfo> getAtomInfoVector();
     void printAtomInfoVector(){for (int i = 0 ; i < atomInfoVector.size(); i++) atomInfoVector[i].print(); };
-    vector<MMBAtomInfo>  calcAtomInfoVector(const ResidueStretch &myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates = 1) const;
+
+    std::pair<vector<MMBAtomInfo>::const_iterator, vector<MMBAtomInfo>::const_iterator>
+    calcAtomInfoVector(const ResidueStretch &myResidueStretch, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm, const bool includePhosphates = 1) const;
+
     void        addRingClosingBond(CovalentBondClass myCovalentBondClass); 
     void        addRingClosingBond( ResidueID residueID1, String atomName1, String bondCenterName1,  ResidueID residueID2, String atomName2,String bondCenterName2, SimTK::BondMobility::Mobility bondMobility) ; 
  

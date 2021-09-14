@@ -115,13 +115,7 @@ iVec3 UnitCellParameters::convertCartesianVectorToLowerIndexVector  (const SimTK
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" Converting cartesian vector "<<cartesianVector<<std::endl;
     SimTK::Vec3 fractionalVector = convertCartesianVectorToFractionalVector( cartesianVector);
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" .. to fractional coordinate vector "<<fractionalVector<<std::endl;
-    iVec3 indexVector = {0,0,0};
-    indexVector = convertFractionalVectorToLowerIndexVector (fractionalVector);
-    //indexVector[0] = trunc(fractionalVector[0]) - aMin;
-    //indexVector[1] = trunc(fractionalVector[1]) - bMin;
-    //indexVector[2] = trunc(fractionalVector[2]) - cMin;
-    //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" .. and finally to truncated index vector "<< indexVector[0] <<","<< indexVector[1]<<","<<  indexVector[2]  <<std::endl;
-    return indexVector;
+    return convertFractionalVectorToLowerIndexVector (fractionalVector);
 }
 bool UnitCellParameters::fractionalVectorIsInsideMapBoundaries(const SimTK::Vec3 & fractionalVector){
     //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<std::endl;

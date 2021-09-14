@@ -98,7 +98,7 @@ class MMB_EXPORT DensityMap {
         const GridPoint & getGridPoint(const Vec3 &pos) const;
         GridPoint & updGridPoint(const GridIndices &indices);
         GridPoint & updGridPoint(const Vec3 &pos);
-        void validateGridPoint(GridIndices myGridIndices);
+        void validateGridPoint(const GridIndices &indices) const;
         //const bool hasNearbyGridIndices(Vec3 position);
         GridIndices calcNearestGridIndices(const Vec3 &position) const;
         GridIndices calcLowerLeftGridIndices(const Vec3 &position) const;
@@ -134,9 +134,9 @@ class MMB_EXPORT DensityMap {
         // Functions which were moved from GridPoint to DensityMap for memory savings
         void initializeGradient(GridPoint & gridPoint );
         void initialize(GridPoint & gridPoint );
-        void validatePosition(GridPoint & gridPoint, const Vec3 &myPosition)const ;
-        void validateDensity (GridPoint & gridPoint, double          ) const;
-        void validate(GridPoint & gridPoint) const;
+        void validatePosition(const GridPoint & gridPoint, const Vec3 &myPosition)const ;
+        void validateDensity (const GridPoint & gridPoint, double          ) const;
+        void validate(const GridPoint & gridPoint) const;
         void setDensity(GridPoint & gridPoint, Real myDensity);
         void setPosition(GridPoint & gridPoint, const Vec3 &myPosition);
         //Quadrant calcQuadrant(GridPoint & gridPoint, Vec3 queryPosition) const;

@@ -68,11 +68,11 @@ const GridPoint & DensityMap::getGridPoint(const GridIndices &indices) const {
     return gridPoint(indices.z, indices.y, indices.x);
 }
    
-void	    DensityMap::validateGridPoint(GridIndices myGridIndices){
-			if (! hasGridPoint(myGridIndices)) {
-				MMBLOG_FILE_FUNC_LINE(CRITICAL, "No nearby grid point.  The point you requested is off the density map."<<endl);
-			} else validate(updGridPoint(myGridIndices));
-
+void DensityMap::validateGridPoint(const GridIndices &indices) const {
+    if (!hasGridPoint(indices)) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "No nearby grid point.  The point you requested is off the density map."<<endl);
+    } else
+        validate(getGridPoint(indices));
 }
 
 
@@ -999,18 +999,18 @@ void DensityMap::initialize(GridPoint & gridPoint){
                 //cout<<__FILE__<<":"<<__LINE__<<" Set firstQuadrantGradient =  "<<fetchFirstQuadrantGradient(gridPoint)<<"  position = "<<gridPoint.position <<" density = "<<gridPoint.density <<endl;
 	}
 
-void DensityMap::validatePosition(GridPoint & gridPoint, const Vec3 &myPosition) const{
+void DensityMap::validatePosition(const GridPoint & gridPoint, const Vec3 &myPosition) const{
                
           	//cout<<__FILE__<<":"<<__LINE__<<" about to validate position = "<<myPosition<<endl;
                 //ValidateVec3( myPosition);
 	}
 
-void DensityMap::validateDensity(GridPoint & gridPoint, double myDensity) const{
+void DensityMap::validateDensity(const GridPoint & gridPoint, double myDensity) const{
 		ValidateDouble(myDensity);
 	
 }
 
-void DensityMap::validate(GridPoint & gridPoint) const{
+void DensityMap::validate(const GridPoint & gridPoint) const{
 		validatePosition(gridPoint,gridPoint.position);
 		validateDensity(gridPoint,gridPoint.density);
 		// write this code later.

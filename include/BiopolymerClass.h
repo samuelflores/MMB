@@ -139,11 +139,11 @@ public:
 
     BiopolymerClass(); // sets all properties to empty values.
     BiopolymerClass(String mySequence, String myChainID, ResidueID myFirstResidueNumber, BiopolymerType::BiopolymerTypeEnum myBiopolymerType, bool proteinCapping, bool useNACappingHydroxyls) noexcept;
-    BiopolymerClass(const BiopolymerClass &other);
-    BiopolymerClass(BiopolymerClass &&other) noexcept;
+    BiopolymerClass(const BiopolymerClass &other) = default;
+    BiopolymerClass(BiopolymerClass &&other) noexcept = default;
 
-    BiopolymerClass & operator=(const BiopolymerClass &other);
-    BiopolymerClass & operator=(BiopolymerClass &&other) noexcept;
+    BiopolymerClass & operator=(const BiopolymerClass &other) = default;
+    BiopolymerClass & operator=(BiopolymerClass &&other) noexcept = default;
     
     int  initializeBiopolymer(CompoundSystem & system, 
                               bool myProteinCapping, 

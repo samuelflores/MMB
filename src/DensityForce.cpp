@@ -49,13 +49,13 @@ Real DensityForce::calcPotentialEnergy(const State& state) const
         {
         double totalPotentialEnergy = 0;
         for (int i = 0; i < myParameterReader.densityContainer.numDensityStretches(); i++) {
-            String myChainID = myParameterReader.densityContainer.getDensityStretch(i).getChain();
+            const String &myChainID = myParameterReader.densityContainer.getDensityStretch(i).getChain();
             if (myParameterReader.myBiopolymerClassContainer.hasChainID(myChainID)){
-                    BiopolymerClass & tempBiopolymerClass = myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID );
-                    Biopolymer & tempBiopolymer =  myParameterReader.myBiopolymerClassContainer.updBiopolymerClass(myChainID ).updBiopolymer();
-                    const auto atomInfoRange = tempBiopolymerClass.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm, myParameterReader.densityFitPhosphates );   
+                    const BiopolymerClass &bpc = myParameterReader.myBiopolymerClassContainer.getBiopolymerClass(myChainID );
+                    const Biopolymer &bp = bpc.getBiopolymer();
+                    const auto atomInfoRange = bpc.calcAtomInfoVector(myParameterReader.densityContainer.getDensityStretch(i), matter, dumm, myParameterReader.densityFitPhosphates );   
                     for (auto it = atomInfoRange.first; it != atomInfoRange.second; it++) {
-                        Vec3 myAtomLocation = tempBiopolymer.calcAtomLocationInGroundFrame(state, it->compoundAtomIndex);
+                        Vec3 myAtomLocation = bp.calcAtomLocationInGroundFrame(state, it->compoundAtomIndex);
                         MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(Vec3(-.68, -4.79, 2.26)) = "<< myDensityMap.getDensity(Vec3(-.68, -4.79, 2.26))<<endl);
                         MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(myAtomLocation) = "<< myDensityMap.getDensity(myAtomLocation)<<" myAtomLocation = "<<myAtomLocation<<" myDensityMap.getForceConstant()        = "<<myDensityMap.getForceConstant()<<" myAtomicNumber = "<<it->atomicNumber<<endl);
                         // changed to atomic number on FEB 24 2021, earlier was atomic mass:

@@ -38,14 +38,12 @@ SimTK::Mat33 UnitCellParameters::getDeOrthogonalizationMatrix () const{
     exitIfNotValid();
     return deOrthogonalizationMatrix;
 }
-SimTK::Vec3 multiplyMat33TimesVec3  (const SimTK::Mat33 myMat33 , const SimTK::Vec3 myVec3 ){
-    SimTK::Vec3 returnVec3 = {0,0,0};
-    //std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" provided SimTK::Mat33 contains : "<<std::endl;
-    //for (int i = 0; i < 3; i++) for (int j = 0 ; j < 3; j++) std::cout <<__FILE__<<":"<<__LINE__<< ":" << __FUNCTION__<<" myMat33["<<i<<"]["<<j<<"] = "<<myMat33[i][j]<<std::endl; 
-    returnVec3[0] =    myMat33[0][0] * myVec3[0] + myMat33[0][1] * myVec3[1]  + myMat33[0][2] * myVec3[2];
-    returnVec3[1] =    myMat33[1][0] * myVec3[0] + myMat33[1][1] * myVec3[1]  + myMat33[1][2] * myVec3[2];
-    returnVec3[2] =    myMat33[2][0] * myVec3[0] + myMat33[2][1] * myVec3[1]  + myMat33[2][2] * myVec3[2];
-    return returnVec3;
+SimTK::Vec3 multiplyMat33TimesVec3(const SimTK::Mat33 &myMat33, const SimTK::Vec3 &myVec3) {
+    return {
+        myMat33[0][0] * myVec3[0] + myMat33[0][1] * myVec3[1] + myMat33[0][2] * myVec3[2],
+        myMat33[1][0] * myVec3[0] + myMat33[1][1] * myVec3[1] + myMat33[1][2] * myVec3[2],
+        myMat33[2][0] * myVec3[0] + myMat33[2][1] * myVec3[1] + myMat33[2][2] * myVec3[2]
+    };
 }
 
 // takes a cartesian vector, returns a vector in fractional coordinates

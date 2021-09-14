@@ -124,7 +124,7 @@ class MMB_EXPORT DensityMap {
         void precomputeGradient();
         //void precomputeGradientDerivatives();
         Vec3 fetchGradient(const Vec3 &position);
-        Vec3 fetchFirstQuadrantGradient(const Vec3 &position);
+        const Vec3 & fetchFirstQuadrantGradient(const Vec3 &position);
         //Vec3 calcInterpolatedFirstQuadrantGradient(Vec3 position);
         SimTK::Vec3 calcInterpolatedFirstQuadrantGradient(const SimTK::Vec3 &position) ;
         // Functions which were moved from GridPoint to DensityMap for memory savings
@@ -137,7 +137,7 @@ class MMB_EXPORT DensityMap {
         void setPosition(GridPoint & gridPoint, const Vec3 &myPosition);
         //Quadrant calcQuadrant(GridPoint & gridPoint, Vec3 queryPosition) const;
         //Vec3  fetchGradient(GridPoint & gridPoint, Vec3 queryPosition) const;
-        Vec3 fetchFirstQuadrantGradient(GridPoint & gridPoint) const ;
+        const Vec3 & fetchFirstQuadrantGradient(const GridPoint & gridPoint) const ;
         double getDensity(GridPoint & gridPoint) const;
         double getDensity(GridPoint & gridPoint, Vec3 myPosition) const;   
         void setPositiveXGradient(GridPoint & gridPoint, Real);

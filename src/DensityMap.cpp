@@ -996,8 +996,9 @@ void DensityMap::precomputeGradientDerivatives() {
 		}*/
 
 
+static const Vec3 ZERO_VEC(0);
 
-Vec3 DensityMap::fetchFirstQuadrantGradient(const Vec3 &position)  {
+const Vec3 & DensityMap::fetchFirstQuadrantGradient(const Vec3 &position)  {
 
                         GridIndices myLowerLeftGridIndex = calcLowerLeftGridIndices(   position);
                          if (hasGridPoint(myLowerLeftGridIndex)) {
@@ -1026,8 +1027,7 @@ Vec3 DensityMap::fetchFirstQuadrantGradient(const Vec3 &position)  {
                                 return fetchFirstQuadrantGradient(myGridPoint) ;
 
                          } else {
-                                 Vec3 tempVec3(0);
-                                 return tempVec3;
+                                 return ZERO_VEC;
                          }
 
 }
@@ -1103,7 +1103,7 @@ void DensityMap::setPosition(GridPoint & gridPoint, const Vec3 &myPosition)	{
 		gridPoint.position = myPosition;	
 	}
 
-Vec3 DensityMap::fetchFirstQuadrantGradient(GridPoint & gridPoint) const {
+const Vec3 & DensityMap::fetchFirstQuadrantGradient(const GridPoint & gridPoint) const {
                 return gridPoint.firstQuadrantGradient;
 }
 

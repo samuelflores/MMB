@@ -66,36 +66,11 @@ void DensityMap::validateGridParameters() {
     unitCellParameters.validate();
 }
 		
-bool        DensityMap::hasGridPoint(const GridIndices &myGridIndices) const {
-
-        //cout<<__FILE__<<":"<<__LINE__<< " ArrayOfGridPoints[0].size() = "  <<ArrayOfGridPoints[0].size() <<endl;
-        //cout<<__FILE__<<":"<<__LINE__<< " ArrayOfGridPoints[0][0].size() = "  <<ArrayOfGridPoints[0][0].size() <<endl;
-	bool myHasGridPoint;
-	if (myGridIndices.z >= unitCellParameters.getNc()) 
-        {
-		myHasGridPoint = false;
-	}
-	else if (myGridIndices.z <  0 ) {
-		myHasGridPoint = false;
-	}
-	else if (myGridIndices.y >= unitCellParameters.getNb()) {
-		myHasGridPoint = false;
-	}
-	else if (myGridIndices.y <  0 ) {
-		//cout<<__FILE__<<":"<<__LINE__<< " The Y-index of "<<myGridIndices.getYGridIndex()<<" is less than zero. No force applied."<<endl; 
-		myHasGridPoint = false;
-	}
-	else if (myGridIndices.x >= unitCellParameters.getNa()) {
-		//cout<<__FILE__<<":"<<__LINE__<< " The X-index of "<<myGridIndices.getXGridIndex()<<" exceeds the X-dimension, "<<unitCellParameters.getNa() <<" of the grid map. No force applied."<<endl;	
-		myHasGridPoint = false;
-	}
-	else if (myGridIndices.x <  0 ) {
-		//cout<<__FILE__<<":"<<__LINE__<< " The X-index of "<<myGridIndices.getXGridIndex()<<" is less than zero. No force applied."<<endl; 
-		myHasGridPoint = false;
-	}
-	else { myHasGridPoint = true;}
-	return myHasGridPoint;
-
+bool DensityMap::hasGridPoint(const GridIndices &indices) const {
+    return
+        indices.z >= 0 && indices.z < unitCellParameters.getNc() &&
+        indices.y >= 0 && indices.y < unitCellParameters.getNb() &&
+        indices.x >= 0 && indices.x < unitCellParameters.getNa();
 }
 
 

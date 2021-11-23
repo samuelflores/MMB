@@ -1083,7 +1083,8 @@ void ConstrainedDynamics::initializeBodies(){
     //_parameterReader->removeBasePairsAcrossRigidStretches(); //SCF
     createMultibodyTree();
     // This was taking a long time and no longer really useful.
-    //_parameterReader->myMonoAtomsContainer.computeTotalCurvatureSquared(_state);
+    if (_parameterReader->computeTotalCurvatureSquared){
+        _parameterReader->myMonoAtomsContainer.computeTotalCurvatureSquared(_state);}
 }
 
 void ConstrainedDynamics::initializeDynamics(){

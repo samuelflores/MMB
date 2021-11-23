@@ -98,6 +98,7 @@ public:
     bool   checkSatisfied  ;
     //bool constrainRigidSegments;
     double constraintTolerance;
+    bool   computeTotalCurvatureSquared;
     InterfaceContainer contactInterfaceContainer;
     bool   guessCoordinates;
     double cutoffRadius    ;

@@ -346,7 +346,7 @@ void MonoAtoms::initialize (CompoundSystem & system,  bool readPreviousFrameFile
 
 
 void MonoAtomsContainer::initialize (CompoundSystem & system , bool readPreviousFrameFile, String previousFrameFileName, bool matchExact, bool matchIdealized ) {
-    
+        //computeTotalCurvatureSquaredBool = 0; // Turn off by default, in case cost is an issue. 
         map <String,MonoAtoms> :: iterator monoAtomsMapIterator;
 	if (monoAtomsMap.size() > 0)
 		for (monoAtomsMapIterator = monoAtomsMap.begin();

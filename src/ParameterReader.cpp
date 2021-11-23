@@ -747,6 +747,7 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "applyC1pSprings                        bool    "<<applyC1pSprings              <<endl;
     myOstream << remarkString << "calcEnergy                             bool    "<<calcEnergy                        <<endl;
     //myOstream << remarkString << "constrainRigidSegments                 bool    "<<constrainRigidSegments            <<endl;
+    myOstream << remarkString << "computeTotalCurvatureSquared           bool    "<<computeTotalCurvatureSquared            <<endl;
     myOstream << remarkString << "constraintTolerance                    double   "<<constraintTolerance               <<endl;
     myOstream << remarkString << "cutoffRadius                           double   "<<cutoffRadius<<" (nm)"    <<endl;
     myOstream << remarkString << "densityAtomFraction                    String  "<<densityAtomFraction<<endl;
@@ -4033,6 +4034,14 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         constrainRigidSegments  = aToBool(parameterStringClass.getString(0),(parameterStringClass.getString(1)).c_str());    */
         return;
     }
+    if ((parameterStringClass.getString(0)).compare("computeTotalCurvatureSquared") ==0) {
+        cout<<"If set to True, this orders MonoAtomsContainer to compute the curvature for all of its chains."<<endl;
+        cout<<"This is intended for use with the spiral commands, i.e. for generating DNA duplexes in spherical or cylindrical spirals."<<endl;
+        cout<<"syntax:   computeTotalCurvatureSquared bool "<<endl;
+        parameterStringClass.validateNumFields(2);
+        computeTotalCurvatureSquared = aToBool(parameterStringClass.getString(1).c_str());    
+        return;
+    }
     if ((parameterStringClass.getString(0)).compare("constraintTolerance") ==0) {
         parameterStringClass.validateNumFields(2);
         constraintTolerance                = myAtoF(userVariables,(parameterStringClass.getString(1)).c_str());    
@@ -4907,6 +4916,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     kineticEnergy = 0.0;
     checkSatisfied  = false; //scf should be true?
     //constrainRigidSegments = false;
+    computeTotalCurvatureSquared = 0;
     constraintTolerance = .00005;
     cutoffRadius  = .1; // in nm, of course
     cutoffAngle = 0    ;

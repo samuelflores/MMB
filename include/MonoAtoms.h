@@ -77,6 +77,8 @@ class MonoAtomsContainer  {
 		String		getAtomPathName(String,ResidueID);
 		void 		clear();
 		void 		includeAllAtoms(DuMMForceFieldSubsystem & dumm);
+		// this is just a bool to know whether we should compute curvature or not. It costs compute time, so is turned off by default.
+		//bool            computeTotalCurvatureSquaredBool;
 		double          computeTotalCurvatureSquared(const State & state);
                 int             getNumAtoms() const;// Counts all the atoms over all MonoAtoms in MonoAtomsContainer
 

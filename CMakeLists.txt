@@ -45,7 +45,7 @@ SET(OpenMM_INCLUDE_DIR "" CACHE PATH
 SET(OpenMM_INSTALL_DIR "" CACHE PATH
         "OpenMM install directory. Used to find libs.")
 #Add the OpenMM library
-SET(Lepton_INCLUDE_DIR "/3rdparty/Lepton1.3/include/" CACHE PATH
+SET(Lepton_INCLUDE_DIR "3rdparty/Lepton1.3/include/" CACHE PATH
 	"Where to find Lepton includes")
 #Add the Gemmi library path
 SET(GEMMI_INCLUDE_DIR "" CACHE PATH

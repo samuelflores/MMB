@@ -71,9 +71,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
 
     if (myParameterReader.contactInterfaceContainer.numInterfaces() > 0) {
 	vector<MMBAtomInfo> concatenatedAtomInfoVector = myBiopolymerClassContainer.getConcatenatedAtomInfoVector(state);
-#ifdef USE_OPENMM
 	vector<TwoAtomClass> myTwoAtomClassVector = myParameterReader.contactInterfaceContainer.retrieveCloseContactPairs(concatenatedAtomInfoVector); // Just calling this method is enough to get the close contacts written to stdout.
-#endif
     }
 
     if ( myParameterReader.useCIFFileFormat )

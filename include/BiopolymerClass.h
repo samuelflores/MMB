@@ -15,10 +15,11 @@
 
 #include "Mutation.h"
 #include "SimTKmolmodel.h"
-#include <seqan/align.h>
 #include "BaseInteractionParameterReader.h"
 #include "ConstraintContainer.h"
-#include "ReferenceNeighborList.h"
+
+#include <openmm/reference/ReferenceNeighborList.h>
+#include <seqan/align.h>
 
 #include <string>
 #include <array>
@@ -241,10 +242,8 @@ public:
     MMBAtomInfo mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter) const;
     MMBAtomInfo mmbAtomInfo(const ResidueID &myResidueID, const ResidueInfo::AtomIndex &myResidueInfoAtomIndex, SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) const;
     //MMBAtomInfo mmbAtomInfo(  ResidueID myResidueID,   ResidueInfo::AtomIndex myResidueInfoAtomIndex,  SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm , State & state);
-    #ifdef USE_OPENMM
     void        initializeAtomInfoVector(SimbodyMatterSubsystem & matter,  const vector<AtomicPropertyOverrideStruct>  & myAtomicPropertyOverrideVector);
     void        initializeAtomInfoVector(SimbodyMatterSubsystem & matter,DuMMForceFieldSubsystem & dumm, const vector<AtomicPropertyOverrideStruct> & atomicPropertyOverrideVector);
-    #endif
 
     vector<MMBAtomInfo> getAtomInfoVector();
     void printAtomInfoVector(){for (int i = 0 ; i < atomInfoVector.size(); i++) atomInfoVector[i].print(); };
@@ -288,13 +287,6 @@ public:
     ResidueID safeSum(ResidueID  inputResidueID, int  increment );
     ResidueID sum(ResidueID  oldResidueID, int  increment ) const;
      
-    #ifndef USE_OPENMM
-    /** 
-    * Get all residues within "distance" (nm) of location
-    * @return a vector of ResidueID
-    */ 
-    std::vector<ResidueID> getResiduesWithin(Vec3 location, double distance);
-    #endif
     //void writeDisulphideBridges(std::ofstream & output, SimbodyMatterSubsystem& matter );
 
 
@@ -331,7 +323,7 @@ private :
     //map <const String, PdbStructure> pdbStructureMap;
 
 public:
-    #ifdef BuildNtC
+    #ifdef NTC_ENABLED
     std::vector<std::array<double, 361>> hist;
     std::vector<std::array<double, 361>> prob;
     std::vector<double> counter;
@@ -441,7 +433,6 @@ public:
     void        setSingleBondMobility(vector<SingleBondMobility>);  
     void        printAllIncludedResidues (const vector<IncludeAllNonBondAtomsInResidue> & includeAllNonBondAtomsInResidueVector);
 
-    #ifdef USE_OPENMM
     std::vector< std::pair<const BiopolymerClass, const ResidueID> > getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, const State & state, OpenMM::NeighborList &  neighborList);
     std::vector< std::pair<const BiopolymerClass, const ResidueID> > getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList & neighborList);
     std::vector< std::pair<const BiopolymerClass, const ResidueID> > getResiduesWithin(vector<MMBAtomInfo>& concatenatedAtomInfoVector, const String & chainID, const ResidueID & resID, double radius, OpenMM::NeighborList & neighborList);
@@ -452,7 +443,6 @@ public:
     // Template functions have to be defined in the same compilation unit in which it is used, under many circumstances. Hence the following pass-through or wrapper function:
     vector<SingleResidue>  findBiopolymerResiduesWithinRadius  (const  vector<MobilizerWithin> & allResiduesWithinVector,  const State state);
     void        includeAllResiduesWithin (const vector<AllResiduesWithin> & includeAllResiduesWithinVector,    vector<IncludeAllNonBondAtomsInResidue> & includeAllNonBondAtomsInResidueVector, const State state);
-    #endif
 
     void        includeAllNonBondAtomsInResidues(vector<IncludeAllNonBondAtomsInResidue>  myIncludeAllNonBondAtomsInResidueVector, State & state, DuMMForceFieldSubsystem & dumm) ;
     void        includeNonBondAtoms(  vector<IncludeNonBondAtomInBiopolymerStruct> includeNonBondAtomInBiopolymerVector,  State & state, DuMMForceFieldSubsystem & dumm) ;
@@ -542,10 +532,8 @@ public:
     void        deleteResidue(Mutation myDeletion,   bool proteinCapping);
     void        setMutationVectorFromString (const std::string mutationString);
     void        addIntraChainInterfaceResidues(String chain, vector<IncludeAllNonBondAtomsInResidue> & myIncludeAllNonBondAtomsInResidueVector , double radius, SimbodyMatterSubsystem & matter,State & state);
-    #ifdef USE_OPENMM
     void        createDisulphideBridges(std::ofstream & output);
     void        createDisulphideBridges();
-    #endif
     void        loadCysteineAtomInfoVector(vector <MMBAtomInfo> & cysteineAtomInfoVector ) ;
     vector<Mutation> getCompositeMutationVector() {return          mutationVector;}
 

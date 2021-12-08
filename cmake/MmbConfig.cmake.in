@@ -1,0 +1,53 @@
+# MmbConfig.cmake
+
+# This should define the following:
+#   MMB_FOUND - Whether search for MMB libraries and headers succeeded.
+#   MMB_ROOT_DIR - the installation directory; all the pieces must be
+#                       found together
+#   MMB_INCLUDE_DIR - location of MMB header files
+#   MMB_LIB_DIR     - location of libMMB.{a,so,dylib} or libMMB.lib
+#   MMB_BIN_DIR     - location of .dll's on Windows
+#   MMB_LIBRARIES   - suitable for target_link_libraries(); includes
+#                     both optimized and debug libraries if both are
+#                     available
+#   MMB_STATIC_LIBRARIES - suitable for target_link_libraries(); includes
+#                          both optimized and debug static libraries if
+#                          both are available
+
+@PACKAGE_INIT@
+
+set_and_check(@PKG_NAME@_ROOT_DIR
+              "@PACKAGE_CMAKE_INSTALL_PREFIX@")
+
+set_and_check(@PKG_NAME@_INCLUDE_DIR
+              "@PACKAGE_MMB_INCLUDE_INSTALL_DIR@")
+
+set_and_check(@PKG_NAME@_LIB_DIR
+              "@PACKAGE_CMAKE_INSTALL_LIBDIR@")
+
+list(APPEND @PKG_NAME@_BIN_DIR
+            "@PACKAGE_CMAKE_INSTALL_BINDIR@")
+
+list(APPEND @PKG_NAME@_CFLAGS
+    -I"@PACKAGE_MMB_INCLUDE_INSTALL_DIR@")
+
+list(APPEND @PKG_NAME@_LDFLAGS
+            -L"@PACKAGE_CMAKE_INSTALL_LIBDIR@")
+
+include("${CMAKE_CURRENT_LIST_DIR}/MmbTargets.cmake")
+
+if (@BUILD_SHARED@)
+    set(MMB_LIBRARIES @LIBMMB_SHARED_TARGET@)
+else ()
+    set(MMB_LIBRARIES MMB_LIBRARIES-NOTFOUND)
+endif ()
+
+if (@BUILD_STATIC@)
+    set(MMB_STATIC_LIBRARIES @LIBMMB_STATIC_TARGET@)
+else ()
+    set(MMB_STATIC_LIBRARIES MMB_STATIC_LIBRARIES-NOTFOUND)
+endif ()
+
+mark_as_advanced(MMB_LIBRARIES MMB_STATIC_LIBRARIES)
+
+check_required_components(MMB)

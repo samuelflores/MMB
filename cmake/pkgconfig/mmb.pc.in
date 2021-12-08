@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/@MMB_INCLUDE_INSTALL_DIR@
+
+Name: MMB
+Description: MMB Libraries
+Version: @MMB_VERSION@
+Requires:
+Libs: -L${libdir} -lMMB @PKGCONFIG_PLATFORM_LIBS@
+CFlags: -I${includedir} -std=c++14

@@ -15,6 +15,7 @@
 #include "Utils.h"
 #include "ContactContainer.h"
 #include "ResidueStretchContainer.h"
+
 //#include <string>
 #include <MMBLogger.h>
 #include <array>
@@ -22,7 +23,6 @@
 #include <set>
 #include <cstdlib>
 //#include <stdlib.h>
-#include "ReferenceNeighborList.h"
 #include <algorithm>
 #include <utility>
 
@@ -1147,7 +1147,6 @@ void overrideAtomInfoVectorProperties(BiopolymerClass & myBiopolymerClass, vecto
 
 } // of overrideAtomInfoVectorProperties
 
-#ifdef USE_OPENMM
 // Without dumm, doesn't load certain properties..
 void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter,  const vector<AtomicPropertyOverrideStruct>  & myAtomicPropertyOverrideVector ) {
     if (atomInfoVector.size() > 0) {
@@ -1203,7 +1202,6 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, D
 
     overrideAtomInfoVectorProperties(*this,atomInfoVector, myAtomicPropertyOverrideVector);
 } // of initializeAtomInfoVector
-#endif
 
 vector<MMBAtomInfo>  BiopolymerClass::getAtomInfoVector(){
     validateAtomInfoVector();
@@ -2254,22 +2252,6 @@ bool BiopolymerClass::getActivePhysics() const{
     return activePhysics;
 }
 
-#ifndef USE_OPENMM
-// Outdated, it shuld'nt be used
-vector<ResidueID> BiopolymerClass::getResiduesWithin(Vec3 location, double distance){
-    vector<ResidueID> residuesWithin;
-    for (ResidueID j = getFirstResidueID(); j <= getLastResidueID(); incrementResidueID(j)) {
-        double myDistance = (double)(calcDefaultAtomLocationInGroundFrame(j, getRepresentativeAtomName()) - location).norm();
-        if(myDistance <= distance){
-            residuesWithin.push_back(j);
-        }
-
-        if(j == getLastResidueID()) break;
-    }
-    return residuesWithin;
-}
-#endif
-
 /**
  * /brief This method locks all MobilizedBody's in a biopolymer. It is equivalent to using BondMobility::Rigid, but with constraints rather than mobilizers. It is intended to be used for adaptive dynamics, because we will be able to monitor the reaction forces required to maintain the constraints. These forces can be the criterion for "melting" a DOF.
  *
@@ -3070,7 +3052,6 @@ void BiopolymerClassContainer::printAllIncludedResidues (const vector<IncludeAll
     }
 }
 
-#ifdef USE_OPENMM
 vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer::getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, const State & state, OpenMM::NeighborList & neighborList){
     vector<MMBAtomInfo> concatenatedAtomInfoVector = getConcatenatedAtomInfoVector(state);
     return getResiduesWithin(concatenatedAtomInfoVector, chainID, resID, radius, neighborList); // calls two below.
@@ -3480,7 +3461,6 @@ void BiopolymerClassContainer::includeAllResiduesWithin (const vector<AllResidue
     MMBLOG_FILE_FUNC_LINE(INFO, "includeAllNonBondAtomsInResidueVector size is now : "<<includeAllNonBondAtomsInResidueVector.size()<<endl);
     
 }
-#endif
 
 void BiopolymerClassContainer::includeAllNonBondAtomsInResidues(vector<IncludeAllNonBondAtomsInResidue>  myIncludeAllNonBondAtomsInResidueVector, State & state, DuMMForceFieldSubsystem & dumm) {
     for (size_t i = 0; i < myIncludeAllNonBondAtomsInResidueVector.size(); i++){
@@ -3649,7 +3629,6 @@ String BiopolymerClassContainer::extractSequenceFromBiopolymer(const Biopolymer 
     return mySequence.str();
 };
 
-#ifdef USE_OPENMM
 void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter ) {  
     for (auto &it : biopolymerClassMap) {
         it.second.initializeAtomInfoVector(matter, atomicPropertyOverrideVector);
@@ -3662,7 +3641,6 @@ void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem&
         it.second.initializeAtomInfoVector(matter, dumm, atomicPropertyOverrideVector);
     }
 };
-#endif
 
 bool isRNAtest(const Biopolymer & inputBiopolymer){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Inside isRNAtest               "     <<endl);
@@ -4710,9 +4688,7 @@ void BiopolymerClassContainer::setMutationVectorFromString (const std::string mu
 void BiopolymerClassContainer::addIntraChainInterfaceResidues(String chain, vector<IncludeAllNonBondAtomsInResidue> & myIncludeAllNonBondAtomsInResidueVector , double radius, SimbodyMatterSubsystem & matter,State & state) {
     ResidueStretchContainer <SingleResidue> myResidueStretchContainer;
     MMBLOG_FILE_FUNC_LINE(INFO, "myResidueStretchContainer.getNumResidueStretches() = "<<myResidueStretchContainer.getNumResidueStretches()<< endl);
-    #ifdef USE_OPENMM
     myResidueStretchContainer.addIntraChainInterfaceResidues( radius, chain, *this );
-    #endif
     MMBLOG_FILE_FUNC_LINE(INFO, "myResidueStretchContainer.getNumResidueStretches() = "<<myResidueStretchContainer.getNumResidueStretches()<< endl);
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     IncludeAllNonBondAtomsInResidue myIncludeAllNonBondAtomsInResidue;
@@ -4727,7 +4703,6 @@ void BiopolymerClassContainer::addIntraChainInterfaceResidues(String chain, vect
     }
 };
 
-#ifdef USE_OPENMM
 void BiopolymerClassContainer::createDisulphideBridges(std::ofstream & output) {
     vector <MMBAtomInfo> cysteineAtomInfoVector; cysteineAtomInfoVector.clear();
     loadCysteineAtomInfoVector(cysteineAtomInfoVector);   
@@ -4807,7 +4782,6 @@ void BiopolymerClassContainer::createDisulphideBridges() {
 	}
      
     }
-#endif
 
 void BiopolymerClassContainer::loadCysteineAtomInfoVector(vector <MMBAtomInfo> & cysteineAtomInfoVector ) {
     vector <MMBAtomInfo> myConcatenatedAtomInfoVector;

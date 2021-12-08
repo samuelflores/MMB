@@ -21,25 +21,14 @@
 #include "SimTKsimbody.h"
 #include "SimTKmolmodel.h"
 #include "MMBLogger.h"
-#include "RealVec.h"
-#include "ReferenceNeighborList.h"
+#include <openmm/reference/RealVec.h>
+#include <openmm/reference/ReferenceNeighborList.h>
 #include <seqan/align.h>
 #ifdef Lepton_USAGE // This is included only if Lepton_USAGE is defined
 #include "Lepton.h"
 #endif
 
-
-#ifdef USE_OPENMM_REALVEC
-#ifdef WARN_OPENMM_REALVEC
-    #pragma message ("using OpenMM::RealVec: USE_OPENMM_REALVEC defined")
-#endif // WARN_OPENMM_REALVEC
-typedef OpenMM::RealVec openmmVecType ;
-#else 
-#ifdef WARN_OPENMM_REALVEC
-    #pragma message ("using OpenMM::Vec3: USE_OPENMM_REALVEC NOT defined")
-#endif // WARN_OPENMM_REALVEC
-typedef OpenMM::Vec3    openmmVecType ;
-#endif
+typedef OpenMM::Vec3 openmmVecType ;
 
 using namespace SimTK;
 using namespace std;  
@@ -1567,9 +1556,7 @@ class InterfaceContainer    {
                         myInterface.Chains.clear(); myInterface.PartnerChains.clear();
             for (int i = 0; i < myChains.size(); i++) {myInterface.Chains.push_back( myChains[i]);}  myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
         void addInterface(vector<String> myChains,vector<String> partnerChains,  double myDepth ,  String myMobilizerString = "NONE");
-        #ifdef USE_OPENMM
         vector<TwoAtomClass> retrieveCloseContactPairs(vector<MMBAtomInfo> & concatenatedAtomInfoVector );
-        #endif
         Interface getInterface(int interfaceIndex) {return  interfaceVector[interfaceIndex];};
         int numInterfaces() {return interfaceVector.size();};
         void print(){

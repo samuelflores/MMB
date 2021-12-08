@@ -346,7 +346,6 @@ void InterfaceContainer::addInterface(vector<String> myChains,vector<String> par
 };
 
 
-#ifdef USE_OPENMM
 vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAtomInfo> & concatenatedAtomInfoVector ){
 //vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(  BiopolymerClassContainer & myBiopolymerClassContainer){
         OpenMM::NeighborList neighborList;
@@ -400,7 +399,6 @@ vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAto
         }
         return contactingAtomInfoPairVector;  
 };
-#endif
 
 ConstraintClass::ConstraintClass(){
         chain1 = ""; residueID1 = ResidueID(); atomName1 = ""; 

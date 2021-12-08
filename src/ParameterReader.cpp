@@ -3025,9 +3025,6 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     } //End fitElectrostaticDensity
 
     if  (((parameterStringClass.getString(0)).compare("applyContactsWithin") == 0))  {
-        #ifndef USE_OPENMM
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have compiled without USE_OPENMM ."<<endl);
-        #endif
         MMBLOG_FILE_FUNC_LINE(ALWAYS,
                 "Current syntax of  command is:  applyContactsWithin <radius (nm)> <contact scheme> <chain> <residue>  "<<endl
                 <<"Note that in MMB 2.10 and earlier, we took the radius in Å.  We are going back to nm for consistency, with apologies for the confusion."<<endl);

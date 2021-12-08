@@ -1,490 +1,388 @@
-# Create MMB build system using CMake.
-#
-# We check the BUILD_MMB_{SHARED,STATIC} variables to determine
-# whether to build dynamically linked, statically linked, or both
-# versions of the executable.
+cmake_minimum_required(VERSION 3.2)
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+project(MMB LANGUAGES CXX)
 
-PROJECT(MMB LANGUAGES CXX)
+set(MMB_MAJOR_VERSION 3)
+set(MMB_MINOR_VERSION 4)
+set(MMB_PATCH_VERSION 0)
 
-SET(CMAKE_CXX_STANDARD 14)
-SET(CMAKE_CXX_EXTENSIONS OFF)
-SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-SET( MMB_MAJOR_VERSION 3 )
-SET( MMB_MINOR_VERSION 5 )
-SET( MMB_PATCH_VERSION 0 )
+option(ENABLE_NTC "Enable NtC code" ON)
+option(ENABLE_LEPTON "Enable SimTK Lepton math parser" ON)
+option(BUILD_SHARED "Build shared binaries" ON)
+option(BUILD_STATIC "Build static binaries" OFF)
+option(BUILD_PYTHON_WRAPPER "Build Python wrapper around libMMB API" OFF)
+option(ASSUME_VERSIONED_SIMBODY OFF)
 
-OPTION(DISP_OPENMM_MSGS "Display OpenMM pragma messages" OFF)
+set(
+    MMB_VERSION
+    "${MMB_MAJOR_VERSION}.${MMB_MINOR_VERSION}${MMB_PATCH_VERSION}"
+)
 
-SET(CMAKE_BUILD_TYPE "Release" CACHE STRING "This is a Release build by default" )
-#SET(CMAKE_GENERATOR "Xcode" CACHE STRING "Since you on a Mac, we assume you want to use Xcode" FORCE) 
-#SET(CMAKE_GENERATOR "Xcode" CACHE STRING "Since you on a Mac, we assume you want to use Xcode" FORCE) 
+set(
+    MMB_SONAME_VERSION
+    "${MMB_MAJOR_VERSION}.${MMB_MINOR_VERSION}"
+)
 
-SET(Build_NtC            TRUE  CACHE BOOL 
-        "Build NtC features of MMB. This greatly increases the size of the BiopolymerClassContainer object in memory")
-SET(Build_Lepton         TRUE  CACHE BOOL 
-	"Build SimTK Lepton math parser?           ")
-SET(BUILD_MMB_SHARED_LIB TRUE CACHE BOOL 
-        "Build MMB dynamic library")
-SET(BUILD_MMB_SHARED_EXEC TRUE CACHE BOOL 
-        "Build MMB executable using shared libraries")
-SET(BUILD_MMB_STATIC FALSE CACHE BOOL
-        "Build MMB using static SimTK libraries.")
-SET(BUILD_MMB_GUI_TEST FALSE CACHE BOOL
-        "Build MMB_gui test program")
-SET(SeqAn_INCLUDE_DIR "" CACHE PATH
-        "Where to find Seqan headers")
-SET(OpenMM_INCLUDE_DIR "" CACHE PATH
-        "Where to find OpenMM main header")
-#SET(OpenMM_INCLUDE_REFERENCE_DIR "" CACHE PATH
-#        "Where to find OpenMM reference files")
-#SET(OpenMM_INCLUDE_SUB_DIR "" CACHE PATH
-#        "I don't know how to explain what this is except on my machine it's /usr/local/openmm/include/openmm")
-SET(OpenMM_INSTALL_DIR "" CACHE PATH
-        "OpenMM install directory. Used to find libs.")
-#Add the OpenMM library
-SET(Lepton_INCLUDE_DIR "3rdparty/Lepton1.3/include/" CACHE PATH
-	"Where to find Lepton includes")
-#Add the Gemmi library path
-SET(GEMMI_INCLUDE_DIR "" CACHE PATH
-        "Where to find Gemmi includes")
-SET(USE_VERSIONED_LIBRARIES FALSE CACHE BOOL
-    "Link against versioned Simbody and molmodel")
+### Locate dependencies ###
 
-IF(USE_VERSIONED_LIBRARIES)
-    SET(molmodel_VERSION "" CACHE STRING "molmodel major.minor version")
-ENDIF()
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules")
 
-IF(WIN32)
-    SET(zlib_INSTALL_DIR "" CACHE PATH
-	    "Where to find zlib files")
-ENDIF()
+find_package(Simbody REQUIRED)
+find_package(Molmodel REQUIRED)
+find_package(OpenMM REQUIRED)
+find_package(ZLIB REQUIRED)
 
-#simbody
-SET(SimTK_INSTALL_DIR $ENV{SimTK_INSTALL_DIR} CACHE PATH
-    "Directory where SimTK simbody is installed, e.g. /usr/local/SimTK.")
+### Setup include directories ###
 
-IF(NOT SimTK_INSTALL_DIR)
-    MESSAGE(FATAL_ERROR "Expected SimTK_INSTALL_DIR environment var to be set, or set SimTK in CMake")
-ENDIF(NOT SimTK_INSTALL_DIR)
+include_directories(SYSTEM ${Simbody_INCLUDE_DIR})
+include_directories(SYSTEM ${Molmodel_INCLUDE_DIR})
+include_directories(SYSTEM ${OpenMM_INCLUDE_DIR})
+include_directories(SYSTEM ${ZLIB_INCLUDE_DIRS})
 
-find_package(Simbody CONFIG REQUIRED HINTS "${SimTK_INSTALL_DIR}/lib/cmake")
+if (NOT ${GEMMI_DIR} STREQUAL "")
+    include_directories(SYSTEM "${GEMMI_DIR}/include")
+endif ()
 
-IF(USE_VERSIONED_LIBRARIES)
-    IF(molmodel_VERSION STREQUAL "")
-	    MESSAGE(FATAL_ERROR "molmodel_VERSION is not set")
-    ENDIF()
+if (NOT ${SEQAN_DIR} STREQUAL "")
+    include_directories(SYSTEM "${SEQAN_DIR}/include")
+endif ()
 
-    SET(molmodel_VERTAG "_${molmodel_VERSION}")
-    SET(Simbody_VERTAG "_${Simbody_VERSION}")
-ENDIF()
+if (ENABLE_LEPTON)
+    if (${LEPTON_DIR} STREQUAL "")
+        set(LEPTON_DIR "3rdparty/Lepton1.3")
+    endif ()
+    include_directories(SYSTEM "${LEPTON_DIR}/include")
+endif ()
 
-IF(WIN32)
-    SET(ZLIB_LIB_SHARED zdll)
-	SET(ZLIB_LIB_STATIC zlib)
-ELSE()
-    SET(ZLIB_LIB_SHARED z)
-	SET(ZLIB_LIB_STATIC z)
-ENDIF()
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
-IF(CMAKE_BUILD_TYPE MATCHES Release)
-    SET(OpenMM_SHARED_LIBS
-        PRIVATE optimized OpenMM
-    )
-    SET(OpenMM_STATIC_LIBS
-        PRIVATE optimized OpenMM_static
-    )
-    SET(SimTK_SHARED_LIBS
-        PRIVATE optimized SimTKmolmodel${molmodel_VERTAG}
-        PRIVATE optimized SimTKsimbody${Simbody_VERTAG}
-        PRIVATE optimized SimTKmath${Simbody_VERTAG}
-        PRIVATE optimized SimTKcommon${Simbody_VERTAG}
-    )
-    SET(SimTK_STATIC_LIBS
-        PRIVATE optimized SimTKmolmodel_static${molmodel_VERTAG}
-        PRIVATE optimized SimTKsimbody_static${Simbody_VERTAG}
-        PRIVATE optimized SimTKmath_static${Simbody_VERTAG}
-        PRIVATE optimized SimTKcommon_static${Simbody_VERTAG}
-    )
-ELSEIF(CMAKE_BUILD_TYPE MATCHES Debug)
-    SET(OpenMM_SHARED_LIBS
-        PRIVATE debug OpenMM
-    )
-    SET(OpenMM_STATIC_LIBS
-        PRIVATE debug OpenMM_static
-    )
-    SET(SimTK_SHARED_LIBS
-        PRIVATE debug SimTKmolmodel_d${molmodel_VERTAG}
-        PRIVATE debug SimTKsimbody_d${Simbody_VERTAG}
-        PRIVATE debug SimTKmath_d${Simbody_VERTAG}
-        PRIVATE debug SimTKcommon_d${Simbody_VERTAG}
-    )
-    SET(SimTK_STATIC_LIBS
-        PRIVATE debug SimTKmolmodel_static_d${molmodel_VERTAG}
-        PRIVATE debug SimTKsimbody_static_d${Simbody_VERTAG}
-        PRIVATE debug SimTKmath_static_d${Simbody_VERTAG}
-        PRIVATE debug SimTKcommon_static_d${Simbody_VERTAG}
-    )
-ELSE()
-    message(FATAL_ERROR "Unknown build mode")
-ENDIF()
-
-# These extra libraries are only available as a shared, optimized.
-IF(WIN32)
-    SET(SimTK_GENERAL_LIBS)
-ELSEIF(APPLE)
-    SET(SimTK_GENERAL_LIBS lapack blas)
-ELSE() #Linux
-    SET(SimTK_GENERAL_LIBS lapack blas dl rt)
-ENDIF()
-
-#molmodel
-SET(SimTKmolmodel ${molmodel_INSTALL_DIR} CACHE PATH
-    "Directory where SimTK molmodel is installed, e.g. /usr/local/SimTK.")
-
-IF(NOT SimTKmolmodel)
-    MESSAGE(FATAL_ERROR "Expected SimTK_INSTALL_DIR environment var to be set, or set SimTKmolmodel in CMake")
-ENDIF(NOT SimTKmolmodel)
-
-# If we're building on a 64 bit Linux machine, look in the lib64 directory
-# rather than just lib. (This might not be right on all Linux versions.)
-
-# As of Ubuntu 12, 64 bit libraries are in lib, not lib64, so we are 
-# not setting this on any platform now. If you are building on an
-# older system you might have to set it manually.
-SET(LIB64)
-IF( UNIX AND NOT APPLE AND ${CMAKE_SIZEOF_VOID_P} EQUAL 8 )
-    #SET(LIB64 64) # LIB64 is just blank, in keeping with new molmodel practice
-ENDIF()
-
-IF(WIN32)
-    ADD_DEFINITIONS(-DNOMINMAX -D_USE_MATH_DEFINES -DWIN32_LEAN_AND_MEAN -D_WIN32_WINNT=0x0501)
-
-    IF(MSVC)
-        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /MP")
-    ENDIF()
-ELSEIF(UNIX)
-    IF(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR
-       ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
-    ENDIF()
-ENDIF()
-
-# Make everything go in the same binary directory. (These are CMake-defined
-# variables.)
-SET(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-SET(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-
-# for some reason it's not reading the ${OpenMM_INCLUDE_DIR}, so i hard coded the OpenMM directory: 
-INCLUDE_DIRECTORIES(
-    SYSTEM ${PROJECT_SOURCE_DIR}/include
-	${Simbody_INCLUDE_DIR} ${SimTKmolmodel}/include
-	${OpenMM_INCLUDE_DIR} ${OpenMM_INCLUDE_DIR}/openmm
-	${OpenMM_INCLUDE_DIR}/openmm/reference
-	${SeqAn_INCLUDE_DIR}/include
-	${GEMMI_INCLUDE_DIR})
-LINK_DIRECTORIES(${Simbody_LIB_DIR}${LIB64} ${SimTKmolmodel}/lib ${CMAKE_BINARY_DIR} ${OpenMM_INSTALL_DIR}/lib   )
-
-IF(WIN32)
-    IF (zlib_INSTALL_DIR STREQUAL "")
-        MESSAGE(FATAL_ERROR "Path to zlib is not set")
-    ENDIF()
-
-    INCLUDE_DIRECTORIES(${zlib_INSTALL_DIR}/include)
-    LINK_DIRECTORIES(${zlib_INSTALL_DIR}/lib)
-ENDIF()
-
-##################
-### Add Lepton Paths
-##################
-IF    ( Build_Lepton )
-    INCLUDE_DIRECTORIES ( SYSTEM ${Lepton_INCLUDE_DIR} )
-	#LINK_DIRECTORIES    ( ${Lepton_LIB_DIR}     )
-	ADD_DEFINITIONS     ( -DLepton_USAGE -DLEPTON_BUILDING_STATIC_LIBRARY )
-ENDIF ( Build_Lepton )
-
-# On Mac, build 32 bit binaries.
-IF(APPLE)
-    SET(CMAKE_OSX_ARCHITECTURES "i386" CACHE STRING 
-        "The processor architectures to build for")
-ENDIF(APPLE)
-
-ADD_DEFINITIONS("-DUSE_OPENMM")
-IF(DISP_OPENMM_MSGS)
-    ADD_DEFINITIONS("-DWARN_OPENMM_REALVEC -DWARN_USE_OPENMM")
-ENDIF(DISP_OPENMM_MSGS)
-
-# On Mac, use Xcode by default
-IF(APPLE)
-    SET(CMAKE_GENERATOR "Xcode" CACHE STRING "Since you on a Mac, we assume you want to use Xcode"  ) 
-ELSEIF(UNIX)
-    SET(CMAKE_GENERATOR "Unix Makefiles" CACHE STRING "Since you on Unix, we assume you want to use a Makefile" ) 
-ENDIF()
+### Setup compiler options ###
 
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 9.0.0)
-        ADD_DEFINITIONS("-DUSE_MMB_CONSTEXPR")
+        add_definitions(-DUSE_MMB_CONSTEXPR)
     endif ()
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 3.4)
-        ADD_DEFINITIONS("-DUSE_MMB_CONSTEXPR")
+        add_definitions(-DUSE_MMB_CONSTEXPR)
     endif ()
 endif ()
 
-# List source files explicitly here since there is junk in the src
-# directory that we don't want to include here.
-SET(MMB_LIBRARY_SOURCE_FILES
-    ${PROJECT_SOURCE_DIR}/src/Utils.cpp  
-    ${PROJECT_SOURCE_DIR}/src/BiopolymerClass.cpp  
-    #//${PROJECT_SOURCE_DIR}/src/elliptic_integral.cpp
-    ${PROJECT_SOURCE_DIR}/src/UnitCellParameters.cpp  
-    # This should remain commented out:
-    #${PROJECT_SOURCE_DIR}/src/NtCInteractionParameterReader.cpp 
-    ${PROJECT_SOURCE_DIR}/src/AtomSpringContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/DisplacementContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/MobilizerContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/MoleculeContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/DensityContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/BasePairContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/ContactContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/ConstraintContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/Repel.cpp  
-    ${PROJECT_SOURCE_DIR}/src/MonoAtoms.cpp  
-    ${PROJECT_SOURCE_DIR}/src/Spiral.cpp  
-    ${PROJECT_SOURCE_DIR}/src/ParameterReader.cpp  
-    ${PROJECT_SOURCE_DIR}/src/BaseInteractionParameterReader.cpp  
-    ${PROJECT_SOURCE_DIR}/src/TetherForce.cpp  
-    ${PROJECT_SOURCE_DIR}/src/BiopolymerClassTwoTransformForces.cpp  
-    ${PROJECT_SOURCE_DIR}/src/WaterDroplet.cpp  
-    ${PROJECT_SOURCE_DIR}/src/DensityMap.cpp  
-    ${PROJECT_SOURCE_DIR}/src/DensityForce.cpp
-    ${PROJECT_SOURCE_DIR}/src/ElectrostaticPotentialGridForce.cpp
-    ${PROJECT_SOURCE_DIR}/src/MoleculeContainer.cpp  
-    ${PROJECT_SOURCE_DIR}/src/MMBLogger.cpp
-    ${PROJECT_SOURCE_DIR}/src/PeriodicPdbAndEnergyWriter.cpp
-    ${PROJECT_SOURCE_DIR}/src/CifOutput.cpp
-    ${PROJECT_SOURCE_DIR}/src/ProgressWriter.cpp
+if (WIN32)
+    add_definitions(-DNOMINMAX -D_USE_MATH_DEFINES -DWIN32_LEAN_AND_MEAN)
+
+    if (MSVC)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /MP")
+    endif ()
+elseif (UNIX)
+    if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR
+        ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -Wall -pedantic")
+    endif ()
+endif ()
+
+if (ENABLE_NTC)
+    add_definitions(-DNTC_ENABLED)
+endif ()
+
+# Sanity checks
+if ((NOT BUILD_SHARED) AND (NOT BUILD_STATIC))
+    message(FATAL_ERROR "Neither shared not static build is enabled. There is nothing to build")
+endif ()
+
+if (BUILD_SHARED)
+    if (NOT Molmodel_LIBRARIES)
+        message(FATAL_ERROR "Shared build enabled but shared Molmodel libraries were not found")
+    endif ()
+    if (NOT OpenMM_LIBRARY)
+        message(FATAL_ERROR "Shared build enabled but shared OpenMM libraries were not found")
+    endif ()
+endif ()
+
+if (BUILD_STATIC)
+    if (NOT Molmodel_STATIC_LIBRARIES)
+        message(FATAL_ERROR "Static build enabled but static Molmodel libraries were not found")
+    endif ()
+    if (NOT OpenMM_STATIC_LIBRARY)
+        message(FATAL_ERROR "Static build enabled but static OpenMM libraries were not found")
+    endif ()
+endif ()
+
+if (ASSUME_VERSIONED_SIMBODY)
+    set(SIMBODY_VERTAG _${Simbody_VERSION})
+endif ()
+
+set(CMAKE_DEBUG_POSTFIX "_d")
+
+set(
+    LIBMMB_SOURCE_FILES
+    src/Utils.cpp
+    src/BiopolymerClass.cpp
+    src/UnitCellParameters.cpp
+    src/AtomSpringContainer.cpp
+    src/DisplacementContainer.cpp
+    src/MobilizerContainer.cpp
+    src/MoleculeContainer.cpp
+    src/DensityContainer.cpp
+    src/BasePairContainer.cpp
+    src/ContactContainer.cpp
+    src/ConstraintContainer.cpp
+    src/Repel.cpp
+    src/MonoAtoms.cpp
+    src/Spiral.cpp
+    src/ParameterReader.cpp
+    src/BaseInteractionParameterReader.cpp
+    src/TetherForce.cpp
+    src/BiopolymerClassTwoTransformForces.cpp
+    src/WaterDroplet.cpp
+    src/DensityMap.cpp
+    src/DensityForce.cpp
+    src/ElectrostaticPotentialGridForce.cpp
+    src/MoleculeContainer.cpp
+    src/MMBLogger.cpp
+    src/PeriodicPdbAndEnergyWriter.cpp
+    src/CifOutput.cpp
+    src/ProgressWriter.cpp
+)
+
+if (ENABLE_NTC)
+    set(
+        LIBMMB_SOURCE_FILES
+        ${LIBMMB_SOURCE_FILES}
+        src/NTC_PARAMETER_READER.cpp
+        src/NtCClassContainer.cpp
+        src/NtCForces.cpp
+    )
+endif ()
+
+if (ENABLE_LEPTON)
+    set(
+        LIBMMB_SOURCE_FILES
+        ${LIBMMB_SOURCE_FILES}
+        ${LEPTON_DIR}/src/CompiledExpression.cpp
+        ${LEPTON_DIR}/src/ExpressionProgram.cpp
+        ${LEPTON_DIR}/src/ExpressionTreeNode.cpp
+        ${LEPTON_DIR}/src/Operation.cpp
+        ${LEPTON_DIR}/src/ParsedExpression.cpp
+        ${LEPTON_DIR}/src/Parser.cpp
+    )
+endif ()
+
+set(
+    MMB_SOURCE_FILES
+    src/RNABuilder.cpp
+)
+
+if (BUILD_PYTHON_WRAPPER)
+    set(
+        PYTHON_WRAPPER_SOURCE_FILES
+        src/python_wrapper.cpp
+    )
+endif ()
+
+### Build the binaries ###
+
+set(LIBMMB_SHARED_TARGET MMB)
+set(LIBMMB_STATIC_TARGET MMB_static)
+set(MMB_SHARED_TARGET MMB_EXEC)
+set(MMB_STATIC_TARGET MMB_EXEC_static)
+
+# Fixup Simbody library names in case we are building against versioned Simbody libraries
+if (ASSUME_VERSIONED_SIMBODY)
+    foreach(SL ${Simbody_LIBRARIES})
+        list(APPEND SIMBODY_FIXED_LIBS ${SL}${SIMBODY_VERTAG})
+        list(APPEND SIMBODY_FIXED_STATIC_LIBS ${SL}${SIMBODY_VERTAG}_static)
+    endforeach()
+else ()
+    set(SIMBODY_FIXED_LIBS ${Simbody_LIBRARIES})
+    set(SIMBODY_FIXED_STATIC_LIBS ${Simbody_STATIC_LIBRARIES})
+endif ()
+
+if (BUILD_PYTHON_WRAPPER)
+    set(LIBMMB_PYTHON_WRAPPER_SHARED_TARGET MMB_Python_wrapper)
+    set(LIBMMB_PYTHON_WRAPPER_STATIC_TARGET MMB_Python_wrapper_static)
+endif ()
+
+## Build libMMB
+if (BUILD_SHARED)
+    add_library(
+        ${LIBMMB_SHARED_TARGET} SHARED
+        ${LIBMMB_SOURCE_FILES}
+    )
+    set_target_properties(
+        ${LIBMMB_SHARED_TARGET}
+        PROPERTIES
+            PROJECT_LABEL "MMB (shared)"
+            SOVERSION ${MMB_SONAME_VERSION}
+    )
+    target_compile_definitions(${LIBMMB_SHARED_TARGET} PRIVATE -DMMB_BUILDING_SHARED_LIBRARY)
+
+    target_link_libraries(
+        ${LIBMMB_SHARED_TARGET}
+        PUBLIC  ${SIMBODY_FIXED_LIBS}
+        PUBLIC  ${Molmodel_LIBRARIES}
+        PRIVATE ${OpenMM_LIBRARY}
+        PRIVATE ${ZLIB_LIBRARIES}
     )
 
-IF (Build_NtC)
-    SET(MMB_LIBRARY_SOURCE_FILES
-        ${MMB_LIBRARY_SOURCE_FILES}
-        # SCF manually commented these 3  out. Once Peter fixes the issue with the 2D arrays in BiopolymerClassContainer, we can put them back in. Or have a build varaible to determine whether to build these:
-        ${PROJECT_SOURCE_DIR}/src/NTC_PARAMETER_READER.cpp
-        ${PROJECT_SOURCE_DIR}/src/NtCClassContainer.cpp
-        ${PROJECT_SOURCE_DIR}/src/NtCForces.cpp
+    if (BUILD_PYTHON_WRAPPER)
+        add_library(
+            ${LIBMMB_PYTHON_WRAPPER_SHARED_TARGET}
+            ${PYTHON_WRAPPER_SOURCE_FILES}
         )
-    ADD_DEFINITIONS("-DBuildNtC")
-ENDIF(Build_NtC)
-# If Build_Lepton
-IF (Build_Lepton)
-    SET(MMB_LIBRARY_SOURCE_FILES
-        ${MMB_LIBRARY_SOURCE_FILES}
-        # SCF manually commented these 3  out. Once Peter fixes the issue with the 2D arrays in BiopolymerClassContainer, we can put them back in. Or have a build varaible to determine whether to build these:
-	${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/CompiledExpression.cpp
-        ${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/ExpressionProgram.cpp
-        ${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/ExpressionTreeNode.cpp
-        ${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/Operation.cpp            
-        ${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/ParsedExpression.cpp   
-	${PROJECT_SOURCE_DIR}/3rdparty/Lepton1.3/src/Parser.cpp                 
+        set_target_properties(
+            ${LIBMMB_PYTHON_WRAPPER_SHARED_TARGET}
+            PROPERTIES
+                PROJECT_LABEL "libMMB Python wrapper (shared)"
+                SOVERSION ${MMB_SONAME_VERSION}
         )
-ENDIF(Build_Lepton)
 
-SET(MMB_SOURCE_FILES
-    ${PROJECT_SOURCE_DIR}/src/RNABuilder.cpp  )
+        target_link_libraries(
+            ${LIBMMB_PYTHON_WRAPPER_SHARED_TARGET}
+            PRIVATE ${LIBMMB_SHARED_TARGET}
+        )
+    endif ()
 
-SET(MMB_GUI_TEST_SOURCE_FILES
-    ${PROJECT_SOURCE_DIR}/src/GUI_test.cpp  )
-
-SET(MMB_PYTHON_WRAPPER_SOURCE_FILES
-    ${PROJECT_SOURCE_DIR}/src/python_wrapper.cpp)
-
-# We'll just collect all the .h files from the include directory -- some
-# might be junk but it doesn't matter since they won't actually get
-# included.
-FILE(GLOB MMB_HEADER_FILES "${PROJECT_SOURCE_DIR}/include/*.h")
-
-SET(SHARED_MMB_TARGET MMBlib)
-SET(STATIC_MMB_TARGET MMBlib_static)
-
-SET(SHARED_MMB_PYTHON_WRAPPER_TARGET MMB_Python_wrapper)
-
-
-# Ensure that debug libraries have "_d" appended to their names.
-# CMake gets this right on Windows automatically with this definition.
-IF (${CMAKE_GENERATOR} MATCHES "Visual Studio")
-    SET(CMAKE_DEBUG_POSTFIX "_d" CACHE INTERNAL "" FORCE)
-ENDIF (${CMAKE_GENERATOR} MATCHES "Visual Studio")
-
-IF (UNIX AND CMAKE_BUILD_TYPE MATCHES Debug)
-    SET(SHARED_MMB_TARGET ${SHARED_MMB_TARGET}_d)
-    SET(STATIC_MMB_TARGET ${STATIC_MMB_TARGET}_d)
-ENDIF (UNIX AND CMAKE_BUILD_TYPE MATCHES Debug)
-
-IF (BUILD_MMB_SHARED_LIB)
-    # Create shared library for most of MMB
-    ADD_LIBRARY(${SHARED_MMB_TARGET} SHARED
-        ${MMB_LIBRARY_SOURCE_FILES}
-        ${MMB_HEADER_FILES})
-    SET_TARGET_PROPERTIES(${SHARED_MMB_TARGET}
+    add_executable(
+        ${MMB_SHARED_TARGET}
+        ${MMB_SOURCE_FILES}
+    )
+    set_target_properties(
+        ${MMB_SHARED_TARGET}
         PROPERTIES
-        COMPILE_FLAGS "-DMMB_BUILDING_SHARED_LIBRARY"
-        PROJECT_LABEL "MMBlib (dynamic)"
-        SOVERSION "${MMB_MAJOR_VERSION}.${MMB_MINOR_VERSION}")
-    TARGET_LINK_LIBRARIES(${SHARED_MMB_TARGET}
-                          ${SimTK_SHARED_LIBS}
-                          ${OpenMM_SHARED_LIBS}
-                          ${SimTK_GENERAL_LIBS}
-                          ${ZLIB_LIB_SHARED})
-
-    # Install files
-    INSTALL(TARGETS ${SHARED_MMB_TARGET}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-    )
-    set (CMAKE_VERBOSE_MAKEFILE on)
-
-
-#IF(WIN32)
-#    SET( ws2_32)
-#ELSEIF(APPLE)
-#    SET(LIB_SUFFIX ".dylib")
-#ELSE() #Linux
-#    SET(LIB_SUFFIX ".so")
-#ENDIF()
-    #MESSAGE(${LIB64})
-    #MESSAGE(${SimTK_INSTALL_DIR}/lib${LIB64}/${CMAKE_SHARED_LIBRARY_PREFIX}*${CMAKE_SHARED_LIBRARY_SUFFIX})
-    FILE(GLOB SimTK_INSTALL_DIR_FILES  "${SimTK_INSTALL_DIR}/lib${LIB64}/${CMAKE_SHARED_LIBRARY_PREFIX}*${CMAKE_SHARED_LIBRARY_SUFFIX}") 
-    FILE(GLOB Molmodel_INSTALL_DIR_FILES  "${SimTKmolmodel}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}*${CMAKE_SHARED_LIBRARY_SUFFIX}") 
-    FILE(GLOB CMAKE_BINARY_DIR_FILES  "${CMAKE_BINARY_DIR}/${CMAKE_SHARED_LIBRARY_PREFIX}*${CMAKE_SHARED_LIBRARY_SUFFIX}") 
-    FILE(GLOB OpenMM_INSTALL_DIR_FILES  "${OpenMM_INSTALL_DIR}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}*${CMAKE_SHARED_LIBRARY_SUFFIX}") 
-    #MESSAGE(${SimTK_INSTALL_DIR_FILES})
-    INSTALL(FILES   ${SimTK_INSTALL_DIR_FILES}               
-        ${Molmodel_INSTALL_DIR_FILES}
-        ${CMAKE_BINARY_DIR_FILES}
-        ${OpenMM_INSTALL_DIR_FILES}
-	DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+            OUTPUT_NAME MMB
     )
 
-    foreach (file IN LISTS ${SimTK_SHARED_LIBS})
-            #MESSAGE("My file variable is "${file})
-	    #INSTALL(FILES   ${SimTK_INSTALL_DIR}/lib${file}.so               
-	    #	DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-	    #)
-    endforeach (file)
-    # This is recursively copying entire ${Simbody_LIB_DIR}${LIB64} ! not optimal. Try using files with e.g. $<TARGET_FILE_NAME:tgt> http://www.cmake.org/cmake/help/v3.0/manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)
-    # ideally also only get release libs
-    #INSTALL(DIRECTORY ${Simbody_LIB_DIR}${LIB64}/ 
-    #    ${SimTKmolmodel}/lib${LIB64} 
-    #    ${CMAKE_BINARY_DIR} 
-    #    ${OpenMM_INSTALL_DIR}/lib 
-    #    DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-    #)
-
-
-    #FILE(GLOB MMB_HEADER_FILES "${PROJECT_SOURCE_DIR}/include/*.h")
-    #FILE (GLOB SimTK_LIB_GLOB  "${SimTKmolmodel}/lib${LIB64}/*")
-    #INSTALL (FILES ${SimTK_LIB_GLOB} 
-    #     DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-    #)
-#SimTK_SHARED_LIBS
-    #INSTALL(TARGETS ${SimTK_SHARED_LIBS}
-	#LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib) 
-    #foreach(file ${Simbody_LIB_DIR}${LIB64}/lib${SimTK_SHARED_LIBS})
-    #    install (FILES ${file} DESTINATION ${CMAKE_INSTALL_PREFIX})
-    #endforeach()
-    
-#LINK_DIRECTORIES(${Simbody_LIB_DIR}${LIB64} ${SimTKmolmodel}/lib${LIB64} ${CMAKE_BINARY_DIR} ${OpenMM_INSTALL_DIR}/lib   )
-
-ENDIF (BUILD_MMB_SHARED_LIB)
-
-IF (BUILD_MMB_SHARED_EXEC)
-    # Link with shared (dynamic) library
-    ADD_EXECUTABLE(MMB ${MMB_HEADER_FILES} ${MMB_SOURCE_FILES})
-    SET_TARGET_PROPERTIES(MMB
-        PROPERTIES 
-        PROJECT_LABEL "MMB - Dynamic")
-    TARGET_LINK_LIBRARIES(MMB
-                          ${SimTK_SHARED_LIBS}
-                          PRIVATE ${SHARED_MMB_TARGET}
-                          )
-
-    INSTALL(TARGETS MMB
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+    target_link_libraries(
+        ${MMB_SHARED_TARGET}
+        PRIVATE ${LIBMMB_SHARED_TARGET}
     )
+endif ()
 
-    INSTALL(FILES ${PROJECT_SOURCE_DIR}/include/resources/parameters.csv
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/MMB
+if (BUILD_STATIC)
+    add_library(
+        ${LIBMMB_STATIC_TARGET} STATIC
+        ${LIBMMB_SOURCE_FILES}
     )
-    
-    INSTALL(DIRECTORY ${PROJECT_SOURCE_DIR}/scripts/
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/scripts
-    )
-    INSTALL(DIRECTORY ${PROJECT_SOURCE_DIR}/examples/
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/examples
-    )
-
-ENDIF (BUILD_MMB_SHARED_EXEC)
-
-IF (BUILD_MMB_STATIC)
-    # Create static library for most of MMB
-    ADD_LIBRARY(${STATIC_MMB_TARGET} STATIC
-        ${MMB_LIBRARY_SOURCE_FILES}
-        ${MMB_HEADER_FILES})
-    SET_TARGET_PROPERTIES(${STATIC_MMB_TARGET} 
+    set_target_properties(
+        ${LIBMMB_STATIC_TARGET}
         PROPERTIES
-        COMPILE_FLAGS "-DMMB_BUILDING_STATIC_LIBRARY -DSimTK_USE_STATIC_LIBRARIES"
-        PROJECT_LABEL "MMBlib (static)")
-    TARGET_LINK_LIBRARIES(${STATIC_MMB_TARGET}
-                          ${SimTK_STATIC_LIBS}
-                          ${OpenMM_STATIC_LIBS}
-                          ${SimTK_GENERAL_LIBS}
-                          ${ZLIB_LIB_STATIC})
+            PROJECT_LABEL "MMB (static)"
+    )
+    target_compile_definitions(${LIBMMB_STATIC_TARGET} PRIVATE -DMMB_BUILDING_STATIC_LIBRARY -DSimTK_USE_STATIC_LIBRARIES)
 
-    # Link with static library
-    ADD_EXECUTABLE(MMB_static ${MMB_HEADER_FILES} ${MMB_SOURCE_FILES})
-    SET_TARGET_PROPERTIES(MMB_static
+    target_link_libraries(
+        ${LIBMMB_STATIC_TARGET}
+        PUBLIC  ${SIMBODY_FIXED_STATIC_LIBS}
+        PUBLIC  ${Molmodel_STATIC_LIBRARIES}
+        PRIVATE ${OpenMM_STATIC_LIBRARY}
+        PRIVATE ${ZLIB_LIBRARIES}
+    )
+
+    if (BUILD_PYTHON_WRAPPER)
+        add_library(
+            ${LIBMMB_PYTHON_WRAPPER_STATIC_TARGET}
+            ${PYTHON_WRAPPER_SOURCE_FILES}
+        )
+        set_target_properties(
+            ${LIBMMB_PYTHON_WRAPPER_STATIC_TARGET}
+            PROPERTIES
+                PROJECT_LABEL "libMMB Python wrapper (static)"
+        )
+
+        target_link_libraries(
+            ${LIBMMB_PYTHON_WRAPPER_STATIC_TARGET}
+            PRIVATE ${LIBMMB_STATIC_TARGET}
+        )
+    endif ()
+
+    add_executable(
+        ${MMB_STATIC_TARGET}
+        ${MMB_SOURCE_FILES}
+    )
+    set_target_properties(
+        ${MMB_STATIC_TARGET}
         PROPERTIES
-        COMPILE_FLAGS "-DSimTK_USE_STATIC_LIBRARIES -DMMB_USE_STATIC_LIBRARIES"
-        PROJECT_LABEL "MMB - Static")
-    TARGET_LINK_LIBRARIES(MMB_static
-                          PRIVATE ${STATIC_MMB_TARGET})
+            OUTPUT_NAME MMB_static
+    )
+    target_compile_definitions(${MMB_STATIC_TARGET} PRIVATE -DMMB_USE_STATIC_LIBRARY -DSimTK_USE_STATIC_LIBRARIES)
 
-    # Install files
-    INSTALL(TARGETS MMB_static ${STATIC_MMB_TARGET}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+    target_link_libraries(
+        ${MMB_STATIC_TARGET}
+        PRIVATE ${LIBMMB_STATIC_TARGET}
     )
 
-    INSTALL(FILES ${PROJECT_SOURCE_DIR}/include/resources/parameters.csv
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/share/MMB
+endif()
+
+### Install the project ###
+
+if (UNIX)
+    include(GNUInstallDirs)
+elseif (WIN32)
+    set(${CMAKE_INSTALL_LIBDIR} "lib")
+    set(${CMAKE_INSTALL_INCLUDEDIR} "include")
+    set(${CMAKE_INSTALL_BINDIR} "bin")
+endif ()
+
+## Install libMMB
+if (BUILD_SHARED)
+    install(
+        TARGETS ${LIBMMB_SHARED_TARGET} EXPORT MmbTargets
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
+endif ()
 
-ENDIF (BUILD_MMB_STATIC)
-
-IF (BUILD_MMB_GUI_TEST)
-
-    # Create shared library for the Python wrapper
-    ADD_LIBRARY(${SHARED_MMB_PYTHON_WRAPPER_TARGET} SHARED
-        ${MMB_PYTHON_WRAPPER_SOURCE_FILES})
-    SET_TARGET_PROPERTIES(${SHARED_MMB_PYTHON_WRAPPER_TARGET} 
-        PROPERTIES
-        COMPILE_FLAGS "-DMMB_BUILDING_SHARED_LIBRARY"
-        PROJECT_LABEL "MMB_Python_wrapper (dynamic)")
-    TARGET_LINK_LIBRARIES(${SHARED_MMB_PYTHON_WRAPPER_TARGET}
-              ${SHARED_MMB_TARGET})
-
-    # Install files
-    INSTALL(TARGETS ${SHARED_MMB_PYTHON_WRAPPER_TARGET}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+if (BUILD_STATIC)
+    install(
+        TARGETS ${LIBMMB_STATIC_TARGET} EXPORT MmbTargets
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     )
+endif ()
 
-    INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/share/
-        DESTINATION ${CMAKE_INSTALL_PREFIX}/share
-        PATTERN .svn EXCLUDE
+## Install MMB executable
+if (BUILD_SHARED)
+    install(
+        TARGETS ${MMB_SHARED_TARGET}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
+endif ()
 
-ENDIF (BUILD_MMB_GUI_TEST)
+if (BUILD_STATIC)
+    install(
+        TARGETS ${MMB_STATIC_TARGET}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+endif ()
+
+if (WIN32)
+    set(MMB_CMAKE_DIR cmake)
+else ()
+    set(MMB_CMAKE_DIR ${CMAKE_INSTALL_LIBDIR}/cmake/mmb/)
+endif ()
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+    ${CMAKE_CURRENT_BINARY_DIR}/cmake/MmbConfigVersion.cmake
+    VERSION "${MMB_VERSION}"
+    COMPATIBILITY SameMinorVersion
+)
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/cmake/MmbConfigVersion.cmake
+    DESTINATION ${MMB_CMAKE_DIR}
+)
+
+install(EXPORT MmbTargets DESTINATION "${MMB_CMAKE_DIR}")
+
+configure_file(
+    ${CMAKE_SOURCE_DIR}/cmake/pkgconfig/mmb.pc.in
+    ${CMAKE_CURRENT_BINARY_DIR}/cmake/pkgconfig/mmb.pc @ONLY
+)
+install(
+    FILES ${CMAKE_CURRENT_BINARY_DIR}/cmake/pkgconfig/mmb.pc
+    DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/
+)

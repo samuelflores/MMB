@@ -1,11 +1,12 @@
 #ifndef ResidueStretchContainer_H_
 #define ResidueStretchContainer_H_
+
 #include "BiopolymerClass.h"
 #include "Utils.h"
 #include "SimTKsimbody.h"
 #include "SimTKmolmodel.h"
-#include "RealVec.h"
-#include "ReferenceNeighborList.h"
+
+#include <openmm/reference/RealVec.h>
 
 using namespace SimTK;
 
@@ -202,7 +203,6 @@ class ResidueStretchContainer{
 
 
         ////////////////////////////////////////////////
-    #ifdef USE_OPENMM 
 	// loop through all specified Interfaces, add interface residues to residueStretchVector
     void addStretchesToVectorFromInterfaceContainer(BiopolymerClassContainer  & myBiopolymerClassContainer) {
 		for (int i = 0; i < interfaceContainer.numInterfaces(); i++) {
@@ -213,7 +213,6 @@ class ResidueStretchContainer{
 	};
 
         ////////////////////////////////////////////////
-    #endif
 
     /*bool vectorCompare(String myString, vector<String> & comparisonStringVector) {
             if (comparisonStringVector.size() == 0) {return true;} // If we are comparing to an empty vector, return true.  This is in case no partner chains have been specified, in which case any chain will pass.
@@ -227,7 +226,6 @@ class ResidueStretchContainer{
 	    return false; // If no String in comparisonStringVector is the same as myString
 	}*/
 
-        #ifdef USE_OPENMM
 	void addAllMutualChainResidues(double radius, vector<String> referenceChains, vector<String> partnerChains,BiopolymerClassContainer & myBiopolymerClassContainer) { // This polymorphism requires that the user specify two sets of chains.  Only residues at the interface between the two sets will be included.  This lets the user leave out other chains (e.g. threading templates) which are in the system but which shouldn't be flexibilized.
             vector<MMBAtomInfo> concatenatedAtomInfoVector = myBiopolymerClassContainer.getConcatenatedAtomInfoVector();
 	    vector<openmmVecType> particleList(concatenatedAtomInfoVector.size());
@@ -278,9 +276,7 @@ class ResidueStretchContainer{
                 }
             }
 	};
-        #endif
 	
-    #ifdef USE_OPENMM
     void addIntraChainInterfaceResidues(double radius, String referenceChain, BiopolymerClassContainer & myBiopolymerClassContainer) { // This polymorphism requires that the user specify ONE  chain.  Only residues at the interfaces between BODIES on that chain will be included.  This does NOT include interfaces with OTHER chains. 
             vector<MMBAtomInfo> chainAtomInfoVector = myBiopolymerClassContainer.updBiopolymerClass(referenceChain).getAtomInfoVector();
 	    vector<openmmVecType> particleList(chainAtomInfoVector.size());
@@ -346,7 +342,6 @@ class ResidueStretchContainer{
             }
             MMBLOG_FILE_FUNC_LINE(INFO, "done with addIntraChainInterfaceResidues. " <<endl);
 	};
-    #endif
 
 };
 

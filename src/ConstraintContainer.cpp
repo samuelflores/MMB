@@ -210,7 +210,6 @@ void ConstraintToGroundContainer::addSingleWeldConstraintPerInterfaceChainPair( 
 */
 
 
-#ifdef USE_OPENMM
 void ConstraintToGroundContainer::addSingleWeldConstraintPerInterfaceChainPair(   BiopolymerClassContainer & myBiopolymerClassContainer) { // This polymorphism requires that the user specify two sets of chains.  Only residues at the interface between the two sets will be included.  This lets the user leave out other chains (e.g. threading templates) which are in the system but which shouldn't be flexibilized.
         vector<MMBAtomInfo> concatenatedAtomInfoVector = myBiopolymerClassContainer.getConcatenatedAtomInfoVector();
         vector<TwoAtomClass> myTwoAtomClassVector = interfaceContainer.retrieveCloseContactPairs(concatenatedAtomInfoVector);
@@ -228,7 +227,6 @@ void ConstraintToGroundContainer::addSingleWeldConstraintPerInterfaceChainPair( 
                     }
         }
 };
-#endif
 
 
 

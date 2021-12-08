@@ -33,7 +33,7 @@ public:
     MMB_EXPORT void log(const Severity severity, const LogFunc &logFunc, const bool printSeverity = true);
 
     #ifndef MMBLOG_DONT_THROW_ON_CRITICAL
-    MMB_EXPORT void MMB_EXPORT logCritical [[noreturn]] (const LogFunc &oss);
+    MMB_EXPORT void logCritical [[noreturn]] (const LogFunc &oss);
     #endif // MMBLOG_DONT_THROW_ON_CRITICAL
 
     MMB_EXPORT void setOutput(std::ostream *output);

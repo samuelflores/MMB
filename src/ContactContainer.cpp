@@ -110,7 +110,6 @@ void ContactContainer::listDistances ( BiopolymerClassContainer & myBiopolymerCl
     } // of for g
 } // of method
 
-#ifdef USE_OPENMM
 void ContactContainer::createContactsWithin ( BiopolymerClassContainer & myBiopolymerClassContainer, State & state ){
     double maxRadius = 0.0;
     for (int h = 0; h < (int)contactWithinVector.size(); h++)
@@ -175,7 +174,6 @@ void ContactContainer::createContactsWithin ( BiopolymerClassContainer & myBiopo
     printContacts();
     MMBLOG_FILE_FUNC_LINE(INFO, "done with createContactsWithin .. moving on .."<<endl);
 } // of method
-#endif
 
 void ContactContainer::printContact(ContactStretch contactStretch)  {
         MMBLOG_FILE_FUNC_LINE(INFO, "Contact scheme = "<<contactStretch.ContactScheme<<" chain= "<<contactStretch.getChain()<<" from residue "<<contactStretch.getStartResidue().outString()<<" to "<<contactStretch.getEndResidue().outString()<<endl);

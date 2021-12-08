@@ -12,7 +12,6 @@
 #include "BiopolymerClass.h"
 #include "MobilizerContainer.h"
 #include "SimTKmolmodel.h"
-#include "ReferenceNeighborList.h"
 
 
 void MobilizerContainer::clear(){
@@ -151,7 +150,6 @@ void MobilizerContainer::addMobilizerStretchesToVector(vector <MobilizerStretch>
     }
 };*/
 
-#ifdef USE_OPENMM
 void MobilizerContainer::addMobilizerDomainsInterfacesToVector(const vector<MobilizerDomainsInterface> & mDIVector, BiopolymerClassContainer & myBiopolymerClassContainer)
 {
     vector<MMBAtomInfo> atomInfoVector = myBiopolymerClassContainer.getConcatenatedAtomInfoVector();
@@ -219,7 +217,6 @@ void MobilizerContainer::addMobilizerDomainsInterfacesToVector(const vector<Mobi
     for(msIt=addedResidues.begin(); msIt!=addedResidues.end(); msIt++)
         cerr << msIt->getChain() << " " << msIt->getStartResidue().outString() << endl;
 }
-#endif
 
 String MobilizerContainer::getChain(int mobilizerStretchIndex){
     return getResidueStretch(mobilizerStretchIndex).getChain();
@@ -263,7 +260,6 @@ void MobilizerContainer::setBiopolymerBondMobility (BiopolymerClassContainer & m
     }
 };
 
-#ifdef USE_OPENMM
 void MobilizerContainer::createMobilizersWithin ( BiopolymerClassContainer & myBiopolymerClassContainer, State & state ){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " calling f for mobilizerWithinVector  of size  "<<mobilizerWithinVector.size()<< endl);
     vector <MobilizerWithin> tempSingleMobilizerWithin; 
@@ -285,7 +281,6 @@ void MobilizerContainer::createMobilizersWithin ( BiopolymerClassContainer & myB
          } 
     } // of for h
 }; // of method
-#endif
 
 void MobilizerContainer::pushMobilizerWithin ( MobilizerWithin mobilizerWithin, BiopolymerClassContainer & myBiopolymerClassContainer){
     validateMobilizerWithin(mobilizerWithin,myBiopolymerClassContainer);

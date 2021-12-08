@@ -182,10 +182,8 @@ public:
     */
     void initializeMoleculesAndBonds();
     void initializeMoleculesAndBonds(CompoundSystem & system, DuMMForceFieldSubsystem & dumm, SimbodyMatterSubsystem & matter);
-    #ifdef USE_OPENMM
     void setInterfaceMobilizers();
     void setInterfaceMobilizers(CompoundSystem & system, SimbodyMatterSubsystem & matter, State & state);
-    #endif
     void setMobilizers();
 
     /**

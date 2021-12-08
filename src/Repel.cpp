@@ -124,17 +124,10 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
         //#pragma message ("BUILD_MMB_SHARED_LIB is NOT currently defined")
         //#endif
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
- 
-        #if defined(USE_OPENMM) && defined(WARN_USE_OPENMM)
-        #pragma message ("USE_OPENMM is defined")
-        #elif !defined(USE_OPENMM) && defined(WARN_USE_OPENMM)
-        #pragma message ("USE_OPENMM is NOT defined")
-        #endif 
+
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         // here we turn the list of interface constraints from myParameterReader.constraintToGroundContainer.interfaceContainer into pairs of constraints, at most one pair for each pair of constrained chains.
-        #ifdef USE_OPENMM    
         myParameterReader.constraintToGroundContainer.addSingleWeldConstraintPerInterfaceChainPair ( myBiopolymerClassContainer);
-        #endif
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
         myParameterReader.constraintToGroundContainer.applyConstrainChainRigidSegments ( myBiopolymerClassContainer,  system,  matter, state);
         
@@ -404,9 +397,7 @@ int  ConstrainedDynamics::initializeBiopolymersAndCustomMolecules(CompoundSystem
         //return 1; 
     };
      
-    #ifdef USE_OPENMM 
     _parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter); // May not work to use the DuMM version of this, due to possible topology not being realized.
-    #endif
     return returnValue;
 }
 
@@ -468,7 +459,6 @@ void ConstrainedDynamics::initializeMoleculesAndBonds(CompoundSystem & system, D
     //_parameterReader->myBiopolymerClassContainer.createDisulphideBridges(std::cout); // Should make this user controllable. // there is an issue with immediately mutating.. consider adding to mutation vector..
 }
 
-#ifdef USE_OPENMM
 void ConstrainedDynamics::setInterfaceMobilizers(){
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     setInterfaceMobilizers(_system, _matter, _state);
@@ -488,13 +478,10 @@ void ConstrainedDynamics::setInterfaceMobilizers(CompoundSystem & system, Simbod
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     system.realize(state,Stage::Position);
 }
-#endif
 void ConstrainedDynamics::setMobilizers()
 {
     MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
-    #ifdef USE_OPENMM
     _parameterReader->mobilizerContainer.createMobilizersWithin(_parameterReader->myBiopolymerClassContainer,_state);
-    #endif
     MMBLOG_FILE_FUNC_LINE(INFO, "Done adding MobilizerStretch's .  However we haven't yet dealt with 'Default' MobilizerStretch's. "<<endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "Printing all mobilizer stretches: "<<endl);
     _parameterReader->mobilizerContainer.printMobilizerStretches();
@@ -572,10 +559,8 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     _parameterReader->waterDropletContainer.multiplySmallGroupInertia( _parameterReader->waterInertiaMultiplier, _system,_matter, _state      );
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     //MMBLOG_FILE_FUNC_LINE(endl;
-    #ifdef USE_OPENMM  
     _parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // investigate moving this outside the conditional, so it's available for DensityForce below.
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
-    #endif
     MMBLOG_FILE_FUNC_LINE(INFO, "You have specified _parameterReader->physicsRadius = "<<_parameterReader->physicsRadius<<endl);
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); // Looks fine at this point ..
     if ( _parameterReader->physicsRadius > 0.0000001) 
@@ -584,10 +569,8 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
         _parameterReader->myBiopolymerClassContainer.physicsZone (_parameterReader->includeAllResiduesWithinVector, _parameterReader->physicsRadius,_matter,_state); 
     }
     MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
-    #ifdef USE_OPENMM
     // Act on physicsInterfaces command. Turn the interfaces into specific lists of residues:
     _parameterReader->  physicsContainer.addStretchesToVectorFromInterfaceContainer(_parameterReader->myBiopolymerClassContainer);
-    #endif
     MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
     // SCF this is a good place to insert includeInterChainInterface processing. 
     if (_parameterReader->includeIntraChainInterfaceVector.size() >0) 
@@ -625,9 +608,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
 
     _parameterReader->applyAtomSprings(_matter,_forces, _state);
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
-    #ifdef USE_OPENMM
     _parameterReader->contactContainer.createContactsWithin(_parameterReader->myBiopolymerClassContainer,_state);
-    #endif
     _parameterReader->contactContainer.printContacts();
     _parameterReader->contactContainer.applyContactsToBiopolymers (_parameterReader->myBiopolymerClassContainer,   _contacts,  _forces,_matter, _parameterReader->_leontisWesthofClass, _parameterReader->excludedVolumeRadius, _parameterReader->excludedVolumeStiffness);
     AllTwoTransformLinearSprings * myAllTwoTransformLinearSpringsPointer = 
@@ -756,13 +737,11 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     // adds to includeAllNonBondAtomsInResidueVector, all residues within the specified radius of the residues specified in _parameterReader->includeAllResiduesWithinVector.
     // this doesn't need a check to make sure it contains something. Because if  _parameterReader->includeAllResiduesWithinVector is empty, this call does nothing:
     MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
-    #ifdef USE_OPENMM
     for (size_t i = 0 ;  i < _parameterReader->includeAllResiduesWithinVector.size() ; i++){_parameterReader->includeAllResiduesWithinVector[i].print(); }
     // this is where we add residues within a certain radius of a residue of interest:
     _parameterReader->myBiopolymerClassContainer.includeAllResiduesWithin(_parameterReader->includeAllResiduesWithinVector, _parameterReader->physicsContainer.updResidueStretchVector() /*includeAllNonBondAtomsInResidueVector */ , _state);
     MMBLOG_FILE_FUNC_LINE(INFO, "Just finished adding all residues within the specified radius of of the residues specified in _parameterReader->includeAllResiduesWithinVector. Have not actually added _parameterReader->includeAllResiduesWithinVector atoms to DuMM. Right now DuMM has "<< _dumm.getNumIncludedAtoms () <<" included atoms. "<<endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
-    #endif
 
 
     if ((_parameterReader->physicsContainer.getNumResidueStretches() /* includeAllNonBondAtomsInResidueVector.size()*/  >  0)) 
@@ -1076,9 +1055,7 @@ void ConstrainedDynamics::initializeBodies(){
     //MMBLOG_FILE_FUNC_LINE(endl;
     initializeMoleculesAndBonds();
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    #ifdef USE_OPENMM
     setInterfaceMobilizers();
-    #endif
     setMobilizers();
     //_parameterReader->removeBasePairsAcrossRigidStretches(); //SCF
     createMultibodyTree();

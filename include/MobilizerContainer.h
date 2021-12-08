@@ -45,9 +45,7 @@ public:
     void setBiopolymerBondMobility (BiopolymerClassContainer & myBiopolymerClassContainer);
 
     vector<MobilizerWithin> & getMobilizerWithinVector() { return mobilizerWithinVector; }
-    #ifdef USE_OPENMM
     void createMobilizersWithin ( BiopolymerClassContainer & myBiopolymerClassContainer, State & state );
-    #endif
     void pushMobilizerWithin ( MobilizerWithin mobilizerWithin, BiopolymerClassContainer & myBiopolymerClassContainer);
     void validateMobilizerWithin(MobilizerWithin mobilizerWithin ,  BiopolymerClassContainer & myBiopolymerClassContainer);
     int numMobilizerWithin();
@@ -63,9 +61,7 @@ public:
     //void addMobilizerStretchesToVector(BiopolymerClassContainer&, CompoundSystem&, State&);
     void addMobilizerStretchesToVector(vector<MobilizerStretch>, BiopolymerClassContainer&);
     void addSingleBondMobilityToAllChains(String bondMobilityString , BiopolymerClassContainer& biopolymerClassContainer );
-    #ifdef USE_OPENMM
     void addMobilizerDomainsInterfacesToVector(const vector<MobilizerDomainsInterface> & mDIVector, BiopolymerClassContainer & myBiopolymerClassContainer);
-    #endif
     void setMobilizerTypeForAllChains(const String myMobilizerString, BiopolymerClassContainer & myBiopolymerClassContainer);/*{
         cout<<__FILE__<<":"<<__FUNCTION__<<":"<<__LINE__<<" myMobilizerString = >"<<myMobilizerString<<"< "<<endl;
         for (int i = 0 ; i < myBiopolymerClassContainer.getNumBiopolymers(); i++) {

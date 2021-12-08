@@ -61,9 +61,7 @@ public:
 	void printConstraintClasses();
     bool hasConstraintClass(String myChainID, ResidueID myResidueID);
     bool hasConstraintClass(SimTK::String chain1, SimTK::String chain2); // This checks whether there is any constraint at all, of any type, between two chains.
-    #ifdef USE_OPENMM
     void addSingleWeldConstraintPerInterfaceChainPair(  BiopolymerClassContainer & myBiopolymerClassContainer);
-    #endif 
 };
 
 #endif

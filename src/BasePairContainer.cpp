@@ -331,7 +331,9 @@ void BasePairContainer::addHelicalStacking(BiopolymerClassContainer & myBiopolym
                 MMBLOG_FILE_FUNC_LINE(INFO, "Generating stacking interactions from "<<myResidue.outString()<<" to "<<lastPairingResidue.outString()<<endl);
                 if ( myBiopolymerClass.difference (lastPairingResidue , myResidue) > 1){ // if we have at least 3BP in the helix.  increase this if you wish, but minimum is zero.
                     generateHelicalStackingInteractions(myChainID,myResidue,lastPairingResidue,myBiopolymerClassContainer, lhClass) ;
+                    #ifdef Build_NtC
                     my_ntc_class_container.generateAorBFormNtCs( myBiopolymerClassContainer, myChainID, myResidue, lastPairingResidue, 0.5 , ntc_par_class);
+                    #endif
                 }
                 if (lastPairingResidue <  myBiopolymerClass.getLastResidueID()) {
                     myResidue = myBiopolymerClass.incrementResidueID(lastPairingResidue) ; // continue the outer loop after the just-discovered stacking run.

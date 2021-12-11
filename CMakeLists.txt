@@ -10,12 +10,34 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# User configuration
 option(ENABLE_NTC "Enable NtC code" ON)
 option(ENABLE_LEPTON "Enable SimTK Lepton math parser" ON)
 option(BUILD_SHARED "Build shared binaries" ON)
 option(BUILD_STATIC "Build static binaries" OFF)
 option(BUILD_PYTHON_WRAPPER "Build Python wrapper around libMMB API" OFF)
 option(ASSUME_VERSIONED_SIMBODY OFF)
+set(
+    GEMMI_DIR
+    ""
+    CACHE
+    STRING
+    "Path to where Gemmi library is installed. This needs to be set only when Gemmi is not installed system wide."
+)
+set(
+    SEQAN_DIR
+    ""
+    CACHE
+    STRING
+    "Path to where SeqAn library is installed. This needs to be set only when SeqAn is not installed system wide."
+)
+set(
+    LEPTON_DIR
+    ""
+    CACHE
+    STRING
+    "Path to Lepton source code. Lepton bundled with MMB will be used if this variable is not set."
+)
 
 set(
     MMB_VERSION

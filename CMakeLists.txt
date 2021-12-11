@@ -111,6 +111,10 @@ if (ENABLE_NTC)
     add_definitions(-DNTC_ENABLED)
 endif ()
 
+if (ENABLE_LEPTON)
+    add_definitions(-DLEPTON_ENABLED)
+endif ()
+
 # Sanity checks
 if ((NOT BUILD_SHARED) AND (NOT BUILD_STATIC))
     message(FATAL_ERROR "Neither shared not static build is enabled. There is nothing to build")

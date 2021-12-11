@@ -24,8 +24,8 @@
 #include <openmm/reference/RealVec.h>
 #include <openmm/reference/ReferenceNeighborList.h>
 #include <seqan/align.h>
-#ifdef Lepton_USAGE // This is included only if Lepton_USAGE is defined
-#include "Lepton.h"
+#ifdef LEPTON_ENABLED
+#include <Lepton.h>
 #endif
 
 typedef OpenMM::Vec3 openmmVecType ;

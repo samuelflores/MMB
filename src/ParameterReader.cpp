@@ -40,9 +40,6 @@
 //#include <tr1/cmath>
 //#include <boost/math/special_functions/ellint_2.hpp>
 #include <regex> // for search and replace
-#ifdef Lepton_USAGE // This is included only if Lepton_USAGE is defined
-#include "Lepton.h"
-#endif
 
 #ifdef _WINDOWS
 #include <windows.h>

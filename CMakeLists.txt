@@ -115,6 +115,19 @@ if (ENABLE_LEPTON)
     add_definitions(-DLEPTON_ENABLED)
 endif ()
 
+if (UNIX)
+    include(CheckSymbolExists)
+    check_symbol_exists("copy_file_range" "unistd.h" COPY_FILE_RANGE_AVAIL)
+    check_symbol_exists("sendfile" "sys/sendfile.h" SENDFILE_AVAIL)
+
+    if (COPY_FILE_RANGE_AVAIL)
+        add_definitions("-DHAVE_COPY_FILE_RANGE")
+    endif ()
+    if (SENDFILE_AVAIL)
+        add_definitions("-DHAVE_SENDFILE")
+    endif ()
+endif ()
+
 # Sanity checks
 if ((NOT BUILD_SHARED) AND (NOT BUILD_STATIC))
     message(FATAL_ERROR "Neither shared not static build is enabled. There is nothing to build")

@@ -117,6 +117,51 @@ bool hasWriteAccess(LPCSTR path) {
     return hasAccessRight(path, GENERIC_READ | GENERIC_WRITE);
 }
 
+inline
+std::wstring multibyteToWideString(const std::string &str) {
+    auto ret = MultiByteToWideChar(
+        CP_UTF8,
+        MB_ERR_INVALID_CHARS,
+        str.c_str(),
+        -1,
+        NULL,
+        0
+    );
+
+    if (ret < 1) {
+        throw new std::runtime_error("Cannot calculate size of the array for widechar string");
+    }
+
+    auto buf = std::make_unique<WCHAR[]>(ret);
+
+    ret = MultiByteToWideChar(
+        CP_UTF8,
+        MB_ERR_INVALID_CHARS,
+        str.c_str(),
+        -1,
+        buf.get(),
+        ret
+    );
+
+    if (ret < 1) {
+        throw new std::runtime_error("Cannot convert to widechar string");
+    }
+
+    return std::wstring(buf.get());
+}
+
+inline
+std::wstring unicodeFullPath(const std::string &path) {
+    auto wpath = multibyteToWideString(path);
+
+    auto buf = std::make_unique<WCHAR[]>(32768);
+    if (GetFullPathNameW(wpath.c_str(), 32768, buf.get(), nullptr) == 0) {
+        throw new std::runtime_error("Cannot get full path name");
+    }
+
+    return std::wstring(buf.get());
+}
+
 #endif // _WINDOWS
 
 int myMkdir(const std::string & directoryPath) {
@@ -187,7 +232,22 @@ int myChdir(const std::string & directoryPath) {
 
 /* Copy file function variants */
 #ifdef _WINDOWS
-#error "Unimplemented"
+
+static const std::wstring LONG_PATH_LIMIT_PREFIX = L"\\\\?\\";
+CopyFileResult mmbCopyFile(const std::string &sourceFileName, const std::string &destinationFileName) {
+    try {
+        auto src = LONG_PATH_LIMIT_PREFIX + unicodeFullPath(sourceFileName);
+        auto dst = LONG_PATH_LIMIT_PREFIX + unicodeFullPath(destinationFileName);
+
+        if (!CopyFileW(src.c_str(), dst.c_str(), FALSE)) {
+            return GetLastError() == ERROR_DISK_FULL ? CopyFileResult::No_Space : CopyFileResult::Io_Error;
+        }
+        return CopyFileResult::Success;
+    } catch (const std::runtime_error &) {
+        return CopyFileResult::Io_Error;
+    }
+}
+
 #else
 
 static

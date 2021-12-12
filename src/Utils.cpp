@@ -61,6 +61,28 @@ private:
 };
 
 inline
+std::string getErrorString(DWORD error) {
+	LPSTR buf = nullptr;
+
+    if (FormatMessageA(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		    NULL,
+            error,
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
+            (LPSTR)&buf,
+            0,
+            nullptr
+	    ) == 0) {
+        return "Unknown error";
+    }
+
+    std::string msg(buf);
+    LocalFree(buf);
+
+    return msg;
+}
+
+inline
 bool hasAccessRight(LPCSTR path, DWORD genericAccessRights) {
     SECURITY_DESCRIPTOR secDesc;
 
@@ -240,10 +262,16 @@ CopyFileResult mmbCopyFile(const std::string &sourceFileName, const std::string 
         auto dst = LONG_PATH_LIMIT_PREFIX + unicodeFullPath(destinationFileName);
 
         if (!CopyFileW(src.c_str(), dst.c_str(), FALSE)) {
-            return GetLastError() == ERROR_DISK_FULL ? CopyFileResult::No_Space : CopyFileResult::Io_Error;
+            auto err = GetLastError();
+            if (err == ERROR_DISK_FULL) {
+                return CopyFileResult::No_Space;
+            }
+            MMBLOG_PLAIN(WARNING, "IO error while copying a file: " << getErrorString(err) << "\n");
+            return CopyFileResult::Io_Error;
         }
         return CopyFileResult::Success;
-    } catch (const std::runtime_error &) {
+    } catch (const std::runtime_error &ex) {
+        MMBLOG_PLAIN(WARNING, ex.what() << "\n");
         return CopyFileResult::Io_Error;
     }
 }

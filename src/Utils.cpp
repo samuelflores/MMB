@@ -278,7 +278,7 @@ CopyFileResult mmbCopyFile(const std::string &sourceFileName, const std::string 
 
 #else
 
-static
+inline
 auto getFileSizeFromFd(int fd) {
     struct stat st;
 
@@ -292,7 +292,7 @@ auto getFileSizeFromFd(int fd) {
 
 #ifdef HAVE_COPY_FILE_RANGE
 
-static
+inline
 CopyFileResult mmbCopyFile_copy_file_range(const std::string &sourceFileName, const std::string &destinationFileName) {
     int in = open(sourceFileName.c_str(), O_RDONLY);
     if (in == -1) {
@@ -344,6 +344,7 @@ out:
 
 #endif // HAVE_COPY_FILE_RANGE
 
+inline
 CopyFileResult mmbCopyFile_direct(const std::string &sourceFileName, const std::string &destinationFileName) {
     const size_t BUFSIZE = 8 * 1024;
     auto buf = std::make_unique<char[]>(BUFSIZE);
@@ -419,7 +420,7 @@ out:
 
 #ifdef HAVE_SENDFILE
 
-static
+inline
 CopyFileResult mmbCopyFile_sendfile(const std::string &sourceFileName, const std::string &destinationFileName) {
     int in = open(sourceFileName.c_str(), O_RDONLY);
     if (in == -1) {
@@ -486,7 +487,7 @@ out:
     return retCode;
 }
 
-static
+inline
 std::tuple<bool, int, int, int> getLinuxKernelVersion() {
     struct utsname kernelInfo;
 
@@ -535,7 +536,7 @@ std::tuple<bool, int, int, int> getLinuxKernelVersion() {
     }
 }
 
-static
+inline
 std::function<CopyFileResult (const std::string &, const std::string &)> getMmbCopyFileImpl() {
     auto lnxKernVer = getLinuxKernelVersion();
 

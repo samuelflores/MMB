@@ -34,11 +34,11 @@
 #include "DensityContainer.h"
 #include "MoleculeContainer.h"
 #include "Spiral.h"               
-//#ifdef BuildNtC
+#ifdef NTC_ENABLED
 #include "NtC_Class_Container.h"
 #include "NTC_FORCE_CLASS.h"
 #include "NTC_PARAMETER_READER.h"
-//#endif
+#endif // NTC_ENABLED
 
 // Here is where we define GetCurrentDir , an OS dependent function to retrieve the current working directory.
 #ifdef _WINDOWS

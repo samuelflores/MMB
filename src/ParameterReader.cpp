@@ -2046,7 +2046,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     // PARSE NtC parameters from commands.dat file
     
     //cout << "here " << endl;
-    #ifdef BuildNtC  
+    #ifdef NTC_ENABLED
     if ( ((parameterStringClass.getString(0)).compare("NtC") == 0)) {
 	//parameterStringClass.print();
         MMBLOG_FILE_FUNC_LINE(ALWAYS,
@@ -2150,7 +2150,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
 
 
-    #endif 
+    #endif // NTC_ENABLED
     // END PARSE NtC parameters from commands.dat file   
     
     if ((  (parameterStringClass.getString(0)).compare("baseInteraction") == 0) || ((parameterStringClass.getString(0)).compare("aromatic") == 0) )    
@@ -5072,9 +5072,9 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
 
     baseOperationVector.clear();
     basePairContainer.clear();
-    #ifdef BuildNtC
+    #ifdef NTC_ENABLED
     ntc_class_container.clear();
-    #endif
+    #endif // NTC_ENABLED
     contactContainer.clear();
     mobilizerContainer.singleBondMobilityVector.clear();
     basePairPartnerVector.clear();
@@ -5089,7 +5089,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     if (this->firstStage == this->currentStage) {
         _leontisWesthofClass.initialize(leontisWesthofInFileName);
 
-        #ifdef BuildNtC
+        #ifdef NTC_ENABLED
         ifstream ifile("parameters_user.csv");
         if(ifile){
              ntc_par_class.initialize("parameters_user.csv");
@@ -5097,7 +5097,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
         } else {
              ntc_par_class.initialize(leontisWesthofInFileName);
         }
-        #endif
+        #endif // NTC_ENABLED
     }
 }
 

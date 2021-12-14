@@ -23,9 +23,9 @@
 #include "ParameterReader.h"
 #include "PeriodicPdbAndEnergyWriter.h"
 #include "BiopolymerClassTwoTransformForces.h"
-//#ifdef BuildNtC
+#ifdef NTC_ENABLED
 #include "NtCForces.h"
-//#endif
+#endif // NTC_ENABLED
 #include "TetherForce.h"
 #include "Sterics.h" 
 #include "AddNASTForces.h"

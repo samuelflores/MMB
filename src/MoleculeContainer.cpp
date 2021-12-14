@@ -1,6 +1,7 @@
 
 
 #include "MoleculeContainer.h"
+#include <MMBLogger.h>
 #include <fstream>
 
 #define MK_ELEMENT(name) \
@@ -475,6 +476,7 @@ CustomMolecule::CustomMolecule(vector <vector <String> > moleculeBuildCommandVec
             String atomName1 = moleculeBuildCommandVector[i][2]; 
             String atomName2 = moleculeBuildCommandVector[i][3]; 
             String atomName3 = moleculeBuildCommandVector[i][4]; 
+
             setDefaultBondAngle(myAngle*Deg2Rad,atomName1,atomName2,atomName3);
         }
 	else if ((moleculeBuildCommandVector[i])[0].compare("setBiotypeChargedAtomType") == 0 ) {

@@ -11,7 +11,6 @@
 #define _TetherForce_H_
 
 
-#include <math.h>
 //#include "SimTKsimbody_aux.h"
 #include <iostream>
 #include <ostream>

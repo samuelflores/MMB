@@ -13,7 +13,6 @@
 #include "BiopolymerClass.h"
 //#include <seqan/align.h>
 #include <cmath> // contains sqrt
-#include <ctgmath>
 //#include "/home/sam/svn/molmodel/include/molmodel/internal/Superpose.h"
 //#include "/home/sam/svn/molmodel/include/molmodel/internal/Superpose.h"
 

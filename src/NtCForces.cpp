@@ -12,47 +12,126 @@
 #include <SimTKcommon/Scalar.h>
 #include <SimTKcommon/internal/SpatialAlgebra.h>
 #include <cstddef>
-#include <string.h>
-#include <sstream>
-#include <Utils.h>
 #include <array>
+#include <ios>
+#include <cmath>
 #include "MMBLogger.h"
 #include "ParameterReader.h"
 
-#define K_ANGLE 57.295779513
+#define _R2D(x) ((x) * (180.0 / SimTK::Pi))
+#define _D2R(x) ((x) * (SimTK::Pi / 180.0))
+#define _2PI (2.0 * SimTK::Pi)
 
 static const double BF_SIGN[4] = { 1.0, 1.0, -1.0, -1.0 };
-static const double BF_SIGN_2[2] = { -1.0, 1.0 };
-static const double BF_SIGN_2I[2] = { 1.0, -1.0 };
 
+static const double SOME_K = 5000;
+
+#ifdef NTC_DEBUG_CALC
+std::ofstream ntcdump{};
+size_t dump_counter{0};
+#endif // NTC_DEBUG_CALC
+
+template <typename T>
+int int_round(const T &v) {
+    T vs = v + T(0.5) * (v > T(0)) - T(0.5) * (v < T(0));
+    return int(vs);
+}
+
+static
+double angle_rad(const Vec3 &cross_1, const Vec3 &cross_2, const Vec3 &cross_3, const Vec3 &d_d2) {
+    Vec3 direction;
+    direction[0] = cross_3[0] * d_d2[0];
+    direction[1] = cross_3[1] * d_d2[1];
+    direction[2] = cross_3[2] * d_d2[2];
+
+    double scal = dot(cross_1, cross_2);
+    scal = scal > 1.0 ? 1.0 : (scal < -1.0 ? -1.0 : scal);
+
+    double angle = std::acos(scal);
+    if (direction[0] < 0.0 && direction[1] < 0.0 && direction[2] < 0.0)
+        angle = -angle;
+    angle += _2PI * (angle < 0.0);
+
+    return angle;
+}
+
+static
+double dist_angle_rad(double angle, double rotationAngle) {
+    double dist = fabs(angle - rotationAngle);
+    if (dist > SimTK::Pi)
+        dist = _2PI - dist;
+
+    const double from = rotationAngle;
+    const double to = from > SimTK::Pi ? from - SimTK::Pi : from + SimTK::Pi;
+
+    double flip = 0.0;
+    if (from < to) {
+        flip = (from < angle && angle <= to) ? 1.0 : -1.0;
+    } else {
+        flip = (to < angle && angle <= from) ? -1.0 : 1.0;
+    }
+
+    return flip * dist;
+}
+
+#ifdef NTC_DEBUG_CALC
+static
+auto operator<<(std::ostream &os, const NTC_Classes &ntc) -> std::ostream & {
+    os << "[" << ntc.NtC_Class_String << ", " << ntc.FirstBPResidue.outString() << ", " << ntc.SecondBPResidue.outString() << ", " << ntc.NtC_step_ID << "]";
+    return os;
+}
+
+template <typename T, size_t N>
+auto operator<<(std::ostream &os, const std::array<T, N> &arr) -> std::ostream & {
+    os << "[";
+    for (size_t idx{0}; idx < N - 1; idx++)
+        os << arr[idx] << ", ";
+    os << arr[N - 1] << "]";
+    return os;
+}
+
+template <typename Arg>
+auto _dump(std::ostream &os, Arg &&a) {
+    os << a << "\n";
+}
+
+template <typename Arg, typename ...Args>
+auto _dump(std::ostream &os, Arg &&a, Args &&...args) {
+    os << a << "; ";
+    _dump(os, std::forward<Args>(args)...);
+}
+#endif // NTC_DEBUG_CALC
 
 NTC_Torque::NTC_Torque(SimbodyMatterSubsystem &matter,
                        ParameterReader &myParameterReader,
                        NTC_PAR_Class &myNTC_PAR_Class,
-                       BiopolymerClassContainer &myBiopolymerClassContainer,
-                       std::ostream &outputStream)
+                       BiopolymerClassContainer &myBiopolymerClassContainer)
     : matter(matter), myParameterReader(myParameterReader),
       myNTC_PAR_Class(myNTC_PAR_Class),
-      myBiopolymerClassContainer(myBiopolymerClassContainer),
-      outputStream(outputStream){};
+      myBiopolymerClassContainer(myBiopolymerClassContainer)
+{}
+
 
 void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                            Vector_<Vec3> &particleForces,
                            Vector &mobilityForces) const {
+
+#ifdef NTC_DEBUG_CALC
+    if (!ntcdump.is_open())
+        ntcdump.open("ntcdump.txt");
+#endif // NTC_DEBUG_CALC
+
     Vec3 states[4];
     for (int r = 0; r < myParameterReader.ntc_class_container.numNTC_Torsions(); r++) {
         const auto &ntc = myParameterReader.ntc_class_container.getNTC_Class(r);
         const auto &bondRow = myNTC_PAR_Class.myNTC_PAR_BondMatrix.myNTC_PAR_BondRow[ntc.NTC_PAR_BondRowIndex];
         const auto &indices = ntc.atomIndices;
         auto bp = &myBiopolymerClassContainer.updBiopolymerClass(ntc.NtC_FirstBPChain);
-        String basePairIsTwoTransformForce = "ntcstep";
 
         if (bondRow.bondLength[0] == 0.0) {
             for (std::size_t idx = 0; idx < 4; idx++) {
                 states[idx] = bp->calcAtomLocationInGroundFrame(state, indices[idx]);
             }
-
-            double torqueConstant = bondRow.torqueConstant;
 
             Vec3 d_d1 = states[1] - states[0];
             Vec3 d_d2 = states[2] - states[1];
@@ -66,31 +145,42 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
 
             Vec3 cross_3 = cross_1 % cross_2;
 
-            double angle = return_angle(cross_1, cross_2, cross_3, d_d2);
+            double angle = angle_rad(cross_1, cross_2, cross_3, d_d2);
+            double dist_ang = dist_angle_rad(angle, bondRow.rotationAngle);
 
-            double dist_ang = return_dist_ang(angle, bondRow.rotationAngle);
+            static const std::set<std::string> consideredTorsions = {
+                "tau0a", "tau4a", "tau0b", "tau4b",
+                "delta", "epsilon", "zeta", "alpha1", "beta1", "gamma1", "delta1",
+                "chi", "chi1"
+            };
 
             if (ntc.meta == 0) {
-                double pot_angle =
-                    torqueConstant *
-                    ntc.weight *
-                    (-sin((dist_ang + 180.0) / K_ANGLE)) * (360.0 / K_ANGLE + 1.0) /
-                    (1.0 + bondRow.CONFALVALUE) / (360.0 / K_ANGLE);
+                double force = 0;
+                auto calculator = consideredTorsions.find(bondRow.dihedraltype);
+                if (calculator != consideredTorsions.cend())
+                    force = SOME_K * dist_ang;
 
-                Vec3 torque = d_d2 / d_d2.norm() * pot_angle;
+                Vec3 torque = d_d2 / d_d2.norm() * force;
+
+#ifdef NTC_DEBUG_CALC
+                if (dump_counter % 10 == 0)
+                    _dump(ntcdump, r, bondRow.dihedraltype, _R2D(angle), dist_ang, (100 * dist_ang / SimTK::Pi), force, torque.real());
+#endif // NTC_DEBUG_CALC
 
                 for (std::size_t idx = 0; idx < 4; idx++) {
                     const auto &body = bp->updAtomMobilizedBody(matter, indices[idx]);
                     bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN[idx] * SpatialVec(torque, Vec3(0));
                 }
             } else if (ntc.meta == 1) {
+                MMBLOG_PLAIN(CRITICAL, "NtC Meta mode is unavailable in this build of MMB");
+                /*
                 double bias = 0;
                 int value = -1;
 
                 angle *= K_ANGLE;
 
                 if (isfinite(angle) == 1) {
-                    int i = (int)round(angle);
+                    int i = int_round(angle);
                     const auto count = ntc.count;
 
                     myBiopolymerClassContainer.hist[count][i] += 1.0;
@@ -142,73 +232,11 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                         }
                     }
                 }
+                */
             }
             // end real torsions
         } else { // bonds
-            for (std::size_t idx = 0; idx < 2; idx++) {
-                states[idx] = bp->calcAtomLocationInGroundFrame(state, indices[idx]);
-            }
-
-            Vec3 ptp = states[1] - states[0];
-            double d = ptp.norm(); // sqrt(pow(x_d2-x_d1,2) + pow(y_d2-y_d1,2) +
-                             // pow(z_d2-z_d1,2));
-            double frc;
-
-            if (ntc.meta == 0) {
-                frc = (1.0 - exp(-(2.0 * bondRow.CONFALVALUE) * (d - bondRow.bondLength[0]))) *
-                      (-exp(-(2.0 * bondRow.CONFALVALUE) * (d - bondRow.bondLength[0]))) *
-                       bondRow.springConstant[0] *
-                       ntc.weight;
-                Vec3 frcVec = (frc)*ptp / d;
-
-                for (std::size_t idx = 0; idx < 2; idx++) {
-                    const auto &body = bp->updAtomMobilizedBody(matter, indices[idx]);
-                    bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN_2[idx] * SpatialVec(frcVec, Vec3(1));
-                }
-            } else if (ntc.meta == 1) {
-                double bias = 0.0;
-
-                if (d < 3.0) {
-                    int i = (int)round((d)*10.0);
-                    const auto count = ntc.count;
-
-                    myBiopolymerClassContainer.hist_d[count][i] += 1.0;
-                    myBiopolymerClassContainer.counter_d[count] += 1.0;
-
-                    if (myBiopolymerClassContainer.counter_d[count] > 0.0)
-                        myBiopolymerClassContainer.prob_d[count][i] = myBiopolymerClassContainer.hist_d[count][i] / myBiopolymerClassContainer.counter_d[count];
-
-                    if (i > 0 &&
-                        myBiopolymerClassContainer.prob_d[count][i] > 1e-3 &&
-                        myBiopolymerClassContainer.prob_d[count][i + 1] > 1e-3 && i < 31) {
-                        bias = 2.479 * (log(myBiopolymerClassContainer.prob_d[count][i] / (1e-3)) -
-                                        log(myBiopolymerClassContainer.prob_d[count][i + 1] / (1e-3)));
-                    }
-
-                    frc = (1.0 - exp(-(2.0 * bondRow.CONFALVALUE) * (d - bondRow.bondLength[0]))) *
-                          (-exp(-(2.0 * bondRow.CONFALVALUE) * (d - bondRow.bondLength[0]))) *
-                           bondRow.springConstant[0];
-                    frc = frc / (1.0 + ntc.weight2);
-
-                    Vec3 frcVec = (frc) * ptp / d * ntc.weight;
-
-                    for (std::size_t idx = 0; idx < 2; idx++) {
-                        const auto &body = bp->updAtomMobilizedBody(matter, indices[idx]);
-                        bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN_2[idx] * SpatialVec(frcVec, Vec3(1));
-                    }
-
-                    if (isfinite(bias) && bias != 0.0) {
-                        const auto absBias = std::abs(bias);
-                        bias = bias * std::abs(frc) / absBias * ntc.weight2;
-                        frcVec = bias * ptp / d * ntc.weight;
-
-                        for (std::size_t idx = 0; idx < 2; idx++) {
-                            const auto &body = bp->updAtomMobilizedBody(matter, indices[idx]);
-                            bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN_2I[idx] * SpatialVec(frcVec, Vec3(1));
-                        }
-                    }
-                }
-            }
+            // No bond lengths are calculated
         }
     }
 }
@@ -222,6 +250,8 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
     Vec3 states[4];
     for (int r = 0; r < myParameterReader.ntc_class_container.numNTC_Torsions(); r++) {
         const auto &ntc = myParameterReader.ntc_class_container.getNTC_Class(r);
+        const auto &indices = ntc.atomIndices;
+        auto bp = &myBiopolymerClassContainer.updBiopolymerClass(ntc.NtC_FirstBPChain);
         // If we have changed our NtC class type, meaning we are computing a new NtC
         if (ntc.NtC_Class_String != oldNtCClassString) {
             if (r > 0) {
@@ -238,19 +268,13 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
 
         const auto &chainId1 = ntc.NtC_FirstBPChain;
         const auto &bondRow = myNTC_PAR_Class.myNTC_PAR_BondMatrix.myNTC_PAR_BondRow[ntc.NTC_PAR_BondRowIndex];
-        String basePairIsTwoTransformForce = "ntcstep";
-        std::array<const ResidueID *const, 2> residues = { &ntc.FirstBPResidue, &ntc.SecondBPResidue };
 
         MMBLOG_FILE_FUNC_LINE(DEBUG, "doing base pair #" << r << endl);
 
         if (bondRow.bondLength[0] == 0.0) {
             for (std::size_t idx = 0; idx < 4; idx++) {
-                const ResidueID *myResidueNumber = residues[bondRow.atom_shift[idx]];
-                states[idx] = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
-                    state, chainId1, *myResidueNumber, bondRow.residue1Atom[idx]);
+                states[idx] = bp->calcAtomLocationInGroundFrame(state, indices[idx]);
             }
-
-            double torqueConstant = bondRow.torqueConstant;
 
             Vec3 d_d1 = states[1] - states[0];
             Vec3 d_d2 = states[2] - states[1];
@@ -267,45 +291,30 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
             double angle = return_angle(cross_1, cross_2, cross_3, d_d2);
             double dist_ang = return_dist_ang(angle, bondRow.rotationAngle);
 
-            energy += torqueConstant * cos((dist_ang + 180.0) / K_ANGLE) *
-                      (360.0 / K_ANGLE + 1.0) / (1.0 + bondRow.CONFALVALUE) /
-                      (360.0 / K_ANGLE); // torqueConstant*pow(dist_ang/57.295779513,2);//-torqueConstant*(-cos(dist_ang/57.295779513)+(exp(-(pow(dist_ang,2)/(2.0*pow(l_param,2))))));
+            double e = 0.5 * SOME_K * dist_ang * dist_ang;
+
+            energy += e;
+
             MMBLOG_FILE_FUNC_LINE(
                 DEBUG, " NTC sampling - CHAIN ID = "
                        << chainId1 << ", residuenumbers " << ntc.FirstBPResidue.ResidueNumber << "/" << ntc.SecondBPResidue.ResidueNumber
                        << " difference-angle = " << dist_ang
                        << " , CONFALVALUE = " << bondRow.CONFALVALUE << " , "
-                       << angle * K_ANGLE << " = angle at time t for atoms  = "
+                       << _R2D(angle) << " = angle at time t for atoms  = "
                        << bondRow.residue1Atom[0] << " , "
                        << bondRow.residue1Atom[1] << " , "
                        << bondRow.residue1Atom[2] << " , "
                        << bondRow.residue1Atom[3] << " , "
-                       << bondRow.rotationAngle * K_ANGLE
+                       << _R2D(bondRow.rotationAngle)
                        << " = angle_0 from  input , "
                        << "energy = " << energy << endl);
 
-            auto daSq = std::sqrt(std::pow(dist_ang, 2));
+            auto daSq = std::abs(dist_ang);
             rms += daSq;
             rmsTorsionAngleForThisNtCAndDinucleotide += daSq;
           // end real torsions
         } else { // bonds
-            for (std::size_t idx = 0; idx < 2; idx++) {
-                states[idx] = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(
-                    state, chainId1, *residues[idx], bondRow.residue1Atom[idx]);
-            }
-
-            Vec3 diff = states[1] - states[0];
-
-            double d = diff.norm();
-
-            MMBLOG_FILE_FUNC_LINE(
-                DEBUG, "NN|CC difference: "
-                       << (d - bondRow.bondLength[0])
-                       << ", current value: " << d << ", equilibrium value: "
-                       << bondRow.bondLength[0] << endl);
-
-            energy += bondRow.springConstant[0] *
-                      pow(1.0 - exp(-(2.0 * bondRow.CONFALVALUE) * (d - bondRow.bondLength[0])), 2);
+            // Bond lengths are disregarded
         }
 
         oldNtCClassString = ntc.NtC_Class_String;
@@ -319,13 +328,16 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
 bool NTC_Torque::dependsOnlyOnPositions() const { return true; }
 
 Real NTC_Torque::return_dist_ang(double angle, double rotationAngle) const {
-    double ang_diff = (angle - rotationAngle) * K_ANGLE; // Deg
+    double ang_diff = _R2D(angle - rotationAngle);
     double dist_ang = 180.0 - abs(180.0 - abs(ang_diff));
-    int angle_1 = int(round(angle * K_ANGLE));
-    int angle_2 = int(round(rotationAngle * K_ANGLE));
 
-    int interval_begin = angle_2;
-    int interval_end = (interval_begin + 180) % 360;
+    double angle_1 = _R2D(angle);
+    double angle_2 = _R2D(rotationAngle);
+
+    double interval_begin = angle_2;
+    double interval_end = (interval_begin + 180.0);
+    if (interval_end > 360.0)
+        interval_end -= 360.0;
 
     if (interval_end > interval_begin) {
         if (angle_1 < interval_begin || angle_1 > interval_end) {
@@ -362,5 +374,5 @@ Real NTC_Torque::return_angle(const Vec3 &cross_1, const Vec3 &cross_2, const Ve
 
     angle += 360.0 * (angle < 0.0);
 
-    return angle /= K_ANGLE;
+    return _D2R(angle);
 }

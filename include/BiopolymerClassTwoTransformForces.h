@@ -9,7 +9,6 @@
  * See RNABuilder.cpp for the copyright and usage agreement.                  *
  * -------------------------------------------------------------------------- */
 
-#include <math.h>
 //#include "SimTKsimbody_aux.h"
 #include <iostream>
 #include <ostream>

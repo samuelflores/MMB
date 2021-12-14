@@ -31,7 +31,6 @@
 
 #include "SimTKcommon.h"
 #include "molmodel/internal/VelocityRescalingThermostat.h"
-#include <math.h>
 using namespace SimTK;
 
 /**

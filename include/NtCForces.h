@@ -13,7 +13,6 @@
 #include "ParameterReader.h"
 #include "BiopolymerClass.h"
 #include "Utils.h"
-#include <ostream>
 
 using namespace SimTK;
 using namespace std;
@@ -24,14 +23,12 @@ private:
     ParameterReader& myParameterReader;
     NTC_PAR_Class& myNTC_PAR_Class;
     BiopolymerClassContainer & myBiopolymerClassContainer;
-    std::ostream& outputStream;
 
 public:
     NTC_Torque(SimbodyMatterSubsystem &matter,
                ParameterReader &myParameterReader,
                NTC_PAR_Class &myNTC_PAR_Class,
-               BiopolymerClassContainer &myBiopolymerClassContainer,
-               std::ostream &outputStream);
+               BiopolymerClassContainer &myBiopolymerClassContainer);
 
     void calcForce(const State &state, Vector_<SpatialVec> &bodyForces, Vector_<Vec3> &particleForces, Vector &mobilityForces) const;
     Real calcPotentialEnergy(const State& state) const;

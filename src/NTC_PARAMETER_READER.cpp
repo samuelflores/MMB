@@ -167,7 +167,7 @@ void NTC_PAR_Class::initialize(const String &inFileName) {
             ri.initField(&NTC_PAR_BondRow::isTwoTransformForce);
             ri.initField(&NTC_PAR_BondRow::distanceC1pC1p);
 
-            NTC_PAR_Map[ntcBondKey(row)] = myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.size();
+            NTC_PAR_Map[ntcBondKey(row)] = myNTC_PAR_BondMatrix.myNTC_PAR_BondRow.size() - 1;
         }
     }
 

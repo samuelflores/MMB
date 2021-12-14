@@ -11,7 +11,6 @@
 #ifndef ElectrostaticPotentialGridForce_H_
 #define ElectrostaticPotentialGridForce_H_
 
-#include <math.h>
 //#include "SimTKsimbody_aux.h"
 #include <iostream>
 #include <ostream>

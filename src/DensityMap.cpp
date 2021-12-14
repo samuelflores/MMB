@@ -12,7 +12,6 @@
 //#include "float.h"
 #include <fstream>
 #include "DensityMap.h"
-#include <math.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>

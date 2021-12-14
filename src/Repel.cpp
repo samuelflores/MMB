@@ -615,7 +615,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
         new AllTwoTransformLinearSprings( _matter,  *_parameterReader,  _parameterReader->_leontisWesthofClass, _parameterReader->myBiopolymerClassContainer, _output);
     Force::Custom(_forces, myAllTwoTransformLinearSpringsPointer);
     #ifdef BuildNtC    
-    NTC_Torque * myNTC_Torque = new NTC_Torque( _matter,  *_parameterReader,  _parameterReader->ntc_par_class, _parameterReader->myBiopolymerClassContainer, _output);
+    NTC_Torque * myNTC_Torque = new NTC_Torque( _matter,  *_parameterReader,  _parameterReader->ntc_par_class, _parameterReader->myBiopolymerClassContainer);
     Force::Custom(_forces, myNTC_Torque);
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     #endif
@@ -1112,8 +1112,11 @@ void ConstrainedDynamics::runDynamics() {
     }
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     initializeBodies();
+
+    auto ofs = std::ofstream{"initial.pdb"};
+    _parameterReader->myBiopolymerClassContainer.writePdb(_state, _system, ofs);
+
     //MMBLOG_FILE_FUNC_LINE(endl;
-     
     //MMBLOG_FILE_FUNC_LINE(endl;
     //_parameterReader->myBiopolymerClassContainer.printAtomInfoVector(); //  Looks fine at this point ..
     // This should be done after initializeBodies() because that is when we are reverting residues back to Default BondMobility

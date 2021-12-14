@@ -13,7 +13,6 @@
 
 #include "SimTKmolmodel.h"
 #include "UnitCellParameters.h"
-#include <math.h>       /* exp */
 
 #define LINESIZE 1024
 

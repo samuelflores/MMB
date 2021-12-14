@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.10)
 
 project(MMB LANGUAGES CXX)
 
@@ -394,8 +394,8 @@ endif ()
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(
     ${CMAKE_CURRENT_BINARY_DIR}/cmake/MmbConfigVersion.cmake
-    VERSION "${MMB_VERSION}"
-    COMPATIBILITY SameMinorVersion
+    VERSION "${MMB_SONAME_VERSION}"
+    COMPATIBILITY SameMajorVersion
 )
 install(
     FILES ${CMAKE_CURRENT_BINARY_DIR}/cmake/MmbConfigVersion.cmake

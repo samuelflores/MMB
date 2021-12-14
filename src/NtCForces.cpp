@@ -44,12 +44,12 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
         const auto &ntc = myParameterReader.ntc_class_container.getNTC_Class(r);
         const auto &bondRow = myNTC_PAR_Class.myNTC_PAR_BondMatrix.myNTC_PAR_BondRow[ntc.NTC_PAR_BondRowIndex];
         const auto &indices = ntc.atomIndices;
-        auto &bp = myBiopolymerClassContainer.updBiopolymerClass(ntc.NtC_FirstBPChain);
+        auto bp = &myBiopolymerClassContainer.updBiopolymerClass(ntc.NtC_FirstBPChain);
         String basePairIsTwoTransformForce = "ntcstep";
 
         if (bondRow.bondLength[0] == 0.0) {
             for (std::size_t idx = 0; idx < 4; idx++) {
-                states[idx] = bp.calcAtomLocationInGroundFrame(state, indices[idx]);
+                states[idx] = bp->calcAtomLocationInGroundFrame(state, indices[idx]);
             }
 
             double torqueConstant = bondRow.torqueConstant;
@@ -80,7 +80,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                 Vec3 torque = d_d2 / d_d2.norm() * pot_angle;
 
                 for (std::size_t idx = 0; idx < 4; idx++) {
-                    const auto &body = bp.updAtomMobilizedBody(matter, indices[idx]);
+                    const auto &body = bp->updAtomMobilizedBody(matter, indices[idx]);
                     bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN[idx] * SpatialVec(torque, Vec3(0));
                 }
             } else if (ntc.meta == 1) {
@@ -124,7 +124,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                     Vec3 torque = d_d2 / d_d2.norm() * (pot_angle) / (1.0 + ntc.weight2) * ntc.weight;
 
                     for (std::size_t idx = 0; idx < 4; idx++) {
-                        const auto &body = bp.updAtomMobilizedBody(matter, indices[idx]);
+                        const auto &body = bp->updAtomMobilizedBody(matter, indices[idx]);
                         bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN[idx] * SpatialVec(torque, Vec3(0));
                     }
 
@@ -136,7 +136,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                             Vec3 torque = -d_d2 / d_d2.norm() * bias * std::abs(pot_angle) / absBias * ntc.weight2 * ntc.weight;
 
                             for (std::size_t idx = 0; idx < 4; idx++) {
-                                const auto &body = bp.updAtomMobilizedBody(matter, indices[idx]);
+                                const auto &body = bp->updAtomMobilizedBody(matter, indices[idx]);
                                 bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN[idx] * SpatialVec(torque, Vec3(0));
                             }
                         }
@@ -146,7 +146,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
             // end real torsions
         } else { // bonds
             for (std::size_t idx = 0; idx < 2; idx++) {
-                states[idx] = bp.calcAtomLocationInGroundFrame(state, indices[idx]);
+                states[idx] = bp->calcAtomLocationInGroundFrame(state, indices[idx]);
             }
 
             Vec3 ptp = states[1] - states[0];
@@ -162,7 +162,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                 Vec3 frcVec = (frc)*ptp / d;
 
                 for (std::size_t idx = 0; idx < 2; idx++) {
-                    const auto &body = bp.updAtomMobilizedBody(matter, indices[idx]);
+                    const auto &body = bp->updAtomMobilizedBody(matter, indices[idx]);
                     bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN_2[idx] * SpatialVec(frcVec, Vec3(1));
                 }
             } else if (ntc.meta == 1) {
@@ -193,7 +193,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                     Vec3 frcVec = (frc) * ptp / d * ntc.weight;
 
                     for (std::size_t idx = 0; idx < 2; idx++) {
-                        const auto &body = bp.updAtomMobilizedBody(matter, indices[idx]);
+                        const auto &body = bp->updAtomMobilizedBody(matter, indices[idx]);
                         bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN_2[idx] * SpatialVec(frcVec, Vec3(1));
                     }
 
@@ -203,7 +203,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                         frcVec = bias * ptp / d * ntc.weight;
 
                         for (std::size_t idx = 0; idx < 2; idx++) {
-                            const auto &body = bp.updAtomMobilizedBody(matter, indices[idx]);
+                            const auto &body = bp->updAtomMobilizedBody(matter, indices[idx]);
                             bodyForces[body.getMobilizedBodyIndex()] += BF_SIGN_2I[idx] * SpatialVec(frcVec, Vec3(1));
                         }
                     }

@@ -30,6 +30,8 @@
 
 typedef OpenMM::Vec3 openmmVecType ;
 
+class BiopolymerClass;
+
 using namespace SimTK;
 using namespace std;  
 // some functions to determine whether string is a number (http://www.tek-tips.com/viewthread.cfm?qid=1024751)
@@ -609,6 +611,7 @@ class     NTC_Classes {
                double weight,weight2;
                int    meta = 0;
                int    count = 0;
+               BiopolymerClass *bp;
                std::array<Compound::AtomIndex, 4> atomIndices;
 
     void print(){

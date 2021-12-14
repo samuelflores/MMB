@@ -370,6 +370,11 @@ if (BUILD_STATIC)
     )
 endif ()
 
+install(
+    FILES ${PROJECT_SOURCE_DIR}/include/resources/parameters.csv
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/share/MMB
+)
+
 ## Install MMB executable
 if (BUILD_SHARED)
     install(

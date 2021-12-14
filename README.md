@@ -5,6 +5,7 @@
 MMB uses [CMake](https://cmake.org/) build system to configure and build itself. MMB provides various build-time configuration options. Depending on how your particular system is set up, some of these options may have to be adjusted in order to build MMB.
 
 MMB depends on a series of libraries that must be installed in order to build and run MMB. Current list of MMB dependencies is as follows:
+- [zlib](https://zlib.net/)
 - [Simbody](https://simtk.org/projects/simbody)
 - [OpenMM](https://openmm.org/)
 - [Gemmi](https://gemmi.readthedocs.io/en/latest/)

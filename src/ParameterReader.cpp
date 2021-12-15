@@ -2050,25 +2050,16 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     if ( ((parameterStringClass.getString(0)).compare("NtC") == 0)) {
 	//parameterStringClass.print();
         MMBLOG_FILE_FUNC_LINE(ALWAYS,
-                "Syntax: NtC <chain> <start residue> <end residue> <NtC class> <force constant> [meta <secondary weight>] "<<endl
-                <<"For example, if (DNA) chain A, residues 1 and 2 are in a B-form helix helix, and you want a force constant of 1.5, you can specify :  "<<endl
-                <<"     NtC A 1 2 AA00 1.5  "<<endl);
+                "Syntax: NtC <chain> <start residue> <end residue> <NtC class>"<<endl
+                <<"For example, if (DNA) chain A, residues 1 and 2 are in a B-form helix helix, you can specify :  "<<endl
+                <<"     NtC A 1 2 AA00"<<endl);
       
-        if (parameterStringClass.getString(5).length() == 0) {
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Syntax error! You did not provide enough parameters for this command!"<<endl);
-        }
         String myChain = parameterStringClass.getString(1);
         ResidueID firstNtCResidueInStretch = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2).c_str(), myChain);
         ResidueID lastNtCResidueInStretch  = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3).c_str(), myChain);
 	String myNtCClassString = parameterStringClass.getString(4) ;
-        double myNtCWeight = myAtoF(userVariables,parameterStringClass.getString(5).c_str());
-	bool myMeta = 0;
-	double myNtCWeight2=0.;
-        if (parameterStringClass.getString(6).length() != 0){
-            myMeta=1;
-            myNtCWeight2= myAtoF(userVariables,parameterStringClass.getString(7).c_str());
-	}
-        ntc_class_container.add_NTC_Class(myBiopolymerClassContainer,ntc_par_class,myChain,firstNtCResidueInStretch,lastNtCResidueInStretch,myNtCClassString,myNtCWeight,myMeta,myNtCWeight2);
+
+        ntc_class_container.add_NTC_Class(myBiopolymerClassContainer,ntc_par_class,myChain,firstNtCResidueInStretch,lastNtCResidueInStretch,myNtCClassString, 0, 0, 0);
 	/*
         if ( myBiopolymerClassContainer.updBiopolymerClass( myChain ).difference (firstNtCResidueInStretch, lastNtCResidueInStretch ) != -1) {
             MMBLOG_FILE_FUNC_LINE(DEBUG, "NtCs could previously only be applied between consecutive residues. "<<endl);

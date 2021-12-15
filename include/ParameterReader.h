@@ -264,12 +264,13 @@ public:
     map<const ChainResidueIndex, int,twoIndexCmp> residueNumberTwo;  
 
     LeontisWesthofClass     _leontisWesthofClass;  
-    //#ifdef BuildNtC 
+    #ifdef NTC_ENABLED
     NTC_Classes             ntc_classes;
     NTC_PAR_Class           ntc_par_class;
     NTC_FORCE_Class         ntc_force_class;
     NTC_Class_Container ntc_class_container;
-    //#endif
+    double                  NtCForceScaleFactor;
+    #endif // NTC_ENABLED
     BiopolymerClass         mybiopolymerclass;
     
     mutable map<const String,double> userVariables;

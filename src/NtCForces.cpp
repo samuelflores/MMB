@@ -24,8 +24,6 @@
 
 static const double BF_SIGN[4] = { 1.0, 1.0, -1.0, -1.0 };
 
-static const double SOME_K = 5000;
-
 #ifdef NTC_DEBUG_CALC
 std::ofstream ntcdump{};
 size_t dump_counter{0};
@@ -121,6 +119,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
         ntcdump.open("ntcdump.txt");
 #endif // NTC_DEBUG_CALC
 
+    const auto SCALE_FACTOR = myParameterReader.NtCForceScaleFactor;
     Vec3 states[4];
     for (int r = 0; r < myParameterReader.ntc_class_container.numNTC_Torsions(); r++) {
         const auto &ntc = myParameterReader.ntc_class_container.getNTC_Class(r);
@@ -158,7 +157,7 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
                 double force = 0;
                 auto calculator = consideredTorsions.find(bondRow.dihedraltype);
                 if (calculator != consideredTorsions.cend())
-                    force = SOME_K * dist_ang;
+                    force = SCALE_FACTOR * dist_ang;
 
                 Vec3 torque = d_d2 / d_d2.norm() * force;
 
@@ -247,6 +246,7 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
     double rmsTorsionAngleForThisNtCAndDinucleotide = 0.0;
     String oldNtCClassString = "ZZZZZZ";
 
+    const auto SCALE_FACTOR = myParameterReader.NtCForceScaleFactor;
     Vec3 states[4];
     for (int r = 0; r < myParameterReader.ntc_class_container.numNTC_Torsions(); r++) {
         const auto &ntc = myParameterReader.ntc_class_container.getNTC_Class(r);
@@ -291,7 +291,7 @@ Real NTC_Torque::calcPotentialEnergy(const State &state) const {
             double angle = return_angle(cross_1, cross_2, cross_3, d_d2);
             double dist_ang = return_dist_ang(angle, bondRow.rotationAngle);
 
-            double e = 0.5 * SOME_K * dist_ang * dist_ang;
+            double e = 0.5 * SCALE_FACTOR * dist_ang * dist_ang;
 
             energy += e;
 

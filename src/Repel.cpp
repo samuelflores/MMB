@@ -615,7 +615,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
         new AllTwoTransformLinearSprings( _matter,  *_parameterReader,  _parameterReader->_leontisWesthofClass, _parameterReader->myBiopolymerClassContainer, _output);
     Force::Custom(_forces, myAllTwoTransformLinearSpringsPointer);
     #ifdef NTC_ENABLED
-    NTC_Torque * myNTC_Torque = new NTC_Torque( _matter,  *_parameterReader,  _parameterReader->ntc_par_class, _parameterReader->myBiopolymerClassContainer);
+    NTC_Torque * myNTC_Torque = new NTC_Torque( _matter, *_parameterReader, _parameterReader->ntc_par_class, _parameterReader->myBiopolymerClassContainer);
     Force::Custom(_forces, myNTC_Torque);
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     #endif // NTC_ENABLED

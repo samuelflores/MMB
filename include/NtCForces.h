@@ -20,7 +20,7 @@ using namespace std;
 class NTC_Torque : public Force::Custom::Implementation {
 private:
     SimbodyMatterSubsystem& matter;
-    ParameterReader& myParameterReader;
+    ParameterReader &myParameterReader;
     NTC_PAR_Class& myNTC_PAR_Class;
     BiopolymerClassContainer & myBiopolymerClassContainer;
 

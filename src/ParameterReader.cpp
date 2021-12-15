@@ -2147,8 +2147,15 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         return;
     };
 
+    if (parameterStringClass.getString(0).compare("NtCForceScaleFactor") == 0) {
+        double factor = myAtoF(userVariables, parameterStringClass.getString(1));
+        if (factor <= 0) {
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "NtCforceScaleFactor must be a number greater than zero\n");
+        }
+        NtCForceScaleFactor = factor;
 
-
+        return;
+    }
 
     #endif // NTC_ENABLED
     // END PARSE NtC parameters from commands.dat file   
@@ -5045,6 +5052,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     lastFrameFileName  = "NOT-SET"; //  "/Users/samuelflores/svn/tar-dynamics/last.pdb";
     previousFrameFileName= "NOT-SET";///Users/samuelflores/svn/tar-dynamics/last.pdb" ;
     enforceParallelness  = false;
+    NtCForceScaleFactor = 5000;
     // end of variables improted from Repel.h
 
     sequence = "";

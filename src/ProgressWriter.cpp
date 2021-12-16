@@ -6,6 +6,7 @@
 #ifndef _WINDOWS
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 #endif // _WINDOWS
 
 static
@@ -33,7 +34,7 @@ public:
     Locker(const int fd, const bool wait) :
         _fd(fd) {
 
-        flock lk{};
+        struct flock lk{};
         lk.l_type = F_WRLCK;
         lk.l_whence = SEEK_SET;
         lk.l_start = 0;
@@ -49,7 +50,7 @@ public:
         if (!_haveLock)
             return;
 
-        flock lk{};
+        struct flock lk{};
         lk.l_type = F_UNLCK;
         lk.l_whence = SEEK_SET;
         lk.l_start = 0;
@@ -61,7 +62,7 @@ public:
 
     bool haveLock() const { return _haveLock; }
 private:
-    void tryLock(flock &lk) {
+    void tryLock(struct flock &lk) {
         const int ret = fcntl(_fd, F_SETLK, &lk);
         if (ret == -1) {
             if (errno == EACCES || errno == EAGAIN)
@@ -72,7 +73,7 @@ private:
             _haveLock = true;
     }
 
-    void lock(flock &lk) {
+    void lock(struct flock &lk) {
         const int ret = fcntl(_fd, F_SETLKW, &lk);
         if (ret == -1) {
             if (errno == EINTR)

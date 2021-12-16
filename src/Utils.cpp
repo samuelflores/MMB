@@ -487,6 +487,8 @@ out:
     return retCode;
 }
 
+#endif // HAVE_SENDFILE
+
 inline
 std::tuple<bool, int, int, int> getLinuxKernelVersion() {
     struct utsname kernelInfo;
@@ -536,6 +538,51 @@ std::tuple<bool, int, int, int> getLinuxKernelVersion() {
     }
 }
 
+#ifdef __FreeBSD__
+
+inline
+int getFreeBSDVersion() {
+    struct utsname uts;
+
+    if (uname(&uts) != 0) {
+        return 0;
+    }
+
+    if (std::strcmp(uts.sysname, "FreeBSD") != 0) {
+        return 0;
+    }
+
+    auto delim = std::strchr(uts.release, '.');
+    if (delim == nullptr) {
+        return 0;
+    }
+
+    std::string verstr(uts.release, delim - uts.release);
+    try {
+        return std::stoi(verstr);
+    } catch (const std::invalid_argument &) {
+        return 0;
+    } catch (const std::out_of_range &) {
+        return 0;
+    }
+
+}
+
+#endif // __FreeBSD__
+
+#ifdef __FreeBSD__
+
+std::function<CopyFileResult (const std::string &, const std::string &)> getMmbCopyFileImpl() {
+    auto version = getFreeBSDVersion();
+
+#ifdef HAVE_COPY_FILE_RANGE
+    return version >= 13 ? mmbCopyFile_copy_file_range : mmbCopyFile_direct;
+#endif // HAVE_COPY_FILE_RANGE
+    return mmbCopyFile_direct;
+}
+
+#else // All other UNIXes
+
 inline
 std::function<CopyFileResult (const std::string &, const std::string &)> getMmbCopyFileImpl() {
     auto lnxKernVer = getLinuxKernelVersion();
@@ -566,7 +613,7 @@ std::function<CopyFileResult (const std::string &, const std::string &)> getMmbC
     return mmbCopyFile_direct;
 }
 
-#endif // HAVE_SENDFILE
+#endif // __FreeBSD__
 
 CopyFileResult mmbCopyFile(const std::string &sourceFileName, const std::string &destinationFileName) {
     static const std::function<CopyFileResult (const std::string &, const std::string &)> impl = getMmbCopyFileImpl();

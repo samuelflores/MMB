@@ -1,3 +1,4 @@
+// vim: set sw=4 ts=4 sts=4 expandtab :
 /* -------------------------------------------------------------------------- *
  *                           MMB (MacroMoleculeBuilder)                       *
  * -------------------------------------------------------------------------- *
@@ -9,20 +10,38 @@
  * -------------------------------------------------------------------------- */
 
 #include "Utils.h"
-// the following three are only for the copyFile function:
-#include <iostream>
-#include <cstdio>    // fopen, fclose, fread, fwrite, BUFSIZ
-#include <ctime>
+#include <MMBLogger.h>
 
-//#include <boost/lexical_cast.hpp>
+#include <cstring>
+#include <functional>
+#include <iostream>
+#include <sstream>
+
+#ifdef LEPTON_ENABLED
+#include <Lepton.h>
+#endif
 
 #ifdef _WINDOWS
 #include <windows.h>
 #include <memory>
-#ifdef Lepton_USAGE // This is included only if Lepton_USAGE is defined
-#include "Lepton.h"
-#endif
+#else
+    #include <fcntl.h>
+    #include <sys/utsname.h>
+    #ifdef HAVE_COPY_FILE_RANGE
+        #ifndef _GNU_SOURCE
+            #define _GNU_SOURCE
+        #endif // _GNU_SOURCE
+        #include <unistd.h>
+    #endif // HAVE_COPY_FILE_RANGE
+    #ifdef HAVE_SENDFILE
+        #include <sys/sendfile.h>
+    #endif // HAVE_SENDFILE
+#endif // _WINDOWS
 
+using namespace std;
+using namespace SimTK;
+
+#ifdef _WINDOWS
 
 class SecurityDescriptorWrapper {
 public:
@@ -40,6 +59,28 @@ public:
 private:
     std::unique_ptr<char *> m_buffer;
 };
+
+inline
+std::string getErrorString(DWORD error) {
+	LPSTR buf = nullptr;
+
+    if (FormatMessageA(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		    NULL,
+            error,
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_NEUTRAL),
+            (LPSTR)&buf,
+            0,
+            nullptr
+	    ) == 0) {
+        return "Unknown error";
+    }
+
+    std::string msg(buf);
+    LocalFree(buf);
+
+    return msg;
+}
 
 inline
 bool hasAccessRight(LPCSTR path, DWORD genericAccessRights) {
@@ -98,12 +139,52 @@ bool hasWriteAccess(LPCSTR path) {
     return hasAccessRight(path, GENERIC_READ | GENERIC_WRITE);
 }
 
+inline
+std::wstring multibyteToWideString(const std::string &str) {
+    auto ret = MultiByteToWideChar(
+        CP_UTF8,
+        MB_ERR_INVALID_CHARS,
+        str.c_str(),
+        -1,
+        NULL,
+        0
+    );
+
+    if (ret < 1) {
+        throw new std::runtime_error("Cannot calculate size of the array for widechar string");
+    }
+
+    auto buf = std::make_unique<WCHAR[]>(ret);
+
+    ret = MultiByteToWideChar(
+        CP_UTF8,
+        MB_ERR_INVALID_CHARS,
+        str.c_str(),
+        -1,
+        buf.get(),
+        ret
+    );
+
+    if (ret < 1) {
+        throw new std::runtime_error("Cannot convert to widechar string");
+    }
+
+    return std::wstring(buf.get());
+}
+
+inline
+std::wstring unicodeFullPath(const std::string &path) {
+    auto wpath = multibyteToWideString(path);
+
+    auto buf = std::make_unique<WCHAR[]>(32768);
+    if (GetFullPathNameW(wpath.c_str(), 32768, buf.get(), nullptr) == 0) {
+        throw new std::runtime_error("Cannot get full path name");
+    }
+
+    return std::wstring(buf.get());
+}
+
 #endif // _WINDOWS
-
-#include  <sstream> 
-using namespace std;
-using namespace SimTK;
-
 
 int myMkdir(const std::string & directoryPath) {
 #ifdef _WINDOWS
@@ -171,43 +252,376 @@ int myChdir(const std::string & directoryPath) {
 #endif // _WINDOWS
 }
 
-int copyFile(const std::string sourceFileName, const std::string destinationFileName ) {
-    clock_t start, end; 
-    start = clock();
+/* Copy file function variants */
+#ifdef _WINDOWS
 
-    // BUFSIZE default is 8192 bytes
-    // BUFSIZE of 1 means one chareter at time
-    // good values should fit to blocksize, like 1024 or 4096
-    // higher values reduce number of system calls
-    // size_t BUFFER_SIZE = 4096;
+static const std::wstring LONG_PATH_LIMIT_PREFIX = L"\\\\?\\";
+CopyFileResult mmbCopyFile(const std::string &sourceFileName, const std::string &destinationFileName) {
+    try {
+        auto src = LONG_PATH_LIMIT_PREFIX + unicodeFullPath(sourceFileName);
+        auto dst = LONG_PATH_LIMIT_PREFIX + unicodeFullPath(destinationFileName);
 
-    char buf[BUFSIZ];
-    size_t size;
-
-    FILE* source = fopen(sourceFileName.c_str(),      "rb");
-    FILE* dest   = fopen(destinationFileName.c_str(), "wb");
-
-    // clean and more secure
-    // feof(FILE* stream) returns non-zero if the end of file indicator for stream is set
-
-    while (size = fread(buf, 1, BUFSIZ, source)) {
-        fwrite(buf, 1, size, dest);
-    }    
-
-    fclose(source);
-    fclose(dest);
-
-    end = clock();
-
-    cout << "CLOCKS_PER_SEC " << CLOCKS_PER_SEC << "\n";
-    cout << "CPU-TIME START " << start << "\n";
-    cout << "CPU-TIME END " << end << "\n";
-    cout << "CPU-TIME END - START " << end - start << "\n";
-    cout << "TIME(SEC) " << static_cast<double>(end - start) / CLOCKS_PER_SEC << "\n";
-
-    return 0;
+        if (!CopyFileW(src.c_str(), dst.c_str(), FALSE)) {
+            auto err = GetLastError();
+            if (err == ERROR_DISK_FULL) {
+                return CopyFileResult::No_Space;
+            }
+            MMBLOG_PLAIN(WARNING, "IO error while copying a file: " << getErrorString(err) << "\n");
+            return CopyFileResult::Io_Error;
+        }
+        return CopyFileResult::Success;
+    } catch (const std::runtime_error &ex) {
+        MMBLOG_PLAIN(WARNING, ex.what() << "\n");
+        return CopyFileResult::Io_Error;
+    }
 }
 
+#else
+
+inline
+auto getFileSizeFromFd(int fd) {
+    struct stat st;
+
+    int ret = fstat(fd, &st);
+    if (ret == -1) {
+        return -1L;
+    }
+
+    return st.st_size;
+}
+
+#ifdef HAVE_COPY_FILE_RANGE
+
+inline
+CopyFileResult mmbCopyFile_copy_file_range(const std::string &sourceFileName, const std::string &destinationFileName) {
+    int in = open(sourceFileName.c_str(), O_RDONLY);
+    if (in == -1) {
+        MMBLOG_PLAIN(WARNING, "Cannot open file " << sourceFileName << " for reading");
+
+        return CopyFileResult::Io_Error;
+    }
+
+    const auto srcSize = getFileSizeFromFd(in);
+    if (srcSize == -1) {
+        MMBLOG_PLAIN(WARNING, "Cannot determine size of the file to copy:" << strerror(errno));
+        close(in);
+
+        return CopyFileResult::Io_Error;
+    }
+
+    int out = creat(destinationFileName.c_str(), S_IWUSR | S_IRUSR);
+    if (out == -1) {
+        MMBLOG_PLAIN(WARNING, "Cannot open file " << destinationFileName << " for writing");
+	    close(in);
+
+        return CopyFileResult::Io_Error;
+    }
+
+    CopyFileResult retCode = CopyFileResult::Success;
+    auto bytesToCopy = srcSize;
+    while (bytesToCopy > 0) {
+        auto ret = copy_file_range(in, nullptr, out, nullptr, bytesToCopy, 0);
+        if (ret == -1) {
+            if (errno == ENOSPC || errno == EDQUOT) {
+                retCode = CopyFileResult::No_Space;
+            } else {
+                MMBLOG_PLAIN(WARNING, "IO error while copying a file: " << strerror(errno));
+
+                retCode = CopyFileResult::Io_Error;
+            }
+            goto out;
+        }
+
+        bytesToCopy -= ret;
+    }
+
+out:
+    close(in);
+    close(out);
+
+    return retCode;
+}
+
+#endif // HAVE_COPY_FILE_RANGE
+
+inline
+CopyFileResult mmbCopyFile_direct(const std::string &sourceFileName, const std::string &destinationFileName) {
+    const size_t BUFSIZE = 8 * 1024;
+    auto buf = std::make_unique<char[]>(BUFSIZE);
+
+    int in = open(sourceFileName.c_str(), O_RDONLY);
+    if (in == -1) {
+        MMBLOG_PLAIN(WARNING, "Cannot open file " << sourceFileName << " for reading");
+
+        return CopyFileResult::Io_Error;
+    }
+
+    const auto srcSize = getFileSizeFromFd(in);
+    if (srcSize == -1) {
+        MMBLOG_PLAIN(WARNING, "Cannot determine size of the file to copy:" << strerror(errno));
+        close(in);
+
+        return CopyFileResult::Io_Error;
+    }
+
+    int out = creat(destinationFileName.c_str(), S_IWUSR | S_IRUSR);
+    if (out == -1) {
+        MMBLOG_PLAIN(WARNING, "Cannot open file " << destinationFileName << " for writing");
+	    close(in);
+
+        return CopyFileResult::Io_Error;
+    }
+
+    CopyFileResult retCode = CopyFileResult::Success;
+    auto bytesToCopy = srcSize;
+    while (bytesToCopy > 0) {
+        auto blkBytesToCopy = read(in, buf.get(), BUFSIZE);
+        if (blkBytesToCopy == -1) {
+            MMBLOG_PLAIN(WARNING, "IO read error while copying a file: " << strerror(errno));
+
+            goto out;
+        }
+
+        while (blkBytesToCopy > 0) {
+            auto ret = write(out, buf.get(), blkBytesToCopy);
+            if (ret == -1) {
+                if (errno == ENOSPC || errno == EDQUOT) {
+                    retCode = CopyFileResult::No_Space;
+                } else {
+                    MMBLOG_PLAIN(WARNING, "IO write error while copying a file: " << strerror(errno));
+
+                    retCode = CopyFileResult::Io_Error;
+                }
+
+                goto out;
+            }
+
+            blkBytesToCopy -= ret;
+            bytesToCopy -= ret;
+        }
+    }
+
+    if (fsync(out) == -1) {
+        if (errno == ENOSPC || errno == EDQUOT) {
+            retCode = CopyFileResult::No_Space;
+        } else {
+            MMBLOG_PLAIN(WARNING, "IO write error while copying a file: " << strerror(errno));
+
+            retCode = CopyFileResult::Io_Error;
+        }
+    }
+
+out:
+    close(in);
+    close(out);
+
+    return retCode;
+}
+
+#ifdef HAVE_SENDFILE
+
+inline
+CopyFileResult mmbCopyFile_sendfile(const std::string &sourceFileName, const std::string &destinationFileName) {
+    int in = open(sourceFileName.c_str(), O_RDONLY);
+    if (in == -1) {
+        MMBLOG_PLAIN(WARNING, "Cannot open file " << sourceFileName << " for reading");
+
+        return CopyFileResult::Io_Error;
+    }
+
+    const auto srcSize = getFileSizeFromFd(in);
+    if (srcSize == -1) {
+        MMBLOG_PLAIN(WARNING, "Cannot determine size of the file to copy: " << strerror(errno));
+        close(in);
+
+        return CopyFileResult::Io_Error;
+    }
+
+    int out = creat(destinationFileName.c_str(), S_IWUSR | S_IRUSR);
+    if (out == -1) {
+        MMBLOG_PLAIN(WARNING, "Cannot open file " << destinationFileName << " for writing");
+	    close(in);
+
+        return CopyFileResult::Io_Error;
+    }
+
+    CopyFileResult retCode = CopyFileResult::Success;
+    auto bytesToCopy = srcSize;
+    while (bytesToCopy > 0) {
+        auto ret = sendfile(out, in, nullptr, srcSize);
+        if (ret == -1) {
+            if (errno == ENOSPC || errno == EDQUOT) {
+                retCode = CopyFileResult::No_Space;
+            } else if ((errno == EINVAL || errno == ENOSYS) && bytesToCopy == srcSize) {
+                /* Fall back to direct copying - system we are running on may not implement sendfile() the way we need.
+                 * This makes sense only if the first call to sendfile() failes, subsequent failures with the error codes
+                 * above indicate a problem somewhere else */
+                close(in);
+                close(out);
+                return mmbCopyFile_direct(sourceFileName, destinationFileName);
+            } else {
+                MMBLOG_PLAIN(WARNING, "IO error while copying a file: " << strerror(errno));
+
+                retCode = CopyFileResult::Io_Error;
+            }
+            goto out;
+        }
+
+        bytesToCopy -= ret;
+    }
+
+    if (fsync(out) == -1) {
+        if (errno == ENOSPC || errno == EDQUOT) {
+            retCode = CopyFileResult::No_Space;
+        } else {
+            MMBLOG_PLAIN(WARNING, "IO error while copying a file: " << strerror(errno));
+
+            retCode = CopyFileResult::Io_Error;
+        }
+    }
+
+out:
+    close(in);
+    close(out);
+
+    return retCode;
+}
+
+#endif // HAVE_SENDFILE
+
+inline
+std::tuple<bool, int, int, int> getLinuxKernelVersion() {
+    struct utsname kernelInfo;
+
+    if (uname(&kernelInfo) != 0) {
+        return { false, 0, 0, 0 };
+    }
+
+    if (std::strcmp(kernelInfo.sysname, "Linux") != 0) {
+        return { false, 0, 0, 0 };
+    }
+
+    std::vector<std::string> parts{};
+
+    const size_t len = strlen(kernelInfo.release);
+    size_t from = 0;
+
+    for (size_t to = 1; to < len; to++) {
+        if (kernelInfo.release[to] == '.') {
+            parts.push_back(std::string(&kernelInfo.release[from], to - from));
+            from = to + 1;
+        }
+    }
+
+    if (parts.size() < 2)
+        return { false, 0, 0, 0 };
+
+    try {
+        auto major = std::stoi(parts[0]);
+        auto minor = std::stoi(parts[1]);
+
+        if (major > 2) {
+            return { true, major, minor, 0 };
+        }
+
+        // Check for 2.6.x naming scheme
+        if (parts.size() < 3) {
+            return { false, 0, 0, 0 };
+        }
+
+        auto minorTwo = std::stoi(parts[2]);
+        return { true, major, minor, minorTwo };
+    } catch (const std::invalid_argument &) {
+        return { false, 0, 0, 0 };
+    } catch (const std::out_of_range &) {
+        return { false, 0, 0, 0 };
+    }
+}
+
+#ifdef __FreeBSD__
+
+inline
+int getFreeBSDVersion() {
+    struct utsname uts;
+
+    if (uname(&uts) != 0) {
+        return 0;
+    }
+
+    if (std::strcmp(uts.sysname, "FreeBSD") != 0) {
+        return 0;
+    }
+
+    auto delim = std::strchr(uts.release, '.');
+    if (delim == nullptr) {
+        return 0;
+    }
+
+    std::string verstr(uts.release, delim - uts.release);
+    try {
+        return std::stoi(verstr);
+    } catch (const std::invalid_argument &) {
+        return 0;
+    } catch (const std::out_of_range &) {
+        return 0;
+    }
+
+}
+
+#endif // __FreeBSD__
+
+#ifdef __FreeBSD__
+
+std::function<CopyFileResult (const std::string &, const std::string &)> getMmbCopyFileImpl() {
+    auto version = getFreeBSDVersion();
+
+#ifdef HAVE_COPY_FILE_RANGE
+    return version >= 13 ? mmbCopyFile_copy_file_range : mmbCopyFile_direct;
+#endif // HAVE_COPY_FILE_RANGE
+    return mmbCopyFile_direct;
+}
+
+#else // All other UNIXes
+
+inline
+std::function<CopyFileResult (const std::string &, const std::string &)> getMmbCopyFileImpl() {
+    auto lnxKernVer = getLinuxKernelVersion();
+
+    if (!std::get<0>(lnxKernVer)) {
+        // We are not running on Linux or cannot determine the kernel version
+        return mmbCopyFile_direct;
+    }
+
+    auto maj = std::get<1>(lnxKernVer);
+    auto min = std::get<2>(lnxKernVer);
+    auto minTwo = std::get<3>(lnxKernVer);
+
+#ifdef HAVE_COPY_FILE_RANGE
+    if (maj > 5) {
+        return mmbCopyFile_copy_file_range;
+    } else if (maj == 5 && min >= 3) {
+        return mmbCopyFile_copy_file_range;
+    }
+#endif // HAVE_COPY_FILE_RANGE
+
+#ifdef HAVE_SENDFILE
+    if (maj >= 3 || (maj == 2 && min == 6 && minTwo >= 33)) {
+        return mmbCopyFile_sendfile;
+    }
+#endif // HAVE_SENDFILE
+
+    return mmbCopyFile_direct;
+}
+
+#endif // __FreeBSD__
+
+CopyFileResult mmbCopyFile(const std::string &sourceFileName, const std::string &destinationFileName) {
+    static const std::function<CopyFileResult (const std::string &, const std::string &)> impl = getMmbCopyFileImpl();
+
+    return impl(sourceFileName, destinationFileName);
+}
+
+#endif // _WINDOWS
 
 void closingMessage() {
     std::cout<<__FILE__<<":"<<__LINE__<<std::endl;

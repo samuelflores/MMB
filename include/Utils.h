@@ -1,3 +1,4 @@
+// vim: set sw=4 ts=4 sts=4 expandtab :
 /* -------------------------------------------------------------------------- *
  *                           MMB (MacroMoleculeBuilder)                       *
  * -------------------------------------------------------------------------- *
@@ -85,12 +86,13 @@ int myMkdir(const std::string & directoryPath);
 
 int myChdir(const std::string & directoryPath);
 
-#include <iostream>
-#include <cstdio>    // fopen, fclose, fread, fwrite, BUFSIZ
-#include <ctime>
-using namespace std;
+enum class CopyFileResult {
+    Success,
+    Io_Error,
+    No_Space,
+};
 
-int copyFile(const std::string sourceFileName, const std::string destinationFileName ) ;
+CopyFileResult MMB_EXPORT mmbCopyFile(const std::string &sourceFileName, const std::string &destinationFileName);
 
 void MMB_EXPORT closingMessage() ;
 

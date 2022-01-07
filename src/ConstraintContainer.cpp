@@ -32,7 +32,7 @@ void ConstraintToGroundContainer::validateConstraintClass(const ConstraintClass 
 	}
 	
 	 
-};
+}
 
 void ConstraintToGroundContainer::validateConstraintClassVector(BiopolymerClassContainer & myBiopolymerClassContainer){
     //printConstraintClasses();
@@ -40,7 +40,7 @@ void ConstraintToGroundContainer::validateConstraintClassVector(BiopolymerClassC
 	for (size_t i = 0; i < constraintClassVector.size() ; i++) {
 		validateConstraintClass( constraintClassVector[i], myBiopolymerClassContainer);
 	}
-};
+}
 
 void ConstraintToGroundContainer::pruneCoordinateCouplers(BiopolymerClassContainer & myBiopolymerClassContainer, DuMMForceFieldSubsystem & _dumm){
 	/*
@@ -57,19 +57,19 @@ void ConstraintToGroundContainer::pruneCoordinateCouplers(BiopolymerClassContain
 
 void ConstraintToGroundContainer::printConstraintClasses() {
 	for (int i = 0; i < numConstraintClasses(); i++) printConstraintClass(i);
-};
+}
 
 void ConstraintToGroundContainer::applyConstrainChainRigidSegments (BiopolymerClassContainer & biopolymerClassContainer, CompoundSystem & system,  SimbodyMatterSubsystem & matter,State & state){
 	for (size_t i = 0; i < constrainChainRigidSegmentsVector.size(); i++) {
         MMBLOG_FILE_FUNC_LINE(INFO, "constraining rigid segments for chain : "<<constrainChainRigidSegmentsVector[i].chainID<<endl);
 		biopolymerClassContainer.updBiopolymerClass(constrainChainRigidSegmentsVector[i].chainID).constrainRigidSegmentsToGround( system, matter, state,  *this , constrainChainRigidSegmentsVector[i].toGround, constrainChainRigidSegmentsVector[i].residueID);
 	}
-};
+}
 
 void ConstraintToGroundContainer::printConstraintClass(int constraintToGroundIndex) const {
     MMBLOG_FILE_FUNC_LINE(INFO, "Printing constraint with index = "<<constraintToGroundIndex<<endl);
     getConstraintClass(constraintToGroundIndex).print();
-};
+}
 
 void ConstraintToGroundContainer::addConstraintClassToVector(ConstraintClass myConstraintClass){
     constraintClassVector.push_back (myConstraintClass); 

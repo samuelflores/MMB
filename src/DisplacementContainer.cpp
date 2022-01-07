@@ -27,7 +27,7 @@ bool DisplacementContainer::hasChain(String chain){
 	    return true;
     }   
     return false;
-};  
+}  
 
 Displacement & DisplacementContainer::updDisplacement(String chain) {
     for (int i = 0; i < numDisplacements(); i++){
@@ -36,7 +36,7 @@ Displacement & DisplacementContainer::updDisplacement(String chain) {
     }
     // if requested chain was not found, return an error
     MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have requested a chain for which no Displacement is available : "<<chain<<". You will first need to call the initialDisplacement command, even if it is only to issue a displacement of 0,0,0.  "<<endl);
-};
+}
 
 
 Vec3 DisplacementContainer::getInitialDisplacementVec3(String chain){
@@ -45,4 +45,4 @@ Vec3 DisplacementContainer::getInitialDisplacementVec3(String chain){
    } else {
        return updDisplacement( chain).displacement;
    }
-};
+}

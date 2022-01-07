@@ -82,9 +82,9 @@ public:
     void validateExists();
     //void validateReadable();
 };
-int myMkdir(const std::string & directoryPath);
+int MMB_EXPORT myMkdir(const std::string & directoryPath);
 
-int myChdir(const std::string & directoryPath);
+int MMB_EXPORT myChdir(const std::string & directoryPath);
 
 enum class CopyFileResult {
     Success,
@@ -273,7 +273,7 @@ std::string   trim(const std::string& str,
 }
 */
 
-bool vectorCompare(String myString, vector<String> & comparisonStringVector) ;
+bool MMB_EXPORT vectorCompare(String myString, vector<String> & comparisonStringVector) ;
 
 
 
@@ -710,10 +710,10 @@ class ResidueStretch   {
                 ResidueID    startResidue        ;
                 ResidueID    endResidue       ;
     public:
-                SimTK::String getChain() const {return chain;};
-                ResidueID getStartResidue()const {return startResidue;};
-                ResidueID getEndResidue()const {return endResidue;};
-                void setChain(SimTK::String myChain) {chain = myChain;};
+                SimTK::String getChain() const {return chain;}
+                ResidueID getStartResidue()const {return startResidue;}
+                ResidueID getEndResidue()const {return endResidue;}
+                void setChain(SimTK::String myChain) {chain = myChain;}
                 void setStartResidue(ResidueID myStartResidue) {startResidue = myStartResidue;};
                 void setStartResidueNumber(int myStartResidueNumber){startResidue.setResidueNumber(myStartResidueNumber); }
                 void setEndResidueNumber  (int myEndResidueNumber)  {  endResidue.setResidueNumber(  myEndResidueNumber); }

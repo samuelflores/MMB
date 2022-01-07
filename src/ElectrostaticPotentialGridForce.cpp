@@ -18,7 +18,7 @@ ElectrostaticPotentialGridForce::ElectrostaticPotentialGridForce (SimbodyMatterS
     matter(matter), myParameterReader(myParameterReader),  myDensityMap(myDensityMap) , dumm(dumm), myBiopolymerClassContainer(myBiopolymerClassContainer), outputStream(outputStream)
         {
     //myBiopolymerClassContainer.validateAtomInfoVectors(); // now done automatically upon fetching atomInfoVector
-    };    
+    }    
 
 void ElectrostaticPotentialGridForce::calcForce(const State& state, Vector_<SpatialVec>& bodyForces,
             Vector_<Vec3>& particleForces, Vector& mobilityForces) const
@@ -45,7 +45,7 @@ void ElectrostaticPotentialGridForce::calcForce(const State& state, Vector_<Spat
                 // cout.precision(5);
                 // cout << "DensityMean "<< densitySum/(int)tempAtomInfoVector.size() << endl;
         } // of for biopolymer
-        };
+        }
 
 Real ElectrostaticPotentialGridForce::calcPotentialEnergy(const State& state) const {
 
@@ -73,8 +73,8 @@ Real ElectrostaticPotentialGridForce::calcPotentialEnergy(const State& state) co
         } 
 
         return totalPotentialEnergy;
-    };
+    }
 
 bool ElectrostaticPotentialGridForce::dependsOnlyOnPositions() const  { 
         return true; 
-    }; 
+    } 

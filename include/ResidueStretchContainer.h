@@ -57,7 +57,7 @@ class ResidueStretchContainer{
     const vector<ResidueStretchType> & getResidueStretchVector() const { return residueStretchVector; }
           vector<ResidueStretchType> & updResidueStretchVector()       { return residueStretchVector; }
 
-    void printResidueStretchVector() {
+    void printResidueStretchVector() const {
         for (int i = 0 ; i <residueStretchVector.size(); i++) {
             (residueStretchVector[i]).printStretch();
         }
@@ -75,7 +75,7 @@ class ResidueStretchContainer{
         myofstream<<myResidueStretch.getChain()<<"-"<<myResidueStretch.getStartResidue().outString()<<std::endl;
     }
 
-    ResidueStretchType & getResidueStretch(int residueStretchIndex) {
+    const ResidueStretchType & getResidueStretch(int residueStretchIndex) const  {
         //print (residueStretchVector[residueStretchIndex]);
         return residueStretchVector[residueStretchIndex];
     };

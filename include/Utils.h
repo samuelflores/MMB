@@ -90,16 +90,16 @@ public:
     void validateExists();
     //void validateReadable();
 };
-int myMkdir(const std::string & directoryPath);
+int MMB_EXPORT myMkdir(const std::string & directoryPath);
 
-int myChdir(const std::string & directoryPath);
+int MMB_EXPORT myChdir(const std::string & directoryPath);
 
 #include <iostream>
 #include <cstdio>    // fopen, fclose, fread, fwrite, BUFSIZ
 #include <ctime>
 using namespace std;
 
-int copyFile(const std::string sourceFileName, const std::string destinationFileName ) ;
+int MMB_EXPORT copyFile(const std::string sourceFileName, const std::string destinationFileName ) ;
 
 void MMB_EXPORT closingMessage() ;
 
@@ -280,7 +280,7 @@ std::string   trim(const std::string& str,
 }
 */
 
-bool vectorCompare(String myString, vector<String> & comparisonStringVector) ;
+bool MMB_EXPORT vectorCompare(String myString, vector<String> & comparisonStringVector) ;
 
 
 

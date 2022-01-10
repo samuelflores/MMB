@@ -614,11 +614,11 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     AllTwoTransformLinearSprings * myAllTwoTransformLinearSpringsPointer = 
         new AllTwoTransformLinearSprings( _matter,  *_parameterReader,  _parameterReader->_leontisWesthofClass, _parameterReader->myBiopolymerClassContainer, _output);
     Force::Custom(_forces, myAllTwoTransformLinearSpringsPointer);
-    #ifdef NTC_ENABLED
+    #ifdef MMB_NTC_ENABLED
     NTC_Torque * myNTC_Torque = new NTC_Torque( _matter, *_parameterReader, _parameterReader->ntc_par_class, _parameterReader->myBiopolymerClassContainer);
     Force::Custom(_forces, myNTC_Torque);
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
-    #endif // NTC_ENABLED
+    #endif // MMB_NTC_ENABLED
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     if (_parameterReader->densityContainer.numDensityStretches() > 0) 
     {
@@ -1101,7 +1101,13 @@ void ConstrainedDynamics::forceAdjustmentsWithFinalMobilizers(){
     MMBLOG_FILE_FUNC_LINE(INFO, " About to start removeBasePairsAcrossRigidStretches"<<endl);
     if (_parameterReader->setRemoveBasePairsAcrossRigidStretches) {_parameterReader->removeBasePairsAcrossRigidStretches();}    
     MMBLOG_FILE_FUNC_LINE(INFO, " About to start basePairContainer.addHelicalStacking"<<endl);
-    if (_parameterReader->setHelicalStacking){_parameterReader->basePairContainer.addHelicalStacking(_parameterReader->myBiopolymerClassContainer, _parameterReader->_leontisWesthofClass, _parameterReader->ntc_par_class,_parameterReader->ntc_class_container);}
+    if (_parameterReader->setHelicalStacking) {
+#ifdef MMB_NTC_ENABLED
+        _parameterReader->basePairContainer.addHelicalStacking(_parameterReader->myBiopolymerClassContainer, _parameterReader->_leontisWesthofClass, _parameterReader->ntc_par_class,_parameterReader->ntc_class_container);
+#else
+        _parameterReader->basePairContainer.addHelicalStacking(_parameterReader->myBiopolymerClassContainer, _parameterReader->_leontisWesthofClass);
+#endif // MMB_NTC_ENABLED
+    }
 }
 
 void ConstrainedDynamics::runDynamics() {

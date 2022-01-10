@@ -2046,7 +2046,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     // PARSE NtC parameters from commands.dat file
     
     //cout << "here " << endl;
-    #ifdef NTC_ENABLED
+    #ifdef MMB_NTC_ENABLED
     if ( ((parameterStringClass.getString(0)).compare("NtC") == 0)) {
 	//parameterStringClass.print();
         MMBLOG_FILE_FUNC_LINE(ALWAYS,
@@ -2148,7 +2148,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         return;
     }
 
-    #endif // NTC_ENABLED
+    #endif // MMB_NTC_ENABLED
     // END PARSE NtC parameters from commands.dat file   
     
     if ((  (parameterStringClass.getString(0)).compare("baseInteraction") == 0) || ((parameterStringClass.getString(0)).compare("aromatic") == 0) )    
@@ -5043,7 +5043,9 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     lastFrameFileName  = "NOT-SET"; //  "/Users/samuelflores/svn/tar-dynamics/last.pdb";
     previousFrameFileName= "NOT-SET";///Users/samuelflores/svn/tar-dynamics/last.pdb" ;
     enforceParallelness  = false;
+#ifdef MMB_NTC_ENABLED
     NtCForceScaleFactor = 5000;
+#endif // MMB_NTC_ENABLED
     // end of variables improted from Repel.h
 
     sequence = "";
@@ -5071,9 +5073,9 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
 
     baseOperationVector.clear();
     basePairContainer.clear();
-    #ifdef NTC_ENABLED
+    #ifdef MMB_NTC_ENABLED
     ntc_class_container.clear();
-    #endif // NTC_ENABLED
+    #endif // MMB_NTC_ENABLED
     contactContainer.clear();
     mobilizerContainer.singleBondMobilityVector.clear();
     basePairPartnerVector.clear();
@@ -5088,7 +5090,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     if (this->firstStage == this->currentStage) {
         _leontisWesthofClass.initialize(leontisWesthofInFileName);
 
-        #ifdef NTC_ENABLED
+        #ifdef MMB_NTC_ENABLED
         ifstream ifile("parameters_user.csv");
         if(ifile){
              ntc_par_class.initialize("parameters_user.csv");
@@ -5096,7 +5098,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
         } else {
              ntc_par_class.initialize(leontisWesthofInFileName);
         }
-        #endif // NTC_ENABLED
+        #endif // MMB_NTC_ENABLED
     }
 }
 

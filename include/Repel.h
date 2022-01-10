@@ -17,15 +17,18 @@
 #include <iostream>
 #include <vector>
 #include <stdlib.h>// for MAX_PATH
+
+#include "MMB_config.h"
+
 #include "SimTKmolmodel.h"
 #include "PeriodicScrubber.h"  
 #include "BiopolymerClass.h"
 #include "ParameterReader.h"
 #include "PeriodicPdbAndEnergyWriter.h"
 #include "BiopolymerClassTwoTransformForces.h"
-#ifdef NTC_ENABLED
+#ifdef MMB_NTC_ENABLED
 #include "NtCForces.h"
-#endif // NTC_ENABLED
+#endif // MMB_NTC_ENABLED
 #include "TetherForce.h"
 #include "Sterics.h" 
 #include "AddNASTForces.h"

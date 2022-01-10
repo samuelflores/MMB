@@ -34,11 +34,11 @@
 #include "DensityContainer.h"
 #include "MoleculeContainer.h"
 #include "Spiral.h"               
-#ifdef NTC_ENABLED
+#ifdef MMB_NTC_ENABLED
 #include "NtC_Class_Container.h"
 #include "NTC_FORCE_CLASS.h"
 #include "NTC_PARAMETER_READER.h"
-#endif // NTC_ENABLED
+#endif // MMB_NTC_ENABLED
 
 // Here is where we define GetCurrentDir , an OS dependent function to retrieve the current working directory.
 #ifdef _WINDOWS
@@ -264,13 +264,13 @@ public:
     map<const ChainResidueIndex, int,twoIndexCmp> residueNumberTwo;  
 
     LeontisWesthofClass     _leontisWesthofClass;  
-    #ifdef NTC_ENABLED
+    #ifdef MMB_NTC_ENABLED
     NTC_Classes             ntc_classes;
     NTC_PAR_Class           ntc_par_class;
     NTC_FORCE_Class         ntc_force_class;
     NTC_Class_Container ntc_class_container;
     double                  NtCForceScaleFactor;
-    #endif // NTC_ENABLED
+    #endif // MMB_NTC_ENABLED
     BiopolymerClass         mybiopolymerclass;
     
     mutable map<const String,double> userVariables;

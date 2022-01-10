@@ -10,6 +10,9 @@
 
 #ifndef BiopolymerClass_H_
 #define BiopolymerClass_H_
+
+#include "MMB_config.h"
+
 #include "molmodel/internal/Compound.h"
 #define MUTATIONMINORSEPARATOR "-"
 #define MUTATIONMAJORSEPARATOR "."
@@ -326,14 +329,14 @@ private :
     //map <const String, PdbStructure> pdbStructureMap;
 
 public:
-    #ifdef NTC_ENABLED
+    #ifdef MMB_NTC_ENABLED
     std::vector<std::array<double, 361>> hist;
     std::vector<std::array<double, 361>> prob;
     std::vector<double> counter;
     std::vector<std::array<double, 31>> hist_d;
     std::vector<std::array<double, 31>> prob_d;
     std::vector<double> counter_d;
-    #endif
+    #endif // MMB_NTC_ENABLED
     int     count = 0;
 
     //BiopolymerClassContainer(){};

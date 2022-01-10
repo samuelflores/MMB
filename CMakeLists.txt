@@ -81,6 +81,7 @@ if (ENABLE_LEPTON)
 endif ()
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
+set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
 ### Setup compiler options ###
 
@@ -108,7 +109,7 @@ elseif (UNIX)
 endif ()
 
 if (ENABLE_NTC)
-    add_definitions(-DNTC_ENABLED)
+    set("MMB_NTC_ENABLED" "1")
 endif ()
 
 if (ENABLE_LEPTON)
@@ -246,6 +247,8 @@ if (BUILD_PYTHON_WRAPPER)
     set(LIBMMB_PYTHON_WRAPPER_STATIC_TARGET MMB_Python_wrapper_static)
 endif ()
 
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/include/MMB_config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/MMB_config.h")
+
 ## Build libMMB
 if (BUILD_SHARED)
     add_library(
@@ -368,6 +371,10 @@ elseif (WIN32)
 endif ()
 
 ## Install libMMB
+file(GLOB MMB_HEADERS include/*.h */include/*.h)
+install(FILES ${MMB_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/MMB")
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/MMB_config.h" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/MMB")
+
 if (BUILD_SHARED)
     install(
         TARGETS ${LIBMMB_SHARED_TARGET} EXPORT MmbTargets

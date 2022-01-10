@@ -10,6 +10,9 @@
 
 #ifndef BasePairContainer_H_
 #define BasePairContainer_H_
+
+#include "MMB_config.h"
+
 #include "SimTKmolmodel.h"
 #include "BiopolymerClass.h"
 #include "Utils.h"          
@@ -39,7 +42,11 @@ public:
 	const BaseInteraction & getBasePair(int basePairIndex) ;
 	//BaseInteraction & 	updBasePair(int);
 	int 		numBasePairs() ;
+#ifdef MMB_NTC_ENABLED
 	void		addHelicalStacking(BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass,const  NTC_PAR_Class & ntc_par_class, NTC_Class_Container  & my_ntc_class_container);
+#else
+	void		addHelicalStacking(BiopolymerClassContainer & myBiopolymerClassContainer, const LeontisWesthofClass & lhClass);
+#endif // MMB_NTC_ENABLED
     vector<BaseInteraction>	myBasePairVector;	    
     void 		printBasePairs();
     void		setBasePairSatisfied(int,bool);

@@ -82,9 +82,9 @@ public:
     void validateExists();
     //void validateReadable();
 };
-int myMkdir(const std::string & directoryPath);
 
-int myChdir(const std::string & directoryPath);
+int MMB_EXPORT myMkdir(const std::string & directoryPath);
+int MMB_EXPORT myChdir(const std::string & directoryPath);
 
 enum class CopyFileResult {
     Success,
@@ -273,7 +273,7 @@ std::string   trim(const std::string& str,
 }
 */
 
-bool vectorCompare(String myString, vector<String> & comparisonStringVector) ;
+bool MMB_EXPORT vectorCompare(String myString, vector<String> & comparisonStringVector) ;
 
 
 

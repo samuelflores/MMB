@@ -2141,7 +2141,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     if (parameterStringClass.getString(0).compare("NtCForceScaleFactor") == 0) {
         double factor = myAtoF(userVariables, parameterStringClass.getString(1));
         if (factor <= 0) {
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "NtCforceScaleFactor must be a number greater than zero\n");
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "NtCForceScaleFactor must be a number greater than zero\n");
         }
         NtCForceScaleFactor = factor;
 

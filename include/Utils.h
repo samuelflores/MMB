@@ -26,7 +26,7 @@
 #include <openmm/reference/ReferenceNeighborList.h>
 #include <seqan/align.h>
 #ifdef LEPTON_ENABLED
-#include <Lepton.h>
+#include "Lepton.h"
 #endif
 
 typedef OpenMM::Vec3 openmmVecType ;

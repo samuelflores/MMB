@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # User configuration
 option(ENABLE_NTC "Enable NtC code" ON)
-option(ENABLE_LEPTON "Enable SimTK Lepton math parser" ON)
+option(ENABLE_LEPTON "Enable SimTK Lepton math parser. Lepton library bundled with OpenMM will be used if this option is enabled" ON)
 option(BUILD_SHARED "Build shared binaries" ON)
 option(BUILD_STATIC "Build static binaries" OFF)
 option(BUILD_PYTHON_WRAPPER "Build Python wrapper around libMMB API" OFF)
@@ -30,13 +30,6 @@ set(
     CACHE
     STRING
     "Path to where SeqAn library is installed. This needs to be set only when SeqAn is not installed system wide."
-)
-set(
-    LEPTON_DIR
-    ""
-    CACHE
-    STRING
-    "Path to Lepton source code. Lepton bundled with MMB will be used if this variable is not set."
 )
 
 set(
@@ -71,13 +64,6 @@ endif ()
 
 if (NOT "${SEQAN_DIR}" STREQUAL "")
     include_directories(SYSTEM "${SEQAN_DIR}/include")
-endif ()
-
-if (ENABLE_LEPTON)
-    if ("${LEPTON_DIR}" STREQUAL "")
-        set(LEPTON_DIR "3rdparty/Lepton1.3")
-    endif ()
-    include_directories(SYSTEM "${LEPTON_DIR}/include")
 endif ()
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -196,19 +182,6 @@ if (ENABLE_NTC)
         src/NTC_PARAMETER_READER.cpp
         src/NtCClassContainer.cpp
         src/NtCForces.cpp
-    )
-endif ()
-
-if (ENABLE_LEPTON)
-    set(
-        LIBMMB_SOURCE_FILES
-        ${LIBMMB_SOURCE_FILES}
-        ${LEPTON_DIR}/src/CompiledExpression.cpp
-        ${LEPTON_DIR}/src/ExpressionProgram.cpp
-        ${LEPTON_DIR}/src/ExpressionTreeNode.cpp
-        ${LEPTON_DIR}/src/Operation.cpp
-        ${LEPTON_DIR}/src/ParsedExpression.cpp
-        ${LEPTON_DIR}/src/Parser.cpp
     )
 endif ()
 

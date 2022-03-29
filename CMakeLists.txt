@@ -1,5 +1,25 @@
 cmake_minimum_required(VERSION 3.10)
 
+function(CHECK_GEMMI_VERSION VERFILE)
+    string(REGEX MATCH "#define GEMMI_VERSION \"[0-9].[0-9].[0-9]\"" GEMMI_VERLINE ${GEMMI_VERFILE})
+    string(REGEX MATCHALL "[0-9]" GEMMI_VER ${GEMMI_VERLINE})
+
+    list(LENGTH GEMMI_VER GEMMI_VER_LEN)
+    if (NOT ${GEMMI_VER_LEN} EQUAL 3)
+        message(FATAL_ERROR "Unknown gemmi version string ${GEMMI_VERLINE}")
+    endif ()
+
+    list(GET GEMMI_VER 0 GEMMI_MAJ)
+    list(GET GEMMI_VER 1 GEMMI_MIN)
+    list(GET GEMMI_VER 2 GEMMI_REV)
+
+    if ((NOT GEMMI_MAJ EQUAL 0) OR (NOT GEMMI_MIN EQUAL 5) OR (NOT GEMMI_REV GREATER_EQUAL 3))
+        message(FATAL_ERROR "Gemmi version ${GEMMI_MAJ}.${GEMMI_MIN}.${GEMMI_REV} is not compatible with MMB")
+    endif()
+
+    message(STATUS "Found gemmi version ${GEMMI_MAJ}.${GEMMI_MIN}.${GEMMI_REV}")
+endfunction()
+
 project(MMB LANGUAGES CXX)
 
 set(MMB_MAJOR_VERSION 3)
@@ -58,8 +78,23 @@ include_directories(SYSTEM ${Molmodel_INCLUDE_DIR})
 include_directories(SYSTEM ${OpenMM_INCLUDE_DIR})
 include_directories(SYSTEM ${ZLIB_INCLUDE_DIRS})
 
+# Set install directories here to be able to check gemmi version
+if (UNIX)
+    include(GNUInstallDirs)
+elseif (WIN32)
+    set(${CMAKE_INSTALL_LIBDIR} "lib")
+    set(${CMAKE_INSTALL_INCLUDEDIR} "include")
+    set(${CMAKE_INSTALL_BINDIR} "bin")
+endif ()
+
 if (NOT "${GEMMI_DIR}" STREQUAL "")
     include_directories(SYSTEM "${GEMMI_DIR}/include")
+
+    file(READ "${GEMMI_DIR}/include/gemmi/version.hpp" GEMMI_VERFILE)
+    CHECK_GEMMI_VERSION(${GEMMI_VERFILE})
+else ()
+    file(READ "${CMAKE_INSTALL_INCLUDEDIR}/gemmi/version.hpp" GEMMI_VERFILE)
+    CHECK_GEMMI_VERSION(${GEMMI_VERFILE})
 endif ()
 
 if (NOT "${SEQAN_DIR}" STREQUAL "")
@@ -334,14 +369,6 @@ if (BUILD_STATIC)
 endif()
 
 ### Install the project ###
-
-if (UNIX)
-    include(GNUInstallDirs)
-elseif (WIN32)
-    set(${CMAKE_INSTALL_LIBDIR} "lib")
-    set(${CMAKE_INSTALL_INCLUDEDIR} "include")
-    set(${CMAKE_INSTALL_BINDIR} "bin")
-endif ()
 
 ## Install libMMB
 file(GLOB MMB_HEADERS include/*.h */include/*.h)

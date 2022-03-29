@@ -472,7 +472,7 @@ void DensityMap::loadParametersAndDensity_CCP4MAP()
     MMBLOG_FILE_FUNC_LINE(DEBUG, " start column for z :" << zFrom     << endl);
     
     //================================================ Convert to XYZ and create complete map, if need be
-    map.setup                                         ( gemmi::GridSetup::ReorderOnly, NAN );
+    map.setup                                         ( NAN );
     
     //================================================ Parse the map header for cell info
     int xDimInds                                      = static_cast<int> ( map.header_i32   ( 1  ) );

@@ -800,6 +800,7 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "monteCarloTemperatureIncrement         int   "<<monteCarloTemperatureIncrement    <<endl;
     myOstream << remarkString << "nastGlobalBondTorsionScaleFactor       int   "<<nastGlobalBondTorsionScaleFactor     <<endl;
     myOstream << remarkString << "noseHooverTime                         double "<<noseHooverTime          <<endl;
+    myOstream << remarkString << "NtCForceScaleFactor                    double "<< NtCForceScaleFactor  <<endl;
     myOstream << remarkString << "numReportingIntervals                  int     "<<numReportingIntervals     <<endl;
     myOstream << remarkString << "outMonteCarloFileName                  String  "<<outMonteCarloFileName     <<endl;
     myOstream << remarkString << "outTrajectoryFileName                  String  "<<outTrajectoryFileName     <<endl;

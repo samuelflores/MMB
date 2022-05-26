@@ -672,6 +672,7 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "monteCarloTemperatureIncrement         int     " + std::to_string ( monteCarloTemperatureIncrement ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "nastGlobalBondTorsionScaleFactor       int     " + std::to_string ( nastGlobalBondTorsionScaleFactor ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "noseHooverTime                         double  " + std::to_string ( noseHooverTime ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "NtCForceScaleFactor                    double  " + std::to_string ( NtCForceScaleFactor ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "numReportingIntervals                  int     " + std::to_string ( numReportingIntervals ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "outMonteCarloFileName                  String  " + std::string ( outMonteCarloFileName ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "outTrajectoryFileName                  String  " + std::string ( outTrajectoryFileName ) ) );

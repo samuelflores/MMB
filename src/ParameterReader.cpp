@@ -1776,7 +1776,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 		 MMBLOG_FILE_FUNC_LINE(CRITICAL, "alignmentForces : parameter "<< parameterStringClass.getString(1)<<" with value "<<parameterStringClass.getString(2)<<" not recognized."<<endl);
              }
 	} // of parameter setting section
-        else if ( myBiopolymerClassContainer.hasChainID( parameterStringClass.getString(1)) &&   myBiopolymerClassContainer.hasChainID(parameterStringClass.getString(2)) && parameterStringClass.getString(3).length() == 0 ) { 
+        else if ( myBiopolymerClassContainer.hasChainID( parameterStringClass.getString(1)) &&   myBiopolymerClassContainer.hasChainID(parameterStringClass.getString(2))) { 
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "This syntax is no longer supported. Please issue alignmentForces forceConstant [double]"<<endl);}
 	 /*
 	// Syntax:  <alignmentForces> <Chain A>  <Chain-B>

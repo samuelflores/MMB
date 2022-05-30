@@ -9,8 +9,7 @@
  * See RNABuilder.cpp for the copyright and usage agreement.                  *
  * -------------------------------------------------------------------------- */
 #include "NtCForces.h"
-#include <SimTKcommon/Scalar.h>
-#include <SimTKcommon/internal/SpatialAlgebra.h>
+
 #include <cstddef>
 #include <array>
 #include <ios>
@@ -20,7 +19,9 @@
 
 #define _R2D(x) ((x) * (180.0 / SimTK::Pi))
 #define _D2R(x) ((x) * (SimTK::Pi / 180.0))
-#define _2PI (2.0 * SimTK::Pi)
+
+static const double _2PI = 2.0 * SimTK::Pi;
+static const double _INV_2PI = 0.5 / SimTK::Pi;
 
 static const double BF_SIGN[4] = { 1.0, 1.0, -1.0, -1.0 };
 
@@ -33,6 +34,12 @@ template <typename T>
 int int_round(const T &v) {
     T vs = v + T(0.5) * (v > T(0)) - T(0.5) * (v < T(0));
     return int(vs);
+}
+
+static
+double clampAngle(double ang)
+{
+    return ang - _2PI * int(ang * _INV_2PI);
 }
 
 static
@@ -55,9 +62,10 @@ double angle_rad(const Vec3 &cross_1, const Vec3 &cross_2, const Vec3 &cross_3, 
 
 static
 double dist_angle_rad(double angle, double rotationAngle) {
-    double dist = fabs(angle - rotationAngle);
-    if (dist > SimTK::Pi)
-        dist = _2PI - dist;
+    double dist = clampAngle(std::abs(angle - rotationAngle));
+    double outside = dist > SimTK::Pi;
+    double inside = dist <= SimTK::Pi;
+    dist = (_2PI - dist) * outside + dist * inside;
 
     const double from = rotationAngle;
     const double to = from > SimTK::Pi ? from - SimTK::Pi : from + SimTK::Pi;

@@ -5046,7 +5046,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     previousFrameFileName= "NOT-SET";///Users/samuelflores/svn/tar-dynamics/last.pdb" ;
     enforceParallelness  = false;
 #ifdef MMB_NTC_ENABLED
-    NtCForceScaleFactor = 20; # was 5000, but that led to poor convergence.
+    NtCForceScaleFactor = 20; //# was 5000, but that led to poor convergence.
 #endif // MMB_NTC_ENABLED
     // end of variables improted from Repel.h
 

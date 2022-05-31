@@ -6,31 +6,38 @@ RNA A 2656     UACGUAAGUA
 
 # stages
 firstStage 1 
-lastStage 3
+lastStage 1
 
 #general simulation parameters
-# This is a multiplying factor for the baseInteraction forces:
-baseInteractionScaleFactor     2000
 # Simulation time = reportingInterval * numReportingIntervals :
 reportingInterval 1.0
 numReportingIntervals 10
 temperature 10 
-
 # It's easier to avoid kinetic traps if we add the base pairs one at a time:
 readFromStage 1
-baseInteraction A 2656 WatsonCrick  A 2665 WatsonCrick Cis
 readBlockEnd
-readFromStage 2
-baseInteraction A 2657 WatsonCrick  A 2664 WatsonCrick Cis
-readBlockEnd
-readFromStage 3
-baseInteraction A 2658 WatsonCrick  A 2663 WatsonCrick Cis
-readBlockEnd
-#nucleicAcidDuplex A 2656 2658 A 2665 2663
+
+#This is the default setting anyway:
+setHelicalStacking 1
+
+#This is the force constant that applies to the NtC's:
+NtCForceScaleFactor 20
+# AA00 NtC's are automatically added when three or more WatsonCrick-WatsonCrick-Cis base pairs are found in a row, if setHelicalStacking = 1. Otherwise, you could add them explicitly as: 
+#NtC  A 2656 2658  AA00
+#NtC  A 2663 2665  AA00
+
+# This is a multiplying factor for the baseInteraction forces:
+forceMultiplier 2000
+#This creates three WatsonCrick-WatsonCrick-Cis base pairs for the stated residue ranges:
+nucleicAcidDuplex A 2656 2658 A 2665 2663
+# Equivalently, you could add them base pairs individually:
+#baseInteraction A 2656 WatsonCrick  A 2665 WatsonCrick Cis
+#baseInteraction A 2657 WatsonCrick  A 2664 WatsonCrick Cis
+#baseInteraction A 2658 WatsonCrick  A 2663 WatsonCrick Cis
 
 
-# Turn on MD forces (incl. electrostatic and Lennard Jones forces)
+# Turn on MD forces (incl. electrostatic and Lennard Jones forces) to prevent steric clashes:
 setDefaultMDParameters
-# But keep the Coulomb forces a bit weak:
-globalCoulombScaleFactor .1
+# But keep the Coulomb forces a bit weak, so the thing will fold without counterions:
+globalCoulombScaleFactor .1  
 

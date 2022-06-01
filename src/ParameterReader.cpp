@@ -2068,7 +2068,9 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 	
         String myChain = parameterStringClass.getString(1);
         ResidueID firstNtCResidueInStretch = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2).c_str(), myChain);
+	//else {
         ResidueID lastNtCResidueInStretch  = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3).c_str(), myChain);
+	//}
 	String myNtCClassString = parameterStringClass.getString(4) ;
 
         ntc_class_container.add_NTC_Class(myBiopolymerClassContainer,ntc_par_class,myChain,firstNtCResidueInStretch,lastNtCResidueInStretch,myNtCClassString, 0, 0, 0);
@@ -2239,14 +2241,15 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     if ( ((parameterStringClass.getString(0)).compare("mobilizer") == 0)  )    
     { // if this is a mobilizer or constraint
         MMBLOG_FILE_FUNC_LINE(ALWAYS,
-                "Syntax: mobilizer <Bond Mobility> <chain> <start residue> <end residue>"<<endl
-                <<"Or:     mobilizer <Bond Mobility> <chain> .. to set all residues in <chain> to <Bond Mobility>"<<endl
-                <<"Or:     mobilizer <Bond Mobility>  .. to set all residues in all chains to <Bond Mobility>"<<endl
+                "Syntax: mobilizer <Bond Mobility> <chain> <start residue> <end residue>"<<endl // case 4
+                <<"Or    : mobilizer <Bond Mobility> <chain> <residue> "<<endl // case 3
+                <<"Or:     mobilizer <Bond Mobility> <chain> .. to set all residues in <chain> to <Bond Mobility>"<<endl // case 2
+                <<"Or:     mobilizer <Bond Mobility>  .. to set all residues in all chains to <Bond Mobility>"<<endl // case 1
                 <<"Where Bond Mobility may be RNA, DNA, or Protein"<<endl);
 
         if (parameterStringClass.getString(1).length() == 0) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have not specified enough parameters for this command. "<<endl);
-
+        // case 1:
         } else if (parameterStringClass.getString(2).length() == 0) { // a command e.g. mobilizer Rigid will set all residues in all chains to BondMobility::Rigid.
             if (myBiopolymerClassContainer.getNumBiopolymers() == 0) {
 		MMBLOG_FILE_FUNC_LINE(CRITICAL, "The number of biopolymers detected at this point is  "<<myBiopolymerClassContainer.getNumBiopolymers() <<". Please call the mobilizer command after the chain(s) in question have been instantitated."<<endl);
@@ -2264,17 +2267,32 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                         myBiopolymerClassContainer
                         );
             }*/
+	// case 2
         } else if (parameterStringClass.getString(3).length() == 0) {
             mobilizerContainer.addMobilizerStretchToVector(parameterStringClass.getString(2),parameterStringClass.getString(1),myBiopolymerClassContainer);
         } else if (parameterStringClass.getString(5).length() == 0) {
             MMBLOG_FILE_FUNC_LINE(INFO, "first residue ID: "<<    myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3), parameterStringClass.getString(2)  ).outString()<<endl);
-            MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(4), parameterStringClass.getString(2)  ).outString()<<endl);
             String myChainID = parameterStringClass.getString(2);
+            ResidueID firstResidue =  myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3), myChainID );
+            ResidueID secondResidue;
+            MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    secondResidue.outString()<<endl);
+	    if (parameterStringClass.getString(4) ==""){
+		secondResidue = firstResidue;   
+                MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    secondResidue.outString()<<endl);
+            }		    
+	    else{ 	    
+                secondResidue =  myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(4), myChainID  );
+                MMBLOG_FILE_FUNC_LINE(INFO, "parameterStringClass.getString(4) : "<<parameterStringClass.getString(4)  <<endl);
+                MMBLOG_FILE_FUNC_LINE(INFO, "myChainID: "<<  myChainID  <<endl);
+                MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    secondResidue.outString()<<endl); // correct here
+	    }
+            MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    secondResidue.outString()<<endl); // wrong here!
+            //MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(4), myChainID  ).outString()<<endl);
             String myMobilizerString = parameterStringClass.getString(1);
             mobilizerContainer.addMobilizerStretchToVector( myChainID, //parameterStringClass.getString(2),
 
-                    myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3), parameterStringClass.getString(2)  ),
-                    myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(4), parameterStringClass.getString(2)  ),
+                    firstResidue,  //myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3), parameterStringClass.getString(2)  ),
+                    secondResidue, //myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(4), parameterStringClass.getString(2)  ),
                     myMobilizerString, 
                     myBiopolymerClassContainer);
         } else {

@@ -2050,12 +2050,22 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     //cout << "here " << endl;
     #ifdef MMB_NTC_ENABLED
     if ( ((parameterStringClass.getString(0)).compare("NtC") == 0)) {
-	//parameterStringClass.print();
+	    
         MMBLOG_FILE_FUNC_LINE(ALWAYS,
-                "Syntax: NtC <chain> <start residue> <end residue> <NtC class>"<<endl
+		" To apply an NtC to a contiguous stretch of two or more residues:"
+                <<"Syntax: NtC <chain> <start residue> <end residue> <NtC class>"<<endl
                 <<"For example, if (DNA) chain A, residues 1 and 2 are in a B-form helix helix, you can specify :  "<<endl
-                <<"     NtC A 1 2 AA00"<<endl);
-      
+                <<"     NtC A 1 2 AA00"<<endl
+                <<"To change the force constant (NtCForceScaleFactor): "<<endl
+                <<"Syntax: NtC forceConstant <force constant, float> "<<endl);
+        if (parameterStringClass.getString(1) == "forceConstant"){
+	    NtCForceScaleFactor =  myAtoF(userVariables,parameterStringClass.getString(2).c_str());
+            if (NtCForceScaleFactor <= 0) {
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "NtCForceScaleFactor must be a number greater than zero\n");
+	    }
+	    return;
+	} 
+	
         String myChain = parameterStringClass.getString(1);
         ResidueID firstNtCResidueInStretch = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2).c_str(), myChain);
         ResidueID lastNtCResidueInStretch  = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3).c_str(), myChain);
@@ -2145,8 +2155,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         if (factor <= 0) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "NtCForceScaleFactor must be a number greater than zero\n");
         }
+	MMBLOG_FILE_FUNC_LINE(ALWAYS,"Obsolete. Please use NtC forceConstant <force constant, float>"<< endl);
         NtCForceScaleFactor = factor;
-
         return;
     }
 

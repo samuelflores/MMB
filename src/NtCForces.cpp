@@ -127,9 +127,12 @@ void NTC_Torque::calcForce(const State &state, Vector_<SpatialVec> &bodyForces,
         ntcdump.open("ntcdump.txt");
 #endif // NTC_DEBUG_CALC
 
+    //MMBLOG_FILE_FUNC_LINE(DEBUG, " r " << r                                                  <<endl);
     const auto SCALE_FACTOR = myParameterReader.NtCForceScaleFactor;
     Vec3 states[4];
     for (int r = 0; r < myParameterReader.ntc_class_container.numNTC_Torsions(); r++) {
+	//MMBLOG_FILE_FUNC_LINE(DEBUG, " r " << r                                                  <<endl);
+	//MMBLOG_FILE_FUNC_LINE(DEBUG, "  myParameterReader.ntc_class_container.numNTC_Torsions() " <<  myParameterReader.ntc_class_container.numNTC_Torsions()                                      <<endl);
         const auto &ntc = myParameterReader.ntc_class_container.getNTC_Class(r);
         const auto &bondRow = myNTC_PAR_Class.myNTC_PAR_BondMatrix.myNTC_PAR_BondRow[ntc.NTC_PAR_BondRowIndex];
         const auto &indices = ntc.atomIndices;

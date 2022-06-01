@@ -31,6 +31,7 @@ void NTC_Class_Container::generateAorBFormNtCs(
     BiopolymerClassContainer &myBiopolymerClassContainer, const String &chainID,
     ResidueID firstResidue, ResidueID lastResidue, double myNTCWeight,
     const NTC_PAR_Class &ntc_par_class) {
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " r " << " "                                                   <<endl);
     if (myBiopolymerClassContainer.getBiopolymerClass(chainID).difference(lastResidue, firstResidue) < 1) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "It's not possible to apply helical stacking interactions to a run of fewer than 2 residues! " << endl);
     }
@@ -43,6 +44,7 @@ void NTC_Class_Container::generateAorBFormNtCs(
     } else {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid biopolymerType: " << myBiopolymerClassContainer.getBiopolymerClass(chainID).getBiopolymerType() << endl);
     }
+    MMBLOG_FILE_FUNC_LINE(DEBUG, " check 5 " << " "                                                   <<endl);
 
     add_NTC_Class(myBiopolymerClassContainer, ntc_par_class, chainID,
                   firstResidue, lastResidue, myNtCClassString, myNTCWeight, 0, 0);
@@ -54,6 +56,7 @@ void NTC_Class_Container::add_NTC_Class(
     const ResidueID firstNtCResidueInStretch, const ResidueID lastNtCResidueInStretch,
     const String &NtCClassString,
     const double myNtCWeight, const bool myMeta, const double myNtCWeight2) {
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "check 10 ." << endl);
 
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "Syntax: NtC <chain> <start residue> <end residue> <NtC class> "
                                   "<force constant> [meta <secondary weight>] "
@@ -72,6 +75,7 @@ void NTC_Class_Container::add_NTC_Class(
     int lastNtCResidueIndexInStretch = myBiopolymerClassContainer.getBiopolymerClass(myChain).getResidueIndex(lastNtCResidueInStretch);
 
     for (int currentFirstResidueIndex = firstNtCResidueIndexInStretch; currentFirstResidueIndex < lastNtCResidueIndexInStretch; currentFirstResidueIndex += 1) {
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "check 11 ." << endl);
         NTC_Classes NTC;
         NTC.NtC_FirstBPChain = myChain;
         NTC.NtC_Class_String = NtCClassString;
@@ -120,7 +124,9 @@ void NTC_Class_Container::add_NTC_Class(
         }
 
         NTC.FirstBPResidue = myBiopolymerClassContainer.getBiopolymerClass(NTC.NtC_FirstBPChain).getResidueID(currentFirstResidueIndex);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "check 7 ." << endl);
         NTC.SecondBPResidue = myBiopolymerClassContainer.getBiopolymerClass(NTC.NtC_FirstBPChain).getResidueID(currentFirstResidueIndex + 1);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "check 8 ." << endl);
         NTC.NtC_step_ID = NTC.FirstBPResidue.ResidueNumber;
 
         MMBLOG_FILE_FUNC_LINE(INFO, "Starting NtC loop. Overall residue stretch is from "
@@ -137,8 +143,10 @@ void NTC_Class_Container::add_NTC_Class(
 
         NTC.weight = myNtCWeight;
         MMBLOG_FILE_FUNC_LINE(INFO, "NTC.weight = " << NTC.weight << endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " icheck 1"  << endl);
 
         if (NTC.weight > 20.0) { // Empirically found that a weight greater than 20 or so leads to strange jumpy nonconvergent behavior.
+            MMBLOG_FILE_FUNC_LINE(DEBUG, " icheck 2"  << endl);
             MMBLOG_FILE_FUNC_LINE(WARNING, "You have specified an NtC weight of "
                                            << NTC.weight
                                            << " . The current NtC parameters are overconstrained, "
@@ -149,6 +157,7 @@ void NTC_Class_Container::add_NTC_Class(
 
         NTC.meta = 0;
         if (myMeta) {
+            MMBLOG_FILE_FUNC_LINE(DEBUG, " icheck 3"  << endl);
             NTC.meta = 1;
             NTC.weight2 = myNtCWeight2;
 
@@ -158,7 +167,13 @@ void NTC_Class_Container::add_NTC_Class(
 
             MMBLOG_FILE_FUNC_LINE(INFO, NTC.count << " number of NTC meta input lines " << endl);
         }
+        MMBLOG_FILE_FUNC_LINE(DEBUG, " icheck 4"  << endl);
 
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "At end of loop. Just added NTC with NTC.FirstBPResidue  = "
+                                    << NTC.FirstBPResidue.outString()
+                                    << " and NTC.SecondBPResidue = "
+                                    << NTC.SecondBPResidue.outString() << endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "check 12 ." << endl);
         add_NTC_Class(myBiopolymerClassContainer, ntc_par_class, NTC);
 
         MMBLOG_FILE_FUNC_LINE(INFO, "At end of loop. Just added NTC with NTC.FirstBPResidue  = "
@@ -170,18 +185,25 @@ void NTC_Class_Container::add_NTC_Class(
 }
 
 void NTC_Class_Container::add_NTC_Class(BiopolymerClassContainer &myBiopolymerClassContainer, const NTC_PAR_Class &ntc_par_class, NTC_Classes &NTC) {
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "check 13 ." << endl);
     for (const auto &dht : DIHEDRAL_TYPES) {
         validate_NTC_Class(myBiopolymerClassContainer, ntc_par_class, NTC, dht);
         initMolmodelAtomIndices(myBiopolymerClassContainer, ntc_par_class, NTC);
+        MMBLOG_FILE_FUNC_LINE(DEBUG, "check 9 ." << endl);
         myNTC_Class_Vector.push_back(NTC);
     }
 }
 
 void NTC_Class_Container::validate_NTC_Class(BiopolymerClassContainer &myBiopolymerClassContainer, const NTC_PAR_Class &ntc_par_class, NTC_Classes &NTC, const String &dihedraltype) {
-    int ntc2 = NTC.NtC_step_ID + 1;
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "check 14 ." << endl);
+    //int ntc2 = NTC.NtC_step_ID + 1;
 
-    String resName1 = myBiopolymerClassContainer.getPdbResidueName(NTC.NtC_FirstBPChain, NTC.NtC_step_ID);
-    String resName2 = myBiopolymerClassContainer.getPdbResidueName(NTC.NtC_FirstBPChain, ntc2);
+    String resName1 = myBiopolymerClassContainer.getPdbResidueName(NTC.NtC_FirstBPChain, NTC.FirstBPResidue);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "check 15 . resName1 =" <<resName1<< endl);
+    //MMBLOG_FILE_FUNC_LINE(DEBUG, "check 15 . ntc2=" <<ntc2<< endl);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "check 15 .  NTC.NtC_step_ID " << NTC.NtC_step_ID<< endl);
+    String resName2 = myBiopolymerClassContainer.getPdbResidueName(NTC.NtC_FirstBPChain, NTC.SecondBPResidue);
+    MMBLOG_FILE_FUNC_LINE(DEBUG, "check 16 ." << endl);
 
     NTC.NTC_PAR_BondRowIndex  = ntc_par_class.getNTC_PAR_BondRowIndex(resName1,resName2,NTC.NtC_Class_String,dihedraltype,"ntcstep");
 

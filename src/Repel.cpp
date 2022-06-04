@@ -619,7 +619,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     Force::Custom(_forces, myNTC_Torque);
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     #endif // MMB_NTC_ENABLED
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
+    //MMBLOG_FILE_FUNC_LINE(INFO, endl);
     if (_parameterReader->densityContainer.numDensityStretches() > 0) 
     {
         MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
@@ -754,7 +754,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
         MMBLOG_FILE_FUNC_LINE(INFO, "Turned on Physics Where You Want It, for the following residues: "<<endl);
         _parameterReader->myBiopolymerClassContainer.printAllIncludedResidues ( _parameterReader->physicsContainer.getResidueStretchVector());   //includeAllNonBondAtomsInResidueVector);
     }
-    MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
+    //MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
     bool myNonBondedOn = 
     ((_parameterReader->globalCoulombScaleFactor >0) ||
      (_parameterReader->globalVdwScaleFactor > 0));

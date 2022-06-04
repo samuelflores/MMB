@@ -1161,20 +1161,20 @@ struct AtomSpring {
        }*/
        void print(){//enum MMBLogger::Severity severity = MMBLogger::Severity::INFO){
             MMBLOG_FILE_LINE(INFO, " Printing AtomSpring  contents:"<<std::endl
-                <<" atom1Chain    : "<<atom1Chain                <<std::endl  
-                <<" atom2Chain    : "<<atom2Chain                <<std::endl  
-                <<" atom1Residue  : "<<atom1Residue.outString()  <<std::endl  
-                <<" atom2Residue  : "<<atom2Residue.outString()  <<std::endl  
-                <<" atom1Name     : "<<atom1Name                 <<std::endl  
-                <<" atom2Name     : "<<atom2Name                 <<std::endl  
-                <<" toGround      : "<< toGround                 <<std::endl     
-                <<" tether        : "<< tether                   <<std::endl
-                <<" deadLength    : "<< deadLength               <<std::endl
-                <<" deadLengthIsFractionOfInitialLength : "<< deadLengthIsFractionOfInitialLength  <<std::endl
-                <<" deadLengthFraction : "<< deadLengthFraction  <<std::endl
-                <<" groundLocationIsRelativeToAtom1Location : "<< groundLocationIsRelativeToAtom1Location <<std::endl
-                <<" groundLocation: "<< groundLocation           <<std::endl
-                <<" forceConstant : "<< forceConstant            <<std::endl
+                <<" atom1Chain    : "<<atom1Chain                  
+                <<" atom2Chain    : "<<atom2Chain                  
+                <<" atom1Residue  : "<<atom1Residue.outString()    
+                <<" atom2Residue  : "<<atom2Residue.outString()    
+                <<" atom1Name     : "<<atom1Name                   
+                <<" atom2Name     : "<<atom2Name                   
+                <<" toGround      : "<< toGround                      
+                <<" tether        : "<< tether                   
+                <<" deadLength    : "<< deadLength               
+                <<" deadLengthIsFractionOfInitialLength : "<< deadLengthIsFractionOfInitialLength  
+                <<" deadLengthFraction : "<< deadLengthFraction  
+                <<" groundLocationIsRelativeToAtom1Location : "<< groundLocationIsRelativeToAtom1Location 
+                <<" groundLocation: "<< groundLocation           
+                <<" forceConstant : "<< forceConstant            
                 <<""<<std::endl);
        } 
        /*

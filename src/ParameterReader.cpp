@@ -4929,7 +4929,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     alignmentForcesDeadLengthFraction = 0;
     alignmentForcesDeadLength = 0;
     alignmentForcesDeadLengthIsFractionOfInitialLength = false;
-    alignmentForcesForceConstant = 30.0;
+    alignmentForcesForceConstant = 30000.; // this higher number works better in the presence of the MD force field.
     applyC1pSprings = true;
     biopolymerModificationVector.clear();
     calcBaseBodyFramesAtEveryTimeStep = true ; //scf maybe should set this to false?

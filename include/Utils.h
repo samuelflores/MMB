@@ -1159,8 +1159,10 @@ struct AtomSpring {
                 <<" groundLocation: "<< groundLocation           <<std::endl
                 <<""<<std::endl);
        }*/
+       // Note that this works only with loggingSeverity DEBUG:
        void print(){//enum MMBLogger::Severity severity = MMBLogger::Severity::INFO){
-            MMBLOG_FILE_LINE(INFO, " Printing AtomSpring  contents:"<<std::endl
+	       
+            MMBLOG_FILE_LINE(DEBUG, " Printing AtomSpring  contents:"<<std::endl
                 <<" atom1Chain    : "<<atom1Chain                  
                 <<" atom2Chain    : "<<atom2Chain                  
                 <<" atom1Residue  : "<<atom1Residue.outString()    
@@ -1193,6 +1195,26 @@ struct AtomSpring {
                 <<" groundLocation: "<< groundLocation           <<std::endl
                 <<""<<std::endl);
        }*/
+
+
+       void initialize(){
+	    MMBLOG_FILE_FUNC_LINE(DEBUG, " initializing atomSpring  "<<endl);
+            atom1Name = "XXXX"           ;   
+            atom2Name = "XXXX"           ;   
+            atom1Residue =  ResidueID(-1111, ' ')        ;   
+            atom2Residue =  ResidueID(-1111, ' ')        ;   
+            atom1Chain = "XXXX";
+            atom2Chain = "XXXX";
+            toGround   = false;
+            tether     = false;
+	    groundLocationIsRelativeToAtom1Location = false;
+            groundLocation = Vec3(0);
+            forceConstant  = 0.0 ;
+            deadLength     = 0.0 ; 
+            deadLengthFraction     = 0.0 ; 
+	    forceConstant  = 129790.8 ; // base the default value on the spring constant of a carbon-carbon single bond
+	    print(); // Only acts if loggingSeverity DEBUG
+       }
        AtomSpring(String chain1, ResidueID res1, String name1,
                   String chain2, ResidueID res2, String name2,
                   double constant,
@@ -1223,7 +1245,8 @@ struct AtomSpring {
 
        AtomSpring()
        {
-            atom1Name = "XXXX"           ;   
+	    initialize();
+            /*atom1Name = "XXXX"           ;   
             atom2Name = "XXXX"           ;   
             atom1Residue =  ResidueID(-1111, ' ')        ;   
             atom2Residue =  ResidueID(-1111, ' ')        ;   
@@ -1235,7 +1258,7 @@ struct AtomSpring {
             groundLocation = Vec3(0);
             forceConstant  = 0.0 ;
             deadLength     = 0.0 ; 
-            deadLengthFraction     = 0.0 ; 
+            deadLengthFraction     = 0.0 ; */
        }
 };
 

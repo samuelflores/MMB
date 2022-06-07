@@ -112,6 +112,7 @@ float AtomSpringContainer::calcKabschRmsd(State & state, BiopolymerClassContaine
 }
 
 AtomSpring & AtomSpringContainer::initializeAtomSpring(AtomSpring & atomSpring) {
+   MMBLOG_FILE_FUNC_LINE(DEBUG, " initializing atomSpring  "<<endl);
    atomSpring.atom1Name = ""           ;   
    atomSpring.atom2Name = ""           ;   
    atomSpring.atom1Residue =  ResidueID(0, ' ')        ;   
@@ -121,9 +122,10 @@ AtomSpring & AtomSpringContainer::initializeAtomSpring(AtomSpring & atomSpring) 
    atomSpring.toGround   = false;
    atomSpring.tether     = false;
    atomSpring.groundLocation = Vec3(0);
-   atomSpring.forceConstant  = 0.0 ;
+   atomSpring.forceConstant  = 129790.8 ; // base the default value on the spring constant of a carbon-carbon single bond
    atomSpring.deadLength     = 0.0 ;   
    atomSpring.deadLengthIsFractionOfInitialLength = 0;
+   atomSpring.print(); // This only does anything if loggingSeverity DEBUG
    return atomSpring;
 };
 

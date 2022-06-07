@@ -3054,10 +3054,12 @@ void BiopolymerClassContainer::setSingleBondMobility( vector<SingleBondMobility>
 
 void BiopolymerClassContainer::printAllIncludedResidues (const vector<IncludeAllNonBondAtomsInResidue> & includeAllNonBondAtomsInResidueVector ) {
     MMBLOG_FILE_FUNC_LINE(INFO, "Listing all residues to be included in physics zone:"<<endl);
+    string includedResiduesForChain = "";
     for (size_t i = 0 ; i < includeAllNonBondAtomsInResidueVector.size(); i++) {
         IncludeAllNonBondAtomsInResidue myIncludeAllNonBondAtomsInResidue = includeAllNonBondAtomsInResidueVector[i];
-        MMBLOG_FILE_FUNC_LINE(INFO, myIncludeAllNonBondAtomsInResidue.getChain()<<", residue = "<<myIncludeAllNonBondAtomsInResidue.getResidue().outString()<<endl);
+	includedResiduesForChain = includedResiduesForChain + myIncludeAllNonBondAtomsInResidue.getChain() + myIncludeAllNonBondAtomsInResidue.getResidue().outString() + ",";
     }
+    MMBLOG_FILE_FUNC_LINE(INFO,includedResiduesForChain  <<endl);
 }
 
 vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer::getResiduesWithin(const String & chainID, const ResidueID & resID, double radius, const State & state, OpenMM::NeighborList & neighborList){

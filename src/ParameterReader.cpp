@@ -672,6 +672,7 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "monteCarloTemperatureIncrement         int     " + std::to_string ( monteCarloTemperatureIncrement ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "nastGlobalBondTorsionScaleFactor       int     " + std::to_string ( nastGlobalBondTorsionScaleFactor ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "noseHooverTime                         double  " + std::to_string ( noseHooverTime ) ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "NtCForceScaleFactor                    double  " + std::to_string ( NtCForceScaleFactor ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "numReportingIntervals                  int     " + std::to_string ( numReportingIntervals ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "outMonteCarloFileName                  String  " + std::string ( outMonteCarloFileName ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "outTrajectoryFileName                  String  " + std::string ( outTrajectoryFileName ) ) );
@@ -799,6 +800,7 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "monteCarloTemperatureIncrement         int   "<<monteCarloTemperatureIncrement    <<endl;
     myOstream << remarkString << "nastGlobalBondTorsionScaleFactor       int   "<<nastGlobalBondTorsionScaleFactor     <<endl;
     myOstream << remarkString << "noseHooverTime                         double "<<noseHooverTime          <<endl;
+    myOstream << remarkString << "NtCForceScaleFactor                    double "<< NtCForceScaleFactor  <<endl;
     myOstream << remarkString << "numReportingIntervals                  int     "<<numReportingIntervals     <<endl;
     myOstream << remarkString << "outMonteCarloFileName                  String  "<<outMonteCarloFileName     <<endl;
     myOstream << remarkString << "outTrajectoryFileName                  String  "<<outTrajectoryFileName     <<endl;
@@ -1475,7 +1477,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         MMBLOG_FILE_FUNC_LINE(ALWAYS, "You have called the atomSpring command. This applies springs or tethers , either between two atoms, or between one atom and ground. There is a 'deadLength' parameter which specifies the zero-force distance for springs, or the radius of the zero-force sphere for tethers. there is a toGround parameter, which specifies that there is no atom 2, only atom 1 and a ground location.There is a 'groundLocationIsRelative' parameter, which specifies that -- in the case of a spring or tether to ground -- the coordinates given are relative to the first (and only) atom's location in the structure. "<<endl);
         MMBLOG_FILE_FUNC_LINE(ALWAYS, "Usage: ");
         MMBLOG_FILE_FUNC_LINE(ALWAYS, "The command file is read top to bottom. So first consider any parameters you wish to change, and set those. Then you will create the spring. Then change any paramters, create again, and so on.  : "<<endl);
-        MMBLOG_FILE_FUNC_LINE(ALWAYS, " Parameters include: String parameters atom1Chain, atom1Residue, atom1Name, (ditto for atom2); boolean parameters tether, toGround forceConstant deadLengthIsFractionOfInitialLength, groundLocationIsRelativeToAtom1Location; double-precision parameters deadLengthFraction, deadLength, Vec3 parameter groundLocation. So one line might read e.g. atomSpring forceConstant 130000 .. The final line to create the spring would read atomSpring add  .. Issue the command or parameter of interest to get more context sensitive feedback. "<<endl);
+        MMBLOG_FILE_FUNC_LINE(ALWAYS, " Parameters include: String parameters atom1Chain, atom1Residue, atom1Name, (ditto for atom2); boolean parameters tether, toGround , deadLengthIsFractionOfInitialLength, groundLocationIsRelativeToAtom1Location; double-precision parameters forceConstant , deadLengthFraction, deadLength, Vec3 parameter groundLocation. So one line might read e.g. atomSpring forceConstant 130000 .. The final line to create the spring would read atomSpring add  .. Issue the command or parameter of interest to get more context sensitive feedback. "<<endl);
         //MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring  [atom2Chain | atom2Residue | atom2Name ] : Just like the above, except for atom 2. These are ignored if toGround is true."<<endl);
         //MMBLOG_FILE_FUNC_LINE(ALWAYS, endl);
         //AtomSpring dummyAtomSpring is the default temporary AtomSpring, should have been declared in ParameterReader.h. No initialization necessary, it has a default constructor. Becomes and adult AtomSpring once it is added to atomSpringContainer.
@@ -1533,9 +1535,10 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             dummyAtomSpring.deadLengthIsFractionOfInitialLength = aToBool(parameterStringClass.getString(2));
         }
         else if  ((parameterStringClass.getString(1)).compare("forceConstant")==0){        
-            MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring forceConstant [spring constant] : The spring constant, in kJ/mol/nm/nm. Applies to both spring and tether. For reference, the spring constant of a carbon-carbon single bond is 129790.8 kJ/mol/nm/n"<<endl);
+            MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring forceConstant [spring constant] : The spring constant, in kJ/mol/nm/nm. Applies to both spring and tether. For reference, the spring constant of a carbon-carbon single bond is 129790.8 kJ/mol/nm/n. Before this line, the forceConstant was : "<<  dummyAtomSpring.forceConstant <<endl);
             parameterStringClass.validateNumFields(3);   // expecting atomSpring, the parameter name, and parameter value.       
             dummyAtomSpring.forceConstant = myAtoF(userVariables,parameterStringClass.getString(2));
+            MMBLOG_FILE_FUNC_LINE(DEBUG, " now, the forceConstant is  : "<<  dummyAtomSpring.forceConstant <<endl);
         }
         else if  ((parameterStringClass.getString(1)).compare("deadLengthFraction")==0){               
             MMBLOG_FILE_FUNC_LINE(ALWAYS, "atomSpring deadLengthFraction <fraction> : This sets the dead length of the springs to <fraction> * (initial length). Original applicatoin was progressive morphing.  "<<endl);
@@ -2048,15 +2051,27 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     //cout << "here " << endl;
     #ifdef MMB_NTC_ENABLED
     if ( ((parameterStringClass.getString(0)).compare("NtC") == 0)) {
-	//parameterStringClass.print();
+	    
         MMBLOG_FILE_FUNC_LINE(ALWAYS,
-                "Syntax: NtC <chain> <start residue> <end residue> <NtC class>"<<endl
+		" To apply an NtC to a contiguous stretch of two or more residues:"
+                <<"Syntax: NtC <chain> <start residue> <end residue> <NtC class>"<<endl
                 <<"For example, if (DNA) chain A, residues 1 and 2 are in a B-form helix helix, you can specify :  "<<endl
-                <<"     NtC A 1 2 AA00"<<endl);
-      
+                <<"     NtC A 1 2 AA00"<<endl
+                <<"To change the force constant (NtCForceScaleFactor): "<<endl
+                <<"Syntax: NtC forceConstant <force constant, float> "<<endl);
+        if (parameterStringClass.getString(1) == "forceConstant"){
+	    NtCForceScaleFactor =  myAtoF(userVariables,parameterStringClass.getString(2).c_str());
+            if (NtCForceScaleFactor <= 0) {
+                MMBLOG_FILE_FUNC_LINE(CRITICAL, "NtCForceScaleFactor must be a number greater than zero\n");
+	    }
+	    return;
+	} 
+	
         String myChain = parameterStringClass.getString(1);
         ResidueID firstNtCResidueInStretch = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2).c_str(), myChain);
+	//else {
         ResidueID lastNtCResidueInStretch  = myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3).c_str(), myChain);
+	//}
 	String myNtCClassString = parameterStringClass.getString(4) ;
 
         ntc_class_container.add_NTC_Class(myBiopolymerClassContainer,ntc_par_class,myChain,firstNtCResidueInStretch,lastNtCResidueInStretch,myNtCClassString, 0, 0, 0);
@@ -2143,8 +2158,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         if (factor <= 0) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "NtCForceScaleFactor must be a number greater than zero\n");
         }
+	MMBLOG_FILE_FUNC_LINE(ALWAYS,"Obsolete. Please use NtC forceConstant <force constant, float>"<< endl);
         NtCForceScaleFactor = factor;
-
         return;
     }
 
@@ -2227,14 +2242,15 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     if ( ((parameterStringClass.getString(0)).compare("mobilizer") == 0)  )    
     { // if this is a mobilizer or constraint
         MMBLOG_FILE_FUNC_LINE(ALWAYS,
-                "Syntax: mobilizer <Bond Mobility> <chain> <start residue> <end residue>"<<endl
-                <<"Or:     mobilizer <Bond Mobility> <chain> .. to set all residues in <chain> to <Bond Mobility>"<<endl
-                <<"Or:     mobilizer <Bond Mobility>  .. to set all residues in all chains to <Bond Mobility>"<<endl
+                "Syntax: mobilizer <Bond Mobility> <chain> <start residue> <end residue>"<<endl // case 4
+                <<"Or    : mobilizer <Bond Mobility> <chain> <residue> "<<endl // case 3
+                <<"Or:     mobilizer <Bond Mobility> <chain> .. to set all residues in <chain> to <Bond Mobility>"<<endl // case 2
+                <<"Or:     mobilizer <Bond Mobility>  .. to set all residues in all chains to <Bond Mobility>"<<endl // case 1
                 <<"Where Bond Mobility may be RNA, DNA, or Protein"<<endl);
 
         if (parameterStringClass.getString(1).length() == 0) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have not specified enough parameters for this command. "<<endl);
-
+        // case 1:
         } else if (parameterStringClass.getString(2).length() == 0) { // a command e.g. mobilizer Rigid will set all residues in all chains to BondMobility::Rigid.
             if (myBiopolymerClassContainer.getNumBiopolymers() == 0) {
 		MMBLOG_FILE_FUNC_LINE(CRITICAL, "The number of biopolymers detected at this point is  "<<myBiopolymerClassContainer.getNumBiopolymers() <<". Please call the mobilizer command after the chain(s) in question have been instantitated."<<endl);
@@ -2252,17 +2268,32 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                         myBiopolymerClassContainer
                         );
             }*/
+	// case 2
         } else if (parameterStringClass.getString(3).length() == 0) {
             mobilizerContainer.addMobilizerStretchToVector(parameterStringClass.getString(2),parameterStringClass.getString(1),myBiopolymerClassContainer);
         } else if (parameterStringClass.getString(5).length() == 0) {
             MMBLOG_FILE_FUNC_LINE(INFO, "first residue ID: "<<    myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3), parameterStringClass.getString(2)  ).outString()<<endl);
-            MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(4), parameterStringClass.getString(2)  ).outString()<<endl);
             String myChainID = parameterStringClass.getString(2);
+            ResidueID firstResidue =  myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3), myChainID );
+            ResidueID secondResidue;
+            MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    secondResidue.outString()<<endl);
+	    if (parameterStringClass.getString(4) ==""){
+		secondResidue = firstResidue;   
+                MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    secondResidue.outString()<<endl);
+            }		    
+	    else{ 	    
+                secondResidue =  myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(4), myChainID  );
+                MMBLOG_FILE_FUNC_LINE(INFO, "parameterStringClass.getString(4) : "<<parameterStringClass.getString(4)  <<endl);
+                MMBLOG_FILE_FUNC_LINE(INFO, "myChainID: "<<  myChainID  <<endl);
+                MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    secondResidue.outString()<<endl); // correct here
+	    }
+            MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    secondResidue.outString()<<endl); // wrong here!
+            //MMBLOG_FILE_FUNC_LINE(INFO, "second residue ID: "<<    myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(4), myChainID  ).outString()<<endl);
             String myMobilizerString = parameterStringClass.getString(1);
             mobilizerContainer.addMobilizerStretchToVector( myChainID, //parameterStringClass.getString(2),
 
-                    myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3), parameterStringClass.getString(2)  ),
-                    myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(4), parameterStringClass.getString(2)  ),
+                    firstResidue,  //myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(3), parameterStringClass.getString(2)  ),
+                    secondResidue, //myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(4), parameterStringClass.getString(2)  ),
                     myMobilizerString, 
                     myBiopolymerClassContainer);
         } else {
@@ -4898,7 +4929,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     alignmentForcesDeadLengthFraction = 0;
     alignmentForcesDeadLength = 0;
     alignmentForcesDeadLengthIsFractionOfInitialLength = false;
-    alignmentForcesForceConstant = 30.0;
+    alignmentForcesForceConstant = 30000.; // this higher number works better in the presence of the MD force field.
     applyC1pSprings = true;
     biopolymerModificationVector.clear();
     calcBaseBodyFramesAtEveryTimeStep = true ; //scf maybe should set this to false?

@@ -1339,12 +1339,12 @@ vector<String> readAndParseOnColWidth   (ifstream & inFile, int columnWidth) {
         };  
     };  
     void ParameterStringClass::print() const {
-        MMBLOG_FILE_FUNC_LINE(DEBUG, endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG," About to print the contents of ParameterStringClass, which is in charge of storing and processing a single line from the user command file."<< endl);
         for (int i = 0 ; i < size(); i++){
             MMBLOG_FILE_FUNC_LINE(DEBUG, stringVector[i]<<" ");
             //std::cout<<__FILE__<<":"<<__LINE__<<" "<<i<<" >"<<stringVector[i]<<"< "<<std::endl;
         };
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
+        //#MMBLOG_FILE_FUNC_LINE(INFO, endl);
     };
 
     String ParameterStringClass::getString() const {

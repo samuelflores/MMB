@@ -614,7 +614,7 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useCIFFileFormat                       bool    " + std::to_string ( useCIFFileFormat ) + " : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesIsGapped                bool    " + std::to_string ( alignmentForcesIsGapped ) + " : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesGapPenalty              double  " + std::to_string ( alignmentForcesGapPenalty ) + " : The penalty applied to gaps. The noGaps condition is enforced with a high value of this parameter. Can vary through the course of the input commands file. This is only the final value." ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesDeadLength              double  " + std::to_string ( alignmentForcesDeadLengthFraction ) + " : The final length to which the alignmentSprings equilibrate. Defaults to 0.             " ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesDeadLength              double  " + std::to_string ( alignmentForcesDeadLength ) + " : The final length to which the alignmentSprings equilibrate. Defaults to 0.             " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesDeadLengthFraction      double  " + std::to_string ( alignmentForcesDeadLengthFraction ) + " : The fraction of the initial length to which the alignmentSprings equilibrate. Should be in the interval (0,1]. A nonzero value enables e.g. progressive morphing.  Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesForceConstant           double  " + std::to_string ( alignmentForcesForceConstant ) + " : Force constant for the  alignmentForces springs. Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "applyC1pSprings                        bool    " + std::to_string ( applyC1pSprings ) ) );
@@ -1687,6 +1687,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "First consider any parameters you wish to change : "<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces noGap : This sets the internal parameter alignmentForcesIsGapped to False, introduces a very high penalty for gaps in the alignment, and requires that the aligned fragments have the same number of residues. If you were looking for the old \"threading\" command, set this parameter."<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces gapped : This means that gappedAlignment is left at True, and Seqan is used to figure out the alignment. This is the default behavior. "<<endl);
+         MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces deadLength <length, nm> : This sets the dead length of the springs. Use this equilibrate the springs to some distance other than zero.  "<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces deadLengthFraction <fraction> : This sets the dead length of the springs to <fraction> * (initial length). Use this e.g. to do progressive morphing.  "<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS,"                                                For <fraction> in the interval (0, 1], this sets the dead length of the springs to <fraction> * (initial length). It also sets alignmentForcesDeadLengthIsFractionOfInitialLength = True. Set this to zero to set alignmentForcesDeadLengthIsFractionOfInitialLength = False and recover ordinary behavior. "<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces forceConstant <force constant (double)> : This sets the force constant to the specified value. Unless you are changing it now, it will be : "<< alignmentForcesForceConstant<<" ."<<endl);
@@ -1763,6 +1764,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                  alignmentForcesDeadLength         = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
                  if (alignmentForcesDeadLength    < 0.0) {
                      MMBLOG_FILE_FUNC_LINE(CRITICAL, "deadLength    must be greater than or equal to zero! You have specified : "<< alignmentForcesDeadLength  <<endl);
+                 } else {
+                     MMBLOG_FILE_FUNC_LINE(INFO, "deadLength is now set to "<< alignmentForcesDeadLength  <<endl);
                  }
                  return;
              }

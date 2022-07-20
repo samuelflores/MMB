@@ -1,0 +1,53 @@
+
+#7.2.2	Specify template sequence to match information in the PDB file
+In the input parameters file, you will also need to specify a template sequence with a chain ID and residue numbering that matches that of the PDB file.  If you open the file 1GID.shifted.pdb in a text editor, you will see that the first residue is numbered “220” and has a chain ID of “Q.”  So, in the command file, you would include the following line:
+
+
+
+RNA Q 220 GUCCUAAGUCAACAGAUCUUCUGUUGAUAUGGAU 
+
+#7.2.3	Rigidify the template
+#Lastly, you need to rigidify your template molecule so that it does not move.  The threaded chain is the one that will morph so that it matches the template.  In this example, the following line would rigidify the template (Tetrahymena ribozyme P6ab): 
+
+mobilizer Rigid Q 220 253 
+
+#7.3	Specify the sequence of the target chain 
+The target chain is the one being mapped onto a known structure.  For the Azoarcus fragment, this is done with the following line:
+
+RNA C 146 CCUAAGGCAAACGCUAUGG
+
+#7.3.1	Account for sterics using “Physics where you want it”
+We can use the PARM99 potential to prevent steric clashes and spread out the loop nicely. This turns on the Lennard-Jones and electrostatic terms, in addition to the bonded terms (which are on by default):
+
+setDefaultMDParameters
+
+Then we limit the MD forces to the target chain only: 
+
+includeResidues C FirstResidue LastResidue
+
+Without this line, the template would also have non-bonded forces active, and would repel the threaded chain. In the original (Flores et al., RNA 2010) article, we used the contact command, you will see a note on this in the input file:
+
+#contact AllHeavyAtomSterics C 146 164 
+
+This is faster, but can be a bit limited in preventing steric clashes, and won’t have the long-range electrostatic repulsion that we find useful in this exercise.
+
+7.4	Apply forces to pull the corresponding residues together
+
+
+
+The alignmentForces keyword is explained in the Reference Guide, in our chapter on “Forces.” Also see our chapter on homology modeling of proteins, in this Tutorial. 
+
+First, specify that all subsequent alignmentForces commands will be performed with a prohibitive gap penalty, effectively restricting us to ungapped alignments: 
+
+ alignmentForces noGap 
+
+Now we set the force constant of all the atomSpring’s: 
+
+  alignmentForces forceConstant 300.0  
+
+Lastly, let’s issue the actual alignment commands: 
+
+ alignmentForces C 146 151 Q 222 227  
+alignmentForces C 160 164 Q 247 251 50  
+
+

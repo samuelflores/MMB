@@ -14,7 +14,7 @@ mobilizer Rigid       N 41 45
 constraint      N 17 Weld  N 45
 
 constraintTolerance .001
-contact SelectedAtoms N FirstResidue LastResidue
+contact AllHeavyAtomSterics N FirstResidue LastResidue
 
 numReportingIntervals  200
 reportingInterval 2.0 

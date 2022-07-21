@@ -84,6 +84,9 @@ public:
     bool gemmi_isFirstInStage;
     bool   alignmentForcesIsGapped;
     double alignmentForcesGapPenalty;
+    double alignmentForcesMatchScore;
+    double alignmentForcesMismatchScore;
+    String alignmentForcesScoringScheme;
     double alignmentForcesDeadLengthFraction;
     double alignmentForcesDeadLength;
     double alignmentForcesDeadLengthIsFractionOfInitialLength;

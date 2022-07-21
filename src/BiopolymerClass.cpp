@@ -2273,25 +2273,6 @@ bool BiopolymerClass::getActivePhysics() const{
     }
  */
 
-TAlign BiopolymerClass::createGappedAlignment(BiopolymerClass otherBiopolymerClass, double alignmentForcesGapPenalty ){ // Set a default value of -1 for the gap penalty to allow gaps. For ungapped, do a big value e.g. -1000
-    //String chainA = thread.chainID1;
-    //String chainB = thread.chainID2;
-    //BiopolymerClass & bpA = myBiopolymerClassContainer.updBiopolymerClass(chainA);
-    //BiopolymerClass & bpB = myBiopolymerClassContainer.updBiopolymerClass(chainB);
-    //typedef seqan::String<char> TSequence;                 // sequence type
-    //typedef seqan::Align<TSequence,seqan::ArrayGaps> TAlign;      // align type
-    TSequence seqA = getSubSequence(getFirstResidueID(),getLastResidueID()  ).c_str();  // Need a new BiopolymerClass method which retrieves subsequences.!
-    TSequence seqB = otherBiopolymerClass.getSubSequence(otherBiopolymerClass.getFirstResidueID(), otherBiopolymerClass.getLastResidueID() ).c_str();
-    TAlign align;
-    seqan::resize(rows(align), 2);
-    assignSource(row(align,0),seqA);
-    assignSource(row(align,1),seqB);
-    // simple alignment:
-    int score = globalAlignment(align, seqan::Score<int,seqan::Simple>(0,-1, alignmentForcesGapPenalty )); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
-    return align;
-}
-
-
 int BiopolymerClass::getCorrespondingMutationInCurrentBiopolymer(const BiopolymerClass &otherBiopolymerClass, TAlign align,Mutation mutationInOtherBiopolymer, Mutation & mutationInCurrentBiopolymer){
     //Mutation mutationInCurrentBiopolymer;
     std::string chainInCurrentBiopolymer = getChainID();

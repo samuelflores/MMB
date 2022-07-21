@@ -470,7 +470,7 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addRNABackboneSterics                  bool    " + std::to_string ( addRNABackboneSterics ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addSelectedAtoms                       bool    " + std::to_string ( addSelectedAtoms ) + " : Add steric spheres to certain RNA atoms as specified in the RNABuilder parameter file. " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useCIFFileFormat                       bool    " + std::to_string ( useCIFFileFormat ) + " : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesIsGapped                bool    " + std::to_string ( alignmentForcesIsGapped ) + " : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." ) );
+    //remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesIsGapped                bool    " + std::to_string ( alignmentForcesIsGapped ) + " : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesMatchScore              double  " + std::to_string ( alignmentForcesMatchScore ) + " : Sets the match score for Seqan::Simple scoring scheme, for alignmentForces. " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesMismatchScore              double  " + std::to_string ( alignmentForcesMismatchScore ) + " : Sets the mismatch score for Seqan::Simple scoring scheme, for alignmentForces. " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesGapPenalty              double  " + std::to_string ( alignmentForcesGapPenalty ) + " : The penalty applied to gaps. The noGaps condition is enforced with a high value of this parameter. Can vary through the course of the input commands file. This is only the final value." ) );
@@ -597,7 +597,7 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "addRNABackboneSterics                  bool    "<<addRNABackboneSterics         <<endl;
     myOstream << remarkString << "addSelectedAtoms                       bool    "<<addSelectedAtoms<<" : Add steric spheres to certain RNA atoms as specified in the RNABuilder parameter file. " <<endl;
     myOstream << remarkString << "useCIFFileFormat                       bool    "<<useCIFFileFormat<<" : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " <<endl;
-    myOstream << remarkString << "alignmentForcesIsGapped                bool    "<<alignmentForcesIsGapped<<" : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." <<endl;
+    //myOstream << remarkString << "alignmentForcesIsGapped                bool    "<<alignmentForcesIsGapped<<" : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." <<endl;
     myOstream << remarkString << "alignmentForcesMatchScore              double  "<<alignmentForcesMatchScore<<" : Match score to use in Seqan::Simple scoring scheme. " <<endl;
     myOstream << remarkString << "alignmentForcesMismatchScore              double  "<<alignmentForcesMismatchScore<<" : Mismatch score to use in Seqan::Simple scoring scheme. " <<endl;
     myOstream << remarkString << "alignmentForcesGapPenalty              double  "<<alignmentForcesGapPenalty<<" : The penalty applied to gaps. The noGaps condition is enforced with a high value of this parameter. Can vary through the course of the input commands file. This is only the final value." <<endl;
@@ -1547,9 +1547,11 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "You have called the alignmentForces command. This applies springs pulling together two user-defined stretches of biopolymer residues. The springs go between corresponding atoms in corresponding residues. You may provide aligned stretches of residues, or let MMB figure out the gapped alignment for you with Seqan. It uses a simple scoring function, which differentiates between \"match\" (residues the same), \"mismatch\" (residues not the same), gap opening, and gap extension."<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "Usage: ");
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "First consider any parameters you wish to change : "<<endl);
-         MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces noGap : This sets the internal parameter alignmentForcesIsGapped to False, introduces a very high penalty for gaps in the alignment, and requires that the aligned fragments have the same number of residues. If you were looking for the old \"threading\" command, set this parameter."<<endl);
-         MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces matchScore : This sets the internal parameter  alignmentForcesMatchScore. Defaults to 0 (larger is more favorable). Applies to the seqan::Simple scoring scheme."<<endl);
-         MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces mismatchScore : This sets the internal parameter alignmentForcesMismatchScore. Defaults to -1 (more negative means more mimatch penalty). If you want to align with no offset, you should make this equal to the matchScore.   "<<endl);
+         //MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces noGap : This sets the internal parameter alignmentForcesIsGapped to False, introduces a very high penalty for gaps in the alignment, and requires that the aligned fragments have the same number of residues. If you were looking for the old \"threading\" command, set this parameter. DEPRECATED! Now just set gapPenalty yourself, to a very negative value."<<endl);
+         MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces matchScore : This sets the internal parameter  alignmentForcesMatchScore. Defaults to 0 (larger is more favorable). Applies to scoringScheme Simple ."<<endl);
+         MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces mismatchScore : This sets the internal parameter alignmentForcesMismatchScore. Defaults to -1 (more negative means more mimatch penalty). If you want to align with no offset, you should make this equal to the matchScore. Applies to scoringScheme Simple  "<<endl);
+         MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces gapPenalty : This sets the gapPenalty parameter alignmentForcesGapPenalty. More negative means gaps less likely.   "<<endl);
+         MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces scoringScheme: This sets the SeqAn scoring scheme. Currently supported: Blosum62, Simple.   "<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces gapped : This means that gappedAlignment is left at True, and Seqan is used to figure out the alignment. This is the default behavior. "<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces deadLength <length, nm> : This sets the dead length of the springs. Use this equilibrate the springs to some distance other than zero.  "<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces deadLengthFraction <fraction> : This sets the dead length of the springs to <fraction> * (initial length). Use this e.g. to do progressive morphing.  "<<endl);
@@ -1568,11 +1570,12 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                    
          //#thread.gapPenalty = alignmentForcesGapPenalty;
          //#thread.isGapped   = alignmentForcesIsGapped;
-         MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesIsGapped = "<<alignmentForcesIsGapped<<endl);
+         //MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesIsGapped = "<<alignmentForcesIsGapped<<endl);
          MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesGapPenalty = "<<alignmentForcesGapPenalty<<endl);
          MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesMatchScore = "<<alignmentForcesMatchScore<<endl);
          MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesMismatchScore = "<<alignmentForcesMismatchScore<<endl);
-         MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently thread.isGapped = "<<thread.isGapped<<endl);
+         MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesScoringScheme = "<<alignmentForcesScoringScheme<<endl);
+         //MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently thread.isGapped = "<<thread.isGapped<<endl);
 
        
         
@@ -1582,17 +1585,19 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
          if ((parameterStringClass.getString(2)).length()==0) // User intends to set a boolean  parameter
          {
              if ((parameterStringClass.getString(1)).compare("noGap")==0){
-                    alignmentForcesIsGapped = false; 
+                    //alignmentForcesIsGapped = false; 
                     alignmentForcesGapPenalty = -10000. ; // artificially high value
-                    MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesIsGapped = "<<alignmentForcesIsGapped<<endl);
+                    //MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesIsGapped = "<<alignmentForcesIsGapped<<endl);
                     MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesGapPenalty = "<<alignmentForcesGapPenalty<<endl);
+                    MMBLOG_FILE_FUNC_LINE(CRITICAL, " This command is obsolete! Please set gapPenalty to a very negative value instead."<<endl);
 
                     return; // done with this command, go on to next line in command file
               } else if ((parameterStringClass.getString(1)).compare("gapped")==0){
-                  alignmentForcesIsGapped = true ; 
+                  //alignmentForcesIsGapped = true ; 
                   alignmentForcesGapPenalty = -1 ; // return to default
-                  MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesIsGapped = "<<alignmentForcesIsGapped<<endl);
+                  //MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesIsGapped = "<<alignmentForcesIsGapped<<endl);
                   MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesGapPenalty = "<<alignmentForcesGapPenalty<<endl);
+                  MMBLOG_FILE_FUNC_LINE(CRITICAL, " This command is obsolete! Please set gapPenalty to a very negative value instead."<<endl);
                   return; // done with this command, go on to next line in command file
               } else {
                   MMBLOG_FILE_FUNC_LINE(CRITICAL, "Syntax error!"<<endl);
@@ -1652,52 +1657,22 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                   MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesMismatchScore = "<<alignmentForcesMismatchScore<<endl);
                   return; // done with this command, go on to next line in command file
               } 
+	      else if ((parameterStringClass.getString(1)).compare("gapPenalty")==0){
+                  alignmentForcesGapPenalty = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
+                  MMBLOG_FILE_FUNC_LINE(INFO, "You have set  alignmentForcesGapPenalty= "<<alignmentForcesGapPenalty<<endl);
+                  return; // done with this command, go on to next line in command file
+              } 
+	      else if ((parameterStringClass.getString(1)).compare("scoringScheme")==0){
+                  alignmentForcesScoringScheme = (parameterStringClass.getString(2).c_str());
+                  MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesMismatchScore = "<<alignmentForcesMismatchScore<<endl);
+                  return; // done with this command, go on to next line in command file
+              } 
              else {
 		 MMBLOG_FILE_FUNC_LINE(CRITICAL, "alignmentForces : parameter "<< parameterStringClass.getString(1)<<" with value "<<parameterStringClass.getString(2)<<" not recognized."<<endl);
              }
 	} // of parameter setting section
         else if ( myBiopolymerClassContainer.hasChainID( parameterStringClass.getString(1)) &&   myBiopolymerClassContainer.hasChainID(parameterStringClass.getString(2)) && parameterStringClass.getString(3).length() == 0 ) { 
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "This syntax is no longer supported. Please issue alignmentForces forceConstant [double]"<<endl);}
-	 /*
-	// Syntax:  <alignmentForces> <Chain A>  <Chain-B>
-        else if ( myBiopolymerClassContainer.hasChainID( parameterStringClass.getString(1)) &&   myBiopolymerClassContainer.hasChainID(parameterStringClass.getString(2))) { 
-            MMBLOG_FILE_FUNC_LINE(INFO, "Detected you wish to align chains "<< parameterStringClass.getString(1)<<" and "<<parameterStringClass.getString(2)<<endl);
-	    String      chainA = parameterStringClass.getString(1);
-	    String      chainB = parameterStringClass.getString(2);
-            //MMBLOG_FILE_FUNC_LINE( " Detected you wish to align chains "<<chainA <<" and "<<chainB <<endl;
-
-	    if ((parameterStringClass.getString(3)).length() >0) 
-	    { 
-		MMBLOG_FILE_FUNC_LINE(CRITICAL, "Too many parameters for this command! This command no longer takes an optional <force constant> parameter, if that is what you were trying to provide. Instead set the force constant using syntax:  alignmentForces forceConstant <force constant (double)> "<<endl);
-         
-		myForceConstant= myAtoF(userVariables,parameterStringClass.getString(3).c_str());
-	    }
-	    else
-	    {
-		myForceConstant= alignmentForcesForceConstant;
-	    }
-	    if ((parameterStringClass.getString(4)).length() >0) 
-	    {
-		MMBLOG_FILE_FUNC_LINE(CRITICAL, "Too many parameters for this command!"<<endl);
-	    }
-	     
-	    MMBLOG_FILE_FUNC_LINE(INFO, "READER ThreadForceConstant "<<myForceConstant<<endl);
-    
-        MMBLOG_FILE_FUNC_LINE(INFO, "Creating a gapped threading for chain >"<<chainA<<"< versus chain >"<<chainB<<"< with force constant : "<<myForceConstant<<endl);
-            thread =  atomSpringContainer.createGappedThreading(chainA, chainB , myForceConstant, false,  myBiopolymerClassContainer);
-            //thread.gapPenalty = alignmentForcesGapPenalty;
-            thread.isGapped   = alignmentForcesIsGapped;
-            thread.deadLengthIsFractionOfInitialLength = alignmentForcesDeadLengthIsFractionOfInitialLength;
-            thread.deadLengthFraction = alignmentForcesDeadLengthFraction;
-            MMBLOG_FILE_FUNC_LINE(DEBUG, " Currently thread.isGapped = "<<thread.isGapped<<endl);
-            if (safeParameters) if (thread.isGapped == false) {
-                MMBLOG_FILE_FUNC_LINE(CRITICAL, "If you set \"noGap\" then this command requires residue numbers. Otherwise use a \"gapped\" alignment. "<<endl);
-            }
-
-
-
-        } // of alignmentFroces ChainA ChainB forceConstant
-        */
 
         else if ((parameterStringClass.getString(4)).length()==0 ) { // Syntax:  <alignmentForces> <Chain A>  <Chain-B>  [forceConstant]
 
@@ -1725,10 +1700,12 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             
             thread.updThreadingPartner(1).startResidue   = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(5),thread.updThreadingPartner(1).biopolymerClass.getChainID());
             thread.updThreadingPartner(1).  endResidue     = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(6),thread.updThreadingPartner(1).biopolymerClass. getChainID());
-            thread.isGapped   = alignmentForcesIsGapped;
+            //thread.isGapped   = alignmentForcesIsGapped;
             thread.matchScore   = alignmentForcesMatchScore;
             thread.mismatchScore   = alignmentForcesMismatchScore;
-            thread.isGapped   = alignmentForcesIsGapped;
+            thread.gapPenalty   = alignmentForcesGapPenalty   ;
+            thread.scoringScheme= alignmentForcesScoringScheme;
+            //thread.isGapped   = alignmentForcesIsGapped;
             thread.deadLengthIsFractionOfInitialLength = alignmentForcesDeadLengthIsFractionOfInitialLength;
             thread.deadLengthFraction = alignmentForcesDeadLengthFraction;
             thread.deadLength         = alignmentForcesDeadLength        ;
@@ -4806,10 +4783,11 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     addRNABackboneSterics= false;
     addSelectedAtoms         = false;
     addTestSpring = false;
-    alignmentForcesIsGapped = true;
+    //alignmentForcesIsGapped = true;
     alignmentForcesGapPenalty = -1;
     alignmentForcesMismatchScore = -1;
     alignmentForcesMatchScore = 0 ;
+    alignmentForcesScoringScheme = String("Blosum62") ;
     alignmentForcesDeadLengthFraction = 0;
     alignmentForcesDeadLength = 0;
     alignmentForcesDeadLengthIsFractionOfInitialLength = false;

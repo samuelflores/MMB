@@ -480,25 +480,6 @@ void AtomSpringContainer::createSpringsFromGappedThreading(BiopolymerClassContai
         // the above is now done by:
         thread. setLongSequences();
         TAlign align = thread.computeAlign(); //setLongSequences also calls computeAlign, but we are being paranoid. Plus this gives us a convenient return value.
-        //TAlign align;
-        /*
-        seqan::resize(rows(align), 2);
-        assignSource(row(align,0),seqA);
-        assignSource(row(align,1),seqB); 
-        // simple alignment: 
-        seqan::Blosum62 scoringScheme(-1, -12);
-        int score = globalAlignment(align,scoringScheme ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
-
-        std::cout << "Score: " << score << ::endl;
-        std::cout << align << ::endl;
-
-        seqan::AlignmentStats stats;
-        computeAlignmentStats(stats, align, scoringScheme);
-        thread.setAlignmentStats(stats); 
-        thread.printAlignmentStats(); // This is done in computeAlign 
-        cout<<__FILE__<<":"<<__LINE__<<" : "<< seqan::row(align,0)<<endl;
-        cout<<__FILE__<<":"<<__LINE__<<" : "<< seqan::row(align,1)<<endl;
-        */
         int aIndex = 0; int bIndex = 0; // Indices which count over residues in chains A and B.
 
         int i  = 0; // counts over columns in alignment

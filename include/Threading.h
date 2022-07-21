@@ -42,7 +42,11 @@ class ThreadingStruct {
         }
         double forceConstant;
         bool backboneOnly;
-        bool isGapped; //if False, then alignment is being provided explicitly. if True, precise alignment will be determined by MMB/SeqAn
+        //bool isGapped; //if False, then alignment is being provided explicitly. if True, precise alignment will be determined by MMB/SeqAn
+        double matchScore; 
+        double mismatchScore;
+        double gapPenalty;   
+	String scoringScheme;
         bool deadLengthIsFractionOfInitialLength; //If True, then dead length of each spring will be set to deadLengthFraction * <initial spring extension>. It makes sense that 1 > deadLengthFraction > 0.
         double deadLength; // This is an absolute dead length for the alignment springs. For default homology modeling behavior, should be 0.
         double deadLengthFraction;
@@ -98,17 +102,49 @@ class ThreadingStruct {
 	    seqan::resize(rows(align), 2);
 	    assignSource(row(align,0),threadingPartners[0].sequence);
 	    assignSource(row(align,1),threadingPartners[1].sequence);
-	    seqan::Blosum62 scoringScheme(-1, -12);
-	    int score = globalAlignment(align,scoringScheme ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
+	    //seqan::Score<int,seqan::Blosum62(-1,-12)> scoringSchemeObject;
+	    int score = -11111;
+	    if (scoringScheme == "Blosum62"){
+                seqan::Blosum62 scoringSchemeObject(-1,-12);
+	        score = globalAlignment(align,scoringSchemeObject ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
+	        std::cout <<__FILE__<<":"<<__LINE__<< "Score: " << score << ::std::endl;
+	        computeAlignmentStats(alignmentStats, align, scoringSchemeObject);
+	    }
+            else if (scoringScheme == "Simple"){
+                seqan::SimpleScore scoringSchemeObject(matchScore,mismatchScore, gapPenalty );
+	        score = globalAlignment(align,scoringSchemeObject ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
+	        std::cout <<__FILE__<<":"<<__LINE__<< "Score: " << score << ::std::endl;
+	        computeAlignmentStats(alignmentStats, align, scoringSchemeObject);
+	        //seqan::Simple scoringSchemeObject(matchScore,mismatchScore, alignmentForcesGapPenalty); 
+	    } else {
+	        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Your requested scoring scheme : "<< scoringScheme <<" is not supported. Please use one of the supported types."<<endl);
+	    }
+	    //seqan::Blosum62 scoringScheme(-1, -12);
+	    //// Args: match score, mismatch score, gap penalty
+	    //seqan::Simple   scoringScheme (matchScore,mismatchScore, alignmentForcesGapPenalty )
+	    //int score = globalAlignment(align,scoringSchemeObject ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
+	    //int score = globalAlignment(align,scoringScheme ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
 	    //"62" means matrix was constructed with max 62% seq. identity alignment.
 	    std::cout <<__FILE__<<":"<<__LINE__<< " SeqAn sequence alignment follows: "  << ::std::endl;
-	    std::cout <<__FILE__<<":"<<__LINE__<< "Score: " << score << ::std::endl;
 	    std::cout <<__FILE__<<":"<<__LINE__<< align << ::std::endl;
-	    computeAlignmentStats(alignmentStats, align, scoringScheme);
 	    printAlignmentStats();
 	    alignHasBeenComputed = 1;
             return align;
 	}
+	/*
+	// For reference, from the old BiopolymerClass.cpp:
+        TAlign BiopolymerClass::createGappedAlignment(BiopolymerClass otherBiopolymerClass, double alignmentForcesGapPenalty ){ // Set a default value of -1 for the gap penalty to allow gaps. For ungapped, do a big value e.g. -1000
+        TSequence seqA = getSubSequence(getFirstResidueID(),getLastResidueID()  ).c_str();  // Need a new BiopolymerClass method which retrieves subsequences.!
+        TSequence seqB = otherBiopolymerClass.getSubSequence(otherBiopolymerClass.getFirstResidueID(), otherBiopolymerClass.getLastResidueID() ).c_str();
+        TAlign align;
+        seqan::resize(rows(align), 2);
+        assignSource(row(align,0),seqA);
+        assignSource(row(align,1),seqB);
+        // simple alignment:
+        int score = globalAlignment(align, seqan::Score<int,seqan::Simple>(0,-1, alignmentForcesGapPenalty )); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
+        return align;
+}
+	 */ 
 
 	// return 0 for success, 1 for failure
 	bool getCorrespondingResidue(const ResidueID queryResidue, ResidueID & correspondingResidue, const int queryBiopolymerIndex, const int correspondingBiopolymerIndex){

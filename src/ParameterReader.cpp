@@ -343,148 +343,6 @@ bool checkForDouble(String const& s) {
 
 
 
-// a recursive algorithm for reading a double from a String.  This String may contain ints, user variables (begin with @), +, and -.  No whitespaces or additional characters should be in the String.
-/*
-double   myAtoF(  map<const String,double> myUserVariables,  const char* value){
-    MMBLOG_FILE_FUNC_LINE(INFO, "inside myAtoF. converting string : >"<<value<<"<"<<endl);
-    
-#ifdef Lepton_USAGE
-    map<string,double> leptonFormatUserVariables; // Wish this were not necessary. but userVariables uses the signature const SimTK::String,double . Lepton uses string, double.
-    leptonFormatUserVariables.clear();
-    for (auto  myUserVariablesIterator = myUserVariables.begin() ; myUserVariablesIterator !=myUserVariables.end(); myUserVariablesIterator++) {
-        leptonFormatUserVariables[myUserVariablesIterator->first] = myUserVariablesIterator->second;	    
-    }
-    double leptonResult = Lepton::Parser::parse(std::string(value)).evaluate(leptonFormatUserVariables);
-    MMBLOG_FILE_FUNC_LINE(INFO, " Lepton evaluation = >"<< leptonResult<<"< "<<std::endl);
-    return leptonResult; // if Lepton_USAGE is defined, then we return here and the rest of the procedure is not used. 
-#endif
-    // If Lepton_USAGE is NOT defined, then we parse the formula the old dumb way, as follows.
-
-    size_t plusPosition  = String(value).find_last_of('+'); // returns the position of the last '+' in value
-    size_t minusPosition = String(value).find_last_of('-'); // ditto for '-'
-    if ((plusPosition > minusPosition) && (plusPosition  != String::npos) )  minusPosition = String::npos; // If the plus sign is closer to the end of the string, pretend we didn't find any '-'
-    if ((plusPosition < minusPosition) && (minusPosition != String::npos) )  plusPosition  = String::npos; // Conversely, if the '-' is closer to the end, pretend we didn't find any '+' .. actually we might not have found any '+' anyway.
-    String baseDoubleString ;
-    double          increment = -1111;
-    double          decrement = -1111;
-    MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    if (plusPosition != String::npos) { // We have a '+' to deal with
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
-        baseDoubleString = String(value).substr(0, (plusPosition + 0) );
-        String incrementString = (String(value).substr(plusPosition+1,1000)); // the second parameter is ridiculously large, but will be truncated at the end of the input String.
-        //MMBLOG_FILE_FUNC_LINE(" The increment String is : "<<incrementString<<endl;
-        stringstream incrementStringStream(incrementString);
-        increment = myAtoF(myUserVariables, incrementString.c_str() );
-        decrement = 0;
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    } else if (minusPosition != String::npos ){ // we have a '-' to deal with
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
-        if (minusPosition== 0) {
-            // If this is just a leading '-' sign, then put a zero to the left of that minus.
-            MMBLOG_FILE_FUNC_LINE(INFO, "Detected a leading \'-\' sign. Will insert a zero to the left of the \'-\'."<<endl);
-            baseDoubleString = "0.0";
-        }
-        else {
-            // Otherwise, parse whatever is to the left of the minus sign:
-            baseDoubleString = String(value).substr(0, (minusPosition + 0) ); }
-        MMBLOG_FILE_FUNC_LINE(INFO, "baseDoubleString =  >"<<baseDoubleString  <<"< "<<endl);
-
-        String decrementString = (String(value).substr(minusPosition+1,1000)); // the second parameter is ridiculously large, but will be truncated at the end of the input String.
-        stringstream decrementStringStream(decrementString);
-        MMBLOG_FILE_FUNC_LINE(INFO, "About to extract numerical decrement from the string >"<<decrementString<<"< "<<endl);
-        decrement = myAtoF(myUserVariables, decrementString.c_str() );
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
-        increment = 0;
-        //MMBLOG_FILE_FUNC_LINE(endl;
-    } else { // no + or - found. This means we can return a result without further recursion.. i.e. we are at a leaf of the recursion tree.
-        MMBLOG_FILE_FUNC_LINE(INFO, endl);
-        if (!((increment == -1111 ) && (decrement == -1111 )  )) {
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);
-        }
-        baseDoubleString = String(value);        
-        increment = 0;
-        decrement = 0;
-        double baseDouble;
-        {
-            MMBLOG_FILE_FUNC_LINE(INFO, endl);
-            if ((baseDoubleString.substr(0,1)).compare("@") ==0) {
-                MMBLOG_FILE_FUNC_LINE(INFO, endl);
-                if (myUserVariables.find(baseDoubleString.c_str()) == myUserVariables.end())
-                {
-                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Undefined user variable "<<value<<endl);
-                }
-
-                MMBLOG_FILE_FUNC_LINE(INFO, "Read user variable "<<baseDoubleString.c_str()<<"  which is set to : "<<myUserVariables[baseDoubleString.c_str()]<<endl);
-                baseDouble = double(myUserVariables[baseDoubleString.c_str()]);
-            }
-            else {
-                // This has no '+', '-', or leading '@'.  However it's still possible that the user gave scientific notation, so e.g. 1e-5 leads here to baseDoubleString = '1e'.  So we need to make sure there is nothing but [0-9],'+','-' in this string:
-        if (isFixed(baseDoubleString)) {
-                    baseDouble = (atof(baseDoubleString.c_str()));
-                        MMBLOG_FILE_FUNC_LINE(INFO, "We appear to be in a leaf of the recursion tree for myAtoF. Parsed >"<<baseDoubleString<< "< as : "<<baseDouble<<endl);
-        } else {
-                        MMBLOG_FILE_FUNC_LINE(CRITICAL, "There was an error processing a putative floating point number."<<endl);
-        }
-            }
-        }
-        //MMBLOG_FILE_FUNC_LINE(endl;
-        return baseDouble;
-    }
-
-    //MMBLOG_FILE_FUNC_LINE(endl;
-    double baseDouble = myAtoF(myUserVariables,baseDoubleString.c_str() ) ;
-
-    double finalDouble = baseDouble + increment - decrement;
-    MMBLOG_FILE_FUNC_LINE(INFO, "Result of >"<< value  <<"< is : " << finalDouble <<endl);
-    return finalDouble;
-}*/
-/*
-bool ParameterReader::aToBool(  const char* value ) {
-
-    String upperValue(value);
-    for(int i=0;i<(int)upperValue.length();i++)  {
-        upperValue[i] = toupper(value[i]);
-    }    
-
-    if (( upperValue ==  "TRUE" ) ||( upperValue ==  "1")) {
-        MMBLOG_FILE_FUNC_LINE(DEBUG, "TRUE"<<endl);
-        return true;
-    }
-    else if (( upperValue ==  "FALSE" ) ||( upperValue ==  "0")){
-        MMBLOG_FILE_FUNC_LINE(DEBUG, "FALSE"<<endl);
-        return false;
-    }
-    else {
-        MMBLOG_FILE_FUNC_LINE(INFO, "Error -- you have specified"<<value<<endl);
-        SimTK_ERRCHK_ALWAYS((upperValue == "TRUE" || upperValue == "FALSE" || upperValue == "1"  || upperValue == "0") ,"[ParameterReader.cpp]"," requires either True or False but was set to something else"); 
-        return false;
-    }    
-
-}    
-
-bool ParameterReader::aToBool( const String& name, const char* value ) {
-    return aToBool(value);
-}    
-bool ParameterReader::compareUpper( const String& param, const char* symbol ) {
-
-    String upperParam(param);
-    String upperSym(symbol);
-
-    if( upperParam.length() != upperSym.length() ) return false; 
-
-
-    for(int i=0;i<(int)upperParam.length();i++)  {
-        upperParam[i] = toupper(param[i]);
-        upperSym[i] = toupper(symbol[i]);
-    }    
-
-    if( upperParam ==  upperSym )
-        return true;
-    else 
-        return false;
-}    
-
-*/
 // determines whether the provided residue is in any Rigid stretch in the base operation vector.
 bool isInRigidStretch(const ResidueID & myResidueID, const String myChainID, const MobilizerContainer & mobilizerContainer    ){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Testing residueID "<<myResidueID.outString()<<endl);
@@ -613,6 +471,8 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addSelectedAtoms                       bool    " + std::to_string ( addSelectedAtoms ) + " : Add steric spheres to certain RNA atoms as specified in the RNABuilder parameter file. " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useCIFFileFormat                       bool    " + std::to_string ( useCIFFileFormat ) + " : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesIsGapped                bool    " + std::to_string ( alignmentForcesIsGapped ) + " : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesMatchScore              double  " + std::to_string ( alignmentForcesMatchScore ) + " : Sets the match score for Seqan::Simple scoring scheme, for alignmentForces. " ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesMismatchScore              double  " + std::to_string ( alignmentForcesMismatchScore ) + " : Sets the mismatch score for Seqan::Simple scoring scheme, for alignmentForces. " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesGapPenalty              double  " + std::to_string ( alignmentForcesGapPenalty ) + " : The penalty applied to gaps. The noGaps condition is enforced with a high value of this parameter. Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesDeadLength              double  " + std::to_string ( alignmentForcesDeadLength ) + " : The final length to which the alignmentSprings equilibrate. Defaults to 0.             " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesDeadLengthFraction      double  " + std::to_string ( alignmentForcesDeadLengthFraction ) + " : The fraction of the initial length to which the alignmentSprings equilibrate. Should be in the interval (0,1]. A nonzero value enables e.g. progressive morphing.  Can vary through the course of the input commands file. This is only the final value." ) );
@@ -738,6 +598,8 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "addSelectedAtoms                       bool    "<<addSelectedAtoms<<" : Add steric spheres to certain RNA atoms as specified in the RNABuilder parameter file. " <<endl;
     myOstream << remarkString << "useCIFFileFormat                       bool    "<<useCIFFileFormat<<" : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " <<endl;
     myOstream << remarkString << "alignmentForcesIsGapped                bool    "<<alignmentForcesIsGapped<<" : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." <<endl;
+    myOstream << remarkString << "alignmentForcesMatchScore              double  "<<alignmentForcesMatchScore<<" : Match score to use in Seqan::Simple scoring scheme. " <<endl;
+    myOstream << remarkString << "alignmentForcesMismatchScore              double  "<<alignmentForcesMismatchScore<<" : Mismatch score to use in Seqan::Simple scoring scheme. " <<endl;
     myOstream << remarkString << "alignmentForcesGapPenalty              double  "<<alignmentForcesGapPenalty<<" : The penalty applied to gaps. The noGaps condition is enforced with a high value of this parameter. Can vary through the course of the input commands file. This is only the final value." <<endl;
     myOstream << remarkString << "alignmentForcesDeadLength              double  "<<alignmentForcesDeadLength<<" : The equilibrium length to which the springs will equilibrate. In nm." <<endl;
     myOstream << remarkString << "alignmentForcesDeadLengthFraction      double  "<<alignmentForcesDeadLengthFraction<<" : The fraction of the initial length to which the alignmentSprings equilibrate. Should be in the interval (0,1]. A nonzero value enables e.g. progressive morphing.  Can vary through the course of the input commands file. This is only the final value." <<endl;
@@ -1686,6 +1548,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "Usage: ");
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "First consider any parameters you wish to change : "<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces noGap : This sets the internal parameter alignmentForcesIsGapped to False, introduces a very high penalty for gaps in the alignment, and requires that the aligned fragments have the same number of residues. If you were looking for the old \"threading\" command, set this parameter."<<endl);
+         MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces matchScore : This sets the internal parameter  alignmentForcesMatchScore. Defaults to 0 (larger is more favorable). Applies to the seqan::Simple scoring scheme."<<endl);
+         MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces mismatchScore : This sets the internal parameter alignmentForcesMismatchScore. Defaults to -1 (more negative means more mimatch penalty). If you want to align with no offset, you should make this equal to the matchScore.   "<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces gapped : This means that gappedAlignment is left at True, and Seqan is used to figure out the alignment. This is the default behavior. "<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces deadLength <length, nm> : This sets the dead length of the springs. Use this equilibrate the springs to some distance other than zero.  "<<endl);
          MMBLOG_FILE_FUNC_LINE(ALWAYS, "alignmentForces deadLengthFraction <fraction> : This sets the dead length of the springs to <fraction> * (initial length). Use this e.g. to do progressive morphing.  "<<endl);
@@ -1706,6 +1570,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
          //#thread.isGapped   = alignmentForcesIsGapped;
          MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesIsGapped = "<<alignmentForcesIsGapped<<endl);
          MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesGapPenalty = "<<alignmentForcesGapPenalty<<endl);
+         MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesMatchScore = "<<alignmentForcesMatchScore<<endl);
+         MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesMismatchScore = "<<alignmentForcesMismatchScore<<endl);
          MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently thread.isGapped = "<<thread.isGapped<<endl);
 
        
@@ -1776,6 +1642,16 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                  }
                  return;
              }
+             else if ((parameterStringClass.getString(1)).compare("matchScore")==0){
+                  alignmentForcesMatchScore = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
+                  MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesMatchScore = "<<alignmentForcesMatchScore <<endl);
+                  return; // done with this command, go on to next line in command file
+              } 
+	      else if ((parameterStringClass.getString(1)).compare("mismatchScore")==0){
+                  alignmentForcesMismatchScore = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
+                  MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesMismatchScore = "<<alignmentForcesMismatchScore<<endl);
+                  return; // done with this command, go on to next line in command file
+              } 
              else {
 		 MMBLOG_FILE_FUNC_LINE(CRITICAL, "alignmentForces : parameter "<< parameterStringClass.getString(1)<<" with value "<<parameterStringClass.getString(2)<<" not recognized."<<endl);
              }
@@ -1849,6 +1725,9 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             
             thread.updThreadingPartner(1).startResidue   = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(5),thread.updThreadingPartner(1).biopolymerClass.getChainID());
             thread.updThreadingPartner(1).  endResidue     = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(6),thread.updThreadingPartner(1).biopolymerClass. getChainID());
+            thread.isGapped   = alignmentForcesIsGapped;
+            thread.matchScore   = alignmentForcesMatchScore;
+            thread.mismatchScore   = alignmentForcesMismatchScore;
             thread.isGapped   = alignmentForcesIsGapped;
             thread.deadLengthIsFractionOfInitialLength = alignmentForcesDeadLengthIsFractionOfInitialLength;
             thread.deadLengthFraction = alignmentForcesDeadLengthFraction;
@@ -4929,6 +4808,8 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     addTestSpring = false;
     alignmentForcesIsGapped = true;
     alignmentForcesGapPenalty = -1;
+    alignmentForcesMismatchScore = -1;
+    alignmentForcesMatchScore = 0 ;
     alignmentForcesDeadLengthFraction = 0;
     alignmentForcesDeadLength = 0;
     alignmentForcesDeadLengthIsFractionOfInitialLength = false;
@@ -5078,7 +4959,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     previousFrameFileName= "NOT-SET";///Users/samuelflores/svn/tar-dynamics/last.pdb" ;
     enforceParallelness  = false;
 #ifdef MMB_NTC_ENABLED
-    NtCForceScaleFactor = 20;  # was 5000, but that was too strong and led to poor convergence. 
+    NtCForceScaleFactor = 20;  //# was 5000, but that was too strong and led to poor convergence. 
 #endif // MMB_NTC_ENABLED
     // end of variables improted from Repel.h
 

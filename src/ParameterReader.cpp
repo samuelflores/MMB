@@ -2046,11 +2046,19 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
             myBasePair.FirstBPResidue =  myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(2).c_str(), myBasePair.FirstBPChain  );
 
             myBasePair.FirstBPEdge = parameterStringClass.getString(3);
+	    if (!isKnownBondingEdge(myBasePair.FirstBPEdge)) {
+	        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Bonding edge specifier \"" << myBasePair.FirstBPEdge << "\" is not a known bonding edge" << std::endl);
+	    }
+
             if ((myBasePair.FirstBPEdge.compare("ChiBondAnti") ==0) ){
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "ChiBondAnti is not currently supported.  Making sure you don't use it.."<<endl);}
             myBasePair.SecondBPChain = ((parameterStringClass.getString(4)));            
             myBasePair.SecondBPResidue =  myBiopolymerClassContainer.residueID(userVariables,parameterStringClass.getString(5).c_str(), myBasePair.SecondBPChain  );
             myBasePair.SecondBPEdge = parameterStringClass.getString(6);            
+	    if (!isKnownBondingEdge(myBasePair.SecondBPEdge)) {
+	        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Bonding edge specifier \"" << myBasePair.SecondBPEdge << "\" is not a known bonding edge" << std::endl);
+	    }
+
             myBasePair.OrientationBP = parameterStringClass.getString(7);           
             if (parameterStringClass.getString(8).length() > 0) {  
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "Too many parameters!  Priorities are no longer supported for baseInteraction\'s. "<<endl);

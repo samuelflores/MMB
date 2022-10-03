@@ -51,37 +51,23 @@ struct LeontisWesthofBondRow   {
         double distanceC1pC1p;
 };
 
-class  LeontisWesthofBondKey {
+class LeontisWesthofBondKey {
     public:
 	String pdbResidueName1;
 	String pdbResidueName2;
-        String bondingEdge1; 
+        String bondingEdge1;
 	String bondingEdge2;
 	String glycosidicBondOrientation;
         String isTwoTransformForce;
-        LeontisWesthofBondKey(String myPdbResidueName1, String myPdbResidueName2,String myBondingEdge1, String myBondingEdge2, String myGlycosidicBondOrientation, String myIsTwoTransformForce); 
-        LeontisWesthofBondKey(LeontisWesthofBondRow myLeontisWesthofBondRow) ; 
-};
-struct LeontisWesthofBondKeyCmp {
-    bool operator()( const LeontisWesthofBondKey ti1, const LeontisWesthofBondKey ti2 ) const {
-        if (ti1.pdbResidueName1 < ti2.pdbResidueName1) return 1;
-        else if (ti1.pdbResidueName1 > ti2.pdbResidueName1) return 0;
-        else if ((ti1.pdbResidueName2 < ti2.pdbResidueName2)) return  1;
-        else if ((ti1.pdbResidueName2 > ti2.pdbResidueName2)) return  0;
-        else if ((ti1.bondingEdge1 < ti2.bondingEdge1)) return  1;
-        else if ((ti1.bondingEdge1 > ti2.bondingEdge1)) return  0;
-        else if ((ti1.bondingEdge2 < ti2.bondingEdge2)) return  1;
-        else if ((ti1.bondingEdge2 > ti2.bondingEdge2)) return  0;
-        else if ((ti1.glycosidicBondOrientation < ti2.glycosidicBondOrientation)) return  1;
-        else if ((ti1.glycosidicBondOrientation > ti2.glycosidicBondOrientation)) return  0;
-        else if ((ti1.isTwoTransformForce < ti2.isTwoTransformForce)) return  1;
-        else if ((ti1.isTwoTransformForce > ti2.isTwoTransformForce)) return  0;
-        else return 0;
-    }
-};
+        LeontisWesthofBondKey(
+            String myPdbResidueName1, String myPdbResidueName2,
+            String myBondingEdge1, String myBondingEdge2,
+            String myGlycosidicBondOrientation, String myIsTwoTransformForce
+        );
+        LeontisWesthofBondKey(LeontisWesthofBondRow myLeontisWesthofBondRow);
 
-    static map <const LeontisWesthofBondKey, LeontisWesthofBondRow, LeontisWesthofBondKeyCmp> leontisWesthofMap;
-
+        bool operator==(const LeontisWesthofBondKey &other) const noexcept;
+};
 
 struct LeontisWesthofBondMatrix {
 	vector<LeontisWesthofBondRow> myLeontisWesthofBondRow;
@@ -89,7 +75,7 @@ struct LeontisWesthofBondMatrix {
 class LeontisWesthofClass  { 
 public:
     LeontisWesthofBondMatrix myLeontisWesthofBondMatrix;
-    int  initialize          ( String inFileName) ;
+    void initialize(const String &inFileName);
     Transform getLeontisWesthofTransform(LeontisWesthofBondRow myLeontisWesthofBondRow) const;
 
     LeontisWesthofBondRow getNearestLeontisWesthofBondRow(String myPdbResidueName1,  String myPdbResidueName2, Transform residue1Transform, Transform residue2Transform)  const;
@@ -107,5 +93,7 @@ public:
     LeontisWesthofBondRow getLeontisWesthofBondRow(ResidueID myResidueNumber1,ResidueID myResidueNumber2, String myPdbResidueName1, String myBondingEdge1, String myPdbResidueName2,String myBondingEdge2, String myGlycosidicBondOrientation,String myBasePairIsTwoTransformForce) const  ;
 
 };
+
+bool isKnownBondingEdge(const std::string &edge);
 
 #endif //      BaseInteractionParameterReader_H_

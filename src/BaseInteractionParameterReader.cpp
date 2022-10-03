@@ -8,18 +8,168 @@
  * See RNABuilder.cpp for the copyright and usage agreement.                  *
  * -------------------------------------------------------------------------- */
 
-//#include <ostream>
 #include <MMBLogger.h>
 #include <iostream>
 #include <istream>
 #include <fstream>
+#include <ostream>
+#include <set>
 #include "SimTKsimbody.h"
 #include "BaseInteractionParameterReader.h"
-const int numLeontisWesthofBondMatrixRows=(26*16+4*4);  // yes, global constants are bad.  Couldn't think of an elegant way around this one though.  This number should be exactly equal to the number of rows in the leontisWesthofBondMatrix
+static constexpr int numLeontisWesthofBondMatrixRows=(26*16+4*4);  // yes, global constants are bad.  Couldn't think of an elegant way around this one though.  This number should be exactly equal to the number of rows in the leontisWesthofBondMatrix
 //const int maxParallelTorques = 1000; //max number of parallel torques to be applied.  This can be huge, minimal cost for doing that.
+
+std::ostream & operator<<(std::ostream &os, const LeontisWesthofBondKey &key) {
+    os << "LeontisWesthofBondKey:\n"
+       << "pdbResidueNames:\t" << "\"" << key.pdbResidueName1 << "\", \"" << key.pdbResidueName2 << "\"\n"
+       << "bondingEdges:\t" << "\"" << key.bondingEdge1 << "\", \"" << key.bondingEdge2 << "\"\n"
+       << "glycosidicBondOrientation:\t" << "\"" << key.glycosidicBondOrientation << "\"\n"
+       << "isTwoTransformForce:\t" << "\"" << key.isTwoTransformForce << "\"\n";
+
+    return os;
+}
+
+inline
+double str_to_dbl(const std::string &s) {
+    try {
+        return std::stod(s);
+    } catch (const std::invalid_argument &) {
+        return 0.0;
+    }
+}
+
+namespace std {
+    template<> struct less<LeontisWesthofBondKey> {
+        bool operator()(const LeontisWesthofBondKey &ti1, const LeontisWesthofBondKey &ti2) const {
+            if      (ti1.pdbResidueName1 < ti2.pdbResidueName1) return 1;
+            else if (ti1.pdbResidueName1 > ti2.pdbResidueName1) return 0;
+            else if (ti1.pdbResidueName2 < ti2.pdbResidueName2) return 1;
+            else if (ti1.pdbResidueName2 > ti2.pdbResidueName2) return 0;
+            else if (ti1.bondingEdge1 < ti2.bondingEdge1) return 1;
+            else if (ti1.bondingEdge1 > ti2.bondingEdge1) return 0;
+            else if (ti1.bondingEdge2 < ti2.bondingEdge2) return 1;
+            else if (ti1.bondingEdge2 > ti2.bondingEdge2) return 0;
+            else if (ti1.glycosidicBondOrientation < ti2.glycosidicBondOrientation) return 1;
+            else if (ti1.glycosidicBondOrientation > ti2.glycosidicBondOrientation) return 0;
+            else if (ti1.isTwoTransformForce < ti2.isTwoTransformForce) return 1;
+            else if (ti1.isTwoTransformForce > ti2.isTwoTransformForce) return 0;
+
+	    return 0;
+        }
+    };
+}
 
 using namespace SimTK;
 using namespace std;
+
+bool LeontisWesthofBondKey::operator==(const LeontisWesthofBondKey &other) const noexcept {
+    return
+        (this->pdbResidueName1 == other.pdbResidueName1) &&
+        (this->pdbResidueName2 == other.pdbResidueName2) &&
+        (this->bondingEdge1    == other.bondingEdge1) &&
+        (this->bondingEdge2    == other.bondingEdge2) &&
+        (this->glycosidicBondOrientation == other.glycosidicBondOrientation) &&
+	(this->isTwoTransformForce == other.isTwoTransformForce);
+}
+
+static map <LeontisWesthofBondKey, LeontisWesthofBondRow> leontisWesthofMap;
+
+static const set<std::string> KnownBondingEdges{
+    "",
+    "Bifurcated",
+    "Concentricity",
+    "HelicalStackingA3",
+    "HelicalStackingB3",
+    "Hoogsteen",
+    "ChiBondAnti",
+    "InterResidueForce",
+    "Parallelness",
+    "PointToPlane",
+    "Rigid",
+    "Stacking",
+    "Stacking3",
+    "Stacking5",
+    "SugarEdge",
+    "SuperimposeC3p",
+    "Superimpose",
+    "WatsonCrick",
+    "Weld",
+    "Concentricity",
+    "HelicalStackingA3",
+    "HelicalStackingB3",
+    "Hoogsteen",
+    "ChiBondAnti",
+    "InterResidueForce",
+    "Parallelness",
+    "PointToPlane",
+    "Rigid",
+    "Stacking",
+    "Stacking3",
+    "Stacking5",
+    "SugarEdge",
+    "SuperimposeC3p",
+    "Superimpose",
+    "WatsonCrick",
+    "Weld",
+    "HelicalStackingB3",
+    "Superimpose",
+    "WatsonCrick",
+    "HelicalStackingB3",
+    "Superimpose",
+    "WatsonCrick",
+    "HelicalStackingB3",
+    "SamePolarityQuadStacking3",
+    "Superimpose",
+    "WatsonCrick",
+    "HelicalStackingB3",
+    "Superimpose",
+    "WatsonCrick",
+    "Concentricity",
+    "HelicalStackingA3",
+    "HelicalStackingB3",
+    "Hoogsteen",
+    "ChiBondAnti",
+    "InterResidueForce",
+    "Parallelness",
+    "PointToPlane",
+    "Rigid",
+    "SamePolarityQuadStacking3",
+    "SamePolarityQuadStacking5",
+    "Stacking",
+    "Stacking3",
+    "Stacking5",
+    "SugarEdge",
+    "SuperimposeC3p",
+    "Superimpose",
+    "WatsonCrick",
+    "Weld",
+    "HardSphere",
+    "ChiBond",
+    "ProteinBackboneSterics",
+    "SelectedAtoms",
+    "SingleAtomNucleicAcid",
+    "HelicalStackingB3",
+    "WatsonCrick",
+    "Concentricity",
+    "HelicalStackingA3",
+    "HelicalStackingA5",
+    "HelicalStackingB3",
+    "HelicalStackingB5",
+    "Hoogsteen",
+    "ChiBondAnti",
+    "InterResidueForce",
+    "Parallelness",
+    "PointToPlane",
+    "Rigid",
+    "Stacking",
+    "Stacking3",
+    "Stacking5",
+    "SugarEdge",
+    "SuperimposeC3p",
+    "Superimpose",
+    "WatsonCrick",
+    "Weld"
+};
 
 /**
  * 
@@ -49,103 +199,102 @@ using namespace std;
     }; 	
 //};
 
-    int  LeontisWesthofClass::initialize          ( String inFileName) {
+    void LeontisWesthofClass::initialize(const String &inFileName) {
         leontisWesthofMap.clear();
         myLeontisWesthofBondMatrix.myLeontisWesthofBondRow.clear();
-        ifstream inFile(inFileName.c_str(),ifstream::in);
+
+        ifstream inFile(inFileName, ifstream::in);
         MMBLOG_FILE_FUNC_LINE(INFO, "Now checking for existence of "<<inFileName<<endl);
 
-        if (!(inFile.good())) {
+        if (!inFile.good()) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to open parameter file "<<inFileName<<endl);
         }
 	MMBLOG_FILE_FUNC_LINE(INFO, "Parameter file " << inFileName << " opened sucessfully\n");
-        int q=0;
-	//char * s; 
+
         string s;
-        //s = new char[500];
         while (inFile.good()) {
             std::getline(inFile,s,',');
-            //inFile.getline(s,500,',');
-             
 
-            if ((String(s)).compare("RECORD") == 0)  { //if this is a RECORD entry
+            if (s == "RECORD") { //if this is a RECORD entry
+                LeontisWesthofBondRow row;
+
                 std::getline(inFile,s,',');
-            	//inFile.getline( s, 100,',' );
-                LeontisWesthofBondRow tempRow;
-                myLeontisWesthofBondMatrix.myLeontisWesthofBondRow.push_back(tempRow);
-	        (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).pdbResidueName1 = String(s);
+	        row.pdbResidueName1 = String(s);
+
                 std::getline(inFile,s,',');
-                //inFile.getline( s, 100,',' );
-	        (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).pdbResidueName2 = String(s);
+	        row.pdbResidueName2 = String(s);
+
                 std::getline(inFile,s,',');
-                //inFile.getline( s, 100,',' );
-	        (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).bondingEdge1    = String(s);
+		if (!isKnownBondingEdge(s)) {
+		    MMBLOG_PLAIN(CRITICAL, "Bonding edge specified \"" << s << "\" is not on the list of known bonding edges");
+		}
+	        row.bondingEdge1 = String(s);
+
                 std::getline(inFile,s,',');
-                //inFile.getline( s, 100,',' );
-	        (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).bondingEdge2    = String(s);
+		if (!isKnownBondingEdge(s)) {
+		    MMBLOG_PLAIN(CRITICAL, "Bonding edge specified \"" << s << "\" is not on the list of known bonding edges");
+		}
+	        row.bondingEdge2 = String(s);
+
                 std::getline(inFile,s,',');
-                //inFile.getline( s, 100,',' );
-	        (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).glycosidicBondOrientation = String(s);
-;
+	        row.glycosidicBondOrientation = String(s);
+
                 for (int r=0; r<4; r++) {
                     std::getline(inFile,s,',');
-	            //inFile.getline( s, 100,',' );
-	            (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).residue1Atom[r] = String(s);
-                } 
-                for (int r=0; r<4; r++) {
-                    std::getline(inFile,s,',');
-	            //inFile.getline( s, 100,',' );
-	            (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).residue2Atom[r] = String(s);
-                } 
-                for (int r=0; r<4; r++) {
-                    std::getline(inFile,s,',');
-	            //inFile.getline( s, 100,',' );
-	            (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).bondLength[r] =   (double)atof(s.c_str());
-                } 
-                for (int r=0; r<4; r++) {
-                    std::getline(inFile,s,',');
-	            //inFile.getline( s, 100,',' );
-	            (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).springConstant[r] = (double)atof(s.c_str());
-                } 
-                std::getline(inFile,s,',');
-	        //inFile.getline(s,100,',');
-	        (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).torqueConstant =  (double)atof(s.c_str());
-		assert ((myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).torqueConstant >= 0);
-                for (int r=0; r<3; r++) {
-                    std::getline(inFile,s,',');
-	            //inFile.getline( s, 100,',' );
-	            (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).attachmentPoint[r] = atof(s.c_str());
+	            row.residue1Atom[r] = String(s);
                 }
-                std::getline(inFile,s,',');
-                //inFile.getline( s, 100,',' );
-                (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).rotationAngle = (double)atof(s.c_str());
-                for (int r=0; r<3; r++) {
+                for (int r=0; r<4; r++) {
                     std::getline(inFile,s,',');
-	            //inFile.getline( s, 100,',' );
-	            (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).rotationAxis[r] = atof(s.c_str());
+	            row.residue2Atom[r] = String(s);
+                }
+                for (int r=0; r<4; r++) {
+                    std::getline(inFile,s,',');
+	            row.bondLength[r] = str_to_dbl(s);
+                }
+                for (int r=0; r<4; r++) {
+                    std::getline(inFile,s,',');
+	            row.springConstant[r] = str_to_dbl(s);
                 }
 
                 std::getline(inFile,s,',');
-                //inFile.getline( s, 100,',' );
-                (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).isTwoTransformForce= String(s);
+	        row.torqueConstant = str_to_dbl(s);
+
+		assert(row.torqueConstant >= 0);
+                for (int r=0; r<3; r++) {
+                    std::getline(inFile,s,',');
+	            row.attachmentPoint[r] = str_to_dbl(s);
+                }
 
                 std::getline(inFile,s,',');
-                //inFile.getline( s, 100,',' );
-                (myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).distanceC1pC1p = (double)atof(s.c_str());
+                row.rotationAngle = str_to_dbl(s);
+                for (int r=0; r<3; r++) {
+                    std::getline(inFile,s,',');
+	            row.rotationAxis[r] = str_to_dbl(s);
+                }
 
-                leontisWesthofMap[LeontisWesthofBondKey(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q])] = myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q];
-	        q++;
+                std::getline(inFile,s,',');
+                row.isTwoTransformForce = String(s);
+
+                std::getline(inFile,s,',');
+                row.distanceC1pC1p = str_to_dbl(s);
+
+		myLeontisWesthofBondMatrix.myLeontisWesthofBondRow.push_back(std::move(row));
+		size_t positionIdx = myLeontisWesthofBondMatrix.myLeontisWesthofBondRow.size() - 1;
+
+		// NOTE: This creates two identical copies of the LeontisWesthofBondRow object
+		auto copy = myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[positionIdx];
+                leontisWesthofMap[LeontisWesthofBondKey(copy)] = copy;
             }
-            }
-        SimTK_ERRCHK_ALWAYS(leontisWesthofMap.size() ==  myLeontisWesthofBondMatrix.myLeontisWesthofBondRow.size() ,"[BaseInteractionParameterReader.cpp]","Inconsistency in number of Leontis-Westhof bond rows. This probably means that your parameter file tried to specify parameters for the same interaction twice!"); 
-         
-         
-        //delete[] s;	
+        }
+
+        SimTK_ERRCHK_ALWAYS(
+            leontisWesthofMap.size() ==  myLeontisWesthofBondMatrix.myLeontisWesthofBondRow.size(),
+            "[BaseInteractionParameterReader.cpp]","Inconsistency in number of Leontis-Westhof bond rows. This probably means that your parameter file tried to specify parameters for the same interaction twice!"
+        );
+
         inFile.close();
         MMBLOG_FILE_FUNC_LINE(INFO, "done initializing myLeontisWesthofBondMatrix"<<endl);
-
-        return(0);
-        };
+    }
 
 
     void LeontisWesthofClass::printLeontisWesthofBondRows () {    
@@ -231,20 +380,22 @@ using namespace std;
     //}
     };
 
-    LeontisWesthofBondRow LeontisWesthofClass::getLeontisWesthofBondRow(ResidueID myResidueNumber1,ResidueID myResidueNumber2, String myPdbResidueName1, String myBondingEdge1, String myPdbResidueName2,String myBondingEdge2, String myGlycosidicBondOrientation,String myBasePairIsTwoTransformForce) const {
-
-        static map <const LeontisWesthofBondKey, LeontisWesthofBondRow, LeontisWesthofBondKeyCmp>::iterator iter = leontisWesthofMap.begin();
-
-        iter = leontisWesthofMap.find(LeontisWesthofBondKey(myPdbResidueName1, myPdbResidueName2, myBondingEdge1,  myBondingEdge2,  myGlycosidicBondOrientation,  myBasePairIsTwoTransformForce));
-        
-        LeontisWesthofBondRow myReturnLeontisWesthofBondRow;
-        
-        if (iter != leontisWesthofMap.end() ) 
-            myReturnLeontisWesthofBondRow =  iter->second ;
-        else {
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unable to find parameters for interaction : "<< myBasePairIsTwoTransformForce<<" between residue type: \""<<myPdbResidueName1 <<"\" , and residue type \""<<myPdbResidueName2<<"\", parameter "<<myBondingEdge1<<", "<<myBondingEdge2<<", orientation "<<myGlycosidicBondOrientation<<" between residue numbers "<<myResidueNumber1.getResidueNumber()<<" and "<<myResidueNumber2.getResidueNumber()<<endl);
+    LeontisWesthofBondRow LeontisWesthofClass::getLeontisWesthofBondRow(ResidueID myResidueNumber1, ResidueID myResidueNumber2, String myPdbResidueName1, String myBondingEdge1, String myPdbResidueName2, String myBondingEdge2, String myGlycosidicBondOrientation,String myBasePairIsTwoTransformForce) const {
+        const auto iter = leontisWesthofMap.find(
+            LeontisWesthofBondKey(
+	        myPdbResidueName1, myPdbResidueName2,
+		myBondingEdge1, myBondingEdge2,
+		myGlycosidicBondOrientation, myBasePairIsTwoTransformForce
+	    )
+	);
+        if (iter == leontisWesthofMap.end()) {
+            MMBLOG_FILE_FUNC_LINE(
+                CRITICAL,
+                "Unable to find parameters for interaction \"" << myBasePairIsTwoTransformForce << "\" between residue type: \""<<myPdbResidueName1 <<"\" , and residue type \""<<myPdbResidueName2<<"\", parameter "<<myBondingEdge1<<", "<<myBondingEdge2<<", orientation "<<myGlycosidicBondOrientation<<" between residue numbers "<<myResidueNumber1.getResidueNumber()<<" and "<<myResidueNumber2.getResidueNumber()<<endl
+            );
         }
 
+        LeontisWesthofBondRow myReturnLeontisWesthofBondRow = iter->second;
 
         if 
             (!((myPdbResidueName1.compare(myReturnLeontisWesthofBondRow.pdbResidueName1) == 0) &&
@@ -267,3 +418,6 @@ using namespace std;
         // if (0) cout<<"Inside getLeontisWesthofBondRow.  about to search for :"<<myPdbResidueName1<<","<<myBondingEdge1<<","<< myPdbResidueName2   <<","<<  myBondingEdge2    <<","<<    myGlycosidicBondOrientation <<"myBasePairIsTwoTransformForce"<<myBasePairIsTwoTransformForce<<endl;
     };
 
+bool isKnownBondingEdge(const std::string &edge) {
+    return KnownBondingEdges.find(edge) != KnownBondingEdges.cend();
+}

@@ -46,6 +46,7 @@ RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
 RUN mkdir /github/gemmi/build
 RUN mkdir /github/simbody/build
 RUN mkdir /github/molmodel/build
+RUN mkdir /github/openmm/build
 RUN mkdir /github/MMB/build
 #############
 
@@ -62,15 +63,6 @@ RUN make install
 #############
 
 #############
-# Build molmodel
-#############
-WORKDIR  /github/molmodel/build
-RUN cmake -DUSE_GEMMI=TRUE -DGEMMI_PATH=/github/gemmi/include -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF.  -DCMAKE_BUILD_TYPE=Release ..
-RUN make -j8
-RUN make install
-#############
-
-#############
 # Build simbody 
 #############
 WORKDIR /github/simbody/build
@@ -80,8 +72,30 @@ RUN make install
 #############
 
 #############
+# build openmm   
+#############
+WORKDIR /github/openmm/build
+RUN cmake ..
+RUN make -j8
+RUN make install
+#############
+
+#############
+# Build molmodel
+#############
+WORKDIR  /github/molmodel/build
+RUN cmake -DUSE_GEMMI=TRUE -DGEMMI_PATH=/github/gemmi/include -DSimbody_DIR=/usr/local/lib/cmake/simbody/ -DCMAKE_INSTALL_PREFIX=/usr/local -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DBUILD_TESTING_SHARED=OFF -DBUILD_TESTING_STATIC=OFF.  -DCMAKE_BUILD_TYPE=Release ..
+RUN make -j8
+RUN make install
+#############
+
+#############
 # Build MMB     
 #############
+RUN mkdir /github/MMB/documentation
+WORKDIR   /github/MMB/documentation
+RUN wget http://pe1.scilifelab.se/MMB-annex//MMB.4.tutorial.pdf
+RUN wget http://pe1.scilifelab.se/MMB-annex//MMB.4.Reference-Guide.pdf        
 WORKDIR  /github/MMB/build
 # checkout specifically version 4.0.0 of MMB:
 RUN git checkout tags/v4.0.0
@@ -89,7 +103,6 @@ RUN git checkout tags/v4.0.0
 RUN cmake -DGEMMI_DIR=/github/gemmi -DSEQAN_DIR=/github/seqan -DCMAKE_BUILD_TYPE=Release  ..
 RUN make -j8
 RUN make install
-RUN rm MMB libMMBlib.so
 #############
 
 #############

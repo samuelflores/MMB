@@ -391,7 +391,10 @@ void Spiral::parseInput(const  map<const String,double> & userVariables,String p
             MMBLOG_FILE_FUNC_LINE(DEBUG   , "  "<<endl);
             geometry = geometryEnum::cylinder;}
         return;
-    } else if ((parameterName.compare("pitch") ==0) || (parameterName.compare("interStrandDistance") ==0) )    {
+    } else if (parameterName.compare("interStrandDistance") ==0)    {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The parameter interStrandDistance is obsolete. Please use pitch instead. interStrandDistance suggested a distance along a perpendicular, which is deceptive because it is actually measured along a line of constant fi, much like the pitch of a screw."<<endl);
+
+    } else if (parameterName.compare("pitch") ==0)    {
         pitch = myAtoF(userVariables,(parameterValue).c_str());
         return;
     } else if ((parameterName).compare("spiralIsRightHanded") ==0)    {

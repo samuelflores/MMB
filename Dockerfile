@@ -42,7 +42,8 @@ RUN git clone  -b simbody-3.7 --single-branch https://github.com/simbody/simbody
 RUN git clone https://github.com/seqan/seqan.git /github/seqan
 # Clone specifically molmodel 3.1.0:
 RUN git clone -b v3.1.0  https://github.com/samuelflores/molmodel.git /github/molmodel
-RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
+# Clone specifically version 4.0.0 of MMB:
+RUN git clone -b v4.0.0 https://github.com/samuelflores/MMB.git /github/MMB
 # make build directories
 RUN mkdir /github/gemmi/build
 RUN mkdir /github/simbody/build
@@ -98,8 +99,7 @@ WORKDIR   /github/MMB/documentation
 RUN wget http://pe1.scilifelab.se/MMB-annex//MMB.4.tutorial.pdf
 RUN wget http://pe1.scilifelab.se/MMB-annex//MMB.4.Reference-Guide.pdf        
 WORKDIR  /github/MMB/build
-# checkout specifically version 4.0.0 of MMB:
-RUN git checkout tags/v4.0.0
+#RUN git checkout tags/v4.0.0
 # Important to specify Release build. Otherwise will not link with SimTKCommon properly.
 RUN cmake -DGEMMI_DIR=/github/gemmi -DSEQAN_DIR=/github/seqan -DCMAKE_BUILD_TYPE=Release  ..
 RUN make -j8

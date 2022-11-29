@@ -40,7 +40,8 @@ RUN git clone https://github.com/project-gemmi/gemmi.git /github/gemmi
 RUN git clone https://github.com/pandegroup/openmm.git   /github/openmm --branch 7.7.0
 RUN git clone  -b simbody-3.7 --single-branch https://github.com/simbody/simbody.git /github/simbody
 RUN git clone https://github.com/seqan/seqan.git /github/seqan
-RUN git clone  https://github.com/samuelflores/molmodel.git /github/molmodel
+# Clone specifically molmodel 3.1.0:
+RUN git clone -b v3.1.0  https://github.com/samuelflores/molmodel.git /github/molmodel
 RUN git clone https://github.com/samuelflores/MMB.git /github/MMB
 # make build directories
 RUN mkdir /github/gemmi/build

@@ -1,4 +1,4 @@
 #!/bin/sh
 
-printf "Don't forget, the tutorial and reference guides are in /github/MMB/documentation"
-
+printf "Don't forget, the tutorial and reference guides are in /github/MMB/documentation\n"
+printf ""

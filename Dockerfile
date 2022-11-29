@@ -38,6 +38,7 @@ ENV PATH "/usr/local/bin:$PATH"
 RUN chmod a+x /github/MMB/scripts/05-MMB-splash
 RUN cp /github/MMB/scripts/05-MMB-splash /etc/update-motd.d/
 RUN cat "/etc/update-motd.d/00-header" >> /root/.bashrc
+# Now on startup, /root/.bashrc should be read an a slightly informative splash message should appear:
 RUN cat "/etc/update-motd.d/05-MMB-splash" >> /root/.bashrc
 WORKDIR /work                  
 RUN cp    /github/MMB/include/resources/parameters.csv .

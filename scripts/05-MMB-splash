@@ -1,4 +1,5 @@
 #!/bin/sh
 
+printf "This image contains a compiled MMB\n"
 printf "Don't forget, the tutorial and reference guides are in /github/MMB/documentation\n"
 printf ""

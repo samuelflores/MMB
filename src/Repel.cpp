@@ -525,11 +525,11 @@ void ConstrainedDynamics::createMultibodyTree(CompoundSystem & system, State & s
         String currentChain = String(system.getCompound(c).getPdbChainId());
         if (_parameterReader->myBiopolymerClassContainer.hasChainID(currentChain)){
             String tempMobilizerType =  _parameterReader->myBiopolymerClassContainer.updBiopolymerClass(currentChain).getFirstResidueMobilizerType();
-            MMBLOG_FILE_FUNC_LINE(INFO, "Attaching biopolymer chain "<<currentChain<<" using mobilizer type = "<<tempMobilizerType<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "Attaching biopolymer chain "<<currentChain<<" using mobilizer type = "<<tempMobilizerType<<endl);
             system.modelOneCompound(c,tempMobilizerType  );
         } else {
             String tempMobilizerType ("Free");
-            MMBLOG_FILE_FUNC_LINE(INFO, "Attaching non-biopolymer chain "<<currentChain<<" using mobilizer type = "<<tempMobilizerType<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "Attaching non-biopolymer chain "<<currentChain<<" using mobilizer type = "<<tempMobilizerType<<endl);
             system.modelOneCompound(c, tempMobilizerType );  // for non-biopolymers, use the default behavior, which is for root atom to be connected with a Free mobilizer.
         }
     }

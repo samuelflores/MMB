@@ -14,7 +14,7 @@ FROM ubuntu:22.04 as OSSetup
 # cmake requires build-essential libssl-dev
 RUN apt update
 #RUN apt upgrade
-RUN apt install -y git wget swig doxygen libblas-dev liblapack-dev  cmake-curses-gui zlib1g zlib1g-dev apt-utils snapd build-essential libssl-dev software-properties-common lsb-release
+RUN apt install -y git wget swig doxygen libblas-dev liblapack-dev  cmake-curses-gui zlib1g zlib1g-dev apt-utils snapd build-essential libssl-dev software-properties-common lsb-release vim
 RUN mkdir /github
 #############
 

@@ -391,7 +391,7 @@ if (BUILD_STATIC)
 endif ()
 
 install(
-    FILES ${PROJECT_SOURCE_DIR}/include/resources/parameters.csv
+    FILES ${PROJECT_SOURCE_DIR}/resources/parameters.csv
     DESTINATION ${CMAKE_INSTALL_PREFIX}/share/MMB
 )
 

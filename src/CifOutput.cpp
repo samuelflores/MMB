@@ -109,8 +109,7 @@ void SimTK::CIFOut::reWriteOutCif ( const gemmi::Model& gModel, const std::strin
     else
     {
         //============================================ File does exist, read it, update it and re-write it
-        gemmi::cif::Document doc                      = gemmi::cif::read ( gemmi::MaybeGzipped ( fileName ) );
-        gemmi::Structure myTrajectoryOutputFile       = gemmi::make_structure ( doc );
+        gemmi::Structure myTrajectoryOutputFile       = gemmi::make_structure ( gemmi::cif::read ( gemmi::MaybeGzipped ( fileName ) ) );
         
         //============================================ Add model to structure
         myTrajectoryOutputFile.models.push_back       ( gModel );

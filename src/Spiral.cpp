@@ -340,7 +340,7 @@ void Spiral::writeSyntax()
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "geometry <sphere | cylinder>                                                   "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "And finally, to create the helix, issue:                        "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix writeCommands "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "The above should be the last sphericalHelix command you issue. "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "The above should be the last sphericalHelix command you issue, for the chainID specified. You can specify a new chainID, and change any other parameters, and then issue writeCommands again, to generate a second chain of pseudoatoms. "<<endl);
 }
 
     

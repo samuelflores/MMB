@@ -86,6 +86,7 @@ Real DensityForce::calcPotentialEnergy(const State& state) const
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, " The chain ID you specified, "<< myChainID << " does not correspond to any existing BiopolymerClass or MonoAtoms !"<<endl);
             }
         } // of for myParameterReader.densityContainer.numDensityStretches
+        MMBLOG_FILE_FUNC_LINE(INFO,  "(Use with caution)  totalPotentialEnergy / atom, over all MonoAtoms chains                 "<< totalPotentialEnergy / myParameterReader.myMonoAtomsContainer.getNumAtoms()  <<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, " Total potential energy due to density fitting potential = "<<totalPotentialEnergy <<std::endl);
         return totalPotentialEnergy;
         };

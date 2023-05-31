@@ -706,8 +706,13 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
        ((_parameterReader->includeNonBondAtomInBiopolymerVector.size() > 0) ||
     (_parameterReader->physicsContainer.getNumResidueStretches() /*includeAllNonBondAtomsInResidueVector.size()*/ > 0) ||
         (_parameterReader->includeAllResiduesWithinVector.size() > 0)) ;
+    bool myNonBondedOn = 
+    ((_parameterReader->globalCoulombScaleFactor >0) ||
+     (_parameterReader->globalVdwScaleFactor > 0));
  
-    if (myPhysicsWhereYouWantItActive) {
+    if (myPhysicsWhereYouWantItActive || (!(myNonBondedOn))) {
+    //if (myPhysicsWhereYouWantItActive) {
+        MMBLOG_FILE_FUNC_LINE(INFO, "Detected that myPhysicsWhereYouWantItActive = "<<myPhysicsWhereYouWantItActive<<" and myNonBondedOn = "<<myNonBondedOn<<". If the former is 1 OR the latter is 0, then we need to clear the DuMM includedNonbondAtomList . We do that now."<<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, "physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. Clearing list .."<<endl);
         _dumm.clearIncludedNonbondAtomList();
         MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
@@ -755,14 +760,15 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
         _parameterReader->myBiopolymerClassContainer.printAllIncludedResidues ( _parameterReader->physicsContainer.getResidueStretchVector());   //includeAllNonBondAtomsInResidueVector);
     }
     //MMBLOG_FILE_FUNC_LINE(INFO, "_parameterReader->includeAllResiduesWithinVector.size() = "<<_parameterReader->includeAllResiduesWithinVector.size() << endl);
-    bool myNonBondedOn = 
-    ((_parameterReader->globalCoulombScaleFactor >0) ||
-     (_parameterReader->globalVdwScaleFactor > 0));
+
+    //bool myNonBondedOn = 
+    //((_parameterReader->globalCoulombScaleFactor >0) ||
+    // (_parameterReader->globalVdwScaleFactor > 0));
     MMBLOG_FILE_FUNC_LINE(INFO, "You have Coulomb and/or VdW forces : "<<myNonBondedOn<<" and some sort of PhysicsWhereYouWantIt : "<<myPhysicsWhereYouWantItActive<<endl);
-    if (    myPhysicsWhereYouWantItActive && myNonBondedOn )
+    if (myPhysicsWhereYouWantItActive && myNonBondedOn)
     {
         MMBLOG_FILE_FUNC_LINE(INFO, "This is fine!"<<endl);
-    } else if (myPhysicsWhereYouWantItActive && (!( myNonBondedOn)) ) 
+    } else if (myPhysicsWhereYouWantItActive && (!( myNonBondedOn))) 
     {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "You turned on Physics Where You Want It but don't have VdW or electrostatic interactions turned on!"<<endl);
     } else if ((!(myPhysicsWhereYouWantItActive)) && myNonBondedOn) 

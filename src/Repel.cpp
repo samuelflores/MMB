@@ -794,13 +794,15 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     ////////////// Reading included monoAtoms (e.g. ions) //////////////
     MMBLOG_FILE_FUNC_LINE(INFO, "About to read monoAtoms, physicsWhereYouWantIt up to now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
     //MMBLOG_FILE_FUNC_LINE(INFO, "Detected myNonBondedOn = "<<myNonBondedOn<<endl);
-    if ( myNonBondedOn){
-        MMBLOG_FILE_FUNC_LINE(INFO, "As myNonBondedOn = "<<myNonBondedOn<< " is 1, we are adding the monoAtoms to DuMM's included atom list"<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "About to read monoAtoms, physicsWhereYouWantIt up to now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
-        _parameterReader->myMonoAtomsContainer.includeAllAtoms(_dumm);}
-    else {
-        MMBLOG_FILE_FUNC_LINE(INFO, "As myNonBondedOn = "<<myNonBondedOn<< " is 0, we are NOT adding the monoAtoms to DuMM's included atom list"<<endl);
-    }
+    //if ( myNonBondedOn){
+        //MMBLOG_FILE_FUNC_LINE(INFO, "As myNonBondedOn = "<<myNonBondedOn<< " is 1, we are adding the monoAtoms to DuMM's included atom list"<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to read monoAtoms, physicsWhereYouWantIt up to now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
+    _parameterReader->myMonoAtomsContainer.includeAllAtoms(_dumm);
+    MMBLOG_FILE_FUNC_LINE(INFO, "physicsWhereYouWantIt up to now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
+    //}
+    //else {
+        //MMBLOG_FILE_FUNC_LINE(INFO, "As myNonBondedOn = "<<myNonBondedOn<< " is 0, we are NOT adding the monoAtoms to DuMM's included atom list"<<endl);
+    //}
     MMBLOG_FILE_FUNC_LINE(INFO, "system.realizeTopology() "<<endl);
     _state = _system.realizeTopology();
     ////////////// Reading moleculeClassContainer //////////////

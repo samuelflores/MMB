@@ -1011,7 +1011,7 @@ void ConstrainedDynamics::runAllSteps() {
 	_system.realize(_state,Stage::Dynamics);
         MMBLOG_FILE_FUNC_LINE(DEBUG, " " << endl);
 	for (int i = 0;  i < _forces.getNumForces(); i++){
-            MMBLOG_FILE_FUNC_LINE(INFO, " Force "<<i<<" contributes potential energy = "<<	_forces.getForce(ForceIndex(i)).calcPotentialEnergyContribution(_state)<<endl); 
+            MMBLOG_FILE_FUNC_LINE(INFO, " Force "<<i<<" of "<< _forces.getNumForces() <<" contributes potential energy = "<<	_forces.getForce(ForceIndex(i)).calcPotentialEnergyContribution(_state)<<endl); 
 	}
         MMBLOG_FILE_FUNC_LINE(DEBUG, "Just did a zero time simulation" << endl);
         //MMBLOG_FILE_FUNC_LINE(CRITICAL, "Cannot run more steps" << endl);

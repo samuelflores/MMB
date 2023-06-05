@@ -190,6 +190,7 @@ inline double   myAtoF(  map<const String,double> myUserVariables,  const char* 
             }
         }
         //MMBLOG_FILE_FUNC_LINE(endl;
+	if (isnan(baseDouble)) MMBLOG_FILE_FUNC_LINE(CRITICAL, "The provided string >"<<value<<"< Evaluates to NaN! "<<endl);
         return baseDouble;
     }
 

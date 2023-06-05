@@ -64,23 +64,20 @@ Real DensityForce::calcPotentialEnergy(const State& state) const
                     MMBLOG_FILE_FUNC_LINE(DEBUG,  " Potential energy due to density and BiopolymerClassContainer: = "<< totalPotentialEnergy <<endl);
             } // of if myBiopolymerClassContainer.hasChainID	
             else if (myParameterReader.myMonoAtomsContainer.hasChainID(myChainID)){
-		    
+
+		double chainDensityEnergy = 0.0; // use this to sum energy for chain myChainID   
                 for (int i = 0; i < myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getNumAtoms(); i++) {
                     Vec3 myAtomLocation = myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getAtomLocationInGroundFrame(i,state);
-		    //ResidueID myResidueID = myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getResidueID(i);
 		    // Couldn't get getAtomElement to work .. just hard coding to unity for now.
 		    //SimTK::Compound::AtomIndex    myAtomIndex = myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getAtomIndex(myResidueID);
-
 		    int    myAtomicNumber = 1; //dumm.getAtomElement(myAtomIndex);
-                    //MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(Vec3(myAtomLocation[0], -4.79, 2.26)) = "<< myDensityMap.getDensity(Vec3(myAtomLocation[0], -4.79, 2.26))<<endl);
-                    //MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(Vec3(-.68,myAtomLocation[1],  2.26)) = "<< myDensityMap.getDensity(Vec3(-.68,myAtomLocation[1], 2.26))<<endl);
-                    //MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(Vec3(-.68,-4.79,myAtomLocation[2])) = "<< myDensityMap.getDensity(Vec3(-.68,-4.79,myAtomLocation[2]))<<endl);
-                    //MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(Vec3(-.68, -4.79, 2.26)) = "<< myDensityMap.getDensity(Vec3(-.68, -4.79, 2.26))<<endl);
                     MMBLOG_FILE_FUNC_LINE(DEBUG,  " myDensityMap.getDensity(myAtomLocation) = "<< myDensityMap.getDensity(myAtomLocation)<<" myAtomLocation = "<<myAtomLocation<<" myDensityMap.getForceConstant()        = "<<myDensityMap.getForceConstant()<<" myAtomicNumber = "<<myAtomicNumber<<endl);
-		    totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myDensityMap.getForceConstant() * myAtomicNumber;
-		    
+		    //totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myDensityMap.getForceConstant() * myAtomicNumber;
+		    chainDensityEnergy   -= myDensityMap.getDensity(myAtomLocation) * myDensityMap.getForceConstant() * myAtomicNumber;  
                 } // of for myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getNumAtoms()
-                MMBLOG_FILE_FUNC_LINE(INFO,  "(Use with caution)  totalPotentialEnergy / getMonoAtoms("<<myChainID<<").getNumAtoms() = "<< totalPotentialEnergy / myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getNumAtoms()  <<endl);
+		//totalPotentialEnergy -= myDensityMap.getDensity(myAtomLocation) * myDensityMap.getForceConstant() * myAtomicNumber;
+		totalPotentialEnergy += chainDensityEnergy; // Careful not to do a double negative! Note the negative sign in chainDensityEnergy   -= .. above.      
+                MMBLOG_FILE_FUNC_LINE(INFO,  "(Use with caution)  chainDensityEnergy / getMonoAtoms("<<myChainID<<").getNumAtoms() = "<< chainDensityEnergy / myParameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).getNumAtoms()  <<endl);
 		
             } else {
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, " The chain ID you specified, "<< myChainID << " does not correspond to any existing BiopolymerClass or MonoAtoms !"<<endl);

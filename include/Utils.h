@@ -118,7 +118,7 @@ inline double   myAtoF(  map<const String,double> myUserVariables,  const char* 
     }
     double leptonResult = Lepton::Parser::parse(std::string(value)).evaluate(leptonFormatUserVariables);
     MMBLOG_FILE_FUNC_LINE(INFO, " Lepton evaluation = >"<< leptonResult<<"< "<<std::endl);
-    if (isnan(baseDouble)) MMBLOG_FILE_FUNC_LINE(CRITICAL, "The provided string >"<<value<<"< Evaluates to NaN! "<<endl);
+    if (isnan(leptonResult)) MMBLOG_FILE_FUNC_LINE(CRITICAL, "The provided string >"<<value <<"< Evaluates to NaN! "<<endl);
     return leptonResult; // if Lepton_USAGE is defined, then we return here and the rest of the procedure is not used. 
 #endif
     // If  LEPTON_ENABLED is NOT defined, then we parse the formula the old dumb way, as follows.

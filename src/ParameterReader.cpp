@@ -1588,7 +1588,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                     //alignmentForcesIsGapped = false; 
                     alignmentForcesGapPenalty = -10000. ; // artificially high value
                     //MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesIsGapped = "<<alignmentForcesIsGapped<<endl);
-                    MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesGapPenalty = "<<alignmentForcesGapPenalty<<endl);
+                    MMBLOG_FILE_FUNC_LINE(INFO, "You have issued alignmentForces noGap    "<<endl);
                     MMBLOG_FILE_FUNC_LINE(CRITICAL, " This command is obsolete! Please set gapPenalty to a very negative value instead."<<endl);
 
                     return; // done with this command, go on to next line in command file
@@ -1596,7 +1596,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
                   //alignmentForcesIsGapped = true ; 
                   alignmentForcesGapPenalty = -1 ; // return to default
                   //MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesIsGapped = "<<alignmentForcesIsGapped<<endl);
-                  MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesGapPenalty = "<<alignmentForcesGapPenalty<<endl);
+                  MMBLOG_FILE_FUNC_LINE(INFO, "You have issued alignmentForces gapped   "<<endl);
+                  //MMBLOG_FILE_FUNC_LINE(INFO, "You have set alignmentForcesGapPenalty = "<<alignmentForcesGapPenalty<<endl);
                   MMBLOG_FILE_FUNC_LINE(CRITICAL, " This command is obsolete! Please set gapPenalty to a very negative value instead."<<endl);
                   return; // done with this command, go on to next line in command file
               } else {
@@ -1604,7 +1605,50 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
              }
 
          // do deadLengthFraction
-         } else if ((parameterStringClass.getString(3)).length()==0)  // User intends to set a parameter with a value
+         } 
+	
+         // here we handle the case that the user is specifying two strands or fragments for alignment.
+	 else if ( (((parameterStringClass.getString(7)).length()==0 ) &&  ((parameterStringClass.getString(6)).length()!=0 ))   ||
+                    ( myBiopolymerClassContainer.hasChainID( parameterStringClass.getString(1)) &&   myBiopolymerClassContainer.hasChainID(parameterStringClass.getString(2)) && parameterStringClass.getString(3).length() == 0 )) 
+	 { 
+	 // In case the user u    sed the syntax  <alignmentForces> <Chain A>  <start residue A> <end residue A>  <Chain-B>  <start residue B> <end residue B> 
+            MMBLOG_FILE_FUNC_LINE(ALWAYS, " You are invoking the syntax: "<<endl<<" alignmentForces <chain A> <start residue A> <end residue A> <chain B> <start residue B> <end residue B>       "<<endl);
+
+	    if ((parameterStringClass.getString(7)).length() >0) // Should never happen. Just being ultra paranoid.
+	    {
+		MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of parameters for this command! This command no longer takes an optional <force constant> parameter, if that is what you were trying to provide. Instead set the force constant using syntax:  alignmentForces forceConstant <force constant (double)> "<<endl);
+	    }
+	    if (((parameterStringClass.getString(7)).length()==0 ) &&  ((parameterStringClass.getString(6)).length()!=0 )){
+		    thread.updThreadingPartner(0).biopolymerClass =  myBiopolymerClassContainer.updBiopolymerClass( parameterStringClass.getString(1));
+		    thread.updThreadingPartner(0).startResidue =  myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(2),thread.updThreadingPartner(0).biopolymerClass.getChainID());
+		    thread.updThreadingPartner(0).endResidue     = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(3),thread.updThreadingPartner(0).biopolymerClass.getChainID());
+		    thread.updThreadingPartner(1).biopolymerClass =  myBiopolymerClassContainer.updBiopolymerClass( parameterStringClass.getString(4));
+		    thread.updThreadingPartner(1).startResidue   = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(5),thread.updThreadingPartner(1).biopolymerClass.getChainID());
+		    thread.updThreadingPartner(1).  endResidue     = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(6),thread.updThreadingPartner(1).biopolymerClass. getChainID());
+	    } 
+            else if ( myBiopolymerClassContainer.hasChainID( parameterStringClass.getString(1)) &&   myBiopolymerClassContainer.hasChainID(parameterStringClass.getString(2)) && parameterStringClass.getString(3).length() == 0 ) 
+	    {
+		    thread.updThreadingPartner(0).biopolymerClass =  myBiopolymerClassContainer.updBiopolymerClass( parameterStringClass.getString(1)); 
+		    thread.updThreadingPartner(0).startResidue =     thread.updThreadingPartner(0).biopolymerClass.getFirstResidueID();
+		    thread.updThreadingPartner(0).endResidue     =   thread.updThreadingPartner(0).biopolymerClass.getLastResidueID();
+		    thread.updThreadingPartner(1).biopolymerClass =  myBiopolymerClassContainer.updBiopolymerClass( parameterStringClass.getString(2)); 
+		    thread.updThreadingPartner(1).startResidue =     thread.updThreadingPartner(1).biopolymerClass.getFirstResidueID();
+		    thread.updThreadingPartner(1).endResidue     =   thread.updThreadingPartner(1).biopolymerClass.getLastResidueID();
+	    } else {
+		MMBLOG_FILE_FUNC_LINE(CRITICAL, " Looks like you tried to align two biopolymers, but the syntax was wrong somehow." <<endl);
+	    }
+	    thread.forceConstant   = alignmentForcesForceConstant; // set to super high value just to make sure it's being reset later.
+            thread.matchScore   = alignmentForcesMatchScore;
+            thread.mismatchScore   = alignmentForcesMismatchScore;
+            thread.gapPenalty   = alignmentForcesGapPenalty   ;
+            thread.scoringScheme= alignmentForcesScoringScheme;
+            thread.deadLengthIsFractionOfInitialLength = alignmentForcesDeadLengthIsFractionOfInitialLength;
+            thread.deadLengthFraction = alignmentForcesDeadLengthFraction;
+            thread.deadLength         = alignmentForcesDeadLength        ;
+
+         } 
+
+	 else if ((parameterStringClass.getString(3)).length()==0)  // User intends to set a parameter with a value
          {
               if ((parameterStringClass.getString(1)).compare("deadLengthFraction")==0){
                                        alignmentForcesDeadLengthFraction = myAtoF(userVariables,parameterStringClass.getString(2).c_str());
@@ -1671,46 +1715,21 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 		 MMBLOG_FILE_FUNC_LINE(CRITICAL, "alignmentForces : parameter "<< parameterStringClass.getString(1)<<" with value "<<parameterStringClass.getString(2)<<" not recognized."<<endl);
              }
 	} // of parameter setting section
+
         else if ( myBiopolymerClassContainer.hasChainID( parameterStringClass.getString(1)) &&   myBiopolymerClassContainer.hasChainID(parameterStringClass.getString(2)) && parameterStringClass.getString(3).length() == 0 ) { 
-            MMBLOG_FILE_FUNC_LINE(CRITICAL, "This syntax is no longer supported. Please issue alignmentForces forceConstant [double]"<<endl);}
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, "This syntax is no longer supported. Please issue alignmentForces forceConstant [double]"<<endl);
+	}
 
         else if ((parameterStringClass.getString(4)).length()==0 ) { // Syntax:  <alignmentForces> <Chain A>  <Chain-B>  [forceConstant]
 
 	    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of parameters for this command! This command no longer takes an optional <force constant> parameter, if that is what you were trying to provide. Instead set the force constant using syntax:  alignmentForces forceConstant <force constant (double)> "<<endl);
 
 
-         } else if (((parameterStringClass.getString(7)).length()==0 ) &&  ((parameterStringClass.getString(6)).length()!=0 ))   { 
-	 // In case the user u    sed the syntax  <alignmentForces> <Chain A>  <start residue A> <end residue A>  <Chain-B>  <start residue B> <end residue B> 
-            MMBLOG_FILE_FUNC_LINE(ALWAYS, " You are invoking the syntax: "<<endl<<" alignmentForces <chain A> <start residue A> <end residue A> <chain B> <start residue B> <end residue B>       "<<endl);
+         }
 
-	    if ((parameterStringClass.getString(7)).length() >0) // Should never happen. Just being ultra paranoid.
-	    {
-		MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of parameters for this command! This command no longer takes an optional <force constant> parameter, if that is what you were trying to provide. Instead set the force constant using syntax:  alignmentForces forceConstant <force constant (double)> "<<endl);
-		//myForceConstant= myAtoF(userVariables,parameterStringClass.getString(7).c_str());
-                //MMBLOG_FILE_FUNC_LINE(" myForceConstant= "<<myForceConstant<<endl;
-	    }
-            MMBLOG_FILE_FUNC_LINE(INFO, "alignmentForcesForceConstant = "<<alignmentForcesForceConstant<<endl);
-            thread.updThreadingPartner(0).biopolymerClass =  myBiopolymerClassContainer.updBiopolymerClass( parameterStringClass.getString(1));
-            thread.updThreadingPartner(0).startResidue =  myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(2),thread.updThreadingPartner(0).biopolymerClass.getChainID());
-//residueStart1   = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(2),thread.chainID1);
-            thread.updThreadingPartner(0).endResidue     = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(3),thread.updThreadingPartner(0).biopolymerClass.getChainID());
-            thread.forceConstant   = alignmentForcesForceConstant; // set to super high value just to make sure it's being reset later.
-            thread.updThreadingPartner(1).biopolymerClass =  myBiopolymerClassContainer.updBiopolymerClass( parameterStringClass.getString(4));
-            //thread.chainID2        = parameterStringClass.getString(4);
-            
-            thread.updThreadingPartner(1).startResidue   = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(5),thread.updThreadingPartner(1).biopolymerClass.getChainID());
-            thread.updThreadingPartner(1).  endResidue     = myBiopolymerClassContainer.residueID(userVariables, parameterStringClass.getString(6),thread.updThreadingPartner(1).biopolymerClass. getChainID());
-            //thread.isGapped   = alignmentForcesIsGapped;
-            thread.matchScore   = alignmentForcesMatchScore;
-            thread.mismatchScore   = alignmentForcesMismatchScore;
-            thread.gapPenalty   = alignmentForcesGapPenalty   ;
-            thread.scoringScheme= alignmentForcesScoringScheme;
-            //thread.isGapped   = alignmentForcesIsGapped;
-            thread.deadLengthIsFractionOfInitialLength = alignmentForcesDeadLengthIsFractionOfInitialLength;
-            thread.deadLengthFraction = alignmentForcesDeadLengthFraction;
-            thread.deadLength         = alignmentForcesDeadLength        ;
 
-         } else if ((parameterStringClass.getString(7)).length()>0 )   { // In case the user u    sed the syntax  <alignmentForces> <Chain A>  <start residue A> <end residue A>  <Chain-B>  <start residue B> <end residue B>   [forceConstant]
+	 else if ((parameterStringClass.getString(7)).length()>0 )   
+	 { // In case the user u    sed the syntax  <alignmentForces> <Chain A>  <start residue A> <end residue A>  <Chain-B>  <start residue B> <end residue B>   [forceConstant]
 		MMBLOG_FILE_FUNC_LINE(CRITICAL, "Wrong number of parameters for this command! This command no longer takes an optional <force constant> parameter, if that is what you were trying to provide. Instead set the force constant using syntax:  alignmentForces forceConstant <force constant (double)> "<<endl);
         } else {
 	    for (int i = 0 ; i < 10; i++){

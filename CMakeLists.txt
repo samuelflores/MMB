@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 function(CHECK_GEMMI_VERSION VERFILE)
-    string(REGEX MATCH "#define GEMMI_VERSION \"[0-9].[0-9].[0-9]\"" GEMMI_VERLINE ${GEMMI_VERFILE})
+    string(REGEX MATCH "#define GEMMI_VERSION \"[0-9].[0-9].[0-9](.*)\"" GEMMI_VERLINE ${GEMMI_VERFILE})
     string(REGEX MATCHALL "[0-9]" GEMMI_VER ${GEMMI_VERLINE})
 
     list(LENGTH GEMMI_VER GEMMI_VER_LEN)
@@ -13,8 +13,8 @@ function(CHECK_GEMMI_VERSION VERFILE)
     list(GET GEMMI_VER 1 GEMMI_MIN)
     list(GET GEMMI_VER 2 GEMMI_REV)
 
-    if ((NOT GEMMI_MAJ EQUAL 0) OR (NOT GEMMI_MIN EQUAL 5) OR (NOT GEMMI_REV GREATER_EQUAL 3))
-        message(FATAL_ERROR "Gemmi version ${GEMMI_MAJ}.${GEMMI_MIN}.${GEMMI_REV} is not compatible with MMB")
+    if ((NOT GEMMI_MAJ EQUAL 0) OR (NOT GEMMI_MIN EQUAL 6) OR (NOT GEMMI_REV GREATER_EQUAL 2))
+        message(FATAL_ERROR "Gemmi version ${GEMMI_MAJ}.${GEMMI_MIN}.${GEMMI_REV} is not compatible with MMB. Major version must be exactly 0.6 and minor version .2 or newer.")
     endif()
 
     message(STATUS "Found gemmi version ${GEMMI_MAJ}.${GEMMI_MIN}.${GEMMI_REV}")
@@ -88,9 +88,10 @@ elseif (WIN32)
 endif ()
 
 if (NOT "${GEMMI_DIR}" STREQUAL "")
-    include_directories(SYSTEM "${GEMMI_DIR}/include")
+    include_directories(SYSTEM "${GEMMI_DIR}/${CMAKE_INSTALL_INCLUDEDIR}")
+    link_directories(SYSTEM "${GEMMI_DIR}/${CMAKE_INSTALL_LIBDIR}")
 
-    file(READ "${GEMMI_DIR}/include/gemmi/version.hpp" GEMMI_VERFILE)
+    file(READ "${GEMMI_DIR}/${CMAKE_INSTALL_INCLUDEDIR}/gemmi/version.hpp" GEMMI_VERFILE)
     CHECK_GEMMI_VERSION(${GEMMI_VERFILE})
 else ()
     file(READ "${CMAKE_INSTALL_INCLUDEDIR}/gemmi/version.hpp" GEMMI_VERFILE)
@@ -277,6 +278,7 @@ if (BUILD_SHARED)
         PUBLIC  ${Molmodel_LIBRARIES}
         PRIVATE ${OpenMM_LIBRARY}
         PRIVATE ${ZLIB_LIBRARIES}
+        PRIVATE gemmi_cpp
     )
 
     if (BUILD_PYTHON_WRAPPER)
@@ -331,6 +333,7 @@ if (BUILD_STATIC)
         PUBLIC  ${Molmodel_STATIC_LIBRARIES}
         PRIVATE ${OpenMM_STATIC_LIBRARY}
         PRIVATE ${ZLIB_LIBRARIES}
+        PRIVATE gemmi_cpp
     )
 
     if (BUILD_PYTHON_WRAPPER)

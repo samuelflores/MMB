@@ -35,7 +35,7 @@ sphericalHelix spiralPdbFileName spiral.pdb
 sphericalHelix writeCommands
 
 # This is the P68 density map, provided by Dominik Hrevik and Pavel Plevka:
-densityFileName  LocalRef_02_Cl02_res85_nocaps2_box.mrc
+density densityFileName  LocalRef_02_Cl02_res85_nocaps2_box.mrc
 # This command tells MMB you want to compute the fitting energy for the coarse-grained chain Z. As a suggestion, vary one of the parameters above (center, radius, pitch, etc) and see which value gives you the lowest fitting energy. You can just search the stdout for "Total potential energy due to density fitting potential":
 fitToDensity Z
 # If you are varying the parameters to optimize, you will want to look at the fitting energy in the standard out.  In that case redirect the stdout to a log file. For example:

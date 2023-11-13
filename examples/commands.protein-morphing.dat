@@ -19,7 +19,8 @@ readAtStage 3
 loadSequencesFromPdb
 readBlockEnd
 
-alignmentForces noGap
+alignmentForces gapPenalty -10000
+
 alignmentForces  A 5 224 B 5 224
 #threading A 5 224 B 5 224 
 

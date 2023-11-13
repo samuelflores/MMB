@@ -3487,7 +3487,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
 
 
-    if (((parameterStringClass.getString(0)).compare("sphericalHelix") ==0)  )  {
+    if (((parameterStringClass.getString(0)).compare("sphericalHelix") ==0) ||  
+        ((parameterStringClass.getString(0)).compare("spiralDNA") ==0)  )  {
 	//MonoAtoms myMonoAtoms;
 	//myMonoAtoms.clear();
 	spiral.writeSyntax();    

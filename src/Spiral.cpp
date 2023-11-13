@@ -310,37 +310,37 @@ void Spiral::writeSphericalSpiralCommandFile(MonoAtomsContainer &monoAtomsContai
 
 void Spiral::writeSyntax()
 {
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix creates a spherical spiral of MG2+ ions. Eventually it will be adaptive to the density. You need to provide the spherical center (3D), the spherical radius, the pitch (inter-duplex distance), all in nm. You need start and end theta in rads. There are other optional parameters. "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA creates a spherical spiral of MG2+ ions. Eventually it will be adaptive to the density. You need to provide the spherical center (3D), the spherical radius, the pitch (inter-duplex distance), all in nm. You need start and end theta in rads. There are other optional parameters. "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "Syntax: "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the center point of the sphere, in nm: "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix center <X>  <Y> <Z> "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA center <X>  <Y> <Z> "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the radius of the sphere: "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix radius <radius, in nm>  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA radius <radius, in nm>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the separation between consecutive DNA duplexes : "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix pitch  <distance, in nm>  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA pitch  <distance, in nm>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the start theta (the angle from the 'north pole': "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix startTheta <angle, in rads>  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA startTheta <angle, in rads>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the end   theta (the angle from the 'north pole': "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix   endTheta <angle, in rads>  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA   endTheta <angle, in rads>  "<<endl);
 
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "Next specify the offset in phi (the angle about the +Z axis).  Phi = 0 in the +X half of the XZ plane, and increases following the right-hand rule about the +Z-axis.  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "To specify the offset in phi : "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix phiOffset <angle, in rads>  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA phiOffset <angle, in rads>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "This file will contain MG ions indicating the center of each base pair in the spiral. You will use this as a rough draft to check your spiral parameters: "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix spiralPdbFileName <string>  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA spiralPdbFileName <string>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "This file will contain the commands to place idealized base pairs at their positions in the ideal spiral you generated. You would rerun MMB with this as your input command file: "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix spiralCommandsFileName <string>  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA spiralCommandsFileName <string>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "This will modulate the theta position as a functoin of phi. Use a frequency multiplier of 1 if you want this to oscillate by 2*pi over phi sweep of 2*pi. Or 2 if you want to oscillate by 4*pi, etc.  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "The effect is additive. Every time you call this, one element will be added to the frequencyPhaseAmplitudeVector, and all elements will be applied.            "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "The output theta will have a correction added which looks like: amplitude * sin( multiplier * phi + phase) "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix frequencyPhaseAmplitude <frequency multiplier> <phase, rads> <amplitude, rads>  "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA frequencyPhaseAmplitude <frequency multiplier> <phase, rads> <amplitude, rads>  "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "If you want to remove all elements from the frequencyPhaseAmplitudeVector, issue: "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix frequencyPhaseAmplitude clear                                                   "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA frequencyPhaseAmplitude clear                                                   "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "You can create more than one geometry. Specify which one you want: "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "geometry <sphere | cylinder>                                                   "<<endl);
     MMBLOG_FILE_FUNC_LINE(ALWAYS, "And finally, to create the helix, issue:                        "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "sphericalHelix writeCommands "<<endl);
-    MMBLOG_FILE_FUNC_LINE(ALWAYS, "The above should be the last sphericalHelix command you issue, for the chainID specified. You can specify a new chainID, and change any other parameters, and then issue writeCommands again, to generate a second chain of pseudoatoms. "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "spiralDNA writeCommands "<<endl);
+    MMBLOG_FILE_FUNC_LINE(ALWAYS, "The above should be the last spiralDNA command you issue, for the chainID specified. You can specify a new chainID, and change any other parameters, and then issue writeCommands again, to generate a second chain of pseudoatoms. "<<endl);
 }
 
     
@@ -353,11 +353,11 @@ void Spiral::parseInput(const map<const String,double> & userVariables, String p
         parseInput(parameterName,myAtoF(userVariables,(parameterValue1).c_str()),myAtoF(userVariables,(parameterValue2).c_str()),myAtoF(userVariables,(parameterValue3).c_str()));
     } // Use is probably specifying a Vec3, namely a center.
     else if (parameterValue1 != ""){
-        if (parameterName   == "") MMBLOG_FILE_FUNC_LINE(CRITICAL, " You are misusing the sphericalHelix family of commands! Please specify a parameter or command.       "<<endl);
+        if (parameterName   == "") MMBLOG_FILE_FUNC_LINE(CRITICAL, " You are misusing the spiralDNA family of commands! Please specify a parameter or command.       "<<endl);
         parseInput(userVariables,parameterName,parameterValue1);} // specifying a parameter with a certain single value
     else if (parameterName   != ""){parseInput(parameterName, monoAtomsContainer);} // specifying a command.                           
     else {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You are misusing the sphericalHelix family of commands! Please specify a parameter or command. "<<endl);
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You are misusing the spiralDNA family of commands! Please specify a parameter or command. "<<endl);
     
     }
 }	
@@ -433,7 +433,7 @@ void Spiral::parseInput(const  map<const String,double> & userVariables,String p
         }	    
         return;
     } else {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You are misusing the sphericalHelix family of commands! Check your syntax and try again. "<<endl);
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "You are misusing the spiralDNA family of commands! Check your syntax and try again. "<<endl);
     }
 
 }

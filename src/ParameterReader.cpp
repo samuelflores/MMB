@@ -562,11 +562,11 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "setRemoveBasePairsInRigidStretch       bool    " + std::to_string ( setRemoveBasePairsInRigidStretch ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "setTemperature                         bool    " + std::to_string ( setTemperature ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "smallGroupInertiaMultiplier            double  " + std::to_string ( smallGroupInertiaMultiplier ) ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixCenter                   Vec3    " + std::to_string ( sphericalHelixCenter[0] ) + " ; " + std::to_string ( sphericalHelixCenter[1] ) + " ; " + std::to_string ( sphericalHelixCenter[2] ) ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixRadius                   double  " + std::to_string ( sphericalHelixRadius ) ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixStartTheta               double  " + std::to_string ( sphericalHelixStartTheta ) ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixPhiOffset                double  " + std::to_string ( sphericalHelixPhiOffset ) ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixInterStrandDistance      double  " + std::to_string ( sphericalHelixInterStrandDistance ) ) );
+    //remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixCenter                   Vec3    " + std::to_string ( sphericalHelixCenter[0] ) + " ; " + std::to_string ( sphericalHelixCenter[1] ) + " ; " + std::to_string ( sphericalHelixCenter[2] ) ) );
+    //remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixRadius                   double  " + std::to_string ( sphericalHelixRadius ) ) );
+    //remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixStartTheta               double  " + std::to_string ( sphericalHelixStartTheta ) ) );
+    //remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixPhiOffset                double  " + std::to_string ( sphericalHelixPhiOffset ) ) );
+    //remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "sphericalHelixInterStrandDistance      double  " + std::to_string ( sphericalHelixInterStrandDistance ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "stackAllHelicalResidues                bool    " + std::to_string ( stackAllHelicalResidues ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "temperature                            bool    " + std::to_string ( temperature ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "thermostatType                         String  " + std::string ( thermostatType ) ) );
@@ -693,11 +693,11 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "setRemoveBasePairsAcrossRigidStretches bool    "<<setRemoveBasePairsAcrossRigidStretches     <<endl;
     myOstream << remarkString << "setTemperature                         bool    "<<setTemperature     <<endl;
     myOstream << remarkString << "smallGroupInertiaMultiplier            double   "<<smallGroupInertiaMultiplier <<endl;
-    myOstream << remarkString << "sphericalHelixCenter                   double   "<<sphericalHelixCenter        <<endl;
-    myOstream << remarkString << "sphericalHelixRadius                   double   "<<sphericalHelixRadius        <<endl;
-    myOstream << remarkString << "sphericalHelixStartTheta               double   "<<sphericalHelixStartTheta        <<endl;
-    myOstream << remarkString << "sphericalHelixPhiOffset                double   "<<sphericalHelixPhiOffset         <<endl;
-    myOstream << remarkString << "sphericalHelixInterStrandDistance      double   "<<sphericalHelixInterStrandDistance<<endl;
+    //myOstream << remarkString << "sphericalHelixCenter                   double   "<<sphericalHelixCenter        <<endl;
+    //myOstream << remarkString << "sphericalHelixRadius                   double   "<<sphericalHelixRadius        <<endl;
+    //myOstream << remarkString << "sphericalHelixStartTheta               double   "<<sphericalHelixStartTheta        <<endl;
+    //myOstream << remarkString << "sphericalHelixPhiOffset                double   "<<sphericalHelixPhiOffset         <<endl;
+    //myOstream << remarkString << "sphericalHelixInterStrandDistance      double   "<<sphericalHelixInterStrandDistance<<endl;
     myOstream << remarkString << "stackAllHelicalResidues                bool    "<<stackAllHelicalResidues     <<endl;
     myOstream << remarkString << "temperature                            double  "<<temperature                 <<endl;
     myOstream << remarkString << "thermostatType                         String  "<<thermostatType              <<endl;
@@ -4932,10 +4932,10 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     smallGroupInertiaMultiplier = 1.0;
     waterInertiaMultiplier = 1.0;
 
-    sphericalHelixCenter     = Vec3(0.,0.,0.);                                               
-    sphericalHelixRadius     = 100.0;           
-    sphericalHelixStartTheta = SimTK::Pi / 4.0; 
-    sphericalHelixPhiOffset  = 0.0;             
+    //sphericalHelixCenter     = Vec3(0.,0.,0.);                                               
+    //sphericalHelixRadius     = 100.0;           
+    //sphericalHelixStartTheta = SimTK::Pi / 4.0; 
+    //sphericalHelixPhiOffset  = 0.0;             
 
     stackAllHelicalResidues = true ;
     thermostatType ="NoseHoover";

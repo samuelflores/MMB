@@ -199,11 +199,12 @@ public:
     bool setTemperature;
     double smallGroupInertiaMultiplier;
     Spiral spiral; // This is the helical spiral object, used to fit DNA to icosahedral virus capsids. Defined in Spiral.h
-    Vec3   sphericalHelixCenter    ; 
-    double sphericalHelixRadius    ; 
-    double sphericalHelixStartTheta; 
-    double sphericalHelixPhiOffset ;
-    double sphericalHelixInterStrandDistance;
+    // These should no longer be needed:
+    //Vec3   sphericalHelixCenter    ; 
+    //double sphericalHelixRadius    ; 
+    //double sphericalHelixStartTheta; 
+    //double sphericalHelixPhiOffset ;
+    //double sphericalHelixInterStrandDistance;
 
     bool stackAllHelicalResidues ;
     String thermostatType;

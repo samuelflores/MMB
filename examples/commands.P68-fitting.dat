@@ -8,31 +8,31 @@ numReportingIntervals 1
 # We wil need the constant Pi, so define a user variable:
 @pi 3.14159265358979
 # We will create a single chain, chain ID Z:
-sphericalHelix chainID Z
+spiralDNA chainID Z
 # Spiral will be right handed:
-sphericalHelix spiralIsRightHanded 1
-sphericalHelix center 31.89 31.89+2.0 31.89
-sphericalHelix radius   16.3+2.3+(-2)*.05
+spiralDNA spiralIsRightHanded 1
+spiralDNA center 31.89 31.89+2.0 31.89
+spiralDNA radius   16.3+2.3+(-2)*.05
 # The pitch turns out to be pretty constant, across shells:
-#sphericalHelix interStrandDistance 2.3
-sphericalHelix pitch 2.3
+#spiralDNA interStrandDistance 2.3
+spiralDNA pitch 2.3
 # And of course this is also quite constant:
-sphericalHelix helixAdvancePerBasePair .34
+spiralDNA helixAdvancePerBasePair .34
 # The north and south pole regions have very poor resolution in this map, so we only trace over a relatively modest range of theta:
-sphericalHelix startTheta 1.00
-sphericalHelix endTheta 2.2
+spiralDNA startTheta 1.00
+spiralDNA endTheta 2.2
 # This is a rotational offset, about the polar axis:
-sphericalHelix phiOffset  (16-2)*20*@pi/180
+spiralDNA phiOffset  (16-2)*20*@pi/180
 
 # We clear the frequencyPhaseAmplitudeVector, out of paranoia rather than necessity:
-sphericalHelix frequencyPhaseAmplitude clear
+spiralDNA frequencyPhaseAmplitude clear
 
 # If you want to make an atomistic (fine-grained) model, separately run MMB using this command file:
-sphericalHelix spiralCommandsFileName commands.spiral.dat
+spiralDNA spiralCommandsFileName commands.spiral.dat
 # This is where the fine grained structural coordinates will be written:
-sphericalHelix spiralPdbFileName spiral.pdb
+spiralDNA spiralPdbFileName spiral.pdb
 # This tells MMB you want to generate the command file, with name specified with spiralCommandsFileName above:
-sphericalHelix writeCommands
+spiralDNA writeCommands
 
 # This is the P68 density map, provided by Dominik Hrevik and Pavel Plevka:
 density densityFileName  LocalRef_02_Cl02_res85_nocaps2_box.mrc

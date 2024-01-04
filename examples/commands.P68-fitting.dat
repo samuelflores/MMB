@@ -22,7 +22,8 @@ spiralDNA helixAdvancePerBasePair .34
 spiralDNA startTheta 1.00
 spiralDNA endTheta 2.2
 # This is a rotational offset, about the polar axis:
-spiralDNA phiOffset  (16-2)*20*@pi/180
+spiralDNA phiOffset  180*@pi/180
+# Earlier version had : spiralDNA phiOffset  (16-2)*20*@pi/180. The above is more accurate and consistent with our paper.
 
 # We clear the frequencyPhaseAmplitudeVector, out of paranoia rather than necessity:
 spiralDNA frequencyPhaseAmplitude clear

@@ -68,7 +68,7 @@
         const Vec3 r_G = p2_G - p1_G; // vector from point1 to point2
         const Real d   = r_G.norm();  // distance between the points
         const Real stretch   = d - x0; // + -> tension, - -> compression
-        MMBLOG_FILE_FUNC_LINE(DEBUG , "tether extension : "<<d<<" maximum : "<<x0<<" difference: "<<stretch<<" nm") // used to convert to Å, now using nm directly
+        MMBLOG_FILE_FUNC_LINE(DEBUG , "tether extension : "<<d<<" maximum : "<<x0<<" difference: "<<stretch<<" nm"); // used to convert to Å, now using nm directly
         //cout<<__FILE__<<":"<<__LINE__<<" tether extension : "<<d<<" maximum : "<<x0<<" difference: "<<stretch<<" nm"<<endl; // used to convert to Å, now using nm directly
         if (d <= x0) {
             return 0;

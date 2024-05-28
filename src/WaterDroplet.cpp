@@ -213,9 +213,9 @@ void WaterDroplet::includeAllAtoms(DuMMForceFieldSubsystem & dumm){
 
 void WaterDroplet::validateWaterVector() {
     for (size_t i = 0; i < waterVector.size() ; i++) {
-        MMBLOG_FILE_FUNC_LINE(INFO, "Validating water #"<<i<<", chain "<<chainID<<" : "<<waterVector[i].hasAtom("OW")<<endl);
+        MMBLOG_FILE_FUNC_LINE(DEBUG , "Validating water #"<<i<<", chain "<<chainID<<" : "<<waterVector[i].hasAtom("OW")<<endl);
         if (! waterVector[i].hasAtom("OW")) {
-            MMBLOG_FILE_FUNC_LINE(INFO, "Failed to find atom OW in waterVector element "<<i<<endl);
+            MMBLOG_FILE_FUNC_LINE(DEBUG, "Failed to find atom OW in waterVector element "<<i<<endl);
         }
     }
 }

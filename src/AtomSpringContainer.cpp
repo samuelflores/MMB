@@ -382,21 +382,22 @@ void AtomSpringContainer::clearGappedThreading(){
     gappedThreadingStructVector.clear();
 }
 
-// Creates a gapped alignment using only explicitly specified stretches of residues in the two aligned chains.
-ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, ResidueID startResidue1,  ResidueID endResidue1, String chain2,  ResidueID startResidue2,  ResidueID endResidue2,  double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer)
+// Creates a gapped alignment using only explicitly specified stretches of residues in the two aligned chains. now can take two different BiopolymerClassContainer's, one each fo rchain1 and chain2. Made especially for homologyScanner on bioinfo1
+
+ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, ResidueID startResidue1,  ResidueID endResidue1, String chain2,  ResidueID startResidue2,  ResidueID endResidue2,  double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer1,BiopolymerClassContainer & myBiopolymerClassContainer2 )
 {
     ThreadingStruct thread;
-    thread.updThreadingPartner(0).biopolymerClass = myBiopolymerClassContainer.updBiopolymerClass(chain1);
-    thread.updThreadingPartner(1).biopolymerClass = myBiopolymerClassContainer.updBiopolymerClass(chain2);
+    thread.updThreadingPartner(0).biopolymerClass = myBiopolymerClassContainer1.updBiopolymerClass(chain1);
+    thread.updThreadingPartner(1).biopolymerClass = myBiopolymerClassContainer2.updBiopolymerClass(chain2);
     //thread.chainID1 = chain1;
     //thread.chainID2 = chain2;
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     ResidueStretch  myResidueStretch1 = ResidueStretch(chain1, startResidue1, endResidue1);
     ResidueStretch  myResidueStretch2 = ResidueStretch(chain2, startResidue2, endResidue2);
-    if (!(myBiopolymerClassContainer.updBiopolymerClass(chain1).hasResidueStretch(myResidueStretch1))) {
+    if (!(myBiopolymerClassContainer1.updBiopolymerClass(chain1).hasResidueStretch(myResidueStretch1))) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have specified an invalid residue stretch: Chain "<<chain1<<" from residue "<<startResidue1.outString()<<" to "<<endResidue1.outString() << endl);
     }
-    if (!(myBiopolymerClassContainer.updBiopolymerClass(chain2).hasResidueStretch(myResidueStretch2))) {
+    if (!(myBiopolymerClassContainer2.updBiopolymerClass(chain2).hasResidueStretch(myResidueStretch2))) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have specified an invalid residue stretch: Chain "<<chain2<<" from residue "<<startResidue2.outString()<<" to "<<endResidue2.outString() << endl);
     }
     thread.updThreadingPartner(0).startResidue = startResidue1;//  myBiopolymerClassContainer.updBiopolymerClass(thread.chainID1).getFirstResidueID();
@@ -411,13 +412,13 @@ ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, Residu
 }
 
 // Creates a gapped alignment using all residues in the two aligned chains.
-ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, String chain2, double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer){
+ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, String chain2, double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer1,BiopolymerClassContainer & myBiopolymerClassContainer2  ){
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    ResidueID myStartResidue1 = myBiopolymerClassContainer.updBiopolymerClass(chain1).getFirstResidueID();
-    ResidueID myStartResidue2 = myBiopolymerClassContainer.updBiopolymerClass(chain2).getFirstResidueID();
-    ResidueID myEndResidue1   = myBiopolymerClassContainer.updBiopolymerClass(chain1).getLastResidueID();
-    ResidueID myEndResidue2   = myBiopolymerClassContainer.updBiopolymerClass(chain2).getLastResidueID();
-    return createGappedThreading((chain1), myStartResidue1, myEndResidue1 ,(chain2) , myStartResidue2,  myEndResidue2, forceConstant, backboneOnly, myBiopolymerClassContainer);
+    ResidueID myStartResidue1 = myBiopolymerClassContainer1.updBiopolymerClass(chain1).getFirstResidueID();
+    ResidueID myStartResidue2 = myBiopolymerClassContainer2.updBiopolymerClass(chain2).getFirstResidueID();
+    ResidueID myEndResidue1   = myBiopolymerClassContainer1.updBiopolymerClass(chain1).getLastResidueID();
+    ResidueID myEndResidue2   = myBiopolymerClassContainer2.updBiopolymerClass(chain2).getLastResidueID();
+    return createGappedThreading((chain1), myStartResidue1, myEndResidue1 ,(chain2) , myStartResidue2,  myEndResidue2, forceConstant, backboneOnly, myBiopolymerClassContainer1, myBiopolymerClassContainer2);
 }
 
 void AtomSpringContainer::addGappedThreading(const ThreadingStruct & threadingStruct, 

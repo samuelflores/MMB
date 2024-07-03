@@ -384,11 +384,13 @@ void AtomSpringContainer::clearGappedThreading(){
 
 // Creates a gapped alignment using only explicitly specified stretches of residues in the two aligned chains. now can take two different BiopolymerClassContainer's, one each fo rchain1 and chain2. Made especially for homologyScanner on bioinfo1
 
-ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, ResidueID startResidue1,  ResidueID endResidue1, String chain2,  ResidueID startResidue2,  ResidueID endResidue2,  double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer1,BiopolymerClassContainer & myBiopolymerClassContainer2 )
+ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, ResidueID startResidue1,  ResidueID endResidue1, String chain2,  ResidueID startResidue2,  ResidueID endResidue2,  double forceConstant, bool backboneOnly, BiopolymerClassContainer & myBiopolymerClassContainer1,BiopolymerClassContainer & myBiopolymerClassContainer2,String myScoringScheme   ) //scoringScheme = "Simple" should cover both protein and nucleic acid cases. Default param is set in heaer file.
 {
     ThreadingStruct thread;
     thread.updThreadingPartner(0).biopolymerClass = myBiopolymerClassContainer1.updBiopolymerClass(chain1);
     thread.updThreadingPartner(1).biopolymerClass = myBiopolymerClassContainer2.updBiopolymerClass(chain2);
+    MMBLOG_FILE_FUNC_LINE(INFO,"Just set thread.updThreadingPartner(0).biopolymerClass, which has sequence :"<<thread.updThreadingPartner(0).biopolymerClass. getSequence());
+    MMBLOG_FILE_FUNC_LINE(INFO,"Just set thread.updThreadingPartner(1).biopolymerClass, which has sequence :"<<thread.updThreadingPartner(1).biopolymerClass. getSequence());
     //thread.chainID1 = chain1;
     //thread.chainID2 = chain2;
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
@@ -406,8 +408,9 @@ ThreadingStruct AtomSpringContainer::createGappedThreading(String chain1, Residu
     thread.updThreadingPartner(1).endResidue   = endResidue2; //myBiopolymerClassContainer.updBiopolymerClass(thread.chainID2).getLastResidueID();
     thread.forceConstant = forceConstant;
     thread.backboneOnly = backboneOnly;
+    thread.scoringScheme = myScoringScheme;  
     MMBLOG_FILE_FUNC_LINE(INFO, "Created a ThreadingStruct connecting chain "<<chain1<<" residue "<<thread.updThreadingPartner(0).startResidue.outString() <<" to "<<thread.updThreadingPartner(0).endResidue.outString()<<" . "<<endl);
-    MMBLOG_FILE_FUNC_LINE(INFO, ":                                   to chain "<<chain2<<" residue "<<thread.updThreadingPartner(1).startResidue.outString() <<" to "<<thread.updThreadingPartner(1).endResidue.outString()<<" . "<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "to chain "<<chain2<<" residue "<<thread.updThreadingPartner(1).startResidue.outString() <<" to "<<thread.updThreadingPartner(1).endResidue.outString()<<" . "<<endl);
     return thread;
 }
 

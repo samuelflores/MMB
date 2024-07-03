@@ -99,7 +99,18 @@ class ThreadingStruct {
 	}
 
         TAlign computeAlign(){
+            if (threadingPartners[0].sequence == ""){
+                MMBLOG_FILE_FUNC_LINE(CRITICAL , "threadingPartners[0].sequence = >"<<threadingPartners[0].sequence <<"< .. you have to make sure you set the sequence members before running this! For example, using setShortSequences() or setLongSequences()""<< endl);
+	    }		
+            if (threadingPartners[1].sequence == ""){
+                MMBLOG_FILE_FUNC_LINE(CRITICAL , "threadingPartners[1].sequence = >"<<threadingPartners[1].sequence <<"< .. you have to make sure you set the sequence members before running this! For example, using setShortSequences() or setLongSequences()"<< endl);
+	    }		
+            MMBLOG_FILE_FUNC_LINE(INFO , "threadingPartners[0].sequence = "<<threadingPartners[0].sequence << endl);
+            MMBLOG_FILE_FUNC_LINE(INFO , "threadingPartners[1].sequence = "<<threadingPartners[1].sequence << endl);
+            //MMBLOG_FILE_FUNC_LINE(INFO , "updThreadingPartner(0).biopolymerClass. getSequence() = "<<updThreadingPartner(0).biopolymerClass. getSequence() << endl);
+            //MMBLOG_FILE_FUNC_LINE(INFO , "updThreadingPartner(1).biopolymerClass. getSequence() = "<<updThreadingPartner(1).biopolymerClass. getSequence() << endl);
 	    seqan::resize(rows(align), 2);
+	    // get rid of threadingPartners[] .. it is empty!
 	    assignSource(row(align,0),threadingPartners[0].sequence);
 	    assignSource(row(align,1),threadingPartners[1].sequence);
 	    //seqan::Score<int,seqan::Blosum62(-1,-12)> scoringSchemeObject;

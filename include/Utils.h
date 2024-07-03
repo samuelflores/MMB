@@ -676,39 +676,6 @@ class Interface {
                };
 };
 
-/*
-
-struct MobilizerInterface {
-               vector<String> Chains ;
-               vector<String> PartnerChains ;
-               double    Depth       ;
-               String MobilizerString;
-               
-};
-
-class MobilizerInterfaceContainer    { 
-    private:
-        vector <MobilizerInterface> interfaceVector;
-     public:
-                void clear() {interfaceVector.clear() ;};
-                MobilizerInterfaceContainer() {clear() ;};
-        MobilizerInterface getMobilizerInterface(int interfaceIndex) {return interfaceVector[interfaceIndex];};
-        vector<String> getChains(int interfaceIndex) {return getMobilizerInterface(interfaceIndex).Chains;};
-        double getDepth(int interfaceIndex) {return interfaceVector[interfaceIndex].Depth;};
-        String getMobilizerString(int interfaceIndex) {return interfaceVector[interfaceIndex].MobilizerString;};
-        void addInterface(String myChain, double myDepth ,  String myMobilizerString){MobilizerInterface myInterface; myInterface.Chains.push_back( myChain);  myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
-        void addInterface(vector<String> myChains, double myDepth ,  String myMobilizerString){MobilizerInterface myInterface; 
-                        myInterface.Chains.clear(); myInterface.PartnerChains.clear();
-            for (int i = 0; i < myChains.size(); i++) {myInterface.Chains.push_back( myChains[i]);}  myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
-        void addInterface(vector<String> myChains,vector<String> partnerChains,  double myDepth ,  String myMobilizerString){MobilizerInterface myInterface; 
-                        myInterface.Chains.clear(); myInterface.PartnerChains.clear();
-            for (int i = 0; i < myChains.size(); i++) {myInterface.Chains.push_back( myChains[i]);}  
-            for (int i = 0; i < partnerChains.size(); i++) {myInterface.PartnerChains.push_back( partnerChains[i]);}  
-                        myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
-        MobilizerInterface getInterface(int interfaceIndex) {return  interfaceVector[interfaceIndex];};
-        int numInterfaces() {return interfaceVector.size();};
-};
-*/
 class ResidueStretch   {
     private:
                 SimTK::String chain          ;
@@ -738,6 +705,7 @@ class ResidueStretch   {
 
                 ResidueStretch(const SimTK::String & myChain, const ResidueID & myStartResidue, const ResidueID & myEndResidue) { 
                     chain = myChain; startResidue = myStartResidue; endResidue= myEndResidue;
+		    printStretch();
                 }
 
                 ResidueStretch(const SimTK::String & myChain, const ResidueID & myResidue)

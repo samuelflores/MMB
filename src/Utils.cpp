@@ -186,6 +186,42 @@ std::wstring unicodeFullPath(const std::string &path) {
 
 #endif // _WINDOWS
 
+// This function checks that a given directory exists. If it does not exist, myMkdir is called to create it. Then we confirm that the directory complies with:
+// path owner is the same as the process uid.
+// owner's permission on path are rwx.
+// If those two conditions are not met, the program exits.
+int checkOrCreateDirectory(const std::string & directoryPath) {
+    struct stat st;
+    if (stat(directoryPath.c_str(), &st) != 0) { // calling this stat constructor tells stat which path we are using.
+        std::cout<<__FILE__<<":"<<__LINE__<<" stat failed! "<<std::endl;
+        exit(1);
+    }
+    std::cout<<__FILE__<<":"<<__LINE__<<" Checking directory "<<directoryPath<<" ... st.st_mode = " << st.st_mode << " S_IFDIR = "<< S_IFDIR<< " "<<std::endl;
+    if (S_IFDIR == 16384){
+        std::cout<<__FILE__<<":"<<__LINE__<<"  S_IFDIR = "<< S_IFDIR << " equals 16384, or 40000 in octal. So it is a directory as we require."<<std::endl;
+    } else if (S_IFDIR == -1){
+        std::cout<<__FILE__<<":"<<__LINE__<<"  S_IFDIR = "<< S_IFDIR << " indicating it does not exist. We will create it now."<<std::endl;
+        myMkdir(directoryPath);
+    } else {
+        std::cout<<__FILE__<<":"<<__LINE__<<"  S_IFDIR = "<< S_IFDIR << " indicates a problem, we were expecting a directory here."<<std::endl;
+        exit(1);
+    }
+    std::cout<<__FILE__<<":"<<__LINE__<<" Comparing the path owner st_uid (user id) of "<<st.st_uid<<" with process uid of "<<geteuid()<<std::endl;
+    if (st.st_uid == geteuid()){
+        std::cout<<__FILE__<<":"<<__LINE__<<" Path owner matches process uid. All good."<<std::endl;
+    } else {
+        std::cout<<__FILE__<<":"<<__LINE__<<" Path owner does NOT match process uid. Exiting now.  "<<std::endl; exit(1);
+    }
+    mode_t permissions = st.st_mode & 0700; // leading 0 means this is octal number
+    std::cout<<__FILE__<<":"<<__LINE__<<" Masking all but the owner digit tells us the path has permissions : "<< std::oct <<permissions << std::dec        <<std::endl; // set back to decimal later to avoid confusion.
+    if (permissions == 0700){
+        std::cout<<__FILE__<<":"<<__LINE__<<" Evidently we have rwx permissions. All is good"<<std::endl;
+    } else {
+        std::cout<<__FILE__<<":"<<__LINE__<<" Evidently we do NOT have rwx permissions. Exiting now."<<std::endl; exit(1);
+    }
+    return 1;
+}
+
 int myMkdir(const std::string & directoryPath) {
 #ifdef _WINDOWS
     MMBLOG_FILE_FUNC_LINE(INFO, " You are asking to create the directory  " << directoryPath << std::endl);
@@ -633,7 +669,7 @@ void closingMessage() {
     //std::cout<<__FILE__<<":"<<__LINE__<<" By bank transfer to IBAN: SE0750000000053680279418 , SWIFT: ESSESESS "<<std::endl;
     std::cout<<__FILE__<<":"<<__LINE__<<" Industrial and other inquiries: samuel.flores@scilifelab.se "<<std::endl;
     std::cout<<__FILE__<<":"<<__LINE__<<std::endl;
-};
+}
 
 CheckFile::CheckFile(const String & myFileName){
     fileName = myFileName;
@@ -713,7 +749,7 @@ bool vectorCompare(String myString, vector<String> & comparisonStringVector) {
         //cout<<endl;
     }
     return false; // If no String in comparisonStringVector is the same as myString
-};
+}
 
 BondMobility::Mobility stringToBondMobility(String bondMobilityString) {
        String myBondMobilityString =   bondMobilityString;
@@ -757,7 +793,7 @@ void InterfaceContainer::addInterface(vector<String> myChains,vector<String> par
     }
     myInterface.MobilizerString = myMobilizerString; 
     interfaceVector.push_back(myInterface); 
-};
+}
 
 
 vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAtomInfo> & concatenatedAtomInfoVector ){
@@ -812,13 +848,13 @@ vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAto
             }
         }
         return contactingAtomInfoPairVector;  
-};
+}
 
 ConstraintClass::ConstraintClass(){
         chain1 = ""; residueID1 = ResidueID(); atomName1 = ""; 
         chain2 = ""; residueID2 = ResidueID(); atomName2 = ""; 
         constraintType = WeldToGround ; 
-        };  
+        }  
 ConstraintClass::ConstraintClass(String myChain, ResidueID inputResidueID,String myAtomName) {
         residueID1 = (inputResidueID);
         atomName1 = myAtomName;
@@ -828,7 +864,7 @@ ConstraintClass::ConstraintClass(String myChain, ResidueID inputResidueID,String
         chain2 = ""; 
         constraintType = ( WeldToGround );
         //toGround = true ;
-    }; 
+    } 
 
 ConstraintClass::ConstraintClass(String myChain, ResidueID inputResidueID,String myAtomName,String myChain2, ResidueID inputResidueID2,String myAtomName2, ConstraintType myConstraintType) {
         residueID1 = (inputResidueID);
@@ -840,7 +876,7 @@ ConstraintClass::ConstraintClass(String myChain, ResidueID inputResidueID,String
         chain2 = myChain2;
         setConstraintType(myConstraintType);
         //toGround = false;
-    };
+    }
 /*
 Array_<MobilizedBodyIndex> ConstraintClass::fetchMobilizedBodyIndexArray_(BiopolymerClassContainer myBiopolymerClassContainer,SimbodyMatterSubsystem & matter ) {
         Array_< MobilizedBodyIndex >    coordMobod(2);
@@ -887,7 +923,7 @@ void  ConstraintClass::print() const {
           //<<" to Ground: "        <<getToGround()
           <<" constraintType : " << constraintTypeString()
           <<endl;
-    };  
+    }  
 
 
 
@@ -1060,7 +1096,7 @@ bool isFixed (const String putativeFixedFloat) { // This checks that the string 
 		*/
 		//return  boost::lexical_cast<String>(i);      
                 return SimTK::String(i);
-            };  
+            }  
 
 Vec3 ValidateVec3(Vec3 myVec3){
 
@@ -1197,8 +1233,8 @@ vector<String> readAndParseOnColWidth   (ifstream & inFile, int columnWidth) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, ": You have not specified enough parameters for this command."<<endl);
         } else if ( size() > correctNumFields ) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, ": You have specified too many parameters for this command."<<endl);
-        };  
-    };  
+        }  
+    }  
     void ParameterStringClass::print() const {
         MMBLOG_FILE_FUNC_LINE(DEBUG," About to print the contents of ParameterStringClass, which is in charge of storing and processing a single line from the user command file."<< endl);
         for (int i = 0 ; i < size(); i++){
@@ -1206,13 +1242,13 @@ vector<String> readAndParseOnColWidth   (ifstream & inFile, int columnWidth) {
             //std::cout<<__FILE__<<":"<<__LINE__<<" "<<i<<" >"<<stringVector[i]<<"< "<<std::endl;
         };
         //#MMBLOG_FILE_FUNC_LINE(INFO, endl);
-    };
+    }
 
     String ParameterStringClass::getString() const {
         std::stringstream ss;
         for (int i = 0 ; i < size(); i++){
             ss <<" "<<stringVector[i];
-        };
+        }
 
         return ss.str();
     }

@@ -11,6 +11,7 @@
 
 #ifndef Utils_H_
 #define Utils_H_                 
+#include <sys/stat.h>
 
 #include <cstring>
 #include <fstream>
@@ -83,6 +84,7 @@ public:
     //void validateReadable();
 };
 
+int MMB_EXPORT checkOrCreateDirectory(const std::string & directoryPath);
 int MMB_EXPORT myMkdir(const std::string & directoryPath);
 int MMB_EXPORT myChdir(const std::string & directoryPath);
 
@@ -1346,7 +1348,7 @@ class InterfaceContainer    {
             {Interface myInterface; myInterface.Chains.push_back( myChain);  myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
         void addInterface(vector<String> myChains, double myDepth = 0.0 ,  String myMobilizerString = "NONE"){Interface myInterface; 
                         myInterface.Chains.clear(); myInterface.PartnerChains.clear();
-            for (int i = 0; i < myChains.size(); i++) {myInterface.Chains.push_back( myChains[i]);}  myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
+            for (unsigned int i = 0; i < myChains.size(); i++) {myInterface.Chains.push_back( myChains[i]);}  myInterface.Depth = myDepth; myInterface.MobilizerString = myMobilizerString; interfaceVector.push_back(myInterface); };
         void addInterface(vector<String> myChains,vector<String> partnerChains,  double myDepth ,  String myMobilizerString = "NONE");
         vector<TwoAtomClass> retrieveCloseContactPairs(vector<MMBAtomInfo> & concatenatedAtomInfoVector );
         Interface getInterface(int interfaceIndex) {return  interfaceVector[interfaceIndex];};

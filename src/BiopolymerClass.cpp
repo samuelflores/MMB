@@ -3757,13 +3757,11 @@ bool BiopolymerClassContainer::isProtein(const Biopolymer & inputBiopolymer, boo
 
 void BiopolymerClassContainer::loadSequencesFromPdb(const String &inPDBFileName, const bool proteinCapping, const String &chainsPrefix, const bool tempRenumberPdbResidues, bool useNACappingHydroxyls) {
     MMBLOG_FILE_FUNC_LINE(INFO, "About to load sequences from file : "<<inPDBFileName<<endl);
-
     struct stat st;
     // Just querying the members of st is not a good idea. First, check to make sure stat succeeded at all: 
     if ((stat(inPDBFileName.c_str(), &st)) == -1){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Tried to determine status of file >"<< inPDBFileName << "< but stat returned a failure code. Perhaps the file does not exist, or path permissions are not correct."<<endl);
     }
-
     stat(inPDBFileName.c_str(), &st);
 
     MMBLOG_FILE_FUNC_LINE(INFO, "About to check that "<<inPDBFileName<<" has nonzero size.."<<endl);

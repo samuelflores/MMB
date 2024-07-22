@@ -88,23 +88,31 @@ bool hasAccessRight(LPCSTR path, DWORD genericAccessRights) {
 
     DWORD len = 0;
     if (GetFileSecurityA(path, OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION, NULL, NULL, &len) == FALSE) {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+        //MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+	std::cout<<__FILE__<<":"<<__LINE__<<" Failed to get security information for file " << path << std::endl;
+	exit(1);
     }
 
     SecurityDescriptorWrapper sd{ len };
     if (GetFileSecurityA(path, OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION | DACL_SECURITY_INFORMATION, sd.get(), len, &len) == FALSE) {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+        //MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+	std::cout<<__FILE__<<":"<<__LINE__<<" Failed to get security information for file " << path << std::endl;
+	exit(1);
     }
 
     HANDLE hToken = NULL;
     HANDLE hImpersonatedToken = NULL;
     if (OpenProcessToken(GetCurrentProcess(), TOKEN_IMPERSONATE | TOKEN_QUERY | TOKEN_DUPLICATE | STANDARD_RIGHTS_READ, &hToken) == FALSE) {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+        //MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+	std::cout<<__FILE__<<":"<<__LINE__<<" Failed to get security information for file " << path << std::endl;
+	exit(1);
     }
 
     if (DuplicateToken(hToken, SecurityImpersonation, &hImpersonatedToken) == FALSE) {
         CloseHandle(hToken);
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+        //MMBLOG_FILE_FUNC_LINE(CRITICAL, "Failed to get security information for file " << path << std::endl);
+	std::cout<<__FILE__<<":"<<__LINE__<<" Failed to get security information for file " << path << std::endl;
+	exit(1);
     }
 
     GENERIC_MAPPING mapping = { 0xFFFFFFFF };
@@ -193,8 +201,10 @@ std::wstring unicodeFullPath(const std::string &path) {
 int checkOrCreateDirectory(const std::string & directoryPath) {
     struct stat st;
     if (stat(directoryPath.c_str(), &st) != 0) { // calling this stat constructor tells stat which path we are using.
-        std::cout<<__FILE__<<":"<<__LINE__<<" stat failed! "<<std::endl;
-        exit(1);
+        std::cout<<__FILE__<<":"<<__LINE__<<" stat failed! But we do not give up yet, will try to create the directory."<<std::endl;
+        myMkdir(directoryPath);
+        std::cout<<__FILE__<<":"<<__LINE__<<" Done calling myMkdir("<<directoryPath<<");"<<std::endl;
+        //exit(1);
     }
     std::cout<<__FILE__<<":"<<__LINE__<<" Checking directory "<<directoryPath<<" ... st.st_mode = " << st.st_mode << " S_IFDIR = "<< S_IFDIR<< " "<<std::endl;
     if (S_IFDIR == 16384){
@@ -206,6 +216,8 @@ int checkOrCreateDirectory(const std::string & directoryPath) {
         std::cout<<__FILE__<<":"<<__LINE__<<"  S_IFDIR = "<< S_IFDIR << " indicates a problem, we were expecting a directory here."<<std::endl;
         exit(1);
     }
+    // myMkdir checks for read and write access. So no need for this here now.
+    /*
     std::cout<<__FILE__<<":"<<__LINE__<<" Comparing the path owner st_uid (user id) of "<<st.st_uid<<" with process uid of "<<geteuid()<<std::endl;
     if (st.st_uid == geteuid()){
         std::cout<<__FILE__<<":"<<__LINE__<<" Path owner matches process uid. All good."<<std::endl;
@@ -218,7 +230,7 @@ int checkOrCreateDirectory(const std::string & directoryPath) {
         std::cout<<__FILE__<<":"<<__LINE__<<" Evidently we have rwx permissions. All is good"<<std::endl;
     } else {
         std::cout<<__FILE__<<":"<<__LINE__<<" Evidently we do NOT have rwx permissions. Exiting now."<<std::endl; exit(1);
-    }
+    }*/
     return 1;
 }
 
@@ -240,6 +252,11 @@ int myMkdir(const std::string & directoryPath) {
         CloseHandle(hDir);
         return 1;
     }
+    if (!hasReadAccess(directoryPath.c_str())) {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Heads up! Found that we do NOT have read access to a directory called " << directoryPath << "  " << std::endl);
+        CloseHandle(hDir);
+        return 1;
+    }
 
     return 0;
 #else
@@ -251,21 +268,28 @@ int myMkdir(const std::string & directoryPath) {
         if (-1 == dir_err)
         {
             printf("Error creating directory!n");
-            MMBLOG_FILE_FUNC_LINE(INFO, " Failed to  create directory "<<directoryPath<<"  " <<std::endl);
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, " Failed to  create directory "<<directoryPath<<"  " <<std::endl);
             exit(1);
         } else if (0 == dir_err) {
             MMBLOG_FILE_FUNC_LINE(INFO, " Successfully created directory "<<directoryPath<<" " <<std::endl);
         } else {
-            MMBLOG_FILE_FUNC_LINE(INFO, " An unexpected error occurred when creating the directory "<<directoryPath<<" " <<std::endl);
+            MMBLOG_FILE_FUNC_LINE(CRITICAL, " An unexpected error occurred when creating the directory "<<directoryPath<<" " <<std::endl);
+            exit(1);
         }
     }
     if (access((directoryPath ).c_str(), R_OK) == 0) {
         MMBLOG_FILE_FUNC_LINE(INFO, " Found that we have read access to a directory called "<< directoryPath   <<" . So far so good."<<std::endl);
-        return 0;
     } else {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, " Heads up! Found that we do NOT have read access to a directory called "<<  directoryPath  <<"  "<<std::endl);
-        return 1;
+        //return 1;
     }
+    if (access((directoryPath ).c_str(), W_OK) == 0) {
+        MMBLOG_FILE_FUNC_LINE(INFO, " Found that we have write access to a directory called "<< directoryPath   <<" . So far so good."<<std::endl);
+    } else {
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Heads up! Found that we do NOT have write access to a directory called "<<  directoryPath  <<"  "<<std::endl);
+        //return 1;
+    }
+    return 0;
 #endif // _WINDOWS
 }
 
@@ -286,6 +310,22 @@ int myChdir(const std::string & directoryPath) {
         return 0;
     }
 #endif // _WINDOWS
+}
+int mySystemCall(const std::string & command) {
+     int systemCallReturnValue = -11111;
+     std::cout<<__FILE__<<":"<<__LINE__<<" issuing system call : >"<<command<<"< "<<std::endl;
+     systemCallReturnValue = system(command.c_str());
+     std::cout<<__FILE__<<":"<<__LINE__<<" Command returned : >"<<systemCallReturnValue<<"< "<<std::endl;
+     if (systemCallReturnValue){
+         //MMBLOG_FILE_FUNC_LINE(CRITICAL, " System call returned a nonzero value. Exiting now.  "  << std::endl);
+	 //When exported, the MMBLOG_FILE_FUNC_LINE does not work properly.
+	 std::cout<<__FILE__<<":"<<__LINE__<<" System call returned a nonzero value. Exiting now.  "  << std::endl;
+	 exit(1);
+     } else {
+	 std::cout<<__FILE__<<":"<<__LINE__<<" System call successful.   "  << std::endl;
+     }
+     return systemCallReturnValue;
+
 }
 
 /* Copy file function variants */
@@ -811,7 +851,7 @@ vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAto
         }
 
         MMBLOG_FILE_FUNC_LINE(INFO, " neighborList size is : "<<neighborList.size()<<endl);
-        for (int h = 0 ; h < numInterfaces(); h++ ){ // loop through interfaceContainer interfaces ..
+        for (unsigned int h = 0 ; h < numInterfaces(); h++ ){ // loop through interfaceContainer interfaces ..
             vector<String> referenceChains = getInterface(h).getChains();  
             vector<String> partnerChains = getInterface(h).getPartnerChains();  
             double         radius        = getInterface(h).getDepth();  

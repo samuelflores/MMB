@@ -87,6 +87,7 @@ public:
 int MMB_EXPORT checkOrCreateDirectory(const std::string & directoryPath);
 int MMB_EXPORT myMkdir(const std::string & directoryPath);
 int MMB_EXPORT myChdir(const std::string & directoryPath);
+int MMB_EXPORT mySystemCall(const std::string & command);
 
 enum class CopyFileResult {
     Success,
@@ -266,19 +267,6 @@ namespace { // unnamed namespace means it is translation unit local.
 std::string   trim(const std::string& str,
                  const std::string& whitespace = " \t\n\r"
                  );
-/*
-{ 
-    const auto strBegin = str.find_first_not_of(whitespace);
-    if (strBegin == std::string::npos)
-        return ""; // no content
-
-    const auto strEnd = str.find_last_not_of(whitespace);
-    const auto strRange = strEnd - strBegin + 1;
-
-    return str.substr(strBegin, strRange);
-    //return std::string ("hello");
-}
-*/
 
 bool MMB_EXPORT vectorCompare(String myString, vector<String> & comparisonStringVector) ;
 
@@ -322,7 +310,7 @@ public:
         char insertionCode;
         int residueNumber;
         int stringLength = inputString.length();
-        char endChar = *(inputString.substr(stringLength-1, 1)).c_str();
+        //char endChar = *(inputString.substr(stringLength-1, 1)).c_str();
         //if (validate)
             for (int i = 1; i < stringLength-1 ; i++) { // check all characters except first and last.
                 if (
@@ -667,11 +655,11 @@ class Interface {
                double         getDepth() {return Depth;};
                void print (){
                    MMBLOG_FILE_LINE(INFO, "For interface, printing reference chains : "<<std::endl);
-                   for (int i = 0; i < Chains.size(); i ++) {
+                   for (unsigned int i = 0; i < Chains.size(); i ++) {
                         MMBLOG_FILE_LINE(INFO, ">"<<Chains[i]<<"<, "<<std::endl);
                    };
                    MMBLOG_FILE_LINE(INFO, " Partner chains : "<<std::endl);
-                   for (int i = 0; i < Chains.size(); i ++) {
+                   for (unsigned int i = 0; i < Chains.size(); i ++) {
                         MMBLOG_FILE_LINE(INFO, ">" << PartnerChains[i]<<"<, "<<std::endl);
                    }
                    MMBLOG_FILE_LINE(INFO, " Depth : "<<Depth<<std::endl);
@@ -1352,9 +1340,9 @@ class InterfaceContainer    {
         void addInterface(vector<String> myChains,vector<String> partnerChains,  double myDepth ,  String myMobilizerString = "NONE");
         vector<TwoAtomClass> retrieveCloseContactPairs(vector<MMBAtomInfo> & concatenatedAtomInfoVector );
         Interface getInterface(int interfaceIndex) {return  interfaceVector[interfaceIndex];};
-        int numInterfaces() {return interfaceVector.size();};
+        unsigned int numInterfaces() {return interfaceVector.size();};
         void print(){
-            for (int i = 0 ; i < numInterfaces(); i++){
+            for (unsigned int i = 0 ; i < numInterfaces(); i++){
                  getInterface(i).print();
             } 
         };

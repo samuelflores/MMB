@@ -122,7 +122,7 @@ static const set<std::string> KnownBondingEdges{
         bondingEdge2 = myBondingEdge2;
         glycosidicBondOrientation = myGlycosidicBondOrientation;
         isTwoTransformForce = myIsTwoTransformForce; 
-    };	
+    }	
         LeontisWesthofBondKey::LeontisWesthofBondKey(LeontisWesthofBondRow myLeontisWesthofBondRow) {
         pdbResidueName1 = myLeontisWesthofBondRow.pdbResidueName1;
         pdbResidueName2 = myLeontisWesthofBondRow.pdbResidueName2;
@@ -130,7 +130,7 @@ static const set<std::string> KnownBondingEdges{
         bondingEdge2 =myLeontisWesthofBondRow.bondingEdge2;
         glycosidicBondOrientation = myLeontisWesthofBondRow.glycosidicBondOrientation;
         isTwoTransformForce = myLeontisWesthofBondRow.isTwoTransformForce; 
-    }; 	
+    } 	
 //};
 
     void LeontisWesthofClass::initialize(const String &inFileName) {
@@ -239,7 +239,7 @@ static const set<std::string> KnownBondingEdges{
                 <<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).bondingEdge2
                 <<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).glycosidicBondOrientation
                 <<(myLeontisWesthofBondMatrix.myLeontisWesthofBondRow[q]).isTwoTransformForce<<endl);
-    };
+    }
 
 
     int  LeontisWesthofClass::getLeontisWesthofBondRowIndex(
@@ -312,7 +312,7 @@ static const set<std::string> KnownBondingEdges{
             SimTK_ERRCHK_ALWAYS(0,"[BaseInteractionParameterReader.cpp]","Found no match for the above user-specified interaction.  Either add this interaction type to the parameter file, or check your spelling, syntax, or semantics.");
 
     //}
-    };
+    }
 
     LeontisWesthofBondRow LeontisWesthofClass::getLeontisWesthofBondRow(ResidueID myResidueNumber1, ResidueID myResidueNumber2, String myPdbResidueName1, String myBondingEdge1, String myPdbResidueName2, String myBondingEdge2, String myGlycosidicBondOrientation,String myBasePairIsTwoTransformForce) const {
         const auto iter = leontisWesthofMap.find(
@@ -350,7 +350,7 @@ static const set<std::string> KnownBondingEdges{
 
         return myReturnLeontisWesthofBondRow;
         // if (0) cout<<"Inside getLeontisWesthofBondRow.  about to search for :"<<myPdbResidueName1<<","<<myBondingEdge1<<","<< myPdbResidueName2   <<","<<  myBondingEdge2    <<","<<    myGlycosidicBondOrientation <<"myBasePairIsTwoTransformForce"<<myBasePairIsTwoTransformForce<<endl;
-    };
+    }
 
 bool isKnownBondingEdge(const std::string &edge) {
     return KnownBondingEdges.find(edge) != KnownBondingEdges.cend();

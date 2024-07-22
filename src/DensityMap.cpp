@@ -29,7 +29,7 @@ using namespace SimTK;
 DensityMap::DensityMap(){
     //unitCellParameters.setDefaultParameters(); 
     initializeMap();
-};
+}
 
 void DensityMap::initializeMap() {
     m_gridPoints.clear();
@@ -38,7 +38,7 @@ void DensityMap::initializeMap() {
     setNoiseScale(.0);
     setDensityFileName("densityFileName-NOT-SET");
     setForceConstant  (1.0                      );
-};
+}
 
 size_t DensityMap::getSizeOfArrayOfGridPoints() const {
     return m_gridPoints.size();
@@ -504,9 +504,9 @@ void DensityMap::loadParametersAndDensity_CCP4MAP()
     int yAxOrder                                      = static_cast<int> ( map.header_i32   ( 18 ) );
     int zAxOrder                                      = static_cast<int> ( map.header_i32   ( 19 ) );
     
-    int xGridInds                                     = xDimInds;
-    int yGridInds                                     = yDimInds;
-    int zGridInds                                     = zDimInds;
+    //int xGridInds                                     = xDimInds;
+    //int yGridInds                                     = yDimInds;
+    //int zGridInds                                     = zDimInds;
     
     //================================================ Set the N for unitCellParameters object
     unitCellParameters.setN                           ( xDimInds,                   // Number of indices along the x-axis
@@ -540,7 +540,7 @@ void DensityMap::loadParametersAndDensity_CCP4MAP()
         //============================================ Initialise internal variables
         int axOrdArr[3];
         int axDimArr[3];
-        int newU, newV, newW;
+        //int newU, newV, newW;
 
         //============================================ Fill in values
         axDimArr[0]                                   = xDimInds;

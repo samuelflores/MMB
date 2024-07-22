@@ -300,14 +300,15 @@ CopyFileResult mmbCopyFile(const std::string &sourceFileName, const std::string 
         if (!CopyFileW(src.c_str(), dst.c_str(), FALSE)) {
             auto err = GetLastError();
             if (err == ERROR_DISK_FULL) {
+                MMBLOG_PLAIN(CRITICAL, " Disk full error while copying a file: " << getErrorString(err) << "\n");
                 return CopyFileResult::No_Space;
             }
-            MMBLOG_PLAIN(WARNING, "IO error while copying a file: " << getErrorString(err) << "\n");
+            MMBLOG_PLAIN(CRITICAL, "IO error while copying a file: " << getErrorString(err) << "\n");
             return CopyFileResult::Io_Error;
         }
         return CopyFileResult::Success;
     } catch (const std::runtime_error &ex) {
-        MMBLOG_PLAIN(WARNING, ex.what() << "\n");
+        MMBLOG_PLAIN(CRITICAL, ex.what() << "\n");
         return CopyFileResult::Io_Error;
     }
 }

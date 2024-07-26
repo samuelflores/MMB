@@ -100,7 +100,7 @@ class ThreadingStruct {
 
         TAlign computeAlign(){
             if (threadingPartners[0].sequence == ""){
-                MMBLOG_FILE_FUNC_LINE(CRITICAL , "threadingPartners[0].sequence = >"<<threadingPartners[0].sequence <<"< .. you have to make sure you set the sequence members before running this! For example, using setShortSequences() or setLongSequences()"<< endl);
+                MMBLOG_FILE_FUNC_LINE(CRITICAL , "threadingPartners[0].sequence = >"<<threadingPartners[0].sequence <<"< .. you have to make sure you set the sequence members before running this! For example, using setShortSequences() or setLongSequences()""<< endl);
 	    }		
             if (threadingPartners[1].sequence == ""){
                 MMBLOG_FILE_FUNC_LINE(CRITICAL , "threadingPartners[1].sequence = >"<<threadingPartners[1].sequence <<"< .. you have to make sure you set the sequence members before running this! For example, using setShortSequences() or setLongSequences()"<< endl);

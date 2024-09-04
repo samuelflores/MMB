@@ -95,6 +95,18 @@ void   Spiral::clear(){
     geometry = geometryEnum::sphere;
 
 }
+
+double cylindricalSpiralSlopeAngle(const double pitch, const double radius){
+    return atan(pitch/radius/2/SimTK::Pi);
+}
+
+double interDuplexDistance(const double pitch, const double radius){
+    // SCF
+    double myInterDuplexDistance = pitch * cos(cylindricalSpiralSlopeAngle(pitch,radius));
+    MMBLOG_FILE_FUNC_LINE(INFO,"Inter-duplex separation, measured along a line perpendicular to both duplexes, is : "<< myInterDuplexDistance<<" . Note that this may not properly account for the arcdistance, for now consider this to be approximate."); 
+    return myInterDuplexDistance;
+}
+
 void   Spiral::validate(){
     //frequencyPhaseAmplitudeVector.clear();    
     if (spiralPdbFileName == String("NOT-SET"))
@@ -117,6 +129,8 @@ void   Spiral::validate(){
     }
     if (phiOffset         == -11111.)
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for phiOffset : "<<phiOffset<< endl);
+
+    interDuplexDistance( pitch,  radius); // Just calling this without using it makes it print out the estimated interDuplexDistance 
     MMBLOG_FILE_FUNC_LINE(INFO, " Validation passed.           "<< endl);
 }
 double Spiral::harmonicThetaAdjustment(double inputPhi){
@@ -129,9 +143,8 @@ double Spiral::harmonicThetaAdjustment(double inputPhi){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " outputThetaAdjustment = "<<outputThetaAdjustment<<endl);
     return outputThetaAdjustment;
 }   
-double cylindricalSpiralSlopeAngle(const double pitch, const double radius){
-    return atan(pitch/radius/2/SimTK::Pi);
-}
+
+
 void Spiral::writeCylindricalSpiralCommandFile(MonoAtomsContainer &monoAtomsContainer)
 {
     MMBLOG_FILE_FUNC_LINE(DEBUG, "  "<<endl);
@@ -392,7 +405,7 @@ void Spiral::parseInput(const  map<const String,double> & userVariables,String p
             geometry = geometryEnum::cylinder;}
         return;
     } else if (parameterName.compare("interStrandDistance") ==0)    {
-        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The parameter interStrandDistance is obsolete. Please use pitch instead. interStrandDistance suggested a distance along a perpendicular, which is deceptive because it is actually measured along a line of constant fi, much like the pitch of a screw."<<endl);
+        MMBLOG_FILE_FUNC_LINE(CRITICAL, "The parameter interStrandDistance is obsolete. Please use pitch instead. interStrandDistance suggested a distance along a perpendicular, which is deceptive because it is actually measured along a line of constant fi, much like the pitch of a screw. If you really do want such a number, try the interDuplexDistance function in the source code."<<endl);
 
     } else if (parameterName.compare("pitch") ==0)    {
         pitch = myAtoF(userVariables,(parameterValue).c_str());

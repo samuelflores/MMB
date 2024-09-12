@@ -103,7 +103,7 @@ double cylindricalSpiralSlopeAngle(const double pitch, const double radius){
 double interDuplexDistance(const double pitch, const double radius){
     // SCF
     double myInterDuplexDistance = pitch * cos(cylindricalSpiralSlopeAngle(pitch,radius));
-    MMBLOG_FILE_FUNC_LINE(INFO,"Inter-duplex separation, measured along a line perpendicular to both duplexes, is : "<< myInterDuplexDistance<<" . Note that this may not properly account for the arcdistance, for now consider this to be approximate."); 
+    //MMBLOG_FILE_FUNC_LINE(INFO,"pitch specifed by you is: "<<pitch<<" . radius, also specified by you is: "<<radius<<" . Inter-duplex separation, measured along a line perpendicular to both duplexes, is : "<< myInterDuplexDistance<<" . Note that this may not properly account for the arcdistance, for now consider this to be approximate."); 
     return myInterDuplexDistance;
 }
 
@@ -131,6 +131,7 @@ void   Spiral::validate(){
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Invalid value for phiOffset : "<<phiOffset<< endl);
 
     interDuplexDistance( pitch,  radius); // Just calling this without using it makes it print out the estimated interDuplexDistance 
+    MMBLOG_FILE_FUNC_LINE(INFO,"pitch specifed by you is: "<<pitch  <<" . radius, also specified by you is: "<<radius<<" . Inter-duplex separation, measured along a line perpendicular to both duplexes, is : "<< interDuplexDistance(pitch,radius)<<" . phiOffset is: "<<phiOffset<<" . Note that this may not properly account for the arcdistance, for now consider this to be approximate."<<endl); 
     MMBLOG_FILE_FUNC_LINE(INFO, " Validation passed.           "<< endl);
 }
 double Spiral::harmonicThetaAdjustment(double inputPhi){

@@ -312,6 +312,7 @@ if (BUILD_SHARED)
     target_link_libraries(
         ${MMB_SHARED_TARGET}
         PRIVATE ${LIBMMB_SHARED_TARGET}
+        PRIVATE ${ZLIB_LIBRARIES}
     )
 endif ()
 

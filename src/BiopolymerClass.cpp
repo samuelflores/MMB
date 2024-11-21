@@ -44,7 +44,7 @@ void printBiopolymerSequenceInfo(const Biopolymer & myBiopolymer) {
     for (int i = 0; i < myBiopolymer.getNumResidues(); i++) {
 	    MMBLOG_FILE_FUNC_LINE(INFO, "Residue type, number, and insertion code: "<<myBiopolymer.getResidue(ResidueInfo::Index(i)).getOneLetterCode() <<", "<<myBiopolymer.getResidue(ResidueInfo::Index(i)).getPdbResidueNumber()<<", "<<myBiopolymer.getResidue(ResidueInfo::Index(i)).getPdbInsertionCode()<<std::endl);
     } 
-};
+}
 
 static
 bool letterIsPurine(const char c) {
@@ -329,7 +329,7 @@ int BiopolymerClass::validateSequence() {
        MMBLOG_FILE_FUNC_LINE(CRITICAL, "Your have requested an unsupported biopolymerType : " <<biopolymerType<<".  " <<endl);
    }
    return 0;
-};
+}
  
 int BiopolymerClass::validateBiopolymerType () const {
         if (biopolymerType == BiopolymerType::RNA) {
@@ -369,7 +369,7 @@ void BiopolymerClass::validateMutation( Mutation myMutation) {
     myMutation.validate();
     if ( myMutation.getChain().compare(chainID) != 0) {
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "Bad mutant"<<endl);
-    };
+    }
     validateResidueID(myMutation.getResidue());
 }
 
@@ -951,7 +951,7 @@ int BiopolymerClass::initializeBiopolymer(
 }
 int BiopolymerClass::getChainLength() const {
     return sequence.length();
-};
+}
 
 size_t BiopolymerClass::getNumAtoms() {
     return myBiopolymer.getNumAtoms();
@@ -1004,7 +1004,7 @@ ResidueID BiopolymerClass::residueID(const map<const String,double> &myUserVaria
         } else { // if the residue ID is supplied as a String literal, just validate and return it.  This String can contain insertion codes.
             return residueID(String(value));
         } 
-};
+}
 
     /**
      * \brief Make sure residue number is in proper range.
@@ -1242,31 +1242,6 @@ BiopolymerClass::calcAtomInfoVector(const ResidueStretch &myResidueStretch, Simb
           //return vector<MMBAtomInfo>  (startAtomInfoIterator, endAtomInfoIterator+1);
     }
  
-        /* 
-    if (includePhosphates){
-        // do nothing. Phosphates on nucleic acids will get treated just like all other atoms for density map fitting purposes.
-    } else if (isRNA() || isDNA() ) {
-        MMBLOG_FILE_FUNC_LINE(": This section is obsolete!"<<std::endl;
-        // Now we need to delete the phosphates from returnAtomInfoVector.
-        for (int i = 0; i < returnAtomInfoVector.size(); i++){
-            //MMBLOG_FILE_FUNC_LINE(": About to check "<<returnAtomInfoVector[i].atomName<<" in returnAtomInfoVector["<<i<<"] "<<std::endl;
-            if ((returnAtomInfoVector[i].atomName == "P") ||
-               (returnAtomInfoVector[i].atomName == "OP1") ||
-               (returnAtomInfoVector[i].atomName == "OP2") ||
-               (returnAtomInfoVector[i].atomName == "O5'") ||
-               (returnAtomInfoVector[i].atomName == "O5'") ||
-               (returnAtomInfoVector[i].atomName == "O3'") ||
-               (returnAtomInfoVector[i].atomName == "O3'") ) {
-                //MMBLOG_FILE_FUNC_LINE(": About to delete "<<returnAtomInfoVector[i].atomName<<" in returnAtomInfoVector["<<i<<"] "<<std::endl;
-                returnAtomInfoVector.erase(returnAtomInfoVector.begin() + i);
-                i--; // Now we will need to revisit the current i, since the vector has been shortened at this position.
-            } // of if atomName
-        } // of for i
-    } // of if RNA/DNA
-    else { 
-        // We are a protein, so includePhosphates should not affect us. Do nothing.
-    }
-        */
     //MMBLOG_FILE_FUNC_LINE(": Unexplained error! "<<endl; exit (0);
 }
 
@@ -1428,7 +1403,7 @@ void BiopolymerClass::setContactParameters(GeneralContactSubsystem & contacts,  
     double huntCrossleyDissipation  =.0;
     if (!(active)) excludedVolumeStiffness = .0; // set force constants to zero
     hc.setBodyParameters(SimTK::ContactSurfaceIndex(contacts.getNumBodies(hc.getContactSetIndex()  )-1),excludedVolumeStiffness ,huntCrossleyDissipation, 0., 0., 0.);
-};
+}
 
 
 void BiopolymerClass::addGeneralSterics(GeneralContactSubsystem & contacts, ContactSetIndex contactSet, HuntCrossleyForce & hc,SimbodyMatterSubsystem & matter,double excludedVolumeRadius,double excludedVolumeStiffness,  ResidueID startResidue, ResidueID endResidue, bool endCapsOn, bool addHydrogens) {
@@ -1843,7 +1818,7 @@ void BiopolymerClass::setResidueIDsAndInsertionCodesFromBiopolymer(const Biopoly
     MMBLOG_FILE_FUNC_LINE(INFO, "Just finished setting residueID's and insertion codes for chain "<<getChainID()<<" from biopolymer in input structure file"<<endl);
     //printBiopolymerInfo();
     
-};
+}
 
 
 void BiopolymerClass::setResidueIDsAndInsertionCodesFromBiopolymer(const Biopolymer & inputBiopolymer, Mutation myInsertion, bool endCaps = 0 ){
@@ -1923,7 +1898,7 @@ void BiopolymerClass::setResidueIDsAndInsertionCodesFromBiopolymer(const Biopoly
     validateResidueNumbersAndInsertionCodes();
     MMBLOG_FILE_FUNC_LINE(INFO, "Just finished setting residueID's and insertion codes for chain "<<getChainID()<<" from biopolymer in input structure "<<endl);
     
-};
+}
 
 void BiopolymerClass::setResidueIDsAndInsertionCodesFromBiopolymerWithDeletion(const Biopolymer & oldBiopolymer, ResidueInfo::Index  myDeletionIndex, bool endCaps = 0 ){
     if (residueIDVector.size() > 0) 
@@ -1968,7 +1943,7 @@ void BiopolymerClass::setResidueIDsAndInsertionCodesFromBiopolymerWithDeletion(c
     MMBLOG_FILE_FUNC_LINE(INFO, "About to validate residue numbers and insertion codes  "<<endl);
     validateResidueNumbersAndInsertionCodes();
     MMBLOG_FILE_FUNC_LINE(INFO, "Just finished setting residueID's and insertion codes for chain "<<getChainID()<<" from biopolymer in old structure "<<endl);
-};
+}
 
 void BiopolymerClass::printBiopolymerInfo() {
     MMBLOG_FILE_FUNC_LINE(INFO, "printing biopolymer information for chain "<< getChainID()<<" first residue : "<<getFirstResidueID().outString()<< " and last residue : " << getLastResidueID().outString()<<endl);
@@ -2027,7 +2002,7 @@ bool BiopolymerClass::residueIDLessThanOrEqualTo(ResidueID  residueA, ResidueID 
 
 bool BiopolymerClass::residueIDGreaterThanOrEqualTo(ResidueID  residueA, ResidueID  residueB){
     return (getResidueIndex(residueA) >= getResidueIndex(residueB));
-};
+}
 
 ResidueID BiopolymerClass::incrementResidueID(ResidueID  & residueID) const{
     if (residueID == getLastResidueID()) {
@@ -2036,7 +2011,7 @@ ResidueID BiopolymerClass::incrementResidueID(ResidueID  & residueID) const{
     residueID = getResidueID( getResidueIndex(residueID) + 1);   
     validateResidueID(residueID); // getResidueIndex (residueID) should get the index directly from myBiopolymer, but this is one higher .. needs validation.
     return residueID;
-};
+}
 
 ResidueID BiopolymerClass::decrementResidueID(ResidueID & residueID) const{
 
@@ -2046,7 +2021,7 @@ ResidueID BiopolymerClass::decrementResidueID(ResidueID & residueID) const{
     residueID = getResidueID( getResidueIndex(residueID) - 1);   
     validateResidueID(residueID);
     return residueID;
-};
+}
 
 void        BiopolymerClass::setDefaultPhiAngle (ResidueID residueID, Angle phi) {
     //myBiopolymer.updResidue(getResidueIndex(residueID)).setDefaultPhiAngle(phi);
@@ -2058,7 +2033,7 @@ void        BiopolymerClass::setDefaultPhiAngle (ResidueID residueID, Angle phi)
         atomPathString((residueID), String("CA")),
         atomPathString((residueID), String("C"))
                 );
-};
+}
 
 void        BiopolymerClass::setDefaultPsiAngle (ResidueID residueID, Angle psi){
     //myBiopolymer.updResidue(getResidueIndex(residueID)).setDefaultPsiAngle(psi);
@@ -2068,7 +2043,7 @@ void        BiopolymerClass::setDefaultPsiAngle (ResidueID residueID, Angle psi)
         atomPathString((residueID), String("C")),
         atomPathString(sum(residueID , 1), String("N"))
         );
-};
+}
 void        BiopolymerClass::setDefaultPeptideDihedralAngle (ResidueID residueID1, ResidueID residueID2, Angle dihedral){
     //myBiopolymer.updResidue(getResidueIndex(residueID)).setDefaultPsiAngle(psi);
     if (!( sum(residueID1,1) == residueID2)){
@@ -2082,7 +2057,7 @@ void        BiopolymerClass::setDefaultPeptideDihedralAngle (ResidueID residueID
         atomPathString((residueID2), String("N")),
         atomPathString((residueID2), String("CA"))
         );
-};
+}
 
 void        BiopolymerClass::setAlphaHelicalDefaultBackboneAngles(ResidueID startResidue, ResidueID endResidue){
         validateResidueID(sum(startResidue, -1));
@@ -2097,7 +2072,7 @@ void        BiopolymerClass::setAlphaHelicalDefaultBackboneAngles(ResidueID star
         setDefaultPsiAngle (myResidueID, alphaHelicalPsi);
                 setDefaultPeptideDihedralAngle (myResidueID,sum(myResidueID,1),transAngle );
     }
-};
+}
 void        BiopolymerClass::setParallelBetaSheetDefaultBackboneAngles(ResidueID startResidue, ResidueID endResidue){
         validateResidueID(sum(startResidue, -1));
         validateResidueID(sum(endResidue , 1));
@@ -2111,7 +2086,7 @@ void        BiopolymerClass::setParallelBetaSheetDefaultBackboneAngles(ResidueID
         setDefaultPsiAngle (myResidueID, myPsi);
                 setDefaultPeptideDihedralAngle (myResidueID,sum(myResidueID,1),transAngle );
     }
-};
+}
 void        BiopolymerClass::setAntiParallelBetaSheetDefaultBackboneAngles(ResidueID startResidue, ResidueID endResidue){
         validateResidueID(sum(startResidue, -1));
         validateResidueID(sum(endResidue , 1));
@@ -2125,11 +2100,11 @@ void        BiopolymerClass::setAntiParallelBetaSheetDefaultBackboneAngles(Resid
         setDefaultPsiAngle (myResidueID, myPsi);
                 setDefaultPeptideDihedralAngle (myResidueID,sum(myResidueID,1),transAngle );
     }
-};
+}
 
 const int BiopolymerClass::difference(ResidueID  residueA, ResidueID  residueB )const {
     return (getResidueIndex(residueA) - getResidueIndex(residueB));
-};
+}
 
 // This test to make sure that it is possible to sum increment to inputResidueID and not go out of range.
 bool BiopolymerClass::safeSum(ResidueID  inputResidueID, int  increment, ResidueID outputResidueID){
@@ -2186,7 +2161,7 @@ ResidueID BiopolymerClass::sum(ResidueID  oldResidueID, int  increment ) const {
                 newResidueID = decrementResidueID(newResidueID);
     }   
     return newResidueID;
-};
+}
 
 void BiopolymerClass::setPdbFileName(String pdbFileName){
     this->pdbFileName = std::move(pdbFileName);
@@ -2282,7 +2257,7 @@ int BiopolymerClass::getCorrespondingMutationInCurrentBiopolymer(const Biopolyme
        return 1; // return value of 1    indicates failure, .
     } else {
        MMBLOG_FILE_FUNC_LINE(INFO, "Successfully translated the other biopolymer, with chain = "<< otherBiopolymerClass.getChainID()  <<" residue  "<<mutationInOtherBiopolymer.getResidue().outString() <<" to residue ID: " << residueIdInCurrentBiopolymer.outString()<<" in the current biopolymer, with chain ="<<chainInCurrentBiopolymer  <<  endl);
-    };
+    }
     std::string substitutedResidueTypeInCurrentBiopolymer = mutationInOtherBiopolymer. getSubstitutedResidueType();
     mutationInCurrentBiopolymer.setChain    (chainInCurrentBiopolymer)    ;
     mutationInCurrentBiopolymer.setResidue  (residueIdInCurrentBiopolymer);
@@ -2345,7 +2320,7 @@ int  BiopolymerClass::getCorrespondingResidueInCurrentBiopolymer(const Biopolyme
 
 BiopolymerClassContainer::BiopolymerClassContainer(){
     clear();
-};
+}
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -2863,7 +2838,7 @@ int  BiopolymerClassContainer::validateChainID(const String& chainID) const {
 Vec3  BiopolymerClassContainer::calcAtomLocationInGroundFrame(const State &state, const String &chainID, const ResidueID &residueID, const String &atomName) {
     validateChainID(chainID);
     return updBiopolymerClass(chainID).calcAtomLocationInGroundFrame(state, residueID, atomName);
-};
+}
 
 
 //void BiopolymerClassContainer::newCalcAxes(State & state, String chain1, ResidueID residueID1, String chain2, ResidueID residueID2, LeontisWesthofBondRow myLeontisWesthofBondRow ) {
@@ -3618,20 +3593,20 @@ String BiopolymerClassContainer::extractSequenceFromBiopolymer(const Biopolymer 
     }
     MMBLOG_FILE_FUNC_LINE(INFO, "Extracted sequence: "<< mySequence.str() << endl);
     return mySequence.str();
-};
+}
 
 void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter ) {  
     for (auto &it : biopolymerClassMap) {
         it.second.initializeAtomInfoVector(matter, atomicPropertyOverrideVector);
     }
-};
+}
 
 
 void BiopolymerClassContainer::initializeAtomInfoVectors(SimbodyMatterSubsystem& matter, DuMMForceFieldSubsystem & dumm) {
     for (auto &it : biopolymerClassMap) {
         it.second.initializeAtomInfoVector(matter, dumm, atomicPropertyOverrideVector);
     }
-};
+}
 
 bool isRNAtest(const Biopolymer & inputBiopolymer){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Inside isRNAtest               "     <<endl);
@@ -3654,40 +3629,12 @@ bool isRNAtest(const Biopolymer & inputBiopolymer){
 
 
 bool BiopolymerClassContainer::isRNA(const Biopolymer & inputBiopolymer)  {
-   /*
-    for (int i = 0; i < inputBiopolymer.getNumResidues(); i++) {
-        const ResidueInfo myResidueInfo = inputBiopolymer.getResidue(ResidueInfo::Index(i));
-        const char myOneLetterCode = myResidueInfo.getOneLetterCode();
-        if (! letterIsRNA(String(myOneLetterCode))) {
-            return false;    
-        }
-        if (! inputBiopolymer.hasAtom("0/O2'")) {
-            MMBLOG_FILE_FUNC_LINE(" No O2' atom found on first residue.  This is not RNA! "<<endl;
-            return false;
-        }
-    }
-    return true;
-*/
     return isRNAtest(inputBiopolymer);
-};
+}
 
 bool BiopolymerClass::isRNA()  {
-    /*
-    for (int i = 0; i < this->updBiopolymer().getNumResidues(); i++) {
-        const ResidueInfo myResidueInfo = this->updBiopolymer().getResidue(ResidueInfo::Index(i));
-        const char myOneLetterCode = myResidueInfo.getOneLetterCode();
-        if (! letterIsRNA(String(myOneLetterCode))) {
-            return false;    
-        }
-        if (! this->updBiopolymer().hasAtom("0/O2'")) {
-            MMBLOG_FILE_FUNC_LINE(" No O2' atom found on first residue.  This is not RNA! "<<endl;
-            return false;
-        }
-    }
-    return true;
- */
     return isRNAtest(this->updBiopolymer());
-};
+}
 
 bool isDNAtest(const Biopolymer & inputBiopolymer)  {
     for (int i = 0; i < inputBiopolymer.getNumResidues(); i++) {
@@ -3702,40 +3649,13 @@ bool isDNAtest(const Biopolymer & inputBiopolymer)  {
         }
     }
     return true;
-};
+}
 
 bool BiopolymerClass::isDNA()  {
     return isDNAtest(this->updBiopolymer());
-    /*
-    for (int i = 0; i < this->updBiopolymer().getNumResidues(); i++) {
-        const ResidueInfo myResidueInfo = this->updBiopolymer().getResidue(ResidueInfo::Index(i));
-        const char myOneLetterCode = myResidueInfo.getOneLetterCode();
-        if (! letterIsDNA(String(myOneLetterCode))) {
-            return false;    
-        }
-        if ( this->updBiopolymer().hasAtom("0/O2'")) {
-            MMBLOG_FILE_FUNC_LINE(" O2' atom found on first residue.  This is not DNA! "<<endl;
-            return false;
-        }
-    }
-    return true;*/
 }
 bool BiopolymerClassContainer::isDNA(const Biopolymer & inputBiopolymer)  {
     return isDNAtest(inputBiopolymer);
-    /*
-    for (int i = 0; i < inputBiopolymer.getNumResidues(); i++) {
-        const ResidueInfo myResidueInfo = inputBiopolymer.getResidue(ResidueInfo::Index(i));
-        const char myOneLetterCode = myResidueInfo.getOneLetterCode();
-        if (! letterIsDNA(String(myOneLetterCode))) {
-            return false;    
-        }
-        if ( inputBiopolymer.hasAtom("0/O2'")) {
-            MMBLOG_FILE_FUNC_LINE(" O2' atom found on first residue.  This is not DNA! "<<endl;
-            return false;
-        }
-    }
-    return true;
-    */
 }
 
 bool BiopolymerClassContainer::isProtein(const Biopolymer & inputBiopolymer, bool endCaps = true)  {
@@ -3859,14 +3779,14 @@ void BiopolymerClassContainer::loadSequencesFromPdb(const String &inPDBFileName,
     MMBLOG_FILE_FUNC_LINE(INFO, "Done adding compounds for now. This BiopolymerClassContainer now has getNumBiopolymers() = "<< getNumBiopolymers() <<endl);
 
     //printBiopolymerSequenceInfo(updBiopolymerClass("g").myBiopolymer);
-};
+}
 
 void BiopolymerClassContainer::printBiopolymerInfo() {
     map<const String,BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
     for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
         (biopolymerClassMapIterator->second).printBiopolymerInfo();
     }  
-};
+}
 
 void BiopolymerClassContainer::setResidueIDsAndInsertionCodesFromBiopolymer(const String & chain, const Biopolymer & inputBiopolymer, bool endCaps) {
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
@@ -4084,7 +4004,7 @@ void BiopolymerClassContainer::constrainRigidSegmentsToGroundForAllChains(Compou
     }
     //MMBLOG_FILE_FUNC_LINE("At the end of constrainRigidSegmentsToGroundForAllChains, running validateConstraintClassVector:"<<endl;
     myConstraintToGroundContainer.validateConstraintClassVector(*this); 
-};
+}
 
 
 
@@ -4387,54 +4307,9 @@ Mutation  BiopolymerClassContainer::setMutationWildTypeResidueTypeFromOriginalSe
     myMutation. setWildTypeResidueType(myOriginalWildTypeResidueType);
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
     myMutation.print();
-    /*
-    ResidueID myResidue = myBiopolymerClass.residueID(myMutation.getResidue().outString()); // This BiopolymerClass method has a validation step. Requires a String.
-    MMBLOG_FILE_FUNC_LINE(" myBiopolymerClass.residueID(myMutation.getResidue().outString()) returns >"<<myBiopolymerClass.residueID(myMutation.getResidue().outString()).outString()<<"< "<<endl; 
-    String myWildTypeResidueType = myBiopolymerClass.getResidueSingleLetterCode(myResidue);
-    MMBLOG_FILE_FUNC_LINE(" myBiopolymerClass.getResidueSingleLetterCode(myResidue) = >"<<myBiopolymerClass.getResidueSingleLetterCode(myResidue)<<"< "<<endl; 
-    myMutation. setWildTypeResidueType(myWildTypeResidueType);
-    */ 
     return myMutation;
 } ;
 
-/*String BiopolymerClassContainer::getFormattedMutationsString(String minorSeparator = MUTATIONMINORSEPARATOR) {
-    String mutationString = ""; 
-    map<const String, BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
-    for (biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
-     if (mutationString.substr(0,1).compare(".") == 0)
-	 mutationString = mutationString.substr(1,(mutationString.length()-1)); // get rid of any leading periods left in the last cycle of this loop.
-         MMBLOG_FILE_FUNC_LINE(" chain ID = >"<<(biopolymerClassMapIterator->second).getChainID()<<"<"<<endl;
-         MMBLOG_FILE_FUNC_LINE(" current mutationString = >"<< mutationString <<"<"<<endl;
-         if ((biopolymerClassMapIterator->second).getFormattedMutationsString(minorSeparator ).size() > 0) 
-         {
-             MMBLOG_FILE_FUNC_LINE(" adding formatted mutation string  = >"<<(biopolymerClassMapIterator->second).getFormattedMutationsString(minorSeparator )<<  "<"<<endl;;
-             if (mutationString.length() > 0 ) {
-                 MMBLOG_FILE_FUNC_LINE(" plus string = >"<<mutationString<<"<"<<endl;
-                 mutationString =  (biopolymerClassMapIterator->second).getFormattedMutationsString(minorSeparator )+String(".")+mutationString  ; // += seems to do current + new , rather than vice versa.
-             } else {
-                 MMBLOG_FILE_FUNC_LINE(" .. to no other string = >"<<mutationString<<"<"<< endl;
-                 mutationString =  (biopolymerClassMapIterator->second).getFormattedMutationsString(minorSeparator );
-             }
-         } else {
-             MMBLOG_FILE_FUNC_LINE(" mutation string to be added had no length.. doing nothing."<<endl;
-         }
-         //mutationString += (biopolymerClassMapIterator->second).getFormattedMutationsString(minorSeparator ); // This was reversing the order of the mutations in the string
-         MMBLOG_FILE_FUNC_LINE(" mutationString is now >"<<mutationString<<"<"<<endl;
-         //biopolymerClassMapIterator ++ ;
-         //if ((biopolymerClassMapIterator) != biopolymerClassMap.end())  // if this is not the last chain
-         //mutationString += "."; // a "." connects mutations
-         //biopolymerClassMapIterator -- ; // decrement biopolymerClassMapIterator again
-    }
-    for (int i = 0; i < getNumBiopolymers() ; i++) // there could be one "." added for each chain
-            // This may have become redundant due to more careful placement of major separators.  But safer to leave in..
-            if (mutationString.length() > 0)
-            if (mutationString.substr((mutationString.length()-1),1).compare(".") == 0) {
-                MMBLOG_FILE_FUNC_LINE(" Dropping one trailing \'.\' "<<endl;
-                mutationString = mutationString.substr(0,(mutationString.length()-1)); // get rid of trailing periods.
-            }
-    MMBLOG_FILE_FUNC_LINE(" mutationString is now >"<<mutationString<<"<"<<endl;
-    return mutationString;
-}*/
 
 void BiopolymerClassContainer::setCurrentSequencesFromOriginalSequences() {
     map<const String, BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
@@ -4443,14 +4318,6 @@ void BiopolymerClassContainer::setCurrentSequencesFromOriginalSequences() {
     }
 }
 
-/*
-bool BiopolymerClassContainer::allMutationsDifferFromWildType(){
-    map<const String, BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
-    for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
-        if (!(biopolymerClassMapIterator->second).allMutationsDifferFromWildType()) return false;
-    }
-    return true;
-}*/
 
 bool BiopolymerClassContainer::allMutationsDifferFromWildType() { // This tells us whether any of the proposed mutants actually do not  change the residue type at the specified position.
     for (size_t i = 0 ; i <       mutationVector.size   () ; i ++) {
@@ -4461,14 +4328,7 @@ bool BiopolymerClassContainer::allMutationsDifferFromWildType() { // This tells 
     }
     }
     return true; 
-};
-/*
-void BiopolymerClassContainer::updateMutationResidueTypesFromCurrentSequence() {
-    map<const String, BiopolymerClass>::iterator biopolymerClassMapIterator = biopolymerClassMap.begin();
-    for(biopolymerClassMapIterator = biopolymerClassMap.begin(); biopolymerClassMapIterator != biopolymerClassMap.end(); biopolymerClassMapIterator++) {
-        (biopolymerClassMapIterator->second).updateMutationResidueTypesFromCurrentSequence();
-    }
-}    */
+}
 void BiopolymerClassContainer::updateMutationResidueTypesFromCurrentSequence() {
     for (int i = 0 ; i < getNumMutationVectorElements() ; i ++) {
         MMBLOG_FILE_FUNC_LINE(INFO, endl);
@@ -4482,7 +4342,7 @@ void BiopolymerClassContainer::updateMutationResidueTypesFromCurrentSequence() {
         mutationVector[i].print();
         MMBLOG_FILE_FUNC_LINE(INFO, "Done with updateMutationResidueTypesFromCurrentSequence .. mutations look like: "<< getFormattedMutationsString()<<endl);
     }
-};
+}
 
 
 void BiopolymerClassContainer::setRenumberPdbResidues (bool myRenumberPdbResidues){
@@ -4587,51 +4447,9 @@ void BiopolymerClassContainer::insertResidue(Mutation myInsertion,   bool protei
     updBiopolymerClass(myChain).setResidueIDsAndInsertionCodesFromBiopolymer(tempBiopolymer, myInsertion, proteinCapping);  
 }
 
-/*vector<Mutation> BiopolymerClassContainer::getCompositeMutationVector() {
-    std::MMBLOG_FILE_FUNC_LINE(" This is obsolete! Just call getMutationVector(). It will return a const vector <Mutation> ."<<std::endl;
-    return          mutationVector;
-};*/    
 
     // have  Chromosome::setMutationVectorFromString call this also.
 void BiopolymerClassContainer::setMutationVectorFromString (const std::string mutationString) {
-    /* // Old way:
-    std::MMBLOG_FILE_FUNC_LINE(" Parsing "<<mutationString<<std::endl;
-    size_t minorSeparatorPosition1 = mutationString.find(MUTATIONMINORSEPARATOR); // find the start position of residue ID
-    size_t minorSeparatorPosition2 = mutationString.find(MUTATIONMINORSEPARATOR, (minorSeparatorPosition1 + 1)); // find the end position of residue ID
-    size_t dotPosition = mutationString.find('.'); // find the end position of the mutant record
-    if (minorSeparatorPosition2 > dotPosition) {std::MMBLOG_FILE_FUNC_LINE(" Ill-formatted mutation string! Remember to use the format X"<<MUTATIONMINORSEPARATOR<<"NNI"<<MUTATIONMINORSEPARATOR<<"S .. where X is the chain ID, NNI is the residue ID and insertion code (if any) and S is the substituted residue type. Separate the mutants with " <<"."<< mutationString<<std::endl; exit(1);}
-    string myChainID = mutationString.substr(0,minorSeparatorPosition1);
-    string residueIDString = mutationString.substr(minorSeparatorPosition1 + 1, ( minorSeparatorPosition2 - minorSeparatorPosition1 - 1)); // get the string fragment between minorSeparatorPosition1 and minorSeparatorPosition2.
-    string mutatedResidueTypeString = mutationString.substr(minorSeparatorPosition2 + 1, (dotPosition - minorSeparatorPosition2 - 1)); // get the string fragment between  minorSeparatorPosition2 and dotPosition -- this is the mutant residue type.
-    std::MMBLOG_FILE_FUNC_LINE(" Parsing "<<mutationString<<std::endl;
-    std::cout<<". first chain = >"<<myChainID<<"<"<<std::endl;
-    std::cout<<" with residue ID >"<<residueIDString <<"<"<< std::endl;
-    std::cout<< " and mutant residue type = >"<<mutatedResidueTypeString<<"< "<<std::endl;
-    std::MMBLOG_FILE_FUNC_LINE(std::endl;
-    if (!(hasChainID(myChainID))) {
-            std::MMBLOG_FILE_FUNC_LINE(" Could not find a chain  "<<myChainID<<std::endl; exit(1);
-    }
-    std::MMBLOG_FILE_FUNC_LINE(std::endl;
-    ResidueID mutantResidueID = updBiopolymerClass(myChainID).residueID( residueIDString ) ; // convert residueIDString to a real ResidueID
-    Mutation myMutation;
-    myMutation.setResidue(mutantResidueID);
-    myMutation.setChain(myChainID);
-    myMutation.setSubstitutedResidueType(mutatedResidueTypeString);
-    std::MMBLOG_FILE_FUNC_LINE(" adding the following mutation to the mutation vector of chain >"<<myChainID<<"< :"<<std::endl;
-    myMutation.print();
-    addMutationToVector(myMutation );
-    std::MMBLOG_FILE_FUNC_LINE(" getNumMutationVectorElements() "<< getNumMutationVectorElements() << std::endl;
-    std::MMBLOG_FILE_FUNC_LINE(" getFormattedMutationsString() "<< getFormattedMutationsString(MUTATIONMINORSEPARATOR )<<std::endl;
-    std::MMBLOG_FILE_FUNC_LINE(" getFormattedMutationsString(MUTATIONMINORSEPARATOR) >"<< getFormattedMutationsString(MUTATIONMINORSEPARATOR)<<"< "<<std::endl;
-    if (dotPosition == 0) {std::MMBLOG_FILE_FUNC_LINE(" Bad format! "<<std::endl; exit(1); }
-    if ((dotPosition < (mutationString.length()-1))  &&
-            (dotPosition != string::npos)) // dotPosition == string::npos indicates no dot was found
-    { // recursively send rest of string to the same setMutationVectorFromString function to take care of remaining mutations.
-            std::string newMutationString = mutationString.substr((dotPosition+1), string::npos);
-            setMutationVectorFromString(newMutationString);
-    }
-
-    */ 
 
 
 ///////////////////// New way, which detects and tolerates FoldX formatted mutation strings:
@@ -4672,7 +4490,7 @@ void BiopolymerClassContainer::setMutationVectorFromString (const std::string mu
 
 
 
-};
+}
 
 void BiopolymerClassContainer::addIntraChainInterfaceResidues(String chain, vector<IncludeAllNonBondAtomsInResidue> & myIncludeAllNonBondAtomsInResidueVector , double radius, SimbodyMatterSubsystem & matter,State & state) {
     ResidueStretchContainer <SingleResidue> myResidueStretchContainer;
@@ -4690,7 +4508,7 @@ void BiopolymerClassContainer::addIntraChainInterfaceResidues(String chain, vect
         myIncludeAllNonBondAtomsInResidue.setResidue (  myResidueStretchContainer.getResidueStretch(i).getStartResidue() );
         myIncludeAllNonBondAtomsInResidueVector.push_back(myIncludeAllNonBondAtomsInResidue);
     }
-};
+}
 
 void BiopolymerClassContainer::createDisulphideBridges(std::ofstream & output) {
     vector <MMBAtomInfo> cysteineAtomInfoVector; cysteineAtomInfoVector.clear();

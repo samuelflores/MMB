@@ -138,12 +138,12 @@ void ContactContainer::createContactsWithin ( BiopolymerClassContainer & myBiopo
         vector<MMBAtomInfo>::iterator itAtom;
         for(itAtom = concatenatedAtomInfoVector.begin(); itAtom != concatenatedAtomInfoVector.end(); itAtom++)
         {
-            if(itAtom->chain == contactWithinVector[h].Chain && itAtom->residueID == contactWithinVector[h].Residue)
+            if(itAtom->getChain() == contactWithinVector[h].Chain && itAtom->residueID == contactWithinVector[h].Residue)
             {
                 vector<MMBAtomInfo*>::iterator itAtomPointer;
                 for(itAtomPointer=itAtom->neighbors.begin(); itAtomPointer!=itAtom->neighbors.end(); itAtomPointer++)
                 {
-                    BiopolymerClass & myBiopolymerClass = myBiopolymerClassContainer.updBiopolymerClass((*itAtomPointer)->chain);
+                    BiopolymerClass & myBiopolymerClass = myBiopolymerClassContainer.updBiopolymerClass((*itAtomPointer)->getChain());
                     // Skip residues in unactive chains
                     if(myBiopolymerClass.getActivePhysics() == false)
                         continue;

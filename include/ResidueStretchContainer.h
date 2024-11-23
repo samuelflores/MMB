@@ -244,10 +244,10 @@ class ResidueStretchContainer{
             for ( int j = 0 ; j < neighborList.size(); j++) {
                 //cout<<__FILE__<<":"<<__LINE__<<" concatenatedAtomInfoVector[neighborList[j].first].chain ="<<concatenatedAtomInfoVector[neighborList[j].first].chain<< " ";
                 //cout<<__FILE__<<":"<<__LINE__<<" concatenatedAtomInfoVector[neighborList[j].second].chain ="<<concatenatedAtomInfoVector[neighborList[j].second].chain<<endl;
-                if (((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].chain , (referenceChains))) == 1) &&
-                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].chain ,(  partnerChains))) == 1))  != //Use an XOR here. This means if the 'partnerChains' evaluation is later set to return 1 when partnerChains is empty, this will still work.
-                    ((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].chain ,(referenceChains))) == 1) &&
-                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].chain  ,(  partnerChains))) == 1))     //Make sure that exactly one residue is in the 'referenceChains', and the other residue is in the 'partnerChains' .. thus only the desired interface is included
+                if (((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].getChain() , (referenceChains))) == 1) &&
+                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].getChain() ,(  partnerChains))) == 1))  != //Use an XOR here. This means if the 'partnerChains' evaluation is later set to return 1 when partnerChains is empty, this will still work.
+                    ((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].getChain() ,(referenceChains))) == 1) &&
+                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].getChain()  ,(  partnerChains))) == 1))     //Make sure that exactly one residue is in the 'referenceChains', and the other residue is in the 'partnerChains' .. thus only the desired interface is included
 															  )  
                  
 		{
@@ -255,12 +255,12 @@ class ResidueStretchContainer{
                     ResidueStretchType myResidueStretch1;
                     myResidueStretch1.setStartResidue(concatenatedAtomInfoVector[neighborList[j].first].residueID);
                     myResidueStretch1.setEndResidue  (concatenatedAtomInfoVector[neighborList[j].first].residueID);
-                    myResidueStretch1.setChain(concatenatedAtomInfoVector[neighborList[j].first].chain);
+                    myResidueStretch1.setChain(concatenatedAtomInfoVector[neighborList[j].first].getChain());
                     // It's not possible to set bondMobility here, also it's not necessary -- this is done in the calling function, MobilizerContainer::addMobilizerStretchesToVector
                     ResidueStretchType myResidueStretch2;
                     myResidueStretch2.setStartResidue(concatenatedAtomInfoVector[neighborList[j].second].residueID);
                     myResidueStretch2.setEndResidue(concatenatedAtomInfoVector[neighborList[j].second].residueID);
-                    myResidueStretch2.setChain(concatenatedAtomInfoVector[neighborList[j].second].chain);
+                    myResidueStretch2.setChain(concatenatedAtomInfoVector[neighborList[j].second].getChain());
                     if (!(vectorHasResidueStretch(myResidueStretch1))) {addStretch(myResidueStretch1);
 			        MMBLOG_FILE_FUNC_LINE(INFO, "Added first residue stretch"<<endl);
                         myResidueStretch1.printStretch();
@@ -312,11 +312,11 @@ class ResidueStretchContainer{
                     ResidueStretchType myResidueStretch1;
                     myResidueStretch1.setStartResidue(chainAtomInfoVector[neighborList[j].first].residueID);
                     //myResidueStretch1.setEndResidue  (chainAtomInfoVector[neighborList[j].first].residueID);
-                    myResidueStretch1.setChain(chainAtomInfoVector[neighborList[j].first].chain);
+                    myResidueStretch1.setChain(chainAtomInfoVector[neighborList[j].first].getChain());
                     ResidueStretchType myResidueStretch2;
                     myResidueStretch2.setStartResidue(chainAtomInfoVector[neighborList[j].second].residueID);
                     //myResidueStretch2.setEndResidue(chainAtomInfoVector[neighborList[j].second].residueID);
-                    myResidueStretch2.setChain(chainAtomInfoVector[neighborList[j].second].chain);
+                    myResidueStretch2.setChain(chainAtomInfoVector[neighborList[j].second].getChain());
                     if (!(vectorHasResidueStretch(myResidueStretch1))) {addResidueStretchToVector(myResidueStretch1);
 			            MMBLOG_FILE_FUNC_LINE(INFO, "Added first residue stretch"<<endl);
                         myResidueStretch1.printStretch();

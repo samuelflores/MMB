@@ -860,21 +860,21 @@ vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAto
             cout<<__FILE__<<":"<<__LINE__<<endl;
             computeNeighborListVoxelHash(neighborList, particleList.size() , particleList, exclusions, &boxSize, false, radius  , 0.0);
             for ( size_t j = 0 ; j < neighborList.size(); j++) {
-                if ((((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].chain , (referenceChains))) == 1) &&
-                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].chain ,(  partnerChains))) == 1))  || 
+                if ((((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].getChain() , (referenceChains))) == 1) &&
+                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].getChain() ,(  partnerChains))) == 1))  || 
 //Use an XOR here. This means if the 'partnerChains' evaluation is later set to return 1 when partnerChains is empty, this will still work.
-                    ((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].chain ,(referenceChains))) == 1) &&
-                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].chain  ,(  partnerChains))) == 1))     //Make sure that exactly one residue is in the 'referenceChains', and the other residue is in the 'partnerChains' .. thus only the desired interface is included
+                    ((( vectorCompare(concatenatedAtomInfoVector[neighborList[j].second].getChain() ,(referenceChains))) == 1) &&
+                     (( vectorCompare(concatenatedAtomInfoVector[neighborList[j].first].getChain()  ,(  partnerChains))) == 1))     //Make sure that exactly one residue is in the 'referenceChains', and the other residue is in the 'partnerChains' .. thus only the desired interface is included
                                                                                                                          ) 
-                     && (concatenatedAtomInfoVector[neighborList[j].first].chain.compare(concatenatedAtomInfoVector[neighborList[j].second].chain) != 0 )
+                     && (concatenatedAtomInfoVector[neighborList[j].first].getChain().compare(concatenatedAtomInfoVector[neighborList[j].second].getChain()) != 0 )
                    ) // lastly,make sure the two atoms are not in the same chain.
 
                 {   
                     TwoAtomClass myTwoAtomClass(
-			(concatenatedAtomInfoVector[neighborList[j].first].chain),
+			(concatenatedAtomInfoVector[neighborList[j].first].getChain()),
 			(concatenatedAtomInfoVector[neighborList[j].first].residueID),
 			(concatenatedAtomInfoVector[neighborList[j].first].atomName),
-			(concatenatedAtomInfoVector[neighborList[j].second].chain),
+			(concatenatedAtomInfoVector[neighborList[j].second].getChain()),
 			(concatenatedAtomInfoVector[neighborList[j].second].residueID),
 			(concatenatedAtomInfoVector[neighborList[j].second].atomName)//,
                         //(concatenatedAtomInfoVector[neighborList[j].first ].position - concatenatedAtomInfoVector[neighborList[j].second].position) // later, compute distance

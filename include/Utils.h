@@ -1241,6 +1241,8 @@ struct WaterDropletAboutResidueStruct {
 };
 
 class MMBAtomInfo {
+    private:
+        String chain;
     public:
         MobilizedBody mobilizedBody;
         MobilizedBodyIndex mobilizedBodyIndex;
@@ -1251,7 +1253,6 @@ class MMBAtomInfo {
         openmmVecType position;
         ResidueID residueID;
         ResidueInfo::Index  residueIndex;
-        String chain;
         double partialCharge;
         std::vector<MMBAtomInfo*> neighbors;
         //ChargedAtomType chargedAtomType;

@@ -3088,8 +3088,8 @@ vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer:
         MMBAtomInfo  atom1 = concatenatedAtomInfoVector[id1];
         MMBAtomInfo  atom2 = concatenatedAtomInfoVector[id2];
 
-        BiopolymerClass bpc1 = getBiopolymerClass(atom1.chain);
-        BiopolymerClass bpc2 = getBiopolymerClass(atom2.chain);
+        BiopolymerClass bpc1 = getBiopolymerClass(atom1.getChain());
+        BiopolymerClass bpc2 = getBiopolymerClass(atom2.getChain());
 
         double dist = atom1.distance(atom2);
 
@@ -3098,12 +3098,12 @@ vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer:
         //     continue;
 
         // if residue 1 is the given residue we add residue 2
-        if(atom1.chain == chainID && atom1.residueID == resID && dist <= radius)
+        if(atom1.getChain() == chainID && atom1.residueID == resID && dist <= radius)
         {
             residuesWithin.emplace_back(std::move(bpc2), atom2.residueID);
         }
         // if residue 2 is the given residue we add residue 1
-        else if(atom2.chain == chainID && atom2.residueID == resID && dist <= radius)
+        else if(atom2.getChain() == chainID && atom2.residueID == resID && dist <= radius)
         {
             residuesWithin.emplace_back(std::move(bpc1), atom1.residueID);
         }
@@ -3266,8 +3266,8 @@ void BiopolymerClassContainer::findBiopolymerResiduesWithinRadius (const type & 
         String name1 = concatenatedAtomInfoVector[id1].atomName;
         String name2 = concatenatedAtomInfoVector[id2].atomName;
 
-        SingleResidue incl1; incl1.setChain(concatenatedAtomInfoVector[id1].chain); incl1.setResidue(concatenatedAtomInfoVector[id1].residueID);
-        SingleResidue incl2; incl2.setChain(concatenatedAtomInfoVector[id2].chain); incl2.setResidue(concatenatedAtomInfoVector[id2].residueID); 
+        SingleResidue incl1; incl1.setChain(concatenatedAtomInfoVector[id1].getChain()); incl1.setResidue(concatenatedAtomInfoVector[id1].residueID);
+        SingleResidue incl2; incl2.setChain(concatenatedAtomInfoVector[id2].getChain()); incl2.setResidue(concatenatedAtomInfoVector[id2].residueID); 
 
         double dist = concatenatedAtomInfoVector[id1].distance(concatenatedAtomInfoVector[id2]);
 
@@ -3559,7 +3559,7 @@ void BiopolymerClassContainer::includeAllNonBondAtomsInResidues(vector<IncludeAl
 
 void BiopolymerClassContainer::includeNonBondAtoms(  vector<IncludeNonBondAtomInBiopolymerStruct> includeNonBondAtomInBiopolymerVector,  State & state, DuMMForceFieldSubsystem & dumm) {
     for (size_t i = 0 ; i < includeNonBondAtomInBiopolymerVector.size(); i++) {
-        includeNonBondAtom(includeNonBondAtomInBiopolymerVector[i].chain,  includeNonBondAtomInBiopolymerVector[i].residue, includeNonBondAtomInBiopolymerVector[i].atomName, state,dumm);
+        includeNonBondAtom(includeNonBondAtomInBiopolymerVector[i].   chain  ,  includeNonBondAtomInBiopolymerVector[i].residue, includeNonBondAtomInBiopolymerVector[i].atomName, state,dumm);
     }
 }
 
@@ -4710,10 +4710,10 @@ void BiopolymerClassContainer::createDisulphideBridges(std::ofstream & output) {
     for ( size_t j = 0 ; j < neighborList.size(); j++) {
 	    //MMBLOG_FILE_FUNC_LINE(endl;
 	    ResidueID residueID1(cysteineAtomInfoVector[neighborList[j].first].residueID);
-	    String chain1(cysteineAtomInfoVector[neighborList[j].first].chain);
+	    String chain1(cysteineAtomInfoVector[neighborList[j].first].getChain());
 	    String atom1(cysteineAtomInfoVector[neighborList[j].first].atomName);
 	    ResidueID residueID2(cysteineAtomInfoVector[neighborList[j].second].residueID);
-	    String chain2(cysteineAtomInfoVector[neighborList[j].second].chain);
+	    String chain2(cysteineAtomInfoVector[neighborList[j].second].getChain());
 	    String atom2(cysteineAtomInfoVector[neighborList[j].second].atomName);
             if (chain1.compare(chain2) == 0) {
 		if ( atom1.compare("SG"  ) != 0){
@@ -4751,10 +4751,10 @@ void BiopolymerClassContainer::createDisulphideBridges() {
     for ( size_t j = 0 ; j < neighborList.size(); j++) {
 	    //MMBLOG_FILE_FUNC_LINE(endl;
 	    ResidueID residueID1(cysteineAtomInfoVector[neighborList[j].first].residueID);
-	    String chain1(cysteineAtomInfoVector[neighborList[j].first].chain);
+	    String chain1(cysteineAtomInfoVector[neighborList[j].first].getChain());
 	    String atom1(cysteineAtomInfoVector[neighborList[j].first].atomName);
 	    ResidueID residueID2(cysteineAtomInfoVector[neighborList[j].second].residueID);
-	    String chain2(cysteineAtomInfoVector[neighborList[j].second].chain);
+	    String chain2(cysteineAtomInfoVector[neighborList[j].second].getChain());
 	    String atom2(cysteineAtomInfoVector[neighborList[j].second].atomName);
             if (chain1.compare(chain2) == 0) {
 		if ( atom1.compare("SG"  ) != 0){

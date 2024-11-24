@@ -124,12 +124,12 @@ String get_and_set_working_path(String newPath = "RETRIEVE-ONLY" )
 ChainResidueIndex::ChainResidueIndex(int myChainIndex,  int myResidueIndex) {
     residueIndex = myResidueIndex;
     chainIndex = myChainIndex;
-};
+}
 ParameterReader::ParameterReader() {
     clearContainers();
     MMBLOG_FILE_FUNC_LINE(INFO, ""<<endl);
     myBiopolymerClassContainer.writePdbStructureMapDiagnostics(); //This is just a debug flag
-};
+}
 
 void ParameterReader::addC1pSprings (LeontisWesthofClass myLeontisWesthofClass) {
     for (int p=0; p<(int)basePairContainer.numBasePairs(); p++) 
@@ -153,7 +153,7 @@ void ParameterReader::addC1pSprings (LeontisWesthofClass myLeontisWesthofClass) 
             atomSpringContainer.add   (myAtomSpring);
 
         }
-};
+}
 
 
 void ParameterReader::applyAtomSprings(SimbodyMatterSubsystem & matter, GeneralForceSubsystem & forces, State & state)
@@ -338,7 +338,7 @@ bool checkForDouble(String const& s) {
     std::istringstream ss(s);
     double d;
     return (ss >> d) && (ss >> std::ws).eof();
-};
+}
 
 
 
@@ -423,7 +423,7 @@ void ParameterReader::removeBasePairsAcrossRigidStretches () {
     basePairContainer.printBasePairs();
     MMBLOG_FILE_FUNC_LINE(INFO    , " Printing all mobilizer stretches, at the end of removeBasePairsAcrossRigidStretches."<<endl);
     mobilizerContainer.printMobilizerStretches();
-}; // of function
+} // of function
 
 // This function only removes base pairs if both residues are in the SAME rigid stretch.
 void ParameterReader::removeBasePairsInRigidStretch () { 
@@ -461,7 +461,7 @@ void ParameterReader::removeBasePairsInRigidStretch () {
             }
         }
     } 
-};
+}
 
 void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::string, std::string > > &remarksVec ) {
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addAllAtomSterics                      bool    " + std::to_string ( addAllAtomSterics ) ) );
@@ -588,7 +588,7 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "loopBondMobility                       BondMobility::Mobility " + std::to_string ( loopBondMobility ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "overallBondMobility                    BondMobility::Mobility " + std::to_string ( overallBondMobility ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "chiBondMobility                        BondMobility::Mobility " + std::to_string ( chiBondMobility ) ) );
-};
+}
 
 void ParameterReader::printAllSettings (ostream & myOstream, String remarkString ) { 
     myOstream << remarkString << "addAllAtomSterics                      bool    "<<addAllAtomSterics         <<endl;
@@ -720,7 +720,7 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "overallBondMobility                    BondMobility::Mobility"<<overallBondMobility     <<endl;
     myOstream << remarkString << "chiBondMobility                        BondMobility::Mobility"<<chiBondMobility     <<endl;
 
-};
+}
 
 
 void ParameterReader::removeNonPriorityBasePairs (int priorityLevel) {  
@@ -731,7 +731,7 @@ void ParameterReader::removeNonPriorityBasePairs (int priorityLevel) {
 
 
 
-};
+}
 
 void ParameterReader::updateBasePair(int index, 
                                      String ch1, int res1, String edge1, 
@@ -1640,8 +1640,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 	    thread.forceConstant   = alignmentForcesForceConstant; // set to super high value just to make sure it's being reset later.
             thread.matchScore   = alignmentForcesMatchScore;
             thread.mismatchScore   = alignmentForcesMismatchScore;
-            thread.gapPenalty   = alignmentForcesGapPenalty   ;
-            thread.scoringScheme= alignmentForcesScoringScheme;
+            thread.setGapPenalty   ( alignmentForcesGapPenalty ) ;
+            thread.setScoringScheme (alignmentForcesScoringScheme);
             thread.deadLengthIsFractionOfInitialLength = alignmentForcesDeadLengthIsFractionOfInitialLength;
             thread.deadLengthFraction = alignmentForcesDeadLengthFraction;
             thread.deadLength         = alignmentForcesDeadLength        ;
@@ -4616,7 +4616,7 @@ void ParameterReader::initializeFromFileOnly(const char * parameterFileName ) {
     MMBLOG_FILE_FUNC_LINE(INFO, "Done printing atom springs. "<<endl);
     //printBiopolymerSequenceInfo(myBiopolymerClassContainer.updBiopolymerClass("g").myBiopolymer);
 
-} ;
+} 
 
 
 void ParameterReader::loadSequencesFromPdb(const char * pdbFileName, const string & chainsPrefix, const bool tempRenumberPdbResidues ) { //, vector<std::string> deletedResidueVector ){
@@ -4692,7 +4692,7 @@ void ParameterReader::setFirstAndLastStageAndUseCifFiles(const char * parameterF
             MMBLOG_FILE_FUNC_LINE(INFO, "useCIFFileFormat now set to "<<useCIFFileFormat<<endl);
 	}
     } // of while inFile 
-} ;
+} 
 
 
 
@@ -5035,6 +5035,6 @@ void ParameterReader::initialize(const char * parameterFileName ) {
     initializeDefaults();
     initializeFromFileOnly(parameterFileName);
 
-};
+}
 
 

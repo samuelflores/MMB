@@ -1568,14 +1568,10 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 
          ThreadingStruct thread;
                    
-         //#thread.gapPenalty = alignmentForcesGapPenalty;
-         //#thread.isGapped   = alignmentForcesIsGapped;
-         //MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesIsGapped = "<<alignmentForcesIsGapped<<endl);
          MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesGapPenalty = "<<alignmentForcesGapPenalty<<endl);
          MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesMatchScore = "<<alignmentForcesMatchScore<<endl);
          MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesMismatchScore = "<<alignmentForcesMismatchScore<<endl);
          MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently alignmentForcesScoringScheme = "<<alignmentForcesScoringScheme<<endl);
-         //MMBLOG_FILE_FUNC_LINE(DEBUG, "Currently thread.isGapped = "<<thread.isGapped<<endl);
 
        
         
@@ -1640,8 +1636,8 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
 	    thread.forceConstant   = alignmentForcesForceConstant; // set to super high value just to make sure it's being reset later.
             thread.matchScore   = alignmentForcesMatchScore;
             thread.mismatchScore   = alignmentForcesMismatchScore;
-            thread.gapPenalty   = alignmentForcesGapPenalty   ;
-            thread.scoringScheme= alignmentForcesScoringScheme;
+            thread.setGapPenalty   ( alignmentForcesGapPenalty )  ;
+            thread.setScoringScheme (alignmentForcesScoringScheme);
             thread.deadLengthIsFractionOfInitialLength = alignmentForcesDeadLengthIsFractionOfInitialLength;
             thread.deadLengthFraction = alignmentForcesDeadLengthFraction;
             thread.deadLength         = alignmentForcesDeadLength        ;

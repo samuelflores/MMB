@@ -285,11 +285,11 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
 	        {
                         MMBAtomInfo myAtomInfo  ;
 			Compound & myCompound = system.updCompound(CompoundSystem::CompoundIndex(i));
-			myAtomInfo.atomName = myCompound.getAtomName(Compound::AtomIndex(j));
-			myAtomInfo.residueID = ResidueID(myCompound.getPdbResidueNumber(),' ');
+			myAtomInfo.setAtomName ( myCompound.getAtomName(Compound::AtomIndex(j)));
+			myAtomInfo.setResidueID ( ResidueID(myCompound.getPdbResidueNumber(),' '));
                         cout<<__FILE__<<":"<<__LINE__<<" loading myAtomInfoVector with : "<<endl;
                         myAtomInfo.print();
-                        Vec3 tempVec3 = myCompound.calcDefaultAtomLocationInGroundFrame(myAtomInfo.atomName);
+                        Vec3 tempVec3 = myCompound.calcDefaultAtomLocationInGroundFrame(myAtomInfo.getAtomName());
 			myAtomInfo.position = openmmVecType(tempVec3[0], tempVec3[1], tempVec3[2]);
                         myAtomInfoVector.push_back(myAtomInfo);
                 }
@@ -309,7 +309,7 @@ void WaterDroplet::addWaterMolecules( CompoundSystem & system, DuMMForceFieldSub
 		//{
                         MMBAtomInfo myAtomInfo = myAtomInfoVector[i]  ;
                         
-			cout << "my Atom Name= "<<myAtomInfo.atomName <<" atomLocation= "<<myAtomInfo.position<<endl;
+			cout << "my Atom Name= "<<myAtomInfo.getAtomName() <<" atomLocation= "<<myAtomInfo.position<<endl;
 			int myxi = (int)((myAtomInfo.position[0]-dropletCenter[0]+dropletRadius)/arista+.5);
 			int myyi = (int)((myAtomInfo.position[1]-dropletCenter[1]+dropletRadius)/arista+.5);
 			int myzi = (int)((myAtomInfo.position[2]-dropletCenter[2]+dropletRadius)/arista+.5);

@@ -177,9 +177,9 @@ void MobilizerContainer::addMobilizerDomainsInterfacesToVector(const vector<Mobi
         unsigned int id2 = neighborList[j].second;
 
         String chain1 = atomInfoVector[id1].getChain();
-        ResidueID res1 = atomInfoVector[id1].residueID;
+        ResidueID res1 = atomInfoVector[id1].getResidueID();
         String chain2 = atomInfoVector[id2].getChain();
-        ResidueID res2 = atomInfoVector[id2].residueID;
+        ResidueID res2 = atomInfoVector[id2].getResidueID();
 
         double dist = atomInfoVector[id1].distance(atomInfoVector[id2]);
 

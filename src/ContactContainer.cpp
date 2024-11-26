@@ -138,7 +138,7 @@ void ContactContainer::createContactsWithin ( BiopolymerClassContainer & myBiopo
         vector<MMBAtomInfo>::iterator itAtom;
         for(itAtom = concatenatedAtomInfoVector.begin(); itAtom != concatenatedAtomInfoVector.end(); itAtom++)
         {
-            if(itAtom->getChain() == contactWithinVector[h].Chain && itAtom->residueID == contactWithinVector[h].Residue)
+            if(itAtom->getChain() == contactWithinVector[h].Chain && itAtom->getResidueID() == contactWithinVector[h].Residue)
             {
                 vector<MMBAtomInfo*>::iterator itAtomPointer;
                 for(itAtomPointer=itAtom->neighbors.begin(); itAtomPointer!=itAtom->neighbors.end(); itAtomPointer++)
@@ -150,8 +150,8 @@ void ContactContainer::createContactsWithin ( BiopolymerClassContainer & myBiopo
                     MMBLOG_FILE_FUNC_LINE(DEBUG, "distance is less than "<<contactWithinVector[h].Radius<<", checking if contact already exists : ");
                     ContactStretch myContact;
                     myContact.setChain (myBiopolymerClass.getChainID());
-                    myContact.setStartResidue((*itAtomPointer)->residueID);
-                    myContact.setEndResidue ((*itAtomPointer)->residueID);
+                    myContact.setStartResidue((*itAtomPointer)->getResidueID());
+                    myContact.setEndResidue ((*itAtomPointer)->getResidueID());
                     myContact.ContactScheme = contactWithinVector[h].ContactScheme;
                     MMBLOG_FILE_FUNC_LINE(DEBUG, "result : "<<hasSharedContact(myContact)<<endl);
                     if (! (hasSharedContact(myContact))) {

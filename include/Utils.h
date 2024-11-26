@@ -1243,16 +1243,16 @@ struct WaterDropletAboutResidueStruct {
 class MMBAtomInfo {
     private:
         String chain;
+        ResidueID residueID;
+        ResidueInfo::Index  residueIndex;
+        String atomName;
     public:
         MobilizedBody mobilizedBody;
         MobilizedBodyIndex mobilizedBodyIndex;
         Compound::AtomIndex compoundAtomIndex;
-        String atomName;
         double  mass;
         int  atomicNumber;
         openmmVecType position;
-        ResidueID residueID;
-        ResidueInfo::Index  residueIndex;
         double partialCharge;
         std::vector<MMBAtomInfo*> neighbors;
         //ChargedAtomType chargedAtomType;
@@ -1267,16 +1267,16 @@ class MMBAtomInfo {
         MMBAtomInfo(){};
 
         MMBAtomInfo(String myChain, ResidueID myResidueID, String myAtomName) :
-            atomName(std::move(myAtomName)),
             chain(std::move(myChain)),
-            residueID(std::move(myResidueID))
+            residueID(std::move(myResidueID)),
+            atomName(std::move(myAtomName))
         {}
 
         MMBAtomInfo(String myChain, ResidueID myResidueID, ResidueInfo::Index myResidueIndex, String myAtomName) :
-            atomName(std::move(myAtomName)),
             chain(std::move(myChain)),
             residueID(std::move(myResidueID)),
-            residueIndex(std::move(myResidueIndex))
+            residueIndex(std::move(myResidueIndex)),
+            atomName(std::move(myAtomName))
         {}
 
         bool operator == (MMBAtomInfo & a){

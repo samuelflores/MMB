@@ -1129,12 +1129,12 @@ void overrideAtomInfoVectorProperties(BiopolymerClass & myBiopolymerClass, vecto
         for (size_t i = 0; i < subjectAtomInfoVector.size(); i++){
             //MMBLOG_FILE_FUNC_LINE(": About to check "<<subjectAtomInfoVector[i].atomName<<" in subjectAtomInfoVector["<<i<<"] "<<std::endl;
             for (size_t overrideVectorIndex = 0; overrideVectorIndex < myAtomicPropertyOverrideVector.size() ; overrideVectorIndex++){
-                if (subjectAtomInfoVector[i].atomName == myAtomicPropertyOverrideVector[overrideVectorIndex].atomName){
+                if (subjectAtomInfoVector[i].getAtomName() == myAtomicPropertyOverrideVector[overrideVectorIndex].   atomName  ){
                     if (myAtomicPropertyOverrideVector[overrideVectorIndex].property == "atomicNumber") {
-                        MMBLOG_FILE_FUNC_LINE(DEBUG, "For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].atomName <<",  property atomicNumber is currently set to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl);
+                        MMBLOG_FILE_FUNC_LINE(DEBUG, "For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].getAtomName() <<",  property atomicNumber is currently set to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl);
                         // NOte we are casting double as int:
                         subjectAtomInfoVector[i].atomicNumber = myAtomicPropertyOverrideVector[overrideVectorIndex].value;
-                        MMBLOG_FILE_FUNC_LINE(DEBUG, "For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].atomName <<", just overrode property atomicNumber to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl);
+                        MMBLOG_FILE_FUNC_LINE(DEBUG, "For atom # "<<i<<", with name "<<subjectAtomInfoVector[i].getAtomName() <<", just overrode property atomicNumber to "<< subjectAtomInfoVector[i].atomicNumber <<std::endl);
                     } else {
 	                    MMBLOG_FILE_FUNC_LINE(CRITICAL, "You have tried to change the property : >" <<myAtomicPropertyOverrideVector[overrideVectorIndex].property << "< for atoms of name : >"<<  myAtomicPropertyOverrideVector[overrideVectorIndex].atomName <<"< .  This is not supported!"<<endl);
                     } // of if atomicNumber
@@ -1166,7 +1166,7 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter,  
             ai.setChain(getChainID());
             ai.setResidueID(j);
 
-            const PdbAtom &myPdbAtom = myPdbChain.getAtom(ai.atomName, PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
+            const PdbAtom &myPdbAtom = myPdbChain.getAtom(ai.getAtomName(), PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
             const Vec3 &myPositionVec3 = myPdbAtom.getCoordinates();
             ai.position = openmmVecType(myPositionVec3[0], myPositionVec3[1], myPositionVec3[2]);
         } // of for k
@@ -1194,7 +1194,7 @@ void BiopolymerClass::initializeAtomInfoVector(SimbodyMatterSubsystem& matter, D
             ai.setResidueID(j);
 
             // Added this as a fix:
-            const PdbAtom& myPdbAtom = myPdbChain.getAtom(ai.atomName, PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
+            const PdbAtom& myPdbAtom = myPdbChain.getAtom(ai.getAtomName(), PdbResidueId(j.getResidueNumber(), j.getInsertionCode()));
             const Vec3& myPositionVec3 = myPdbAtom.getCoordinates();
             ai.position = openmmVecType(myPositionVec3[0],myPositionVec3[1], myPositionVec3[2]);
         } // of for k
@@ -1725,13 +1725,13 @@ void BiopolymerClass::physicsZone(vector<AllResiduesWithin> & myIncludeAllResidu
     AllResiduesWithin myAllResiduesWithin;
     myAllResiduesWithin.setResidue ( ResidueID(-11111,' '));
     for (size_t i = 0; i < atomInfoVector.size() ; i++) {
-            if (atomInfoVector[i].residueID  == myAllResiduesWithin.getResidue()) {continue;} // Each residue needs be added only once, no matter how many flexible atoms it has.
-            MobilizedBody myBody = updAtomMobilizedBody(matter,atomInfoVector[i].residueID,atomInfoVector[i].atomName);
+            if (atomInfoVector[i].getResidueID()  == myAllResiduesWithin.getResidue()) {continue;} // Each residue needs be added only once, no matter how many flexible atoms it has.
+            MobilizedBody myBody = updAtomMobilizedBody(matter,atomInfoVector[i].getResidueID(),atomInfoVector[i].getAtomName());
             MassProperties myBodyMassProperties = myBody.getBodyMassProperties(state);
             if (myBodyMassProperties.getMass() < 40){
                 myAllResiduesWithin.setRadius   ( radius);
                 myAllResiduesWithin.setChain   ( getChainID());
-                myAllResiduesWithin.setResidue   ( atomInfoVector[i].residueID);
+                myAllResiduesWithin.setResidue   ( atomInfoVector[i].getResidueID());
                 myIncludeAllResiduesWithinVector.push_back(myAllResiduesWithin); 
                
                 MMBLOG_FILE_FUNC_LINE(INFO, " Implementng physicsRadius. Include around :"<< endl);
@@ -3098,14 +3098,14 @@ vector< pair<const BiopolymerClass, const ResidueID> > BiopolymerClassContainer:
         //     continue;
 
         // if residue 1 is the given residue we add residue 2
-        if(atom1.getChain() == chainID && atom1.residueID == resID && dist <= radius)
+        if(atom1.getChain() == chainID && atom1.getResidueID() == resID && dist <= radius)
         {
-            residuesWithin.emplace_back(std::move(bpc2), atom2.residueID);
+            residuesWithin.emplace_back(std::move(bpc2), atom2.getResidueID());
         }
         // if residue 2 is the given residue we add residue 1
-        else if(atom2.getChain() == chainID && atom2.residueID == resID && dist <= radius)
+        else if(atom2.getChain() == chainID && atom2.getResidueID() == resID && dist <= radius)
         {
-            residuesWithin.emplace_back(std::move(bpc1), atom1.residueID);
+            residuesWithin.emplace_back(std::move(bpc1), atom1.getResidueID());
         }
     }
     return residuesWithin;
@@ -3263,11 +3263,11 @@ void BiopolymerClassContainer::findBiopolymerResiduesWithinRadius (const type & 
         unsigned int id1 = neighborList[j].first;
         unsigned int id2 = neighborList[j].second;
 
-        String name1 = concatenatedAtomInfoVector[id1].atomName;
-        String name2 = concatenatedAtomInfoVector[id2].atomName;
+        String name1 = concatenatedAtomInfoVector[id1].getAtomName();
+        String name2 = concatenatedAtomInfoVector[id2].getAtomName();
 
-        SingleResidue incl1; incl1.setChain(concatenatedAtomInfoVector[id1].getChain()); incl1.setResidue(concatenatedAtomInfoVector[id1].residueID);
-        SingleResidue incl2; incl2.setChain(concatenatedAtomInfoVector[id2].getChain()); incl2.setResidue(concatenatedAtomInfoVector[id2].residueID); 
+        SingleResidue incl1; incl1.setChain(concatenatedAtomInfoVector[id1].getChain()); incl1.setResidue(concatenatedAtomInfoVector[id1].getResidueID());
+        SingleResidue incl2; incl2.setChain(concatenatedAtomInfoVector[id2].getChain()); incl2.setResidue(concatenatedAtomInfoVector[id2].getResidueID()); 
 
         double dist = concatenatedAtomInfoVector[id1].distance(concatenatedAtomInfoVector[id2]);
 
@@ -4709,12 +4709,12 @@ void BiopolymerClassContainer::createDisulphideBridges(std::ofstream & output) {
     computeNeighborListVoxelHash(neighborList, particleList.size() , particleList, exclusions, &boxSize, false, radius  , 0.0);
     for ( size_t j = 0 ; j < neighborList.size(); j++) {
 	    //MMBLOG_FILE_FUNC_LINE(endl;
-	    ResidueID residueID1(cysteineAtomInfoVector[neighborList[j].first].residueID);
+	    ResidueID residueID1(cysteineAtomInfoVector[neighborList[j].first].getResidueID());
 	    String chain1(cysteineAtomInfoVector[neighborList[j].first].getChain());
-	    String atom1(cysteineAtomInfoVector[neighborList[j].first].atomName);
-	    ResidueID residueID2(cysteineAtomInfoVector[neighborList[j].second].residueID);
+	    String atom1(cysteineAtomInfoVector[neighborList[j].first].getAtomName());
+	    ResidueID residueID2(cysteineAtomInfoVector[neighborList[j].second].getResidueID());
 	    String chain2(cysteineAtomInfoVector[neighborList[j].second].getChain());
-	    String atom2(cysteineAtomInfoVector[neighborList[j].second].atomName);
+	    String atom2(cysteineAtomInfoVector[neighborList[j].second].getAtomName());
             if (chain1.compare(chain2) == 0) {
 		if ( atom1.compare("SG"  ) != 0){
 		    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexpectedly trying to form disulphide bridge between non-SG  atoms "<<atom1<<endl);
@@ -4750,12 +4750,12 @@ void BiopolymerClassContainer::createDisulphideBridges() {
     computeNeighborListVoxelHash(neighborList, particleList.size() , particleList, exclusions, &boxSize, false, radius  , 0.0);
     for ( size_t j = 0 ; j < neighborList.size(); j++) {
 	    //MMBLOG_FILE_FUNC_LINE(endl;
-	    ResidueID residueID1(cysteineAtomInfoVector[neighborList[j].first].residueID);
+	    ResidueID residueID1(cysteineAtomInfoVector[neighborList[j].first].getResidueID());
 	    String chain1(cysteineAtomInfoVector[neighborList[j].first].getChain());
-	    String atom1(cysteineAtomInfoVector[neighborList[j].first].atomName);
-	    ResidueID residueID2(cysteineAtomInfoVector[neighborList[j].second].residueID);
+	    String atom1(cysteineAtomInfoVector[neighborList[j].first].getAtomName());
+	    ResidueID residueID2(cysteineAtomInfoVector[neighborList[j].second].getResidueID());
 	    String chain2(cysteineAtomInfoVector[neighborList[j].second].getChain());
-	    String atom2(cysteineAtomInfoVector[neighborList[j].second].atomName);
+	    String atom2(cysteineAtomInfoVector[neighborList[j].second].getAtomName());
             if (chain1.compare(chain2) == 0) {
 		if ( atom1.compare("SG"  ) != 0){
 		    MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexpectedly trying to form disulphide bridge between non-SG  atoms "<<atom1<<endl);
@@ -4784,7 +4784,7 @@ void BiopolymerClassContainer::loadCysteineAtomInfoVector(vector <MMBAtomInfo> &
     //cysteineAtomInfoVector.clear();
     for  (size_t i = 0 ; i < myConcatenatedAtomInfoVector.size(); i++){
         myConcatenatedAtomInfoVector[i].print();
-        if(myConcatenatedAtomInfoVector[i].atomName.compare("SG") ==0) {
+        if(myConcatenatedAtomInfoVector[i].getAtomName().compare("SG") ==0) {
             MMBLOG_FILE_FUNC_LINE(INFO, "Found an SG.."<<endl); 
             //MMBLOG_FILE_FUNC_LINE(" PDB residue name 0 "<<updBiopolymerClass(myConcatenatedAtomInfoVector[i].chain ).updResidueInfo(myConcatenatedAtomInfoVector[i].residueID).getPdbResidueName ()<<endl;
             //if (updBiopolymerClass(myConcatenatedAtomInfoVector[i].chain ).updResidueInfo(myConcatenatedAtomInfoVector[i].residueID).getPdbResidueName () .compare("CYS")){

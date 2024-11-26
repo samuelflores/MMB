@@ -872,11 +872,11 @@ vector<TwoAtomClass> InterfaceContainer::retrieveCloseContactPairs(vector<MMBAto
                 {   
                     TwoAtomClass myTwoAtomClass(
 			(concatenatedAtomInfoVector[neighborList[j].first].getChain()),
-			(concatenatedAtomInfoVector[neighborList[j].first].residueID),
-			(concatenatedAtomInfoVector[neighborList[j].first].atomName),
+			(concatenatedAtomInfoVector[neighborList[j].first].getResidueID()),
+			(concatenatedAtomInfoVector[neighborList[j].first].getAtomName()),
 			(concatenatedAtomInfoVector[neighborList[j].second].getChain()),
-			(concatenatedAtomInfoVector[neighborList[j].second].residueID),
-			(concatenatedAtomInfoVector[neighborList[j].second].atomName)//,
+			(concatenatedAtomInfoVector[neighborList[j].second].getResidueID()),
+			(concatenatedAtomInfoVector[neighborList[j].second].getAtomName())//,
                         //(concatenatedAtomInfoVector[neighborList[j].first ].position - concatenatedAtomInfoVector[neighborList[j].second].position) // later, compute distance
                     );
                     contactingAtomInfoPairVector.push_back(myTwoAtomClass );

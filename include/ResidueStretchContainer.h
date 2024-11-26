@@ -253,13 +253,13 @@ class ResidueStretchContainer{
 		{
 		    //cout<<__FILE__<<":"<<__LINE__<<endl;
                     ResidueStretchType myResidueStretch1;
-                    myResidueStretch1.setStartResidue(concatenatedAtomInfoVector[neighborList[j].first].residueID);
-                    myResidueStretch1.setEndResidue  (concatenatedAtomInfoVector[neighborList[j].first].residueID);
+                    myResidueStretch1.setStartResidue(concatenatedAtomInfoVector[neighborList[j].first].getResidueID());
+                    myResidueStretch1.setEndResidue  (concatenatedAtomInfoVector[neighborList[j].first].getResidueID());
                     myResidueStretch1.setChain(concatenatedAtomInfoVector[neighborList[j].first].getChain());
                     // It's not possible to set bondMobility here, also it's not necessary -- this is done in the calling function, MobilizerContainer::addMobilizerStretchesToVector
                     ResidueStretchType myResidueStretch2;
-                    myResidueStretch2.setStartResidue(concatenatedAtomInfoVector[neighborList[j].second].residueID);
-                    myResidueStretch2.setEndResidue(concatenatedAtomInfoVector[neighborList[j].second].residueID);
+                    myResidueStretch2.setStartResidue(concatenatedAtomInfoVector[neighborList[j].second].getResidueID());
+                    myResidueStretch2.setEndResidue(concatenatedAtomInfoVector[neighborList[j].second].getResidueID());
                     myResidueStretch2.setChain(concatenatedAtomInfoVector[neighborList[j].second].getChain());
                     if (!(vectorHasResidueStretch(myResidueStretch1))) {addStretch(myResidueStretch1);
 			        MMBLOG_FILE_FUNC_LINE(INFO, "Added first residue stretch"<<endl);
@@ -310,18 +310,20 @@ class ResidueStretchContainer{
 		{ 
                     // To-Do: We need to start using a vector of atoms rather than residues.  
                     ResidueStretchType myResidueStretch1;
-                    myResidueStretch1.setStartResidue(chainAtomInfoVector[neighborList[j].first].residueID);
+                    myResidueStretch1.setStartResidue(chainAtomInfoVector[neighborList[j].first].getResidueID());
                     //myResidueStretch1.setEndResidue  (chainAtomInfoVector[neighborList[j].first].residueID);
                     myResidueStretch1.setChain(chainAtomInfoVector[neighborList[j].first].getChain());
                     ResidueStretchType myResidueStretch2;
-                    myResidueStretch2.setStartResidue(chainAtomInfoVector[neighborList[j].second].residueID);
+                    myResidueStretch2.setStartResidue(chainAtomInfoVector[neighborList[j].second].getResidueID());
                     //myResidueStretch2.setEndResidue(chainAtomInfoVector[neighborList[j].second].residueID);
                     myResidueStretch2.setChain(chainAtomInfoVector[neighborList[j].second].getChain());
                     if (!(vectorHasResidueStretch(myResidueStretch1))) {addResidueStretchToVector(myResidueStretch1);
 			            MMBLOG_FILE_FUNC_LINE(INFO, "Added first residue stretch"<<endl);
                         myResidueStretch1.printStretch();
-                        MMBLOG_FILE_FUNC_LINE(INFO, "based on chainAtomInfoVector["<<neighborList[j].first<<"].print() "<<endl); chainAtomInfoVector[neighborList[j].first].print();
-                        MMBLOG_FILE_FUNC_LINE(INFO, "based on chainAtomInfoVector["<<neighborList[j].second<<"].print() "<<endl); chainAtomInfoVector[neighborList[j].second].print();
+                        MMBLOG_FILE_FUNC_LINE(INFO, "based on chainAtomInfoVector["<<neighborList[j].first<<"].print() "<<endl); 
+			chainAtomInfoVector[neighborList[j].first].print();
+                        MMBLOG_FILE_FUNC_LINE(INFO, "based on chainAtomInfoVector["<<neighborList[j].second<<"].print() "<<endl); 
+			chainAtomInfoVector[neighborList[j].second].print();
                         if (myResidueStretch1.getChain().compare(referenceChain) != 0) {
 			                MMBLOG_FILE_FUNC_LINE(CRITICAL, "Added undesired chain = "<<myResidueStretch1.getChain()<<endl);
 			            }

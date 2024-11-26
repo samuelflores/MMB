@@ -32,7 +32,10 @@ class ThreadingStruct {
         //void setThreadingPartner (ThreadingPartner myThreadingPartner, int index){threadingPartners[index] =  myThreadingPartner;}
         // In homologyScanner, per convention partner 0 is the homologJob, partner 1 is the PrimaryJob
         double getGapPenalty() const {return gapPenalty;}
-        void   setGapPenalty(double myGapPenalty)       {gapPenalty = myGapPenalty ; }
+        void   setGapPenalty(double myGapPenalty)       {
+            gapPenalty = myGapPenalty ; 
+            MMBLOG_FILE_FUNC_LINE(INFO,"Now set gapPenalty to :"<<getGapPenalty());
+        }
         ThreadingPartner & updThreadingPartner (int index){return threadingPartners[index];}
         ThreadingPartner  getThreadingPartner (int index) const {return threadingPartners[index];}
         std::string getChain(int index){return threadingPartners[index].biopolymerClass.getChainID();};
@@ -128,13 +131,13 @@ class ThreadingStruct {
 	    }		
             MMBLOG_FILE_FUNC_LINE(INFO , "threadingPartners[0].sequence = "<<threadingPartners[0].sequence << endl);
             MMBLOG_FILE_FUNC_LINE(INFO , "threadingPartners[1].sequence = "<<threadingPartners[1].sequence << endl);
-            //MMBLOG_FILE_FUNC_LINE(INFO , "updThreadingPartner(0).biopolymerClass. getSequence() = "<<updThreadingPartner(0).biopolymerClass. getSequence() << endl);
-            //MMBLOG_FILE_FUNC_LINE(INFO , "updThreadingPartner(1).biopolymerClass. getSequence() = "<<updThreadingPartner(1).biopolymerClass. getSequence() << endl);
+
+
 	    seqan::resize(rows(align), 2);
 	    // get rid of threadingPartners[] .. it is empty!
 	    assignSource(row(align,0),threadingPartners[0].sequence);
 	    assignSource(row(align,1),threadingPartners[1].sequence);
-	    //seqan::Score<int,seqan::Blosum62(-1,-12)> scoringSchemeObject;
+
 	    int score = -11111;
 	    if (scoringScheme == "Blosum62"){
                 seqan::Blosum62 scoringSchemeObject(-1,-12);
@@ -147,36 +150,36 @@ class ThreadingStruct {
 	        score = globalAlignment(align,scoringSchemeObject ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
 	        std::cout <<__FILE__<<":"<<__LINE__<< "Score: " << score << ::std::endl;
 	        computeAlignmentStats(alignmentStats, align, scoringSchemeObject);
-	        //seqan::Simple scoringSchemeObject(matchScore,mismatchScore, alignmentForcesGapPenalty); 
+
 	    } else {
 	        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Your requested scoring scheme : >"<< scoringScheme <<"< or >"<<getScoringScheme()<<"< is not supported. Please use one of the supported types."<<endl);
 	    }
-	    //seqan::Blosum62 scoringScheme(-1, -12);
-	    //// Args: match score, mismatch score, gap penalty
-	    //seqan::Simple   scoringScheme (matchScore,mismatchScore, alignmentForcesGapPenalty )
-	    //int score = globalAlignment(align,scoringSchemeObject ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
-	    //int score = globalAlignment(align,scoringScheme ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
-	    //"62" means matrix was constructed with max 62% seq. identity alignment.
+
+
+
+
+
+
 	    std::cout <<__FILE__<<":"<<__LINE__<< " SeqAn sequence alignment follows: "  << ::std::endl;
 	    std::cout <<__FILE__<<":"<<__LINE__<< align << ::std::endl;
 	    printAlignmentStats();
 	    alignHasBeenComputed = 1;
             return align;
 	}
-	/*
-	// For reference, from the old BiopolymerClass.cpp:
-        TAlign BiopolymerClass::createGappedAlignment(BiopolymerClass otherBiopolymerClass, double alignmentForcesGapPenalty ){ // Set a default value of -1 for the gap penalty to allow gaps. For ungapped, do a big value e.g. -1000
-        TSequence seqA = getSubSequence(getFirstResidueID(),getLastResidueID()  ).c_str();  // Need a new BiopolymerClass method which retrieves subsequences.!
-        TSequence seqB = otherBiopolymerClass.getSubSequence(otherBiopolymerClass.getFirstResidueID(), otherBiopolymerClass.getLastResidueID() ).c_str();
-        TAlign align;
-        seqan::resize(rows(align), 2);
-        assignSource(row(align,0),seqA);
-        assignSource(row(align,1),seqB);
-        // simple alignment:
-        int score = globalAlignment(align, seqan::Score<int,seqan::Simple>(0,-1, alignmentForcesGapPenalty )); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
-        return align;
-}
-	 */ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	// return 0 for success, 1 for failure
 	bool getCorrespondingResidue(const ResidueID queryResidue, ResidueID & correspondingResidue, const int queryBiopolymerIndex, const int correspondingBiopolymerIndex){

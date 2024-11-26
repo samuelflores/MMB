@@ -110,3 +110,4 @@ struct MMBLoggerDispatcher<MMBLogger::Severity::CRITICAL> {
     } while (false)
 
 #endif // MMBLOGGER_H_
+

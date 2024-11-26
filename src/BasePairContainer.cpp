@@ -16,7 +16,7 @@
 
 void BasePairContainer::clear(){
     myBasePairVector.clear();
-};
+}
 
 void BasePairContainer::addBasePair(BiopolymerClassContainer & myBiopolymerClassContainer, 
                                     const LeontisWesthofClass & lhClass, 

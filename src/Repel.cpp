@@ -51,7 +51,7 @@ using namespace std;
 	    mobilizedBody = parameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).updMobilizedBody(myResidue, myMatter); 
 	}
 	return mobilizedBody;
-    };
+    }
 
 /**
  * /brief This method sets the BondMobility for all bonds in a certain stretch of residues of a Protein        chain
@@ -77,7 +77,7 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
    double d = (double)(-dot(Point1,Normal1));
    double D = (double)((d + dot(Point2,Normal1))/Normal1.norm());
    return D;
-};
+}
 
 /**
  * 
@@ -254,8 +254,7 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "An error has occurred!  Constraints are no longer specified with this data structure. "<<endl);
             }
   
-            if ((   
-				    //(((myParameterReader.baseOperationVector[q]).BasePairIsTwoTransformForce).compare("constraint" ) == 0)||  // this no longer how we do constraints
+            if ((   //(((myParameterReader.baseOperationVector[q]).BasePairIsTwoTransformForce).compare("constraint" ) == 0)||  // this no longer how we do constraints
                 (((myParameterReader.baseOperationVector[q]).BasePairIsTwoTransformForce).compare("restraint" ) == 0) ||
                 (((myParameterReader.baseOperationVector[q]).BasePairIsTwoTransformForce).compare("restrainToGround" ) == 0) //||
                 //(((myParameterReader.baseOperationVector[q]).BasePairIsTwoTransformForce).compare("constrainToGround" ) == 0) 
@@ -590,12 +589,12 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     if (_parameterReader->includeIntraChainInterfaceVector.size() >0) {
         //_parameterReader->myBiopolymerClassContainer.initializeAtomInfoVectors(_matter,_dumm); // investigate moving this outside the conditional, so it's available for DensityForce below.
-        for (size_t i = 0; i < _parameterReader->includeIntraChainInterfaceVector.size() ; i++) {
-            _parameterReader->myBiopolymerClassContainer.addIntraChainInterfaceResidues(_parameterReader->includeIntraChainInterfaceVector[i].Chain,
+    for (size_t i = 0; i < _parameterReader->includeIntraChainInterfaceVector.size() ; i++) {
+        _parameterReader->myBiopolymerClassContainer.addIntraChainInterfaceResidues(_parameterReader->includeIntraChainInterfaceVector[i].Chain,  
 	    _parameterReader->physicsContainer.updResidueStretchVector() , //includeAllNonBondAtomsInResidueVector ,
 	    _parameterReader->includeIntraChainInterfaceVector[i].Depth ,  
             _matter,_state) ;
-        }
+    }
     }
     MMBLOG_FILE_FUNC_LINE(DEBUG, " Time = "<<asctime (timeinfo) <<endl);
     constraintsAndRestraints(*_parameterReader, _parameterReader->myBiopolymerClassContainer, _forces, _matter, _state,_system);
@@ -711,6 +710,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
     ((_parameterReader->globalCoulombScaleFactor >0) ||
      (_parameterReader->globalVdwScaleFactor > 0));
  
+    //if (myPhysicsWhereYouWantItActive || (!(myNonBondedOn))) {
     if (myPhysicsWhereYouWantItActive) {
         //MMBLOG_FILE_FUNC_LINE(INFO, "Detected that myPhysicsWhereYouWantItActive = "<<myPhysicsWhereYouWantItActive<<" and myNonBondedOn = "<<myNonBondedOn<<". If the former is 1 OR the latter is 0, then we need to clear the DuMM includedNonbondAtomList . We do that now."<<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, "physicsWhereYouWantIt now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. Clearing list .."<<endl);
@@ -1145,5 +1145,5 @@ void ConstrainedDynamics::runDynamics() {
     runAllSteps();
 
     postDynamics();
-};
+}
 

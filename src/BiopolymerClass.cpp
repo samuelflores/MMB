@@ -4377,7 +4377,7 @@ Mutation  BiopolymerClassContainer::setMutationWildTypeResidueType(Mutation & my
     MMBLOG_FILE_FUNC_LINE(INFO, "myBiopolymerClass.getResidueSingleLetterCode(myResidue) = >"<<myBiopolymerClass.getResidueSingleLetterCode(myResidue)<<"< "<<endl);
     myMutation.setWildTypeResidueType(myWildTypeResidueType);
     return myMutation;
-} ;
+}
 
 // This is a variation of setMutationWildTypeResidueType. Sometimes the current sequence is mutated, so the original residue type is lost. This is a way of recovering it. 
 Mutation  BiopolymerClassContainer::setMutationWildTypeResidueTypeFromOriginalSequence(Mutation & myMutation){
@@ -4395,7 +4395,7 @@ Mutation  BiopolymerClassContainer::setMutationWildTypeResidueTypeFromOriginalSe
     myMutation. setWildTypeResidueType(myWildTypeResidueType);
     */ 
     return myMutation;
-} ;
+}
 
 /*String BiopolymerClassContainer::getFormattedMutationsString(String minorSeparator = MUTATIONMINORSEPARATOR) {
     String mutationString = ""; 

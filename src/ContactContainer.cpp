@@ -55,16 +55,16 @@ void ContactContainer::validateContact(ContactStretch myContactStretch, Biopolym
 	} else {
 		    // everything is OK!
 	}
-};
+}
 
 void ContactContainer::validateContactWithin(ContactWithin contactWithin ,  BiopolymerClassContainer & myBiopolymerClassContainer){
   	myBiopolymerClassContainer.updBiopolymerClass(contactWithin.Chain).validateResidueID(contactWithin.Residue);
-};
+}
 
 void ContactContainer::pushContactWithin ( ContactWithin contactWithin, BiopolymerClassContainer & myBiopolymerClassContainer){
     validateContactWithin(contactWithin,myBiopolymerClassContainer);
     contactWithinVector.push_back(contactWithin);
-};
+}
 
 void ContactContainer::deleteContactWithin(int id){
     if(id < 0 || id >= contactWithinVector.size()){

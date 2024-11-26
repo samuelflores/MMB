@@ -127,7 +127,7 @@ AtomSpring & AtomSpringContainer::initializeAtomSpring(AtomSpring & atomSpring) 
    atomSpring.deadLengthIsFractionOfInitialLength = 0;
    atomSpring.print(); // This only does anything if loggingSeverity DEBUG
    return atomSpring;
-};
+}
 
 /*
 void AtomSpringContainer::printAtomSpring(const AtomSpring atomSpring){
@@ -149,12 +149,12 @@ void AtomSpringContainer::printAtomSpring(const AtomSpring atomSpring){
 void AtomSpringContainer::printAtomSpring(int atomSpringIndex){
     AtomSpring myAtomSpring = getAtomSpring (atomSpringIndex);
     myAtomSpring.print(); // Now using the AtomSpring object's member, rather than AtomSpringContainer's
-};
+}
 
 void AtomSpringContainer::printAtomSprings(){
     for (int i = 0 ; i < numAtomSprings(); i++) 
         printAtomSpring(i); 
-};
+}
 
 
 void AtomSpringContainer::validateAtomSpring(const AtomSpring & atomSpring){//,  BiopolymerClassContainer & myBiopolymerContainer ){
@@ -169,7 +169,7 @@ void AtomSpringContainer::validateAtomSpring(const AtomSpring & atomSpring){//, 
     ValidateVec3(atomSpring.groundLocation);
     ValidateDouble(atomSpring.forceConstant);
     ValidateDouble(atomSpring.deadLength);
-};
+}
 
 void AtomSpringContainer::validateAtomSpring(const AtomSpring & atomSpring,  BiopolymerClassContainer & myBiopolymerContainer ){
     // a significant amount of validation is already being done in ParameterReader.cpp, when the atomSpring or related command is read.
@@ -183,7 +183,7 @@ void AtomSpringContainer::validateAtomSpring(const AtomSpring & atomSpring,  Bio
     ValidateVec3(atomSpring.groundLocation);
     ValidateDouble(atomSpring.forceConstant);
     ValidateDouble(atomSpring.deadLength);
-};
+}
 
 void AtomSpringContainer::addAtomSpring(const AtomSpring & atomSpring, BiopolymerClassContainer & myBiopolymerClassContainer){
     validateAtomSpring(atomSpring, myBiopolymerClassContainer);

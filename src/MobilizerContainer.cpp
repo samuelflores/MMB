@@ -18,7 +18,7 @@ void MobilizerContainer::clear(){
     residueStretchVector.clear();
     mobilizerWithinVector.clear();
     interfaceContainer.clear();
-};
+}
 bool MobilizerContainer::isEmpty() {
     if ((residueStretchVector.size() >0) ||
         (mobilizerWithinVector.size() >0) ||
@@ -41,23 +41,23 @@ void MobilizerContainer::validateMobilizerStretch(MobilizerStretch & myMobilizer
         MMBLOG_FILE_FUNC_LINE(CRITICAL, "The start residue (currently "<<myMobilizerStretch.getStartResidue().outString()<<") is lesser than the first residue number of the chain."<<endl);
     }
     validateResidueStretch(myMobilizerStretch,myBiopolymerClassContainer); // This method from the parent class has basic checks, e.g. making sure EndResidue > StartResidue.
-};
+}
 
 void MobilizerContainer::validateMobilizerStretch(int  mobilizerStretchIndex, BiopolymerClassContainer & myBiopolymerClassContainer){
     MobilizerStretch myMobilizerStretch = getResidueStretch(mobilizerStretchIndex);
     validateMobilizerStretch(myMobilizerStretch,myBiopolymerClassContainer);
-};
+}
 
 void MobilizerContainer::printMobilizerStretch(int mobilizerStretchIndex){
     MMBLOG_FILE_FUNC_LINE(INFO, "Mobilizer stretch "<<mobilizerStretchIndex<<" BondMobility = "<<getResidueStretch(mobilizerStretchIndex ).getBondMobilityString()<<endl);
     MMBLOG_FILE_FUNC_LINE(INFO, "chain= "<<getResidueStretch(mobilizerStretchIndex ).getChain()  <<" from residue "<<getResidueStretch(mobilizerStretchIndex ).getStartResidue().outString()<<" to "<<getResidueStretch(mobilizerStretchIndex ).getEndResidue().outString()<<endl);
-};
+}
 
 void MobilizerContainer::printMobilizerStretches(){
     for (int i = 0; i < getNumResidueStretches(); i++) {
         printMobilizerStretch(i);
     }
-};
+}
     
 
 
@@ -69,7 +69,7 @@ void MobilizerContainer::addMobilizerStretchToVector(MobilizerStretch myMobilize
     myMobilizerStretch.print();
     addStretch(myMobilizerStretch );
     //printMobilizerStretch(getNumResidueStretches()-1);
-};
+}
 
 void MobilizerContainer::addMobilizerStretchToVector(String myChain, ResidueID myStartResidue, ResidueID myEndResidue, String bondMobilityString, BiopolymerClassContainer & myBiopolymerClassContainer) {
     //cout<<__FILE__<<":"<<__LINE__<<endl;
@@ -84,17 +84,17 @@ void MobilizerContainer::addMobilizerStretchToVector(String myChain, ResidueID m
     //cout<<__FILE__<<":"<<__LINE__<<endl;
     myMobilizerStretch.print();
     addMobilizerStretchToVector(myMobilizerStretch,myBiopolymerClassContainer);
-};
+}
 
 
 void MobilizerContainer::addMobilizerStretchToVector(String myChain, String bondMobilityString, BiopolymerClassContainer & myBiopolymerClassContainer) {
     
     addMobilizerStretchToVector(myChain, myBiopolymerClassContainer.updBiopolymerClass(myChain).getFirstResidueID(), myBiopolymerClassContainer.updBiopolymerClass(myChain).getLastResidueID(),bondMobilityString, myBiopolymerClassContainer);
-};
+}
 
 void MobilizerContainer::addMobilizerStretchToVector(MobilizerStretch residueStretch, String  bondMobilityString , BiopolymerClassContainer & myBiopolymerClassContainer) {
         addMobilizerStretchToVector(MobilizerStretch(residueStretch, bondMobilityString) ,  myBiopolymerClassContainer);  
-};
+}
 
 void MobilizerContainer::updateMobilizerStretch(int id, String myChain, 
                                                 ResidueID myStartResidue, 
@@ -120,7 +120,7 @@ void MobilizerContainer::addMobilizerStretchesToVector(vector <MobilizerStretch>
         cout<<__FILE__<<":"<<__LINE__<<" index "<<i<<" chain "<<residueStretchVector[i].getChain()<<", residue = "<<residueStretchVector[i].getStartResidue().outString()<<" to "<<residueStretchVector[i].getEndResidue().outString()<<endl;
         addMobilizerStretchToVector(residueStretchVector[i], bondMobilityString,  myBiopolymerClassContainer);
     }
-};
+}
 
 // loop through all specified Interfaces, add interface residues to residueStretchVector
 
@@ -134,7 +134,7 @@ void MobilizerContainer::addMobilizerStretchesToVector(BiopolymerClassContainer 
 		addMobilizerStretchesToVector(tempResidueStretchContainer.getResidueStretchVector(), tempMobilizerInterface.MobilizerString, myBiopolymerClassContainer);   
                 cout<<__FILE__<<":"<<__LINE__<<endl;
 	}
-};
+}
 
 
 
@@ -142,13 +142,13 @@ void MobilizerContainer::addMobilizerStretchesToVector(vector <MobilizerStretch>
     for (int i = 0; i < (int)residueStretchVector.size(); i++) {
         addMobilizerStretchToVector(residueStretchVector[i],  myBiopolymerClassContainer);
     }
-};*/
+}*/
 
 /*void MobilizerContainer::addMobilizerStretchesToVector(vector <MobilizerStretch> residueStretchVector,  BiopolymerClassContainer & myBiopolymerClassContainer) {
     for (int i = 0; i < (int)residueStretchVector.size(); i++) {
         addMobilizerStretchToVector(residueStretchVector[i],  state, compoundSystem);
     }
-};*/
+}*/
 
 void MobilizerContainer::addMobilizerDomainsInterfacesToVector(const vector<MobilizerDomainsInterface> & mDIVector, BiopolymerClassContainer & myBiopolymerClassContainer)
 {
@@ -220,14 +220,14 @@ void MobilizerContainer::addMobilizerDomainsInterfacesToVector(const vector<Mobi
 
 String MobilizerContainer::getChain(int mobilizerStretchIndex){
     return getResidueStretch(mobilizerStretchIndex).getChain();
-};
+}
 ResidueID MobilizerContainer::getStartResidue(int mobilizerStretchIndex){
     return getResidueStretch(mobilizerStretchIndex).getStartResidue();
-};
+}
 
 ResidueID MobilizerContainer::getEndResidue(int mobilizerStretchIndex){
     return getResidueStretch(mobilizerStretchIndex).getEndResidue();
-};
+}
 
 
 void MobilizerContainer::setBiopolymerBondMobility (BiopolymerClassContainer & myBiopolymerClassContainer) {
@@ -258,7 +258,7 @@ void MobilizerContainer::setBiopolymerBondMobility (BiopolymerClassContainer & m
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "biopolymerType " << btype << " unknown" << endl);
         }
     }
-};
+}
 
 void MobilizerContainer::createMobilizersWithin ( BiopolymerClassContainer & myBiopolymerClassContainer, State & state ){
     MMBLOG_FILE_FUNC_LINE(DEBUG, " calling f for mobilizerWithinVector  of size  "<<mobilizerWithinVector.size()<< endl);
@@ -280,22 +280,22 @@ void MobilizerContainer::createMobilizersWithin ( BiopolymerClassContainer & myB
             myMobilizer.printStretch();
          } 
     } // of for h
-}; // of method
+} // of method
 
 void MobilizerContainer::pushMobilizerWithin ( MobilizerWithin mobilizerWithin, BiopolymerClassContainer & myBiopolymerClassContainer){
     validateMobilizerWithin(mobilizerWithin,myBiopolymerClassContainer);
     mobilizerWithinVector.push_back(mobilizerWithin);
-};
+}
 
 
 void MobilizerContainer::validateMobilizerWithin(MobilizerWithin mobilizerWithin ,  BiopolymerClassContainer & myBiopolymerClassContainer){
         myBiopolymerClassContainer.updBiopolymerClass(mobilizerWithin.getChain()).validateResidueID(mobilizerWithin.getResidue()); // not really necessary; this was validated in ParameterReader.cpp
 
-};
+}
 
 int MobilizerContainer::numMobilizerWithin() {
     return mobilizerWithinVector.size() ;
-};
+}
 
 void MobilizerContainer::addPhiPsiMobility(String chain, ResidueID startResidue, ResidueID endResidue, String bondMobilityString , BiopolymerClassContainer& myBiopolymerClassContainer ) {
     SingleBondMobility mySingleBondMobility;
@@ -349,7 +349,7 @@ void MobilizerContainer::addPhiPsiMobility(String bondMobilityString , Biopolyme
 	    
         }
     }
-};
+}
 
 void MobilizerContainer::deleteMobilizerWithin(int id){
     mobilizerWithinVector.erase(mobilizerWithinVector.begin()+id);

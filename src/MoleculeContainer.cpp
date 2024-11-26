@@ -537,7 +537,7 @@ CustomMolecule::CustomMolecule(vector <vector <String> > moleculeBuildCommandVec
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unknown command!"<<endl);
         }
     }
-};
+}
 
 /*void MoleculeClass::setChainID(String chainID) {
     molecule.setPdbChainId(chainID);
@@ -549,7 +549,7 @@ void  MoleculeClass::setPdbResidueName() {
     }
     MMBLOG_FILE_FUNC_LINE(INFO, "setting residueName >"<<residueName <<"<"<<endl);
     molecule.setPdbResidueName(residueName);
-};
+}
 
 void MoleculeClass::includeAllAtoms( DuMMForceFieldSubsystem & dumm) {
     for (Compound::AtomIndex i  = Compound::AtomIndex(0) ; i <molecule.getNumAtoms(); i++) {
@@ -603,7 +603,7 @@ void MoleculeClassContainer::adoptCompounds(SimTK::CompoundSystem & mySystem){
        //MMBLOG_FILE_FUNC_LINE(" Top level transform after adopting: "<<(it->second.molecule).getTopLevelTransform()<<endl;
        next++;
     }
-};
+}
 void MoleculeClassContainer::initializeCompounds(DuMMForceFieldSubsystem & dumm){
     map<const String, MoleculeClass>::iterator it;
     map<const String, MoleculeClass>::iterator next;
@@ -619,7 +619,7 @@ void MoleculeClassContainer::initializeCompounds(DuMMForceFieldSubsystem & dumm)
        (it->second).molecule.setPdbResidueNumber(1); // ditto for residue Name.
        next++;
     }
-};
+}
 
 MoleculeClass &   MoleculeClassContainer::updMoleculeClass(String myChainID) {
     validateChainID(myChainID);
@@ -627,7 +627,7 @@ MoleculeClass &   MoleculeClassContainer::updMoleculeClass(String myChainID) {
     //if (moleculeClassMap.count(myChainID) == 1) {
     it = moleculeClassMap.find(myChainID);
     return it->second;
-};
+}
 
 void  MoleculeClassContainer::validateChainID(String myChainID){
     if (moleculeClassMap.count(myChainID) != 1) {

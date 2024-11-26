@@ -12,7 +12,7 @@
 
     AllTwoTransformLinearSprings::AllTwoTransformLinearSprings (SimbodyMatterSubsystem& matter,ParameterReader& myParameterReader,  LeontisWesthofClass& myLeontisWesthofClass, BiopolymerClassContainer & myBiopolymerClassContainer, std::ostream& outputStream ) : matter(matter),myParameterReader(myParameterReader), myLeontisWesthofClass (myLeontisWesthofClass), myBiopolymerClassContainer(myBiopolymerClassContainer), outputStream(outputStream)
         { 
-    };    
+    }    
     void         AllTwoTransformLinearSprings::calcAxes (const State& state,LeontisWesthofBondRow myLeontisWesthofBondRow,ResidueID residueNumber1,ResidueID residueNumber2,String chain1,String chain2,Vec3 & xAxisVector1,Vec3 & yAxisVector1, Vec3 & zAxisVector1,Vec3 & xAxisVector2,Vec3 & yAxisVector2 , Vec3 & zAxisVector2,Vec3 & glycosidicNitrogenAtom1LocationInGround,Vec3 & glycosidicNitrogenAtom2LocationInGround, Vec3 & ring1CenterLocationInGround, Vec3 & ring2CenterLocationInGround) const {
  
             glycosidicNitrogenAtom1LocationInGround = myBiopolymerClassContainer.calcAtomLocationInGroundFrame(state,chain1, residueNumber1,myLeontisWesthofBondRow.residue1Atom[0]);
@@ -66,7 +66,7 @@
             yAxisVector2 = zAxisVector2%xAxisVector2;
             yAxisVector2= yAxisVector2/yAxisVector2.norm();
 
-    };
+    }
     int AllTwoTransformLinearSprings::isThisATwoTransformForce(String myBPEdge) const {
         if  (((myBPEdge).compare("WatsonCrick") == 0) ||
             ((myBPEdge).compare("Hoogsteen"  ) == 0) ||
@@ -79,7 +79,7 @@
         else 
             return 0;
 
-    };
+    }
     void AllTwoTransformLinearSprings::calcForce(const State& state, Vector_<SpatialVec>& bodyForces,  
             Vector_<Vec3>& particleForces, Vector& mobilityForces) const 
         {  
@@ -266,7 +266,7 @@
             //std::cout<<__FILE__<<":"<<__LINE__<<": getForceIsDisabled () is  "<<   isForceDisabled( state,  index)<<  std::endl;
             }
         }
-        };
+        }
     Real AllTwoTransformLinearSprings::calcPotentialEnergy(const State& state) const { 
         double energy = 0.0; 
    
@@ -483,7 +483,7 @@
         outputStream << "REMARK [TwoTransformForces.cpp] Satisfied base interactions   : "<<myParameterReader.satisfiedBasePairs<< " out of : "<<myParameterReader.satisfiedBasePairs+ myParameterReader.unSatisfiedBasePairs<<endl;    
         outputStream <<"REMARK RMSD for interacting frames = "<<  pow((interactingBaseRMSD / interactingBaseRMSDCount), double(0.5))<<endl;
         return energy; 
-    };
+    }
     bool AllTwoTransformLinearSprings::dependsOnlyOnPositions() const  { 
         return true; 
-    };    
+    }    

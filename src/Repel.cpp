@@ -51,7 +51,7 @@ using namespace std;
 	    mobilizedBody = parameterReader.myMonoAtomsContainer.getMonoAtoms(myChainID).updMobilizedBody(myResidue, myMatter); 
 	}
 	return mobilizedBody;
-    };
+    }
 
 /**
  * /brief This method sets the BondMobility for all bonds in a certain stretch of residues of a Protein        chain
@@ -77,7 +77,7 @@ double PointToPlaneDistance (Vec3 Point1, Vec3 Normal1, Vec3 Point2) {
    double d = (double)(-dot(Point1,Normal1));
    double D = (double)((d + dot(Point2,Normal1))/Normal1.norm());
    return D;
-};
+}
 
 /**
  * 
@@ -695,7 +695,7 @@ void ConstrainedDynamics::initializeCustomForcesConstraints(){
 
     MMBLOG_FILE_FUNC_LINE(INFO, "Did you intend to use PhysicsWhereYouWantIt? Checking size of _parameterReader->physicsContainer.getNumResidueStretches() " //includeAllNonBondAtomsInResidueVector.size() = "
         <<_parameterReader->physicsContainer.getNumResidueStretches()<<endl);
-    MMBLOG_FILE_FUNC_LINE(INFO, "About to work on physicsWhereYouWantIt. DuMM now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl);
+    MMBLOG_FILE_FUNC_LINE(INFO, "About to work on physicsWhereYouWantIt. DuMM now has included : "<< _dumm.getNumIncludedAtoms () <<" atoms. "<<endl)
 
 
     MMBLOG_FILE_FUNC_LINE(INFO, endl);
@@ -1145,5 +1145,5 @@ void ConstrainedDynamics::runDynamics() {
     runAllSteps();
 
     postDynamics();
-};
+}
 

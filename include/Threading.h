@@ -24,12 +24,18 @@ class ThreadingStruct {
        seqan::AlignmentStats alignmentStats;
        TAlign align;
        bool alignHasBeenComputed;
+       String scoringScheme;
+       double gapPenalty;   
        
     public:
-        //double gapPenalty;
         // This method is not needed. just use updThreadingPartner.
         //void setThreadingPartner (ThreadingPartner myThreadingPartner, int index){threadingPartners[index] =  myThreadingPartner;}
         // In homologyScanner, per convention partner 0 is the homologJob, partner 1 is the PrimaryJob
+        double getGapPenalty() const {return gapPenalty;}
+        void   setGapPenalty(double myGapPenalty)       {
+            gapPenalty = myGapPenalty ; 
+            MMBLOG_FILE_FUNC_LINE(INFO,"Now set gapPenalty to :"<<getGapPenalty());
+        }
         ThreadingPartner & updThreadingPartner (int index){return threadingPartners[index];}
         ThreadingPartner  getThreadingPartner (int index) const {return threadingPartners[index];}
         std::string getChain(int index){return threadingPartners[index].biopolymerClass.getChainID();};
@@ -45,11 +51,29 @@ class ThreadingStruct {
         //bool isGapped; //if False, then alignment is being provided explicitly. if True, precise alignment will be determined by MMB/SeqAn
         double matchScore; 
         double mismatchScore;
-        double gapPenalty;   
-	String scoringScheme;
         bool deadLengthIsFractionOfInitialLength; //If True, then dead length of each spring will be set to deadLengthFraction * <initial spring extension>. It makes sense that 1 > deadLengthFraction > 0.
         double deadLength; // This is an absolute dead length for the alignment springs. For default homology modeling behavior, should be 0.
         double deadLengthFraction;
+        String getScoringScheme () const{
+            return scoringScheme;     
+        }
+        void setScoringScheme (String myScoringScheme){
+            if (getGapPenalty() == 11111.0){
+                MMBLOG_FILE_FUNC_LINE(CRITICAL,"Your may not set the scoring scheme before setting the gap penalty, which is currently  :"<<getGapPenalty());
+            }
+            String arr[] = {"Blosum62", "Simple"};
+            bool matchFound = false;
+            for (const auto& str : arr) {
+                if (str == myScoringScheme) { 
+                    matchFound = true;
+                    scoringScheme = myScoringScheme;
+                    MMBLOG_FILE_FUNC_LINE(INFO,"Your requested scoring scheme of "<<myScoringScheme<<" is acceptable. scoringScheme is now set to >"<<getScoringScheme()<<"<"<<std::endl) ;
+                }
+            }
+            if ( matchFound == false){
+                MMBLOG_FILE_FUNC_LINE(CRITICAL,"Your requested scoring scheme of "<<myScoringScheme<<" is NOT supported.");
+            }
+        }
         seqan::AlignmentStats getAlignmentStats(){return alignmentStats;}
         void   setAlignmentStats(seqan::AlignmentStats myAlignmentStats){ alignmentStats = myAlignmentStats;}
 
@@ -107,13 +131,13 @@ class ThreadingStruct {
 	    }		
             MMBLOG_FILE_FUNC_LINE(INFO , "threadingPartners[0].sequence = "<<threadingPartners[0].sequence << endl);
             MMBLOG_FILE_FUNC_LINE(INFO , "threadingPartners[1].sequence = "<<threadingPartners[1].sequence << endl);
-            //MMBLOG_FILE_FUNC_LINE(INFO , "updThreadingPartner(0).biopolymerClass. getSequence() = "<<updThreadingPartner(0).biopolymerClass. getSequence() << endl);
-            //MMBLOG_FILE_FUNC_LINE(INFO , "updThreadingPartner(1).biopolymerClass. getSequence() = "<<updThreadingPartner(1).biopolymerClass. getSequence() << endl);
+
+
 	    seqan::resize(rows(align), 2);
 	    // get rid of threadingPartners[] .. it is empty!
 	    assignSource(row(align,0),threadingPartners[0].sequence);
 	    assignSource(row(align,1),threadingPartners[1].sequence);
-	    //seqan::Score<int,seqan::Blosum62(-1,-12)> scoringSchemeObject;
+
 	    int score = -11111;
 	    if (scoringScheme == "Blosum62"){
                 seqan::Blosum62 scoringSchemeObject(-1,-12);
@@ -126,36 +150,36 @@ class ThreadingStruct {
 	        score = globalAlignment(align,scoringSchemeObject ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
 	        std::cout <<__FILE__<<":"<<__LINE__<< "Score: " << score << ::std::endl;
 	        computeAlignmentStats(alignmentStats, align, scoringSchemeObject);
-	        //seqan::Simple scoringSchemeObject(matchScore,mismatchScore, alignmentForcesGapPenalty); 
+
 	    } else {
-	        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Your requested scoring scheme : "<< scoringScheme <<" is not supported. Please use one of the supported types."<<endl);
+	        MMBLOG_FILE_FUNC_LINE(CRITICAL, " Your requested scoring scheme : >"<< scoringScheme <<"< or >"<<getScoringScheme()<<"< is not supported. Please use one of the supported types."<<endl);
 	    }
-	    //seqan::Blosum62 scoringScheme(-1, -12);
-	    //// Args: match score, mismatch score, gap penalty
-	    //seqan::Simple   scoringScheme (matchScore,mismatchScore, alignmentForcesGapPenalty )
-	    //int score = globalAlignment(align,scoringSchemeObject ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
-	    //int score = globalAlignment(align,scoringScheme ); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
-	    //"62" means matrix was constructed with max 62% seq. identity alignment.
+
+
+
+
+
+
 	    std::cout <<__FILE__<<":"<<__LINE__<< " SeqAn sequence alignment follows: "  << ::std::endl;
 	    std::cout <<__FILE__<<":"<<__LINE__<< align << ::std::endl;
 	    printAlignmentStats();
 	    alignHasBeenComputed = 1;
             return align;
 	}
-	/*
-	// For reference, from the old BiopolymerClass.cpp:
-        TAlign BiopolymerClass::createGappedAlignment(BiopolymerClass otherBiopolymerClass, double alignmentForcesGapPenalty ){ // Set a default value of -1 for the gap penalty to allow gaps. For ungapped, do a big value e.g. -1000
-        TSequence seqA = getSubSequence(getFirstResidueID(),getLastResidueID()  ).c_str();  // Need a new BiopolymerClass method which retrieves subsequences.!
-        TSequence seqB = otherBiopolymerClass.getSubSequence(otherBiopolymerClass.getFirstResidueID(), otherBiopolymerClass.getLastResidueID() ).c_str();
-        TAlign align;
-        seqan::resize(rows(align), 2);
-        assignSource(row(align,0),seqA);
-        assignSource(row(align,1),seqB);
-        // simple alignment:
-        int score = globalAlignment(align, seqan::Score<int,seqan::Simple>(0,-1, alignmentForcesGapPenalty )); // ..signature:Score<TValue, Simple>(match, mismatch, gap [, gap_open])
-        return align;
-}
-	 */ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	// return 0 for success, 1 for failure
 	bool getCorrespondingResidue(const ResidueID queryResidue, ResidueID & correspondingResidue, const int queryBiopolymerIndex, const int correspondingBiopolymerIndex){
@@ -209,12 +233,21 @@ class ThreadingStruct {
 		alignHasBeenComputed = 0; 
 		threadingPartners[0].sequence = ""; threadingPartners[1].sequence = "";}
 
+        void   setDefaults(){
+            setGapPenalty ( 11111.0);
+	    threadingPartners[0].includedResidues.clear(); threadingPartners[1].includedResidues.clear();
+            threadingPartners[0].sequence = ""; threadingPartners[1].sequence = "";
+	    alignHasBeenComputed = 0;
+            scoringScheme = "NOT-SET";
+        }
+
+        ThreadingStruct(){setDefaults();}
+
 		// This constructor has to change because we are getting rido of chainID's. Also, usage in MMB has to change.
-	ThreadingStruct() 
-		     {
-	        alignHasBeenComputed = 0;
-	        threadingPartners[0].includedResidues.clear(); threadingPartners[1].includedResidues.clear();
-                threadingPartners[0].sequence = ""; threadingPartners[1].sequence = "";}
+	//ThreadingStruct() 
+        //    {
+        //    setDefaults();
+        //    }
 }; // of class
 
 

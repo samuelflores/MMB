@@ -269,7 +269,7 @@ void ContactContainer::addContactToVector(ContactStretch myContactStretch, Biopo
 
  //    printContact(myInt);
     
-};
+}
 
 void ContactContainer::deleteContact(int id){
     if(id < 0 || id >= residueStretchVector.size()){
@@ -295,14 +295,14 @@ void ContactContainer::updateContact(int id, string myChain, int myStartResidue,
 ContactStretch ContactContainer::getContact(int myContactIndex ) {
     printContact(ResidueStretchContainer<ContactStretch>::getResidueStretch(myContactIndex)); // this printed out fine!
     return ResidueStretchContainer<ContactStretch>::getResidueStretch(myContactIndex);
-};
+}
 
 
 int ContactContainer::numContacts(){
     //MMBLOG_FILE_FUNC_LINE(" num contacts = "<<getNumResidueStretches()<<endl;
     return getNumResidueStretches();
     //return residueStretchVector.size();           
-};
+}
 
 bool  ContactContainer::hasSharedContact(String chainID, ResidueID startResidueID, ResidueID endResidueID, String contactScheme )  {
     for (int i = 0; i < numContacts(); i++){
@@ -321,7 +321,7 @@ bool  ContactContainer::hasSharedContact(String chainID, ResidueID startResidueI
     MMBLOG_FILE_FUNC_LINE(DEBUG, "The stretch of residues you proposed (chain "<<chainID<<" residues "<<startResidueID.outString()<<" to "<< endResidueID.outString()<<" does not overlap with any existing stretch"<<endl);
     return (false);
     MMBLOG_FILE_FUNC_LINE(CRITICAL, "Unexplained error!"<<endl);
-};
+}
 
 bool  ContactContainer::hasSharedContact(ContactStretch contactStretch)  {
     return hasSharedContact(contactStretch.getChain(), contactStretch.getStartResidue(), contactStretch.getEndResidue(), contactStretch.ContactScheme);

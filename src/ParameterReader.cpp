@@ -3504,10 +3504,23 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
         // do nothing; this is a comment or blank line
         return;
     }
+    /*
+    if (((parameterStringClass.getString(0))).compare("minimizeVariable") =0)  {
+        // user would invoke as minimizeVariable <algorithm> <variable to minimize> <start value of variable> <end value of variable> <increment> <figure of merit> 
+	// Where <variable to minimize> would be any user variable.. remember, these start with "@" .. but here you would name it without the "@".
+	//       <algorithm> would be the minimizer you wish to use. hese start with "@" .. but here you would name it without the "@".
+	// e.g.: minimizeVariable lineSearch myRadius startValue endValue increment energyPerMonoAtom
+	// 
+	minimizerType = parameterStringClass.getString(1);
+
+	    
+    } */
     if (((parameterStringClass.getString(0)).substr(0,1)).compare("@") ==0)  { 
         parameterStringClass.validateNumFields(2);
         // this is a user specified variable.  For now it works only for doubles and ints.          
+	//@myRadius 15.2  
         userVariables[parameterStringClass.getString(0)] =  myAtoF(userVariables,(parameterStringClass.getString(1)).c_str());//  (double)atof((parameterStringClass.getString(1)).c_str());  // this maybe should be the only atof in the whole program.   
+	//userVariables["myRadius""]
         if (((parameterStringClass.getString(0)).compare("@CURRENTSTAGE") == 0)) {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "@CURRENTSTAGE is a reserved variable, you cannot change it!"<<endl);
         }

@@ -1,11 +1,10 @@
 # In this example, we load in a tRNA density map. 
 # Then we will add noise and output the map.
-
+firstStage 2
+lastStage 2
 RNA A 1 AUGC
 mobilizer Rigid
 rootMobilizer A Weld
-firstStage 2
-lastStage  2
 # If we leave readPreviousFrameFile 1 (the default), then the ions at stage n will have the same coordinates as last.(n-1).pdb. So let's turn off structure file reading:
 readPreviousFrameFile 0
 # if we do stage 1, where readPreviousFrameFile is false, then monoAtoms will be adopted with an offset.

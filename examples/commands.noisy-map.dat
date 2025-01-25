@@ -1,7 +1,9 @@
-# In this example, we create a coarse-grained representation of a dsDNA spherical spiral, such as we may find in a dsDNA virus. 
-# We will create a synthetic density map to represent this DNA. Then we will add noise and output the map.
+# In this example, we load in a tRNA density map. 
+# Then we will add noise and output the map.
 
-
+RNA A 1 AUGC
+mobilizer Rigid
+rootMobilizer A Weld
 firstStage 2
 lastStage  2
 # If we leave readPreviousFrameFile 1 (the default), then the ions at stage n will have the same coordinates as last.(n-1).pdb. So let's turn off structure file reading:
@@ -9,27 +11,13 @@ readPreviousFrameFile 0
 # if we do stage 1, where readPreviousFrameFile is false, then monoAtoms will be adopted with an offset.
 # We don't need the time integrator at all, in this case. We can't turn it off, so just numReportingIntervals to the minimum possible value:
 numReportingIntervals 1
-# We wil need the constant Pi, so define a user variable:
-@pi 3.14159265358979
-# We will create a single chain, chain ID Z:
-spiralDNA chainID Z
-# Spiral will be right handed:
-spiralDNA spiralIsRightHanded 1
-spiralDNA center 0. 0. 0.               
-spiralDNA radius    6.0
-# The pitch turns out to be pretty constant, across shells:
-spiralDNA pitch 2.3
-# And of course this is also quite constant:
-spiralDNA helixAdvancePerBasePair .34
-# Leave out the north and south pole regions:
-spiralDNA startTheta 0.5 
-spiralDNA endTheta 3.0
-# This is a rotational offset, about the polar axis:
-spiralDNA phiOffset  0*@pi/180
 
-# We clear the frequencyPhaseAmplitudeVector, out of paranoia rather than necessity:
-spiralDNA frequencyPhaseAmplitude clear
 
+removeRigidBodyMomentum false
+
+density densityFileName  tRNA.xplor                               
+#Seems to be required that we declare which chains will appear in output density maps:
+fitToDensity A
 densityNoiseScale 1.0
 densityNoiseTemperature 100.0
 
@@ -37,4 +25,3 @@ densityNoiseTemperature 100.0
 #spiralDNA spiralPdbFileName spiral.pdb
 
 # This is the P68 density map, provided by Dominik Hrevik and Pavel Plevka:
-#density densityFileName  LocalRef_02_Cl02_res85_nocaps2_box.mrc

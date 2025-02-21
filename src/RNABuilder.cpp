@@ -203,7 +203,7 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
 
         MMBLOG_FILE_FUNC_LINE(INFO, "lastStage = "<<myParameterReader.lastStage<<endl);
         MMBLOG_FILE_FUNC_LINE(INFO, "firstStage = "<<myParameterReader.firstStage<<endl);
-        MMBLOG_FILE_FUNC_LINE(INFO, "useCIFFileFormat = "<<myParameterReader.useCIFFileFormat<<endl);
+        MMBLOG_FILE_FUNC_LINE(INFO, "useCIFFiles = "<<myParameterReader.useCIFFiles<<endl);
         if ((myParameterReader.lastStage < myParameterReader.firstStage))   
         {
             MMBLOG_FILE_FUNC_LINE(CRITICAL, "stage < 1 error!  Most likely you have failed to specify the command file, (currently "<< parameterFile<<"), or it was not found"<<endl);
@@ -240,10 +240,10 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
             std::stringstream ss2;
             ss2.clear(); ss2.str("");
             ss2 << "./last." << i << ".pdb";
-            MMBLOG_FILE_FUNC_LINE(INFO, "myParameterReader.lastFrameFileName = " << myParameterReader.lastFrameFileName << " , myParameterReader.useCIFFileFormat = "<<myParameterReader.useCIFFileFormat <<endl);
+            MMBLOG_FILE_FUNC_LINE(INFO, "myParameterReader.lastFrameFileName = " << myParameterReader.lastFrameFileName << " , myParameterReader.useCIFFiles = "<<myParameterReader.useCIFFiles <<endl);
             if  (myParameterReader.lastFrameFileName == ss2.str())
             {
-                if ( myParameterReader.useCIFFileFormat )
+                if ( myParameterReader.useCIFFiles )
                 {
                     ss2.clear(); ss2.str("");
                     ss2 << "./last." << i << ".cif";
@@ -259,7 +259,7 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
             ss4 << "./last." << ( i - 1 ) << ".pdb";
             if  (myParameterReader.previousFrameFileName == ss4.str())
             {
-                if ( myParameterReader.useCIFFileFormat )
+                if ( myParameterReader.useCIFFiles )
                 {
                     ss4.clear(); ss4.str("");
                     ss4 << "./last." << (i-1) << ".cif";
@@ -298,7 +298,7 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
             myParameterReader.inQVectorFileName = (ss2b.str());
             //myConstrainedDynamics.readInQVector =0;
 
-            if ( myParameterReader.useCIFFileFormat )
+            if ( myParameterReader.useCIFFiles )
             {
                 //==================================== Using mmCIF format
                 ss3.clear();
@@ -321,7 +321,7 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
             ss6<<"./trajectory.MonteCarlo."<<i<<".pdb";
 
             ofstream output;
-            if ( myParameterReader.useCIFFileFormat )
+            if ( myParameterReader.useCIFFiles )
             {
                 myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Contents of user input file " + std::string( parameterFile ) + " :" ) );
                 ifstream inFile                       = ifstream ( parameterFile.c_str(),ios_base::in );
@@ -363,7 +363,7 @@ int main(int num_args, char *args[]) {  //int argc, char *argv[]) {
                 MMBLOG_FILE_FUNC_LINE(CRITICAL, "stage < 1 error!  Most likely you have failed to specify the command file, (currently "<< parameterFile<<"), or it was not found"<<endl);
             }
             myParameterReader.printAllSettings(std::cout,String("") );
-            if ( myParameterReader.useCIFFileFormat )
+            if ( myParameterReader.useCIFFiles )
             {
                 myParameterReader.lastFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "About to call myParameterReader.printAllSettings." ) );
                 myParameterReader.printAllSettingsToMMCIF ( myParameterReader.lastFileRemarks );

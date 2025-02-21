@@ -959,7 +959,7 @@ void ConstrainedDynamics::postDynamics(){
     _state = _ts->getState();
     if (_parameterReader->writeLastFrameFile)
     {
-        if ( _parameterReader->useCIFFileFormat )
+        if ( _parameterReader->useCIFFiles )
         {
             //======================================== Initialise internal variables
             gemmi::Structure outStruct;

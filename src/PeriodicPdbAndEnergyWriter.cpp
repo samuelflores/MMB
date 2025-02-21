@@ -63,7 +63,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
     else                                              { strName = "TRAJECTORYX"; }
     if ( strName[0] == '/' )                          { strName.erase(0, 1); }
     
-    if (! myParameterReader.useCIFFileFormat )
+    if (! myParameterReader.useCIFFiles )
     {
         outputStream << "MODEL     " << std::setw(4) << modelNumber << std::endl;
     }
@@ -74,7 +74,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
 	vector<TwoAtomClass> myTwoAtomClassVector = myParameterReader.contactInterfaceContainer.retrieveCloseContactPairs(concatenatedAtomInfoVector); // Just calling this method is enough to get the close contacts written to stdout.
     }
 
-    if ( myParameterReader.useCIFFileFormat )
+    if ( myParameterReader.useCIFFiles )
     {
         const CIFOut::Data data{myParameterReader.myBiopolymerClassContainer.getBiopolymerClassMap(), myParameterReader.myMonoAtomsContainer};
         CIFOut::buildModel( state, gModel, data, system, 3 );
@@ -87,7 +87,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
         }
     }
 
-    if ( myParameterReader.useCIFFileFormat )
+    if ( myParameterReader.useCIFFiles )
     {
         SimTK::CIFOut::reWriteOutCif                  ( gModel, strName, "frame.cif", myParameterReader, system, true );
     }
@@ -107,7 +107,7 @@ void SimTK::PeriodicPdbAndEnergyWriter::handleEvent(State& state, Real accuracy,
     time ( &rawtime );
     timeinfo = localtime ( &rawtime );
 
-    if ( myParameterReader.useCIFFileFormat )
+    if ( myParameterReader.useCIFFiles )
     {
         //============================================ Generate trajectory remarks
         myParameterReader.trajectoryFileRemarks.push_back ( std::pair < std::string, std::string > ( "3", "Trajectory " + std::to_string ( modelNumber ) + ": Seconds since January 1st 1970           : " + std::to_string ( time ( NULL ) ) ) );

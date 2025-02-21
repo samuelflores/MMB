@@ -1,0 +1,46 @@
+class SphericalSpiral {
+    public:
+    double sphericalHelixInterStrandDistance;
+    double sphericalHelixRadius;
+    double phiOffset;
+    iostream dnaStringStream ;
+    double phiFromTheta(double currentTheta){ // expects currentTheta in rads
+    }
+    writeIdealizedDNAGenerator(int index, double currentTheta){
+            MMBLOG_FILE_FUNC_LINE(INFO, endl);
+            MMBLOG_FILE_FUNC_LINE(INFO, "MMB-command: readAtStage "<<index<<endl);
+            tetherCommandStream<<"readAtStage "<<index<<std::endl;
+            // base-pair-at-origin.pdb contains a single base pair, with axis perpendicular to Z-axis.
+            // We had a problem with a rotation command which was spitting out tiny values in scientific notation, which MMB later had a hard time parsing. Solution is to used fixed-format, with 6 places precision:
+            tetherCommandStream.setf(std::ios_base::fixed, std::ios_base::floatfield);
+            tetherCommandStream.precision(6);
+            tetherCommandStream<<"previousFrameFileName    base-pair."<<index<<".pdb   "<<std::endl;
+            tetherCommandStream<<"DNA A "<<index<<" A "<<std::endl;
+            tetherCommandStream<<"DNA B "<<9999-index<<" T "<<std::endl;
+            tetherCommandStream<<"#renumberBiopolymerResidues A "<<index<<std::endl;
+            tetherCommandStream<<"#renumberBiopolymerResidues B "<<9999-index<<std::endl;
+            tetherCommandStream<<"mobilizer Rigid "<<std::endl;
+            tetherCommandStream<<"initialDisplacement A "<<  currentXYZ[0] <<" "<<  currentXYZ[1]  <<" "<< currentXYZ[2] <<std::endl;
+            tetherCommandStream<<"initialDisplacement B "<<  currentXYZ[0] <<" "<<  currentXYZ[1]  <<" "<< currentXYZ[2] <<std::endl;
+            tetherCommandStream<<"rotation A  Z "<<  (SimTK::Pi *  2) / 10 * index    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
+            tetherCommandStream<<"rotation B  Z "<<  (SimTK::Pi *  2) / 10 * index    <<std::endl; // first, rotate the base pair by 360/10 degrees * number of base pairs.
+            tetherCommandStream<<"# phiFromTheta = " <<  phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset*0.)<<std::endl;
+            tetherCommandStream<<"#rotation A X "<<  -atan(currentTheta / phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+            tetherCommandStream<<"rotation A X "<<  -atan(currentTheta / phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset*0.0)) - (SimTK::Pi / 2)    <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+            tetherCommandStream<<"rotation B X "<<  -atan(currentTheta / phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset*0.0)) - (SimTK::Pi / 2)   <<std::endl;  // Now, slope it so if follows the tangential slope of the helix.
+            tetherCommandStream<<"rotation A Y "<<  -(SimTK::Pi / 2) +  currentTheta  <<std::endl ; // tilt up 
+            tetherCommandStream<<"rotation B Y "<<  -(SimTK::Pi / 2) +  currentTheta  <<std::endl ; // tilt up 
+            tetherCommandStream<<"rotation A Z "<<  phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset)   <<std::endl;
+            tetherCommandStream<<"rotation B Z "<<  phiFromTheta(currentTheta, sphericalHelixInterStrandDistance, sphericalHelixRadius, phiOffset)   <<std::endl;
+            tetherCommandStream<<"readBlockEnd"<<std::endl;
+            MMBLOG_FILE_FUNC_LINE(INFO, "MMB-command: tetherToGround A "<<index<<" N1 "<<currentXYZ[0]<<" "<<currentXYZ[1]<<" "<<currentXYZ[2] << " .5 30.0 "<<endl);
+            MMBLOG_FILE_FUNC_LINE(INFO, "MMB-command: readBlockEnd "<<endl);
+            MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
+            priorXYZ= currentXYZ;
+            MMBLOG_FILE_FUNC_LINE(INFO, "priorXYZ "<<priorXYZ<<endl);
+ 
+    }	    
+    createIons(){
+        
+    }     
+}

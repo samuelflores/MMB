@@ -469,7 +469,7 @@ void ParameterReader::printAllSettingsToMMCIF ( std::vector< std::pair < std::st
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addProteinBackboneSterics              bool    " + std::to_string ( addRNABackboneSterics ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addRNABackboneSterics                  bool    " + std::to_string ( addRNABackboneSterics ) ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "addSelectedAtoms                       bool    " + std::to_string ( addSelectedAtoms ) + " : Add steric spheres to certain RNA atoms as specified in the RNABuilder parameter file. " ) );
-    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useCIFFileFormat                       bool    " + std::to_string ( useCIFFileFormat ) + " : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " ) );
+    remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "useCIFFiles                       bool    " + std::to_string ( useCIFFiles ) + " : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " ) );
     //remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesIsGapped                bool    " + std::to_string ( alignmentForcesIsGapped ) + " : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesMatchScore              double  " + std::to_string ( alignmentForcesMatchScore ) + " : Sets the match score for Seqan::Simple scoring scheme, for alignmentForces. " ) );
     remarksVec.push_back ( std::pair < std::string, std::string > ( "3", "alignmentForcesMismatchScore              double  " + std::to_string ( alignmentForcesMismatchScore ) + " : Sets the mismatch score for Seqan::Simple scoring scheme, for alignmentForces. " ) );
@@ -596,7 +596,7 @@ void ParameterReader::printAllSettings (ostream & myOstream, String remarkString
     myOstream << remarkString << "addProteinBackboneSterics              bool    "<<addProteinBackboneSterics         <<endl;
     myOstream << remarkString << "addRNABackboneSterics                  bool    "<<addRNABackboneSterics         <<endl;
     myOstream << remarkString << "addSelectedAtoms                       bool    "<<addSelectedAtoms<<" : Add steric spheres to certain RNA atoms as specified in the RNABuilder parameter file. " <<endl;
-    myOstream << remarkString << "useCIFFileFormat                       bool    "<<useCIFFileFormat<<" : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " <<endl;
+    myOstream << remarkString << "useCIFFiles                       bool    "<<useCIFFiles<<" : Use mmCIF formatted files instead of PDB formatted files for internal and output files. " <<endl;
     //myOstream << remarkString << "alignmentForcesIsGapped                bool    "<<alignmentForcesIsGapped<<" : Determines whether gaps are allowed in the alignment in alignmentForces command. Can vary through the course of the input commands file. This is only the final value." <<endl;
     myOstream << remarkString << "alignmentForcesMatchScore              double  "<<alignmentForcesMatchScore<<" : Match score to use in Seqan::Simple scoring scheme. " <<endl;
     myOstream << remarkString << "alignmentForcesMismatchScore              double  "<<alignmentForcesMismatchScore<<" : Mismatch score to use in Seqan::Simple scoring scheme. " <<endl;
@@ -3837,7 +3837,7 @@ void ParameterReader::parameterStringInterpreter(const ParameterStringClass & pa
     {
         //============================================ Set the CIF files usage
         parameterStringClass.validateNumFields        ( 2 );
-        this->useCIFFileFormat                        = aToBool ( parameterStringClass.getString ( 0 ), ( parameterStringClass.getString ( 1 ) ).c_str() );
+        this->useCIFFiles                        = aToBool ( parameterStringClass.getString ( 0 ), ( parameterStringClass.getString ( 1 ) ).c_str() );
         return;
     }
 
@@ -4664,7 +4664,7 @@ void ParameterReader::setFirstAndLastStageAndUseCifFiles(const char * parameterF
     // make sure firstStage and lastStage are initialized
     firstStage = 0;
     lastStage = 0;
-    useCIFFileFormat = 0;
+    useCIFFiles = 1;
     while (inFile.good()) {
         for (int w = 0;w<numFields;w++) mystring[w]="";
         String tempString;
@@ -4697,8 +4697,8 @@ void ParameterReader::setFirstAndLastStageAndUseCifFiles(const char * parameterF
 	{
 	    //============================================ Set the CIF files usage
 	    //parameterStringClass.validateNumFields        ( 2 );
-	    useCIFFileFormat                        = aToBool ( mystring[0], (mystring[1]).c_str() );
-            MMBLOG_FILE_FUNC_LINE(INFO, "useCIFFileFormat now set to "<<useCIFFileFormat<<endl);
+	    useCIFFiles                        = aToBool ( mystring[0], (mystring[1]).c_str() );
+            MMBLOG_FILE_FUNC_LINE(INFO, "useCIFFiles now set to "<<useCIFFiles<<endl);
 	}
     } // of while inFile 
 } ;
@@ -4812,7 +4812,7 @@ void ParameterReader::initializeDefaults(const char * leontisWesthofInFileName){
     clearContainers();
 
     //variables previously declared and initialized in Repel.h:
-    ///useCIFFileFormat         = false;
+    ///useCIFFiles         = false;
     addAllAtomSterics        = false;
     addAllHeavyAtomSterics   = false;
     addBackboneOxygenForces  = false;

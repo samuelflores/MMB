@@ -64,7 +64,6 @@ private:
 public:
 
     ParameterReader();
-    SimTK::Optimizer optimizer ;
     vector<CovalentBondClass> additionalCovalentBondVector;
     vector<IncludeIntraChainInterface> includeIntraChainInterfaceVector;
     BasePairContainer basePairContainer;    
@@ -79,7 +78,7 @@ public:
     bool   addRNABackboneSterics;
     bool   addSelectedAtoms;          
     bool   addTestSpring;
-    bool   useCIFFiles;
+    bool   useCIFFileFormat;
     std::vector< std::pair < std::string, std::string > > trajectoryFileRemarks;
     std::vector< std::pair < std::string, std::string > > lastFileRemarks;
     bool gemmi_isFirstInStage;
@@ -200,12 +199,11 @@ public:
     bool setTemperature;
     double smallGroupInertiaMultiplier;
     Spiral spiral; // This is the helical spiral object, used to fit DNA to icosahedral virus capsids. Defined in Spiral.h
-    // These should no longer be needed:
-    //Vec3   sphericalHelixCenter    ; 
-    //double sphericalHelixRadius    ; 
-    //double sphericalHelixStartTheta; 
-    //double sphericalHelixPhiOffset ;
-    //double sphericalHelixInterStrandDistance;
+    Vec3   sphericalHelixCenter    ; 
+    double sphericalHelixRadius    ; 
+    double sphericalHelixStartTheta; 
+    double sphericalHelixPhiOffset ;
+    double sphericalHelixInterStrandDistance;
 
     bool stackAllHelicalResidues ;
     String thermostatType;

@@ -35,19 +35,22 @@ mobilizer Rigid
 
 # Rigid alignment stage
 readAtStage 2
+globalCoulombScaleFactor 0
+globalVdwScaleFactor 0
 deactivatePhysics A
 deactivatePhysics B
 # This stage is short, will converge after 60 ps or so:    
-reportingInterval 10.0
-numReportingIntervals 6
+reportingInterval .100
+numReportingIntervals 15
 # Do nothing.  All chains will be left fully rigid.
 #mobilizer Rigid A 5 224
 readBlockEnd
 
 readAtStage 3
 
-reportingInterval 1.0
-numReportingIntervals 25
+reportingInterval 0.05
+#was 1.0
+numReportingIntervals 10
 # Flexibilize just the hinges on your model:
 mobilizer Default A 87+1 90-1
 mobilizer Default A 180+1 184-1
